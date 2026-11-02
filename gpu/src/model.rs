@@ -71,6 +71,7 @@ pub struct Policy {
 pub struct Encoded { pub fused: Tensor<2>, pub keys: Tensor<3> }
 pub struct Heads {
     pub actions: Tensor<2,Int>, pub logp: Tensor<1>, pub entropy: Tensor<1>, pub value: Tensor<1>,
+    pub logits:[Tensor<2>;6],
 }
 
 pub fn pool(x: Tensor<3>, mask: Tensor<2,Bool>) -> Tensor<2> {
@@ -170,6 +171,6 @@ impl Policy {
         x.choice=x.choice.mask_fill(spatial.clone().bool_not(),64);y.choice=y.choice.mask_fill(spatial.bool_not(),64);
         target.choice=target.choice.mask_fill(targeted.bool_not(),0);
         Heads {actions:Tensor::stack(vec![action.choice,buy.choice,item.choice,target.choice,x.choice,y.choice],1),
-            logp,entropy,value:self.value(h)}
+            logp,entropy,value:self.value(h),logits:[action.logits,buy.logits,item.logits,target.logits,x.logits,y.logits]}
     }
 }

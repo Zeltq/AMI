@@ -80,10 +80,54 @@ def deaths(root,output):
         if len(windows)==4:break
     save(output,{'matches':report['matches'],'radiant_learner_pregame_deaths':ratio(len(windows),report['matches']//2),'windows':windows});print(json.dumps(windows,indent=2))
 
+def parity_fixture(checkpoint,fixture,output):
+    import torch
+    from sf_duel.model import Policy
+    from sf_duel.observations import packed_tensors
+    from train_ggd import recurrent
+    from weights import write_bundle
+    torch.set_num_threads(2);torch.manual_seed(20261102)
+    saved=torch.load(checkpoint,map_location='cpu',weights_only=False);model=Policy(combat_inputs=True).eval();model.load_state_dict(saved['state_dict'])
+    data=np.load(fixture);arrays={k:data[k] for k in data.files if k not in ('labels','loss_valid','resets')};b=packed_tensors(arrays,'cpu');y=torch.from_numpy(data['labels']);resets=data['resets'].reshape(1,-1)
+    with torch.no_grad():
+        h,keys=recurrent(model,b,1,resets);action=y[:,0];is_item=action==Act.ITEM;item=torch.where(is_item,y[:,2],torch.zeros_like(y[:,2]));embedding=model.action_embed(action);condition=torch.cat((h,embedding,model.item_embed(item)),-1)
+        logits={'action':model.action_head(h),'buy':model.buy_head(h),'item':model.item_head(torch.cat((h,embedding),-1)),'target':torch.einsum('bu,bnu->bn',model.query(condition),keys)/8,'x':model.x_head(condition),'y':model.y_head(condition)}
+        masks={'action':b['action_mask'],'buy':b['buy_mask'],'item':torch.where(is_item[:,None],b['item_mask'],torch.ones_like(b['item_mask'])),'x':torch.ones_like(logits['x'],dtype=torch.bool),'y':torch.ones_like(logits['y'],dtype=torch.bool)}
+        target_mask=torch.where((action==Act.ATTACK)[:,None],b['attack_mask'],b['self_mask']);target_mask=torch.where((is_item&(item==3))[:,None],b['tp_mask'],target_mask);target_mask=torch.where((is_item&(item==6))[:,None],b['tree_mask'],target_mask);masks['target']=target_mask
+        result={k:v.numpy() for k,v in b.items()};result.update(labels=y.numpy(),resets=resets.reshape(-1),expected_h=h.numpy(),expected_value=model.value_head(h).squeeze(-1).numpy());result.update({f'expected_{k}_logits':v.numpy() for k,v in logits.items()});result.update({f'{k}_mask':v.numpy() for k,v in masks.items()})
+    write_bundle(Path(output),result,checkpoint_sha256=hashlib.sha256(Path(checkpoint).read_bytes()).hexdigest(),source=str(fixture),forward='train_ggd.recurrent, batch_sequences=1, length=128, life resets applied')
+    print(json.dumps({'output':str(output),'steps':len(y),'resets':resets.tolist()}))
+
+def observations(collect,evaluation,output):
+    collect=Path(collect);evaluation=Path(evaluation);cm=json.loads((collect/'dataset.json').read_text());em=json.loads((evaluation/'recording.json').read_text())
+    counts=collections.defaultdict(lambda:[0,0,0.]);signals_equal=0;signals_count=0;previous_equal=0;previous_count=0;resets_equal=0;resets_count=0;first=None;blocks=0
+    if len(cm['files'])!=len(em['files']):raise ValueError('Recording block counts differ')
+    for ce,ee in zip(cm['files'],em['files']):
+        ch,co,cs=read_block(collect/ce['file'],ce['sha256']);eh,eo,es=read_block(evaluation/ee['file'],ee['sha256'])
+        if ch!=eh:raise ValueError('Recording headers differ: '+ce['file'])
+        valid=(cs[:,:,11]>.5)&(es[:,:,11]>.5);ca=decode(ch,co,cs);ea=decode(eh,eo,es);keep=valid.reshape(-1)
+        for key in ca:
+            x=ca[key][keep];y=ea[key][keep];equal=x==y;n=int(equal.size);m=int((~equal).sum());counts[key][0]+=m;counts[key][1]+=n
+            if n:counts[key][2]=max(counts[key][2],float(np.abs(x.astype(np.float64)-y.astype(np.float64)).max()))
+            if m and first is None:first={'file':ce['file'],'tensor':key,'mismatches':m}
+        equal=co.view(np.uint16)==eo.view(np.uint16);counts['packed_fp16_all_frames'][0]+=int((~equal).sum());counts['packed_fp16_all_frames'][1]+=equal.size
+        signals_equal+=int((cs==es).sum());signals_count+=cs.size;resets_equal+=int((cs[:,:,10]==es[:,:,10]).sum());resets_count+=cs[:,:,10].size
+        previous=ca['previous'].reshape(len(ch['actors']),128,-1)[:,:,:len(Act)].argmax(-1)
+        for i in range(len(ch['actors'])):
+            expected=cs[i,:-1,0].astype(np.int64);select=valid[i,1:];previous_equal+=int(((previous[i,1:]==expected)&select).sum());previous_count+=int(select.sum())
+        blocks+=1
+    result={'blocks':blocks,'tensors':{k:{'mismatches':ratio(v[0],v[1]),'max_absolute_delta':v[2]} for k,v in counts.items()},'signals_equal':ratio(signals_equal,signals_count),'resets_equal':ratio(resets_equal,resets_count),'previous_is_prior_issued_action_within_block':ratio(previous_equal,previous_count),'first_difference':first,'seed':em['seed'],'comparison':'same one-game teacher-v9 rollout, FP16 bits including padding; decoded valid inputs also compared per tensor'}
+    save(output,result);print(json.dumps(result,indent=2))
+
 def main():
     p=argparse.ArgumentParser();s=p.add_subparsers(dest='command',required=True)
     for name in ('dataset','deaths'):
         q=s.add_parser(name);q.add_argument('input');q.add_argument('output')
-    a=p.parse_args();globals()[a.command](a.input,a.output)
+    q=s.add_parser('parity-fixture');q.add_argument('checkpoint');q.add_argument('fixture');q.add_argument('output')
+    q=s.add_parser('observations');q.add_argument('collect');q.add_argument('evaluation');q.add_argument('output')
+    a=p.parse_args()
+    if a.command=='parity-fixture':parity_fixture(a.checkpoint,a.fixture,a.output)
+    elif a.command=='observations':observations(a.collect,a.evaluation,a.output)
+    else:globals()[a.command](a.input,a.output)
 
 if __name__=='__main__':main()

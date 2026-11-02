@@ -10,6 +10,12 @@ def save(path,value):
     temporary.write_text(json.dumps(value,ensure_ascii=False,indent=2),encoding='utf-8')
     temporary.replace(path)
 
+def pilot_status(record):
+    run=(ROOT/'runs/p01').resolve();pilot=run.parent/'pilot-status.json';status=json.loads(pilot.read_text(encoding='utf-8'))
+    jobs=[json.loads(p.read_text(encoding='utf-8')) for p in run.glob('*/job.json')]
+    status['P01']={**record,'background_work_remaining':any(j['stage']=='running' for j in jobs),'run':str(run),'workspace':str(ROOT),'jobs':jobs}
+    save(pilot,status)
+
 def main():
     p=argparse.ArgumentParser();p.add_argument('job');p.add_argument('command',nargs=argparse.REMAINDER);a=p.parse_args()
     directory=ROOT/'runs/p01'/a.job;directory.mkdir(parents=True,exist_ok=True)
@@ -19,10 +25,10 @@ def main():
     with (directory/'output.log').open('w',encoding='utf-8') as log:
         process=subprocess.Popen(command,cwd=ROOT,stdout=log,stderr=subprocess.STDOUT)
         record['pid']=process.pid;save(directory/'job.json',record)
-        pilot=ROOT/'runs/pilot-status.json';status=json.loads(pilot.read_text(encoding='utf-8'));status['P01']={**record,'background_work_remaining':True,'run':str(ROOT/'runs/p01')};save(pilot,status)
+        pilot_status(record)
         code=process.wait()
     record.update(exit_code=code,seconds=time.perf_counter()-started,stage='complete' if code==0 else 'failed');save(directory/'job.json',record)
-    status=json.loads(pilot.read_text(encoding='utf-8'));status['P01']={**record,'background_work_remaining':False,'run':str(ROOT/'runs/p01')};save(pilot,status)
+    pilot_status(record)
     raise SystemExit(code)
 
 if __name__=='__main__':main()

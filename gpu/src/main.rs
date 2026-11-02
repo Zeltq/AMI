@@ -54,6 +54,7 @@ enum Command {
     Qualify,
     Validate {bundle:PathBuf},
     #[command(hide=true)] ValidatePrevious {bundle:PathBuf,output:PathBuf},
+    #[command(hide=true)] CheckGgdParity {weights:PathBuf,fixture:PathBuf,output:PathBuf},
     ValidateCombat {engine:PathBuf,reference:PathBuf},
     ValidateMovement {engine:PathBuf,reference:PathBuf},
     ReplayLane {engine:PathBuf,reference:PathBuf,output:PathBuf},
@@ -91,6 +92,7 @@ fn main()->anyhow::Result<()> {
         Command::Teacher{engine,output,matches,seconds,seed,wall_seconds,trace}=>scripted_teacher::run(&engine,&output,matches,seconds,seed,wall_seconds,trace)?,
         Command::Qualify=>runtime::qualification()?,
         Command::Validate{bundle}=>bridge::validate(&bundle,&runtime::device())?,
+        Command::CheckGgdParity{weights,fixture,output}=>ggd_diagnostic::parity(&weights,&fixture,&output)?,
         Command::ValidatePrevious{bundle,output}=>{
             let report=bridge::validate_previous(&bundle,&runtime::device())?;
             artifacts::atomic_json(&output,&report)?;

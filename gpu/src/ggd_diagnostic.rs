@@ -7,6 +7,33 @@ use std::{path::Path,io::{BufWriter,Write}};
 use crate::{world::*,contract::*,runtime::{primitive,tensor,argument},experience::HORIZON};
 
 const WIDTH:usize=50;
+
+pub fn parity(weights:&Path,fixture:&Path,output:&Path)->Result<serde_json::Value>{
+    use burn::module::Module;
+    let d=crate::runtime::device();let policy=crate::bridge::import(weights,&d)?.valid();let fixture=crate::bridge::Bundle::open(fixture)?;
+    let b=fixture.observation(&d)?;let n=b.heroes.dims()[0];let resets=fixture.read::<1>("resets",&d)?.into_data().try_to_vec::<f32>()?;
+    let encoded=policy.encode(&b);let mut hs=vec![];let mut h=Tensor::<2>::zeros([1,256],&d);let mut c=h.clone();
+    for i in 0..n{
+        if i%HORIZON==0||resets[i]>0.5{h=Tensor::zeros([1,256],&d);c=h.clone();}
+        (h,c)=policy.memory.step(encoded.fused.clone().slice([i..i+1]),h,c);hs.push(h.clone());
+    }
+    let h=Tensor::cat(hs,0);let sampler=crate::sampling::Sampler::new(n,7,&d);
+    let heads=policy.heads(&b,h.clone(),encoded.keys,Some(fixture.ints("labels",&d)?),&sampler);
+    let mut results=serde_json::Map::new();
+    for (name,actual) in ["action","buy","item","target","x","y"].into_iter().zip(heads.logits){
+        let expected=fixture.read::<2>(&format!("expected_{name}_logits"),&d)?;
+        let max=(actual.clone()-expected.clone()).abs().max().into_scalar::<f32>();
+        let mask=fixture.bools::<2>(&format!("{name}_mask"),&d)?;
+        let correct=actual.clone().mask_fill(mask.clone().bool_not(),-1e30).argmax(1).equal(expected.clone().mask_fill(mask.bool_not(),-1e30).argmax(1)).int().sum().into_scalar::<i32>();
+        let raw=actual.argmax(1).equal(expected.argmax(1)).int().sum().into_scalar::<i32>();
+        results.insert(name.into(),serde_json::json!({"max_absolute_delta":max,"masked_argmax":{"numerator":correct,"denominator":n},"raw_argmax":{"numerator":raw,"denominator":n}}));
+    }
+    let h_error=(h-fixture.read::<2>("expected_h",&d)?).abs().max().into_scalar::<f32>();
+    let value_error=(heads.value-fixture.read::<1>("expected_value",&d)?).abs().max().into_scalar::<f32>();
+    let result=serde_json::json!({"steps":n,"heads":results,"hidden_max_absolute_delta":h_error,"value_max_absolute_delta":value_error,"observation_storage":"FP16 dataset decoded to FP32 for both runtimes","recurrent_reset":128});
+    crate::artifacts::atomic_json(output,&result)?;Ok(result)
+}
+
 pub struct Trace{buffer:CubeTensor,actors:usize,file:BufWriter<std::fs::File>}
 impl Trace{
     pub fn new(w:&World,root:&Path)->Result<Self>{

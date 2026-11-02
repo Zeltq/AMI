@@ -57,17 +57,18 @@ impl Sampler {
 
 pub struct Distribution {
     pub choice:Tensor<1,Int>, pub logp:Tensor<1>, pub normalized:Tensor<1>,
+    pub logits:Tensor<2>,
 }
 
 pub fn distribution(logits:Tensor<2>,mask:Tensor<2,Bool>,forced:Option<Tensor<1,Int>>,sampler:&Sampler) -> Distribution {
-    let masked=logits.mask_fill(mask.clone().bool_not(),-1e30);
+    let masked=logits.clone().mask_fill(mask.clone().bool_not(),-1e30);
     let log_probs=activation::log_softmax(masked.clone(),1);
     let choice=forced.unwrap_or_else(||sampler.draw(masked));
     let logp=log_probs.clone().gather(1,choice.clone().unsqueeze_dim::<2>(1)).squeeze_dim(1);
     let entropy=-(log_probs.clone().exp()*log_probs).sum_dim(1).squeeze_dim(1);
     let count=mask.float().sum_dim(1).squeeze_dim(1);
     let normalized=(entropy.clone()/count.clone().clamp_min(2.).log()).mask_fill(count.lower_equal_elem(1.),0.);
-    Distribution {choice,logp,normalized}
+    Distribution {choice,logp,normalized,logits}
 }
 
 
