@@ -21,6 +21,7 @@ def load_resume(path,config,dataset_hash):
     if saved['config'].get('dataset_sha256')!=dataset_hash:raise ValueError('Resume dataset differs')
     for key in ('seed','batch_sequences','learning_rate','gradient_norm','attack_weight'):
         if saved['config'].get(key)!=config.get(key):raise ValueError('Resume configuration differs: '+key)
+    if bool(saved['config'].get('zero_previous',False))!=bool(config.get('zero_previous',False)):raise ValueError('Resume configuration differs: zero_previous')
     epoch=saved.get('epoch',0);history=saved.get('history',[])
     if len(history)!=epoch or epoch<1 or not history[-1]['validation']['frames'] or not history[-1]['train']['frames']:raise ValueError('Resume requires a completed IL epoch')
     if 'optimizer' not in saved or 'optimizer_steps' not in saved:raise ValueError('Optimizer checkpoint missing')
@@ -44,7 +45,7 @@ def evaluate_epoch(model,checkpoint,out,epoch,config,metadata):
         value=value.detach().float().cpu().numpy()
         if value.ndim==2 and not name.endswith('_embed.weight'):value=value.T
         tensors[rust_name(name)]=value
-    write_bundle(directory/'weights',tensors,family='GGD',model_name=metadata['model_name'],epoch=epoch,observation_profile='ggd-v2',teacher_sha256=metadata['teacher_policy_sha256'],source=str(checkpoint),source_sha256=hashlib.sha256(checkpoint.read_bytes()).hexdigest(),recurrent_reset=128,provenance='Fresh GGD imitation in the GPU simulator')
+    write_bundle(directory/'weights',tensors,family='GGD',model_name=metadata['model_name'],epoch=epoch,observation_profile='ggd-v2',teacher_sha256=metadata['teacher_policy_sha256'],source=str(checkpoint),source_sha256=hashlib.sha256(checkpoint.read_bytes()).hexdigest(),recurrent_reset=128,zero_previous=metadata.get('zero_previous',False),provenance='Fresh GGD imitation in the GPU simulator')
     executable=resolved(config['executable']);engine=resolved(config['engine']);results={}
     optimizer_memory='model/optimizer retained; inactive GPU allocations released before native evaluation'
     torch.cuda.synchronize();gc.collect();torch.cuda.empty_cache()
@@ -76,8 +77,9 @@ def write_epoch_csv(out,history):
         with (out/'epoch-metrics.csv').open('w',newline='') as f:
             writer=csv.DictWriter(f,fieldnames=list(rows[0]));writer.writeheader();writer.writerows(rows)
 
-def recurrent(model,b,batch_size,resets):
+def recurrent(model,b,batch_size,resets,zero_previous=False):
     """One fast LSTM call normally; split only at actual internal life resets."""
+    if zero_previous:b={**b,'previous':torch.zeros_like(b['previous'])}
     t=resets.shape[1];fused,keys=model.encode_entities(b);fused=fused.reshape(batch_size,t,-1)
     boundaries=[0]+[i for i in range(1,t) if resets[:,i].any()]+[t]
     state=model.initial_state(batch_size);output=[]
@@ -98,10 +100,11 @@ def batches(root,manifest,stage,batch_size,seed):
             yield arrays,labels,valid,len(chosen),signals[chosen,:,10].copy()
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('config');p.add_argument('output');p.add_argument('--max-updates',type=int);p.add_argument('--resume');p.add_argument('--check-resume',action='store_true');a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('config');p.add_argument('output');p.add_argument('--max-updates',type=int);p.add_argument('--resume');p.add_argument('--check-resume',action='store_true');p.add_argument('--zero-previous',action='store_true');a=p.parse_args()
     if a.max_updates is not None and a.max_updates<=0:raise ValueError('Positive smoke update limit required')
-    config=json.loads(Path(a.config).read_text());allowed={'dataset','epochs','batch_sequences','learning_rate','seed','gradient_norm','attack_weight','evaluation'}
+    config=json.loads(Path(a.config).read_text());allowed={'dataset','epochs','batch_sequences','learning_rate','seed','gradient_norm','attack_weight','evaluation','zero_previous'}
     if set(config)-allowed:raise ValueError('Unknown IL configuration keys')
+    config['zero_previous']=bool(a.zero_previous or config.get('zero_previous',False))
     evaluation=config.get('evaluation')
     if evaluation:
         if set(evaluation)-{'executable','engine','matches','seconds','seed','modes'}:raise ValueError('Unknown evaluation configuration keys')
@@ -124,7 +127,7 @@ def main():
     if (out/'config.json').exists():raise FileExistsError('Choose a fresh training directory')
     epochs=config.get('epochs',5);batch_size=config.get('batch_sequences',8);lr=config.get('learning_rate',1e-4);clip=config.get('gradient_norm',1.);attack_weight=config.get('attack_weight',4.)
     if min(epochs,batch_size,lr,clip)<=0 or attack_weight<1:raise ValueError('Invalid IL parameters')
-    name='GGD0-smoke' if a.max_updates else 'GGD0'
+    name='GGD0-smoke' if a.max_updates else 'GGD0-P01-zero-previous' if config['zero_previous'] else 'GGD0'
     model=Policy(combat_inputs=True).cuda();optimizer=torch.optim.AdamW(model.parameters(),lr=lr,weight_decay=1e-5)
     if resumed:
         model.load_state_dict(resumed['state_dict'],strict=True);optimizer.load_state_dict(resumed['optimizer'])
@@ -148,7 +151,7 @@ def main():
                 if (out/'stop.json').exists():stopped=True;break
                 tick=time.perf_counter();b=packed_tensors(arrays,'cuda');y=torch.as_tensor(labels,device='cuda');mask=torch.as_tensor(valid,device='cuda')
                 with torch.set_grad_enabled(training):
-                    h,keys=recurrent(model,b,n,resets)
+                    h,keys=recurrent(model,b,n,resets,zero_previous=config['zero_previous'])
                     action={k:y[:,i] for i,k in enumerate(('action','buy','item','target','x','y'))}
                     result=model.heads(b,h,keys,torch.zeros(len(y),device='cuda'),None,actions=action,return_metrics=True)
                     logp=result[1];prediction=result[-1];weights=mask*(1.+(attack_weight-1.)*(y[:,0]==3))

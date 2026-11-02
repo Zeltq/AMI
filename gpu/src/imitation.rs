@@ -143,14 +143,16 @@ pub fn train(config:&Path,root:&Path,max_updates:Option<usize>)->Result<serde_js
 
 /// Closed-loop GGD versus the fixed teacher, balanced by learner side. This
 /// reports the learner's own LH/deny, so the opponent cannot hide weak play.
-pub fn evaluate(engine:&Path,weights:&Path,root:&Path,matches:usize,seconds:f32,mode:&str,seed:u32,trace:bool,record_teacher:bool)->Result<serde_json::Value>{
+pub fn evaluate(engine:&Path,weights:&Path,root:&Path,matches:usize,seconds:f32,mode:&str,seed:u32,trace:bool,record_teacher:bool,argmax:bool,zero_previous:bool)->Result<serde_json::Value>{
     ensure!(matches>0&&(matches%2==0||record_teacher)&&seconds>0.&&seconds<=600.,"an even positive match count (or teacher recording) and 0 < seconds <= 600 required");
     ensure!(mode=="teacher"||mode=="mirror","mode must be teacher or mirror");
     ensure!(!record_teacher||mode=="teacher","teacher recording requires --mode teacher");
     std::fs::create_dir_all(root)?;ensure!(!root.join("config.json").exists(),"choose a fresh evaluation directory");
-    crate::artifacts::atomic_json(&root.join("config.json"),&serde_json::json!({"family":"GGD","weights":weights,"engine":engine,"matches":matches,"seconds":seconds,"mode":mode,"seed":seed,"argmax":true,"trace":trace,"record_teacher":record_teacher}))?;
+    let manifest:serde_json::Value=serde_json::from_slice(&std::fs::read(weights.join("manifest.json"))?)?;
+    let zero_previous=zero_previous||manifest["zero_previous"].as_bool().unwrap_or(false);
+    crate::artifacts::atomic_json(&root.join("config.json"),&serde_json::json!({"family":"GGD","weights":weights,"engine":engine,"matches":matches,"seconds":seconds,"mode":mode,"seed":seed,"argmax":argmax,"zero_previous":zero_previous,"trace":trace,"record_teacher":record_teacher}))?;
     let d=device();let w=World::load(engine,matches,&d)?;let policy=crate::bridge::import(weights,&d)?.valid();ensure!(policy.is_ggd(),"GGD weights required");
-    let teacher=crate::scripted_teacher::Teacher::new(&w);let metrics=crate::ggd_metrics::Metrics::new(&w);metrics.sample(&w,&teacher);let observer=crate::combat_observe::CombatObserver::new(&w);let rng=Sampler::new(matches,seed,&d);let sampler=Sampler::new(matches*2,seed.wrapping_add(1),&d).with_argmax(true);
+    let teacher=crate::scripted_teacher::Teacher::new(&w);let metrics=crate::ggd_metrics::Metrics::new(&w);metrics.sample(&w,&teacher);let observer=crate::combat_observe::CombatObserver::new(&w);let rng=Sampler::new(matches,seed,&d);let sampler=Sampler::new(matches*2,seed.wrapping_add(1),&d).with_argmax(argmax);
     let rows=Tensor::<1,Int>::from_data(TensorData::new((0..matches*2).map(|a|i32::from(a%2==(a/2)%2)).collect::<Vec<_>>(),[matches*2]),&d).greater_elem(0).unsqueeze_dim::<2>(1);
     let mut h=Tensor::<2>::zeros([matches*2,256],&d);let mut c=h.clone();let mut previous=observe::initial_previous(matches*2,&d);let started=Instant::now();
     let mut diagnostic=if trace{Some(crate::ggd_diagnostic::Trace::new(&w,root)?)}else{None};
@@ -164,7 +166,7 @@ pub fn evaluate(engine:&Path,weights:&Path,root:&Path,matches:usize,seconds:f32,
         if step%HORIZON==0 {h=Tensor::zeros([matches*2,256],&d);c=h.clone();}
         let obs=w.observe(previous.clone());let mut extended=observer.enrich(&w,&obs);extended.packed=extended.packed.cast(DType::F16);
         let keep:Tensor<2>=1.0f32-obs.reset.clone().unsqueeze_dim::<2>(1);h=h*keep.clone();c=c*keep;
-        let b=extended.decode();let encoded=policy.encode(&b);(h,c)=policy.memory.step(encoded.fused,h,c);
+        let mut b=extended.decode();if zero_previous{b.previous=Tensor::zeros([matches*2,PREVIOUS],&d);}let encoded=policy.encode(&b);(h,c)=policy.memory.step(encoded.fused,h,c);
         let predicted=policy.heads(&b,h.clone(),encoded.keys,None,&sampler).actions;let scripted=teacher.actions(&w,&obs);
         let actions=if record_teacher{scripted}else if mode=="mirror"{predicted}else{scripted.mask_where(rows.clone(),predicted)};
         if let Some(t)=diagnostic.as_ref(){t.record(&w,&teacher,step%HORIZON,actions.clone(),policy.action_head.forward(h.clone()),b.action_mask.clone(),obs.reset.clone());}
