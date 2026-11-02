@@ -32,15 +32,20 @@ def isolated_content(root,bot_source,game=DEFAULT_GAME):
     # the private game. Keep an independent, unmodified gameinfo copy.
     shutil.copy2(source/'gameinfo.gi',content/'gameinfo.gi')
     mirror(source/'scripts',content/'scripts',{'vscripts'})
-    mirror(source/'scripts/vscripts',content/'scripts/vscripts',{'bots','bots.sf_duel_backup'})
+    vscripts=source/'scripts/vscripts'
+    backups={p.name for p in vscripts.iterdir() if p.name.lower().startswith('bots.') and p.is_dir()}
+    mirror(vscripts,content/'scripts/vscripts',{'bots','bots.sf_duel_backup'}|backups)
     for name in ('cfg','replays','logs'): (content/name).mkdir(exist_ok=True)
     shutil.copytree(source/'cfg',content/'cfg',dirs_exist_ok=True)
     if links:
         def quote(s):return "'"+str(s).replace("'","''")+"'"
-        pairs=','.join('@('+quote(a)+','+quote(b)+')' for a,b in links)
-        subprocess.run(['powershell','-NoProfile','-Command',
-            '$ErrorActionPreference="Stop";$taskLinks=@('+pairs+');foreach($pair in $taskLinks){New-Item -ItemType Junction -Path $pair[0] -Target $pair[1] | Out-Null}'],
-            check=True,capture_output=True)
+        pairs=';'.join(',@('+quote(a)+','+quote(b)+')' for a,b in links)
+        try:
+            subprocess.run(['powershell','-NoProfile','-Command',
+                '$ErrorActionPreference="Stop";$taskLinks=@('+pairs+');foreach($pair in $taskLinks){New-Item -ItemType Junction -Path $pair[0] -Target $pair[1] | Out-Null}'],
+                check=True,capture_output=True,text=True)
+        except subprocess.CalledProcessError as error:
+            raise RuntimeError(f'Junction creation failed (exit {error.returncode}): {error.stderr}') from error
     shutil.copytree(bot_source,runtime,dirs_exist_ok=True)
     (root/'isolation.json').write_text(json.dumps({'assets':str(source),'content':str(content),
         'bots':str(runtime),'asset_copy':'NTFS hardlinks and junctions; private scripts/cfg/replays/logs'},indent=2))
