@@ -1,0 +1,12 @@
+{
+  "name": "baseline",
+  "executable": "C:/AMI/runs/p01/selection.exe",
+  "engine": "C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json",
+  "matches": 32,
+  "seconds": 600,
+  "seed": 20261103,
+  "models": [
+    {"name": "epoch001", "weights": "C:/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0/epoch-001/weights"},
+    {"name": "epoch003", "weights": "C:/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003/weights"}
+  ]
+}

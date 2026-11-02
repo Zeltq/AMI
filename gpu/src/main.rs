@@ -44,6 +44,21 @@ use burn::module::Module;
 #[derive(Parser)]
 #[command(version,about="GPU SF Duel simulator and recurrent PPO")]
 struct Cli {#[command(subcommand)] command:Command}
+
+#[cfg(test)]
+mod cli_tests {
+    use super::*;
+    #[test]
+    fn ggd_selection_preserves_default_and_rejects_conflicting_flags(){
+        for (flags,greedy,zero) in [(vec![],true,false),(vec!["--argmax"],true,false),(vec!["--sampling","--zero-previous"],false,true)]{
+            let mut args=vec!["sf-duel-gpu","evaluate-ggd","engine","weights","output"];args.extend(flags);
+            let Command::EvaluateGgd{argmax,sampling,zero_previous,..}=Cli::try_parse_from(args).unwrap().command else{panic!("wrong command")};
+            assert_eq!(argmax||!sampling,greedy);assert_eq!(zero_previous,zero);
+        }
+        assert!(Cli::try_parse_from(["sf-duel-gpu","evaluate-ggd","engine","weights","output","--argmax","--sampling"]).is_err());
+    }
+}
+
 #[derive(Subcommand)]
 enum Command {
     CollectTeacher {config:PathBuf,output:PathBuf},

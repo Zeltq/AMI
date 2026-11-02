@@ -1,0 +1,181 @@
+{
+  "passed": true,
+  "sequences": [
+    {
+      "fixture": {
+        "format": 1,
+        "checkpoint_sha256": "6a9975661fda4cef8e89570ae37c3c9be9b416d507a60173d1111268409e45fb",
+        "source": "/mnt/c/AMI/runs/p01/validation-0.npz",
+        "forward": "train_ggd.recurrent, batch_sequences=1, length=128, life resets applied",
+        "runtime": {
+          "torch": "2.14.1+rocm7.2",
+          "hip": "7.2.53211",
+          "device": "AMD Radeon RX 9070 XT"
+        }
+      },
+      "result": {
+        "heads": {
+          "action": {
+            "masked_argmax": {
+              "denominator": 128,
+              "numerator": 128
+            },
+            "max_absolute_delta": 1.52587890625e-05,
+            "raw_argmax": {
+              "denominator": 128,
+              "numerator": 128
+            }
+          },
+          "buy": {
+            "masked_argmax": {
+              "denominator": 128,
+              "numerator": 128
+            },
+            "max_absolute_delta": 1.430511474609375e-05,
+            "raw_argmax": {
+              "denominator": 128,
+              "numerator": 128
+            }
+          },
+          "item": {
+            "masked_argmax": {
+              "denominator": 128,
+              "numerator": 128
+            },
+            "max_absolute_delta": 6.67572021484375e-06,
+            "raw_argmax": {
+              "denominator": 128,
+              "numerator": 128
+            }
+          },
+          "target": {
+            "masked_argmax": {
+              "denominator": 128,
+              "numerator": 128
+            },
+            "max_absolute_delta": 1.1444091796875e-05,
+            "raw_argmax": {
+              "denominator": 128,
+              "numerator": 128
+            }
+          },
+          "x": {
+            "masked_argmax": {
+              "denominator": 128,
+              "numerator": 128
+            },
+            "max_absolute_delta": 8.58306884765625e-06,
+            "raw_argmax": {
+              "denominator": 128,
+              "numerator": 128
+            }
+          },
+          "y": {
+            "masked_argmax": {
+              "denominator": 128,
+              "numerator": 128
+            },
+            "max_absolute_delta": 1.1920928955078125e-05,
+            "raw_argmax": {
+              "denominator": 128,
+              "numerator": 128
+            }
+          }
+        },
+        "hidden_max_absolute_delta": 5.990266799926758e-06,
+        "observation_storage": "FP16 dataset decoded to FP32 for both runtimes",
+        "recurrent_reset": 128,
+        "steps": 128,
+        "value_max_absolute_delta": 2.384185791015625e-07
+      }
+    },
+    {
+      "fixture": {
+        "format": 1,
+        "checkpoint_sha256": "6a9975661fda4cef8e89570ae37c3c9be9b416d507a60173d1111268409e45fb",
+        "source": "/mnt/c/AMI/runs/p01/validation-1.npz",
+        "forward": "train_ggd.recurrent, batch_sequences=1, length=128, life resets applied",
+        "runtime": {
+          "torch": "2.14.1+rocm7.2",
+          "hip": "7.2.53211",
+          "device": "AMD Radeon RX 9070 XT"
+        }
+      },
+      "result": {
+        "heads": {
+          "action": {
+            "masked_argmax": {
+              "denominator": 128,
+              "numerator": 128
+            },
+            "max_absolute_delta": 1.9073486328125e-05,
+            "raw_argmax": {
+              "denominator": 128,
+              "numerator": 128
+            }
+          },
+          "buy": {
+            "masked_argmax": {
+              "denominator": 128,
+              "numerator": 128
+            },
+            "max_absolute_delta": 1.33514404296875e-05,
+            "raw_argmax": {
+              "denominator": 128,
+              "numerator": 128
+            }
+          },
+          "item": {
+            "masked_argmax": {
+              "denominator": 128,
+              "numerator": 128
+            },
+            "max_absolute_delta": 9.5367431640625e-06,
+            "raw_argmax": {
+              "denominator": 128,
+              "numerator": 128
+            }
+          },
+          "target": {
+            "masked_argmax": {
+              "denominator": 128,
+              "numerator": 128
+            },
+            "max_absolute_delta": 1.1444091796875e-05,
+            "raw_argmax": {
+              "denominator": 128,
+              "numerator": 128
+            }
+          },
+          "x": {
+            "masked_argmax": {
+              "denominator": 128,
+              "numerator": 128
+            },
+            "max_absolute_delta": 9.059906005859375e-06,
+            "raw_argmax": {
+              "denominator": 128,
+              "numerator": 128
+            }
+          },
+          "y": {
+            "masked_argmax": {
+              "denominator": 128,
+              "numerator": 128
+            },
+            "max_absolute_delta": 1.0013580322265625e-05,
+            "raw_argmax": {
+              "denominator": 128,
+              "numerator": 128
+            }
+          }
+        },
+        "hidden_max_absolute_delta": 3.7848949432373047e-06,
+        "observation_storage": "FP16 dataset decoded to FP32 for both runtimes",
+        "recurrent_reset": 128,
+        "steps": 128,
+        "value_max_absolute_delta": 2.682209014892578e-07
+      }
+    }
+  ]
+}

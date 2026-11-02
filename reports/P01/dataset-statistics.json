@@ -1,0 +1,291 @@
+{
+  "dataset_sha256": "97c3615e538872ccd5a230678b603c8f782d9b21af7d2a5b7ba3e2d66bf726aa",
+  "files_checked": 2952,
+  "train_frames": 7816498,
+  "actions": {
+    "CONTINUE": {
+      "numerator": 5644790,
+      "denominator": 7816498
+    },
+    "MOVE": {
+      "numerator": 1439597,
+      "denominator": 7816498
+    },
+    "MOVE_DIRECT": {
+      "numerator": 0,
+      "denominator": 7816498
+    },
+    "ATTACK": {
+      "numerator": 192222,
+      "denominator": 7816498
+    },
+    "STOP": {
+      "numerator": 536443,
+      "denominator": 7816498
+    },
+    "HOLD": {
+      "numerator": 0,
+      "denominator": 7816498
+    },
+    "RAZE_NEAR": {
+      "numerator": 0,
+      "denominator": 7816498
+    },
+    "RAZE_MID": {
+      "numerator": 0,
+      "denominator": 7816498
+    },
+    "RAZE_FAR": {
+      "numerator": 0,
+      "denominator": 7816498
+    },
+    "REQUIEM": {
+      "numerator": 0,
+      "denominator": 7816498
+    },
+    "ITEM": {
+      "numerator": 3446,
+      "denominator": 7816498
+    }
+  },
+  "action_equals_previous": {
+    "numerator": 6762375,
+    "denominator": 7816498
+  },
+  "zero_previous_action_vector": {
+    "numerator": 0,
+    "denominator": 7816498
+  },
+  "continue_by_phase": {
+    "pregame": {
+      "numerator": 618240,
+      "denominator": 956928
+    },
+    "after_zero": {
+      "numerator": 5026550,
+      "denominator": 6859570
+    }
+  },
+  "continue_run_lengths": {
+    "runs": 432074,
+    "decisions": 5644790,
+    "minimum": 1,
+    "maximum": 540,
+    "histogram": {
+      "1": 28552,
+      "2": 13409,
+      "3": 13201,
+      "4": 135375,
+      "5": 41531,
+      "6": 19367,
+      "7": 23815,
+      "8": 13915,
+      "9": 8277,
+      "10": 6829,
+      "11": 5815,
+      "12": 5332,
+      "13": 4901,
+      "14": 4841,
+      "15": 5163,
+      "16": 5034,
+      "17": 4697,
+      "18": 4639,
+      "19": 4642,
+      "20": 4021,
+      "21": 4183,
+      "22": 3996,
+      "23": 5187,
+      "24": 4612,
+      "25": 3994,
+      "26": 3377,
+      "27": 3058,
+      "28": 3116,
+      "29": 4071,
+      "30": 3244,
+      "31": 3074,
+      "32": 2345,
+      "33": 1920,
+      "34": 1741,
+      "35": 2320,
+      "36": 1551,
+      "37": 1660,
+      "38": 2441,
+      "39": 1564,
+      "40": 1333,
+      "41": 1071,
+      "42": 923,
+      "43": 904,
+      "44": 890,
+      "45": 975,
+      "46": 1159,
+      "47": 748,
+      "48": 502,
+      "49": 503,
+      "50": 476,
+      "51": 415,
+      "52": 703,
+      "53": 1192,
+      "54": 838,
+      "55": 464,
+      "56": 356,
+      "57": 314,
+      "58": 343,
+      "59": 316,
+      "60": 354,
+      "61": 309,
+      "62": 248,
+      "63": 206,
+      "64": 180,
+      "65": 189,
+      "66": 203,
+      "67": 233,
+      "68": 192,
+      "69": 184,
+      "70": 174,
+      "71": 146,
+      "72": 134,
+      "73": 157,
+      "74": 130,
+      "75": 136,
+      "76": 129,
+      "77": 120,
+      "78": 120,
+      "79": 107,
+      "80": 112,
+      "81": 94,
+      "82": 109,
+      "83": 103,
+      "84": 89,
+      "85": 78,
+      "86": 76,
+      "87": 75,
+      "88": 81,
+      "89": 51,
+      "90": 51,
+      "91": 58,
+      "92": 55,
+      "93": 42,
+      "94": 56,
+      "95": 49,
+      "96": 36,
+      "97": 44,
+      "98": 32,
+      "99": 30,
+      "100": 39,
+      "101": 28,
+      "102": 28,
+      "103": 22,
+      "104": 17,
+      "105": 14,
+      "106": 15,
+      "107": 14,
+      "108": 22,
+      "109": 15,
+      "110": 14,
+      "111": 7,
+      "112": 13,
+      "113": 9,
+      "114": 10,
+      "115": 17,
+      "116": 8,
+      "117": 1,
+      "118": 6,
+      "119": 2,
+      "120": 1,
+      "121": 4,
+      "122": 2,
+      "123": 7,
+      "124": 2,
+      "126": 1,
+      "127": 1,
+      "128": 3,
+      "129": 1,
+      "130": 1,
+      "131": 1,
+      "133": 2,
+      "140": 1,
+      "149": 1,
+      "160": 1,
+      "168": 1,
+      "508": 768,
+      "540": 768
+    },
+    "definition": "consecutive valid decisions per actor; cross 128-step blocks including BPTT resets; break at invalid frame or time gap; terminal runs right-censored"
+  },
+  "teacher_pregame_all_splits": {
+    "radiant": {
+      "frames": 637952,
+      "minimum_enemy_t1_distance": {
+        "value": 2245.489678185257,
+        "actor": 0,
+        "game": 0,
+        "game_seconds": -55.92041015625,
+        "position": [
+          -1051.0,
+          -948.5
+        ]
+      },
+      "maximum_progress_from_own_t1": {
+        "value": 673.5616939477355,
+        "actor": 0,
+        "game": 0,
+        "game_seconds": -55.92041015625,
+        "position": [
+          -1051.0,
+          -948.5
+        ]
+      }
+    },
+    "dire": {
+      "frames": 637952,
+      "minimum_enemy_t1_distance": {
+        "value": 2295.6330631946266,
+        "actor": 1,
+        "game": 0,
+        "game_seconds": -51.26953125,
+        "position": [
+          100.0,
+          194.25
+        ]
+      },
+      "maximum_progress_from_own_t1": {
+        "value": 623.4436812317495,
+        "actor": 1,
+        "game": 0,
+        "game_seconds": -51.26953125,
+        "position": [
+          100.0,
+          194.25
+        ]
+      }
+    }
+  },
+  "teacher_t1_positions": [
+    [
+      -1543.9985351563,
+      -1407.9984130859
+    ],
+    [
+      523.99975585938,
+      651.99981689453
+    ]
+  ],
+  "validation_fixtures": [
+    {
+      "actor": 45,
+      "file": "C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\dataset\\block-000020-shard-001.ggd.gz",
+      "fixture": "C:\\AMI\\runs\\p01\\validation-0.npz",
+      "steps": 128,
+      "attacks": 8,
+      "block_sha256": "90b8550438455a76ebcddfb59ef910213af58abdd4c4648e590bfff3731adabe"
+    },
+    {
+      "actor": 380,
+      "file": "C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\dataset\\block-000075-shard-005.ggd.gz",
+      "fixture": "C:\\AMI\\runs\\p01\\validation-1.npz",
+      "steps": 128,
+      "attacks": 8,
+      "block_sha256": "b5bc39caf2e210a90ea7fd14c445484e2f40ee1979550750cfa83715beee11fc"
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "heads": {
+    "action": {
+      "masked_argmax": {
+        "denominator": 128,
+        "numerator": 128
+      },
+      "max_absolute_delta": 1.9073486328125e-05,
+      "raw_argmax": {
+        "denominator": 128,
+        "numerator": 128
+      }
+    },
+    "buy": {
+      "masked_argmax": {
+        "denominator": 128,
+        "numerator": 128
+      },
+      "max_absolute_delta": 1.33514404296875e-05,
+      "raw_argmax": {
+        "denominator": 128,
+        "numerator": 128
+      }
+    },
+    "item": {
+      "masked_argmax": {
+        "denominator": 128,
+        "numerator": 128
+      },
+      "max_absolute_delta": 9.5367431640625e-06,
+      "raw_argmax": {
+        "denominator": 128,
+        "numerator": 128
+      }
+    },
+    "target": {
+      "masked_argmax": {
+        "denominator": 128,
+        "numerator": 128
+      },
+      "max_absolute_delta": 1.1444091796875e-05,
+      "raw_argmax": {
+        "denominator": 128,
+        "numerator": 128
+      }
+    },
+    "x": {
+      "masked_argmax": {
+        "denominator": 128,
+        "numerator": 128
+      },
+      "max_absolute_delta": 9.059906005859375e-06,
+      "raw_argmax": {
+        "denominator": 128,
+        "numerator": 128
+      }
+    },
+    "y": {
+      "masked_argmax": {
+        "denominator": 128,
+        "numerator": 128
+      },
+      "max_absolute_delta": 1.0013580322265625e-05,
+      "raw_argmax": {
+        "denominator": 128,
+        "numerator": 128
+      }
+    }
+  },
+  "hidden_max_absolute_delta": 3.7848949432373047e-06,
+  "observation_storage": "FP16 dataset decoded to FP32 for both runtimes",
+  "recurrent_reset": 128,
+  "steps": 128,
+  "value_max_absolute_delta": 2.682209014892578e-07
+}
