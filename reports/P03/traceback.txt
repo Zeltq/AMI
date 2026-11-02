@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "C:\Users\levik\.codex\worktrees\p03-teacher-parity\AMI\reports\P03\measure_dota.py", line 164, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\levik\.codex\worktrees\p03-teacher-parity\AMI\reports\P03\measure_dota.py", line 133, in main
+    content, _ = isolated_content(args.assets / 'workers' / f'{args.worker:02d}', source)
+                 ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\levik\.codex\worktrees\p03-teacher-parity\AMI\src\sf_duel\live\install.py", line 41, in isolated_content
+    subprocess.run(['powershell','-NoProfile','-Command',
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        '$ErrorActionPreference="Stop";$taskLinks=@('+pairs+');foreach($pair in $taskLinks){New-Item -ItemType Junction -Path $pair[0] -Target $pair[1] | Out-Null}'],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        check=True,capture_output=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['powershell', '-NoProfile', '-Command', '$ErrorActionPreference="Stop";$taskLinks=@(@(\'C:\\AMI\\workers\\18\\game\\dota\\scripts\\vscripts\\bots.before-ami-teacher-v9-a0b32d42\',\'C:\\Program Files (x86)\\Steam\\steamapps\\common\\dota 2 beta\\game\\dota\\scripts\\vscripts\\bots.before-ami-teacher-v9-a0b32d42\'));foreach($pair in $taskLinks){New-Item -ItemType Junction -Path $pair[0] -Target $pair[1] | Out-Null}']' returned non-zero exit status 1.

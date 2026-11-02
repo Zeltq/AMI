@@ -1,0 +1,12 @@
+{
+  "complete": false,
+  "error": "Command '['powershell', '-NoProfile', '-Command', '$ErrorActionPreference=\"Stop\";$taskLinks=@(@(\\'C:\\\\AMI\\\\workers\\\\18\\\\game\\\\dota\\\\scripts\\\\vscripts\\\\bots.before-ami-teacher-v9-a0b32d42\\',\\'C:\\\\Program Files (x86)\\\\Steam\\\\steamapps\\\\common\\\\dota 2 beta\\\\game\\\\dota\\\\scripts\\\\vscripts\\\\bots.before-ami-teacher-v9-a0b32d42\\'));foreach($pair in $taskLinks){New-Item -ItemType Junction -Path $pair[0] -Target $pair[1] | Out-Null}']' returned non-zero exit status 1.",
+  "type": "CalledProcessError",
+  "manifest": {
+    "agent.lua": "6015af65421a261557b0162678eaed3043369d9362baf5986558e7eb7063cab2",
+    "hero_selection.lua": "014fbad8d6f3741f64ac17d1632eadb1d4279bc6d63f8b63528406ff4ceef85a",
+    "scripted_teacher_v9.lua": "a38ef2369bb0b707a55f189978381f5c6c39bad4a4bb869194c1f783209bca62",
+    "scripted_teacher_v9_live.lua": "6d8571c986d7771e2d89eaa5a0c148a455733deac70975fbc78af18eab179a70",
+    "gpu/src/scripted_teacher.rs": "e9ed506fff0a3f51be809cb33fe567a78eb76cd7d8baa87811c0f0460e22c624"
+  }
+}

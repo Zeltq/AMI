@@ -1,0 +1,19 @@
+{
+  "stage": "blocked",
+  "pid": 3880,
+  "command": "C:\\Python314\\python.exe reports/P03/measure_dota.py --run C:/AMI/runs/p03/dota-diagnostic-001 --worker 18 --seconds 90 --wall-timeout 240 --timescale 1",
+  "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p03-teacher-parity\\AMI",
+  "run": "C:\\AMI\\runs\\p03\\dota-diagnostic-001",
+  "worker": 18,
+  "seconds": 90.0,
+  "timescale": 1.0,
+  "started_utc": "2026-11-02T23:44:31.707264+00:00",
+  "background_work_remaining": false,
+  "artifacts": [
+    "C:\\AMI\\runs\\p03\\dota-diagnostic-001\\dota.log",
+    "C:\\AMI\\runs\\p03\\dota-diagnostic-001\\result.json"
+  ],
+  "elapsed_seconds": 0.755067499994766,
+  "checked_utc": "2026-11-02T23:44:32.462289+00:00",
+  "error": "Command '['powershell', '-NoProfile', '-Command', '$ErrorActionPreference=\"Stop\";$taskLinks=@(@(\\'C:\\\\AMI\\\\workers\\\\18\\\\game\\\\dota\\\\scripts\\\\vscripts\\\\bots.before-ami-teacher-v9-a0b32d42\\',\\'C:\\\\Program Files (x86)\\\\Steam\\\\steamapps\\\\common\\\\dota 2 beta\\\\game\\\\dota\\\\scripts\\\\vscripts\\\\bots.before-ami-teacher-v9-a0b32d42\\'));foreach($pair in $taskLinks){New-Item -ItemType Junction -Path $pair[0] -Target $pair[1] | Out-Null}']' returned non-zero exit status 1."
+}
