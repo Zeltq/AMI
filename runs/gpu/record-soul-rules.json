@@ -1,0 +1,101 @@
+{
+  "fitted_on": "train",
+  "sources": {
+    "train": [
+      "runs\\teacher-pilot-192-cache\\match-0001-team-2.npz",
+      "runs\\teacher-pilot-192-cache\\match-0001-team-3.npz",
+      "runs\\teacher-pilot-192-cache\\match-0065-team-2.npz",
+      "runs\\teacher-pilot-192-cache\\match-0065-team-3.npz",
+      "runs\\teacher-pilot-192-cache\\match-0125-team-2.npz",
+      "runs\\teacher-pilot-192-cache\\match-0125-team-3.npz",
+      "runs\\teacher-pilot-192-cache\\match-0192-team-2.npz",
+      "runs\\teacher-pilot-192-cache\\match-0192-team-3.npz"
+    ],
+    "validation": [
+      "runs\\teacher-pilot-192-cache\\match-0010-team-2.npz",
+      "runs\\teacher-pilot-192-cache\\match-0010-team-3.npz",
+      "runs\\teacher-pilot-192-cache\\match-0180-team-2.npz",
+      "runs\\teacher-pilot-192-cache\\match-0180-team-3.npz"
+    ]
+  },
+  "candidates": {
+    "0": {
+      "samples": 19995,
+      "mean_absolute_damage_error": 0.17979495227336884,
+      "maximum": 1.0,
+      "within_one_damage": 1.0
+    },
+    "1": {
+      "samples": 19995,
+      "mean_absolute_damage_error": 2.6969242095947266,
+      "maximum": 15.0,
+      "within_one_damage": 0.8202050512628157
+    }
+  },
+  "selected_level_offset": 0,
+  "validation": {
+    "samples": 15039,
+    "mean_absolute_damage_error": 0.22202274203300476,
+    "maximum": 1.0,
+    "within_one_damage": 1.0
+  },
+  "by_level": {
+    "train": {
+      "2": {
+        "samples": 2253,
+        "median_observed_bonus_per_soul": 0.900000274181366
+      },
+      "3": {
+        "samples": 3978,
+        "median_observed_bonus_per_soul": 0.9799998998641968
+      },
+      "4": {
+        "samples": 4081,
+        "median_observed_bonus_per_soul": 0.9500000476837158
+      },
+      "5": {
+        "samples": 3887,
+        "median_observed_bonus_per_soul": 0.9799998998641968
+      },
+      "6": {
+        "samples": 3595,
+        "median_observed_bonus_per_soul": 1.75
+      },
+      "7": {
+        "samples": 2201,
+        "median_observed_bonus_per_soul": 1.7700001001358032
+      }
+    },
+    "validation": {
+      "2": {
+        "samples": 839,
+        "median_observed_bonus_per_soul": 0.900000274181366
+      },
+      "3": {
+        "samples": 2534,
+        "median_observed_bonus_per_soul": 0.9799998998641968
+      },
+      "4": {
+        "samples": 3125,
+        "median_observed_bonus_per_soul": 0.9529412388801575
+      },
+      "5": {
+        "samples": 2604,
+        "median_observed_bonus_per_soul": 0.9799998998641968
+      },
+      "6": {
+        "samples": 3339,
+        "median_observed_bonus_per_soul": 1.75
+      },
+      "7": {
+        "samples": 2511,
+        "median_observed_bonus_per_soul": 1.7700001001358032
+      },
+      "8": {
+        "samples": 87,
+        "median_observed_bonus_per_soul": 1.7900002002716064
+      }
+    }
+  },
+  "rule": "1 + 0.8 * floor((level - selected_level_offset) / 6) physical attack damage per soul; no legal damage items beyond WB/bracer"
+}

@@ -1,0 +1,83 @@
+{
+  "source_map": "C:/Program Files (x86)/Steam/steamapps/common/dota 2 beta/game/dota/maps/dota.vpk",
+  "map_sha256": "8543569c3c661f69694a341603041bd32fde3599072d35a9301e68406d152a0f",
+  "gnv_sha256": "be66c5b5ff0d87d69b376622f1161e8f4a6f61433bf0f25f5ff986d70beac77c",
+  "header": {
+    "cell": 64.0,
+    "center_offsets": [
+      32.0,
+      32.0
+    ],
+    "shape": [
+      328,
+      320
+    ],
+    "origin_cell": [
+      -160,
+      -168
+    ],
+    "world_bounds": [
+      -10240.0,
+      -10752.0,
+      10240.0,
+      10240.0
+    ]
+  },
+  "walkable_bit": 0,
+  "flags": {
+    "20": 38622,
+    "16": 6034,
+    "0": 706,
+    "1": 58664,
+    "13": 30,
+    "17": 869,
+    "25": 2,
+    "5": 13,
+    "4": 20
+  },
+  "verification": {
+    "train": {
+      "sources": [
+        "runs\\teacher-pilot-192-cache\\match-0001-team-2.npz",
+        "runs\\teacher-pilot-192-cache\\match-0001-team-3.npz",
+        "runs\\teacher-pilot-192-cache\\match-0065-team-2.npz",
+        "runs\\teacher-pilot-192-cache\\match-0065-team-3.npz",
+        "runs\\teacher-pilot-192-cache\\match-0125-team-2.npz",
+        "runs\\teacher-pilot-192-cache\\match-0125-team-3.npz",
+        "runs\\teacher-pilot-192-cache\\match-0192-team-2.npz",
+        "runs\\teacher-pilot-192-cache\\match-0192-team-3.npz"
+      ],
+      "samples": 237051,
+      "flags": {
+        "17": 5170,
+        "1": 231881
+      },
+      "gnv_walkable_fraction": 1.0,
+      "api_passable_fraction": 0.9936258442276135
+    },
+    "validation": {
+      "sources": [
+        "runs\\teacher-pilot-192-cache\\match-0002-team-2.npz",
+        "runs\\teacher-pilot-192-cache\\match-0002-team-3.npz",
+        "runs\\teacher-pilot-192-cache\\match-0188-team-2.npz",
+        "runs\\teacher-pilot-192-cache\\match-0188-team-3.npz"
+      ],
+      "samples": 35375,
+      "flags": {
+        "17": 2562,
+        "1": 32813
+      },
+      "gnv_walkable_fraction": 1.0,
+      "api_passable_fraction": 0.9948268551236749
+    },
+    "movement": {
+      "source": "runs/gpu/dota-movement-003-passability/scenarios.json",
+      "samples": 675,
+      "gnv_walkable": 675,
+      "native_api_false": 174
+    }
+  },
+  "physics_file": "movement-geometry.f32",
+  "observation_geometry_unchanged": true,
+  "scope": "Central512x512 physics map; full GNV bounds preserved but outer simulation not yet expanded. Static navigation does not replace live tree/building/unit collision."
+}

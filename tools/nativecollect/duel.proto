@@ -1,0 +1,29 @@
+syntax = "proto3";
+package sfduel;
+option go_package = "sfduel/nativecollect/duelwire";
+import "worldstate.proto";
+message Decision {
+ uint64 sequence = 1; int32 team = 2; int32 observed_tick = 3; int32 execute_tick = 4;
+ int32 action = 5; uint32 target = 6; float x = 7; float y = 8; string item = 9; string buy = 10; float observed_dota_time = 11;
+}
+message Execution {
+ uint64 sequence = 1; int32 team = 2; int32 tick = 3; bool accepted = 4; string reason = 5;
+ uint32 actual_target = 6;
+}
+message ShopItem {string name=1; int32 price=2; int32 stock=3;}
+message VisibleTree {uint32 id=1; float x=2; float y=3; float z=4;}
+message Supplement {int32 team=1; int32 tick=2; repeated ShopItem shop=3; repeated VisibleTree trees=4;}
+message UnitExtra {uint32 handle=1; float attack_interval=2; bool attacking=3; bool casting=4; bool channeling=5; bool using_ability=6;}
+message AbilityExtra {string name=1; int32 level=2; float mana_cost=3; float cast_point=4; float channel_time=5;}
+message ModelSupplement {int32 team=1; int32 tick=2; float x=3; float y=4; repeated float terrain=5; repeated AbilityExtra skills=6; repeated AbilityExtra items=7; repeated UnitExtra units=8; repeated VisibleTree towers=9; VisibleTree base=10; int32 next_permanent=11; float next_cost=12; bool start_bought=13; repeated AbilityExtra skill_slots=14; bool can_hold=15;}
+message Record {
+ CMsgBotWorldState observation = 1;
+ Decision decision = 2;
+ Execution execution = 3;
+ Supplement supplement = 4;
+ ModelSupplement model_supplement = 5;
+ string episode = 6;
+ RewardFrame reward_frame = 7;
+}
+// Authoritative own-side state for reward only, never sent to policy inference.
+message RewardFrame {int32 team=1; int32 tick=2; float time=3; repeated float values=4;}

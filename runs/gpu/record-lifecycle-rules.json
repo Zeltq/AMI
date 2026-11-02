@@ -1,0 +1,68 @@
+{
+  "training_eligible": false,
+  "train": "runs\\gpu\\dota-lifecycle-001\\lifecycle.json",
+  "validation": [
+    "runs\\gpu\\dota-lifecycle-002-dire\\lifecycle.json",
+    "runs\\gpu\\dota-lifecycle-004-tower-first\\lifecycle.json"
+  ],
+  "respawns": {
+    "2": {
+      "x": -6700,
+      "y": -6700,
+      "z": 384
+    },
+    "3": {
+      "x": 6836,
+      "y": 6554,
+      "z": 384
+    }
+  },
+  "respawn_seconds": 12,
+  "checks": [
+    {
+      "source": "runs\\gpu\\dota-lifecycle-001\\lifecycle.json",
+      "team": 2,
+      "delay_seconds": 12.0333251953125,
+      "position_max_error": 0,
+      "split": "train"
+    },
+    {
+      "source": "runs\\gpu\\dota-lifecycle-001\\lifecycle.json",
+      "team": 3,
+      "delay_seconds": 12.066665649413999,
+      "position_max_error": 0,
+      "split": "train"
+    },
+    {
+      "source": "runs\\gpu\\dota-lifecycle-002-dire\\lifecycle.json",
+      "team": 2,
+      "delay_seconds": 12.066665649414002,
+      "position_max_error": 0,
+      "split": "validation"
+    },
+    {
+      "source": "runs\\gpu\\dota-lifecycle-002-dire\\lifecycle.json",
+      "team": 3,
+      "delay_seconds": 12.0333251953125,
+      "position_max_error": 0,
+      "split": "validation"
+    },
+    {
+      "source": "runs\\gpu\\dota-lifecycle-004-tower-first\\lifecycle.json",
+      "team": 2,
+      "delay_seconds": 12.066665649413999,
+      "position_max_error": 0,
+      "split": "validation"
+    }
+  ],
+  "passed": true,
+  "death_gold": "floor(networth/40), capped by unreliable gold; native examples15 and23",
+  "hero_kill_souls": 4,
+  "death_soul_retention": 0.7,
+  "gold_scope": "Empirical level1 first hero326, first tower202, later tower133. General bounty formula and later hero rewards unverified.",
+  "limitations": [
+    "Level1 only. Higher-level deaths end the duel before respawn.",
+    "Native sampled respawn includes1-2Think ticks of delay; GPU uses12seconds.",
+    "Two completed validation captures are distinct from training capture; engine RNG was uncontrolled."
+  ]
+}

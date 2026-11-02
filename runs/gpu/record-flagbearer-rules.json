@@ -1,0 +1,121 @@
+{
+  "spawn_first_seconds": 120,
+  "spawn_period_seconds": 60,
+  "replace_melee_count": 1,
+  "base_magic_resist": 0.4,
+  "magic_resist_growth": "At spawn:1-(1-base)*0.96^min(15,floor(time/450)); old surviving creeps keep old stats",
+  "aura_radius": 700.0,
+  "aura_regen": 3.0,
+  "bonus_xp": 3.0,
+  "xp": 60.0,
+  "gold": "Hero last hit:2*normal melee bounty+10. No extra gold observed on60XP without last hit. Whole integer bounty rolls. Later bounty growth still needs direct checks.",
+  "native_capture": "runs/gpu/dota-aggro-001/aggro.json",
+  "native_flag_regen_histogram": {
+    "3.5": 797
+  },
+  "source_sha256": {
+    "npc_units.txt": "c6a4f4f1dca6ce18c42cb542b9e4b6f960c63cc562712cba4598f3364994bea3",
+    "npc_abilities.txt": "040b8075832a8c5767bb2ad50ca5eb1dfda024a9c45d1d5b857d2911f2d97ab8"
+  },
+  "verification": {
+    "train": {
+      "sources": [
+        "runs\\teacher-pilot-192-cache\\match-0001-team-2.npz",
+        "runs\\teacher-pilot-192-cache\\match-0001-team-3.npz",
+        "runs\\teacher-pilot-192-cache\\match-0028-team-2.npz",
+        "runs\\teacher-pilot-192-cache\\match-0028-team-3.npz",
+        "runs\\teacher-pilot-192-cache\\match-0055-team-2.npz",
+        "runs\\teacher-pilot-192-cache\\match-0055-team-3.npz",
+        "runs\\teacher-pilot-192-cache\\match-0082-team-2.npz",
+        "runs\\teacher-pilot-192-cache\\match-0082-team-3.npz",
+        "runs\\teacher-pilot-192-cache\\match-0109-team-2.npz",
+        "runs\\teacher-pilot-192-cache\\match-0109-team-3.npz",
+        "runs\\teacher-pilot-192-cache\\match-0134-team-2.npz",
+        "runs\\teacher-pilot-192-cache\\match-0134-team-3.npz",
+        "runs\\teacher-pilot-192-cache\\match-0167-team-2.npz",
+        "runs\\teacher-pilot-192-cache\\match-0167-team-3.npz",
+        "runs\\teacher-pilot-192-cache\\match-0192-team-2.npz",
+        "runs\\teacher-pilot-192-cache\\match-0192-team-3.npz"
+      ],
+      "magic_resist_before450": {
+        "0.3999": 21424
+      },
+      "magic_resist_after450": {
+        "0.3999": 8,
+        "0.4241": 6583
+      },
+      "gold_deltas_60xp": {
+        "60xp_lh1": {
+          "86": 1,
+          "85": 2,
+          "80": 3,
+          "81": 5,
+          "82": 4,
+          "83": 10,
+          "87": 6,
+          "84": 2,
+          "88": 2,
+          "78": 1
+        },
+        "60xp_lh0": {
+          "1": 4,
+          "0": 10
+        }
+      }
+    },
+    "validation": {
+      "sources": [
+        "runs\\teacher-pilot-192-cache\\match-0002-team-2.npz",
+        "runs\\teacher-pilot-192-cache\\match-0002-team-3.npz",
+        "runs\\teacher-pilot-192-cache\\match-0063-team-2.npz",
+        "runs\\teacher-pilot-192-cache\\match-0063-team-3.npz",
+        "runs\\teacher-pilot-192-cache\\match-0133-team-2.npz",
+        "runs\\teacher-pilot-192-cache\\match-0133-team-3.npz",
+        "runs\\teacher-pilot-192-cache\\match-0188-team-2.npz",
+        "runs\\teacher-pilot-192-cache\\match-0188-team-3.npz"
+      ],
+      "magic_resist_before450": {
+        "0.3999": 8995
+      },
+      "magic_resist_after450": {
+        "0.3999": 2,
+        "0.4241": 1339
+      },
+      "gold_deltas_60xp": {
+        "60xp_lh1": {
+          "87": 1,
+          "80": 2,
+          "85": 1,
+          "83": 2,
+          "81": 2,
+          "84": 2,
+          "82": 1
+        },
+        "60xp_lh0": {
+          "0": 4,
+          "1": 4
+        }
+      }
+    }
+  },
+  "limitation": "Cache gold deltas include passive gold and FP16 rounding; two-hero mode does not establish multi-hero gold sharing. Aura radius/linger boundary and death-removal checks remain.",
+  "aura_linger_seconds": 0.5,
+  "native_aura_boundary_check": [
+    {
+      "team": 2,
+      "samples": 3298,
+      "boundary_mismatch_frames": 2,
+      "fraction": 0.0006064281382656155,
+      "sampling_hz": 10,
+      "scope": "Two side views of the same diagnostic game, correlated samples; fixed700+hull radius and.5s linger."
+    },
+    {
+      "team": 3,
+      "samples": 3136,
+      "boundary_mismatch_frames": 1,
+      "fraction": 0.00031887755102040814,
+      "sampling_hz": 10,
+      "scope": "Two side views of the same diagnostic game, correlated samples; fixed700+hull radius and.5s linger."
+    }
+  ]
+}

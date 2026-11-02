@@ -1,0 +1,150 @@
+{
+  "splits": {
+    "train": {
+      "source": "C:\\AMI\\runs\\teacher-pilot-192\\match-0001-attempt-09\\native-decisions.pb.gz",
+      "samples": {
+        "pregame": {
+          "dota_time": -82.9000015258789,
+          "time_of_day": 0.24998855590820312,
+          "team": 2
+        },
+        "first_half": {
+          "dota_time": 1.0666656494140625,
+          "time_of_day": 0.251773864030838,
+          "team": 2
+        },
+        "second_half": {
+          "dota_time": 301.0666809082031,
+          "time_of_day": 0.7517356872558594,
+          "team": 2
+        }
+      },
+      "unit_radii": {
+        "npc_dota_goodguys_tower3_bot": {
+          "day": 1900,
+          "night": 1100
+        },
+        "npc_dota_goodguys_tower3_mid": {
+          "day": 1900,
+          "night": 1100
+        },
+        "npc_dota_goodguys_tower3_top": {
+          "day": 1900,
+          "night": 1100
+        },
+        "npc_dota_goodguys_tower2_bot": {
+          "day": 1900,
+          "night": 1100
+        },
+        "npc_dota_goodguys_tower1_bot": {
+          "day": 1900,
+          "night": 800
+        },
+        "npc_dota_goodguys_tower2_mid": {
+          "day": 1900,
+          "night": 1100
+        },
+        "npc_dota_goodguys_tower2_top": {
+          "day": 1900,
+          "night": 1100
+        },
+        "npc_dota_goodguys_tower1_top": {
+          "day": 1900,
+          "night": 800
+        },
+        "npc_dota_goodguys_tower4": {
+          "day": 1900,
+          "night": 1100
+        },
+        "npc_dota_goodguys_tower1_mid": {
+          "day": 1900,
+          "night": 800
+        },
+        "dota_fountain": {
+          "day": 1800,
+          "night": 1800
+        },
+        "npc_dota_hero_nevermore": {
+          "day": 1800,
+          "night": 800
+        }
+      },
+      "fraction_clock_check_passed": true,
+      "maximum_fraction_error": 4.2114257812531086e-05
+    },
+    "validation": {
+      "source": "C:\\AMI\\runs\\teacher-pilot-192\\match-0010\\native-decisions.pb.gz",
+      "samples": {
+        "pregame": {
+          "dota_time": -83.56666564941406,
+          "time_of_day": 0.24998855590820312,
+          "team": 2
+        },
+        "first_half": {
+          "dota_time": 1.0666656494140625,
+          "time_of_day": 0.251773864030838,
+          "team": 2
+        },
+        "second_half": {
+          "dota_time": 301.0666809082031,
+          "time_of_day": 0.7517356872558594,
+          "team": 2
+        }
+      },
+      "unit_radii": {
+        "npc_dota_goodguys_tower3_bot": {
+          "day": 1900,
+          "night": 1100
+        },
+        "npc_dota_goodguys_tower3_mid": {
+          "day": 1900,
+          "night": 1100
+        },
+        "npc_dota_goodguys_tower3_top": {
+          "day": 1900,
+          "night": 1100
+        },
+        "npc_dota_goodguys_tower2_bot": {
+          "day": 1900,
+          "night": 1100
+        },
+        "npc_dota_goodguys_tower1_bot": {
+          "day": 1900,
+          "night": 800
+        },
+        "npc_dota_goodguys_tower2_mid": {
+          "day": 1900,
+          "night": 1100
+        },
+        "npc_dota_goodguys_tower2_top": {
+          "day": 1900,
+          "night": 1100
+        },
+        "npc_dota_goodguys_tower1_top": {
+          "day": 1900,
+          "night": 800
+        },
+        "npc_dota_goodguys_tower4": {
+          "day": 1900,
+          "night": 1100
+        },
+        "npc_dota_goodguys_tower1_mid": {
+          "day": 1900,
+          "night": 800
+        },
+        "dota_fountain": {
+          "day": 1800,
+          "night": 1800
+        },
+        "npc_dota_hero_nevermore": {
+          "day": 1800,
+          "night": 800
+        }
+      },
+      "fraction_clock_check_passed": true,
+      "maximum_fraction_error": 4.2114257812531086e-05
+    }
+  },
+  "scope": "Supplied vision radii and continuous clock values. Fractions near thresholds alone do not establish IsDaytime(), particularly in pregame. Direct API capture required. Not a line-of-sight certification.",
+  "passed": true
+}

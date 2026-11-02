@@ -1,0 +1,79 @@
+{
+  "chosen_rule": "HP and mana use floored total strength/intelligence; keep continuous attributes for attack speed,magic resist and regeneration",
+  "selection": "Rule chosen on train; validation checks the fixed rule",
+  "verification": {
+    "train": {
+      "sources": [
+        "runs\\teacher-pilot-192-cache\\match-0001-team-2.npz",
+        "runs\\teacher-pilot-192-cache\\match-0001-team-3.npz",
+        "runs\\teacher-pilot-192-cache\\match-0065-team-2.npz",
+        "runs\\teacher-pilot-192-cache\\match-0065-team-3.npz",
+        "runs\\teacher-pilot-192-cache\\match-0125-team-2.npz",
+        "runs\\teacher-pilot-192-cache\\match-0125-team-3.npz",
+        "runs\\teacher-pilot-192-cache\\match-0192-team-2.npz",
+        "runs\\teacher-pilot-192-cache\\match-0192-team-3.npz"
+      ],
+      "errors": {
+        "hp_continuous": {
+          "samples": 30554,
+          "mean": 7.3185499187913265,
+          "p95": 17.842187500000023,
+          "max": 17.842187500000023
+        },
+        "hp_floor_attribute": {
+          "samples": 30554,
+          "mean": 0.1069020473996858,
+          "p95": 0.2421875,
+          "max": 0.2421875
+        },
+        "mana_continuous": {
+          "samples": 30554,
+          "mean": 3.2951962866973283,
+          "p95": 9.637109375000023,
+          "max": 9.637109375000023
+        },
+        "mana_floor_attribute": {
+          "samples": 30554,
+          "mean": 0.04903498212181711,
+          "p95": 0.111328125,
+          "max": 0.111328125
+        }
+      }
+    },
+    "validation": {
+      "sources": [
+        "runs\\teacher-pilot-192-cache\\match-0002-team-2.npz",
+        "runs\\teacher-pilot-192-cache\\match-0002-team-3.npz",
+        "runs\\teacher-pilot-192-cache\\match-0188-team-2.npz",
+        "runs\\teacher-pilot-192-cache\\match-0188-team-3.npz"
+      ],
+      "errors": {
+        "hp_continuous": {
+          "samples": 6158,
+          "mean": 3.606937748660269,
+          "p95": 15.423437499999977,
+          "max": 15.423437499999977
+        },
+        "hp_floor_attribute": {
+          "samples": 6158,
+          "mean": 0.04363797600682039,
+          "p95": 0.10546875,
+          "max": 0.1875
+        },
+        "mana_continuous": {
+          "samples": 6158,
+          "mean": 1.1741029834158812,
+          "p95": 4.688671875000011,
+          "max": 7.1628906250000455
+        },
+        "mana_floor_attribute": {
+          "samples": 6158,
+          "mean": 0.037372942209321205,
+          "p95": 0.111328125,
+          "max": 0.111328125
+        }
+      }
+    }
+  },
+  "scope": "Own heroes with one equipped Wraith Band and no equipped Bracer, cached FP16 observations. Sub-unit residuals are cache rounding; does not certify all item/stat/armor rules."
+}

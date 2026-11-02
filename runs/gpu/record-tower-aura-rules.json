@@ -1,0 +1,146 @@
+{
+  "radius": 900,
+  "target_hull": 24,
+  "linger_seconds": 0.5,
+  "tier1": {
+    "armor": 3,
+    "regen": 1
+  },
+  "tier2_plus": {
+    "armor": 5,
+    "regen": 3
+  },
+  "stacking": "strongest active tier; separate linger timers",
+  "selection": "Fixed rules from Radiant journey; Dire journey held out",
+  "train": {
+    "source": "runs/gpu/dota-tower-aura-001/aura.json",
+    "samples": 685,
+    "predicted_events": [
+      {
+        "tick": 1626,
+        "time": -82.966667175293,
+        "armor": 11.75,
+        "regen": 5.35
+      },
+      {
+        "tick": 2037,
+        "time": -69.266670227051,
+        "armor": 6.75,
+        "regen": 2.35
+      },
+      {
+        "tick": 2063,
+        "time": -68.400001525879,
+        "armor": 9.75,
+        "regen": 3.35
+      },
+      {
+        "tick": 2261,
+        "time": -61.800003051758,
+        "armor": 6.75,
+        "regen": 2.35
+      }
+    ],
+    "native_events": [
+      {
+        "tick": 1626,
+        "time": -82.966667175293,
+        "armor": 11.75,
+        "regen": 5.35
+      },
+      {
+        "tick": 2038,
+        "time": -69.233337402344,
+        "armor": 6.75,
+        "regen": 2.35
+      },
+      {
+        "tick": 2064,
+        "time": -68.366668701172,
+        "armor": 9.75,
+        "regen": 3.35
+      },
+      {
+        "tick": 2262,
+        "time": -61.766670227051,
+        "armor": 6.75,
+        "regen": 2.35
+      }
+    ],
+    "boundary_mismatch_frames": 3,
+    "passed": true
+  },
+  "validation": {
+    "source": "runs/gpu/dota-tower-aura-002-dire/aura.json",
+    "samples": 762,
+    "predicted_events": [
+      {
+        "tick": 1626,
+        "time": -82.966667175293,
+        "armor": 11.75,
+        "regen": 5.35
+      },
+      {
+        "tick": 1923,
+        "time": -73.066665649414,
+        "armor": 6.75,
+        "regen": 2.35
+      },
+      {
+        "tick": 1970,
+        "time": -71.5,
+        "armor": 11.75,
+        "regen": 5.35
+      },
+      {
+        "tick": 2164,
+        "time": -65.033332824707,
+        "armor": 6.75,
+        "regen": 2.35
+      },
+      {
+        "tick": 2212,
+        "time": -63.433334350586,
+        "armor": 9.75,
+        "regen": 3.35
+      }
+    ],
+    "native_events": [
+      {
+        "tick": 1626,
+        "time": -82.966667175293,
+        "armor": 11.75,
+        "regen": 5.35
+      },
+      {
+        "tick": 1923,
+        "time": -73.066665649414,
+        "armor": 6.75,
+        "regen": 2.35
+      },
+      {
+        "tick": 1970,
+        "time": -71.5,
+        "armor": 11.75,
+        "regen": 5.35
+      },
+      {
+        "tick": 2164,
+        "time": -65.033332824707,
+        "armor": 6.75,
+        "regen": 2.35
+      },
+      {
+        "tick": 2212,
+        "time": -63.433334350586,
+        "armor": 9.75,
+        "regen": 3.35
+      }
+    ],
+    "boundary_mismatch_frames": 0,
+    "passed": true
+  },
+  "tolerance_ticks": 2,
+  "scope": "Level1 heroes along two native paths. No destruction,creep-target or aura-break test yet.",
+  "passed": true
+}

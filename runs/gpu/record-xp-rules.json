@@ -1,0 +1,153 @@
+{
+  "source": "runs\\teacher-pilot-192-cache",
+  "train_matches": 128,
+  "validation_matches": 64,
+  "thresholds": {
+    "1": 240,
+    "2": 400,
+    "3": 520,
+    "4": 600,
+    "5": 680,
+    "6": 760,
+    "7": 800,
+    "8": 900
+  },
+  "training_evidence": {
+    "2": {
+      "observed_max_remaining": 400,
+      "transitions": 246,
+      "candidate_support": {
+        "400": 246,
+        "420": 0,
+        "440": 184,
+        "460": 184,
+        "480": 235,
+        "500": 190
+      }
+    },
+    "3": {
+      "observed_max_remaining": 520,
+      "transitions": 218,
+      "candidate_support": {
+        "520": 200,
+        "540": 1,
+        "560": 141,
+        "580": 155,
+        "600": 193,
+        "620": 166
+      }
+    },
+    "4": {
+      "observed_max_remaining": 600,
+      "transitions": 189,
+      "candidate_support": {
+        "600": 171,
+        "620": 3,
+        "640": 131,
+        "660": 144,
+        "680": 174,
+        "700": 149
+      }
+    },
+    "5": {
+      "observed_max_remaining": 680,
+      "transitions": 150,
+      "candidate_support": {
+        "680": 133,
+        "700": 6,
+        "720": 98,
+        "740": 109,
+        "760": 135,
+        "780": 115
+      }
+    },
+    "6": {
+      "observed_max_remaining": 760,
+      "transitions": 107,
+      "candidate_support": {
+        "760": 89,
+        "780": 2,
+        "800": 72,
+        "820": 85,
+        "840": 91,
+        "860": 91
+      }
+    },
+    "7": {
+      "observed_max_remaining": 800,
+      "transitions": 93,
+      "candidate_support": {
+        "800": 72,
+        "820": 9,
+        "840": 71,
+        "860": 88,
+        "880": 80,
+        "900": 89
+      }
+    },
+    "8": {
+      "observed_max_remaining": 900,
+      "transitions": 31,
+      "candidate_support": {
+        "900": 22,
+        "920": 11,
+        "940": 30,
+        "960": 31,
+        "980": 28,
+        "1000": 31
+      }
+    }
+  },
+  "held_out": {
+    "2": {
+      "threshold": 400,
+      "transitions": 121,
+      "consistent_grants": 121,
+      "max_remaining": 400,
+      "remaining_bound_passed": true
+    },
+    "3": {
+      "threshold": 520,
+      "transitions": 114,
+      "consistent_grants": 106,
+      "max_remaining": 518,
+      "remaining_bound_passed": true
+    },
+    "4": {
+      "threshold": 600,
+      "transitions": 92,
+      "consistent_grants": 81,
+      "max_remaining": 600,
+      "remaining_bound_passed": true
+    },
+    "5": {
+      "threshold": 680,
+      "transitions": 77,
+      "consistent_grants": 70,
+      "max_remaining": 679,
+      "remaining_bound_passed": true
+    },
+    "6": {
+      "threshold": 760,
+      "transitions": 54,
+      "consistent_grants": 40,
+      "max_remaining": 758,
+      "remaining_bound_passed": true
+    },
+    "7": {
+      "threshold": 800,
+      "transitions": 44,
+      "consistent_grants": 29,
+      "max_remaining": 800,
+      "remaining_bound_passed": true
+    },
+    "8": {
+      "threshold": 900,
+      "transitions": 10,
+      "consistent_grants": 3,
+      "max_remaining": 896,
+      "remaining_bound_passed": true
+    }
+  },
+  "scope": "XP thresholds only. Does not validate XP radius, deny sharing or current installed build."
+}

@@ -1,0 +1,63 @@
+{
+  "sources": {
+    "train": [
+      "C:\\AMI\\runs\\teacher-pilot-192\\match-0001-attempt-09\\native-decisions.pb.gz",
+      "C:\\AMI\\runs\\teacher-pilot-192\\match-0065\\native-decisions.pb.gz",
+      "C:\\AMI\\runs\\teacher-pilot-192\\match-0125\\native-decisions.pb.gz",
+      "C:\\AMI\\runs\\teacher-pilot-192\\match-0192\\native-decisions.pb.gz"
+    ],
+    "validation": [
+      "C:\\AMI\\runs\\teacher-pilot-192\\match-0002-attempt-08\\native-decisions.pb.gz",
+      "C:\\AMI\\runs\\teacher-pilot-192\\match-0188\\native-decisions.pb.gz"
+    ]
+  },
+  "calibration": "runs/gpu/dota-calibration-003",
+  "fitted_on": "train",
+  "plane_z_by_height_level": {
+    "1": 384,
+    "2": 256,
+    "3": 128,
+    "4": 0
+  },
+  "physical_z_offset": 512.0,
+  "physical_z_slope": -128.0,
+  "errors": {
+    "train": {
+      "previous_z_equals_level_times128": {
+        "samples": 7636,
+        "mean": 329.0978129482617,
+        "median": 256.0,
+        "p95": 512.0,
+        "maximum": 512.0,
+        "within_4_units": 0.03496595075955998
+      },
+      "measured_flat_plane_mapping": {
+        "samples": 7636,
+        "mean": 13.464818041328552,
+        "median": 0.0,
+        "p95": 88.2557144165039,
+        "maximum": 128.00021362304688,
+        "within_4_units": 0.75
+      }
+    },
+    "validation": {
+      "previous_z_equals_level_times128": {
+        "samples": 1538,
+        "mean": 294.96780166589934,
+        "median": 256.0,
+        "p95": 512.0,
+        "maximum": 512.0,
+        "within_4_units": 0.05201560468140442
+      },
+      "measured_flat_plane_mapping": {
+        "samples": 1538,
+        "mean": 13.467820302582066,
+        "median": 0.0,
+        "p95": 103.1690655708309,
+        "maximum": 128.0,
+        "within_4_units": 0.7854356306892067
+      }
+    }
+  },
+  "limitation": "Discrete height levels do not reproduce continuous ramp height; these remaining errors are reported. Native terrain CNN inputs retain the original categorical height levels."
+}

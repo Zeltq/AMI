@@ -1,0 +1,29 @@
+[package]
+name = "sf-duel-gpu"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.97"
+
+[features]
+default = ["vulkan"]
+vulkan = ["burn/vulkan", "cubecl/vulkan"]
+hip = ["burn/rocm", "cubecl/hip"]
+
+[dependencies]
+anyhow = "1"
+burn = { version = "=0.22.1", default-features = false, features = ["std", "autodiff", "optim", "store", "extension"] }
+burn-cubecl = { version = "=0.22.1", default-features = false }
+cubecl = { version = "=0.11.1", default-features = false, features = ["std", "stdlib"] }
+clap = { version = "4", features = ["derive"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+ctrlc = "3"
+flate2 = "1"
+burn-std = { version = "=0.22.1", default-features = false, features = ["std"] }
+sha2 = "=0.10.9"
+
+[profile.release]
+debug = 1
+

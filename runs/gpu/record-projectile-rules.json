@@ -1,0 +1,45 @@
+{
+  "training_eligible": false,
+  "split": "calibration",
+  "muzzle_forward": 68.50027402500702,
+  "muzzle_side": 150.6942847124988,
+  "samples": [
+    {
+      "source": "runs/gpu/dota-combat-007/scenarios.json",
+      "scenario": "attack",
+      "forward": 71.76758219592472,
+      "lateral": -149.14538942025072
+    },
+    {
+      "source": "runs/gpu/dota-combat-007/scenarios.json",
+      "scenario": "cancel_after_release",
+      "forward": 71.76758219592472,
+      "lateral": -149.14538942025072
+    },
+    {
+      "source": "runs/gpu/dota-combat-007/scenarios.json",
+      "scenario": "reissue_same_target",
+      "forward": 71.76758219592472,
+      "lateral": -149.14538942025072
+    },
+    {
+      "source": "runs/gpu/dota-combat-008/scenarios.json",
+      "scenario": "attack",
+      "forward": 65.23296585408931,
+      "lateral": 152.24318000474693
+    },
+    {
+      "source": "runs/gpu/dota-combat-008/scenarios.json",
+      "scenario": "cancel_after_release",
+      "forward": 65.23296585408931,
+      "lateral": 152.24318000474693
+    },
+    {
+      "source": "runs/gpu/dota-combat-008/scenarios.json",
+      "scenario": "reissue_same_target",
+      "forward": 65.23296585408931,
+      "lateral": 152.24318000474693
+    }
+  ],
+  "approximation": "Rewind one 30Hz projectile tick from the first observed tracking location. Alternate mirrored attachment; exact animation phase is not modeled."
+}
