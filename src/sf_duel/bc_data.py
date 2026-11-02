@@ -45,7 +45,7 @@ def sequence_batch(episodes,selections,length=80,burn=16):
    a=values[indices]
    if key in ('attack_mask','tree_mask','tp_mask','self_mask'):
     a=np.concatenate((a[:,:2+oldpc],np.zeros((length,pc-oldpc),bool),a[:,2+oldpc:6+oldpc],a[:,6+oldpc:6+oldpc+oldpt],np.zeros((length,pt-oldpt),bool),a[:,-1:]),axis=1)
-   elif key in ('creeps','creep_valid','creep_ally','trees','tree_valid','projectiles','projectile_valid'):
+   elif key in ('creeps','creep_valid','creep_ally','creep_combat','trees','tree_valid','projectiles','projectile_valid','projectile_combat'):
     maximum=pc if key.startswith('creep') else pt if key.startswith('tree') else pp
     a=np.pad(a,((0,0),(0,maximum-a.shape[1]))+((0,0),)*(a.ndim-2))
    output.setdefault(key,[]).append(a)

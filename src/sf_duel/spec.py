@@ -2,6 +2,21 @@
 from enum import IntEnum
 
 SPEC_VERSION = 1
+GGD_SPEC_VERSION = 2
+# An opt-in input profile. The original 48 unit fields also index physical GPU
+# state and must retain their order and size for legacy MIA checkpoints.
+COMBAT_UNIT_FIELDS = {
+    'attack_target_dx': 2048., 'attack_target_dy': 2048., 'attack_target_health': 2000.,
+    'damage_spread': 20., 'incoming_attackers': 16., 'incoming_attack_damage': 500.,
+    'incoming_attack_dps': 500., 'incoming_projectiles': 16.,
+    'incoming_projectile_damage': 500., 'next_projectile_eta': 3.,
+    'next_projectile_damage': 200.,
+}
+COMBAT_PROJECTILE_FIELDS = {
+    'target_dx': 2048., 'target_dy': 2048., 'target_health': 2000.,
+    'caster_damage': 200., 'caster_dx': 2048., 'caster_dy': 2048.,
+    'caster_kind': 4., 'target_team_relative': 1.,
+}
 SPELLS = ('nevermore_shadowraze1', 'nevermore_shadowraze2',
           'nevermore_shadowraze3', 'nevermore_requiem')
 ITEMS = ('item_wraith_band', 'item_boots', 'item_bracer', 'item_tpscroll',

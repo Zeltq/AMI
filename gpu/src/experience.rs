@@ -9,9 +9,9 @@ pub const SIGNALS:usize=13;
 pub struct Experience {pub observations:Vec<CubeTensor>,pub signals:CubeTensor,pub actors:usize}
 
 #[cube(launch)]
-fn store_observation(input:&[f16],output:&mut [f16],step:usize,actors:usize,offset:usize){
+fn store_observation(input:&[f16],output:&mut [f16],step:usize,actors:usize,offset:usize,width:usize){
     let i=ABSOLUTE_POS;
-    if i<actors*WIDTH {let a=i/WIDTH;let f=i%WIDTH;output[(a*HORIZON+step)*WIDTH+f]=input[offset*WIDTH+i];}
+    if i<actors*width {let a=i/width;let f=i%width;output[(a*HORIZON+step)*width+f]=input[offset*width+i];}
 }
 #[cube(launch)]
 fn store_signal(input:&[f32],output:&mut [f32],step:usize,actors:usize){
@@ -46,10 +46,16 @@ impl Experience {
         (peak(CREEP_VALID,CREEPS,16),peak(TREE_VALID,TREES,32),peak(PROJECTILE_VALID,PROJECTILES,16))
     }
     pub fn new(actors:usize,d:&burn::tensor::Device)->Self {
+        Self::with_width(actors,WIDTH,128,d)
+    }
+    pub fn new_ggd(actors:usize,d:&burn::tensor::Device)->Self {
+        Self::with_width(actors,crate::observe::GGD_WIDTH,32,d)
+    }
+    fn with_width(actors:usize,width:usize,shard_size:usize,d:&burn::tensor::Device)->Self {
         // Vulkan drivers can reject a single multi-gigabyte storage buffer even
         // when total free VRAM suffices. Shards stay on the same GPU and retain
         // complete recurrent sequences; no observation is staged on the host.
-        let observations=(0..actors).step_by(128).map(|start|primitive(Tensor::<3>::zeros([128.min(actors-start),HORIZON,WIDTH],(d,DType::F16)))).collect();
+        let observations=(0..actors).step_by(shard_size).map(|start|primitive(Tensor::<3>::zeros([shard_size.min(actors-start),HORIZON,width],(d,DType::F16)))).collect();
         Self {observations,
             signals:primitive(Tensor::<3>::zeros([actors,HORIZON,SIGNALS],d)),actors}
     }
@@ -57,9 +63,9 @@ impl Experience {
         let packed=primitive(obs.packed.clone());let signals=primitive(signals);
         let mut offset=0;
         for shard in &self.observations {
-            let actors=shard.meta.shape()[0];
-            store_observation::launch(&shard.client,CubeCount::Static((actors*WIDTH).div_ceil(256) as u32,1,1),CubeDim::new_1d(256),
-                argument(&packed),argument(shard),step,actors,offset);offset+=actors;
+            let actors=shard.meta.shape()[0];let width=shard.meta.shape()[2];assert_eq!(obs.packed.dims()[1],width);
+            store_observation::launch(&shard.client,CubeCount::Static((actors*width).div_ceil(256) as u32,1,1),CubeDim::new_1d(256),
+                argument(&packed),argument(shard),step,actors,offset,width);offset+=actors;
         }
         store_signal::launch(&self.signals.client,CubeCount::Static((self.actors*SIGNALS).div_ceil(256) as u32,1,1),CubeDim::new_1d(256),
             argument(&signals),argument(&self.signals),step,self.actors);

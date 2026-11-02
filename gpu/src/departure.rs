@@ -4,6 +4,19 @@ use burn::{module::Module,tensor::Tensor};
 use cubecl::prelude::*;
 use std::path::Path;
 use crate::{world::*,experience::SIGNALS,evaluation::FIELDS,runtime::{device,primitive,tensor,argument},sampling::Sampler};
+const TIMELINE_FIELDS:usize=15;
+#[cube(launch)]
+fn timeline_store(state:&[f32],meta:&[f32],actions:&[f32],reset:&[f32],finished:&[f32],timeline:&mut [f32],step:usize){
+    let i=ABSOLUTE_POS;if i<4*TIMELINE_FIELDS{
+        let a=i/TIMELINE_FIELDS;let f=i%TIMELINE_FIELDS;let p=(a/2*UNITS+a%2)*STRIDE;
+        if finished[a/2*FIELDS]==0.0f32{
+            let mut v=0.0f32.runtime();if f==0{v=1.0f32;}if f==1{v=meta[a/2*META]/30.0f32;}if f==2{v=reset[a];}
+            if f==3{v=state[p+crate::contract::UNIT_X];}if f==4{v=state[p+crate::contract::UNIT_Y];}if f==5{v=state[p+crate::contract::UNIT_HEALTH];}
+            if f>=6&&f<12{v=actions[a*6+f-6];}if f==12{v=state[p+ORDER];}if f==13{v=state[p+DEST_X];}if f==14{v=state[p+DEST_Y];}
+            timeline[(step*4+a)*TIMELINE_FIELDS+f]=v;
+        }
+    }
+}
 
 #[cube(launch)]
 fn commands(signals:&[f32],finished:&[f32],meta:&[f32],counts:&mut [f32],matches:usize){
@@ -44,6 +57,7 @@ pub fn run(config:crate::learner::Config,root:&Path,argmax:bool,capture_start:bo
     let intervention=primitive(Tensor::<2>::zeros([4,3],&d));
     let mut previous=crate::observe::initial_previous(4,&d);let mut h=Tensor::<2>::zeros([4,256],&d);let mut c=h.clone();
     let limit=((world.engine.pre_game_seconds+deadline)*7.5).ceil()as usize+if capture_start {1}else{16};let mut completed=0;let mut steps=0;
+    let timeline=primitive(Tensor::<3>::zeros([limit,4,TIMELINE_FIELDS],&d));
     let capture=if capture_start {Some(crate::policy_trace::PolicyTrace::new(limit,&d))}else{None};
     for step in 0..limit {
         let mut observed=world.observe_with_clock(previous.clone(),reset_origin);observed.packed=observed.packed.cast(burn::tensor::DType::F16);
@@ -61,6 +75,8 @@ pub fn run(config:crate::learner::Config,root:&Path,argmax:bool,capture_start:bo
             let extra=Tensor::cat(vec![tick,observed.reset.clone().slice([0..1]).reshape([1,1]),row(ph,256),row(pc,256),row(h.clone(),256),row(c.clone(),256),row(fused,256),row(logits,11),row(actions.clone(),6)],1);
             capture.record(step,observed.packed.clone().slice([0..1,0..crate::observe::WIDTH]),extra);
         }
+        let action_raw=primitive(actions.clone());let reset_raw=primitive(observed.reset.clone());
+        timeline_store::launch(&world.state.client,CubeCount::Static(1,1,1),CubeDim::new_1d(64),argument(&world.state),argument(&world.meta),argument(&action_raw),argument(&reset_raw),argument(&results),argument(&timeline),step);
         let next=observed.previous(applied.clone(),&world.bases,&world.state);let (reward,done)=world.advance(applied,&observed.refs,&rng);
         previous=next.mask_where(done.clone().greater_elem(0.5).unsqueeze_dim::<2>(1),crate::observe::initial_previous(4,&d));
         let signals=Tensor::cat(vec![actions,heads.logp.unsqueeze_dim::<2>(1),heads.value.unsqueeze_dim::<2>(1),reward.unsqueeze_dim::<2>(1),done.unsqueeze_dim::<2>(1),observed.reset.unsqueeze_dim::<2>(1),learn,versions],1);
@@ -75,12 +91,14 @@ pub fn run(config:crate::learner::Config,root:&Path,argmax:bool,capture_start:bo
     }
     ensure!(completed==2,"prefix failed to stop by deadline");
     if let Some(capture)=capture.as_ref(){capture.save(root,steps)?;}
+    let timeline_data=tensor::<3>(timeline).slice([0..steps,0..4,0..TIMELINE_FIELDS]).into_data().try_to_vec::<f32>()?;
+    std::fs::write(root.join("action-timeline.f32"),timeline_data.iter().flat_map(|x|x.to_le_bytes()).collect::<Vec<_>>())?;
     let values=tensor::<2>(results).into_data().try_to_vec::<f32>()?;let counts=tensor::<2>(counts).into_data().try_to_vec::<f32>()?;let mut matches=vec![];
     for m in 0..2 {let row=&values[m*FIELDS..(m+1)*FIELDS];let mut sides=serde_json::Map::new();
         for side in 0..2 {let b=18+side*8;let at=(m*2+side)*22;sides.insert((side+2).to_string(),serde_json::json!({"first_mid_time":if row[b]>0.{Some(row[b]-world.engine.pre_game_seconds-1.)}else{None},"max_stuck_seconds":row[b+2],"stuck_seconds":row[b+3],"last_hits":row[4+side],"denies":row[6+side],"level":row[8+side],"health":row[10+side],"end_position":[row[b+4],row[b+5]],"actions_all":&counts[at..at+11],"actions_after_zero":&counts[at+11..at+22]}));}
         matches.push(serde_json::json!({"index":m+1,"learner_team":row[2]as usize+2,"end_time":row[3],"true_terminal":row[34]>0.5,"sides":sides}));
     }
     let report=serde_json::json!({"complete":true,"selection":if argmax{"argmax"}else{"sampling"},"same_selection_for_both_actors":true,"recurrent_reset_interval":128,"memory_reset_origin_seconds":reset_origin,"observation_storage":"f16","seed":config.seed,"training_updates":0,"matches":matches,"deadline_game_seconds":deadline,"post_mid_seconds":post_mid,"capture_start":capture_start,"scope":"Closed-loop bounded departure prefix; optional clock reset is diagnostic, not a production memory contract. No win-rate or strength conclusion.","environment_sha256":world.fingerprint});
-    let mut report=report;report["single_forward_intervention"]=serde_json::json!({"enabled":force_first_forward_move,"actor_marks":tensor::<2>(intervention).into_data().try_to_vec::<f32>()?,"mark_fields":["applied","game_tick","original_primary"],"coordinates":[127,128],"scope":"One first legal post-zero MOVE for the current-policy Radiant only; buy output preserved. GPU-only diagnostic command, not training or a production fix. Forced-command logp is not used for learning."});
+    let mut report=report;report["action_timeline"]=serde_json::json!({"shape":[steps,4,TIMELINE_FIELDS],"columns":["valid","time","reset","x","y","health","action","buy","item","target","x_bin","y_bin","order","dest_x","dest_y"],"sha256":crate::runtime::file_sha256(&root.join("action-timeline.f32"))?});report["single_forward_intervention"]=serde_json::json!({"enabled":force_first_forward_move,"actor_marks":tensor::<2>(intervention).into_data().try_to_vec::<f32>()?,"mark_fields":["applied","game_tick","original_primary"],"coordinates":[127,128],"scope":"One first legal post-zero MOVE for the current-policy Radiant only; buy output preserved. GPU-only diagnostic command, not training or a production fix. Forced-command logp is not used for learning."});
     crate::artifacts::atomic_json(&root.join("departure.json"),&report)?;Ok(report)
 }

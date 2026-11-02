@@ -40,9 +40,9 @@ class Encoded:
     refs: list
     previous: dict
 
-def visible_units(snapshot):
+def visible_units(snapshot,combat_inputs=False):
     """Canonical visible unit layout, without constructing feature tensors."""
-    if snapshot.get('version') != SPEC_VERSION:
+    if snapshot.get('version') != (GGD_SPEC_VERSION if combat_inputs and snapshot.get('version')==GGD_SPEC_VERSION else SPEC_VERSION):
         raise ValueError('Observation protocol version mismatch')
     own = prepare_unit(snapshot.get('self'), True, snapshot.get('self') or {})
     if not own or own.get('health', 0) <= 0:
@@ -58,8 +58,8 @@ def visible_units(snapshot):
     return own,enemy,units
 
 
-def encode(snapshot, previous=None):
-    own,enemy,units=visible_units(snapshot)
+def encode(snapshot, previous=None,combat_inputs=False,combat_memory=None):
+    own,enemy,units=visible_units(snapshot,combat_inputs)
     towers = snapshot.get('towers', [])
     if len(towers) != 4:
         raise ValueError('Exactly the four mid T1/T2 tower slots are required')
@@ -139,6 +139,9 @@ def encode(snapshot, previous=None):
                   action_mask=action_mask,item_mask=item_mask,buy_mask=buy_mask,
                   attack_mask=np.asarray(attack),tree_mask=np.asarray(tree_mask),
                   tp_mask=np.asarray(tp_mask),self_mask=np.asarray(self_mask))
+    if combat_inputs:
+        from .combat_observations import CombatMemory,encode_combat
+        arrays.update(encode_combat(snapshot,own,enemy,units,tower_rows,projectiles,combat_memory or CombatMemory()))
     return Encoded(arrays,snapshot,refs,prev)
 
 def numpy_batch(rows):
@@ -160,6 +163,9 @@ def numpy_batch(rows):
                 padded_rows.append(np.concatenate((raw[:2],raw[2:2+n],np.zeros(maxima['creeps']-n,bool),
                     raw[2+n:6+n],raw[6+n:6+n+t],np.zeros(maxima['trees']-t,bool),raw[-1:])))
             value=np.stack(padded_rows)
+        elif key in ('creep_combat','projectile_combat'):
+            group='creeps' if key=='creep_combat' else 'projectiles'
+            value=np.stack([np.pad(o[key],((0,maxima[group]-len(o[key])),(0,0))) for o in rows])
         elif key in variable or key in variable.values() or key=='creep_ally':
             group=key if key in variable else next((g for g,v in variable.items() if v==key),'creeps')
             data=[]
@@ -193,7 +199,7 @@ def batch(observations,device='cpu'):
     return {k:torch.as_tensor(v,device=device) for k,v in arrays.items()}
 
 
-def warmup_batch(n,device):
+def warmup_batch(n,device,combat_inputs=False):
     import torch
     sizes={'heroes':(2,2*len(UNIT_FIELDS)),'creeps':(16,2*len(UNIT_FIELDS)),
         'towers':(4,2*len(UNIT_FIELDS)),'trees':(32,2*len(TREE_FIELDS)),
@@ -201,6 +207,8 @@ def warmup_batch(n,device):
         'items':(8,2*len(ITEM_FIELDS)),'enemy_items':(8,2*len(ITEM_FIELDS)),'terrain':(4,8,8),'global_features':(2*len(GLOBAL_FIELDS),),
         'previous':(len(Act)+4+len(ITEMS)+len(BUYS),)}
     result={k:torch.zeros((n,*shape),device=device) for k,shape in sizes.items()}
+    if combat_inputs:
+        for key,count,fields in [('hero_combat',2,COMBAT_UNIT_FIELDS),('creep_combat',16,COMBAT_UNIT_FIELDS),('tower_combat',4,COMBAT_UNIT_FIELDS),('projectile_combat',16,COMBAT_PROJECTILE_FIELDS)]:result[key]=torch.zeros((n,count,2*len(fields)),device=device)
     sizes={'hero_valid':2,'creep_valid':16,'creep_ally':16,'tree_valid':32,'projectile_valid':16,
         'action_mask':len(Act),'buy_mask':len(BUYS),'item_mask':len(ITEMS),
         'attack_mask':55,'tree_mask':55,'tp_mask':55,'self_mask':55}

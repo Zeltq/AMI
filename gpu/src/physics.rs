@@ -428,11 +428,12 @@ fn enqueue(actions:&[f32],refs:&[f32],commands:&mut [f32],state:&[f32],meta:&[f3
 
 #[cube(launch)]
 fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f32],commands:&mut [f32],
+    teacher_memory:&[f32],teacher_forecasts:&[f32],teacher_audit:&mut [f32],
     rewards:&mut [f32],terminals:&mut [f32],tree_alive:&mut [f32],rng:&mut [u32],grid:&mut [u32],
     proto:&[f32],spells:&[f32],items:&[f32],hero:&[f32],animation:&[f32],combat:&[f32],experience:&[f32],geometry:&[f32],fow_blockers:&[f32],static_vision:&[u32],navigation:&[u32],trees:&[f32],tree_map:&[f32],bases:&[f32],spawns:&[f32],lane:&[f32],fountains:&[f32],extra_vision:&[f32],
-    matches:usize,tree_count:usize,vision_count:usize,pregame:f32,ticks_per_call:usize,radiant_lane_points:usize,dire_lane_points:usize,#[comptime] spawn_waves:bool){
+    matches:usize,tree_count:usize,vision_count:usize,pregame:f32,ticks_per_call:usize,radiant_lane_points:usize,dire_lane_points:usize,#[comptime] spawn_waves:bool,#[comptime] audit_enabled:bool){
     let m=ABSOLUTE_POS;
-    if m<matches {
+    if m<matches && (!audit_enabled || teacher_audit[m*crate::scripted_teacher::AUDIT_FIELDS]==0.0f32) {
         let base=m*UNITS*STRIDE;let mb=m*META;
         if meta[mb+2]>0.0f32 {
             initialize(state,proto,m);reset_attack_phase(meta,m);meta[mb]=-pregame*30.0f32;meta[mb+1]+=1.0f32;meta[mb+2]=0.0f32;
@@ -548,7 +549,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                 // Reissuing the same attack order preserves windup in
                                 // the real executor; changing orders still cancels it.
                                 let same_attack=action==3 && state[p+ORDER]==3.0f32 && state[p+TARGET]==target as f32 && state[p+TARGET_GENERATION]==commands[k+8];
-                                if !same_attack {state[p+WINDUP]=0.0f32;}
+                                if !same_attack {if audit_enabled && state[p+WINDUP]>time {crate::ggd_metrics::cancel(teacher_audit,m,u);}state[p+WINDUP]=0.0f32;}
                                 state[p+CAST_END]=0.0f32;state[p+CAST]=0.0f32;state[p+TP_END]=0.0f32;
                                 state[p+TANGO_TARGET]=0.0f32;
                                 state[p+HOLD]=0.0f32;
@@ -732,6 +733,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                         if state[p+CAST_END]>0.0f32 && state[p+CAST_END]<=time {
                             let spell=state[p+CAST] as usize-1;let level=spell_level(state[p+UNIT_LEVEL],spell);let k=(spell*4+level-1)*8;
                             let x=state[p+UNIT_X]+state[p+FACING].cos()*spells[k+3];let y=state[p+UNIT_Y]+state[p+FACING].sin()*spells[k+3];
+                            let mut telemetry_heroes=0.0f32.runtime();let mut telemetry_creeps=0.0f32.runtime();let mut telemetry_stacks=0.0f32.runtime();
                             for v in 0..UNITS {
                                 let q=base+v*STRIDE;
                                 if state[q+TEAM]!=side && state[q+KIND]!=1.0f32 && state[q+ACTIVE]>0.0f32 {
@@ -741,6 +743,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                     let radius=spells[k+4]+hull(state[q+KIND]);
                                     if spell<3 && dx*dx+dy*dy<=radius*radius {
                                         let stacks=if state[q+STACK_END]>time {state[q+UNIT_RAZE_STACKS]} else {0.0f32};
+                                        if audit_enabled {if v<2 {telemetry_heroes+=1.0f32;if stacks>0.0f32 {telemetry_stacks+=1.0f32;}}else if v<CREEP_END {telemetry_creeps+=1.0f32;}}
                                         let talent=if state[p+UNIT_LEVEL]>=10.0f32 {hero[21]}else{0.0f32};
                                         let amount=spells[k]+stacks*(spells[k+6]+talent)+state[p+UNIT_SOULS]*2.0f32;hit(state,hero,combat,base,u,v,amount,true,time,0.0f32,side);
                                         if v<2 {meta[mb+11]=meta[mb];meta[mb+12]+=1.0f32;}
@@ -749,6 +752,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                 }
                             }
                             if spell==3 {launch_requiem(state,shots,shot_hits,meta,hero,base,m,u,spells[k]);}
+                            if audit_enabled {crate::ggd_metrics::cast(teacher_audit,m,u,spell,telemetry_heroes,telemetry_creeps,telemetry_stacks);}
                             state[p+UNIT_MANA]-=spells[k+1];state[p+COOLDOWNS+spell]=time+spells[k+2];state[p+CAST_END]=0.0f32;state[p+CAST]=0.0f32;
                         }
                         let target=state[p+TARGET] as usize;
@@ -921,10 +925,12 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                 for u in 0..UNITS {
                     let p=base+u*STRIDE;
                     if state[p+ACTIVE]>0.0f32 {
+                        let previous_hp=state[p+UNIT_HEALTH];
                         state[p+UNIT_HEALTH]=f32::max(0.0f32,state[p+UNIT_HEALTH]-state[p+DAMAGE]);state[p+DAMAGE]=0.0f32;
                         if state[p+UNIT_HEALTH]==0.0f32 {
                             state[p+ACTIVE]=0.0f32;let source=state[p+CREDIT] as usize;
                             if u<2 {
+                                if audit_enabled {crate::ggd_metrics::hero_death(teacher_audit,m,u,time);}
                                 let first=state[base+DEATHS]+state[base+STRIDE+DEATHS]==0.0f32;
                                 let enemy=1-u;let q=base+enemy*STRIDE;
                                 let hero_kill=state[p+CREDIT]>=0.0f32 && source==enemy;
@@ -957,6 +963,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                 for slot in 0..4 {commands[(m*2+u)*4*COMMAND_FIELDS+slot*COMMAND_FIELDS+7]=0.0f32;}
                             }
                             if u>=6 && u<CREEP_END {
+                                if audit_enabled {crate::scripted_teacher::death(state,shots,meta,teacher_memory,teacher_forecasts,teacher_audit,m,u,time,previous_hp);}
                                 if state[p+CREDIT]>=0.0f32 && source<2 {
                                     let q=base+source*STRIDE;
                                     if state[q+TEAM]==state[p+TEAM] {state[q+UNIT_DENIES]+=1.0f32;}
@@ -1013,11 +1020,21 @@ impl World {
     /// Match native controlled fixtures with dota_creeps_no_spawning1.
     /// The production entrypoint above always enables natural waves.
     pub(crate) fn step_ticks_with_waves(&self,rng:&crate::sampling::Sampler,ticks:usize,spawn_waves:bool)->(Tensor<1>,Tensor<1>){
+        self.step_ticks_audit(rng,ticks,spawn_waves,None)
+    }
+    pub(crate) fn advance_teacher(&self,actions:Tensor<2,Int>,refs:&CubeTensor,rng:&crate::sampling::Sampler,teacher:&crate::scripted_teacher::Teacher,spawn_waves:bool)->(Tensor<1>,Tensor<1>){
+        let targets=refs.meta.shape()[1];let actions=primitive(actions.float().without_autodiff());
+        enqueue::launch(&self.state.client,CubeCount::Static((self.matches*2).div_ceil(64)as u32,1,1),CubeDim::new_1d(64),
+            argument(&actions),argument(refs),argument(&self.commands),argument(&self.state),argument(&self.meta),argument(&self.bases),self.matches*2,targets,self.tree_count);
+        self.step_ticks_audit(rng,4,spawn_waves,Some(teacher))
+    }
+    fn step_ticks_audit(&self,rng:&crate::sampling::Sampler,ticks:usize,spawn_waves:bool,teacher:Option<&crate::scripted_teacher::Teacher>)->(Tensor<1>,Tensor<1>){
         simulate::launch(&self.state.client,CubeCount::Static(self.matches.div_ceil(32) as u32,1,1),CubeDim::new_1d(32),
-            argument(&self.state),argument(&self.shots),argument(&self.shot_hits),argument(&self.meta),argument(&self.commands),argument(&self.rewards),argument(&self.terminals),
+            argument(&self.state),argument(&self.shots),argument(&self.shot_hits),argument(&self.meta),argument(&self.commands),
+            argument(teacher.map_or(&self.meta,|t|&t.memory)),argument(teacher.map_or(&self.meta,|t|&t.forecasts)),argument(teacher.map_or(&self.rewards,|t|&t.audit)),argument(&self.rewards),argument(&self.terminals),
             argument(&self.tree_alive),unsafe{BufferArg::from_raw_parts(rng.state.clone(),1)},argument(&self.collision_grid),argument(&self.prototypes),argument(&self.spells),
             argument(&self.items),argument(&self.hero),argument(&self.sf_projectile_animation),argument(&self.combat),argument(&self.experience),argument(self.movement_geometry.as_ref().unwrap_or(&self.geometry)),argument(&self.fow_blockers),argument(&self.static_vision),argument(&self.navigation),argument(&self.trees),argument(&self.tree_map),argument(&self.bases),argument(&self.spawns),argument(&self.lane),argument(&self.fountains),argument(&self.extra_vision),
-            self.matches,self.tree_count,self.engine.extra_vision.len(),self.engine.pre_game_seconds,ticks,self.lane_lengths[0],self.lane_lengths[1],spawn_waves);
+            self.matches,self.tree_count,self.engine.extra_vision.len(),self.engine.pre_game_seconds,ticks,self.lane_lengths[0],self.lane_lengths[1],spawn_waves,teacher.is_some());
         // Addition allocates independent storage: the next step mutates the
         // simulator's buffers, whereas rollout data must remain immutable.
         (tensor::<1>(self.rewards.clone())+0.0f32,tensor::<1>(self.terminals.clone())+0.0f32)

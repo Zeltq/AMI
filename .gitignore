@@ -1,0 +1,47 @@
+# Generated runs and local installations. Existing tracked environment fixtures
+# remain versioned; new logs, datasets and checkpoints stay local.
+/runs/
+/workers/
+/teacher_bots/
+/review/
+/diagnostics/
+/gpu/target*/
+/tools/lua_test_runtime/
+/.venv/
+/venv/
+/.pytest_cache/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Models, recordings, generated arrays and compiled binaries.
+*.pt
+*.pth
+*.bpk
+*.ckpt
+*.safetensors
+*.npz
+*.npy
+*.dem
+*.log
+*.jsonl
+*.jsonl.gz
+*.exe
+*.dll
+*.pyd
+*.so
+*.rlib
+*.rmeta
+
+# Machine-specific bot configuration and credentials.
+/bots/response*.lua
+/bots/settings.lua
+/bots/human_ready.lua
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Downloaded upstream assets are not source dependencies.
+/external/openhyperai/asset/

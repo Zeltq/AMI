@@ -37,14 +37,18 @@ def main():
     torch.set_num_threads(2)
     checkpoint=torch.load(a.checkpoint,map_location='cpu',weights_only=False)
     state=checkpoint.get('model',checkpoint.get('state_dict',checkpoint))
-    model=Policy();model.load_state_dict(state);model.eval()
+    model=Policy(combat_inputs=state['hero.0.weight'].shape[1]>2*48);model.load_state_dict(state);model.eval()
     arrays={}
     for name,v in state.items():
         value=v.detach().float().numpy()
         if value.ndim==2 and not name.endswith('_embed.weight'): value=value.T
         arrays[rust_name(name)]=value
     output=Path(a.output)
-    write_bundle(output/'weights',arrays,source=str(a.checkpoint),source_sha256=hashlib.sha256(Path(a.checkpoint).read_bytes()).hexdigest(),recurrent_reset=128)
+    metadata={}
+    if model.combat_inputs:
+        config=checkpoint.get('config',{})
+        metadata=dict(family='GGD',model_name=config.get('model_name'),observation_profile='ggd-v2',teacher_sha256=config.get('teacher_policy_sha256'),provenance='Fresh GGD policy trained by imitation in the GPU simulator')
+    write_bundle(output/'weights',arrays,source=str(a.checkpoint),source_sha256=hashlib.sha256(Path(a.checkpoint).read_bytes()).hexdigest(),recurrent_reset=128,**metadata)
     if a.fixture:
         data=np.load(a.fixture);count=min(a.steps,len(data['labels']))
         batch={k:torch.from_numpy(np.asarray(data[k][:count],dtype=np.bool_ if data[k].dtype==np.bool_ else np.float32)) for k in data.files if k not in ('labels','loss_valid')}

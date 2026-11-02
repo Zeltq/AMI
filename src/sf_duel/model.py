@@ -20,13 +20,15 @@ def distribution(logits, mask):
     return Categorical(logits=logits.masked_fill(~mask,torch.finfo(logits.dtype).min), validate_args=False)
 
 class Policy(nn.Module):
-    def __init__(self,hidden_size=256):
+    def __init__(self,hidden_size=256,combat_inputs=False):
         super().__init__()
         self.hidden_size=hidden_size
-        self.hero=mlp(2*len(UNIT_FIELDS),128,128)
-        self.unit=mlp(2*len(UNIT_FIELDS),64,64)
+        self.combat_inputs=combat_inputs
+        unit_inputs=2*(len(UNIT_FIELDS)+(len(COMBAT_UNIT_FIELDS) if combat_inputs else 0))
+        self.hero=mlp(unit_inputs,128,128)
+        self.unit=mlp(unit_inputs,64,64)
         self.tree=mlp(2*len(TREE_FIELDS),32,32)
-        self.projectile=mlp(2*len(PROJECTILE_FIELDS),32,32)
+        self.projectile=mlp(2*(len(PROJECTILE_FIELDS)+(len(COMBAT_PROJECTILE_FIELDS) if combat_inputs else 0)),32,32)
         self.skill=mlp(2*len(SKILL_FIELDS),32,32)
         self.item=mlp(2*len(ITEM_FIELDS),32,32)
         self.terrain=nn.Sequential(nn.Conv2d(4,16,3,padding=1),nn.ReLU(),
@@ -58,11 +60,13 @@ class Policy(nn.Module):
         return tuple(torch.zeros(1,n,self.hidden_size,device=device) for _ in range(2))
 
     def encode_entities(self,b):
-        heroes=self.hero(b['heroes'])*b['hero_valid'].unsqueeze(-1)
-        creeps=self.unit(b['creeps'])
-        towers=self.unit(b['towers'])
+        def extended(name,extra):
+            return torch.cat((b[name],b[extra]),-1) if self.combat_inputs else b[name]
+        heroes=self.hero(extended('heroes','hero_combat'))*b['hero_valid'].unsqueeze(-1)
+        creeps=self.unit(extended('creeps','creep_combat'))
+        towers=self.unit(extended('towers','tower_combat'))
         trees=self.tree(b['trees'])
-        projectiles=self.projectile(b['projectiles'])
+        projectiles=self.projectile(extended('projectiles','projectile_combat'))
         parts=[heroes.flatten(1),towers.flatten(1),
             pool(creeps,b['creep_valid']&b['creep_ally']),
             pool(creeps,b['creep_valid']&~b['creep_ally']),

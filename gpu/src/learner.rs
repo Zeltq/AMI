@@ -114,14 +114,18 @@ impl Learner {
 pub fn train(config:Config,cycles:usize)->Result<serde_json::Value>{run(config,cycles,None,false,true)}
 
 pub fn run(config:Config,cycles:usize,output:Option<&Path>,resume:bool,allow_draft:bool)->Result<serde_json::Value>{
-    run_terms(config,cycles,output,resume,allow_draft,UpdateTerms::All)
+    run_terms(config,cycles,output,resume,allow_draft,UpdateTerms::All,false)
+}
+pub fn run_audited(config:Config,cycles:usize,output:&Path,resume:bool,allow_draft:bool)->Result<serde_json::Value>{
+    ensure!(allow_draft&&cycles>0&&cycles<=2,"rollout audit requires draft and1..2 bounded cycles");
+    run_terms(config,cycles,Some(output),resume,allow_draft,UpdateTerms::All,true)
 }
 pub fn run_loss_diagnostic(config:Config,cycles:usize,output:&Path,resume:bool,allow_draft:bool,label:&str)->Result<serde_json::Value>{
     ensure!(allow_draft,"loss-term diagnostic requires --draft");
     let terms=match label {"policy-only"=>UpdateTerms::PolicyOnly,"value-only"=>UpdateTerms::ValueOnly,"value-head-only"=>UpdateTerms::ValueHeadOnly,"all-detached-value"=>UpdateTerms::AllDetachedValue,_=>anyhow::bail!("unknown diagnostic loss terms")};
-    run_terms(config,cycles,Some(output),resume,allow_draft,terms)
+    run_terms(config,cycles,Some(output),resume,allow_draft,terms,false)
 }
-fn run_terms(config:Config,cycles:usize,output:Option<&Path>,resume:bool,allow_draft:bool,terms:UpdateTerms)->Result<serde_json::Value>{
+fn run_terms(config:Config,cycles:usize,output:Option<&Path>,resume:bool,allow_draft:bool,terms:UpdateTerms,audit_rollouts:bool)->Result<serde_json::Value>{
     use crate::artifacts::{Writer,Checkpoint,atomic_json};
     use std::sync::{Arc,atomic::{AtomicBool,Ordering}};
     ensure!(config.batch_sequences>0 && config.ppo_epochs>0,"empty training configuration");
@@ -163,6 +167,7 @@ fn run_terms(config:Config,cycles:usize,output:Option<&Path>,resume:bool,allow_d
             if executable.canonicalize()?!=frozen.canonicalize().unwrap_or_else(|_|frozen.clone()){std::fs::copy(&executable,frozen)?;}
         }
     }
+    ensure!(!audit_rollouts||start_cycle+cycles<=2,"audited counterexample stops after two total cycles");
     let stopped=Arc::new(AtomicBool::new(false));
     if output.is_some(){let flag=stopped.clone();ctrlc::set_handler(move||flag.store(true,Ordering::Release))?;}
     let writer=output.map(Writer::new).transpose()?;let trace=writer.as_ref().map(|_|crate::trace::Trace::new(&world));
@@ -205,6 +210,7 @@ fn run_terms(config:Config,cycles:usize,output:Option<&Path>,resume:bool,allow_d
         let (next_h,_)=actor.memory.step(encoded.fused,Tensor::zeros([n,256],&d),Tensor::zeros([n,256],&d));
         actor.value(next_h)
         })?;d.sync()?;let collection=t.elapsed().as_secs_f64();
+        if audit_rollouts{crate::startup_audit::save_rollout(&experience,bootstrap.clone(),&output.unwrap().join(format!("rollout-{:02}",cycle+1)))?;}
         status("updating_policy",cycle,writer.as_ref())?;
         let t=Instant::now();let (learning,training_profile)=d.profile(||learner.optimize_terms(&experience,bootstrap,&sample,terms))?;let learning=learning?;d.sync()?;let training=t.elapsed().as_secs_f64();
         let meta=tensor::<1>(world.meta.clone()).reshape([config.matches,META]);

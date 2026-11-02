@@ -125,7 +125,7 @@ local function unit_data(unit,bot,own)
         else u.active_spell=0 end
     end
     local target=call(unit,"GetAttackTarget")
-    u.attack_target_id=id(target)
+    u.attack_target_id=id(target) or 0
     u.attack_target_self=target==bot
     if target==nil then u.attack_target_enemy=false
     elseif call(target,"CanBeSeen") then
@@ -316,6 +316,7 @@ local function snapshot(bot,st)
                     speed=call(caster,"GetAttackProjectileSpeed")
                 end
                 s.projectiles[#s.projectiles+1]={x=loc.x,y=loc.y,speed=speed,
+                    target_id=id(unit),caster_id=id(caster),
                     is_attack=projectile.is_attack,target_self=unit==bot,
                     caster_enemy=caster~=nil and call(caster,"GetTeam")~=team}
             end
@@ -516,4 +517,4 @@ local function Think()
 end
 
 return {Think=Think, infrastructure=infrastructure, snapshot=snapshot, owned=owned, order_item=order_item,
-    missing_cost=missing_cost, identify=id, execute=execute}
+    missing_cost=missing_cost, identify=id, execute=execute, resolve=function(identity) return registry[identity] end}

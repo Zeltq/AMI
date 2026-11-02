@@ -106,7 +106,7 @@ class NativeAdapter:
     key=(shot.handle,u.handle)
     if key in seen:continue
     seen.add(key);caster=next((v for v in state.units if v.handle==shot.caster_handle),None)
-    projectile={**position(shot.location),'speed':shot.velocity,'is_attack':shot.is_attack,'target_self':u.handle==own.handle}
+    projectile={**position(shot.location),'speed':shot.velocity,'is_attack':shot.is_attack,'target_self':u.handle==own.handle,'target_id':u.handle,'caster_id':shot.caster_handle}
     if caster is not None:projectile['caster_enemy']=caster.team_id!=team
     projectiles.append(projectile)
   skills=[]

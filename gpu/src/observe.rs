@@ -30,6 +30,9 @@ pub const TREE_MASK:usize=ATTACK_MASK+TARGETS;
 pub const TP_MASK:usize=TREE_MASK+TARGETS;
 pub const SELF_MASK:usize=TP_MASK+TARGETS;
 pub const WIDTH:usize=SELF_MASK+TARGETS;
+pub const COMBAT_UNIT_OFFSET:usize=WIDTH;
+pub const COMBAT_PROJECTILE_OFFSET:usize=COMBAT_UNIT_OFFSET+(2+CREEPS+4)*2*COMBAT_UNIT_COUNT;
+pub const GGD_WIDTH:usize=COMBAT_PROJECTILE_OFFSET+PROJECTILES*2*COMBAT_PROJECTILE_COUNT;
 
 #[cube]
 fn scales(field:usize)->f32 {
@@ -323,7 +326,13 @@ impl Observed {
         let mask=|offset,len|cut(offset,len).greater_elem(0.5f32);
         let target_mask=|offset|Tensor::cat(vec![mask(offset,2+pc),
             mask(offset+2+CREEPS,4+pt),mask(offset+TARGETS-1,1)],1);
+        let extra=|offset,count,fields|if packed.dims()[1]==GGD_WIDTH {cut(offset,count*2*fields).reshape([n,count,2*fields])}else{Tensor::zeros([n,count,2*fields],&packed.device())};
         Observation {
+            combat_profile:packed.dims()[1]==GGD_WIDTH,
+            hero_combat:extra(COMBAT_UNIT_OFFSET,2,COMBAT_UNIT_COUNT),
+            creep_combat:extra(COMBAT_UNIT_OFFSET+2*2*COMBAT_UNIT_COUNT,pc,COMBAT_UNIT_COUNT),
+            tower_combat:extra(COMBAT_UNIT_OFFSET+(2+CREEPS)*2*COMBAT_UNIT_COUNT,4,COMBAT_UNIT_COUNT),
+            projectile_combat:extra(COMBAT_PROJECTILE_OFFSET,pp,COMBAT_PROJECTILE_COUNT),
             heroes:cut(HERO_OFFSET,2*2*UNIT_COUNT).reshape([n,2,2*UNIT_COUNT]),
             creeps:cut(CREEP_OFFSET,pc*2*UNIT_COUNT).reshape([n,pc,2*UNIT_COUNT]),
             towers:cut(TOWER_OFFSET,4*2*UNIT_COUNT).reshape([n,4,2*UNIT_COUNT]),

@@ -25,7 +25,14 @@ impl Bundle {
     pub fn bools<const D:usize>(&self,name:&str,d:&Device)->Result<Tensor<D,Bool>>{Ok(self.read::<D>(name,d)?.greater_elem(0.5))}
     pub fn ints<const D:usize>(&self,name:&str,d:&Device)->Result<Tensor<D,Int>>{Ok(self.read::<D>(name,d)?.int())}
     pub fn observation(&self,d:&Device)->Result<Observation>{
+        let n=self.tensors["heroes"].shape[0];
+        let combat=|name:&str,group:&str,fields|->Result<Tensor<3>>{if self.tensors.contains_key(name){self.read(name,d)}else{Ok(Tensor::zeros([n,self.tensors[group].shape[1],fields*2],d))}};
         Ok(Observation {
+            combat_profile:self.tensors.contains_key("hero_combat"),
+            hero_combat:combat("hero_combat","heroes",crate::contract::COMBAT_UNIT_COUNT)?,
+            creep_combat:combat("creep_combat","creeps",crate::contract::COMBAT_UNIT_COUNT)?,
+            tower_combat:combat("tower_combat","towers",crate::contract::COMBAT_UNIT_COUNT)?,
+            projectile_combat:combat("projectile_combat","projectiles",crate::contract::COMBAT_PROJECTILE_COUNT)?,
             heroes:self.read("heroes",d)?,creeps:self.read("creeps",d)?,towers:self.read("towers",d)?,trees:self.read("trees",d)?,
             projectiles:self.read("projectiles",d)?,skills:self.read("skills",d)?,items:self.read("items",d)?,enemy_items:self.read("enemy_items",d)?,
             terrain:self.read("terrain",d)?,global_features:self.read("global_features",d)?,previous:self.read("previous",d)?,
@@ -53,7 +60,8 @@ impl ModuleMapper for Importer<'_>{
 pub fn import(root:&Path,d:&Device)->Result<Policy>{
     let bundle=Bundle::open(root)?;
     let mut importer=Importer{bundle:&bundle,path:vec![],error:None,count:0};
-    let model=Policy::new(d).map(&mut importer);
+    let ggd=bundle.tensors.get("hero.first.weight").is_some_and(|e|e.shape[0]==2*(crate::contract::UNIT_COUNT+crate::contract::COMBAT_UNIT_COUNT));
+    let model=if ggd{Policy::new_ggd(d)}else{Policy::new(d)}.map(&mut importer);
     if let Some(e)=importer.error{return Err(e)}
     ensure!(importer.count==bundle.tensors.len(),"unused tensors in import");
     Ok(model)

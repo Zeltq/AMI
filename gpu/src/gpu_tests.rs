@@ -1251,5 +1251,72 @@ fn categorical_samples_only_legal_actions_with_reproducible_per_actor_rng(){
     }
 }
 
+#[test]
+fn scripted_teacher_lh_deny_competition_and_delay_work_on_both_sides(){
+    let _g=GPU.lock().unwrap();
+    let output=std::env::temp_dir().join(format!("sf-scripted-teacher-{}",std::process::id()));
+    let result=crate::scripted_teacher::check(&engine(),&output).unwrap();
+    assert_eq!(result["passed"],true);
+    assert_eq!(result["cases"],16);
+}
+
+#[test]
+fn ggd_relations_bind_attackers_and_projectiles_without_changing_the_world(){
+    let _g=GPU.lock().unwrap();let mut w=arena();let d=w.device.clone();
+    let mut s=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();
+    for (u,kind,side,x) in [(6usize,2usize,1.,0.),(7,2,0.,-80.),(8,3,0.,-300.)] {
+        let p=u*STRIDE;s[p..p+STRIDE].fill(0.);s[p..p+UNIT_COUNT].copy_from_slice(&w.engine.prototypes[kind+4]);
+        s[p+ACTIVE]=1.;s[p+KIND]=kind as f32;s[p+TEAM]=side;s[p+GENERATION]=1.;s[p+UNIT_X]=x;s[p+UNIT_Y]=0.;s[p+TARGET]=-1.;
+    }
+    for u in [7usize,8]{s[u*STRIDE+TARGET]=6.;s[u*STRIDE+TARGET_GENERATION]=1.;}
+    w.state=primitive(Tensor::<1>::from_data(TensorData::new(s,[UNITS*STRIDE]),&d));
+    let mut shots=vec![0.;SHOTS*SHOT_FIELDS];shots[..10].copy_from_slice(&[1.,-150.,0.,6.,1.,900.,99999.,8.,0.,3.]);
+    w.shots=primitive(Tensor::<1>::from_data(TensorData::new(shots.clone(),[SHOTS*SHOT_FIELDS]),&d));
+    let observed=w.observe(initial_previous(2,&d));let before=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();
+    let memory=crate::combat_observe::CombatObserver::new(&w);let extended=memory.enrich(&w,&observed);
+    let actual=extended.packed.clone().into_data().try_to_vec::<f32>().unwrap();
+    let at=crate::observe::COMBAT_UNIT_OFFSET+2*2*COMBAT_UNIT_COUNT;
+    assert_eq!(actual[at+COMBAT_UNIT_INCOMING_ATTACKERS]*16.,2.);
+    assert_eq!(actual[at+COMBAT_UNIT_INCOMING_PROJECTILES]*16.,1.);
+    assert!(actual[at+COMBAT_UNIT_INCOMING_ATTACK_DAMAGE]>0.);
+    assert_eq!(actual[at+COMBAT_UNIT_COUNT+COMBAT_UNIT_INCOMING_PROJECTILE_DAMAGE],1.);
+    let target=crate::observe::COMBAT_UNIT_OFFSET+3*2*COMBAT_UNIT_COUNT;
+    assert!((actual[target+COMBAT_UNIT_ATTACK_TARGET_DX]*2048.-200.).abs()<0.001);
+    assert!((actual[crate::observe::COMBAT_PROJECTILE_OFFSET+COMBAT_PROJECTILE_CASTER_DAMAGE]*200.-23.).abs()<0.001);
+    assert_eq!(before,tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap());
+    shots[6]=-99999.;w.shots=primitive(Tensor::<1>::from_data(TensorData::new(shots,[SHOTS*SHOT_FIELDS]),&d));
+    assert_eq!(actual,memory.enrich(&w,&observed).packed.into_data().try_to_vec::<f32>().unwrap(),"rolled projectile damage must not be an input");
+    let policy=crate::model::Policy::new_ggd(&d);let b=extended.decode_bucket(16,32,16);let encoded=policy.encode(&b);
+    assert_eq!(policy.hero.first.weight.val().dims(),[118,128]);assert_eq!(policy.unit.first.weight.val().dims(),[118,64]);assert_eq!(policy.projectile.first.weight.val().dims(),[28,32]);
+    assert_eq!(encoded.fused.dims(),[2,256]);assert!(encoded.fused.into_data().try_to_vec::<f32>().unwrap().iter().all(|v|v.is_finite()));
+    assert!(!crate::model::Policy::new(&d).is_ggd());
+    let mut s=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();s[8*STRIDE+ACTIVE]=0.;s[8*STRIDE+UNIT_HEALTH]=0.;
+    w.state=primitive(Tensor::<1>::from_data(TensorData::new(s,[UNITS*STRIDE]),&d));let obs=w.observe(initial_previous(2,&d));
+    let cached=memory.enrich(&w,&obs).packed.into_data().try_to_vec::<f32>().unwrap();
+    let fresh=crate::combat_observe::CombatObserver::new(&w).enrich(&w,&obs).packed.into_data().try_to_vec::<f32>().unwrap();
+    assert_eq!(cached[at+COMBAT_UNIT_COUNT+COMBAT_UNIT_INCOMING_PROJECTILE_DAMAGE],1.);
+    assert_eq!(fresh[at+COMBAT_UNIT_COUNT+COMBAT_UNIT_INCOMING_PROJECTILE_DAMAGE],0.);
+}
+
+#[test]
+fn ggd_metrics_count_actual_cast_hits_death_and_freeze_at_terminal(){
+    let _g=GPU.lock().unwrap();let mut w=arena();let d=w.device.clone();let rng=Sampler::new(1,20261103,&d);
+    let mut state=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();
+    state[UNIT_LEVEL]=7.;state[UNIT_MANA]=1000.;state[STRIDE+UNIT_HEALTH]=20.;
+    state[STRIDE+UNIT_X]=state[UNIT_X]+w.engine.spells[2][0][3];
+    w.state=primitive(Tensor::<1>::from_data(TensorData::new(state,[UNITS*STRIDE]),&d));
+    let teacher=crate::scripted_teacher::Teacher::new(&w);let metrics=crate::ggd_metrics::Metrics::new(&w);metrics.sample(&w,&teacher);
+    for step in 0..20 {
+        let obs=w.observe(initial_previous(2,&d));let actions=Tensor::<2,Int>::from_data([[if step==0{8}else{0},0,0,0,64,64],[0,0,0,0,64,64]],&d);
+        metrics.commands(&w,&teacher,actions.clone(),&obs.refs);let _=w.advance_teacher(actions,&obs.refs,&rng,&teacher,false);teacher.record(&w,600.);metrics.sample(&w,&teacher);
+    }
+    let games=metrics.games(&teacher.values(),w.engine.pre_game_seconds,0,Some("mirror"));let radiant=&games[0]["sides"][0];let dire=&games[0]["sides"][1];
+    assert_eq!(radiant["actions"][8],1.);assert_eq!(radiant["spell_completions"][2],1.);assert_eq!(radiant["raze_hero_hits"],1.);assert_eq!(radiant["razes_hitting_hero"],1.);
+    assert_eq!(dire["deaths"],1.);assert!(dire["first_death_game_seconds"].as_f64().unwrap()>0.);assert_eq!(games[0]["native_terminal"],true);
+    let before=tensor::<1>(metrics.buffer.clone()).into_data().try_to_vec::<f32>().unwrap();metrics.sample(&w,&teacher);
+    assert_eq!(before,tensor::<1>(metrics.buffer.clone()).into_data().try_to_vec::<f32>().unwrap());
+    assert_eq!(crate::ggd_metrics::summary(&games)["sides"].as_array().unwrap().len(),2);
+}
+
 
 

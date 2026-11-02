@@ -35,7 +35,7 @@ def exact(conn,n):
 class Service:
  def __init__(self,checkpoint,out,teacher_hash=None,max_batch_warmup=4,stochastic=False,record_root=None,opponents=(),seed=0,device='cuda',reset_origin=None):
   self.out=Path(out);self.out.mkdir(parents=True,exist_ok=True);self.queue=Queue();self.actors={};self.stats={'requests':0,'batches':{},'episodes':{},'errors':[],'checkpoint':str(checkpoint),'training_started':False}
-  self.device=device;torch.set_num_threads(2);torch.manual_seed(seed);self.stats.update(seed=seed,device=device);self.model=Policy().to(device).eval();saved=torch.load(checkpoint,map_location='cpu',weights_only=False);self.model.load_state_dict(saved['state_dict'],strict=True)
+  self.device=device;torch.set_num_threads(2);torch.manual_seed(seed);self.stats.update(seed=seed,device=device);saved=torch.load(checkpoint,map_location='cpu',weights_only=False);self.model=Policy(combat_inputs=saved['state_dict']['hero.0.weight'].shape[1]>96).to(device).eval();self.model.load_state_dict(saved['state_dict'],strict=True)
   self.recurrent_reset_interval,self.observation_storage=policy_contract(saved)
   if reset_origin is not None and(not math.isfinite(reset_origin)or self.recurrent_reset_interval!=128):raise ValueError('Game clock requires the128-step memory contract')
   self.reset_origin=reset_origin;self.stats['memory_reset_origin_seconds']=reset_origin
@@ -47,7 +47,7 @@ class Service:
    saved_opponent=torch.load(path,map_location='cpu',weights_only=False)
    self.contracts[str(index)]=policy_contract(saved_opponent)
    if reset_origin is not None and self.contracts[str(index)][0]!=128:raise ValueError('Opponent memory clock contract differs')
-   m=Policy().to(device).eval();m.load_state_dict(saved_opponent['state_dict'],strict=True)
+   m=Policy(combat_inputs=saved_opponent['state_dict']['hero.0.weight'].shape[1]>96).to(device).eval();m.load_state_dict(saved_opponent['state_dict'],strict=True)
    self.models[str(index)]=m;self.hashes[str(index)]=hashlib.sha256(Path(path).read_bytes()).hexdigest()
    self.canonical_policy[str(index)]=next(k for k,v in self.hashes.items() if v==self.hashes[str(index)])
   self.writer=None
@@ -68,10 +68,13 @@ class Service:
     for pc in (16,32,64):
      for pt in (32,64,128):
       for pp in (16,32):
-       b=warmup_batch(n,device)
+       b=warmup_batch(n,device,self.model.combat_inputs)
        for group,count,width,mask in [('creeps',pc,2*len(UNIT_FIELDS),'creep_valid'),('trees',pt,2*len(TREE_FIELDS),'tree_valid'),('projectiles',pp,2*len(PROJECTILE_FIELDS),'projectile_valid')]:
         b[group]=torch.zeros((n,count,width),device=device);b[mask]=torch.zeros((n,count),device=device,dtype=torch.bool)
        b['creep_ally']=torch.zeros((n,pc),device=device,dtype=torch.bool)
+       if self.model.combat_inputs:
+        from .spec import COMBAT_UNIT_FIELDS,COMBAT_PROJECTILE_FIELDS
+        b['creep_combat']=torch.zeros((n,pc,2*len(COMBAT_UNIT_FIELDS)),device=device);b['projectile_combat']=torch.zeros((n,pp,2*len(COMBAT_PROJECTILE_FIELDS)),device=device)
        for key in ('attack_mask','tree_mask','tp_mask','self_mask'):b[key]=torch.zeros((n,7+pc+pt),device=device,dtype=torch.bool)
        b['self_mask'][:,0]=True
        for _ in range(2):self.model.decide(b,need_entropy=False)
@@ -184,7 +187,13 @@ class Service:
    life_reset=bool(reset_interval and actor.get('tick') is not None and deaths>actor.get('deaths',0))
    if life_reset:
     actor['previous']=None;self.stats['life_resets']=self.stats.get('life_resets',0)+1
-   snapshot=actor['adapter'].snapshot(r,r.model_supplement);e=encode(snapshot,actor['previous'])
+   snapshot=actor['adapter'].snapshot(r,r.model_supplement)
+   combat=getattr(self.models[policy],'combat_inputs',False) is True
+   if combat:
+    from .combat_observations import CombatMemory
+    actor.setdefault('combat_memory',CombatMemory());snapshot['match']=r.episode
+    e=encode(snapshot,actor['previous'],combat_inputs=True,combat_memory=actor['combat_memory'])
+   else:e=encode(snapshot,actor['previous'])
    origin=getattr(self,'reset_origin',None)
    clock_group=memory_clock_group(r.observation.dota_time,origin)if origin is not None else None
    periodic=(actor.get('clock_group')!=clock_group)if origin is not None else bool(reset_interval and actor['seq']%reset_interval==0)

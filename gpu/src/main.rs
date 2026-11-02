@@ -27,6 +27,12 @@ mod policy_trace;
 mod lane_fidelity;
 mod lr_diagnostic;
 mod startup_audit;
+mod startup_step;
+mod critic_dataset;
+mod scripted_teacher;
+mod combat_observe;
+mod imitation;
+mod ggd_metrics;
 #[cfg(test)]
 mod gpu_tests;
 
@@ -39,6 +45,11 @@ use burn::module::Module;
 struct Cli {#[command(subcommand)] command:Command}
 #[derive(Subcommand)]
 enum Command {
+    CollectTeacher {config:PathBuf,output:PathBuf},
+    TrainIl {config:PathBuf,output:PathBuf,#[arg(long)]max_updates:Option<usize>},
+    EvaluateGgd {engine:PathBuf,weights:PathBuf,output:PathBuf,#[arg(long,default_value_t=8)]matches:usize,#[arg(long,default_value_t=600.)]seconds:f32,#[arg(long,default_value="teacher")]mode:String,#[arg(long,default_value_t=20261103)]seed:u32},
+    TeacherCheck {engine:PathBuf,output:PathBuf},
+    Teacher {engine:PathBuf,output:PathBuf,#[arg(long,default_value_t=100)]matches:usize,#[arg(long,default_value_t=600.)]seconds:f32,#[arg(long,default_value_t=20261102)]seed:u32,#[arg(long,default_value_t=900.)]wall_seconds:f64,#[arg(long)]trace:bool},
     Qualify,
     Validate {bundle:PathBuf},
     #[command(hide=true)] ValidatePrevious {bundle:PathBuf,output:PathBuf},
@@ -51,12 +62,14 @@ enum Command {
     Import {bundle:PathBuf,output:PathBuf},
     Export {checkpoint:PathBuf,output:PathBuf},
     Replay {#[arg(required=true)]logs:Vec<PathBuf>,#[arg(long)]output:PathBuf,#[arg(long,default_value_t=0)]r#match:usize},
-    Train {config:PathBuf,run:PathBuf,#[arg(long,default_value_t=0)]cycles:usize,#[arg(long)]resume:bool,#[arg(long)]draft:bool,#[arg(long,hide=true)]diagnostic_terms:Option<String>},
+    Train {config:PathBuf,run:PathBuf,#[arg(long,default_value_t=0)]cycles:usize,#[arg(long)]resume:bool,#[arg(long)]draft:bool,#[arg(long,hide=true)]diagnostic_terms:Option<String>,#[arg(long,hide=true)]audit_rollouts:bool},
     Evaluate {config:PathBuf,output:PathBuf,#[arg(long)]no_traces:bool,#[arg(long)]argmax:bool,#[arg(long,allow_hyphen_values=true)]reset_origin:Option<f32>},
     CheckDeparture {config:PathBuf,output:PathBuf,#[arg(long)]argmax:bool,#[arg(long)]capture_start:bool,#[arg(long,allow_hyphen_values=true)]reset_origin:Option<f32>,#[arg(long,default_value_t=10.)]post_mid_seconds:f32,#[arg(long)]force_first_forward_move:bool},
     CompareLr {config:PathBuf,output:PathBuf},
     #[command(hide=true)] DiagnosePpo {config:PathBuf,output:PathBuf},
     #[command(hide=true)] AuditStartup {config:PathBuf,output:PathBuf},
+    #[command(hide=true)] AuditStartupStep {audit:PathBuf,output:PathBuf},
+    #[command(hide=true)] CollectCritic {config:PathBuf,output:PathBuf},
     Benchmark {config:PathBuf,output:PathBuf,#[arg(long,default_value_t=4096)]steps:usize,#[arg(long,default_value_t=128)]warmup:usize,
         #[arg(long)]simulation_only:bool,#[arg(long)]profile:bool,#[arg(long)]train:bool,#[arg(long,default_value_t=8)]cycles:usize,#[arg(long)]no_artifacts:bool,
         #[arg(long)]continuous_memory:bool,#[arg(long)]trace:bool},
@@ -70,6 +83,11 @@ enum Command {
 fn main()->anyhow::Result<()> {
     tracing_subscriber::fmt().with_env_filter(tracing_subscriber::EnvFilter::from_default_env()).with_writer(std::io::stderr).init();
     let result=match Cli::parse().command {
+        Command::CollectTeacher{config,output}=>imitation::collect(serde_json::from_slice(&std::fs::read(config)?)?,&output)?,
+        Command::TrainIl{config,output,max_updates}=>imitation::train(&config,&output,max_updates)?,
+        Command::EvaluateGgd{engine,weights,output,matches,seconds,mode,seed}=>imitation::evaluate(&engine,&weights,&output,matches,seconds,&mode,seed)?,
+        Command::TeacherCheck{engine,output}=>scripted_teacher::check(&engine,&output)?,
+        Command::Teacher{engine,output,matches,seconds,seed,wall_seconds,trace}=>scripted_teacher::run(&engine,&output,matches,seconds,seed,wall_seconds,trace)?,
         Command::Qualify=>runtime::qualification()?,
         Command::Validate{bundle}=>bridge::validate(&bundle,&runtime::device())?,
         Command::ValidatePrevious{bundle,output}=>{
@@ -109,15 +127,17 @@ fn main()->anyhow::Result<()> {
             let status=std::process::Command::new(python).arg(root.join("gpu/scripts/export_policy.py")).arg(&bundle).arg(&output).status()?;
             anyhow::ensure!(status.success(),"PyTorch export failed");serde_json::json!({"checkpoint":output})
         }
-        Command::Train{config,run,cycles,resume,draft,diagnostic_terms}=>{
+        Command::Train{config,run,cycles,resume,draft,diagnostic_terms,audit_rollouts}=>{
             let cfg=serde_json::from_slice(&std::fs::read(config)?)?;
-            if let Some(terms)=diagnostic_terms {learner::run_loss_diagnostic(cfg,cycles,&run,resume,draft,&terms)?}else{learner::run(cfg,cycles,Some(&run),resume,draft)?}
+            if audit_rollouts {anyhow::ensure!(diagnostic_terms.is_none(),"use ordinary PPO for audited counterexample");learner::run_audited(cfg,cycles,&run,resume,draft)?}else if let Some(terms)=diagnostic_terms {learner::run_loss_diagnostic(cfg,cycles,&run,resume,draft,&terms)?}else{learner::run(cfg,cycles,Some(&run),resume,draft)?}
         },
         Command::Evaluate{config,output,no_traces,reset_origin,argmax}=>evaluation::run(serde_json::from_slice(&std::fs::read(config)?)?,&output,!no_traces,reset_origin,argmax)?,
         Command::CheckDeparture{config,output,argmax,capture_start,reset_origin,post_mid_seconds,force_first_forward_move}=>departure::run(serde_json::from_slice(&std::fs::read(config)?)?,&output,argmax,capture_start,reset_origin,post_mid_seconds,force_first_forward_move)?,
         Command::CompareLr{config,output}=>lr_diagnostic::run(serde_json::from_slice(&std::fs::read(config)?)?,&output)?,
         Command::DiagnosePpo{config,output}=>lr_diagnostic::diagnose_updates(serde_json::from_slice(&std::fs::read(config)?)?,&output)?,
         Command::AuditStartup{config,output}=>startup_audit::run(serde_json::from_slice(&std::fs::read(config)?)?,&output)?,
+        Command::AuditStartupStep{audit,output}=>startup_step::run(&audit,&output)?,
+        Command::CollectCritic{config,output}=>critic_dataset::collect(serde_json::from_slice(&std::fs::read(config)?)?,&output)?,
         Command::Benchmark{config,output,steps,warmup,simulation_only,profile,train,cycles,no_artifacts,continuous_memory,trace}=>{
             anyhow::ensure!(!continuous_memory || !train,"continuous-memory is a fixed-policy collection diagnostic");
             anyhow::ensure!(!trace || (!train && !simulation_only && steps%128==0),"trace requires collection without PPO and complete128-step blocks");

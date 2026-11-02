@@ -4,7 +4,9 @@ use crate::contract::*;
 
 #[derive(Clone, Debug)]
 pub struct Observation {
+    pub combat_profile:bool,
     pub heroes: Tensor<3>, pub creeps: Tensor<3>, pub towers: Tensor<3>,
+    pub hero_combat:Tensor<3>,pub creep_combat:Tensor<3>,pub tower_combat:Tensor<3>,pub projectile_combat:Tensor<3>,
     pub trees: Tensor<3>, pub projectiles: Tensor<3>, pub skills: Tensor<3>,
     pub items: Tensor<3>, pub enemy_items: Tensor<3>, pub terrain: Tensor<4>,
     pub global_features: Tensor<2>, pub previous: Tensor<2>,
@@ -80,6 +82,16 @@ pub fn pool(x: Tensor<3>, mask: Tensor<2,Bool>) -> Tensor<2> {
 }
 
 impl Policy {
+    /// GGD adds inputs to the existing encoders; every downstream layer keeps
+    /// its original size. Legacy MIA construction/import remains unchanged.
+    pub fn new_ggd(d:&Device)->Self {
+        let mut policy=Self::new(d);
+        policy.hero.first=LinearConfig::new(2*(UNIT_COUNT+COMBAT_UNIT_COUNT),128).init(d);
+        policy.unit.first=LinearConfig::new(2*(UNIT_COUNT+COMBAT_UNIT_COUNT),64).init(d);
+        policy.projectile.first=LinearConfig::new(2*(PROJECTILE_COUNT+COMBAT_PROJECTILE_COUNT),32).init(d);
+        policy
+    }
+    pub fn is_ggd(&self)->bool {self.hero.first.weight.val().dims()[0]==2*(UNIT_COUNT+COMBAT_UNIT_COUNT)}
     pub fn new(d: &Device) -> Self {
         let linear=|i,o| LinearConfig::new(i,o).init(d);
         Self {
@@ -99,9 +111,12 @@ impl Policy {
 
     pub fn encode(&self,b:&Observation) -> Encoded {
         let n=b.heroes.dims()[0];
-        let heroes=self.hero.forward(b.heroes.clone())*b.hero_valid.clone().float().unsqueeze_dim::<3>(2);
-        let creeps=self.unit.forward(b.creeps.clone()); let towers=self.unit.forward(b.towers.clone());
-        let trees=self.tree.forward(b.trees.clone()); let projectiles=self.projectile.forward(b.projectiles.clone());
+        let ggd=self.is_ggd();
+        assert!(!ggd||b.combat_profile,"GGD requires ggd-v2 observations; legacy MIA inputs are incomplete");
+        let extend=|base:Tensor<3>,extra:Tensor<3>|if ggd{Tensor::cat(vec![base,extra],2)}else{base};
+        let heroes=self.hero.forward(extend(b.heroes.clone(),b.hero_combat.clone()))*b.hero_valid.clone().float().unsqueeze_dim::<3>(2);
+        let creeps=self.unit.forward(extend(b.creeps.clone(),b.creep_combat.clone()));let towers=self.unit.forward(extend(b.towers.clone(),b.tower_combat.clone()));
+        let trees=self.tree.forward(b.trees.clone());let projectiles=self.projectile.forward(extend(b.projectiles.clone(),b.projectile_combat.clone()));
         let terrain=activation::relu(self.terrain_second.forward(activation::relu(self.terrain_first.forward(b.terrain.clone()))));
         // AdaptiveAvgPool(2,2) on an 8x8 tensor is exactly four 4x4 means.
         let terrain=terrain.reshape([n,16,2,4,2,4]).mean_dim(5).mean_dim(3).reshape([n,64]);

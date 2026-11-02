@@ -10,6 +10,18 @@ fn floats<const D:usize>(path:&Path,value:Tensor<D>)->Result<()> {
     std::fs::write(path,values.iter().flat_map(|v|v.to_le_bytes()).collect::<Vec<_>>())?;Ok(())
 }
 
+pub(crate) fn save_rollout(experience:&Experience,bootstrap:Tensor<1>,root:&Path)->Result<()>{
+    std::fs::create_dir_all(root)?;let n=experience.actors;let selected=n.min(4);
+    floats(&root.join("signals.f32"),experience.signals())?;floats(&root.join("bootstrap.f32"),bootstrap.clone())?;
+    let(adv,ret)=experience.gae(bootstrap);floats(&root.join("advantages.f32"),adv.clone())?;floats(&root.join("returns.f32"),ret)?;
+    let valid=experience.signals().slice([0..n,0..HORIZON,11..12]).reshape([n,HORIZON]);let count=valid.clone().sum().clamp_min(1.);let mean=(adv.clone()*valid.clone()).sum()/count.clone();
+    let variance=((adv.clone()-mean.clone().reshape([1,1])).square()*valid).sum()/count;
+    floats(&root.join("normalized-advantages.f32"),(adv-mean.reshape([1,1]))/variance.sqrt().clamp_min(1e-8).reshape([1,1]))?;
+    let inputs=tensor::<3>(experience.observations[0].clone()).slice([0..selected,0..HORIZON,0..WIDTH]).into_data().try_to_vec::<f16>()?;
+    std::fs::write(root.join("inputs.f16"),inputs.iter().flat_map(|x|x.to_bits().to_le_bytes()).collect::<Vec<_>>())?;
+    crate::artifacts::atomic_json(&root.join("audit.json"),&serde_json::json!({"actors":n,"selected_actors":selected,"horizon":HORIZON,"width":WIDTH,"scope":"Actual own-branch behavior values/bootstrap/GAE before this ordinary PPO update; diagnostic-only download.","signals_sha256":crate::runtime::file_sha256(&root.join("signals.f32"))?,"inputs_sha256":crate::runtime::file_sha256(&root.join("inputs.f16"))?}))?;Ok(())
+}
+
 pub fn run(config:Config,root:&Path)->Result<serde_json::Value>{
     ensure!(config.matches==100&&config.seed==2026110215&&config.learning_rate==2e-5,"requires the original minimal counterexample configuration");
     ensure!(config.initial_checkpoint.is_some()&&config.opponents.len()==1,"requires original initialization and one frozen original opponent");
