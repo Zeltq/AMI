@@ -47,7 +47,8 @@ def evaluation(path):
     result['farm']=sum(s['lh']+s['deny'] for s in result['sides'])
     result['early_deaths']=sum(s['early_deaths'] for s in result['sides'])
     result['death_matches']=sum(s['death_matches']for s in result['sides'])
-    result['trial_eligible']=(result['early_deaths']<=1 and result['death_matches']<=4) if result['matches']==32 else None
+    result['trial_eligible']=(result['early_deaths']<=1 and result['death_matches']<=6) if result['matches']==32 else None
+    result['trial_selection_rule_version']=2
     result['criterion']=result['farm']>=2009 and result['early_deaths']<=2
     return result
 

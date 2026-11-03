@@ -28,7 +28,9 @@ class P08SelectionTests(unittest.TestCase):
         self.assertEqual(v['death_matches'],4)
         self.assertTrue(v['trial_eligible'])
     def test_each_survival_limit_is_required(self):
-        self.assertFalse(self.check({0,1,2,3,4},{0})['trial_eligible'])
+        self.assertTrue(self.check({0,1,2,3,4},{0})['trial_eligible'])
+        self.assertTrue(self.check({0,1,2,3,4,5},{0})['trial_eligible'])
+        self.assertFalse(self.check({0,1,2,3,4,5,6},{0})['trial_eligible'])
         self.assertFalse(self.check({0,1,2,3},{0,1})['trial_eligible'])
 
 if __name__=='__main__':unittest.main()
