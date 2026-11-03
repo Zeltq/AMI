@@ -82,9 +82,13 @@ def actual_parity():
         n=min(len(d),len(s));cols=[*range(6),5+spell,*range(10,14)]
         value_error=max(float(np.abs(x[cols]-y[cols]).max()) for x,y in zip(d,s))
         known_error=sum(int(np.count_nonzero(x[np.array(cols)+16]!=y[np.array(cols)+16])) for x,y in zip(d,s))
+        all_cols=cols+[c+16 for c in cols]
+        d16=np.asarray([r[all_cols] for r in d[:n]],dtype=np.float16);s16=np.asarray([r[all_cols] for r in s[:n]],dtype=np.float16)
         phase_max=max(phase_max,value_error);known_mismatches+=known_error
         groups.append(dict(spell=spell,dota_cast_frames=len(d),simulator_cast_frames=len(s),compared_frames=n,
                            fields=n*len(cols)*2,max_abs_error=value_error,known_mismatches=known_error,
+                           fp16_equal_values=int(np.count_nonzero(d16.view(np.uint16)==s16.view(np.uint16))),fp16_compared_values=int(d16.size),
+                           max_fp16_abs_error=float(np.abs(d16.astype(np.float32)-s16.astype(np.float32)).max()),
                            duration_difference_seconds=abs(len(d)-len(s))/30))
     # First Radiant raze hits a previously unstacked Dire; align the first effect frame.
     start=next(c['game_time'] for c in records(RUN/'spells-006/dota.log','SF_P07_CAST|') if c['team']==2 and c['spell']==1)
@@ -94,8 +98,8 @@ def actual_parity():
     stack_error=max(abs(x[14]-y[14])*16 for x,y in zip(d,s));timer_error=max(abs(x[15]-y[15])*10 for x,y in zip(d,s))
     result=dict(groups=groups,max_abs_cast_field_error=phase_max,known_mismatches=known_mismatches,
                 debuff=dict(compared_frames=n,max_stack_error=stack_error,max_remaining_seconds_error=timer_error),
-                time_tolerance_seconds=1/30+.0001,value_tolerance=.0001,
-                passed=phase_max<.0001 and known_mismatches==0 and stack_error==0 and timer_error<1/30+.0001 and all(abs(g['dota_cast_frames']-g['simulator_cast_frames'])<=1 for g in groups),
+                time_tolerance_seconds=1/30+.0001,value_tolerance=.0001,fp16_tolerance=.0005,
+                passed=phase_max<.0001 and known_mismatches==0 and stack_error==0 and timer_error<1/30+.0001 and all(abs(g['dota_cast_frames']-g['simulator_cast_frames'])<=1 and g['max_fp16_abs_error']<.0005 for g in groups),
                 scope='Actual casts in Dota and production physics; align observed onset and first debuff effect, allow one simulation tick at the cast boundary')
     save('actual-cast-parity.json',result);print(json.dumps(result));assert result['passed'],result
 

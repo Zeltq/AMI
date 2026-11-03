@@ -1,0 +1,38 @@
+[
+  {
+    "run": "spells-006",
+    "command": "C:/Python314/python.exe gpu/scripts/p07_probe.py --run C:/AMI/runs/p07/spells-006 --worker 15 --seconds -25 --wall-timeout 240 --timescale 4 --seed 20261103 --events-script reports/P07/spell_scenario.lua --capture-world --no-pilot-update",
+    "minutes": 0.7596737449998424,
+    "frozen_source": "reports/P07/probes/spells-006/p03_events.lua"
+  },
+  {
+    "run": "sf-final",
+    "command": "C:/Python314/python.exe gpu/scripts/p07_probe.py --miss --case-kind sf --run C:/AMI/runs/p07/sf-final --worker 15 --seconds 1000 --wall-timeout 350 --timescale 4 --seed 20261103 --events-script reports/P07/natural_miss_scenario.lua --no-pilot-update",
+    "minutes": 1.6307806900003925,
+    "frozen_source": "reports/P07/probes/sf-final/p03_events.lua"
+  },
+  {
+    "run": "melee-final",
+    "command": "C:/Python314/python.exe gpu/scripts/p07_probe.py --miss --case-kind melee --run C:/AMI/runs/p07/melee-final --worker 17 --seconds 1000 --wall-timeout 350 --timescale 4 --seed 20261103 --events-script reports/P07/natural_miss_scenario.lua --no-pilot-update",
+    "minutes": 1.951340621666168,
+    "frozen_source": "reports/P07/probes/melee-final/p03_events.lua"
+  },
+  {
+    "run": "ranged-001",
+    "command": "C:/Python314/python.exe gpu/scripts/p07_probe.py --miss --case-kind ranged --run C:/AMI/runs/p07/ranged-001 --worker 17 --seconds 1000 --wall-timeout 350 --timescale 4 --seed 20261103 --events-script reports/P07/natural_miss_scenario.lua --no-pilot-update",
+    "minutes": 1.9383538633342445,
+    "frozen_source": "reports/P07/probes/ranged-001/p03_events.lua"
+  },
+  {
+    "run": "tower-001",
+    "command": "C:/Python314/python.exe gpu/scripts/p07_probe.py --miss --case-kind tower --run C:/AMI/runs/p07/tower-001 --worker 18 --seconds 1000 --wall-timeout 350 --timescale 4 --seed 20261103 --events-script reports/P07/natural_miss_scenario.lua --no-pilot-update",
+    "minutes": 1.7859202600006634,
+    "frozen_source": "reports/P07/probes/tower-001/p03_events.lua"
+  },
+  {
+    "run": "impact-003",
+    "command": "C:/Python314/python.exe gpu/scripts/p07_probe.py --miss --impact --run C:/AMI/runs/p07/impact-003 --worker 16 --seconds 1500 --wall-timeout 450 --timescale 4 --seed 20261103 --events-script reports/P07/natural_miss_scenario.lua --no-pilot-update",
+    "minutes": 2.839387604999744,
+    "frozen_source": "reports/P07/probes/impact-003/p03_events.lua"
+  }
+]

@@ -1,0 +1,72 @@
+{
+  "baseline-004": {
+    "command": "C:/AMI/runs/p07/baseline.exe evaluate-teachers C:/AMI/runs/p06/dota-calibration-004/engine.json C:/AMI/runs/p07/baseline-004 --matches 200 --seed 20261103",
+    "exit_code": 0,
+    "minutes": 5.692968428333795
+  },
+  "rust-narrow-final": {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p07/target p07_ -- --test-threads=1",
+    "exit_code": 0,
+    "minutes": 1.5024230733329509
+  },
+  "rust-full": {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p07/target -- --test-threads=1",
+    "exit_code": 0,
+    "minutes": 2.67000231333368
+  },
+  "build-final": {
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p07/target",
+    "exit_code": 0,
+    "minutes": 1.1687127599997136
+  },
+  "public-parity-final": {
+    "command": "C:/AMI/runs/p07/target/release/sf-duel-gpu.exe check-public-spells C:/AMI/runs/p06/dota-calibration-004/engine.json C:/AMI/runs/p07/spell-fixture.json C:/AMI-wt/P07/reports/P07/gpu-parity.json",
+    "exit_code": 0,
+    "minutes": 0.8416095916666867
+  },
+  "regression-004": {
+    "command": "C:/AMI/runs/p07/target/release/sf-duel-gpu.exe evaluate-teachers C:/AMI/runs/p06/dota-calibration-004/engine.json C:/AMI/runs/p07/regression-004 --matches 200 --seed 20261103",
+    "exit_code": 0,
+    "minutes": 5.677828141666638
+  },
+  "evaluation-005": {
+    "command": "C:/AMI/runs/p07/target/release/sf-duel-gpu.exe evaluate-teachers C:/AMI/runs/p07/dota-calibration-005/engine.json C:/AMI/runs/p07/evaluation-005 --matches 200 --seed 20261103",
+    "exit_code": 0,
+    "minutes": 5.844316944999931
+  },
+  "collect-v4": {
+    "command": "C:/AMI/runs/p07/target/release/sf-duel-gpu.exe collect-teacher C:/AMI-wt/P07/reports/P07/collect.json C:/AMI/runs/p07/collect-v4",
+    "exit_code": 0,
+    "minutes": 3.8433415833336766
+  },
+  "compat-ggd-v2-before": {
+    "command": "C:\\AMI\\runs\\p07\\baseline.exe collect-teacher C:\\AMI-wt\\P07\\reports\\P07\\compat-ggd-v2.json C:\\AMI\\runs\\p07\\compat-ggd-v2-before",
+    "exit_code": 0,
+    "minutes": 0.8408806933332623
+  },
+  "compat-ggd-v2-after": {
+    "command": "C:\\AMI\\runs\\p07\\target\\release\\sf-duel-gpu.exe collect-teacher C:\\AMI-wt\\P07\\reports\\P07\\compat-ggd-v2.json C:\\AMI\\runs\\p07\\compat-ggd-v2-after",
+    "exit_code": 0,
+    "minutes": 0.6741907450001842
+  },
+  "compat-ggd-v3-before": {
+    "command": "C:\\AMI\\runs\\p07\\baseline.exe collect-teacher C:\\AMI-wt\\P07\\reports\\P07\\compat-ggd-v3.json C:\\AMI\\runs\\p07\\compat-ggd-v3-before",
+    "exit_code": 0,
+    "minutes": 0.8409186716666833
+  },
+  "compat-ggd-v3-after": {
+    "command": "C:\\AMI\\runs\\p07\\target\\release\\sf-duel-gpu.exe collect-teacher C:\\AMI-wt\\P07\\reports\\P07\\compat-ggd-v3.json C:\\AMI\\runs\\p07\\compat-ggd-v3-after",
+    "exit_code": 0,
+    "minutes": 0.8407489999992929
+  },
+  "python": {
+    "command": "$env:PYTHONPATH='src;tests;C:/AMI/tools/lua_test_runtime'; C:/Python314/python.exe -m unittest discover -s tests -v",
+    "passed": 193,
+    "failed": 0
+  },
+  "go": {
+    "command": "go test ./...",
+    "cwd": "C:/AMI-wt/P07/tools/nativecollect",
+    "exit_code": 0
+  }
+}

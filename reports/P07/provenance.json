@@ -1,0 +1,23 @@
+{
+  "base_commit": "faa1b6e798cece79d072131b870e3de832ad77d3",
+  "branch": "agent/P07-obs-v4",
+  "baseline_binary_sha256": "4ee75c8126a8bef70e8dd12a7d7837754e9d31a3100f836eb31d431dc21a6616",
+  "final_binary_sha256": "93d52a9e53db1eb4ca3af1f99efaeacd127b2b0a1084f3c2850f02acc09be68b",
+  "unchanged_files": {
+    "gpu/src/learner.rs": "ba6342ad5706e4cb80b82a2f8ed8de3d6ed015d8fb418c5ceaf40741163acfda",
+    "gpu/src/experience.rs": "02f6e3744d6ec045c6f8469b99234908e235e6106444f205e075836b47fc9df5",
+    "gpu/src/selfplay.rs": "fbf644b22792e20a5ebfac122c16f2560a8bcb53bb97493d2d745de2861bff09",
+    "gpu/src/gradients.rs": "85b164f04840df8b8a77c5272831df8d49054d255794ef289b3e256f447fa8d9",
+    "gpu/src/scripted_teacher.rs": "55b7f4ff5baef7aea24e706aaaca3e83fa049adca0bd63cee4203c6c23e08312",
+    "gpu/src/teacher_v10.rs": "858bc93841b4a77397574721fcc8e114e6efabb8a4d02d3d472eebefd27a95ae"
+  },
+  "source_files": {
+    "bots/agent.lua": "c2409831aded5d961e92d34c7cfd669f4912e1d357ff5641bf2ff07d8c6629c3",
+    "src/sf_duel/observations.py": "5597051e55678a69e46386385db9b9f52500c902525397fe962a39cab0548c18",
+    "gpu/src/enemy_observe.rs": "cd6496544f40189f92466dd1b692729a880f57c55517282cc7be8d300e25f533",
+    "gpu/src/physics.rs": "5f5c177951cdeaff5b849001e98bee53d466cb9f46c17d2a05eb50b2de5da193",
+    "gpu/src/world.rs": "795e1c760bc22fb6388d2494ff27bfc1df3e336b082211b768b2c752a0a28277"
+  },
+  "no_training": true,
+  "environment_004_unchanged": true
+}
