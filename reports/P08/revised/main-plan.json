@@ -1,0 +1,96 @@
+{
+  "selection_rule_version": 2,
+  "selected": {
+    "run": "p08",
+    "name": "rev-async-eval-1e5",
+    "complete": true,
+    "matches": 32,
+    "wall_seconds": 280.6132525,
+    "sides": [
+      {
+        "side": "radiant",
+        "matches": 16,
+        "lh": 290.0,
+        "deny": 168.0,
+        "deaths": 2.0,
+        "attack_cycles_completed": 1908.0,
+        "attack_cancellations": 117.0,
+        "death_matches": 2,
+        "pregame_death_matches": 0,
+        "early_deaths": 0,
+        "actions": [
+          46532.0,
+          21808.0,
+          0.0,
+          3034.0,
+          7077.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          105.0
+        ]
+      },
+      {
+        "side": "dire",
+        "matches": 16,
+        "lh": 237.0,
+        "deny": 200.0,
+        "deaths": 3.0,
+        "attack_cycles_completed": 1926.0,
+        "attack_cancellations": 76.0,
+        "death_matches": 3,
+        "pregame_death_matches": 0,
+        "early_deaths": 0,
+        "actions": [
+          49708.0,
+          16091.0,
+          0.0,
+          2905.0,
+          6093.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          58.0
+        ]
+      }
+    ],
+    "farm": 895.0,
+    "early_deaths": 0,
+    "death_matches": 5,
+    "trial_eligible": true,
+    "criterion": false,
+    "learning_rate": 1e-05,
+    "train_stage": "rev-async-trial-1e5",
+    "evaluation_stage": "rev-async-eval-1e5",
+    "weights": "C:\\AMI\\runs\\p08\\rev-async-trial-1e5\\checkpoint-000054\\weights"
+  },
+  "training_minutes": 120,
+  "evaluation_training_minutes": [
+    60,
+    120
+  ],
+  "evaluation_matches": 64,
+  "evaluation_modes": [
+    "sampling",
+    "argmax"
+  ],
+  "evaluation_seed": 20261103,
+  "initialization_budget_seconds": 600,
+  "export_overhead_budget_seconds": 180,
+  "evaluation_budget_seconds": 2400,
+  "process_wall_limit_seconds": 10380,
+  "budget_before": {
+    "limit_seconds": 21600,
+    "used_seconds": 10284.99802286148,
+    "remaining_seconds": 11315.00197713852,
+    "reserved_test_seconds": 300
+  },
+  "remaining_after_watchdog_seconds": 935.0019771385196,
+  "optimizer": "Fresh Adam state; weights initialized from selected trial; KL reference remains original M2",
+  "command": "C:/Python314/python.exe gpu/scripts/p08_revised.py train rev-main reports/P08/revised/main.json --wall-limit 10380",
+  "evaluation_export_test": "Passed completed-report export, metric equality, idempotence and exclusion from stage budget ledger"
+}

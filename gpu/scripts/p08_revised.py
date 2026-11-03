@@ -28,6 +28,23 @@ def publish(stage):
     if staged:
         subprocess.run(['git','commit','-m',f'[P08] experiment: record {stage}'],cwd=REPO,check=True)
         subprocess.run(['git','push','-u','origin','agent/P08-ppo-pilot'],cwd=REPO,check=True)
+
+def collect_evaluations(stage):
+    """Export completed in-process hourly evaluations; their wall time belongs to the parent stage."""
+    import p08_results
+    added=[]
+    for path in sorted((ROOT/stage).glob('eval-*/report.json')):
+        name=f'{stage}-{path.parent.name}'
+        destination=REPORT/f'{name}.json'
+        if destination.exists():continue
+        report=read(path)
+        if not report.get('complete'):continue
+        payload=(json.dumps(report,separators=(',',':'))+'\n').encode('utf-8')
+        if len(payload)>=1_000_000:raise RuntimeError(f'oversized evaluation report {path}')
+        (REPORT/f'{name}-matches.json').write_bytes(payload)
+        save(destination,dict(parent_stage=stage,source=str(path),evaluation=p08_results.evaluation(path),budget_note='Included in parent process wall time; do not add again'))
+        added.append(name)
+    return added
 def run_stage(name,cmd,limit,allow_failure=False):
     assert re.fullmatch(r'rev-[a-z0-9-]+',name)
     if (REPORT/f'stage-{name}.json').exists():raise RuntimeError('stage already recorded; use a fresh attempt name')
@@ -45,6 +62,7 @@ def run_stage(name,cmd,limit,allow_failure=False):
                 try:state['progress']=read(root/'status.json')
                 except (OSError,json.JSONDecodeError):pass
             save(ROOT/'revised-controller.json',state);common.shared(state)
+            for evaluation in collect_evaluations(name):publish(evaluation)
             if state['elapsed_seconds']>limit:
                 timed_out=True;child.terminate();child.wait(timeout=30);break
             time.sleep(2)
@@ -76,7 +94,8 @@ def run_stage(name,cmd,limit,allow_failure=False):
         (REPORT/f'{name}-matches.json').write_bytes((json.dumps(read(root/'report.json'),separators=(',',':'))+'\n').encode())
     save(REPORT/f'stage-{name}.json',record)
     state.update(stage='complete'if child.returncode==0 else'failed',returncode=child.returncode,timed_out=timed_out)
-    save(ROOT/'revised-controller.json',state);common.shared(state);publish(name)
+    save(ROOT/'revised-controller.json',state);common.shared(state)
+    collect_evaluations(name);publish(name)
     if child.returncode and not allow_failure:raise SystemExit(child.returncode)
     return record
 
