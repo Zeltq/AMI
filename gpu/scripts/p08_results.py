@@ -29,14 +29,15 @@ def verify(stage):
 
 def evaluation(path):
     data=read(path)
-    result=dict(name=path.parent.name,complete=data['complete'],matches=data['matches'],wall_seconds=data['wall_seconds'],sides=[])
+    result=dict(run=path.parent.parent.name,name=path.parent.name,complete=data['complete'],matches=data['matches'],wall_seconds=data['wall_seconds'],sides=[])
     for side in ['radiant','dire']:
         rows=[s for g in data['per_match'] for s in g['sides'] if s['controller']=='GGD' and s['side']==side]
+        aggregate=next(s for s in data['summary']['sides'] if s['controller']=='GGD' and s['side']==side)
         row=dict(side=side,matches=len(rows))
         for k in ['lh','deny','deaths','attack_cycles_completed','attack_cancellations']:
-            row[k]=sum(x[k] for x in rows)
+            row[k]=aggregate[k]
         row['early_deaths']=sum(x.get('first_death_game_seconds') is not None and x['first_death_game_seconds']<120 for x in rows)
-        row['actions']=[sum(x['actions'][i] for x in rows) for i in range(11)]
+        row['actions']=aggregate['actions']
         result['sides'].append(row)
     result['farm']=sum(s['lh']+s['deny'] for s in result['sides'])
     result['early_deaths']=sum(s['early_deaths'] for s in result['sides'])
@@ -99,8 +100,22 @@ if __name__=='__main__':
     if a.verify:verify(a.verify)
     else:
         for stage in ['smoke','main']:curves(stage)
-        evaluations=[evaluation(p) for p in ROOT.glob('*/eval-*/report.json')]
+        evaluations=[]
+        for report in sorted(ROOT.glob('*/eval-*/report.json')):
+            item=evaluation(report);evaluations.append(item)
+            (OUT/f'{item["run"]}-{item["name"]}.json').write_bytes((json.dumps(read(report),ensure_ascii=False,separators=(',',':'))+'\n').encode('utf-8'))
         save(OUT/'evaluations.json',evaluations)
+        baseline=evaluation(REPO/'reports/P02/round-2-sampling.json');baseline.update(run='M2',name='sampling')
+        save(OUT/'M2-reference.json',baseline)
+        rows=[]
+        for item in [baseline,*evaluations]:
+            for side in item['sides']:
+                row=dict(run=item['run'],evaluation=item['name'],**{k:v for k,v in side.items() if k!='actions'})
+                row.update({f'action_{i}':v for i,v in enumerate(side['actions'])});rows.append(row)
+        if rows:
+            with (OUT/'evaluation-sides.csv').open('w',newline='',encoding='utf-8')as f:
+                w=csv.DictWriter(f,fieldnames=list(rows[0]),lineterminator='\n');w.writeheader();w.writerows(rows)
+
         controller=ROOT/'controller.json'
         if controller.exists():save(OUT/'commands.json',read(controller)['history'])
     for p in OUT.iterdir():

@@ -82,5 +82,51 @@
     ],
     "wall_seconds": 1351.7923910617828,
     "returncode": 0
+  },
+  {
+    "stage": "smoke-eval-sampling",
+    "command": "C:\\AMI\\runs\\p08\\target\\release\\sf-duel-gpu.exe evaluate-ggd C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json C:\\AMI\\runs\\p08\\smoke\\checkpoint-000093\\weights C:\\AMI\\runs\\p08\\smoke\\eval-final-sampling --mode teacher --matches 64 --seconds 600 --seed 20261103 --sampling --trace",
+    "argv": [
+      "C:\\AMI\\runs\\p08\\target\\release\\sf-duel-gpu.exe",
+      "evaluate-ggd",
+      "C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json",
+      "C:\\AMI\\runs\\p08\\smoke\\checkpoint-000093\\weights",
+      "C:\\AMI\\runs\\p08\\smoke\\eval-final-sampling",
+      "--mode",
+      "teacher",
+      "--matches",
+      "64",
+      "--seconds",
+      "600",
+      "--seed",
+      "20261103",
+      "--sampling",
+      "--trace"
+    ],
+    "wall_seconds": 831.1363799571991,
+    "returncode": 0
+  },
+  {
+    "stage": "smoke-eval-argmax",
+    "command": "C:\\AMI\\runs\\p08\\target\\release\\sf-duel-gpu.exe evaluate-ggd C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json C:\\AMI\\runs\\p08\\smoke\\checkpoint-000093\\weights C:\\AMI\\runs\\p08\\smoke\\eval-final-argmax --mode teacher --matches 64 --seconds 600 --seed 20261103 --argmax --trace",
+    "argv": [
+      "C:\\AMI\\runs\\p08\\target\\release\\sf-duel-gpu.exe",
+      "evaluate-ggd",
+      "C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json",
+      "C:\\AMI\\runs\\p08\\smoke\\checkpoint-000093\\weights",
+      "C:\\AMI\\runs\\p08\\smoke\\eval-final-argmax",
+      "--mode",
+      "teacher",
+      "--matches",
+      "64",
+      "--seconds",
+      "600",
+      "--seed",
+      "20261103",
+      "--argmax",
+      "--trace"
+    ],
+    "wall_seconds": 280.667884349823,
+    "returncode": 0
   }
 ]

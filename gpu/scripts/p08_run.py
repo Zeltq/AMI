@@ -52,7 +52,7 @@ def run(stage, command):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('stage', choices=['zero-lr', 'warmup', 'smoke', 'main', 'tests', 'build', 'full-tests', 'v3-smoke', 'prepare', 'smoke-eval'])
+    parser.add_argument('stage', choices=['zero-lr', 'warmup', 'smoke', 'main', 'tests', 'build', 'full-tests', 'v3-smoke', 'prepare', 'smoke-eval', 'main-prepare'])
     args = parser.parse_args()
     ROOT.mkdir(parents=True, exist_ok=True)
     # The controller is locked for its full lifetime; no duplicate jobs.
@@ -60,11 +60,13 @@ def main():
     with (ROOT / 'controller.lock').open('a+b') as lock:
         lock.seek(0); lock.write(b'0'); lock.flush(); lock.seek(0)
         msvcrt.locking(lock.fileno(), msvcrt.LK_NBLCK, 1)
-        stages = ['build', 'zero-lr', 'warmup', 'v3-smoke', 'smoke'] if args.stage == 'prepare' else [args.stage]
+        stages = (['build', 'zero-lr', 'warmup', 'v3-smoke', 'smoke'] if args.stage == 'prepare' else ['full-tests', 'build', 'main'] if args.stage == 'main-prepare' else [args.stage])
         for stage in stages:
             execute(stage)
 
 def execute(stage):
+    if stage == 'main' and (ROOT/'pause.json').exists():
+        raise SystemExit('Main PPO is paused by the user; remove pause.json only after explicit permission to resume.')
     if stage == 'smoke-eval':
         result = json.loads((ROOT/'smoke/result.json').read_text(encoding='utf-8'))
         cfg = json.loads((ROOT/'smoke/config.json').read_text(encoding='utf-8'))
