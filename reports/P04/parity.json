@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "blocks": 32,
+  "compared": {
+    "fp16_bits": [
+      69206016,
+      69206016
+    ],
+    "labels": [
+      98304,
+      98304
+    ],
+    "resets": [
+      16384,
+      16384
+    ],
+    "valid": [
+      16384,
+      16384
+    ],
+    "previous": [
+      491520,
+      491520
+    ]
+  },
+  "matches": 2,
+  "scope": "all actors and padded frames; labels compare float32 bits; source/DAgger flags intentionally differ",
+  "teacher_sha256": "858bc93841b4a77397574721fcc8e114e6efabb8a4d02d3d472eebefd27a95ae",
+  "teacher_version": "v10"
+}

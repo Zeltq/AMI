@@ -1,0 +1,1074 @@
+{
+  "source": "C:\\AMI\\runs\\p04\\v10-v9-revision2",
+  "matches": [
+    {
+      "match": 0,
+      "v10_side": 0,
+      "frames": 2051,
+      "ended": true,
+      "counts": {
+        "raze_completed": 5,
+        "hero_attack_cycle": 6,
+        "tower_retreat": 1
+      },
+      "events": [
+        {
+          "kind": "raze_completed",
+          "time": 18.333,
+          "side": 0,
+          "spell": "far",
+          "hero_center_distance": 253.87,
+          "hero_health_before": 582.0,
+          "hero_health_after": 519.23,
+          "own_lh_delta": 0,
+          "mana_spent_net": 74.84,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "raze_completed",
+          "time": 19.533,
+          "side": 0,
+          "spell": "mid",
+          "hero_center_distance": 131.0,
+          "hero_health_before": 521.74,
+          "hero_health_after": 434.05,
+          "own_lh_delta": 0,
+          "mana_spent_net": 74.84,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "raze_completed",
+          "time": 28.2,
+          "side": 0,
+          "spell": "far",
+          "hero_center_distance": 111.76,
+          "hero_health_before": 454.11,
+          "hero_health_after": 391.42,
+          "own_lh_delta": 0,
+          "mana_spent_net": 74.84,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "raze_completed",
+          "time": 30.2,
+          "side": 0,
+          "spell": "mid",
+          "hero_center_distance": 138.25,
+          "hero_health_before": 395.81,
+          "hero_health_after": 308.12,
+          "own_lh_delta": 1,
+          "mana_spent_net": 74.84,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 65.267,
+          "side": 0,
+          "hero_distance": 498.58,
+          "nearest_enemy_creep": 706.82
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 66.6,
+          "side": 0,
+          "hero_distance": 569.17,
+          "nearest_enemy_creep": 595.19
+        },
+        {
+          "kind": "raze_completed",
+          "time": 69.0,
+          "side": 0,
+          "spell": "mid",
+          "hero_center_distance": 197.7,
+          "hero_health_before": 494.94,
+          "hero_health_after": 426.39,
+          "own_lh_delta": 1,
+          "mana_spent_net": 74.83,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 96.733,
+          "side": 0,
+          "hero_distance": 575.77,
+          "nearest_enemy_creep": 683.22
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 102.333,
+          "side": 0,
+          "hero_distance": 549.46,
+          "nearest_enemy_creep": 1673.01
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 103.533,
+          "side": 0,
+          "hero_distance": 549.46,
+          "nearest_enemy_creep": 1283.36
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 104.6,
+          "side": 0,
+          "hero_distance": 549.46,
+          "nearest_enemy_creep": 1037.33
+        },
+        {
+          "kind": "tower_retreat",
+          "time": 138.333,
+          "side": 0,
+          "tower_target": 0,
+          "distance": 521.91,
+          "move_bins": [
+            40,
+            49
+          ],
+          "health": 317.54
+        }
+      ]
+    },
+    {
+      "match": 1,
+      "v10_side": 1,
+      "frames": 5123,
+      "ended": true,
+      "counts": {
+        "raze_completed": 19,
+        "hero_attack_cycle": 29,
+        "tower_retreat": 2
+      },
+      "events": [
+        {
+          "kind": "raze_completed",
+          "time": 18.2,
+          "side": 1,
+          "spell": "far",
+          "hero_center_distance": 108.76,
+          "hero_health_before": 582.0,
+          "hero_health_after": 519.23,
+          "own_lh_delta": 0,
+          "mana_spent_net": 74.84,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "raze_completed",
+          "time": 19.0,
+          "side": 1,
+          "spell": "mid",
+          "hero_center_distance": 253.64,
+          "hero_health_before": 520.8,
+          "hero_health_after": 521.11,
+          "own_lh_delta": 0,
+          "mana_spent_net": 74.84,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "raze_completed",
+          "time": 28.067,
+          "side": 1,
+          "spell": "far",
+          "hero_center_distance": 115.81,
+          "hero_health_before": 542.1,
+          "hero_health_after": 478.41,
+          "own_lh_delta": 0,
+          "mana_spent_net": 74.84,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "raze_completed",
+          "time": 28.867,
+          "side": 1,
+          "spell": "mid",
+          "hero_center_distance": 134.37,
+          "hero_health_before": 479.98,
+          "hero_health_after": 390.29,
+          "own_lh_delta": 0,
+          "mana_spent_net": 74.84,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "raze_completed",
+          "time": 68.6,
+          "side": 1,
+          "spell": "mid",
+          "hero_center_distance": 151.28,
+          "hero_health_before": 486.02,
+          "hero_health_after": 413.47,
+          "own_lh_delta": 0,
+          "mana_spent_net": 74.83,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 69.8,
+          "side": 1,
+          "hero_distance": 570.18,
+          "nearest_enemy_creep": 709.77
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 71.133,
+          "side": 1,
+          "hero_distance": 569.39,
+          "nearest_enemy_creep": 426.08
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 74.333,
+          "side": 1,
+          "hero_distance": 569.39,
+          "nearest_enemy_creep": 1222.01
+        },
+        {
+          "kind": "tower_retreat",
+          "time": 78.067,
+          "side": 1,
+          "tower_target": 1,
+          "distance": 671.06,
+          "move_bins": [
+            79,
+            76
+          ],
+          "health": 626.0
+        },
+        {
+          "kind": "raze_completed",
+          "time": 148.867,
+          "side": 1,
+          "spell": "mid",
+          "hero_center_distance": 164.09,
+          "hero_health_before": 692.0,
+          "hero_health_after": 561.29,
+          "own_lh_delta": 0,
+          "mana_spent_net": 74.81,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "raze_completed",
+          "time": 166.733,
+          "side": 1,
+          "spell": "mid",
+          "hero_center_distance": 113.88,
+          "hero_health_before": 612.53,
+          "hero_health_after": 478.91,
+          "own_lh_delta": 1,
+          "mana_spent_net": 74.81,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 168.733,
+          "side": 1,
+          "hero_distance": 432.74,
+          "nearest_enemy_creep": 822.55
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 170.067,
+          "side": 1,
+          "hero_distance": 565.5,
+          "nearest_enemy_creep": 310.31
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 190.2,
+          "side": 1,
+          "hero_distance": 565.5,
+          "nearest_enemy_creep": 679.2
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 198.467,
+          "side": 1,
+          "hero_distance": 413.71,
+          "nearest_enemy_creep": 584.39
+        },
+        {
+          "kind": "raze_completed",
+          "time": 223.133,
+          "side": 1,
+          "spell": "mid",
+          "hero_center_distance": 187.98,
+          "hero_health_before": 622.52,
+          "hero_health_after": 485.08,
+          "own_lh_delta": 0,
+          "mana_spent_net": 74.8,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "raze_completed",
+          "time": 272.6,
+          "side": 1,
+          "spell": "mid",
+          "hero_center_distance": 193.63,
+          "hero_health_before": 758.0,
+          "hero_health_after": 620.32,
+          "own_lh_delta": 0,
+          "mana_spent_net": 74.8,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "raze_completed",
+          "time": 280.6,
+          "side": 1,
+          "spell": "far",
+          "hero_center_distance": 161.94,
+          "hero_health_before": 645.18,
+          "hero_health_after": 507.6,
+          "own_lh_delta": 2,
+          "mana_spent_net": 50.77,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 281.4,
+          "side": 1,
+          "hero_distance": 352.13,
+          "nearest_enemy_creep": 2820.18
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 282.467,
+          "side": 1,
+          "hero_distance": 320.29,
+          "nearest_enemy_creep": 2473.55
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 283.533,
+          "side": 1,
+          "hero_distance": 320.29,
+          "nearest_enemy_creep": 2126.92
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 284.467,
+          "side": 1,
+          "hero_distance": 320.29,
+          "nearest_enemy_creep": 1877.56
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 285.667,
+          "side": 1,
+          "hero_distance": 540.72,
+          "nearest_enemy_creep": 1530.1
+        },
+        {
+          "kind": "raze_completed",
+          "time": 331.267,
+          "side": 1,
+          "spell": "mid",
+          "hero_center_distance": 176.72,
+          "hero_health_before": 584.75,
+          "hero_health_after": 401.5,
+          "own_lh_delta": 1,
+          "mana_spent_net": 74.77,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "raze_completed",
+          "time": 358.6,
+          "side": 1,
+          "spell": "mid",
+          "hero_center_distance": 147.04,
+          "hero_health_before": 761.0,
+          "hero_health_after": 578.76,
+          "own_lh_delta": 1,
+          "mana_spent_net": 74.77,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "raze_completed",
+          "time": 383.8,
+          "side": 1,
+          "spell": "mid",
+          "hero_center_distance": 206.3,
+          "hero_health_before": 721.13,
+          "hero_health_after": 537.89,
+          "own_lh_delta": 0,
+          "mana_spent_net": 74.75,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 387.533,
+          "side": 1,
+          "hero_distance": 513.18,
+          "nearest_enemy_creep": 656.61
+        },
+        {
+          "kind": "raze_completed",
+          "time": 449.267,
+          "side": 1,
+          "spell": "mid",
+          "hero_center_distance": 161.61,
+          "hero_health_before": 967.68,
+          "hero_health_after": 784.47,
+          "own_lh_delta": 0,
+          "mana_spent_net": 74.75,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "raze_completed",
+          "time": 457.667,
+          "side": 1,
+          "spell": "far",
+          "hero_center_distance": 200.35,
+          "hero_health_before": 825.65,
+          "hero_health_after": 642.44,
+          "own_lh_delta": 1,
+          "mana_spent_net": 74.75,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "raze_completed",
+          "time": 483.133,
+          "side": 1,
+          "spell": "mid",
+          "hero_center_distance": 137.57,
+          "hero_health_before": 1028.0,
+          "hero_health_after": 797.59,
+          "own_lh_delta": 1,
+          "mana_spent_net": 74.74,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 484.733,
+          "side": 1,
+          "hero_distance": 571.93,
+          "nearest_enemy_creep": 626.71
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 490.2,
+          "side": 1,
+          "hero_distance": 429.22,
+          "nearest_enemy_creep": 2636.18
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 491.267,
+          "side": 1,
+          "hero_distance": 417.96,
+          "nearest_enemy_creep": 2289.67
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 492.333,
+          "side": 1,
+          "hero_distance": 417.96,
+          "nearest_enemy_creep": 1943.2
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 493.267,
+          "side": 1,
+          "hero_distance": 417.96,
+          "nearest_enemy_creep": 1640.12
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 494.333,
+          "side": 1,
+          "hero_distance": 417.96,
+          "nearest_enemy_creep": 1316.57
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 495.267,
+          "side": 1,
+          "hero_distance": 417.96,
+          "nearest_enemy_creep": 1084.09
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 496.333,
+          "side": 1,
+          "hero_distance": 417.96,
+          "nearest_enemy_creep": 737.63
+        },
+        {
+          "kind": "raze_completed",
+          "time": 524.333,
+          "side": 1,
+          "spell": "mid",
+          "hero_center_distance": 408.88,
+          "hero_health_before": 1010.94,
+          "hero_health_after": 1011.77,
+          "own_lh_delta": 1,
+          "mana_spent_net": 74.74,
+          "hero_inside_radius_with_hull": false,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "raze_completed",
+          "time": 560.867,
+          "side": 1,
+          "spell": "mid",
+          "hero_center_distance": 195.33,
+          "hero_health_before": 1094.0,
+          "hero_health_after": 864.52,
+          "own_lh_delta": 1,
+          "mana_spent_net": 74.74,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 573.933,
+          "side": 1,
+          "hero_distance": 559.5,
+          "nearest_enemy_creep": 4905.42
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 575.0,
+          "side": 1,
+          "hero_distance": 559.5,
+          "nearest_enemy_creep": 4558.8
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 575.933,
+          "side": 1,
+          "hero_distance": 559.5,
+          "nearest_enemy_creep": 4255.51
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 576.867,
+          "side": 1,
+          "hero_distance": 559.5,
+          "nearest_enemy_creep": 3952.22
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 577.933,
+          "side": 1,
+          "hero_distance": 559.5,
+          "nearest_enemy_creep": 3724.53
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 578.867,
+          "side": 1,
+          "hero_distance": 559.5,
+          "nearest_enemy_creep": 3421.22
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 579.8,
+          "side": 1,
+          "hero_distance": 571.17,
+          "nearest_enemy_creep": 3071.25
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 582.2,
+          "side": 1,
+          "hero_distance": 562.16,
+          "nearest_enemy_creep": 1521.89
+        },
+        {
+          "kind": "tower_retreat",
+          "time": 582.867,
+          "side": 1,
+          "tower_target": 1,
+          "distance": 481.17,
+          "move_bins": [
+            83,
+            88
+          ],
+          "health": 1138.0
+        },
+        {
+          "kind": "raze_completed",
+          "time": 598.333,
+          "side": 1,
+          "spell": "far",
+          "hero_center_distance": 78.05,
+          "hero_health_before": 654.01,
+          "hero_health_after": 424.84,
+          "own_lh_delta": 1,
+          "mana_spent_net": 74.72,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        }
+      ]
+    },
+    {
+      "match": 2,
+      "v10_side": 0,
+      "frames": 5123,
+      "ended": true,
+      "counts": {
+        "raze_completed": 17,
+        "hero_attack_cycle": 29,
+        "tower_retreat": 1
+      },
+      "events": [
+        {
+          "kind": "raze_completed",
+          "time": 18.333,
+          "side": 0,
+          "spell": "far",
+          "hero_center_distance": 253.87,
+          "hero_health_before": 582.0,
+          "hero_health_after": 519.23,
+          "own_lh_delta": 0,
+          "mana_spent_net": 74.84,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "raze_completed",
+          "time": 19.533,
+          "side": 0,
+          "spell": "mid",
+          "hero_center_distance": 131.0,
+          "hero_health_before": 521.74,
+          "hero_health_after": 434.05,
+          "own_lh_delta": 0,
+          "mana_spent_net": 74.84,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "raze_completed",
+          "time": 28.2,
+          "side": 0,
+          "spell": "far",
+          "hero_center_distance": 111.76,
+          "hero_health_before": 454.11,
+          "hero_health_after": 391.42,
+          "own_lh_delta": 0,
+          "mana_spent_net": 74.84,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "raze_completed",
+          "time": 31.0,
+          "side": 0,
+          "spell": "mid",
+          "hero_center_distance": 143.03,
+          "hero_health_before": 397.69,
+          "hero_health_after": 310.0,
+          "own_lh_delta": 1,
+          "mana_spent_net": 74.84,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 37.0,
+          "side": 0,
+          "hero_distance": 580.19,
+          "nearest_enemy_creep": 526.81
+        },
+        {
+          "kind": "raze_completed",
+          "time": 69.4,
+          "side": 0,
+          "spell": "mid",
+          "hero_center_distance": 129.26,
+          "hero_health_before": 573.37,
+          "hero_health_after": 506.82,
+          "own_lh_delta": 0,
+          "mana_spent_net": 74.83,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "raze_completed",
+          "time": 131.8,
+          "side": 0,
+          "spell": "mid",
+          "hero_center_distance": 168.58,
+          "hero_health_before": 621.74,
+          "hero_health_after": 500.22,
+          "own_lh_delta": 1,
+          "mana_spent_net": 74.81,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 133.4,
+          "side": 0,
+          "hero_distance": 329.76,
+          "nearest_enemy_creep": 960.19
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 134.6,
+          "side": 0,
+          "hero_distance": 540.57,
+          "nearest_enemy_creep": 677.41
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 135.667,
+          "side": 0,
+          "hero_distance": 566.25,
+          "nearest_enemy_creep": 580.12
+        },
+        {
+          "kind": "tower_retreat",
+          "time": 140.2,
+          "side": 0,
+          "tower_target": 0,
+          "distance": 412.44,
+          "move_bins": [
+            33,
+            49
+          ],
+          "health": 360.76
+        },
+        {
+          "kind": "raze_completed",
+          "time": 181.4,
+          "side": 0,
+          "spell": "mid",
+          "hero_center_distance": 152.56,
+          "hero_health_before": 758.0,
+          "hero_health_after": 634.42,
+          "own_lh_delta": 1,
+          "mana_spent_net": 74.81,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "raze_completed",
+          "time": 230.733,
+          "side": 0,
+          "spell": "near",
+          "hero_center_distance": 555.93,
+          "hero_health_before": 758.0,
+          "hero_health_after": 758.0,
+          "own_lh_delta": 0,
+          "mana_spent_net": 74.8,
+          "hero_inside_radius_with_hull": false,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 242.467,
+          "side": 0,
+          "hero_distance": 593.48,
+          "nearest_enemy_creep": 539.54
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 245.267,
+          "side": 0,
+          "hero_distance": 566.58,
+          "nearest_enemy_creep": 5157.68
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 246.333,
+          "side": 0,
+          "hero_distance": 581.16,
+          "nearest_enemy_creep": 4862.79
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 247.533,
+          "side": 0,
+          "hero_distance": 565.26,
+          "nearest_enemy_creep": 4432.7
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 248.6,
+          "side": 0,
+          "hero_distance": 565.26,
+          "nearest_enemy_creep": 4086.3
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 249.667,
+          "side": 0,
+          "hero_distance": 565.26,
+          "nearest_enemy_creep": 3739.95
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 250.733,
+          "side": 0,
+          "hero_distance": 565.26,
+          "nearest_enemy_creep": 3393.68
+        },
+        {
+          "kind": "raze_completed",
+          "time": 277.4,
+          "side": 0,
+          "spell": "far",
+          "hero_center_distance": 109.37,
+          "hero_health_before": 684.76,
+          "hero_health_after": 553.35,
+          "own_lh_delta": 0,
+          "mana_spent_net": 74.8,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "raze_completed",
+          "time": 333.667,
+          "side": 0,
+          "spell": "far",
+          "hero_center_distance": 81.37,
+          "hero_health_before": 962.0,
+          "hero_health_after": 782.47,
+          "own_lh_delta": 0,
+          "mana_spent_net": 74.78,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "raze_completed",
+          "time": 335.4,
+          "side": 0,
+          "spell": "mid",
+          "hero_center_distance": 180.97,
+          "hero_health_before": 789.96,
+          "hero_health_after": 563.58,
+          "own_lh_delta": 1,
+          "mana_spent_net": 74.78,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 337.0,
+          "side": 0,
+          "hero_distance": 523.05,
+          "nearest_enemy_creep": 672.88
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 338.067,
+          "side": 0,
+          "hero_distance": 579.76,
+          "nearest_enemy_creep": 672.88
+        },
+        {
+          "kind": "raze_completed",
+          "time": 396.733,
+          "side": 0,
+          "spell": "far",
+          "hero_center_distance": 227.42,
+          "hero_health_before": 1028.0,
+          "hero_health_after": 844.59,
+          "own_lh_delta": 0,
+          "mana_spent_net": 74.78,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "raze_completed",
+          "time": 444.867,
+          "side": 0,
+          "spell": "mid",
+          "hero_center_distance": 166.39,
+          "hero_health_before": 983.69,
+          "hero_health_after": 800.35,
+          "own_lh_delta": 1,
+          "mana_spent_net": 38.77,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 452.333,
+          "side": 0,
+          "hero_distance": 564.21,
+          "nearest_enemy_creep": 729.02
+        },
+        {
+          "kind": "raze_completed",
+          "time": 455.533,
+          "side": 0,
+          "spell": "mid",
+          "hero_center_distance": 65.91,
+          "hero_health_before": 1024.92,
+          "hero_health_after": 842.62,
+          "own_lh_delta": 1,
+          "mana_spent_net": 74.77,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 456.333,
+          "side": 0,
+          "hero_distance": 320.41,
+          "nearest_enemy_creep": 4039.48
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 457.4,
+          "side": 0,
+          "hero_distance": 242.93,
+          "nearest_enemy_creep": 3722.44
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 458.333,
+          "side": 0,
+          "hero_distance": 242.93,
+          "nearest_enemy_creep": 3419.19
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 459.4,
+          "side": 0,
+          "hero_distance": 242.93,
+          "nearest_enemy_creep": 3072.64
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 460.467,
+          "side": 0,
+          "hero_distance": 242.93,
+          "nearest_enemy_creep": 2726.13
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 461.533,
+          "side": 0,
+          "hero_distance": 242.93,
+          "nearest_enemy_creep": 2379.66
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 462.6,
+          "side": 0,
+          "hero_distance": 242.93,
+          "nearest_enemy_creep": 2033.25
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 463.667,
+          "side": 0,
+          "hero_distance": 463.49,
+          "nearest_enemy_creep": 1686.94
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 491.4,
+          "side": 0,
+          "hero_distance": 349.42,
+          "nearest_enemy_creep": 2082.22
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 492.467,
+          "side": 0,
+          "hero_distance": 349.42,
+          "nearest_enemy_creep": 1735.58
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 493.4,
+          "side": 0,
+          "hero_distance": 349.42,
+          "nearest_enemy_creep": 1432.27
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 494.467,
+          "side": 0,
+          "hero_distance": 349.42,
+          "nearest_enemy_creep": 1191.58
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 495.533,
+          "side": 0,
+          "hero_distance": 349.42,
+          "nearest_enemy_creep": 852.26
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 496.6,
+          "side": 0,
+          "hero_distance": 575.56,
+          "nearest_enemy_creep": 506.59
+        },
+        {
+          "kind": "raze_completed",
+          "time": 507.267,
+          "side": 0,
+          "spell": "mid",
+          "hero_center_distance": 159.97,
+          "hero_health_before": 437.21,
+          "hero_health_after": 255.04,
+          "own_lh_delta": 1,
+          "mana_spent_net": 74.77,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "raze_completed",
+          "time": 542.467,
+          "side": 0,
+          "spell": "mid",
+          "hero_center_distance": 165.75,
+          "hero_health_before": 797.69,
+          "hero_health_after": 615.39,
+          "own_lh_delta": 1,
+          "mana_spent_net": 50.74,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        },
+        {
+          "kind": "hero_attack_cycle",
+          "time": 543.8,
+          "side": 0,
+          "hero_distance": 577.57,
+          "nearest_enemy_creep": 644.77
+        },
+        {
+          "kind": "raze_completed",
+          "time": 547.667,
+          "side": 0,
+          "spell": "far",
+          "hero_center_distance": 127.0,
+          "hero_health_before": 554.84,
+          "hero_health_after": 268.53,
+          "own_lh_delta": 0,
+          "mana_spent_net": 74.74,
+          "hero_inside_radius_with_hull": true,
+          "note": "4-tick trace; health/LH deltas can include concurrent projectiles, geometry is sampled after completion"
+        }
+      ]
+    }
+  ],
+  "limitations": "Trace sampled every four ticks; exact damage, releases and aggro totals come from the event counters in report.json."
+}
