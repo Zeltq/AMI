@@ -13,6 +13,8 @@ pub const EXAMPLES:usize=24;
 pub const EXAMPLE_FIELDS:usize=30;
 pub const AUDIT_FIELDS:usize=AUDIT_HEADER+EXAMPLES*EXAMPLE_FIELDS;
 const MEMORY_FIELDS:usize=16;
+#[path="teacher_dagger.rs"]
+mod dagger;
 const FORECAST_FIELDS:usize=10;
 const HORIZON:usize=96;
 const TRACE_UNITS:usize=64;

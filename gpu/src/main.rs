@@ -62,6 +62,7 @@ mod cli_tests {
 #[derive(Subcommand)]
 enum Command {
     CollectTeacher {config:PathBuf,output:PathBuf},
+    CollectDagger {config:PathBuf,output:PathBuf},
     TrainIl {config:PathBuf,output:PathBuf,#[arg(long)]max_updates:Option<usize>},
     EvaluateGgd {engine:PathBuf,weights:PathBuf,output:PathBuf,#[arg(long,default_value_t=8)]matches:usize,#[arg(long,default_value_t=600.)]seconds:f32,#[arg(long,default_value="teacher")]mode:String,#[arg(long,default_value_t=20261103)]seed:u32,#[arg(long)]trace:bool,#[arg(long)]record_teacher:bool,
         #[arg(long,conflicts_with="sampling",help="Greedy selection (also the legacy default)")]argmax:bool,#[arg(long,help="Sample all conditional action heads")]sampling:bool,#[arg(long)]zero_previous:bool},
@@ -102,6 +103,7 @@ fn main()->anyhow::Result<()> {
     tracing_subscriber::fmt().with_env_filter(tracing_subscriber::EnvFilter::from_default_env()).with_writer(std::io::stderr).init();
     let result=match Cli::parse().command {
         Command::CollectTeacher{config,output}=>imitation::collect(serde_json::from_slice(&std::fs::read(config)?)?,&output)?,
+        Command::CollectDagger{config,output}=>imitation::collect_dagger(serde_json::from_slice(&std::fs::read(config)?)?,&output)?,
         Command::TrainIl{config,output,max_updates}=>imitation::train(&config,&output,max_updates)?,
         Command::EvaluateGgd{engine,weights,output,matches,seconds,mode,seed,trace,record_teacher,argmax,sampling,zero_previous}=>imitation::evaluate(&engine,&weights,&output,matches,seconds,&mode,seed,trace,record_teacher,argmax||!sampling,zero_previous)?,
         Command::TeacherCheck{engine,output}=>scripted_teacher::check(&engine,&output)?,

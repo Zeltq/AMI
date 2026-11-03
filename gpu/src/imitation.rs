@@ -21,7 +21,7 @@ impl Default for CollectConfig {fn default()->Self{Self{engine:"runs/gpu/dota-ca
 pub fn split(game:usize)->&'static str {match game%8 {6=>"validation",7=>"test",_=>"train"}}
 
 #[derive(Clone,Serialize,Deserialize)]
-struct Header {version:usize,actors:Vec<usize>,columns:Vec<i32>,buckets:[usize;3],horizon:usize,signal_fields:usize,observation_dtype:String}
+struct Header {format_version:usize,source:String,version:usize,actors:Vec<usize>,columns:Vec<i32>,buckets:[usize;3],horizon:usize,signal_fields:usize,observation_dtype:String}
 #[derive(Clone,Serialize,Deserialize)]
 struct Entry {file:String,sha256:String,bytes:u64,valid_frames:usize,attacks:usize,actors:Vec<usize>}
 #[derive(Serialize,Deserialize)]
@@ -42,7 +42,7 @@ pub fn columns(pc:usize,pt:usize,pp:usize)->Vec<i32>{
 }
 
 struct Snapshot {name:String,header:Header,observations:CubeTensor,signals:CubeTensor}
-struct DemoWriter {sender:SyncSender<Snapshot>,worker:JoinHandle<Result<Vec<Entry>>>}
+struct DemoWriter {source:String,sender:SyncSender<Snapshot>,worker:JoinHandle<Result<Vec<Entry>>>}
 impl DemoWriter {
     fn new(root:&Path)->Self {
         let (sender,receiver)=sync_channel::<Snapshot>(2);let root=root.to_path_buf();
@@ -59,7 +59,7 @@ impl DemoWriter {
                 zip.write_all(&obs)?;zip.write_all(&sig)?;zip.finish()?;std::fs::rename(temporary,&file)?;
                 entries.push(Entry{file:job.name,sha256:crate::runtime::file_sha256(&file)?,bytes:std::fs::metadata(file)?.len(),valid_frames,attacks,actors:job.header.actors});
             }Ok(entries)
-        });Self{sender,worker}
+        });Self{source:"teacher-demo".into(),sender,worker}
     }
     fn store(&self,experience:&Experience,game_offset:usize,block:usize)->Result<()> {
         let (pc,pt,pp)=experience.buckets();let cols=columns(pc,pt,pp);let d=device();
@@ -67,7 +67,7 @@ impl DemoWriter {
         for (index,shard) in experience.observations.iter().enumerate(){let n=shard.meta.shape()[0];
             let observations=primitive(tensor::<3>(shard.clone()).select(2,indices.clone()));
             let signals=primitive(experience.signals().slice([actor_offset..actor_offset+n,0..HORIZON,0..SIGNALS])+0.0f32);
-            let header=Header{version:GGD_SPEC_VERSION,actors:(actor_offset..actor_offset+n).map(|a|game_offset*2+a).collect(),columns:cols.clone(),buckets:[pc,pt,pp],horizon:HORIZON,signal_fields:SIGNALS,observation_dtype:"f16_le".into()};
+            let header=Header{format_version:3,source:self.source.clone(),version:GGD_SPEC_VERSION,actors:(actor_offset..actor_offset+n).map(|a|game_offset*2+a).collect(),columns:cols.clone(),buckets:[pc,pt,pp],horizon:HORIZON,signal_fields:SIGNALS,observation_dtype:"f16_le".into()};
             self.sender.send(Snapshot{name:format!("block-{block:06}-shard-{index:03}.ggd.gz"),header,observations,signals})?;actor_offset+=n;
         }Ok(())
     }
@@ -77,30 +77,69 @@ impl DemoWriter {
 #[cube(launch)]
 fn valid(state:&[f32],audit:&[f32],out:&mut [f32],actors:usize){let a=ABSOLUTE_POS;if a<actors{let p=(a/2*UNITS+a%2)*STRIDE;out[a]=if audit[a/2*crate::scripted_teacher::AUDIT_FIELDS]==0.0f32&&state[p+ACTIVE]>0.0f32&&state[p+UNIT_HEALTH]>0.0f32{1.0f32}else{0.0f32};}}
 
-pub fn collect(config:CollectConfig,root:&Path)->Result<serde_json::Value>{
+#[derive(Clone,Serialize,Deserialize,Debug)]
+#[serde(deny_unknown_fields)]
+pub struct DaggerConfig {pub collection:CollectConfig,pub weights:String,pub beta:f32,pub round:usize}
+
+pub fn collect(config:CollectConfig,root:&Path)->Result<serde_json::Value>{collect_impl(config,root,None)}
+pub fn collect_dagger(config:DaggerConfig,root:&Path)->Result<serde_json::Value>{
+    ensure!((0.0..=1.0).contains(&config.beta)&&config.round>0,"beta in [0,1] and positive round required");
+    ensure!(config.collection.games%2==0,"balanced learner sides require even games");
+    collect_impl(config.collection.clone(),root,Some(config))
+}
+fn collect_impl(config:CollectConfig,root:&Path,dagger:Option<DaggerConfig>)->Result<serde_json::Value>{
     ensure!(config.games>0&&config.parallel_matches>0&&config.seconds>0.&&config.seconds<=600.,"positive games/parallel count and 0 < seconds <= 600 required");
     std::fs::create_dir_all(root)?;ensure!(!root.join("config.json").exists(),"choose a fresh dataset directory");
     let lock=std::fs::OpenOptions::new().create(true).truncate(false).write(true).open(root.join("dataset.lock"))?;lock.try_lock()?;
     crate::artifacts::atomic_json(&root.join("config.json"),&config)?;let engine=crate::artifacts::freeze_environment(Path::new(&config.engine),root,false)?;
     let teacher_sha=crate::runtime::bytes_sha256(include_bytes!("scripted_teacher.rs"));let started=Instant::now();let d=device();
-    let writer=DemoWriter::new(root);let mut block=0usize;let mut game_metrics=vec![];let mut partial=false;let mut completed=0usize;
+    let mut writer=DemoWriter::new(root);
+    let policy=if let Some(cfg)=dagger.as_ref(){
+        writer.source=format!("dagger-round-{}",cfg.round);crate::artifacts::atomic_json(&root.join("dagger.json"),cfg)?;
+        let model=crate::bridge::import(Path::new(&cfg.weights),&d)?.valid();ensure!(model.is_ggd(),"GGD weights required");Some(model)
+    }else{None};
+    let mut learner_frames=0usize;let mut disagreements=0usize;let mut teacher_executed=0usize;
+    let mut block=0usize;let mut game_metrics=vec![];let mut partial=false;let mut completed=0usize;
     'cohorts:for offset in (0..config.games).step_by(config.parallel_matches){
         if config.max_blocks.is_some_and(|limit|block>=limit){partial=true;break;}
         let games=config.parallel_matches.min(config.games-offset);let n=games*2;let w=World::load(&engine,games,&d)?;
         let teacher=crate::scripted_teacher::Teacher::new(&w);let metrics=crate::ggd_metrics::Metrics::new(&w);metrics.sample(&w,&teacher);let observer=crate::combat_observe::CombatObserver::new(&w);let rng=Sampler::new(games,config.seed.wrapping_add(offset as u32*7919),&d);
+        let sampler=Sampler::new(n,config.seed.wrapping_add(offset as u32*7919).wrapping_add(1),&d);
+        let mixing=Sampler::new(n,config.seed.wrapping_add(offset as u32*7919).wrapping_add(2),&d);
+        let learners=Tensor::<1,Int>::from_data(TensorData::new((0..n).map(|a|i32::from(a%2==(offset+a/2)%2)).collect::<Vec<_>>(),[n]),&d).greater_elem(0).unsqueeze_dim::<2>(1);
+        let mut h=Tensor::<2>::zeros([n,256],&d);let mut c=h.clone();
         let mut experience=Experience::new_ggd(n,&d);let mut previous=observe::initial_previous(n,&d);let mask=primitive(Tensor::<1>::zeros([n],&d));let mut stored=0usize;
         let limit=((w.engine.pre_game_seconds+config.seconds)*7.5).ceil()as usize+2;
         for step in 0..limit {
             if step%HORIZON==0&&step>0 {experience.signals=primitive(Tensor::<3>::zeros([n,HORIZON,SIGNALS],&d));}
             let obs=w.observe(previous.clone());let mut extended=observer.enrich(&w,&obs);extended.packed=extended.packed.cast(DType::F16);
-            let actions=teacher.actions(&w,&obs);
+            let snapshot=dagger.as_ref().map(|_|teacher.command_snapshot());
+            let labels=teacher.actions(&w,&obs);
+            let (actions,extra)=if let (Some(policy),Some(cfg))=(policy.as_ref(),dagger.as_ref()){
+                if step%HORIZON==0 {h=Tensor::zeros([n,256],&d);c=h.clone();}
+                let keep:Tensor<2>=1.0f32-obs.reset.clone().unsqueeze_dim::<2>(1);h=h*keep.clone();c=c*keep;
+                let batch=extended.decode();let encoded=policy.encode(&batch);(h,c)=policy.memory.step(encoded.fused,h,c);
+                let predicted=policy.heads(&batch,h.clone(),encoded.keys,None,&sampler).actions;
+                let choose=if cfg.beta==1. {Tensor::<2>::ones([n,1],&d).greater_elem(0.)}
+                    else if cfg.beta==0. {Tensor::<2>::zeros([n,1],&d).greater_elem(0.)}
+                    else {let logits=Tensor::cat(vec![Tensor::full([n,1],(1.-cfg.beta).ln(),&d),Tensor::full([n,1],cfg.beta.ln(),&d)],1);mixing.draw(logits).greater_elem(0).unsqueeze_dim::<2>(1)};
+                let use_student=learners.clone().bool_and(choose.clone().bool_not());
+                let disagreement=predicted.clone().not_equal(labels.clone()).int().sum_dim(1).greater_elem(0).float();
+                let actions=labels.clone().mask_where(use_student.clone(),predicted);
+                teacher.reconcile_commands(&w,&obs,snapshot.unwrap(),labels.clone(),actions.clone());
+                (actions,Tensor::cat(vec![use_student.bool_not().float(),disagreement,learners.clone().float(),Tensor::zeros([n,1],&d)],1))
+            }else{(labels.clone(),Tensor::zeros([n,4],&d))};
             metrics.commands(&w,&teacher,actions.clone(),&obs.refs);
             valid::launch(&w.state.client,CubeCount::Static(n.div_ceil(64)as u32,1,1),CubeDim::new_1d(64),argument(&w.state),argument(&teacher.audit),argument(&mask),n);
             let eligibility=tensor::<1>(mask.clone())+0.0f32;previous=obs.previous(actions.clone(),&w.bases,&w.state);
-            let signal=Tensor::cat(vec![actions.clone().float(),Tensor::zeros([n,4],&d),obs.reset.clone().unsqueeze_dim::<2>(1),eligibility.unsqueeze_dim::<2>(1),Tensor::full([n,1],GGD_SPEC_VERSION as f32,&d)],1);
+            let signal=Tensor::cat(vec![labels.float(),extra,obs.reset.clone().unsqueeze_dim::<2>(1),eligibility.unsqueeze_dim::<2>(1),Tensor::full([n,1],GGD_SPEC_VERSION as f32,&d)],1);
             experience.store(step%HORIZON,&extended,signal);stored+=1;
             let _=w.advance_teacher(actions,&obs.refs,&rng,&teacher,true);teacher.record(&w,config.seconds);metrics.sample(&w,&teacher);
             if stored==HORIZON || step+1==limit {
+                if dagger.is_some(){
+                    let values=experience.signals().into_data().try_to_vec::<f32>().unwrap();
+                    for v in values.chunks_exact(SIGNALS){if v[11]>0.5 && v[8]>0.5 {learner_frames+=1;disagreements+=usize::from(v[7]>0.5);teacher_executed+=usize::from(v[6]>0.5);}}
+                }
                 writer.store(&experience,offset,block)?;block+=1;stored=0;
                 let values=teacher.values();let done=values.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).filter(|v|v[0]>0.).count();
                 let duration=values[1];eprintln!("GGD collection block={block} cohort={offset} game_time={duration:.2} finished={done}/{games} wall={:.2}s",started.elapsed().as_secs_f64());
@@ -122,7 +161,7 @@ pub fn collect(config:CollectConfig,root:&Path)->Result<serde_json::Value>{
     let dataset=Dataset{family:"GGD".into(),observation_profile:"ggd-v2".into(),teacher_sha256:teacher_sha,source_sha256:crate::runtime::bytes_sha256(concat!(include_str!("combat_observe.rs"),include_str!("../src/contract.rs")).as_bytes()),config:config.clone(),partial,completed_matches:completed,elapsed_seconds:elapsed,files,game_metrics};
     crate::artifacts::atomic_json(&root.join("dataset.json"),&dataset)?;
     crate::artifacts::atomic_json(&root.join("teacher-summary.json"),&crate::ggd_metrics::summary(&dataset.game_metrics))?;
-    let report=serde_json::json!({"family":"GGD","dataset":root,"games_requested":config.games,"games_recorded":dataset.game_metrics.len(),"native_completed":completed,"partial":partial,"blocks":block,"valid_decisions":frames,"attack_decisions":attacks,"compressed_bytes":bytes,"wall_seconds":elapsed,"decisions_per_second":frames as f64/elapsed,"train_games":(0..config.games).filter(|g|split(*g)=="train").count(),"validation_games":(0..config.games).filter(|g|split(*g)=="validation").count(),"test_games":(0..config.games).filter(|g|split(*g)=="test").count(),"cpu_boundary":"compact FP16 snapshots every 128 decisions; bounded writer, no dropped samples"});
+    let report=serde_json::json!({"family":"GGD","dataset":root,"games_requested":config.games,"games_recorded":dataset.game_metrics.len(),"native_completed":completed,"partial":partial,"blocks":block,"valid_decisions":frames,"learner_decisions":learner_frames,"disagreements":disagreements,"teacher_executed":teacher_executed,"dagger":dagger,"format_version":3,"signal_fields_extra":{"6":"teacher_executed","7":"learner_label_disagreement_all_six_fields","8":"learner_actor"},"attack_decisions":attacks,"compressed_bytes":bytes,"wall_seconds":elapsed,"decisions_per_second":frames as f64/elapsed,"train_games":(0..config.games).filter(|g|split(*g)=="train").count(),"validation_games":(0..config.games).filter(|g|split(*g)=="validation").count(),"test_games":(0..config.games).filter(|g|split(*g)=="test").count(),"cpu_boundary":"compact FP16 snapshots every 128 decisions; bounded writer, no dropped samples"});
     crate::artifacts::atomic_json(&root.join("report.json"),&report)?;Ok(report)
 }
 
