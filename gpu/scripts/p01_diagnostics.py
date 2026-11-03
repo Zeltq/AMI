@@ -81,7 +81,7 @@ def deaths(root,output):
         if len(windows)==4:break
     save(output,{'matches':report['matches'],'radiant_learner_pregame_deaths':ratio(len(windows),report['matches']//2),'windows':windows});print(json.dumps(windows,indent=2))
 
-def parity_fixture(checkpoint,fixture,output,device='cuda'):
+def parity_fixture(checkpoint,fixture,output,device='cuda',full_buckets=False):
     import torch
     from sf_duel.model import Policy
     from sf_duel.observations import packed_tensors
@@ -89,15 +89,28 @@ def parity_fixture(checkpoint,fixture,output,device='cuda'):
     from weights import write_bundle
     torch.set_num_threads(2);torch.manual_seed(20261102)
     saved=torch.load(checkpoint,map_location='cpu',weights_only=False);model=Policy(combat_inputs=True).eval().to(device);model.load_state_dict(saved['state_dict'])
-    data=np.load(fixture);arrays={k:data[k] for k in data.files if k not in ('labels','loss_valid','resets')};b=packed_tensors(arrays,device);y=torch.as_tensor(data['labels'],device=device);resets=data['resets'].reshape(1,-1)
+    data=np.load(fixture);arrays={k:data[k] for k in data.files if k not in ('labels','loss_valid','resets')};b=packed_tensors(arrays,device);labels=data['labels'].copy();resets=data['resets'].reshape(1,-1);padding={}
+    if full_buckets:
+        with torch.no_grad():compact_h,_=recurrent(model,b,1,resets)
+        pc=arrays['creeps'].shape[1];pt=arrays['trees'].shape[1];indices=np.r_[np.arange(2+pc),np.arange(258,262),np.arange(262,262+pt),518]
+        labels[:,3]=indices[labels[:,3]]
+        for key in arrays:
+            capacity=256 if key in ('creeps','creep_combat','creep_valid','creep_ally','trees','tree_valid') else 512 if key in ('projectiles','projectile_combat','projectile_valid') else None
+            if capacity:
+                value=arrays[key];expanded=np.zeros((len(value),capacity,*value.shape[2:]),dtype=value.dtype);expanded[:,:value.shape[1]]=value;arrays[key]=expanded
+            if key in ('attack_mask','tree_mask','tp_mask','self_mask'):
+                value=arrays[key];expanded=np.zeros((len(value),519),dtype=value.dtype);expanded[:,indices]=value;arrays[key]=expanded
+        b=packed_tensors(arrays,device)
+    y=torch.as_tensor(labels,device=device)
     with torch.no_grad():
         h,keys=recurrent(model,b,1,resets);action=y[:,0];is_item=action==Act.ITEM;item=torch.where(is_item,y[:,2],torch.zeros_like(y[:,2]));embedding=model.action_embed(action);condition=torch.cat((h,embedding,model.item_embed(item)),-1)
+        if full_buckets:padding={'creeps':256,'trees':256,'projectiles':512,'compact_hidden_max_absolute_delta':float((h-compact_h).abs().max())}
         logits={'action':model.action_head(h),'buy':model.buy_head(h),'item':model.item_head(torch.cat((h,embedding),-1)),'target':torch.einsum('bu,bnu->bn',model.query(condition),keys)/8,'x':model.x_head(condition),'y':model.y_head(condition)}
         masks={'action':b['action_mask'],'buy':b['buy_mask'],'item':torch.where(is_item[:,None],b['item_mask'],torch.ones_like(b['item_mask'])),'x':torch.ones_like(logits['x'],dtype=torch.bool),'y':torch.ones_like(logits['y'],dtype=torch.bool)}
         target_mask=torch.where((action==Act.ATTACK)[:,None],b['attack_mask'],b['self_mask']);target_mask=torch.where((is_item&(item==3))[:,None],b['tp_mask'],target_mask);target_mask=torch.where((is_item&(item==6))[:,None],b['tree_mask'],target_mask);masks['target']=target_mask
         result={k:v.cpu().numpy() for k,v in b.items()};result.update(labels=y.cpu().numpy(),resets=resets.reshape(-1),expected_h=h.cpu().numpy(),expected_value=model.value_head(h).squeeze(-1).cpu().numpy());result.update({f'expected_{k}_logits':v.cpu().numpy() for k,v in logits.items()});result.update({f'{k}_mask':v.cpu().numpy() for k,v in masks.items()})
     runtime={'torch':torch.__version__,'hip':torch.version.hip,'device':torch.cuda.get_device_name(0) if device=='cuda' else 'CPU'}
-    write_bundle(Path(output),result,checkpoint_sha256=hashlib.sha256(Path(checkpoint).read_bytes()).hexdigest(),source=str(fixture),forward='train_ggd.recurrent, batch_sequences=1, length=128, life resets applied',runtime=runtime)
+    write_bundle(Path(output),result,checkpoint_sha256=hashlib.sha256(Path(checkpoint).read_bytes()).hexdigest(),source=str(fixture),forward='train_ggd.recurrent, batch_sequences=1, length=128, life resets applied',runtime=runtime,padding=padding)
     print(json.dumps({'output':str(output),'steps':len(y),'runtime':runtime}))
 
 def observations(collect,evaluation,output):
@@ -143,11 +156,11 @@ def main():
     p=argparse.ArgumentParser();s=p.add_subparsers(dest='command',required=True)
     for name in ('dataset','deaths'):
         q=s.add_parser(name);q.add_argument('input');q.add_argument('output')
-    q=s.add_parser('parity-fixture');q.add_argument('checkpoint');q.add_argument('fixture');q.add_argument('output');q.add_argument('--device',choices=('cpu','cuda'),default='cuda')
+    q=s.add_parser('parity-fixture');q.add_argument('checkpoint');q.add_argument('fixture');q.add_argument('output');q.add_argument('--device',choices=('cpu','cuda'),default='cuda');q.add_argument('--full-buckets',action='store_true')
     q=s.add_parser('observations');q.add_argument('collect');q.add_argument('evaluation');q.add_argument('output')
     q=s.add_parser('evaluation-grid');q.add_argument('config')
     a=p.parse_args()
-    if a.command=='parity-fixture':parity_fixture(a.checkpoint,a.fixture,a.output,a.device)
+    if a.command=='parity-fixture':parity_fixture(a.checkpoint,a.fixture,a.output,a.device,a.full_buckets)
     elif a.command=='observations':observations(a.collect,a.evaluation,a.output)
     elif a.command=='evaluation-grid':evaluation_grid(a.config)
     else:globals()[a.command](a.input,a.output)
