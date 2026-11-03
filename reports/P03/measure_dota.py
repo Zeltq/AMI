@@ -112,7 +112,16 @@ end
 def save(path, value):
     temporary = path.with_name(path.name + f'.p03-{os.getpid()}.pending')
     temporary.write_text(json.dumps(value, ensure_ascii=False, indent=2), encoding='utf-8')
-    temporary.replace(path)
+    # Windows readers can briefly hold the destination without delete sharing.
+    # Retry this transient collision rather than terminating a live Dota job.
+    for attempt in range(20):
+        try:
+            temporary.replace(path)
+            break
+        except PermissionError:
+            if attempt == 19:
+                raise
+            time.sleep(.05)
 
 
 class WorldCapture:
