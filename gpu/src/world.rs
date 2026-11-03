@@ -94,6 +94,7 @@ pub struct Engine {
 
 pub struct World {
     pub state:CubeTensor,pub shots:CubeTensor,pub shot_hits:CubeTensor,pub meta:CubeTensor,pub tree_alive:CubeTensor,
+    pub teacher_combat:CubeTensor,
     pub commands:CubeTensor,pub rewards:CubeTensor,pub terminals:CubeTensor,
     pub collision_grid:CubeTensor,pub extra_vision:CubeTensor,pub fow_blockers:CubeTensor,pub static_vision:CubeTensor,
     pub sf_projectile_animation:CubeTensor,
@@ -198,6 +199,7 @@ impl World {
         let mut world=Self {
             state:zeros(matches*UNITS*STRIDE),shots:zeros(matches*SHOTS*SHOT_FIELDS),shot_hits:zeros(matches*SHOTS*8),meta:zeros(matches*META),
             tree_alive:primitive(Tensor::<1>::ones([matches*tree_count],d)),commands:zeros(matches*COMMAND_WORDS),
+            teacher_combat:zeros(matches*2*crate::teacher_combat::FIELDS),
             rewards:zeros(matches*2),terminals:zeros(matches*2),
             collision_grid:zeros(matches*COLLISION_WORDS),extra_vision,fow_blockers,static_vision,sf_projectile_animation,
             prototypes:data(engine.prototypes.iter().flatten().copied().collect(),d),
