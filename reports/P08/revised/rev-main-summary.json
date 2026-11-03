@@ -1,0 +1,51 @@
+{
+  "total_decisions": 23951,
+  "pregame_deaths": 0,
+  "pregame_death_matches": 0,
+  "reward_telemetry_checks": {
+    "passed": 30,
+    "total": 30
+  },
+  "stage": "rev-main",
+  "blocks": 1,
+  "completed_episodes": 5,
+  "training_minutes": 0.398089895,
+  "last_learning": {
+    "buckets": [
+      16,
+      32,
+      16
+    ],
+    "clip_fraction": 0.006237076988327317,
+    "early_stop": false,
+    "entropy": 0.11969766626134515,
+    "ev_post0": 0.1288686990737915,
+    "ev_pregame": 0.46306872367858887,
+    "explained_variance": 0.21936726570129395,
+    "kl_coefficient": 0.20000000298023224,
+    "kl_m2": 0.009950060455594212,
+    "old_policy_kl": 0.0008036900508159306,
+    "optimizer_steps": 16,
+    "postgame_decisions": 20947.0,
+    "pregame_decisions": 3004.0,
+    "reward_activity": 289.5,
+    "rollout_entropy": 0.12068553268909454,
+    "rollout_kl_m2": 0.010768070816993713,
+    "valid_decisions": 23951,
+    "value_loss": 0.06392712262459099,
+    "warmup": false,
+    "warmup_ev_last5": null,
+    "warmup_post_blocks": 0
+  },
+  "component_totals": {
+    "lh": 105.0,
+    "deny": 39.0,
+    "opponent_lh": -109.0,
+    "opponent_deny": -45.25,
+    "death": 0.0,
+    "opponent_death": 0.0,
+    "tower_loss": 0.0,
+    "tower_kill": 0.0,
+    "timeout_result": -25.0
+  }
+}
