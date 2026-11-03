@@ -79,6 +79,9 @@ def dota_match(match):
         name='npc_dota_'+('goodguys' if team==2 else 'badguys')+'_tower1_mid'
         tower=next((u for u in r.observation.units if u.name==name),None)
         if own.is_alive and tower:positions.append(math.hypot(own.location.x-tower.location.x,own.location.y-tower.location.y))
+    samples=[v for v in samples if v['time']<=end+.001]
+    deaths=[v for v in deaths if v['time']<=end+.001]
+    if mid is not None and mid>end:mid=None
     s=match['result']['sides'][str(team)]
     return dict(index=match['index'],team=team,lh=s['last_hits'],deny=s['denies'],
                 deaths=max([v['deaths'] for v in samples]+[v['deaths'] for v in deaths]),

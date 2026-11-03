@@ -37,6 +37,7 @@ local last_tick=nil
 local last_second=nil
 local deaths=0
 local arrived=false
+local timeout_announced=false
 local M={}
 function M.Think()
  local bot=GetBot()
@@ -49,6 +50,10 @@ function M.Think()
  local ok,why=pcall(controller.Think)
  if not ok then print("SF_NATIVE_ERROR|"..tostring(why));return end
  local p=bot:GetLocation();local t=DotaTime()
+ -- The native collector requires both timeout votes; v9 uses its own marker.
+ if GetTeam()~=settings.model_team and t>=600 and not timeout_announced then
+  timeout_announced=true;print("SF_NATIVE_END|"..GetTeam().."|"..t.."|timeout|"..bot:GetLastHits())
+ end
  if not arrived and bot:IsAlive() and p.x*p.x+p.y*p.y<2000*2000 and math.abs(p.x-p.y)<1200 then
   arrived=true;print("SF_P05_MID|"..json.encode({team=GetTeam(),time=t}))
  end
@@ -72,6 +77,49 @@ def save(path, value):
 
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def pending_at_terminal(decision, terminal_time):
+    # The two clocks have a constant offset. Compare engine ticks, not floats
+    # around e.g. 201.06668 + 7/30 versus 201.30002.
+    terminal_tick=decision.observed_tick+round((terminal_time-decision.observed_dota_time)*30)
+    return decision.execute_tick>=terminal_tick
+
+
+def admitted_result(run, side, seconds):
+    from sf_duel.native_data import records
+    raw=json.loads((run/'duel-result.json').read_text())
+    result=json.loads(json.dumps(raw));end=min(float(raw['time']),seconds)
+    if end<=0 and raw.get('error'):raise RuntimeError(raw['error'])
+    if raw['time']>seconds:
+        # Preserve raw evidence. Only the requested prefix is an evaluation.
+        samples=[]
+        for line in (run/'dota.log').read_text(errors='replace').splitlines():
+            if line.startswith('SF_P05_HERO|'):
+                row=json.loads(line.split('|',1)[1])
+                if abs(row['time']-seconds)<=1/30+.001:samples.append(row)
+        for team in (2,3):
+            row=next((s for s in samples if s['team']==team),None)
+            if row is None:raise RuntimeError('Cannot censor: missing terminal hero sample')
+            result['sides'][str(team)].update(last_hits=row['lh'],denies=row['deny'])
+        result.update(time=seconds,reason='timeout',outcome=None)
+        result['censored_raw_terminal']=dict(time=raw['time'],reason=raw['reason'])
+    decisions={};acks={}
+    for row in records(run/'native-decisions.pb.gz'):
+        if row.HasField('decision') and row.decision.team==side:
+            decisions[row.decision.sequence]=row.decision
+        if row.HasField('execution') and row.execution.team==side:
+            acks[row.execution.sequence]=row.execution
+    checked=[(seq,d) for seq,d in decisions.items() if not pending_at_terminal(d,end)]
+    quality=dict(decisions=len(decisions),checked_before_terminal=len(checked),
+                 terminal_censored_commands=len(decisions)-len(checked),
+                 acknowledged=sum(seq in acks for seq,_ in checked),
+                 unacknowledged=sum(seq not in acks for seq,_ in checked),
+                 late_executions=sum(seq in acks and acks[seq].tick>d.execute_tick for seq,d in checked),
+                 rejected=sum(seq in acks and not acks[seq].accepted for seq,_ in checked))
+    result['raw_model_transport']=raw['sides'][str(side)]
+    result['sides'][str(side)].update(quality)
+    return result
 
 
 def prepare_bots(source, model_team, engine, seed):
@@ -120,7 +168,7 @@ def play(args, index, slot, active):
         finally:
             if process.poll() is None:
                 process.kill(); process.wait()
-    result = json.loads((run/'duel-result.json').read_text())
+    result = admitted_result(run,side,args.seconds)
     quality = result['sides'][str(side)]
     errors = [line for line in (run/'dota.log').read_text(errors='replace').splitlines()
               if 'SF_NATIVE_ERROR|' in line or 'SF_RULE_ERROR|' in line]
@@ -148,6 +196,7 @@ def main():
     p.add_argument('--seed', type=int, default=20261103)
     p.add_argument('--inference-device', choices=['cpu'], default='cpu')
     p.add_argument('--sampling', action='store_true', required=True)
+    p.add_argument('--resume', action='store_true')
     args = p.parse_args()
     if args.matches <= 0 or args.matches % 2: p.error('An even positive match count is required')
     if len(set(args.workers)) != len(args.workers) or any(not 0 <= s < 20 for s in args.workers): p.error('Invalid worker slots')
@@ -157,14 +206,20 @@ def main():
     if policy_contract(saved) != (128, 'f16') or saved['gpu_pipeline']['observation_profile'] != 'ggd-v2':
         raise ValueError('Requires ggd-v2 / f16 / reset-128 checkpoint')
     args.run = args.run.resolve()
-    args.run.mkdir(parents=True, exist_ok=False)
+    args.run.mkdir(parents=True, exist_ok=args.resume)
     identity = {k: str(v) if isinstance(v, Path) else v for k,v in vars(args).items()}
     identity.update(checkpoint_sha256=digest(args.checkpoint), collector_sha256=digest(args.collector),
                     teacher_sha256=digest(ROOT/'bots/scripted_teacher_v9.lua'),
                     previous='issued command', recurrent_reset='128 decisions and death',
                     opponent='Lua teacher-v9; Go opponent commands are unexecuted diagnostics')
-    save(args.run/'config.json', identity)
-    started = time.monotonic(); results = []; active = {}
+    if args.resume:
+        original=json.loads((args.run/'config.json').read_text())
+        for key in ('checkpoint_sha256','collector_sha256','teacher_sha256','matches','workers','seconds','timescale','seed','sampling'):
+            if identity[key]!=original[key]:raise ValueError(f'Resume changed {key}')
+    else:save(args.run/'config.json', identity)
+    prior_status=json.loads((args.run/'status.json').read_text()) if args.resume else None
+    elapsed_before=prior_status['wall_minutes']*60 if prior_status else 0
+    started = time.monotonic()-elapsed_before; results = []; active = {}
     pilot = args.assets/'runs/pilot-status.json'
     def status(stage, error=None):
         jobs = list(active.values())
@@ -182,11 +237,32 @@ def main():
     with (args.assets/'runs/p05/evaluation.lock').open('a+b') as lock:
         lock.write(b'1');lock.flush();lock.seek(0);msvcrt.locking(lock.fileno(),msvcrt.LK_NBLCK,1)
         try:
+            if args.resume:
+                history_path=args.run/'resume-history.json'
+                history=json.loads(history_path.read_text()) if history_path.exists() else []
+                history.append(dict(prior_status=prior_status,command=subprocess.list2cmdline([sys.executable,*sys.argv]),
+                                    reason='Recheck terminal censoring with integer ticks and finish missing indices; preserve raw records'))
+                save(history_path,history)
+                for path in sorted(args.run.glob('match-*/match.json')):
+                    row=json.loads(path.read_text());side=row['model_team']
+                    row['result']=admitted_result(path.parent,side,args.seconds)
+                    quality=row['result']['sides'][str(side)]
+                    if row['exit_code'] or row['lua_errors'] or quality['unacknowledged'] or quality['late_executions']:
+                        raise RuntimeError(f'Unresolved existing match: {path}')
+                    row['admission']='integer terminal tick, requested game horizon'
+                    save(path,row);results.append(row)
             status('warmup')
             cfg=replace(Config(),workers=len(args.workers),seed=args.seed)
-            with policy_service(args.checkpoint,args.run,cfg,[],record=False,inference_device='cpu',inference_host='windows'):
+            if args.resume and (args.run/'service').exists():
+                # The preceding supervisor must have stopped its service before
+                # releasing evaluation.lock. Keep every old inference log.
+                suffix=1
+                while (args.run/f'service-before-resume-{suffix}').exists():suffix+=1
+                (args.run/'service').rename(args.run/f'service-before-resume-{suffix}')
+            with policy_service(args.checkpoint,args.run,cfg,[],record=False,inference_device='cpu',selection='sampling',inference_host='windows'):
                 def worker(slot):
                     for index in range(args.workers.index(slot),args.matches,len(args.workers)):
+                        if any(r['index']==index for r in results):continue
                         results.append(play(args,index,slot,active))
                 with ThreadPoolExecutor(max_workers=len(args.workers)) as pool:
                     futures=[pool.submit(worker,slot) for slot in args.workers]

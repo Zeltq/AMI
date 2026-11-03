@@ -3,14 +3,50 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+try:
+    from lupa.lua51 import LuaRuntime
+except ImportError:
+    LuaRuntime=None
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'gpu/scripts'))
-from evaluate_dota_teacher import prepare_bots, digest, CALLBACK
+from evaluate_dota_teacher import prepare_bots, digest, CALLBACK, pending_at_terminal
 from p05_results import summarize
 
 
 class P05TransferTests(unittest.TestCase):
+    @unittest.skipIf(LuaRuntime is None,'CPU Lua 5.1 runtime required (lupa)')
+    def test_lua_teacher_sends_exactly_one_native_timeout_vote(self):
+        lua=LuaRuntime(unpack_returned_tuples=True)
+        lua.execute('''
+        messages={};function print(s) messages[#messages+1]=s end
+        package.preload["bots/settings"]=function() return {model_team=2} end
+        package.preload["bots/p05_settings"]=function() return {} end
+        package.preload["game/dkjson"]=function() return {encode=function() return "{}" end} end
+        package.preload["bots/scripted_teacher_v9_live"]=function() return {Think=function() end} end
+        GAME_STATE_PRE_GAME=4;GAME_STATE_GAME_IN_PROGRESS=5;TOWER_MID_1=0
+        function GetTeam() return 3 end;function GetGameState() return 5 end
+        function GameTime() return 690 end;function DotaTime() return 600 end
+        function GetHeroDeaths() return 0 end;function GetTower() return nil end
+        bot={GetUnitName=function() return "npc_dota_hero_nevermore" end,
+          GetLocation=function() return {x=3000,y=3000} end,IsAlive=function() return true end,
+          GetPlayerID=function() return 0 end,GetHealth=function() return 582 end,
+          GetMana=function() return 291 end,GetLastHits=function() return 6 end,GetDenies=function() return 2 end}
+        function GetBot() return bot end
+        ''')
+        controller=lua.execute(CALLBACK);controller.Think();controller.Think()
+        votes=[str(s) for s in lua.globals().messages.values() if str(s).startswith('SF_NATIVE_END|')]
+        self.assertEqual(votes,['SF_NATIVE_END|3|600|timeout|6'])
+
+    def test_command_on_death_tick_is_censored_despite_float_error(self):
+        from sf_duel.protos.duel_pb2 import Decision
+        d=Decision(observed_tick=10148,execute_tick=10155,observed_dota_time=201.06668)
+        self.assertTrue(pending_at_terminal(d,201.30001831055))
+        d.execute_tick=10154
+        self.assertFalse(pending_at_terminal(d,201.30001831055))
+        self.assertIn('GetTeam()~=settings.model_team and t>=600',CALLBACK)
+        self.assertIn('"|timeout|"',CALLBACK)
+
     def test_censored_times_and_missing_distance_keep_denominators(self):
         rows=[dict(team=2,deaths=1,first_death=-3,lh=1,deny=2,actions=[1]+[0]*10,
                    mid_game_time=None,mid_elapsed=None,t1_mean=None,game_seconds=0),
