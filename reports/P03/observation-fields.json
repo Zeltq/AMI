@@ -1,0 +1,1296 @@
+{
+  "profile": "ggd-v2",
+  "width": 51280,
+  "pairs_compared": 22,
+  "lua_log": "C:/AMI/runs/p03/native-alignment-001/dota.log",
+  "gpu_dataset": "C:\\AMI\\runs\\p03\\simulator-series-001\\seed-20261103",
+  "threshold_normalized": 0.01,
+  "fields": [
+    {
+      "group": "heroes",
+      "field": "mana_regen",
+      "scale": 10.0,
+      "pairs_different": 4,
+      "pairs": 22,
+      "above_one_percent": 2,
+      "packed_value_slots": 44,
+      "max_normalized_error": 1.8662109375,
+      "known_mismatches": 2,
+      "example": {
+        "row": [
+          0
+        ],
+        "native_normalized": 0.0,
+        "gpu_normalized": 1.8662109375,
+        "native": 0.0,
+        "gpu": 18.662109375,
+        "team": 3,
+        "decision": 0
+      }
+    },
+    {
+      "group": "creeps",
+      "field": "facing_cos",
+      "scale": 1.0,
+      "pairs_different": 20,
+      "pairs": 22,
+      "above_one_percent": 77,
+      "packed_value_slots": 5632,
+      "max_normalized_error": 1.2451171875,
+      "known_mismatches": 0,
+      "example": {
+        "row": [
+          0
+        ],
+        "native_normalized": 0.8193359375,
+        "gpu_normalized": -0.42578125,
+        "native": 0.8193359375,
+        "gpu": -0.42578125,
+        "team": 3,
+        "decision": 2
+      }
+    },
+    {
+      "group": "heroes",
+      "field": "attack_cycle",
+      "scale": 1.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 40,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0.99267578125,
+      "known_mismatches": 2,
+      "example": {
+        "row": [
+          0
+        ],
+        "native_normalized": 0.99267578125,
+        "gpu_normalized": 0.0,
+        "native": 0.99267578125,
+        "gpu": 0.0,
+        "team": 2,
+        "decision": 1
+      }
+    },
+    {
+      "group": "creeps",
+      "field": "attack_cycle",
+      "scale": 1.0,
+      "pairs_different": 20,
+      "pairs": 22,
+      "above_one_percent": 77,
+      "packed_value_slots": 5632,
+      "max_normalized_error": 0.984375,
+      "known_mismatches": 0,
+      "example": {
+        "row": [
+          3
+        ],
+        "native_normalized": 0.984375,
+        "gpu_normalized": 0.0,
+        "native": 0.984375,
+        "gpu": 0.0,
+        "team": 3,
+        "decision": 7
+      }
+    },
+    {
+      "group": "towers",
+      "field": "attack_cycle",
+      "scale": 1.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 44,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0.86669921875,
+      "known_mismatches": 44,
+      "example": {
+        "row": [
+          2
+        ],
+        "native_normalized": 0.86669921875,
+        "gpu_normalized": 0.0,
+        "native": 0.86669921875,
+        "gpu": 0.0,
+        "team": 3,
+        "decision": 8
+      }
+    },
+    {
+      "group": "creeps",
+      "field": "facing_sin",
+      "scale": 1.0,
+      "pairs_different": 20,
+      "pairs": 22,
+      "above_one_percent": 77,
+      "packed_value_slots": 5632,
+      "max_normalized_error": 0.7991943359375,
+      "known_mismatches": 0,
+      "example": {
+        "row": [
+          3
+        ],
+        "native_normalized": -0.93359375,
+        "gpu_normalized": -0.1343994140625,
+        "native": -0.93359375,
+        "gpu": -0.1343994140625,
+        "team": 3,
+        "decision": 5
+      }
+    },
+    {
+      "group": "creeps",
+      "field": "z",
+      "scale": 512.0,
+      "pairs_different": 9,
+      "pairs": 22,
+      "above_one_percent": 22,
+      "packed_value_slots": 5632,
+      "max_normalized_error": 0.25,
+      "known_mismatches": 0,
+      "example": {
+        "row": [
+          1
+        ],
+        "native_normalized": 0.5,
+        "gpu_normalized": 0.25,
+        "native": 256.0,
+        "gpu": 128.0,
+        "team": 3,
+        "decision": 7
+      }
+    },
+    {
+      "group": "heroes",
+      "field": "armor",
+      "scale": 20.0,
+      "pairs_different": 4,
+      "pairs": 22,
+      "above_one_percent": 2,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0.1290283203125,
+      "known_mismatches": 2,
+      "example": {
+        "row": [
+          0
+        ],
+        "native_normalized": 0.2083740234375,
+        "gpu_normalized": 0.33740234375,
+        "native": 4.16748046875,
+        "gpu": 6.748046875,
+        "team": 3,
+        "decision": 0
+      }
+    },
+    {
+      "group": "heroes",
+      "field": "health_regen",
+      "scale": 20.0,
+      "pairs_different": 4,
+      "pairs": 22,
+      "above_one_percent": 2,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0.1201171875,
+      "known_mismatches": 2,
+      "example": {
+        "row": [
+          0
+        ],
+        "native_normalized": 1.4521484375,
+        "gpu_normalized": 1.572265625,
+        "native": 29.04296875,
+        "gpu": 31.4453125,
+        "team": 3,
+        "decision": 0
+      }
+    },
+    {
+      "group": "items",
+      "field": "inventory",
+      "scale": 10.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 2,
+      "packed_value_slots": 176,
+      "max_normalized_error": 0.0999755859375,
+      "known_mismatches": 0,
+      "example": {
+        "row": [
+          0
+        ],
+        "native_normalized": 0.0,
+        "gpu_normalized": 0.0999755859375,
+        "native": 0.0,
+        "gpu": 0.999755859375,
+        "team": 3,
+        "decision": 0
+      }
+    },
+    {
+      "group": "items",
+      "field": "stash",
+      "scale": 10.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 2,
+      "packed_value_slots": 176,
+      "max_normalized_error": 0.0999755859375,
+      "known_mismatches": 0,
+      "example": {
+        "row": [
+          0
+        ],
+        "native_normalized": 0.0999755859375,
+        "gpu_normalized": 0.0,
+        "native": 0.999755859375,
+        "gpu": 0.0,
+        "team": 3,
+        "decision": 0
+      }
+    },
+    {
+      "group": "creeps",
+      "field": "dx",
+      "scale": 2048.0,
+      "pairs_different": 19,
+      "pairs": 22,
+      "above_one_percent": 62,
+      "packed_value_slots": 5632,
+      "max_normalized_error": 0.0810546875,
+      "known_mismatches": 0,
+      "example": {
+        "row": [
+          0
+        ],
+        "native_normalized": -1.845703125,
+        "gpu_normalized": -1.7646484375,
+        "native": -3780.0,
+        "gpu": -3614.0,
+        "team": 2,
+        "decision": 10
+      }
+    },
+    {
+      "group": "creeps",
+      "field": "dy",
+      "scale": 2048.0,
+      "pairs_different": 19,
+      "pairs": 22,
+      "above_one_percent": 49,
+      "packed_value_slots": 5632,
+      "max_normalized_error": 0.076171875,
+      "known_mismatches": 0,
+      "example": {
+        "row": [
+          0
+        ],
+        "native_normalized": -1.578125,
+        "gpu_normalized": -1.654296875,
+        "native": -3232.0,
+        "gpu": -3388.0,
+        "team": 2,
+        "decision": 10
+      }
+    },
+    {
+      "group": "heroes",
+      "field": "facing_cos",
+      "scale": 1.0,
+      "pairs_different": 20,
+      "pairs": 22,
+      "above_one_percent": 38,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0.060546875,
+      "known_mismatches": 2,
+      "example": {
+        "row": [
+          1
+        ],
+        "native_normalized": 0.52978515625,
+        "gpu_normalized": 0.59033203125,
+        "native": 0.52978515625,
+        "gpu": 0.59033203125,
+        "team": 3,
+        "decision": 10
+      }
+    },
+    {
+      "group": "items",
+      "field": "cooldown",
+      "scale": 120.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 2,
+      "packed_value_slots": 176,
+      "max_normalized_error": 0.0576171875,
+      "known_mismatches": 2,
+      "example": {
+        "row": [
+          3
+        ],
+        "native_normalized": 0.83251953125,
+        "gpu_normalized": 0.77490234375,
+        "native": 99.90234375,
+        "gpu": 92.98828125,
+        "team": 3,
+        "decision": 0
+      }
+    },
+    {
+      "group": "items",
+      "field": "slot",
+      "scale": 20.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 2,
+      "packed_value_slots": 176,
+      "max_normalized_error": 0.04998779296875,
+      "known_mismatches": 0,
+      "example": {
+        "row": [
+          0
+        ],
+        "native_normalized": -0.04998779296875,
+        "gpu_normalized": 0.0,
+        "native": -0.999755859375,
+        "gpu": 0.0,
+        "team": 3,
+        "decision": 0
+      }
+    },
+    {
+      "group": "heroes",
+      "field": "facing_sin",
+      "scale": 1.0,
+      "pairs_different": 20,
+      "pairs": 22,
+      "above_one_percent": 38,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0.041015625,
+      "known_mismatches": 2,
+      "example": {
+        "row": [
+          0
+        ],
+        "native_normalized": -0.54443359375,
+        "gpu_normalized": -0.58544921875,
+        "native": -0.54443359375,
+        "gpu": -0.58544921875,
+        "team": 3,
+        "decision": 10
+      }
+    },
+    {
+      "group": "heroes",
+      "field": "attack_interval",
+      "scale": 3.0,
+      "pairs_different": 4,
+      "pairs": 22,
+      "above_one_percent": 2,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0.03466796875,
+      "known_mismatches": 2,
+      "example": {
+        "row": [
+          0
+        ],
+        "native_normalized": 0.4267578125,
+        "gpu_normalized": 0.39208984375,
+        "native": 1.2802734375,
+        "gpu": 1.17626953125,
+        "team": 3,
+        "decision": 0
+      }
+    },
+    {
+      "group": "heroes",
+      "field": "attack_damage",
+      "scale": 200.0,
+      "pairs_different": 4,
+      "pairs": 22,
+      "above_one_percent": 2,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0.0250244140625,
+      "known_mismatches": 2,
+      "example": {
+        "row": [
+          0
+        ],
+        "native_normalized": 0.219970703125,
+        "gpu_normalized": 0.2449951171875,
+        "native": 43.994140625,
+        "gpu": 48.9990234375,
+        "team": 3,
+        "decision": 0
+      }
+    },
+    {
+      "group": "heroes",
+      "field": "mana",
+      "scale": 1000.0,
+      "pairs_different": 4,
+      "pairs": 22,
+      "above_one_percent": 2,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0.02392578125,
+      "known_mismatches": 2,
+      "example": {
+        "row": [
+          0
+        ],
+        "native_normalized": 0.26708984375,
+        "gpu_normalized": 0.291015625,
+        "native": 267.08984375,
+        "gpu": 291.015625,
+        "team": 3,
+        "decision": 0
+      }
+    },
+    {
+      "group": "heroes",
+      "field": "mana_max",
+      "scale": 1000.0,
+      "pairs_different": 4,
+      "pairs": 22,
+      "above_one_percent": 2,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0.02392578125,
+      "known_mismatches": 2,
+      "example": {
+        "row": [
+          0
+        ],
+        "native_normalized": 0.26708984375,
+        "gpu_normalized": 0.291015625,
+        "native": 267.08984375,
+        "gpu": 291.015625,
+        "team": 3,
+        "decision": 0
+      }
+    },
+    {
+      "group": "heroes",
+      "field": "health",
+      "scale": 2000.0,
+      "pairs_different": 4,
+      "pairs": 22,
+      "above_one_percent": 2,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0.02197265625,
+      "known_mismatches": 2,
+      "example": {
+        "row": [
+          0
+        ],
+        "native_normalized": 0.26904296875,
+        "gpu_normalized": 0.291015625,
+        "native": 538.0859375,
+        "gpu": 582.03125,
+        "team": 3,
+        "decision": 0
+      }
+    },
+    {
+      "group": "heroes",
+      "field": "health_max",
+      "scale": 2000.0,
+      "pairs_different": 4,
+      "pairs": 22,
+      "above_one_percent": 2,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0.02197265625,
+      "known_mismatches": 2,
+      "example": {
+        "row": [
+          0
+        ],
+        "native_normalized": 0.26904296875,
+        "gpu_normalized": 0.291015625,
+        "native": 538.0859375,
+        "gpu": 582.03125,
+        "team": 3,
+        "decision": 0
+      }
+    },
+    {
+      "group": "creeps",
+      "field": "x",
+      "scale": 8192.0,
+      "pairs_different": 14,
+      "pairs": 22,
+      "above_one_percent": 19,
+      "packed_value_slots": 5632,
+      "max_normalized_error": 0.0205078125,
+      "known_mismatches": 0,
+      "example": {
+        "row": [
+          0
+        ],
+        "native_normalized": -0.58984375,
+        "gpu_normalized": -0.5693359375,
+        "native": -4832.0,
+        "gpu": -4664.0,
+        "team": 2,
+        "decision": 10
+      }
+    },
+    {
+      "group": "creeps",
+      "field": "y",
+      "scale": 8192.0,
+      "pairs_different": 14,
+      "pairs": 22,
+      "above_one_percent": 14,
+      "packed_value_slots": 5632,
+      "max_normalized_error": 0.01904296875,
+      "known_mismatches": 0,
+      "example": {
+        "row": [
+          0
+        ],
+        "native_normalized": -0.51025390625,
+        "gpu_normalized": -0.529296875,
+        "native": -4180.0,
+        "gpu": -4336.0,
+        "team": 2,
+        "decision": 10
+      }
+    },
+    {
+      "group": "global_features",
+      "field": "time",
+      "scale": 600.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 2,
+      "packed_value_slots": 22,
+      "max_normalized_error": 0.011474609375,
+      "known_mismatches": 0,
+      "example": {
+        "row": [],
+        "native_normalized": -0.1497802734375,
+        "gpu_normalized": -0.1383056640625,
+        "native": -89.8681640625,
+        "gpu": -82.9833984375,
+        "team": 2,
+        "decision": 0
+      }
+    },
+    {
+      "group": "towers",
+      "field": "dx",
+      "scale": 2048.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0.001953125,
+      "known_mismatches": 44
+    },
+    {
+      "group": "trees",
+      "field": "distance",
+      "scale": 2048.0,
+      "pairs_different": 20,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 5632,
+      "max_normalized_error": 0.001708984375,
+      "known_mismatches": 55
+    },
+    {
+      "group": "trees",
+      "field": "dx",
+      "scale": 2048.0,
+      "pairs_different": 20,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 5632,
+      "max_normalized_error": 0.0015869140625,
+      "known_mismatches": 55
+    },
+    {
+      "group": "trees",
+      "field": "dy",
+      "scale": 2048.0,
+      "pairs_different": 20,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 5632,
+      "max_normalized_error": 0.001220703125,
+      "known_mismatches": 55
+    },
+    {
+      "group": "towers",
+      "field": "dy",
+      "scale": 2048.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0.0010986328125,
+      "known_mismatches": 44
+    },
+    {
+      "group": "heroes",
+      "field": "x",
+      "scale": 8192.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0.0003662109375,
+      "known_mismatches": 2
+    },
+    {
+      "group": "heroes",
+      "field": "y",
+      "scale": 8192.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0.0002593994140625,
+      "known_mismatches": 2
+    },
+    {
+      "group": "towers",
+      "field": "facing_cos",
+      "scale": 1.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "towers",
+      "field": "facing_sin",
+      "scale": 1.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "towers",
+      "field": "health",
+      "scale": 2000.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "towers",
+      "field": "health_max",
+      "scale": 2000.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "towers",
+      "field": "health_fraction",
+      "scale": 1.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "towers",
+      "field": "mana",
+      "scale": 1000.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "towers",
+      "field": "mana_max",
+      "scale": 1000.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "towers",
+      "field": "health_regen",
+      "scale": 20.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "towers",
+      "field": "mana_regen",
+      "scale": 10.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "towers",
+      "field": "move_speed",
+      "scale": 600.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "towers",
+      "field": "attack_damage",
+      "scale": 200.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "towers",
+      "field": "attack_range",
+      "scale": 1000.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "towers",
+      "field": "attack_point",
+      "scale": 1.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "towers",
+      "field": "projectile_speed",
+      "scale": 1500.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "towers",
+      "field": "armor",
+      "scale": 20.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "towers",
+      "field": "magic_resist",
+      "scale": 1.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "towers",
+      "field": "level",
+      "scale": 15.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "towers",
+      "field": "fear",
+      "scale": 1.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "towers",
+      "field": "raze_stacks",
+      "scale": 5.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "towers",
+      "field": "raze_remaining",
+      "scale": 6.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "towers",
+      "field": "flask",
+      "scale": 1.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "towers",
+      "field": "clarity",
+      "scale": 1.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "towers",
+      "field": "tango",
+      "scale": 1.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "towers",
+      "field": "attack_target_self",
+      "scale": 1.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "towers",
+      "field": "attack_target_enemy",
+      "scale": 1.0,
+      "pairs_different": 22,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 88,
+      "max_normalized_error": 0,
+      "known_mismatches": 44
+    },
+    {
+      "group": "items",
+      "field": "mana_cost",
+      "scale": 200.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 176,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "heroes",
+      "field": "z",
+      "scale": 512.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "heroes",
+      "field": "dx",
+      "scale": 2048.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "heroes",
+      "field": "dy",
+      "scale": 2048.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "heroes",
+      "field": "health_fraction",
+      "scale": 1.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "heroes",
+      "field": "mana_fraction",
+      "scale": 1.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "heroes",
+      "field": "move_speed",
+      "scale": 600.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "heroes",
+      "field": "attack_range",
+      "scale": 1000.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "heroes",
+      "field": "attack_point",
+      "scale": 1.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "heroes",
+      "field": "projectile_speed",
+      "scale": 1500.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "heroes",
+      "field": "magic_resist",
+      "scale": 1.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "heroes",
+      "field": "level",
+      "scale": 15.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "heroes",
+      "field": "is_attacking",
+      "scale": 1.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "heroes",
+      "field": "is_using_ability",
+      "scale": 1.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "heroes",
+      "field": "is_casting_ability",
+      "scale": 1.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "heroes",
+      "field": "is_channeling",
+      "scale": 1.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "heroes",
+      "field": "fear",
+      "scale": 1.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "heroes",
+      "field": "raze_stacks",
+      "scale": 5.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "heroes",
+      "field": "flask",
+      "scale": 1.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "heroes",
+      "field": "clarity",
+      "scale": 1.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "heroes",
+      "field": "tango",
+      "scale": 1.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "heroes",
+      "field": "attack_target_self",
+      "scale": 1.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "heroes",
+      "field": "attack_target_enemy",
+      "scale": 1.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "creeps",
+      "field": "raze_remaining",
+      "scale": 6.0,
+      "pairs_different": 20,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 5632,
+      "max_normalized_error": 0,
+      "known_mismatches": 80
+    },
+    {
+      "group": "trees",
+      "field": "z",
+      "scale": 512.0,
+      "pairs_different": 20,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 5632,
+      "max_normalized_error": 0,
+      "known_mismatches": 55
+    },
+    {
+      "group": "enemy_items",
+      "field": "inventory",
+      "scale": 10.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 176,
+      "max_normalized_error": 0,
+      "known_mismatches": 14
+    },
+    {
+      "group": "enemy_items",
+      "field": "backpack",
+      "scale": 10.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 176,
+      "max_normalized_error": 0,
+      "known_mismatches": 14
+    },
+    {
+      "group": "hero_combat",
+      "field": "damage_spread",
+      "scale": 20.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "hero_combat",
+      "field": "incoming_attackers",
+      "scale": 16.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "hero_combat",
+      "field": "incoming_attack_damage",
+      "scale": 500.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "hero_combat",
+      "field": "incoming_attack_dps",
+      "scale": 500.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "hero_combat",
+      "field": "incoming_projectiles",
+      "scale": 16.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    },
+    {
+      "group": "hero_combat",
+      "field": "incoming_projectile_damage",
+      "scale": 500.0,
+      "pairs_different": 2,
+      "pairs": 22,
+      "above_one_percent": 0,
+      "packed_value_slots": 44,
+      "max_normalized_error": 0,
+      "known_mismatches": 2
+    }
+  ],
+  "scope": "Independent teacher trajectories: initial and first ten visible-creep decisions, each side. Variable entities matched by kind/team and nearest world position; trees within 4 units. Known-mask differences reported separately. Not a same-state dynamics test."
+}

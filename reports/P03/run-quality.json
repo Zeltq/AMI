@@ -1,0 +1,80 @@
+{
+  "dota_matches": 20,
+  "seed_counts": {
+    "20261103": 10,
+    "20261104": 10
+  },
+  "at_time_limit": 20,
+  "hero_deaths": 0,
+  "acknowledgements": 206900,
+  "late_acknowledgements": 0,
+  "maximum_late_ticks": 0,
+  "event_credit_matches_counters": 40,
+  "side_games": 40,
+  "wall_minutes": 31.85314070833362,
+  "simulator": [
+    {
+      "seed": 20261103,
+      "matches": 100,
+      "native_completed": 100,
+      "simulation_errors": 0,
+      "wall_minutes": 21.831311308333333,
+      "blocks": 205,
+      "valid_decisions": 1018540,
+      "compressed_bytes": 504293120,
+      "files": 410,
+      "checksums_verified": 410,
+      "attack_hero_commands": 0.0,
+      "attack_structure_commands": 0.0,
+      "hold_commands": 0.0
+    },
+    {
+      "seed": 20261105,
+      "matches": 100,
+      "native_completed": 100,
+      "simulation_errors": 0,
+      "wall_minutes": 5.479824718333333,
+      "blocks": 41,
+      "valid_decisions": 1015752,
+      "compressed_bytes": 502539174,
+      "files": 287,
+      "checksums_verified": 287,
+      "attack_hero_commands": 0.0,
+      "attack_structure_commands": 0.0,
+      "hold_commands": 0.0
+    }
+  ],
+  "simulator_matches": 200,
+  "simulator_wall_minutes": 27.311136026666667,
+  "python_tests": {
+    "passed": 161,
+    "total": 161,
+    "skipped": 0,
+    "log": "C:/AMI/runs/p03/python-tests-final.log"
+  },
+  "rejected_executions": {
+    "numerator": 18,
+    "denominator": 206900,
+    "reasons": {
+      "target_no_longer_visible_or_alive": 18
+    }
+  },
+  "excluded_simulator": {
+    "seed": 20261104,
+    "matches": 100,
+    "native_completed": 100,
+    "simulation_errors": 0,
+    "wall_minutes": 19.379133296666666,
+    "blocks": 205,
+    "valid_decisions": 1018540,
+    "compressed_bytes": 504140778,
+    "files": 410,
+    "checksums_verified": 410,
+    "attack_hero_commands": 0.0,
+    "attack_structure_commands": 0.0,
+    "hold_commands": 0.0,
+    "reason": "50 initial-RNG collisions with seed20261103; replaced entire seed20261104 group"
+  },
+  "simulator_total_executed": 300,
+  "simulator_unique_initial_rng_states": 200
+}

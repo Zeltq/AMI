@@ -1,0 +1,23 @@
+{
+  "task": "P03",
+  "stage": "complete",
+  "dota_completed": 20,
+  "simulator_completed": 200,
+  "simulator_unique_initial_rng_states": 200,
+  "background_work_remaining": false,
+  "processes": [],
+  "heartbeat": {
+    "id": "p03-teacher-v9",
+    "status": "PAUSED",
+    "interval_minutes": 10
+  },
+  "commands": {
+    "dota": "C:\\Python314\\python.exe reports/P03/run_series.py --run C:/AMI/runs/p03/dota-series-001 --workers 18 19 --seeds 20261103 20261104",
+    "simulator_last": "C:\\AMI\\runs\\p03\\simulator-series-001\\simulator.exe collect-teacher C:\\AMI\\runs\\p03\\simulator-series-001\\collect-20261105.json C:\\AMI\\runs\\p03\\simulator-series-001\\seed-20261105"
+  },
+  "artifacts": {
+    "dota": "C:/AMI/runs/p03/dota-series-001",
+    "simulator": "C:/AMI/runs/p03/simulator-series-001",
+    "analysis": "C:/AMI/runs/p03/analysis"
+  }
+}
