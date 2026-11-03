@@ -1,80 +1,129 @@
 {
   "task": "P03",
-  "status": "BLOCKED",
-  "reason": "Existing isolated_content failed while creating worker 18 junctions before Dota startup",
-  "base_commit": "9cb5ec97211843b5d9fd11ce3813e9ccb8870e7c",
-  "requested": {
-    "dota_matches": 20,
-    "dota_seed_groups": 2,
-    "matches_per_seed": 10,
-    "simulator_matches": 200,
-    "max_game_seconds": 600,
-    "terminal": "first hero death or mid T1 loss; at 600 seconds last hits"
+  "status": "DONE",
+  "dota": {
+    "completed": 20,
+    "requested": 20,
+    "seed_groups": [
+      {
+        "seed": 20261103,
+        "matches": 10
+      },
+      {
+        "seed": 20261104,
+        "matches": 10
+      }
+    ],
+    "wall_minutes": 31.85314070833362,
+    "workers": 2,
+    "timescale": 4,
+    "errors": 0,
+    "retries": 0
   },
-  "counts": {
-    "dota_diagnostic_attempts": 1,
-    "dota_processes_started": 0,
-    "dota_matches_completed": 0,
-    "dota_matches_requested": 20,
-    "simulator_matches_started": 0,
-    "simulator_matches_completed": 0,
-    "simulator_matches_requested": 200
-  },
-  "tests": {
-    "lua_core_and_clock": {
-      "passed": 15,
-      "total": 15,
-      "skipped": 0,
-      "unittest_seconds": 0.017
+  "simulator": {
+    "completed": 200,
+    "requested": 200,
+    "unique_initial_rng_states": 200,
+    "accepted": [
+      {
+        "seed": 20261103,
+        "matches": 100,
+        "native_completed": 100,
+        "simulation_errors": 0,
+        "wall_minutes": 21.831311308333333,
+        "blocks": 205,
+        "valid_decisions": 1018540,
+        "compressed_bytes": 504293120,
+        "files": 410,
+        "checksums_verified": 410,
+        "attack_hero_commands": 0,
+        "attack_structure_commands": 0,
+        "hold_commands": 0
+      },
+      {
+        "seed": 20261105,
+        "matches": 100,
+        "native_completed": 100,
+        "simulation_errors": 0,
+        "wall_minutes": 5.479824718333333,
+        "blocks": 41,
+        "valid_decisions": 1015752,
+        "compressed_bytes": 502539174,
+        "files": 287,
+        "checksums_verified": 287,
+        "attack_hero_commands": 0,
+        "attack_structure_commands": 0,
+        "hold_commands": 0
+      }
+    ],
+    "wall_minutes": 27.311136026666667,
+    "excluded": {
+      "seed": 20261104,
+      "matches": 100,
+      "native_completed": 100,
+      "simulation_errors": 0,
+      "wall_minutes": 19.379133296666666,
+      "blocks": 205,
+      "valid_decisions": 1018540,
+      "compressed_bytes": 504140778,
+      "files": 410,
+      "checksums_verified": 410,
+      "attack_hero_commands": 0,
+      "attack_structure_commands": 0,
+      "hold_commands": 0,
+      "reason": "50 initial-RNG collisions with seed20261103; replaced entire seed20261104 group"
     },
-    "initial_lua_tests_without_local_runtime": {
-      "executed": 0,
-      "total": 15,
-      "skipped": 15
+    "total_executed": 300
+  },
+  "verification": {
+    "passed": 161,
+    "total": 161,
+    "skipped": 0,
+    "log": "C:/AMI/runs/p03/python-tests-final.log"
+  },
+  "observations": {
+    "profile": "ggd-v2",
+    "width": 51280,
+    "pairs": 22,
+    "pairs_requested": 22,
+    "value_fields_above_one_percent": 26,
+    "total_group_fields": 220,
+    "known_mask_fields_different": 79,
+    "lua_protobuf_equal": 110,
+    "lua_protobuf_total": 110
+  },
+  "top_discrepancies": [
+    {
+      "family": "deny",
+      "side": "radiant",
+      "checkpoint": 600,
+      "dota_mean": 32.5,
+      "simulator_mean": 24.233502538071065,
+      "dota_n": 20,
+      "simulator_n": 197,
+      "relative_gap": 0.3411185588604944
     },
-    "python_compile": {
-      "passed": 1,
-      "total": 1
+    {
+      "family": "lh_distance",
+      "side": "dire",
+      "checkpoint": null,
+      "dota_mean": 1183.3148781090715,
+      "simulator_mean": 966.876353357918,
+      "dota_n": 694,
+      "simulator_n": 8561,
+      "relative_gap": 0.22385336449637255
     },
-    "telemetry_lua_compile": {
-      "passed": 1,
-      "total": 1
-    },
-    "gameplay_metrics_collected": false
-  },
-  "observation_parity": {
-    "status": "not_run_due_to_launch_blocker",
-    "profile_requested": "ggd-v2",
-    "threshold_of_field_scale": 0.01,
-    "initial_pairs_observed": 0,
-    "post_creep_decision_pairs_observed": 0,
-    "fields_above_threshold": null
-  },
-  "runtime": {
-    "process_pid": 3880,
-    "process_elapsed_seconds": 0.755067499994766,
-    "background_work_remaining": false,
-    "heartbeat_id": "p03-teacher-v9",
-    "heartbeat_status": "PAUSED",
-    "retry_attempts": 0
-  },
-  "worker": {
-    "slot": 18,
-    "timescale": 1,
-    "engine_threads_planned": 2,
-    "host_cpu": "Intel Core i9-10900F",
-    "host_logical_processors": 20,
-    "total_visible_memory_kib": 33469240,
-    "free_physical_memory_kib_at_inspection": 14311920,
-    "gpu": "AMD Radeon RX 9070 XT"
-  },
-  "seed_values": null,
-  "seed_note": "User selected two seeds with 10 matches each; concrete values and engine injection were not reached before the blocker.",
-  "hypotheses_ranked_by_measured_discrepancy": null,
-  "artifacts_local": {
-    "run": "C:/AMI/runs/p03/dota-diagnostic-001",
-    "stderr": "C:/AMI/runs/p03/dota-diagnostic-001.stderr.log",
-    "engine": "C:/AMI/runs/gpu/dota-calibration-003/engine.json",
-    "worktree": "C:/Users/levik/.codex/worktrees/p03-teacher-parity/AMI"
-  }
+    {
+      "family": "health",
+      "side": "dire",
+      "checkpoint": 300,
+      "dota_mean": 697.5,
+      "simulator_mean": 892.4646859217172,
+      "dota_n": 20,
+      "simulator_n": 198,
+      "relative_gap": 0.21845647116038225
+    }
+  ],
+  "background_work_remaining": false,
+  "artifacts": "C:/AMI/runs/p03"
 }

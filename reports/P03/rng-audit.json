@@ -1,1009 +1,2230 @@
 {
-  "requested_games": 200,
-  "unique_initial_rng_states": 150,
-  "duplicated_pairs": 50,
-  "formula": "((seed + cohort_offset*7919 + (slot+1)*2654435761) mod 2**32) | 1",
-  "scope": "Initial physics RNG state from sampling.rs; 200 executed matches are not claimed to be independent",
-  "states": [
-    {
-      "seed": 20261103,
-      "game": 0,
-      "rng_state": 2674696865
-    },
-    {
-      "seed": 20261103,
-      "game": 1,
-      "rng_state": 1034165329
-    },
-    {
-      "seed": 20261103,
-      "game": 2,
-      "rng_state": 3688601091
-    },
-    {
-      "seed": 20261103,
-      "game": 3,
-      "rng_state": 2048069555
-    },
-    {
-      "seed": 20261103,
-      "game": 4,
-      "rng_state": 407538021
-    },
-    {
-      "seed": 20261103,
-      "game": 5,
-      "rng_state": 3061973781
-    },
-    {
-      "seed": 20261103,
-      "game": 6,
-      "rng_state": 1421442247
-    },
-    {
-      "seed": 20261103,
-      "game": 7,
-      "rng_state": 4075878007
-    },
-    {
-      "seed": 20261103,
-      "game": 8,
-      "rng_state": 2435346473
-    },
-    {
-      "seed": 20261103,
-      "game": 9,
-      "rng_state": 794814937
-    },
-    {
-      "seed": 20261103,
-      "game": 10,
-      "rng_state": 3449250699
-    },
-    {
-      "seed": 20261103,
-      "game": 11,
-      "rng_state": 1808719163
-    },
-    {
-      "seed": 20261103,
-      "game": 12,
-      "rng_state": 168187629
-    },
-    {
-      "seed": 20261103,
-      "game": 13,
-      "rng_state": 2822623389
-    },
-    {
-      "seed": 20261103,
-      "game": 14,
-      "rng_state": 1182091855
-    },
-    {
-      "seed": 20261103,
-      "game": 15,
-      "rng_state": 3836527615
-    },
-    {
-      "seed": 20261103,
-      "game": 16,
-      "rng_state": 2195996081
-    },
-    {
-      "seed": 20261103,
-      "game": 17,
-      "rng_state": 555464545
-    },
-    {
-      "seed": 20261103,
-      "game": 18,
-      "rng_state": 3209900307
-    },
-    {
-      "seed": 20261103,
-      "game": 19,
-      "rng_state": 1569368771
-    },
-    {
-      "seed": 20261103,
-      "game": 20,
-      "rng_state": 2674855245
-    },
-    {
-      "seed": 20261103,
-      "game": 21,
-      "rng_state": 1034323709
-    },
-    {
-      "seed": 20261103,
-      "game": 22,
-      "rng_state": 3688759471
-    },
-    {
-      "seed": 20261103,
-      "game": 23,
-      "rng_state": 2048227935
-    },
-    {
-      "seed": 20261103,
-      "game": 24,
-      "rng_state": 407696401
-    },
-    {
-      "seed": 20261103,
-      "game": 25,
-      "rng_state": 3062132161
-    },
-    {
-      "seed": 20261103,
-      "game": 26,
-      "rng_state": 1421600627
-    },
-    {
-      "seed": 20261103,
-      "game": 27,
-      "rng_state": 4076036387
-    },
-    {
-      "seed": 20261103,
-      "game": 28,
-      "rng_state": 2435504853
-    },
-    {
-      "seed": 20261103,
-      "game": 29,
-      "rng_state": 794973317
-    },
-    {
-      "seed": 20261103,
-      "game": 30,
-      "rng_state": 3449409079
-    },
-    {
-      "seed": 20261103,
-      "game": 31,
-      "rng_state": 1808877543
-    },
-    {
-      "seed": 20261103,
-      "game": 32,
-      "rng_state": 168346009
-    },
-    {
-      "seed": 20261103,
-      "game": 33,
-      "rng_state": 2822781769
-    },
-    {
-      "seed": 20261103,
-      "game": 34,
-      "rng_state": 1182250235
-    },
-    {
-      "seed": 20261103,
-      "game": 35,
-      "rng_state": 3836685995
-    },
-    {
-      "seed": 20261103,
-      "game": 36,
-      "rng_state": 2196154461
-    },
-    {
-      "seed": 20261103,
-      "game": 37,
-      "rng_state": 555622925
-    },
-    {
-      "seed": 20261103,
-      "game": 38,
-      "rng_state": 3210058687
-    },
-    {
-      "seed": 20261103,
-      "game": 39,
-      "rng_state": 1569527151
-    },
-    {
-      "seed": 20261103,
-      "game": 40,
-      "rng_state": 2675013625
-    },
-    {
-      "seed": 20261103,
-      "game": 41,
-      "rng_state": 1034482089
-    },
-    {
-      "seed": 20261103,
-      "game": 42,
-      "rng_state": 3688917851
-    },
-    {
-      "seed": 20261103,
-      "game": 43,
-      "rng_state": 2048386315
-    },
-    {
-      "seed": 20261103,
-      "game": 44,
-      "rng_state": 407854781
-    },
-    {
-      "seed": 20261103,
-      "game": 45,
-      "rng_state": 3062290541
-    },
-    {
-      "seed": 20261103,
-      "game": 46,
-      "rng_state": 1421759007
-    },
-    {
-      "seed": 20261103,
-      "game": 47,
-      "rng_state": 4076194767
-    },
-    {
-      "seed": 20261103,
-      "game": 48,
-      "rng_state": 2435663233
-    },
-    {
-      "seed": 20261103,
-      "game": 49,
-      "rng_state": 795131697
-    },
-    {
-      "seed": 20261103,
-      "game": 50,
-      "rng_state": 3449567459
-    },
-    {
-      "seed": 20261103,
-      "game": 51,
-      "rng_state": 1809035923
-    },
-    {
-      "seed": 20261103,
-      "game": 52,
-      "rng_state": 168504389
-    },
-    {
-      "seed": 20261103,
-      "game": 53,
-      "rng_state": 2822940149
-    },
-    {
-      "seed": 20261103,
-      "game": 54,
-      "rng_state": 1182408615
-    },
-    {
-      "seed": 20261103,
-      "game": 55,
-      "rng_state": 3836844375
-    },
-    {
-      "seed": 20261103,
-      "game": 56,
-      "rng_state": 2196312841
-    },
-    {
-      "seed": 20261103,
-      "game": 57,
-      "rng_state": 555781305
-    },
-    {
-      "seed": 20261103,
-      "game": 58,
-      "rng_state": 3210217067
-    },
-    {
-      "seed": 20261103,
-      "game": 59,
-      "rng_state": 1569685531
-    },
-    {
-      "seed": 20261103,
-      "game": 60,
-      "rng_state": 2675172005
-    },
-    {
-      "seed": 20261103,
-      "game": 61,
-      "rng_state": 1034640469
-    },
-    {
-      "seed": 20261103,
-      "game": 62,
-      "rng_state": 3689076231
-    },
-    {
-      "seed": 20261103,
-      "game": 63,
-      "rng_state": 2048544695
-    },
-    {
-      "seed": 20261103,
-      "game": 64,
-      "rng_state": 408013161
-    },
-    {
-      "seed": 20261103,
-      "game": 65,
-      "rng_state": 3062448921
-    },
-    {
-      "seed": 20261103,
-      "game": 66,
-      "rng_state": 1421917387
-    },
-    {
-      "seed": 20261103,
-      "game": 67,
-      "rng_state": 4076353147
-    },
-    {
-      "seed": 20261103,
-      "game": 68,
-      "rng_state": 2435821613
-    },
-    {
-      "seed": 20261103,
-      "game": 69,
-      "rng_state": 795290077
-    },
-    {
-      "seed": 20261103,
-      "game": 70,
-      "rng_state": 3449725839
-    },
-    {
-      "seed": 20261103,
-      "game": 71,
-      "rng_state": 1809194303
-    },
-    {
-      "seed": 20261103,
-      "game": 72,
-      "rng_state": 168662769
-    },
-    {
-      "seed": 20261103,
-      "game": 73,
-      "rng_state": 2823098529
-    },
-    {
-      "seed": 20261103,
-      "game": 74,
-      "rng_state": 1182566995
-    },
-    {
-      "seed": 20261103,
-      "game": 75,
-      "rng_state": 3837002755
-    },
-    {
-      "seed": 20261103,
-      "game": 76,
-      "rng_state": 2196471221
-    },
-    {
-      "seed": 20261103,
-      "game": 77,
-      "rng_state": 555939685
-    },
-    {
-      "seed": 20261103,
-      "game": 78,
-      "rng_state": 3210375447
-    },
-    {
-      "seed": 20261103,
-      "game": 79,
-      "rng_state": 1569843911
-    },
-    {
-      "seed": 20261103,
-      "game": 80,
-      "rng_state": 2675330385
-    },
-    {
-      "seed": 20261103,
-      "game": 81,
-      "rng_state": 1034798849
-    },
-    {
-      "seed": 20261103,
-      "game": 82,
-      "rng_state": 3689234611
-    },
-    {
-      "seed": 20261103,
-      "game": 83,
-      "rng_state": 2048703075
-    },
-    {
-      "seed": 20261103,
-      "game": 84,
-      "rng_state": 408171541
-    },
-    {
-      "seed": 20261103,
-      "game": 85,
-      "rng_state": 3062607301
-    },
-    {
-      "seed": 20261103,
-      "game": 86,
-      "rng_state": 1422075767
-    },
-    {
-      "seed": 20261103,
-      "game": 87,
-      "rng_state": 4076511527
-    },
-    {
-      "seed": 20261103,
-      "game": 88,
-      "rng_state": 2435979993
-    },
-    {
-      "seed": 20261103,
-      "game": 89,
-      "rng_state": 795448457
-    },
-    {
-      "seed": 20261103,
-      "game": 90,
-      "rng_state": 3449884219
-    },
-    {
-      "seed": 20261103,
-      "game": 91,
-      "rng_state": 1809352683
-    },
-    {
-      "seed": 20261103,
-      "game": 92,
-      "rng_state": 168821149
-    },
-    {
-      "seed": 20261103,
-      "game": 93,
-      "rng_state": 2823256909
-    },
-    {
-      "seed": 20261103,
-      "game": 94,
-      "rng_state": 1182725375
-    },
-    {
-      "seed": 20261103,
-      "game": 95,
-      "rng_state": 3837161135
-    },
-    {
-      "seed": 20261103,
-      "game": 96,
-      "rng_state": 2196629601
-    },
-    {
-      "seed": 20261103,
-      "game": 97,
-      "rng_state": 556098065
-    },
-    {
-      "seed": 20261103,
-      "game": 98,
-      "rng_state": 3210533827
-    },
-    {
-      "seed": 20261103,
-      "game": 99,
-      "rng_state": 1570002291
-    },
-    {
-      "seed": 20261104,
-      "game": 0,
-      "rng_state": 2674696865
-    },
-    {
-      "seed": 20261104,
-      "game": 1,
-      "rng_state": 1034165331
-    },
-    {
-      "seed": 20261104,
-      "game": 2,
-      "rng_state": 3688601091
-    },
-    {
-      "seed": 20261104,
-      "game": 3,
-      "rng_state": 2048069557
-    },
-    {
-      "seed": 20261104,
-      "game": 4,
-      "rng_state": 407538021
-    },
-    {
-      "seed": 20261104,
-      "game": 5,
-      "rng_state": 3061973783
-    },
-    {
-      "seed": 20261104,
-      "game": 6,
-      "rng_state": 1421442247
-    },
-    {
-      "seed": 20261104,
-      "game": 7,
-      "rng_state": 4075878009
-    },
-    {
-      "seed": 20261104,
-      "game": 8,
-      "rng_state": 2435346473
-    },
-    {
-      "seed": 20261104,
-      "game": 9,
-      "rng_state": 794814939
-    },
-    {
-      "seed": 20261104,
-      "game": 10,
-      "rng_state": 3449250699
-    },
-    {
-      "seed": 20261104,
-      "game": 11,
-      "rng_state": 1808719165
-    },
-    {
-      "seed": 20261104,
-      "game": 12,
-      "rng_state": 168187629
-    },
-    {
-      "seed": 20261104,
-      "game": 13,
-      "rng_state": 2822623391
-    },
-    {
-      "seed": 20261104,
-      "game": 14,
-      "rng_state": 1182091855
-    },
-    {
-      "seed": 20261104,
-      "game": 15,
-      "rng_state": 3836527617
-    },
-    {
-      "seed": 20261104,
-      "game": 16,
-      "rng_state": 2195996081
-    },
-    {
-      "seed": 20261104,
-      "game": 17,
-      "rng_state": 555464547
-    },
-    {
-      "seed": 20261104,
-      "game": 18,
-      "rng_state": 3209900307
-    },
-    {
-      "seed": 20261104,
-      "game": 19,
-      "rng_state": 1569368773
-    },
-    {
-      "seed": 20261104,
-      "game": 20,
-      "rng_state": 2674855245
-    },
-    {
-      "seed": 20261104,
-      "game": 21,
-      "rng_state": 1034323711
-    },
-    {
-      "seed": 20261104,
-      "game": 22,
-      "rng_state": 3688759471
-    },
-    {
-      "seed": 20261104,
-      "game": 23,
-      "rng_state": 2048227937
-    },
-    {
-      "seed": 20261104,
-      "game": 24,
-      "rng_state": 407696401
-    },
-    {
-      "seed": 20261104,
-      "game": 25,
-      "rng_state": 3062132163
-    },
-    {
-      "seed": 20261104,
-      "game": 26,
-      "rng_state": 1421600627
-    },
-    {
-      "seed": 20261104,
-      "game": 27,
-      "rng_state": 4076036389
-    },
-    {
-      "seed": 20261104,
-      "game": 28,
-      "rng_state": 2435504853
-    },
-    {
-      "seed": 20261104,
-      "game": 29,
-      "rng_state": 794973319
-    },
-    {
-      "seed": 20261104,
-      "game": 30,
-      "rng_state": 3449409079
-    },
-    {
-      "seed": 20261104,
-      "game": 31,
-      "rng_state": 1808877545
-    },
-    {
-      "seed": 20261104,
-      "game": 32,
-      "rng_state": 168346009
-    },
-    {
-      "seed": 20261104,
-      "game": 33,
-      "rng_state": 2822781771
-    },
-    {
-      "seed": 20261104,
-      "game": 34,
-      "rng_state": 1182250235
-    },
-    {
-      "seed": 20261104,
-      "game": 35,
-      "rng_state": 3836685997
-    },
-    {
-      "seed": 20261104,
-      "game": 36,
-      "rng_state": 2196154461
-    },
-    {
-      "seed": 20261104,
-      "game": 37,
-      "rng_state": 555622927
-    },
-    {
-      "seed": 20261104,
-      "game": 38,
-      "rng_state": 3210058687
-    },
-    {
-      "seed": 20261104,
-      "game": 39,
-      "rng_state": 1569527153
-    },
-    {
-      "seed": 20261104,
-      "game": 40,
-      "rng_state": 2675013625
-    },
-    {
-      "seed": 20261104,
-      "game": 41,
-      "rng_state": 1034482091
-    },
-    {
-      "seed": 20261104,
-      "game": 42,
-      "rng_state": 3688917851
-    },
-    {
-      "seed": 20261104,
-      "game": 43,
-      "rng_state": 2048386317
-    },
-    {
-      "seed": 20261104,
-      "game": 44,
-      "rng_state": 407854781
-    },
-    {
-      "seed": 20261104,
-      "game": 45,
-      "rng_state": 3062290543
-    },
-    {
-      "seed": 20261104,
-      "game": 46,
-      "rng_state": 1421759007
-    },
-    {
-      "seed": 20261104,
-      "game": 47,
-      "rng_state": 4076194769
-    },
-    {
-      "seed": 20261104,
-      "game": 48,
-      "rng_state": 2435663233
-    },
-    {
-      "seed": 20261104,
-      "game": 49,
-      "rng_state": 795131699
-    },
-    {
-      "seed": 20261104,
-      "game": 50,
-      "rng_state": 3449567459
-    },
-    {
-      "seed": 20261104,
-      "game": 51,
-      "rng_state": 1809035925
-    },
-    {
-      "seed": 20261104,
-      "game": 52,
-      "rng_state": 168504389
-    },
-    {
-      "seed": 20261104,
-      "game": 53,
-      "rng_state": 2822940151
-    },
-    {
-      "seed": 20261104,
-      "game": 54,
-      "rng_state": 1182408615
-    },
-    {
-      "seed": 20261104,
-      "game": 55,
-      "rng_state": 3836844377
-    },
-    {
-      "seed": 20261104,
-      "game": 56,
-      "rng_state": 2196312841
-    },
-    {
-      "seed": 20261104,
-      "game": 57,
-      "rng_state": 555781307
-    },
-    {
-      "seed": 20261104,
-      "game": 58,
-      "rng_state": 3210217067
-    },
-    {
-      "seed": 20261104,
-      "game": 59,
-      "rng_state": 1569685533
-    },
-    {
-      "seed": 20261104,
-      "game": 60,
-      "rng_state": 2675172005
-    },
-    {
-      "seed": 20261104,
-      "game": 61,
-      "rng_state": 1034640471
-    },
-    {
-      "seed": 20261104,
-      "game": 62,
-      "rng_state": 3689076231
-    },
-    {
-      "seed": 20261104,
-      "game": 63,
-      "rng_state": 2048544697
-    },
-    {
-      "seed": 20261104,
-      "game": 64,
-      "rng_state": 408013161
-    },
-    {
-      "seed": 20261104,
-      "game": 65,
-      "rng_state": 3062448923
-    },
-    {
-      "seed": 20261104,
-      "game": 66,
-      "rng_state": 1421917387
-    },
-    {
-      "seed": 20261104,
-      "game": 67,
-      "rng_state": 4076353149
-    },
-    {
-      "seed": 20261104,
-      "game": 68,
-      "rng_state": 2435821613
-    },
-    {
-      "seed": 20261104,
-      "game": 69,
-      "rng_state": 795290079
-    },
-    {
-      "seed": 20261104,
-      "game": 70,
-      "rng_state": 3449725839
-    },
-    {
-      "seed": 20261104,
-      "game": 71,
-      "rng_state": 1809194305
-    },
-    {
-      "seed": 20261104,
-      "game": 72,
-      "rng_state": 168662769
-    },
-    {
-      "seed": 20261104,
-      "game": 73,
-      "rng_state": 2823098531
-    },
-    {
-      "seed": 20261104,
-      "game": 74,
-      "rng_state": 1182566995
-    },
-    {
-      "seed": 20261104,
-      "game": 75,
-      "rng_state": 3837002757
-    },
-    {
-      "seed": 20261104,
-      "game": 76,
-      "rng_state": 2196471221
-    },
-    {
-      "seed": 20261104,
-      "game": 77,
-      "rng_state": 555939687
-    },
-    {
-      "seed": 20261104,
-      "game": 78,
-      "rng_state": 3210375447
-    },
-    {
-      "seed": 20261104,
-      "game": 79,
-      "rng_state": 1569843913
-    },
-    {
-      "seed": 20261104,
-      "game": 80,
-      "rng_state": 2675330385
-    },
-    {
-      "seed": 20261104,
-      "game": 81,
-      "rng_state": 1034798851
-    },
-    {
-      "seed": 20261104,
-      "game": 82,
-      "rng_state": 3689234611
-    },
-    {
-      "seed": 20261104,
-      "game": 83,
-      "rng_state": 2048703077
-    },
-    {
-      "seed": 20261104,
-      "game": 84,
-      "rng_state": 408171541
-    },
-    {
-      "seed": 20261104,
-      "game": 85,
-      "rng_state": 3062607303
-    },
-    {
-      "seed": 20261104,
-      "game": 86,
-      "rng_state": 1422075767
-    },
-    {
-      "seed": 20261104,
-      "game": 87,
-      "rng_state": 4076511529
-    },
-    {
-      "seed": 20261104,
-      "game": 88,
-      "rng_state": 2435979993
-    },
-    {
-      "seed": 20261104,
-      "game": 89,
-      "rng_state": 795448459
-    },
-    {
-      "seed": 20261104,
-      "game": 90,
-      "rng_state": 3449884219
-    },
-    {
-      "seed": 20261104,
-      "game": 91,
-      "rng_state": 1809352685
-    },
-    {
-      "seed": 20261104,
-      "game": 92,
-      "rng_state": 168821149
-    },
-    {
-      "seed": 20261104,
-      "game": 93,
-      "rng_state": 2823256911
-    },
-    {
-      "seed": 20261104,
-      "game": 94,
-      "rng_state": 1182725375
-    },
-    {
-      "seed": 20261104,
-      "game": 95,
-      "rng_state": 3837161137
-    },
-    {
-      "seed": 20261104,
-      "game": 96,
-      "rng_state": 2196629601
-    },
-    {
-      "seed": 20261104,
-      "game": 97,
-      "rng_state": 556098067
-    },
-    {
-      "seed": 20261104,
-      "game": 98,
-      "rng_state": 3210533827
-    },
-    {
-      "seed": 20261104,
-      "game": 99,
-      "rng_state": 1570002293
-    }
-  ]
+  "selected_plan": {
+    "requested_games": 200,
+    "unique_initial_rng_states": 200,
+    "groups": [
+      {
+        "seed": 20261103,
+        "games": 100,
+        "parallel": 20
+      },
+      {
+        "seed": 20261105,
+        "games": 100,
+        "parallel": 100
+      }
+    ],
+    "states": [
+      {
+        "seed": 20261103,
+        "game": 0,
+        "parallel": 20,
+        "rng_state": 2674696865
+      },
+      {
+        "seed": 20261103,
+        "game": 1,
+        "parallel": 20,
+        "rng_state": 1034165329
+      },
+      {
+        "seed": 20261103,
+        "game": 2,
+        "parallel": 20,
+        "rng_state": 3688601091
+      },
+      {
+        "seed": 20261103,
+        "game": 3,
+        "parallel": 20,
+        "rng_state": 2048069555
+      },
+      {
+        "seed": 20261103,
+        "game": 4,
+        "parallel": 20,
+        "rng_state": 407538021
+      },
+      {
+        "seed": 20261103,
+        "game": 5,
+        "parallel": 20,
+        "rng_state": 3061973781
+      },
+      {
+        "seed": 20261103,
+        "game": 6,
+        "parallel": 20,
+        "rng_state": 1421442247
+      },
+      {
+        "seed": 20261103,
+        "game": 7,
+        "parallel": 20,
+        "rng_state": 4075878007
+      },
+      {
+        "seed": 20261103,
+        "game": 8,
+        "parallel": 20,
+        "rng_state": 2435346473
+      },
+      {
+        "seed": 20261103,
+        "game": 9,
+        "parallel": 20,
+        "rng_state": 794814937
+      },
+      {
+        "seed": 20261103,
+        "game": 10,
+        "parallel": 20,
+        "rng_state": 3449250699
+      },
+      {
+        "seed": 20261103,
+        "game": 11,
+        "parallel": 20,
+        "rng_state": 1808719163
+      },
+      {
+        "seed": 20261103,
+        "game": 12,
+        "parallel": 20,
+        "rng_state": 168187629
+      },
+      {
+        "seed": 20261103,
+        "game": 13,
+        "parallel": 20,
+        "rng_state": 2822623389
+      },
+      {
+        "seed": 20261103,
+        "game": 14,
+        "parallel": 20,
+        "rng_state": 1182091855
+      },
+      {
+        "seed": 20261103,
+        "game": 15,
+        "parallel": 20,
+        "rng_state": 3836527615
+      },
+      {
+        "seed": 20261103,
+        "game": 16,
+        "parallel": 20,
+        "rng_state": 2195996081
+      },
+      {
+        "seed": 20261103,
+        "game": 17,
+        "parallel": 20,
+        "rng_state": 555464545
+      },
+      {
+        "seed": 20261103,
+        "game": 18,
+        "parallel": 20,
+        "rng_state": 3209900307
+      },
+      {
+        "seed": 20261103,
+        "game": 19,
+        "parallel": 20,
+        "rng_state": 1569368771
+      },
+      {
+        "seed": 20261103,
+        "game": 20,
+        "parallel": 20,
+        "rng_state": 2674855245
+      },
+      {
+        "seed": 20261103,
+        "game": 21,
+        "parallel": 20,
+        "rng_state": 1034323709
+      },
+      {
+        "seed": 20261103,
+        "game": 22,
+        "parallel": 20,
+        "rng_state": 3688759471
+      },
+      {
+        "seed": 20261103,
+        "game": 23,
+        "parallel": 20,
+        "rng_state": 2048227935
+      },
+      {
+        "seed": 20261103,
+        "game": 24,
+        "parallel": 20,
+        "rng_state": 407696401
+      },
+      {
+        "seed": 20261103,
+        "game": 25,
+        "parallel": 20,
+        "rng_state": 3062132161
+      },
+      {
+        "seed": 20261103,
+        "game": 26,
+        "parallel": 20,
+        "rng_state": 1421600627
+      },
+      {
+        "seed": 20261103,
+        "game": 27,
+        "parallel": 20,
+        "rng_state": 4076036387
+      },
+      {
+        "seed": 20261103,
+        "game": 28,
+        "parallel": 20,
+        "rng_state": 2435504853
+      },
+      {
+        "seed": 20261103,
+        "game": 29,
+        "parallel": 20,
+        "rng_state": 794973317
+      },
+      {
+        "seed": 20261103,
+        "game": 30,
+        "parallel": 20,
+        "rng_state": 3449409079
+      },
+      {
+        "seed": 20261103,
+        "game": 31,
+        "parallel": 20,
+        "rng_state": 1808877543
+      },
+      {
+        "seed": 20261103,
+        "game": 32,
+        "parallel": 20,
+        "rng_state": 168346009
+      },
+      {
+        "seed": 20261103,
+        "game": 33,
+        "parallel": 20,
+        "rng_state": 2822781769
+      },
+      {
+        "seed": 20261103,
+        "game": 34,
+        "parallel": 20,
+        "rng_state": 1182250235
+      },
+      {
+        "seed": 20261103,
+        "game": 35,
+        "parallel": 20,
+        "rng_state": 3836685995
+      },
+      {
+        "seed": 20261103,
+        "game": 36,
+        "parallel": 20,
+        "rng_state": 2196154461
+      },
+      {
+        "seed": 20261103,
+        "game": 37,
+        "parallel": 20,
+        "rng_state": 555622925
+      },
+      {
+        "seed": 20261103,
+        "game": 38,
+        "parallel": 20,
+        "rng_state": 3210058687
+      },
+      {
+        "seed": 20261103,
+        "game": 39,
+        "parallel": 20,
+        "rng_state": 1569527151
+      },
+      {
+        "seed": 20261103,
+        "game": 40,
+        "parallel": 20,
+        "rng_state": 2675013625
+      },
+      {
+        "seed": 20261103,
+        "game": 41,
+        "parallel": 20,
+        "rng_state": 1034482089
+      },
+      {
+        "seed": 20261103,
+        "game": 42,
+        "parallel": 20,
+        "rng_state": 3688917851
+      },
+      {
+        "seed": 20261103,
+        "game": 43,
+        "parallel": 20,
+        "rng_state": 2048386315
+      },
+      {
+        "seed": 20261103,
+        "game": 44,
+        "parallel": 20,
+        "rng_state": 407854781
+      },
+      {
+        "seed": 20261103,
+        "game": 45,
+        "parallel": 20,
+        "rng_state": 3062290541
+      },
+      {
+        "seed": 20261103,
+        "game": 46,
+        "parallel": 20,
+        "rng_state": 1421759007
+      },
+      {
+        "seed": 20261103,
+        "game": 47,
+        "parallel": 20,
+        "rng_state": 4076194767
+      },
+      {
+        "seed": 20261103,
+        "game": 48,
+        "parallel": 20,
+        "rng_state": 2435663233
+      },
+      {
+        "seed": 20261103,
+        "game": 49,
+        "parallel": 20,
+        "rng_state": 795131697
+      },
+      {
+        "seed": 20261103,
+        "game": 50,
+        "parallel": 20,
+        "rng_state": 3449567459
+      },
+      {
+        "seed": 20261103,
+        "game": 51,
+        "parallel": 20,
+        "rng_state": 1809035923
+      },
+      {
+        "seed": 20261103,
+        "game": 52,
+        "parallel": 20,
+        "rng_state": 168504389
+      },
+      {
+        "seed": 20261103,
+        "game": 53,
+        "parallel": 20,
+        "rng_state": 2822940149
+      },
+      {
+        "seed": 20261103,
+        "game": 54,
+        "parallel": 20,
+        "rng_state": 1182408615
+      },
+      {
+        "seed": 20261103,
+        "game": 55,
+        "parallel": 20,
+        "rng_state": 3836844375
+      },
+      {
+        "seed": 20261103,
+        "game": 56,
+        "parallel": 20,
+        "rng_state": 2196312841
+      },
+      {
+        "seed": 20261103,
+        "game": 57,
+        "parallel": 20,
+        "rng_state": 555781305
+      },
+      {
+        "seed": 20261103,
+        "game": 58,
+        "parallel": 20,
+        "rng_state": 3210217067
+      },
+      {
+        "seed": 20261103,
+        "game": 59,
+        "parallel": 20,
+        "rng_state": 1569685531
+      },
+      {
+        "seed": 20261103,
+        "game": 60,
+        "parallel": 20,
+        "rng_state": 2675172005
+      },
+      {
+        "seed": 20261103,
+        "game": 61,
+        "parallel": 20,
+        "rng_state": 1034640469
+      },
+      {
+        "seed": 20261103,
+        "game": 62,
+        "parallel": 20,
+        "rng_state": 3689076231
+      },
+      {
+        "seed": 20261103,
+        "game": 63,
+        "parallel": 20,
+        "rng_state": 2048544695
+      },
+      {
+        "seed": 20261103,
+        "game": 64,
+        "parallel": 20,
+        "rng_state": 408013161
+      },
+      {
+        "seed": 20261103,
+        "game": 65,
+        "parallel": 20,
+        "rng_state": 3062448921
+      },
+      {
+        "seed": 20261103,
+        "game": 66,
+        "parallel": 20,
+        "rng_state": 1421917387
+      },
+      {
+        "seed": 20261103,
+        "game": 67,
+        "parallel": 20,
+        "rng_state": 4076353147
+      },
+      {
+        "seed": 20261103,
+        "game": 68,
+        "parallel": 20,
+        "rng_state": 2435821613
+      },
+      {
+        "seed": 20261103,
+        "game": 69,
+        "parallel": 20,
+        "rng_state": 795290077
+      },
+      {
+        "seed": 20261103,
+        "game": 70,
+        "parallel": 20,
+        "rng_state": 3449725839
+      },
+      {
+        "seed": 20261103,
+        "game": 71,
+        "parallel": 20,
+        "rng_state": 1809194303
+      },
+      {
+        "seed": 20261103,
+        "game": 72,
+        "parallel": 20,
+        "rng_state": 168662769
+      },
+      {
+        "seed": 20261103,
+        "game": 73,
+        "parallel": 20,
+        "rng_state": 2823098529
+      },
+      {
+        "seed": 20261103,
+        "game": 74,
+        "parallel": 20,
+        "rng_state": 1182566995
+      },
+      {
+        "seed": 20261103,
+        "game": 75,
+        "parallel": 20,
+        "rng_state": 3837002755
+      },
+      {
+        "seed": 20261103,
+        "game": 76,
+        "parallel": 20,
+        "rng_state": 2196471221
+      },
+      {
+        "seed": 20261103,
+        "game": 77,
+        "parallel": 20,
+        "rng_state": 555939685
+      },
+      {
+        "seed": 20261103,
+        "game": 78,
+        "parallel": 20,
+        "rng_state": 3210375447
+      },
+      {
+        "seed": 20261103,
+        "game": 79,
+        "parallel": 20,
+        "rng_state": 1569843911
+      },
+      {
+        "seed": 20261103,
+        "game": 80,
+        "parallel": 20,
+        "rng_state": 2675330385
+      },
+      {
+        "seed": 20261103,
+        "game": 81,
+        "parallel": 20,
+        "rng_state": 1034798849
+      },
+      {
+        "seed": 20261103,
+        "game": 82,
+        "parallel": 20,
+        "rng_state": 3689234611
+      },
+      {
+        "seed": 20261103,
+        "game": 83,
+        "parallel": 20,
+        "rng_state": 2048703075
+      },
+      {
+        "seed": 20261103,
+        "game": 84,
+        "parallel": 20,
+        "rng_state": 408171541
+      },
+      {
+        "seed": 20261103,
+        "game": 85,
+        "parallel": 20,
+        "rng_state": 3062607301
+      },
+      {
+        "seed": 20261103,
+        "game": 86,
+        "parallel": 20,
+        "rng_state": 1422075767
+      },
+      {
+        "seed": 20261103,
+        "game": 87,
+        "parallel": 20,
+        "rng_state": 4076511527
+      },
+      {
+        "seed": 20261103,
+        "game": 88,
+        "parallel": 20,
+        "rng_state": 2435979993
+      },
+      {
+        "seed": 20261103,
+        "game": 89,
+        "parallel": 20,
+        "rng_state": 795448457
+      },
+      {
+        "seed": 20261103,
+        "game": 90,
+        "parallel": 20,
+        "rng_state": 3449884219
+      },
+      {
+        "seed": 20261103,
+        "game": 91,
+        "parallel": 20,
+        "rng_state": 1809352683
+      },
+      {
+        "seed": 20261103,
+        "game": 92,
+        "parallel": 20,
+        "rng_state": 168821149
+      },
+      {
+        "seed": 20261103,
+        "game": 93,
+        "parallel": 20,
+        "rng_state": 2823256909
+      },
+      {
+        "seed": 20261103,
+        "game": 94,
+        "parallel": 20,
+        "rng_state": 1182725375
+      },
+      {
+        "seed": 20261103,
+        "game": 95,
+        "parallel": 20,
+        "rng_state": 3837161135
+      },
+      {
+        "seed": 20261103,
+        "game": 96,
+        "parallel": 20,
+        "rng_state": 2196629601
+      },
+      {
+        "seed": 20261103,
+        "game": 97,
+        "parallel": 20,
+        "rng_state": 556098065
+      },
+      {
+        "seed": 20261103,
+        "game": 98,
+        "parallel": 20,
+        "rng_state": 3210533827
+      },
+      {
+        "seed": 20261103,
+        "game": 99,
+        "parallel": 20,
+        "rng_state": 1570002291
+      },
+      {
+        "seed": 20261105,
+        "game": 0,
+        "parallel": 100,
+        "rng_state": 2674696867
+      },
+      {
+        "seed": 20261105,
+        "game": 1,
+        "parallel": 100,
+        "rng_state": 1034165331
+      },
+      {
+        "seed": 20261105,
+        "game": 2,
+        "parallel": 100,
+        "rng_state": 3688601093
+      },
+      {
+        "seed": 20261105,
+        "game": 3,
+        "parallel": 100,
+        "rng_state": 2048069557
+      },
+      {
+        "seed": 20261105,
+        "game": 4,
+        "parallel": 100,
+        "rng_state": 407538023
+      },
+      {
+        "seed": 20261105,
+        "game": 5,
+        "parallel": 100,
+        "rng_state": 3061973783
+      },
+      {
+        "seed": 20261105,
+        "game": 6,
+        "parallel": 100,
+        "rng_state": 1421442249
+      },
+      {
+        "seed": 20261105,
+        "game": 7,
+        "parallel": 100,
+        "rng_state": 4075878009
+      },
+      {
+        "seed": 20261105,
+        "game": 8,
+        "parallel": 100,
+        "rng_state": 2435346475
+      },
+      {
+        "seed": 20261105,
+        "game": 9,
+        "parallel": 100,
+        "rng_state": 794814939
+      },
+      {
+        "seed": 20261105,
+        "game": 10,
+        "parallel": 100,
+        "rng_state": 3449250701
+      },
+      {
+        "seed": 20261105,
+        "game": 11,
+        "parallel": 100,
+        "rng_state": 1808719165
+      },
+      {
+        "seed": 20261105,
+        "game": 12,
+        "parallel": 100,
+        "rng_state": 168187631
+      },
+      {
+        "seed": 20261105,
+        "game": 13,
+        "parallel": 100,
+        "rng_state": 2822623391
+      },
+      {
+        "seed": 20261105,
+        "game": 14,
+        "parallel": 100,
+        "rng_state": 1182091857
+      },
+      {
+        "seed": 20261105,
+        "game": 15,
+        "parallel": 100,
+        "rng_state": 3836527617
+      },
+      {
+        "seed": 20261105,
+        "game": 16,
+        "parallel": 100,
+        "rng_state": 2195996083
+      },
+      {
+        "seed": 20261105,
+        "game": 17,
+        "parallel": 100,
+        "rng_state": 555464547
+      },
+      {
+        "seed": 20261105,
+        "game": 18,
+        "parallel": 100,
+        "rng_state": 3209900309
+      },
+      {
+        "seed": 20261105,
+        "game": 19,
+        "parallel": 100,
+        "rng_state": 1569368773
+      },
+      {
+        "seed": 20261105,
+        "game": 20,
+        "parallel": 100,
+        "rng_state": 4223804535
+      },
+      {
+        "seed": 20261105,
+        "game": 21,
+        "parallel": 100,
+        "rng_state": 2583272999
+      },
+      {
+        "seed": 20261105,
+        "game": 22,
+        "parallel": 100,
+        "rng_state": 942741465
+      },
+      {
+        "seed": 20261105,
+        "game": 23,
+        "parallel": 100,
+        "rng_state": 3597177225
+      },
+      {
+        "seed": 20261105,
+        "game": 24,
+        "parallel": 100,
+        "rng_state": 1956645691
+      },
+      {
+        "seed": 20261105,
+        "game": 25,
+        "parallel": 100,
+        "rng_state": 316114155
+      },
+      {
+        "seed": 20261105,
+        "game": 26,
+        "parallel": 100,
+        "rng_state": 2970549917
+      },
+      {
+        "seed": 20261105,
+        "game": 27,
+        "parallel": 100,
+        "rng_state": 1330018381
+      },
+      {
+        "seed": 20261105,
+        "game": 28,
+        "parallel": 100,
+        "rng_state": 3984454143
+      },
+      {
+        "seed": 20261105,
+        "game": 29,
+        "parallel": 100,
+        "rng_state": 2343922607
+      },
+      {
+        "seed": 20261105,
+        "game": 30,
+        "parallel": 100,
+        "rng_state": 703391073
+      },
+      {
+        "seed": 20261105,
+        "game": 31,
+        "parallel": 100,
+        "rng_state": 3357826833
+      },
+      {
+        "seed": 20261105,
+        "game": 32,
+        "parallel": 100,
+        "rng_state": 1717295299
+      },
+      {
+        "seed": 20261105,
+        "game": 33,
+        "parallel": 100,
+        "rng_state": 76763763
+      },
+      {
+        "seed": 20261105,
+        "game": 34,
+        "parallel": 100,
+        "rng_state": 2731199525
+      },
+      {
+        "seed": 20261105,
+        "game": 35,
+        "parallel": 100,
+        "rng_state": 1090667989
+      },
+      {
+        "seed": 20261105,
+        "game": 36,
+        "parallel": 100,
+        "rng_state": 3745103751
+      },
+      {
+        "seed": 20261105,
+        "game": 37,
+        "parallel": 100,
+        "rng_state": 2104572215
+      },
+      {
+        "seed": 20261105,
+        "game": 38,
+        "parallel": 100,
+        "rng_state": 464040681
+      },
+      {
+        "seed": 20261105,
+        "game": 39,
+        "parallel": 100,
+        "rng_state": 3118476441
+      },
+      {
+        "seed": 20261105,
+        "game": 40,
+        "parallel": 100,
+        "rng_state": 1477944907
+      },
+      {
+        "seed": 20261105,
+        "game": 41,
+        "parallel": 100,
+        "rng_state": 4132380667
+      },
+      {
+        "seed": 20261105,
+        "game": 42,
+        "parallel": 100,
+        "rng_state": 2491849133
+      },
+      {
+        "seed": 20261105,
+        "game": 43,
+        "parallel": 100,
+        "rng_state": 851317597
+      },
+      {
+        "seed": 20261105,
+        "game": 44,
+        "parallel": 100,
+        "rng_state": 3505753359
+      },
+      {
+        "seed": 20261105,
+        "game": 45,
+        "parallel": 100,
+        "rng_state": 1865221823
+      },
+      {
+        "seed": 20261105,
+        "game": 46,
+        "parallel": 100,
+        "rng_state": 224690289
+      },
+      {
+        "seed": 20261105,
+        "game": 47,
+        "parallel": 100,
+        "rng_state": 2879126049
+      },
+      {
+        "seed": 20261105,
+        "game": 48,
+        "parallel": 100,
+        "rng_state": 1238594515
+      },
+      {
+        "seed": 20261105,
+        "game": 49,
+        "parallel": 100,
+        "rng_state": 3893030275
+      },
+      {
+        "seed": 20261105,
+        "game": 50,
+        "parallel": 100,
+        "rng_state": 2252498741
+      },
+      {
+        "seed": 20261105,
+        "game": 51,
+        "parallel": 100,
+        "rng_state": 611967205
+      },
+      {
+        "seed": 20261105,
+        "game": 52,
+        "parallel": 100,
+        "rng_state": 3266402967
+      },
+      {
+        "seed": 20261105,
+        "game": 53,
+        "parallel": 100,
+        "rng_state": 1625871431
+      },
+      {
+        "seed": 20261105,
+        "game": 54,
+        "parallel": 100,
+        "rng_state": 4280307193
+      },
+      {
+        "seed": 20261105,
+        "game": 55,
+        "parallel": 100,
+        "rng_state": 2639775657
+      },
+      {
+        "seed": 20261105,
+        "game": 56,
+        "parallel": 100,
+        "rng_state": 999244123
+      },
+      {
+        "seed": 20261105,
+        "game": 57,
+        "parallel": 100,
+        "rng_state": 3653679883
+      },
+      {
+        "seed": 20261105,
+        "game": 58,
+        "parallel": 100,
+        "rng_state": 2013148349
+      },
+      {
+        "seed": 20261105,
+        "game": 59,
+        "parallel": 100,
+        "rng_state": 372616813
+      },
+      {
+        "seed": 20261105,
+        "game": 60,
+        "parallel": 100,
+        "rng_state": 3027052575
+      },
+      {
+        "seed": 20261105,
+        "game": 61,
+        "parallel": 100,
+        "rng_state": 1386521039
+      },
+      {
+        "seed": 20261105,
+        "game": 62,
+        "parallel": 100,
+        "rng_state": 4040956801
+      },
+      {
+        "seed": 20261105,
+        "game": 63,
+        "parallel": 100,
+        "rng_state": 2400425265
+      },
+      {
+        "seed": 20261105,
+        "game": 64,
+        "parallel": 100,
+        "rng_state": 759893731
+      },
+      {
+        "seed": 20261105,
+        "game": 65,
+        "parallel": 100,
+        "rng_state": 3414329491
+      },
+      {
+        "seed": 20261105,
+        "game": 66,
+        "parallel": 100,
+        "rng_state": 1773797957
+      },
+      {
+        "seed": 20261105,
+        "game": 67,
+        "parallel": 100,
+        "rng_state": 133266421
+      },
+      {
+        "seed": 20261105,
+        "game": 68,
+        "parallel": 100,
+        "rng_state": 2787702183
+      },
+      {
+        "seed": 20261105,
+        "game": 69,
+        "parallel": 100,
+        "rng_state": 1147170647
+      },
+      {
+        "seed": 20261105,
+        "game": 70,
+        "parallel": 100,
+        "rng_state": 3801606409
+      },
+      {
+        "seed": 20261105,
+        "game": 71,
+        "parallel": 100,
+        "rng_state": 2161074873
+      },
+      {
+        "seed": 20261105,
+        "game": 72,
+        "parallel": 100,
+        "rng_state": 520543339
+      },
+      {
+        "seed": 20261105,
+        "game": 73,
+        "parallel": 100,
+        "rng_state": 3174979099
+      },
+      {
+        "seed": 20261105,
+        "game": 74,
+        "parallel": 100,
+        "rng_state": 1534447565
+      },
+      {
+        "seed": 20261105,
+        "game": 75,
+        "parallel": 100,
+        "rng_state": 4188883325
+      },
+      {
+        "seed": 20261105,
+        "game": 76,
+        "parallel": 100,
+        "rng_state": 2548351791
+      },
+      {
+        "seed": 20261105,
+        "game": 77,
+        "parallel": 100,
+        "rng_state": 907820255
+      },
+      {
+        "seed": 20261105,
+        "game": 78,
+        "parallel": 100,
+        "rng_state": 3562256017
+      },
+      {
+        "seed": 20261105,
+        "game": 79,
+        "parallel": 100,
+        "rng_state": 1921724481
+      },
+      {
+        "seed": 20261105,
+        "game": 80,
+        "parallel": 100,
+        "rng_state": 281192947
+      },
+      {
+        "seed": 20261105,
+        "game": 81,
+        "parallel": 100,
+        "rng_state": 2935628707
+      },
+      {
+        "seed": 20261105,
+        "game": 82,
+        "parallel": 100,
+        "rng_state": 1295097173
+      },
+      {
+        "seed": 20261105,
+        "game": 83,
+        "parallel": 100,
+        "rng_state": 3949532933
+      },
+      {
+        "seed": 20261105,
+        "game": 84,
+        "parallel": 100,
+        "rng_state": 2309001399
+      },
+      {
+        "seed": 20261105,
+        "game": 85,
+        "parallel": 100,
+        "rng_state": 668469863
+      },
+      {
+        "seed": 20261105,
+        "game": 86,
+        "parallel": 100,
+        "rng_state": 3322905625
+      },
+      {
+        "seed": 20261105,
+        "game": 87,
+        "parallel": 100,
+        "rng_state": 1682374089
+      },
+      {
+        "seed": 20261105,
+        "game": 88,
+        "parallel": 100,
+        "rng_state": 41842555
+      },
+      {
+        "seed": 20261105,
+        "game": 89,
+        "parallel": 100,
+        "rng_state": 2696278315
+      },
+      {
+        "seed": 20261105,
+        "game": 90,
+        "parallel": 100,
+        "rng_state": 1055746781
+      },
+      {
+        "seed": 20261105,
+        "game": 91,
+        "parallel": 100,
+        "rng_state": 3710182541
+      },
+      {
+        "seed": 20261105,
+        "game": 92,
+        "parallel": 100,
+        "rng_state": 2069651007
+      },
+      {
+        "seed": 20261105,
+        "game": 93,
+        "parallel": 100,
+        "rng_state": 429119471
+      },
+      {
+        "seed": 20261105,
+        "game": 94,
+        "parallel": 100,
+        "rng_state": 3083555233
+      },
+      {
+        "seed": 20261105,
+        "game": 95,
+        "parallel": 100,
+        "rng_state": 1443023697
+      },
+      {
+        "seed": 20261105,
+        "game": 96,
+        "parallel": 100,
+        "rng_state": 4097459459
+      },
+      {
+        "seed": 20261105,
+        "game": 97,
+        "parallel": 100,
+        "rng_state": 2456927923
+      },
+      {
+        "seed": 20261105,
+        "game": 98,
+        "parallel": 100,
+        "rng_state": 816396389
+      },
+      {
+        "seed": 20261105,
+        "game": 99,
+        "parallel": 100,
+        "rng_state": 3470832149
+      }
+    ]
+  },
+  "excluded_initial_plan": {
+    "requested_games": 200,
+    "unique_initial_rng_states": 150,
+    "duplicated_pairs": 50,
+    "formula": "((seed + cohort_offset*7919 + (slot+1)*2654435761) mod 2**32) | 1",
+    "scope": "Initial physics RNG state from sampling.rs; 200 executed matches are not claimed to be independent",
+    "states": [
+      {
+        "seed": 20261103,
+        "game": 0,
+        "rng_state": 2674696865
+      },
+      {
+        "seed": 20261103,
+        "game": 1,
+        "rng_state": 1034165329
+      },
+      {
+        "seed": 20261103,
+        "game": 2,
+        "rng_state": 3688601091
+      },
+      {
+        "seed": 20261103,
+        "game": 3,
+        "rng_state": 2048069555
+      },
+      {
+        "seed": 20261103,
+        "game": 4,
+        "rng_state": 407538021
+      },
+      {
+        "seed": 20261103,
+        "game": 5,
+        "rng_state": 3061973781
+      },
+      {
+        "seed": 20261103,
+        "game": 6,
+        "rng_state": 1421442247
+      },
+      {
+        "seed": 20261103,
+        "game": 7,
+        "rng_state": 4075878007
+      },
+      {
+        "seed": 20261103,
+        "game": 8,
+        "rng_state": 2435346473
+      },
+      {
+        "seed": 20261103,
+        "game": 9,
+        "rng_state": 794814937
+      },
+      {
+        "seed": 20261103,
+        "game": 10,
+        "rng_state": 3449250699
+      },
+      {
+        "seed": 20261103,
+        "game": 11,
+        "rng_state": 1808719163
+      },
+      {
+        "seed": 20261103,
+        "game": 12,
+        "rng_state": 168187629
+      },
+      {
+        "seed": 20261103,
+        "game": 13,
+        "rng_state": 2822623389
+      },
+      {
+        "seed": 20261103,
+        "game": 14,
+        "rng_state": 1182091855
+      },
+      {
+        "seed": 20261103,
+        "game": 15,
+        "rng_state": 3836527615
+      },
+      {
+        "seed": 20261103,
+        "game": 16,
+        "rng_state": 2195996081
+      },
+      {
+        "seed": 20261103,
+        "game": 17,
+        "rng_state": 555464545
+      },
+      {
+        "seed": 20261103,
+        "game": 18,
+        "rng_state": 3209900307
+      },
+      {
+        "seed": 20261103,
+        "game": 19,
+        "rng_state": 1569368771
+      },
+      {
+        "seed": 20261103,
+        "game": 20,
+        "rng_state": 2674855245
+      },
+      {
+        "seed": 20261103,
+        "game": 21,
+        "rng_state": 1034323709
+      },
+      {
+        "seed": 20261103,
+        "game": 22,
+        "rng_state": 3688759471
+      },
+      {
+        "seed": 20261103,
+        "game": 23,
+        "rng_state": 2048227935
+      },
+      {
+        "seed": 20261103,
+        "game": 24,
+        "rng_state": 407696401
+      },
+      {
+        "seed": 20261103,
+        "game": 25,
+        "rng_state": 3062132161
+      },
+      {
+        "seed": 20261103,
+        "game": 26,
+        "rng_state": 1421600627
+      },
+      {
+        "seed": 20261103,
+        "game": 27,
+        "rng_state": 4076036387
+      },
+      {
+        "seed": 20261103,
+        "game": 28,
+        "rng_state": 2435504853
+      },
+      {
+        "seed": 20261103,
+        "game": 29,
+        "rng_state": 794973317
+      },
+      {
+        "seed": 20261103,
+        "game": 30,
+        "rng_state": 3449409079
+      },
+      {
+        "seed": 20261103,
+        "game": 31,
+        "rng_state": 1808877543
+      },
+      {
+        "seed": 20261103,
+        "game": 32,
+        "rng_state": 168346009
+      },
+      {
+        "seed": 20261103,
+        "game": 33,
+        "rng_state": 2822781769
+      },
+      {
+        "seed": 20261103,
+        "game": 34,
+        "rng_state": 1182250235
+      },
+      {
+        "seed": 20261103,
+        "game": 35,
+        "rng_state": 3836685995
+      },
+      {
+        "seed": 20261103,
+        "game": 36,
+        "rng_state": 2196154461
+      },
+      {
+        "seed": 20261103,
+        "game": 37,
+        "rng_state": 555622925
+      },
+      {
+        "seed": 20261103,
+        "game": 38,
+        "rng_state": 3210058687
+      },
+      {
+        "seed": 20261103,
+        "game": 39,
+        "rng_state": 1569527151
+      },
+      {
+        "seed": 20261103,
+        "game": 40,
+        "rng_state": 2675013625
+      },
+      {
+        "seed": 20261103,
+        "game": 41,
+        "rng_state": 1034482089
+      },
+      {
+        "seed": 20261103,
+        "game": 42,
+        "rng_state": 3688917851
+      },
+      {
+        "seed": 20261103,
+        "game": 43,
+        "rng_state": 2048386315
+      },
+      {
+        "seed": 20261103,
+        "game": 44,
+        "rng_state": 407854781
+      },
+      {
+        "seed": 20261103,
+        "game": 45,
+        "rng_state": 3062290541
+      },
+      {
+        "seed": 20261103,
+        "game": 46,
+        "rng_state": 1421759007
+      },
+      {
+        "seed": 20261103,
+        "game": 47,
+        "rng_state": 4076194767
+      },
+      {
+        "seed": 20261103,
+        "game": 48,
+        "rng_state": 2435663233
+      },
+      {
+        "seed": 20261103,
+        "game": 49,
+        "rng_state": 795131697
+      },
+      {
+        "seed": 20261103,
+        "game": 50,
+        "rng_state": 3449567459
+      },
+      {
+        "seed": 20261103,
+        "game": 51,
+        "rng_state": 1809035923
+      },
+      {
+        "seed": 20261103,
+        "game": 52,
+        "rng_state": 168504389
+      },
+      {
+        "seed": 20261103,
+        "game": 53,
+        "rng_state": 2822940149
+      },
+      {
+        "seed": 20261103,
+        "game": 54,
+        "rng_state": 1182408615
+      },
+      {
+        "seed": 20261103,
+        "game": 55,
+        "rng_state": 3836844375
+      },
+      {
+        "seed": 20261103,
+        "game": 56,
+        "rng_state": 2196312841
+      },
+      {
+        "seed": 20261103,
+        "game": 57,
+        "rng_state": 555781305
+      },
+      {
+        "seed": 20261103,
+        "game": 58,
+        "rng_state": 3210217067
+      },
+      {
+        "seed": 20261103,
+        "game": 59,
+        "rng_state": 1569685531
+      },
+      {
+        "seed": 20261103,
+        "game": 60,
+        "rng_state": 2675172005
+      },
+      {
+        "seed": 20261103,
+        "game": 61,
+        "rng_state": 1034640469
+      },
+      {
+        "seed": 20261103,
+        "game": 62,
+        "rng_state": 3689076231
+      },
+      {
+        "seed": 20261103,
+        "game": 63,
+        "rng_state": 2048544695
+      },
+      {
+        "seed": 20261103,
+        "game": 64,
+        "rng_state": 408013161
+      },
+      {
+        "seed": 20261103,
+        "game": 65,
+        "rng_state": 3062448921
+      },
+      {
+        "seed": 20261103,
+        "game": 66,
+        "rng_state": 1421917387
+      },
+      {
+        "seed": 20261103,
+        "game": 67,
+        "rng_state": 4076353147
+      },
+      {
+        "seed": 20261103,
+        "game": 68,
+        "rng_state": 2435821613
+      },
+      {
+        "seed": 20261103,
+        "game": 69,
+        "rng_state": 795290077
+      },
+      {
+        "seed": 20261103,
+        "game": 70,
+        "rng_state": 3449725839
+      },
+      {
+        "seed": 20261103,
+        "game": 71,
+        "rng_state": 1809194303
+      },
+      {
+        "seed": 20261103,
+        "game": 72,
+        "rng_state": 168662769
+      },
+      {
+        "seed": 20261103,
+        "game": 73,
+        "rng_state": 2823098529
+      },
+      {
+        "seed": 20261103,
+        "game": 74,
+        "rng_state": 1182566995
+      },
+      {
+        "seed": 20261103,
+        "game": 75,
+        "rng_state": 3837002755
+      },
+      {
+        "seed": 20261103,
+        "game": 76,
+        "rng_state": 2196471221
+      },
+      {
+        "seed": 20261103,
+        "game": 77,
+        "rng_state": 555939685
+      },
+      {
+        "seed": 20261103,
+        "game": 78,
+        "rng_state": 3210375447
+      },
+      {
+        "seed": 20261103,
+        "game": 79,
+        "rng_state": 1569843911
+      },
+      {
+        "seed": 20261103,
+        "game": 80,
+        "rng_state": 2675330385
+      },
+      {
+        "seed": 20261103,
+        "game": 81,
+        "rng_state": 1034798849
+      },
+      {
+        "seed": 20261103,
+        "game": 82,
+        "rng_state": 3689234611
+      },
+      {
+        "seed": 20261103,
+        "game": 83,
+        "rng_state": 2048703075
+      },
+      {
+        "seed": 20261103,
+        "game": 84,
+        "rng_state": 408171541
+      },
+      {
+        "seed": 20261103,
+        "game": 85,
+        "rng_state": 3062607301
+      },
+      {
+        "seed": 20261103,
+        "game": 86,
+        "rng_state": 1422075767
+      },
+      {
+        "seed": 20261103,
+        "game": 87,
+        "rng_state": 4076511527
+      },
+      {
+        "seed": 20261103,
+        "game": 88,
+        "rng_state": 2435979993
+      },
+      {
+        "seed": 20261103,
+        "game": 89,
+        "rng_state": 795448457
+      },
+      {
+        "seed": 20261103,
+        "game": 90,
+        "rng_state": 3449884219
+      },
+      {
+        "seed": 20261103,
+        "game": 91,
+        "rng_state": 1809352683
+      },
+      {
+        "seed": 20261103,
+        "game": 92,
+        "rng_state": 168821149
+      },
+      {
+        "seed": 20261103,
+        "game": 93,
+        "rng_state": 2823256909
+      },
+      {
+        "seed": 20261103,
+        "game": 94,
+        "rng_state": 1182725375
+      },
+      {
+        "seed": 20261103,
+        "game": 95,
+        "rng_state": 3837161135
+      },
+      {
+        "seed": 20261103,
+        "game": 96,
+        "rng_state": 2196629601
+      },
+      {
+        "seed": 20261103,
+        "game": 97,
+        "rng_state": 556098065
+      },
+      {
+        "seed": 20261103,
+        "game": 98,
+        "rng_state": 3210533827
+      },
+      {
+        "seed": 20261103,
+        "game": 99,
+        "rng_state": 1570002291
+      },
+      {
+        "seed": 20261104,
+        "game": 0,
+        "rng_state": 2674696865
+      },
+      {
+        "seed": 20261104,
+        "game": 1,
+        "rng_state": 1034165331
+      },
+      {
+        "seed": 20261104,
+        "game": 2,
+        "rng_state": 3688601091
+      },
+      {
+        "seed": 20261104,
+        "game": 3,
+        "rng_state": 2048069557
+      },
+      {
+        "seed": 20261104,
+        "game": 4,
+        "rng_state": 407538021
+      },
+      {
+        "seed": 20261104,
+        "game": 5,
+        "rng_state": 3061973783
+      },
+      {
+        "seed": 20261104,
+        "game": 6,
+        "rng_state": 1421442247
+      },
+      {
+        "seed": 20261104,
+        "game": 7,
+        "rng_state": 4075878009
+      },
+      {
+        "seed": 20261104,
+        "game": 8,
+        "rng_state": 2435346473
+      },
+      {
+        "seed": 20261104,
+        "game": 9,
+        "rng_state": 794814939
+      },
+      {
+        "seed": 20261104,
+        "game": 10,
+        "rng_state": 3449250699
+      },
+      {
+        "seed": 20261104,
+        "game": 11,
+        "rng_state": 1808719165
+      },
+      {
+        "seed": 20261104,
+        "game": 12,
+        "rng_state": 168187629
+      },
+      {
+        "seed": 20261104,
+        "game": 13,
+        "rng_state": 2822623391
+      },
+      {
+        "seed": 20261104,
+        "game": 14,
+        "rng_state": 1182091855
+      },
+      {
+        "seed": 20261104,
+        "game": 15,
+        "rng_state": 3836527617
+      },
+      {
+        "seed": 20261104,
+        "game": 16,
+        "rng_state": 2195996081
+      },
+      {
+        "seed": 20261104,
+        "game": 17,
+        "rng_state": 555464547
+      },
+      {
+        "seed": 20261104,
+        "game": 18,
+        "rng_state": 3209900307
+      },
+      {
+        "seed": 20261104,
+        "game": 19,
+        "rng_state": 1569368773
+      },
+      {
+        "seed": 20261104,
+        "game": 20,
+        "rng_state": 2674855245
+      },
+      {
+        "seed": 20261104,
+        "game": 21,
+        "rng_state": 1034323711
+      },
+      {
+        "seed": 20261104,
+        "game": 22,
+        "rng_state": 3688759471
+      },
+      {
+        "seed": 20261104,
+        "game": 23,
+        "rng_state": 2048227937
+      },
+      {
+        "seed": 20261104,
+        "game": 24,
+        "rng_state": 407696401
+      },
+      {
+        "seed": 20261104,
+        "game": 25,
+        "rng_state": 3062132163
+      },
+      {
+        "seed": 20261104,
+        "game": 26,
+        "rng_state": 1421600627
+      },
+      {
+        "seed": 20261104,
+        "game": 27,
+        "rng_state": 4076036389
+      },
+      {
+        "seed": 20261104,
+        "game": 28,
+        "rng_state": 2435504853
+      },
+      {
+        "seed": 20261104,
+        "game": 29,
+        "rng_state": 794973319
+      },
+      {
+        "seed": 20261104,
+        "game": 30,
+        "rng_state": 3449409079
+      },
+      {
+        "seed": 20261104,
+        "game": 31,
+        "rng_state": 1808877545
+      },
+      {
+        "seed": 20261104,
+        "game": 32,
+        "rng_state": 168346009
+      },
+      {
+        "seed": 20261104,
+        "game": 33,
+        "rng_state": 2822781771
+      },
+      {
+        "seed": 20261104,
+        "game": 34,
+        "rng_state": 1182250235
+      },
+      {
+        "seed": 20261104,
+        "game": 35,
+        "rng_state": 3836685997
+      },
+      {
+        "seed": 20261104,
+        "game": 36,
+        "rng_state": 2196154461
+      },
+      {
+        "seed": 20261104,
+        "game": 37,
+        "rng_state": 555622927
+      },
+      {
+        "seed": 20261104,
+        "game": 38,
+        "rng_state": 3210058687
+      },
+      {
+        "seed": 20261104,
+        "game": 39,
+        "rng_state": 1569527153
+      },
+      {
+        "seed": 20261104,
+        "game": 40,
+        "rng_state": 2675013625
+      },
+      {
+        "seed": 20261104,
+        "game": 41,
+        "rng_state": 1034482091
+      },
+      {
+        "seed": 20261104,
+        "game": 42,
+        "rng_state": 3688917851
+      },
+      {
+        "seed": 20261104,
+        "game": 43,
+        "rng_state": 2048386317
+      },
+      {
+        "seed": 20261104,
+        "game": 44,
+        "rng_state": 407854781
+      },
+      {
+        "seed": 20261104,
+        "game": 45,
+        "rng_state": 3062290543
+      },
+      {
+        "seed": 20261104,
+        "game": 46,
+        "rng_state": 1421759007
+      },
+      {
+        "seed": 20261104,
+        "game": 47,
+        "rng_state": 4076194769
+      },
+      {
+        "seed": 20261104,
+        "game": 48,
+        "rng_state": 2435663233
+      },
+      {
+        "seed": 20261104,
+        "game": 49,
+        "rng_state": 795131699
+      },
+      {
+        "seed": 20261104,
+        "game": 50,
+        "rng_state": 3449567459
+      },
+      {
+        "seed": 20261104,
+        "game": 51,
+        "rng_state": 1809035925
+      },
+      {
+        "seed": 20261104,
+        "game": 52,
+        "rng_state": 168504389
+      },
+      {
+        "seed": 20261104,
+        "game": 53,
+        "rng_state": 2822940151
+      },
+      {
+        "seed": 20261104,
+        "game": 54,
+        "rng_state": 1182408615
+      },
+      {
+        "seed": 20261104,
+        "game": 55,
+        "rng_state": 3836844377
+      },
+      {
+        "seed": 20261104,
+        "game": 56,
+        "rng_state": 2196312841
+      },
+      {
+        "seed": 20261104,
+        "game": 57,
+        "rng_state": 555781307
+      },
+      {
+        "seed": 20261104,
+        "game": 58,
+        "rng_state": 3210217067
+      },
+      {
+        "seed": 20261104,
+        "game": 59,
+        "rng_state": 1569685533
+      },
+      {
+        "seed": 20261104,
+        "game": 60,
+        "rng_state": 2675172005
+      },
+      {
+        "seed": 20261104,
+        "game": 61,
+        "rng_state": 1034640471
+      },
+      {
+        "seed": 20261104,
+        "game": 62,
+        "rng_state": 3689076231
+      },
+      {
+        "seed": 20261104,
+        "game": 63,
+        "rng_state": 2048544697
+      },
+      {
+        "seed": 20261104,
+        "game": 64,
+        "rng_state": 408013161
+      },
+      {
+        "seed": 20261104,
+        "game": 65,
+        "rng_state": 3062448923
+      },
+      {
+        "seed": 20261104,
+        "game": 66,
+        "rng_state": 1421917387
+      },
+      {
+        "seed": 20261104,
+        "game": 67,
+        "rng_state": 4076353149
+      },
+      {
+        "seed": 20261104,
+        "game": 68,
+        "rng_state": 2435821613
+      },
+      {
+        "seed": 20261104,
+        "game": 69,
+        "rng_state": 795290079
+      },
+      {
+        "seed": 20261104,
+        "game": 70,
+        "rng_state": 3449725839
+      },
+      {
+        "seed": 20261104,
+        "game": 71,
+        "rng_state": 1809194305
+      },
+      {
+        "seed": 20261104,
+        "game": 72,
+        "rng_state": 168662769
+      },
+      {
+        "seed": 20261104,
+        "game": 73,
+        "rng_state": 2823098531
+      },
+      {
+        "seed": 20261104,
+        "game": 74,
+        "rng_state": 1182566995
+      },
+      {
+        "seed": 20261104,
+        "game": 75,
+        "rng_state": 3837002757
+      },
+      {
+        "seed": 20261104,
+        "game": 76,
+        "rng_state": 2196471221
+      },
+      {
+        "seed": 20261104,
+        "game": 77,
+        "rng_state": 555939687
+      },
+      {
+        "seed": 20261104,
+        "game": 78,
+        "rng_state": 3210375447
+      },
+      {
+        "seed": 20261104,
+        "game": 79,
+        "rng_state": 1569843913
+      },
+      {
+        "seed": 20261104,
+        "game": 80,
+        "rng_state": 2675330385
+      },
+      {
+        "seed": 20261104,
+        "game": 81,
+        "rng_state": 1034798851
+      },
+      {
+        "seed": 20261104,
+        "game": 82,
+        "rng_state": 3689234611
+      },
+      {
+        "seed": 20261104,
+        "game": 83,
+        "rng_state": 2048703077
+      },
+      {
+        "seed": 20261104,
+        "game": 84,
+        "rng_state": 408171541
+      },
+      {
+        "seed": 20261104,
+        "game": 85,
+        "rng_state": 3062607303
+      },
+      {
+        "seed": 20261104,
+        "game": 86,
+        "rng_state": 1422075767
+      },
+      {
+        "seed": 20261104,
+        "game": 87,
+        "rng_state": 4076511529
+      },
+      {
+        "seed": 20261104,
+        "game": 88,
+        "rng_state": 2435979993
+      },
+      {
+        "seed": 20261104,
+        "game": 89,
+        "rng_state": 795448459
+      },
+      {
+        "seed": 20261104,
+        "game": 90,
+        "rng_state": 3449884219
+      },
+      {
+        "seed": 20261104,
+        "game": 91,
+        "rng_state": 1809352685
+      },
+      {
+        "seed": 20261104,
+        "game": 92,
+        "rng_state": 168821149
+      },
+      {
+        "seed": 20261104,
+        "game": 93,
+        "rng_state": 2823256911
+      },
+      {
+        "seed": 20261104,
+        "game": 94,
+        "rng_state": 1182725375
+      },
+      {
+        "seed": 20261104,
+        "game": 95,
+        "rng_state": 3837161137
+      },
+      {
+        "seed": 20261104,
+        "game": 96,
+        "rng_state": 2196629601
+      },
+      {
+        "seed": 20261104,
+        "game": 97,
+        "rng_state": 556098067
+      },
+      {
+        "seed": 20261104,
+        "game": 98,
+        "rng_state": 3210533827
+      },
+      {
+        "seed": 20261104,
+        "game": 99,
+        "rng_state": 1570002293
+      }
+    ]
+  },
+  "exclusion_reason": "Adjacent seeds 20261103/20261104 yield 50 equal pairs of initial RNG states. The replacement seed20261105 was chosen arithmetically, before its results were available."
 }
