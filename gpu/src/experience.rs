@@ -51,6 +51,9 @@ impl Experience {
     pub fn new_ggd(actors:usize,d:&burn::tensor::Device)->Self {
         Self::with_width(actors,crate::observe::GGD_WIDTH,32,d)
     }
+    pub fn new_ggd_v3(actors:usize,d:&burn::tensor::Device)->Self {
+        Self::with_width(actors,crate::timing_observe::WIDTH,32,d)
+    }
     fn with_width(actors:usize,width:usize,shard_size:usize,d:&burn::tensor::Device)->Self {
         // Vulkan drivers can reject a single multi-gigabyte storage buffer even
         // when total free VRAM suffices. Shards stay on the same GPU and retain

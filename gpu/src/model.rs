@@ -92,7 +92,15 @@ impl Policy {
         policy.projectile.first=LinearConfig::new(2*(PROJECTILE_COUNT+COMBAT_PROJECTILE_COUNT),32).init(d);
         policy
     }
-    pub fn is_ggd(&self)->bool {self.hero.first.weight.val().dims()[0]==2*(UNIT_COUNT+COMBAT_UNIT_COUNT)}
+    pub fn new_ggd_v3(d:&Device)->Self {
+        let mut policy=Self::new_ggd(d);
+        let width=2*(UNIT_COUNT+COMBAT_UNIT_COUNT+crate::timing_observe::FIELDS);
+        policy.hero.first=LinearConfig::new(width,128).init(d);
+        policy.unit.first=LinearConfig::new(width,64).init(d);
+        policy
+    }
+    pub fn is_ggd_v3(&self)->bool {self.hero.first.weight.val().dims()[0]==2*(UNIT_COUNT+COMBAT_UNIT_COUNT+crate::timing_observe::FIELDS)}
+    pub fn is_ggd(&self)->bool {self.is_ggd_v3() || self.hero.first.weight.val().dims()[0]==2*(UNIT_COUNT+COMBAT_UNIT_COUNT)}
     pub fn new(d: &Device) -> Self {
         let linear=|i,o| LinearConfig::new(i,o).init(d);
         Self {

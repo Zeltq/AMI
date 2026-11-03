@@ -34,7 +34,7 @@ def modifier(u,name):return next((m for m in u.modifiers if m.name==name),None)
 
 class NativeAdapter:
  def __init__(self):self.tower_positions={};self.tower_handles={}
- def snapshot(self,row,model):
+ def snapshot(self,row,model,observation_profile=None):
   state=row.observation;d=row.decision;team=d.team
   if model is None:raise ValueError('Missing model supplement; recollect with native_model_observation.lua')
   if model.team!=team or model.tick!=d.observed_tick:raise ValueError('Misaligned model supplement')
@@ -51,6 +51,15 @@ class NativeAdapter:
    else:
     for key,source in [('is_channeling','is_channeling'),('is_using_ability','is_using_ability')]:
      if u.HasField(source):result[key]=getattr(u,source)
+   if observation_profile=='ggd-v3':
+    if u.HasField('anim_activity'):result['attack_animation']=u.anim_activity in (1503,1504)
+    if u.HasField('last_attack_time'):
+     last=u.last_attack_time
+     if last>0:result['since_attack']=min(3,max(0,state.game_time-last))
+     interval=result.get('attack_interval');point=result.get('attack_point')
+     if interval is not None and point is not None:
+      base=1.6 if 'hero_nevermore' in u.name else .9 if 'tower' in u.name else 3 if 'siege' in u.name else 1
+      result['ready_in']=min(3,max(0,last+interval-point*interval/base-state.game_time)) if last>0 else 0
    if u.handle==own.handle:
     # Native state is sampled after the Lua callback: use its current flags
     # rather than the earlier auxiliary flags when the engine supplies them.
