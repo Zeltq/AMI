@@ -1,0 +1,4081 @@
+{
+  "complete": true,
+  "estimate": "closed-loop simulator evaluation; not real Dota transfer",
+  "family": "GGD",
+  "matches": 64,
+  "mode": "teacher",
+  "native_completed": 64,
+  "per_match": [
+    {
+      "game": 0,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 3.0,
+          "deny": 2.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 6.0,
+          "actions": [
+            1611.0,
+            2788.0,
+            0.0,
+            198.0,
+            515.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            11.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 66.0,
+          "deny": 57.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3737.0,
+            937.0,
+            0.0,
+            140.0,
+            309.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 1,
+      "lane_deaths": 157.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 68.0,
+          "deny": 58.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3811.0,
+            855.0,
+            0.0,
+            140.0,
+            314.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            3.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            1483.0,
+            2998.0,
+            0.0,
+            111.0,
+            528.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            3.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 2,
+      "lane_deaths": 157.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 0.0,
+          "actions": [
+            1789.0,
+            2621.0,
+            0.0,
+            171.0,
+            534.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            8.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 70.0,
+          "deny": 46.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 1.0,
+          "actions": [
+            3593.0,
+            1056.0,
+            0.0,
+            138.0,
+            336.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 3,
+      "lane_deaths": 155.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 68.0,
+          "deny": 39.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 2.0,
+          "actions": [
+            3534.0,
+            1141.0,
+            0.0,
+            128.0,
+            320.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.000003814697266,
+          "mid_arrival_elapsed_seconds": 25.999996185302734,
+          "attack_cancellations": 0.0,
+          "actions": [
+            2187.0,
+            2359.0,
+            0.0,
+            101.0,
+            471.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            5.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 4,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 8.0,
+          "deny": 2.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.66667175292969,
+          "mid_arrival_elapsed_seconds": 25.333330154418945,
+          "attack_cancellations": 11.0,
+          "actions": [
+            2297.0,
+            2100.0,
+            0.0,
+            215.0,
+            496.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            15.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 63.0,
+          "deny": 46.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3736.0,
+            948.0,
+            0.0,
+            133.0,
+            306.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 5,
+      "lane_deaths": 157.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 68.0,
+          "deny": 48.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3536.0,
+            1033.0,
+            0.0,
+            132.0,
+            421.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            1717.0,
+            2846.0,
+            0.0,
+            103.0,
+            450.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            7.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 6,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 10.0,
+          "deny": 8.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 4.0,
+          "actions": [
+            1860.0,
+            2525.0,
+            0.0,
+            201.0,
+            513.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            24.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 55.0,
+          "deny": 48.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 1.0,
+          "actions": [
+            3658.0,
+            899.0,
+            0.0,
+            124.0,
+            438.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            4.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 7,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 69.0,
+          "deny": 45.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 2.0,
+          "actions": [
+            3542.0,
+            1098.0,
+            0.0,
+            136.0,
+            347.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            2096.0,
+            2429.0,
+            0.0,
+            97.0,
+            494.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            7.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 8,
+      "lane_deaths": 157.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 3.0,
+          "deny": 9.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 7.0,
+          "actions": [
+            1862.0,
+            2554.0,
+            0.0,
+            217.0,
+            480.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            10.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 55.0,
+          "deny": 52.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3667.0,
+            960.0,
+            0.0,
+            132.0,
+            360.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            4.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 9,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 72.0,
+          "deny": 47.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3601.0,
+            1045.0,
+            0.0,
+            133.0,
+            344.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            2304.0,
+            2288.0,
+            0.0,
+            72.0,
+            456.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            3.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 10,
+      "lane_deaths": 88.0,
+      "game_seconds": 351.36669921875,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 6.0,
+          "deny": 3.0,
+          "deaths": 1.0,
+          "first_death_game_seconds": 351.3333435058594,
+          "mid_arrival_game_seconds": -57.66667175292969,
+          "mid_arrival_elapsed_seconds": 25.333330154418945,
+          "attack_cancellations": 4.0,
+          "actions": [
+            1479.0,
+            1367.0,
+            0.0,
+            123.0,
+            282.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            7.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 30.0,
+          "deny": 25.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 1.0,
+          "actions": [
+            2384.0,
+            628.0,
+            0.0,
+            71.0,
+            171.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            4.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 11,
+      "lane_deaths": 157.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 60.0,
+          "deny": 54.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3433.0,
+            863.0,
+            0.0,
+            130.0,
+            693.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            4.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 1.0,
+          "actions": [
+            1559.0,
+            2947.0,
+            0.0,
+            155.0,
+            453.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            9.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 12,
+      "lane_deaths": 157.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 4.0,
+          "deny": 2.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.80000305175781,
+          "mid_arrival_elapsed_seconds": 25.199996948242188,
+          "attack_cancellations": 7.0,
+          "actions": [
+            1798.0,
+            2661.0,
+            0.0,
+            217.0,
+            434.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            13.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 61.0,
+          "deny": 52.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3696.0,
+            966.0,
+            0.0,
+            139.0,
+            322.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 13,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 75.0,
+          "deny": 43.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 1.0,
+          "actions": [
+            3588.0,
+            1073.0,
+            0.0,
+            137.0,
+            325.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 2.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 1.0,
+          "actions": [
+            1977.0,
+            2521.0,
+            0.0,
+            108.0,
+            510.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            7.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 14,
+      "lane_deaths": 157.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 8.0,
+          "deny": 3.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 4.0,
+          "actions": [
+            1857.0,
+            2580.0,
+            0.0,
+            237.0,
+            435.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            14.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 67.0,
+          "deny": 45.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 1.0,
+          "actions": [
+            3686.0,
+            962.0,
+            0.0,
+            131.0,
+            342.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            2.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 15,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 72.0,
+          "deny": 49.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3554.0,
+            1110.0,
+            0.0,
+            132.0,
+            327.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.5333366394043,
+          "mid_arrival_elapsed_seconds": 25.466663360595703,
+          "attack_cancellations": 0.0,
+          "actions": [
+            2307.0,
+            2239.0,
+            0.0,
+            79.0,
+            492.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            6.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 16,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 7.0,
+          "deny": 2.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 9.0,
+          "actions": [
+            1910.0,
+            2462.0,
+            0.0,
+            206.0,
+            532.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            13.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 63.0,
+          "deny": 49.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3596.0,
+            1011.0,
+            0.0,
+            136.0,
+            376.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            4.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 17,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 68.0,
+          "deny": 52.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 1.0,
+          "actions": [
+            3615.0,
+            1042.0,
+            0.0,
+            134.0,
+            328.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            4.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.5333366394043,
+          "mid_arrival_elapsed_seconds": 25.466663360595703,
+          "attack_cancellations": 3.0,
+          "actions": [
+            1886.0,
+            2636.0,
+            0.0,
+            116.0,
+            482.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            3.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 18,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 1.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.80000305175781,
+          "mid_arrival_elapsed_seconds": 25.199996948242188,
+          "attack_cancellations": 3.0,
+          "actions": [
+            1360.0,
+            3102.0,
+            0.0,
+            208.0,
+            442.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            11.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 70.0,
+          "deny": 56.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3782.0,
+            887.0,
+            0.0,
+            142.0,
+            310.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            2.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 19,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 69.0,
+          "deny": 52.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 1.0,
+          "actions": [
+            3580.0,
+            1070.0,
+            0.0,
+            140.0,
+            333.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 1.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            1708.0,
+            2803.0,
+            0.0,
+            110.0,
+            499.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            3.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 20,
+      "lane_deaths": 157.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 3.0,
+          "deny": 7.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 5.0,
+          "actions": [
+            2614.0,
+            1827.0,
+            0.0,
+            206.0,
+            461.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            15.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 64.0,
+          "deny": 64.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3849.0,
+            788.0,
+            0.0,
+            147.0,
+            336.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            3.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 21,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 68.0,
+          "deny": 52.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3584.0,
+            1073.0,
+            0.0,
+            134.0,
+            331.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 3.0,
+          "actions": [
+            1923.0,
+            2627.0,
+            0.0,
+            124.0,
+            448.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 22,
+      "lane_deaths": 155.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            1475.0,
+            2976.0,
+            0.0,
+            194.0,
+            462.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            16.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 64.0,
+          "deny": 60.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3766.0,
+            881.0,
+            0.0,
+            141.0,
+            333.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            2.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 23,
+      "lane_deaths": 157.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 64.0,
+          "deny": 51.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3710.0,
+            944.0,
+            0.0,
+            139.0,
+            327.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            3.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 1.0,
+          "actions": [
+            1586.0,
+            2881.0,
+            0.0,
+            121.0,
+            529.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            6.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 24,
+      "lane_deaths": 157.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 8.0,
+          "deny": 2.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.80000305175781,
+          "mid_arrival_elapsed_seconds": 25.199996948242188,
+          "attack_cancellations": 9.0,
+          "actions": [
+            2022.0,
+            2331.0,
+            0.0,
+            227.0,
+            530.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            13.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 61.0,
+          "deny": 52.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3734.0,
+            941.0,
+            0.0,
+            139.0,
+            309.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 25,
+      "lane_deaths": 145.0,
+      "game_seconds": 556.9666748046875,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 65.0,
+          "deny": 45.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3396.0,
+            985.0,
+            0.0,
+            129.0,
+            290.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            2628.0,
+            1797.0,
+            0.0,
+            54.0,
+            317.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            4.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 26,
+      "lane_deaths": 155.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 3.0,
+          "deny": 2.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.000003814697266,
+          "mid_arrival_elapsed_seconds": 25.999996185302734,
+          "attack_cancellations": 6.0,
+          "actions": [
+            1946.0,
+            2571.0,
+            0.0,
+            203.0,
+            390.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            13.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 56.0,
+          "deny": 44.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 1.0,
+          "actions": [
+            3581.0,
+            960.0,
+            0.0,
+            117.0,
+            460.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            5.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 27,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 67.0,
+          "deny": 44.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3613.0,
+            981.0,
+            0.0,
+            133.0,
+            393.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            3.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            2489.0,
+            2112.0,
+            0.0,
+            69.0,
+            447.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            6.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 28,
+      "lane_deaths": 157.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 10.0,
+          "deny": 4.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.133338928222656,
+          "mid_arrival_elapsed_seconds": 25.866662979125977,
+          "attack_cancellations": 7.0,
+          "actions": [
+            2182.0,
+            2314.0,
+            0.0,
+            195.0,
+            422.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            10.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 63.0,
+          "deny": 50.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3722.0,
+            898.0,
+            0.0,
+            136.0,
+            361.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            6.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 29,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 70.0,
+          "deny": 55.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3648.0,
+            1005.0,
+            0.0,
+            143.0,
+            327.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 1.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 3.0,
+          "actions": [
+            1933.0,
+            2581.0,
+            0.0,
+            110.0,
+            447.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            52.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 30,
+      "lane_deaths": 157.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 1.0,
+          "deny": 2.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.66667175292969,
+          "mid_arrival_elapsed_seconds": 25.333330154418945,
+          "attack_cancellations": 10.0,
+          "actions": [
+            1698.0,
+            2718.0,
+            0.0,
+            211.0,
+            479.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            17.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 67.0,
+          "deny": 61.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3716.0,
+            911.0,
+            0.0,
+            147.0,
+            346.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            3.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 31,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 72.0,
+          "deny": 44.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3679.0,
+            985.0,
+            0.0,
+            134.0,
+            322.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            3.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 1.0,
+          "actions": [
+            2074.0,
+            2498.0,
+            0.0,
+            89.0,
+            450.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            12.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 32,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 8.0,
+          "deny": 5.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.80000305175781,
+          "mid_arrival_elapsed_seconds": 25.199996948242188,
+          "attack_cancellations": 2.0,
+          "actions": [
+            1803.0,
+            2583.0,
+            0.0,
+            204.0,
+            516.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            17.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 67.0,
+          "deny": 49.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 1.0,
+          "actions": [
+            3646.0,
+            1001.0,
+            0.0,
+            138.0,
+            338.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 33,
+      "lane_deaths": 27.0,
+      "game_seconds": 136.10000610351562,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 11.0,
+          "deny": 9.0,
+          "deaths": 1.0,
+          "first_death_game_seconds": 136.06668090820312,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 0.0,
+          "actions": [
+            1172.0,
+            392.0,
+            0.0,
+            22.0,
+            58.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            630.0,
+            925.0,
+            0.0,
+            17.0,
+            67.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            5.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 34,
+      "lane_deaths": 157.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 9.0,
+          "deny": 6.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.5333366394043,
+          "mid_arrival_elapsed_seconds": 25.466663360595703,
+          "attack_cancellations": 6.0,
+          "actions": [
+            1894.0,
+            2513.0,
+            0.0,
+            226.0,
+            471.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            19.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 43.0,
+          "deny": 44.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 2.0,
+          "actions": [
+            3467.0,
+            880.0,
+            0.0,
+            115.0,
+            656.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            5.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 35,
+      "lane_deaths": 112.0,
+      "game_seconds": 443.60003662109375,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 55.0,
+          "deny": 33.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 1.0,
+          "actions": [
+            2805.0,
+            830.0,
+            0.0,
+            101.0,
+            214.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -56.866668701171875,
+          "mid_arrival_elapsed_seconds": 26.133331298828125,
+          "attack_cancellations": 0.0,
+          "actions": [
+            1822.0,
+            1741.0,
+            0.0,
+            55.0,
+            323.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            9.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 36,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 5.0,
+          "deny": 6.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.5333366394043,
+          "mid_arrival_elapsed_seconds": 25.466663360595703,
+          "attack_cancellations": 9.0,
+          "actions": [
+            2126.0,
+            2268.0,
+            0.0,
+            248.0,
+            468.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            13.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 44.0,
+          "deny": 39.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3271.0,
+            1021.0,
+            0.0,
+            100.0,
+            723.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            8.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 37,
+      "lane_deaths": 28.0,
+      "game_seconds": 141.5,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 12.0,
+          "deny": 10.0,
+          "deaths": 1.0,
+          "first_death_game_seconds": 141.4666748046875,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 0.0,
+          "actions": [
+            1174.0,
+            429.0,
+            0.0,
+            23.0,
+            58.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 1.0,
+          "actions": [
+            410.0,
+            1105.0,
+            0.0,
+            33.0,
+            135.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 38,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 5.0,
+          "deny": 13.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 8.0,
+          "actions": [
+            2009.0,
+            2301.0,
+            0.0,
+            230.0,
+            573.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            10.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 50.0,
+          "deny": 61.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3762.0,
+            869.0,
+            0.0,
+            142.0,
+            346.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            4.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 39,
+      "lane_deaths": 0.0,
+      "game_seconds": 21.33333396911621,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 0.0,
+          "actions": [
+            555.0,
+            222.0,
+            0.0,
+            0.0,
+            6.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 1.0,
+          "first_death_game_seconds": 21.300003051757812,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            496.0,
+            276.0,
+            0.0,
+            0.0,
+            10.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 40,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 6.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 12.0,
+          "actions": [
+            1574.0,
+            2887.0,
+            0.0,
+            206.0,
+            442.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            14.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 64.0,
+          "deny": 49.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3872.0,
+            802.0,
+            0.0,
+            135.0,
+            309.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            5.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 41,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 71.0,
+          "deny": 44.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3536.0,
+            1125.0,
+            0.0,
+            128.0,
+            332.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            2.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 1.0,
+          "actions": [
+            1740.0,
+            2752.0,
+            0.0,
+            113.0,
+            511.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            7.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 42,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 8.0,
+          "deny": 8.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.80000305175781,
+          "mid_arrival_elapsed_seconds": 25.199996948242188,
+          "attack_cancellations": 9.0,
+          "actions": [
+            2109.0,
+            2279.0,
+            0.0,
+            228.0,
+            491.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            16.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 62.0,
+          "deny": 55.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3802.0,
+            851.0,
+            0.0,
+            141.0,
+            327.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            2.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 43,
+      "lane_deaths": 157.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 74.0,
+          "deny": 47.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3536.0,
+            1088.0,
+            0.0,
+            136.0,
+            363.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.5333366394043,
+          "mid_arrival_elapsed_seconds": 25.466663360595703,
+          "attack_cancellations": 0.0,
+          "actions": [
+            2182.0,
+            2351.0,
+            0.0,
+            79.0,
+            502.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            9.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 44,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 9.0,
+          "deny": 2.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.80000305175781,
+          "mid_arrival_elapsed_seconds": 25.199996948242188,
+          "attack_cancellations": 6.0,
+          "actions": [
+            1949.0,
+            2378.0,
+            0.0,
+            220.0,
+            567.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            9.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 64.0,
+          "deny": 53.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 1.0,
+          "actions": [
+            3789.0,
+            877.0,
+            0.0,
+            142.0,
+            314.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 45,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 69.0,
+          "deny": 43.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 3.0,
+          "actions": [
+            3579.0,
+            1077.0,
+            0.0,
+            134.0,
+            330.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            3.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            1514.0,
+            2939.0,
+            0.0,
+            108.0,
+            557.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            5.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 46,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 6.0,
+          "deny": 3.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.5333366394043,
+          "mid_arrival_elapsed_seconds": 25.466663360595703,
+          "attack_cancellations": 3.0,
+          "actions": [
+            1883.0,
+            2542.0,
+            0.0,
+            208.0,
+            476.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            14.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 58.0,
+          "deny": 54.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 2.0,
+          "actions": [
+            3683.0,
+            952.0,
+            0.0,
+            140.0,
+            344.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            4.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 47,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 70.0,
+          "deny": 51.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3414.0,
+            1144.0,
+            0.0,
+            137.0,
+            426.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            2.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.5333366394043,
+          "mid_arrival_elapsed_seconds": 25.466663360595703,
+          "attack_cancellations": 0.0,
+          "actions": [
+            2815.0,
+            1887.0,
+            0.0,
+            47.0,
+            374.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 48,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 3.0,
+          "deny": 2.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.66667175292969,
+          "mid_arrival_elapsed_seconds": 25.333330154418945,
+          "attack_cancellations": 10.0,
+          "actions": [
+            1672.0,
+            2702.0,
+            0.0,
+            226.0,
+            510.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            13.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 65.0,
+          "deny": 58.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 1.0,
+          "actions": [
+            3656.0,
+            886.0,
+            0.0,
+            143.0,
+            436.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            2.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 49,
+      "lane_deaths": 127.0,
+      "game_seconds": 490.20001220703125,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 59.0,
+          "deny": 39.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3082.0,
+            838.0,
+            0.0,
+            113.0,
+            266.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            2030.0,
+            1852.0,
+            0.0,
+            45.0,
+            367.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            5.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 50,
+      "lane_deaths": 157.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 6.0,
+          "deny": 2.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 4.0,
+          "actions": [
+            1845.0,
+            2579.0,
+            0.0,
+            214.0,
+            470.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            15.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 68.0,
+          "deny": 54.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3730.0,
+            924.0,
+            0.0,
+            141.0,
+            328.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 51,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 69.0,
+          "deny": 46.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3739.0,
+            933.0,
+            0.0,
+            130.0,
+            319.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            2.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.26667022705078,
+          "mid_arrival_elapsed_seconds": 25.73332977294922,
+          "attack_cancellations": 0.0,
+          "actions": [
+            2205.0,
+            2410.0,
+            0.0,
+            92.0,
+            413.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            3.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 52,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 4.0,
+          "deny": 5.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.5333366394043,
+          "mid_arrival_elapsed_seconds": 25.466663360595703,
+          "attack_cancellations": 10.0,
+          "actions": [
+            2014.0,
+            2396.0,
+            0.0,
+            206.0,
+            496.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            11.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 51.0,
+          "deny": 63.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3733.0,
+            851.0,
+            0.0,
+            140.0,
+            396.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            3.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 53,
+      "lane_deaths": 157.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 71.0,
+          "deny": 45.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 1.0,
+          "actions": [
+            3545.0,
+            1118.0,
+            0.0,
+            135.0,
+            325.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            2283.0,
+            2306.0,
+            0.0,
+            99.0,
+            433.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            2.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 54,
+      "lane_deaths": 157.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 6.0,
+          "deny": 10.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.80000305175781,
+          "mid_arrival_elapsed_seconds": 25.199996948242188,
+          "attack_cancellations": 18.0,
+          "actions": [
+            1994.0,
+            2336.0,
+            0.0,
+            232.0,
+            533.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            28.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 50.0,
+          "deny": 58.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 3.0,
+          "actions": [
+            3659.0,
+            977.0,
+            0.0,
+            138.0,
+            345.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            4.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 55,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 68.0,
+          "deny": 40.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 2.0,
+          "actions": [
+            3518.0,
+            1139.0,
+            0.0,
+            130.0,
+            336.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.5333366394043,
+          "mid_arrival_elapsed_seconds": 25.466663360595703,
+          "attack_cancellations": 0.0,
+          "actions": [
+            2633.0,
+            2018.0,
+            0.0,
+            64.0,
+            403.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            5.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 56,
+      "lane_deaths": 32.0,
+      "game_seconds": 141.83334350585938,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 3.0,
+          "deny": 2.0,
+          "deaths": 1.0,
+          "first_death_game_seconds": 141.80001831054688,
+          "mid_arrival_game_seconds": -57.26667022705078,
+          "mid_arrival_elapsed_seconds": 25.73332977294922,
+          "attack_cancellations": 3.0,
+          "actions": [
+            1046.0,
+            503.0,
+            0.0,
+            40.0,
+            98.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 11.0,
+          "deny": 11.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            1210.0,
+            384.0,
+            0.0,
+            27.0,
+            66.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 57,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 66.0,
+          "deny": 45.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 1.0,
+          "actions": [
+            3652.0,
+            992.0,
+            0.0,
+            134.0,
+            345.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            2207.0,
+            2330.0,
+            0.0,
+            75.0,
+            510.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 58,
+      "lane_deaths": 157.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 8.0,
+          "deny": 7.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 4.0,
+          "actions": [
+            2269.0,
+            2165.0,
+            0.0,
+            221.0,
+            455.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            13.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 60.0,
+          "deny": 54.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3619.0,
+            955.0,
+            0.0,
+            130.0,
+            415.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            4.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 59,
+      "lane_deaths": 40.0,
+      "game_seconds": 169.50001525878906,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 15.0,
+          "deny": 19.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 0.0,
+          "actions": [
+            1415.0,
+            355.0,
+            0.0,
+            37.0,
+            86.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 1.0,
+          "first_death_game_seconds": 169.4666748046875,
+          "mid_arrival_game_seconds": -57.5333366394043,
+          "mid_arrival_elapsed_seconds": 25.466663360595703,
+          "attack_cancellations": 1.0,
+          "actions": [
+            476.0,
+            1252.0,
+            0.0,
+            53.0,
+            111.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            2.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 60,
+      "lane_deaths": 157.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 7.0,
+          "deny": 6.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.80000305175781,
+          "mid_arrival_elapsed_seconds": 25.199996948242188,
+          "attack_cancellations": 5.0,
+          "actions": [
+            1906.0,
+            2437.0,
+            0.0,
+            240.0,
+            531.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            9.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 61.0,
+          "deny": 52.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3728.0,
+            874.0,
+            0.0,
+            130.0,
+            388.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            3.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 61,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 73.0,
+          "deny": 53.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3761.0,
+            885.0,
+            0.0,
+            137.0,
+            336.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            4.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 1.0,
+          "actions": [
+            1636.0,
+            2858.0,
+            0.0,
+            145.0,
+            479.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            5.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 62,
+      "lane_deaths": 157.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "GGD",
+          "lh": 7.0,
+          "deny": 8.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.80000305175781,
+          "mid_arrival_elapsed_seconds": 25.199996948242188,
+          "attack_cancellations": 7.0,
+          "actions": [
+            2089.0,
+            2359.0,
+            0.0,
+            220.0,
+            443.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            12.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "teacher",
+          "lh": 57.0,
+          "deny": 50.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3528.0,
+            1011.0,
+            0.0,
+            134.0,
+            444.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            6.0
+          ]
+        }
+      ]
+    },
+    {
+      "game": 63,
+      "lane_deaths": 156.0,
+      "game_seconds": 600.0333862304688,
+      "sides": [
+        {
+          "side": "radiant",
+          "controller": "teacher",
+          "lh": 63.0,
+          "deny": 54.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "mid_arrival_elapsed_seconds": 25.06666374206543,
+          "attack_cancellations": 0.0,
+          "actions": [
+            3727.0,
+            849.0,
+            0.0,
+            135.0,
+            408.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            4.0
+          ]
+        },
+        {
+          "side": "dire",
+          "controller": "GGD",
+          "lh": 0.0,
+          "deny": 0.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "mid_arrival_elapsed_seconds": 25.59999656677246,
+          "attack_cancellations": 0.0,
+          "actions": [
+            2114.0,
+            2507.0,
+            0.0,
+            81.0,
+            414.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            7.0
+          ]
+        }
+      ]
+    }
+  ],
+  "seed": 20261103,
+  "summary": {
+    "action_names": [
+      "continue",
+      "move",
+      "move_direct",
+      "attack",
+      "stop",
+      "hold",
+      "raze_near",
+      "raze_mid",
+      "raze_far",
+      "requiem",
+      "item"
+    ],
+    "all_lane_creeps": {
+      "denominator": 9196.0,
+      "numerator": 7070.0
+    },
+    "first_death_precision_seconds": 0.03333333333333333,
+    "games": 64,
+    "minute_snapshots": "latest observed state in each minute bin, plus pregame; early terminal games retain only reached bins",
+    "native_completed": 64,
+    "position_sampling_seconds": 0.13333333333333333,
+    "sides": [
+      {
+        "actions": [
+          103634.0,
+          29719.0,
+          0.0,
+          3786.0,
+          9950.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          40.0
+        ],
+        "alive_seconds": 19615.90142059326,
+        "attack_cancellations": 15.0,
+        "attack_cycles_completed": 3650.0,
+        "buys": [
+          146885.0,
+          118.0,
+          0.0,
+          0.0,
+          62.0,
+          64.0,
+          0.0
+        ],
+        "commands_during_windup": 4.0,
+        "controller": "teacher",
+        "dead_seconds": 0.1333160400390625,
+        "deaths": 2.0,
+        "deny": 1356.0,
+        "first_death_game_seconds": {
+          "count": 2,
+          "denominator": 32,
+          "maximum": 141.4666748046875,
+          "mean": 138.7666778564453,
+          "median": 141.4666748046875,
+          "minimum": 136.06668090820312
+        },
+        "first_move_game_seconds": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": -82.73333740234375,
+          "mean": -82.73333740234375,
+          "median": -82.73333740234375,
+          "minimum": -82.73333740234375
+        },
+        "games": 32,
+        "health": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": 1138.0,
+          "mean": 1032.168270111084,
+          "median": 1138.0,
+          "minimum": 0.0
+        },
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          40.0,
+          0.0,
+          0.0
+        ],
+        "level": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": 8.0,
+          "mean": 7.28125,
+          "median": 8.0,
+          "minimum": 1.0
+        },
+        "lh": 1941.0,
+        "longest_idle_seconds": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": 72.13333892822266,
+          "mean": 72.13333892822266,
+          "median": 72.13333892822266,
+          "minimum": 72.13333892822266
+        },
+        "longest_movement_stall_seconds": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": 10.666671752929688,
+          "mean": 0.9791817665100098,
+          "median": 0.13336181640625,
+          "minimum": 0.133331298828125
+        },
+        "mid_arrival_elapsed_seconds": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": 25.06666374206543,
+          "mean": 25.06666374206543,
+          "median": 25.06666374206543,
+          "minimum": 25.06666374206543
+        },
+        "mid_arrival_game_seconds": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": -57.93333435058594,
+          "mean": -57.93333435058594,
+          "median": -57.93333435058594,
+          "minimum": -57.93333435058594
+        },
+        "net_worth": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": 5235.51611328125,
+          "mean": 4337.777084350586,
+          "median": 4710.25537109375,
+          "minimum": 1117.5556640625
+        },
+        "raze_creep_hits": 0.0,
+        "raze_hero_hits": 0.0,
+        "razes_hitting_any_target": 0.0,
+        "razes_hitting_hero": 0.0,
+        "side": "radiant",
+        "spell_completions": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 0.0
+      },
+      {
+        "actions": [
+          114058.0,
+          28748.0,
+          0.0,
+          4149.0,
+          11590.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          90.0
+        ],
+        "alive_seconds": 21150.201629638672,
+        "attack_cancellations": 15.0,
+        "attack_cycles_completed": 4026.0,
+        "buys": [
+          158337.0,
+          126.0,
+          0.0,
+          0.0,
+          108.0,
+          64.0,
+          0.0
+        ],
+        "commands_during_windup": 15.0,
+        "controller": "teacher",
+        "dead_seconds": 0.0,
+        "deaths": 0.0,
+        "deny": 1611.0,
+        "first_death_game_seconds": {
+          "count": 0,
+          "denominator": 32,
+          "maximum": null,
+          "mean": null,
+          "median": null,
+          "minimum": null
+        },
+        "first_move_game_seconds": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": -82.73333740234375,
+          "mean": -82.73333740234375,
+          "median": -82.73333740234375,
+          "minimum": -82.73333740234375
+        },
+        "games": 32,
+        "health": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": 1138.0,
+          "mean": 1081.862572669983,
+          "median": 1138.0,
+          "minimum": 408.4460144042969
+        },
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          90.0,
+          0.0,
+          0.0
+        ],
+        "level": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": 8.0,
+          "mean": 7.78125,
+          "median": 8.0,
+          "minimum": 3.0
+        },
+        "lh": 1850.0,
+        "longest_idle_seconds": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": 67.86666870117188,
+          "mean": 67.86666870117188,
+          "median": 67.86666870117188,
+          "minimum": 67.86666870117188
+        },
+        "longest_movement_stall_seconds": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": 15.86669921875,
+          "mean": 2.0208516120910645,
+          "median": 0.13336181640625,
+          "minimum": 0.13336181640625
+        },
+        "mid_arrival_elapsed_seconds": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": 25.59999656677246,
+          "mean": 25.59999656677246,
+          "median": 25.59999656677246,
+          "minimum": 25.59999656677246
+        },
+        "mid_arrival_game_seconds": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": -57.400001525878906,
+          "mean": -57.400001525878906,
+          "median": -57.400001525878906,
+          "minimum": -57.400001525878906
+        },
+        "net_worth": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": 4917.39453125,
+          "mean": 4142.835784912109,
+          "median": 4274.0732421875,
+          "minimum": 1738.374267578125
+        },
+        "raze_creep_hits": 0.0,
+        "raze_hero_hits": 0.0,
+        "razes_hitting_any_target": 0.0,
+        "razes_hitting_hero": 0.0,
+        "side": "dire",
+        "spell_completions": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 0.0
+      },
+      {
+        "actions": [
+          59942.0,
+          76725.0,
+          0.0,
+          6598.0,
+          14947.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          423.0
+        ],
+        "alive_seconds": 21150.068283081055,
+        "attack_cancellations": 208.0,
+        "attack_cycles_completed": 2050.0,
+        "buys": [
+          158293.0,
+          28.0,
+          0.0,
+          0.0,
+          250.0,
+          64.0,
+          0.0
+        ],
+        "commands_during_windup": 492.0,
+        "controller": "GGD",
+        "dead_seconds": 0.1333465576171875,
+        "deaths": 2.0,
+        "deny": 133.0,
+        "first_death_game_seconds": {
+          "count": 2,
+          "denominator": 32,
+          "maximum": 351.3333435058594,
+          "mean": 246.56668090820312,
+          "median": 351.3333435058594,
+          "minimum": 141.80001831054688
+        },
+        "first_move_game_seconds": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": -82.60000610351562,
+          "mean": -82.72917079925537,
+          "median": -82.73333740234375,
+          "minimum": -82.73333740234375
+        },
+        "games": 32,
+        "health": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": 934.0,
+          "mean": 791.0625,
+          "median": 868.0,
+          "minimum": 0.0
+        },
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          14.0,
+          0.0,
+          213.0,
+          196.0,
+          0.0
+        ],
+        "level": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": 7.0,
+          "mean": 5.4375,
+          "median": 6.0,
+          "minimum": 2.0
+        },
+        "lh": 175.0,
+        "longest_idle_seconds": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": 75.20000457763672,
+          "mean": 33.83333545923233,
+          "median": 32.666664123535156,
+          "minimum": 4.799995422363281
+        },
+        "longest_movement_stall_seconds": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": 7.866661071777344,
+          "mean": 0.4958508014678955,
+          "median": 0.13336181640625,
+          "minimum": 0.1333465576171875
+        },
+        "mid_arrival_elapsed_seconds": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": 25.999996185302734,
+          "mean": 25.345830142498016,
+          "median": 25.333330154418945,
+          "minimum": 25.06666374206543
+        },
+        "mid_arrival_game_seconds": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": -57.000003814697266,
+          "mean": -57.65416944026947,
+          "median": -57.66667175292969,
+          "minimum": -57.93333435058594
+        },
+        "net_worth": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": 1587.005126953125,
+          "mean": 1261.6953754425049,
+          "median": 1254.9931640625,
+          "minimum": 849.0820922851562
+        },
+        "raze_creep_hits": 0.0,
+        "raze_hero_hits": 0.0,
+        "razes_hitting_any_target": 0.0,
+        "razes_hitting_hero": 0.0,
+        "side": "radiant",
+        "spell_completions": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 0.0
+      },
+      {
+        "actions": [
+          59050.0,
+          72071.0,
+          0.0,
+          2725.0,
+          13082.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          201.0
+        ],
+        "alive_seconds": 19615.86806488037,
+        "attack_cancellations": 17.0,
+        "attack_cycles_completed": 96.0,
+        "buys": [
+          146916.0,
+          40.0,
+          0.0,
+          0.0,
+          109.0,
+          64.0,
+          0.0
+        ],
+        "commands_during_windup": 37.0,
+        "controller": "GGD",
+        "dead_seconds": 0.1666717529296875,
+        "deaths": 2.0,
+        "deny": 1.0,
+        "first_death_game_seconds": {
+          "count": 2,
+          "denominator": 32,
+          "maximum": 169.4666748046875,
+          "mean": 95.38333892822266,
+          "median": 169.4666748046875,
+          "minimum": 21.300003051757812
+        },
+        "first_move_game_seconds": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": -82.60000610351562,
+          "mean": -82.72500419616699,
+          "median": -82.73333740234375,
+          "minimum": -82.73333740234375
+        },
+        "games": 32,
+        "health": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": 692.0,
+          "mean": 562.125,
+          "median": 582.0,
+          "minimum": 0.0
+        },
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          3.0,
+          0.0,
+          56.0,
+          142.0,
+          0.0
+        ],
+        "level": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": 3.0,
+          "mean": 1.375,
+          "median": 1.0,
+          "minimum": 1.0
+        },
+        "lh": 3.0,
+        "longest_idle_seconds": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": 40.26667022705078,
+          "mean": 18.716672539711,
+          "median": 17.73333740234375,
+          "minimum": 2.0
+        },
+        "longest_movement_stall_seconds": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": 2.26666259765625,
+          "mean": 0.2166907787322998,
+          "median": 0.13336181640625,
+          "minimum": 0.133331298828125
+        },
+        "mid_arrival_elapsed_seconds": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": 26.133331298828125,
+          "mean": 25.608329951763153,
+          "median": 25.59999656677246,
+          "minimum": 25.466663360595703
+        },
+        "mid_arrival_game_seconds": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": -56.866668701171875,
+          "mean": -57.39166867733002,
+          "median": -57.400001525878906,
+          "minimum": -57.5333366394043
+        },
+        "net_worth": {
+          "count": 32,
+          "denominator": 32,
+          "maximum": 1879.997802734375,
+          "mean": 1584.625373840332,
+          "median": 1596.92822265625,
+          "minimum": 910.5555419921875
+        },
+        "raze_creep_hits": 0.0,
+        "raze_hero_hits": 0.0,
+        "razes_hitting_any_target": 0.0,
+        "razes_hitting_hero": 0.0,
+        "side": "dire",
+        "spell_completions": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 0.0
+      }
+    ],
+    "spell_names": [
+      "raze_near",
+      "raze_mid",
+      "raze_far",
+      "requiem"
+    ],
+    "time_origin": "Dota game seconds; negative values are pregame",
+    "within_attack_distance": {
+      "denominator": 8566.0,
+      "numerator": 7002.0
+    }
+  },
+  "wall_seconds": 401.9742619
+}
