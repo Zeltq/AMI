@@ -1,0 +1,33 @@
+{
+  "files": {
+    "C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\dataset\\environment\\engine.json": "852471976ad4fa402ead5640ae909fc33d9753567758e10ea65a28e731b377a6",
+    "C:\\AMI\\runs\\gpu\\dota-calibration-003\\engine.json": "24781053bd2106dc3d38f3670c1d1c22f0178d11747e944a1f259cc8ef0efb91"
+  },
+  "equal_fields": {
+    "combat": true,
+    "prototypes": true,
+    "hero": true,
+    "spawns": true,
+    "pre_game_seconds": true,
+    "decision_ticks": true,
+    "offset_ticks": true
+  },
+  "gpu_pregame": 83.0,
+  "gpu_decision_ticks": 4,
+  "gpu_offset_ticks": 6,
+  "gpu_effective_command_delay_ticks": 7,
+  "dota_execute_minus_observed_ticks": 7,
+  "delay_evidence": [
+    "docs/ggd0-il-20261103.md:35",
+    "gpu/src/scripted_teacher.rs:449"
+  ],
+  "different_keys": [
+    "calibration",
+    "navigation"
+  ],
+  "navigation_sha256": {
+    "C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\dataset\\environment\\navigation.bin": "d9f818813f25a08febc4abb1fe8afb916f17ab91bfb07568a926fd3d72cd0104",
+    "C:\\AMI\\runs\\gpu\\dota-calibration-003\\movement-navigation64.u32": "d9f818813f25a08febc4abb1fe8afb916f17ab91bfb07568a926fd3d72cd0104"
+  },
+  "navigation_bytes_equal": true
+}
