@@ -48,6 +48,7 @@ def main():
     if model.combat_inputs:
         config=checkpoint.get('config',{})
         metadata.update(family='GGD',model_name=config.get('model_name'),observation_profile='ggd-v4' if model.enemy_inputs else 'ggd-v3' if model.timing_inputs else 'ggd-v2',timing_honest=config.get('timing_honest',True),timing_oracle=config.get('timing_oracle',False),teacher_sha256=config.get('teacher_policy_sha256'),provenance='Fresh GGD policy trained by imitation in the GPU simulator')
+        if model.enemy_inputs and (not metadata['timing_honest'] or metadata['timing_oracle']):raise ValueError('ggd-v4 requires honest timing and no oracle')
     write_bundle(output/'weights',arrays,source=str(a.checkpoint),source_sha256=hashlib.sha256(Path(a.checkpoint).read_bytes()).hexdigest(),recurrent_reset=128,**metadata)
     if a.fixture:
         data=np.load(a.fixture);count=min(a.steps,len(data['labels']))

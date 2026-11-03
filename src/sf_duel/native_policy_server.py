@@ -38,6 +38,7 @@ class Service:
   self.device=device;torch.set_num_threads(2);torch.manual_seed(seed);self.stats.update(seed=seed,device=device);saved=torch.load(checkpoint,map_location='cpu',weights_only=False);self.model=Policy(combat_inputs=saved['state_dict']['hero.0.weight'].shape[1]>96,timing_inputs=saved['state_dict']['hero.0.weight'].shape[1]>118,enemy_inputs=saved['state_dict']['hero.0.weight'].shape[1]>140).to(device).eval();self.model.load_state_dict(saved['state_dict'],strict=True)
   if saved.get('config',{}).get('timing_oracle',False):raise ValueError('Diagnostic oracle model cannot run in Dota')
   self.model.timing_honest=saved.get('config',{}).get('timing_honest',True)
+  if self.model.enemy_inputs and not self.model.timing_honest:raise ValueError('ggd-v4 requires honest timing')
   self.recurrent_reset_interval,self.observation_storage=policy_contract(saved)
   if reset_origin is not None and(not math.isfinite(reset_origin)or self.recurrent_reset_interval!=128):raise ValueError('Game clock requires the128-step memory contract')
   self.reset_origin=reset_origin;self.stats['memory_reset_origin_seconds']=reset_origin
@@ -52,6 +53,7 @@ class Service:
    if reset_origin is not None and self.contracts[str(index)][0]!=128:raise ValueError('Opponent memory clock contract differs')
    m=Policy(combat_inputs=saved_opponent['state_dict']['hero.0.weight'].shape[1]>96,timing_inputs=saved_opponent['state_dict']['hero.0.weight'].shape[1]>118,enemy_inputs=saved_opponent['state_dict']['hero.0.weight'].shape[1]>140).to(device).eval();m.load_state_dict(saved_opponent['state_dict'],strict=True)
    m.timing_honest=saved_opponent.get('config',{}).get('timing_honest',True)
+   if m.enemy_inputs and not m.timing_honest:raise ValueError('ggd-v4 requires honest timing')
    self.models[str(index)]=m;self.hashes[str(index)]=hashlib.sha256(Path(path).read_bytes()).hexdigest()
    self.canonical_policy[str(index)]=next(k for k,v in self.hashes.items() if v==self.hashes[str(index)])
   self.writer=None

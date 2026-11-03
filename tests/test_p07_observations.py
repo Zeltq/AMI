@@ -1,6 +1,8 @@
 import json
 import sys
 import unittest
+import tempfile
+from unittest.mock import patch
 from pathlib import Path
 import numpy as np
 from fixtures import snapshot
@@ -11,6 +13,41 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'gpu/scripts'))
 from ggd_dataset import layout
 
 class PublicSpellTests(unittest.TestCase):
+    def test_v4_service_loads_and_rejects_disabled_honest_timing(self):
+        import torch
+        from sf_duel.model import Policy
+        from sf_duel.native_policy_server import Service
+        model=Policy(combat_inputs=True,timing_inputs=True,enemy_inputs=True)
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);path=root/'test.pt'
+            saved=dict(state_dict=model.state_dict(),config=dict(timing_honest=True,timing_oracle=False),gpu_pipeline=dict(recurrent_reset_interval=128,observation_storage='f16'))
+            torch.save(saved,path)
+            with patch('threading.Thread.start'):
+                service=Service(path,root/'service',max_batch_warmup=0,device='cpu')
+            self.assertTrue(service.model.enemy_inputs)
+            saved['config']['timing_honest']=False;torch.save(saved,path)
+            with self.assertRaisesRegex(ValueError,'requires honest timing'):
+                Service(path,root/'rejected',max_batch_warmup=0,device='cpu')
+    def test_lua_failed_modifier_api_is_unknown_not_zero(self):
+        from lupa.lua51 import LuaRuntime
+        lua=LuaRuntime(unpack_returned_tuples=True)
+        lua.execute('''
+package.loaded['game/dkjson']={}
+package.loaded['bots/settings']={observation_profile='ggd-v4'}
+function GameTime() return 1 end
+function DotaTime() return 1 end
+u={GetLocation=function() return {x=0,y=0,z=0} end,
+GetUnitName=function() return 'npc_dota_hero_nevermore' end,
+GetTeam=function() return 2 end,IsHero=function() return true end,
+IsCastingAbility=function() return false end}
+''')
+        agent=lua.execute((Path(__file__).resolve().parents[1]/'bots/agent.lua').read_text(encoding='utf-8'))
+        u=lua.globals().u
+        result=agent.public_spells(u,u)
+        self.assertIsNone(result.raze_stacks);self.assertIsNone(result.raze_remaining)
+        lua.execute('u.GetModifierByName=function() return -1 end')
+        result=agent.public_spells(u,u)
+        self.assertEqual(result.raze_stacks,0);self.assertEqual(result.raze_remaining,0)
     def test_visible_onsets_cancellation_fog_and_reappearance(self):
         m=CastMemory()
         self.assertNotIn('since_cast_1',m.observe(1,0,0,True))

@@ -135,7 +135,10 @@ local function unit_data(unit,bot,own)
             local name=call(active,"GetName")
             for i,n in ipairs(spells) do if name==n then spell=i end end
         end
-        local v={raze_stacks=u.raze_stacks,raze_remaining=u.raze_remaining}
+        local v={};local debuff=call(unit,"GetModifierByName","modifier_nevermore_shadowraze_debuff")
+        if debuff~=nil and debuff>=0 then
+            v.raze_stacks=call(unit,"GetModifierStackCount",debuff);v.raze_remaining=call(unit,"GetModifierRemainingDuration",debuff)
+        elseif debuff~=nil then v.raze_stacks=0;v.raze_remaining=0 end
         if spell~=nil then
             for i=0,4 do v["cast_"..i]=spell==i and 1 or 0 end
             if spell~=memory.previous then

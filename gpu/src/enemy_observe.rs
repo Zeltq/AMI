@@ -98,6 +98,21 @@ pub fn check(engine:&std::path::Path,fixture:&std::path::Path,output:&std::path:
             if i%(2*FIELDS)>=FIELDS && error>0. {mismatched_known+=1;}
         }
     }
-    let result=serde_json::json!({"frames":rows.len(),"fields":fields,"known_mismatches":mismatched_known,"max_abs_error":max,"tolerance":0.0001,"passed":mismatched_known==0&&max<=0.0001,"scope":"Recorded Dota Bot API events through production GPU public observer; not full trajectory parity"});
+    let mut actual_casts=vec![];
+    for spell in 1..=4 {
+        let mut world=World::load(engine,1,&d)?;let rng=crate::sampling::Sampler::new(1,20261103,&d);
+        let mut s=tensor::<1>(world.state.clone()).into_data().try_to_vec::<f32>()?;
+        for u in 2..UNITS {s[u*STRIDE+ACTIVE]=0.;}
+        for u in 0..2 {let p=u*STRIDE;s[p+UNIT_LEVEL]=7.;s[p+UNIT_HEALTH]=1000.;s[p+UNIT_MANA]=1000.;s[p+UNIT_X]=80.+if u==1{[200.,450.,700.,300.][spell-1]}else{0.};s[p+UNIT_Y]=-816.;s[p+FACING]=if u==1{std::f32::consts::PI}else{0.};s[p+ATTACK_AIM]=s[p+FACING];}
+        world.state=primitive(Tensor::<1>::from_data(TensorData::new(s,[UNITS*STRIDE]),&d));world.meta=primitive(Tensor::<1>::zeros([META],&d));
+        let enemy=Observer::new(&world);let combat=crate::combat_observe::CombatObserver::new(&world);let teacher=crate::scripted_teacher::Teacher::new(&world);
+        let read=|| {let o=world.observe(observe::initial_previous(2,&d));enemy.extend(&world,crate::timing_observe::extend(&world,combat.enrich(&world,&o),&teacher,true,false)).packed.into_data().try_to_vec::<f32>().unwrap()};
+        let _=read();let o=world.observe(observe::initial_previous(2,&d));
+        let actions=Tensor::<2,burn::tensor::Int>::from_data([[0,0,0,0,64,64],[spell as i32+5,0,0,0,64,64]],&d);let _=world.advance(actions,&o.refs,&rng);
+        let mut samples=vec![];
+        for tick in 0..75 {let _=world.step_ticks_with_waves(&rng,1,false);let values=read();samples.push(serde_json::json!({"tick":tick,"values":&values[OFFSET..WIDTH]}));}
+        actual_casts.push(serde_json::json!({"spell":spell,"samples":samples}));
+    }
+    let result=serde_json::json!({"frames":rows.len(),"compared_frames":fields/(4*FIELDS),"fields":fields,"known_mismatches":mismatched_known,"max_abs_error":max,"tolerance":0.0001,"passed":mismatched_known==0&&max<=0.0001,"scope":"Recorded Dota Bot API events through production GPU public observer; actual simulator cast traces included separately","actual_casts":actual_casts});
     crate::artifacts::atomic_json(output,&result)?;anyhow::ensure!(result["passed"]==true,"public observation parity failed: {result}");Ok(result)
 }
