@@ -33,6 +33,7 @@ end
 local agent=require("bots/agent")
 local original_snapshot=agent.snapshot
 local first=true
+local first_snapshot_time=nil
 local creep_decisions=0
 local previous={action=0,x=64,y=64,item=0,buy=0}
 local core=require("bots/scripted_teacher_v9")
@@ -50,6 +51,10 @@ agent.snapshot=function(bot,st)
  local s=original_snapshot(bot,st)
  s.p03_action_type=bot:GetCurrentActionType()
  s.p03_entity_index_available=type(bot.GetEntityIndex)=="function"
+ if first_snapshot_time==nil then first_snapshot_time=s.time end
+ if settings.capture_start_phases and (s.time-first_snapshot_time<=2 or math.abs(s.time)<=2) then
+  original_print("SF_P05_PHASE|"..json.encode({snapshot=s,previous=previous}))
+ end
  if first or (#s.creeps>0 and creep_decisions<10) then
   if #s.creeps>0 then creep_decisions=creep_decisions+1 end
   original_print("SF_P03_OBSERVATION|"..json.encode({initial=first,creep_decision=creep_decisions,snapshot=s,previous=previous}))
@@ -163,6 +168,8 @@ def main():
     parser.add_argument('--seed', type=int, default=20261103)
     parser.add_argument('--no-pilot-update', action='store_true')
     parser.add_argument('--capture-world', action='store_true')
+    parser.add_argument('--capture-start-phases', action='store_true')
+    parser.add_argument('--events-script', type=Path)
     args = parser.parse_args()
     if not 0 <= args.worker < 20:
         parser.error('worker must be 0..19')
@@ -190,10 +197,10 @@ def main():
     for name in names:
         shutil.copy2(ROOT / 'bots' / name, source / name)
     engine = json.loads((args.assets / 'runs/gpu/dota-calibration-003/engine.json').read_text())
-    settings = dict(p03_seed=args.seed, teacher_combat=engine['combat'], teacher_prototypes={i: engine['prototypes'][k][16] for i, k in enumerate((0, 2, 6, 7, 8))},
+    settings = dict(p03_seed=args.seed, capture_start_phases=args.capture_start_phases, teacher_combat=engine['combat'], teacher_prototypes={i: engine['prototypes'][k][16] for i, k in enumerate((0, 2, 6, 7, 8))},
                     muzzle_forward=engine['hero'][24], muzzle_side=engine['hero'][25])
     (source / 'p03_settings.lua').write_text('return ' + literal(settings) + '\n', encoding='utf-8')
-    shutil.copy2(ROOT / 'reports/P03/dota_events.lua', source / 'p03_events.lua')
+    shutil.copy2(args.events_script or ROOT / 'reports/P03/dota_events.lua', source / 'p03_events.lua')
     (source / 'p03_controller.lua').write_text('local M={}\n' + CALLBACK.replace('function Think()', 'function M.Think()') + '\nreturn M\n', encoding='utf-8')
     callback = 'local controller=require("bots/p03_controller")\nfunction Think() controller.Think() end\n'
     (source / 'bot_generic.lua').write_text(callback, encoding='utf-8')
