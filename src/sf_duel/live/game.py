@@ -18,7 +18,7 @@ def duel_clients(log):
     return result
 
 class Game:
-    def __init__(self,run,match='probe',timescale=1.,hz=15,game=DEFAULT_GAME,game_mode=21,game_port=27155,diagnostic_bot_level=None,bot_root=None,recording=None,collect_teacher=False,content_root=None,engine_threads=None,worldstate_ports=None,worldstate_frames=2,worldstate_threaded=True,developer_mode=False):
+    def __init__(self,run,match='probe',timescale=1.,hz=15,game=DEFAULT_GAME,game_mode=21,game_port=27155,diagnostic_bot_level=None,bot_root=None,recording=None,collect_teacher=False,content_root=None,engine_threads=None,worldstate_ports=None,worldstate_frames=2,worldstate_threaded=True,developer_mode=False,hero_seed=None):
         self.run=Path(run);self.match=match;self.timescale=timescale;self.hz=hz
         self.game=Path(game);self.process=None;self.pid=None;self.installed=False
         self.game_mode=game_mode;self.game_port=game_port
@@ -28,6 +28,7 @@ class Game:
         self.collect_teacher=collect_teacher
         self.engine_threads=engine_threads
         self.developer_mode=developer_mode
+        self.hero_seed=hero_seed
         self.worldstate_ports=worldstate_ports
         if worldstate_frames not in (1,2):raise ValueError('Native observation period must be 1 or 2 ticks')
         self.worldstate_frames=worldstate_frames
@@ -116,7 +117,10 @@ class Game:
             while True:
                 text=self.log.read_text(errors='replace')
                 heroes=set(re.findall(r'PR:SetSelectedHero\s+(\d+):[^\n]*npc_dota_hero_nevermore',text))
-                if len(heroes)==2:break
+                if len(heroes)==2:
+                    if self.hero_seed is not None:
+                        for player in sorted(heroes):self.command(f'dota_pick_hero {player} npc_dota_hero_nevermore {int(self.hero_seed)}')
+                    break
                 if time.monotonic()>deadline:raise TimeoutError('Both SF heroes were not selected')
                 time.sleep(.1)
             self.command('dota_local_map_strategy_time 0')

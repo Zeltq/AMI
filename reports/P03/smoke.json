@@ -1,0 +1,74 @@
+{
+  "run": "C:\\AMI\\runs\\p03\\dota-events-smoke-004",
+  "requested_game_seconds": 90,
+  "result": {
+    "complete": true,
+    "seed": 20261103,
+    "requested_seconds": 90.0,
+    "last_samples": [
+      {
+        "team": 2,
+        "time": 89,
+        "x": -775.60620117188,
+        "y": -598.10510253906,
+        "health": 626,
+        "mana": 315,
+        "lh": 6,
+        "deny": 3,
+        "deaths": 0
+      },
+      {
+        "health": 564,
+        "mana": 315,
+        "lh": 3,
+        "deny": 3,
+        "deaths": 0,
+        "x": -301.86059570313,
+        "y": -168.63459777832,
+        "team": 3,
+        "time": 89
+      },
+      {
+        "team": 2,
+        "time": 90,
+        "x": -775.60620117188,
+        "y": -598.10510253906,
+        "health": 626,
+        "mana": 315,
+        "lh": 6,
+        "deny": 4,
+        "deaths": 0
+      },
+      {
+        "health": 567,
+        "mana": 315,
+        "lh": 3,
+        "deny": 3,
+        "deaths": 0,
+        "x": -301.86059570313,
+        "y": -168.63459777832,
+        "team": 3,
+        "time": 90
+      }
+    ],
+    "terminal": false,
+    "manifest": {
+      "agent.lua": "6015af65421a261557b0162678eaed3043369d9362baf5986558e7eb7063cab2",
+      "hero_selection.lua": "014fbad8d6f3741f64ac17d1632eadb1d4279bc6d63f8b63528406ff4ceef85a",
+      "scripted_teacher_v9.lua": "a38ef2369bb0b707a55f189978381f5c6c39bad4a4bb869194c1f783209bca62",
+      "scripted_teacher_v9_live.lua": "6d8571c986d7771e2d89eaa5a0c148a455733deac70975fbc78af18eab179a70",
+      "gpu/src/scripted_teacher.rs": "e9ed506fff0a3f51be809cb33fe567a78eb76cd7d8baa87811c0f0460e22c624"
+    }
+  },
+  "wall_minutes": 1.0476090516662224,
+  "telemetry_counts": {
+    "SF_P03_OBSERVATION|": 22,
+    "SF_P03_HERO|": 362,
+    "SF_P03_ATTACK_RELEASE|": 31,
+    "SF_P03_LH|": 9,
+    "SF_P03_MID|": 2,
+    "SF_P03_DEATH|": 18,
+    "SF_P03_EVENTS_READY": 1,
+    "SF_P03_PROBE_ERROR|": 0
+  }
+}

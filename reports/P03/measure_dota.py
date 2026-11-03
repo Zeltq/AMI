@@ -30,11 +30,22 @@ local agent=require("bots/agent")
 local original_snapshot=agent.snapshot
 local first=true
 local creep_decisions=0
+local previous={action=0,x=64,y=64,item=0,buy=0}
+local core=require("bots/scripted_teacher_v9")
+local decide=core.decide
+core.decide=function(scene,memory)
+ local action,diagnostics=decide(scene,memory)
+ previous={action=action.action,x=action.x or 64,y=action.y or 64,item=action.item or 0,buy=action.buy or 0}
+ for _,u in ipairs(scene.units) do
+  if u.id==action.target_id then previous.target_offset={(u.x-scene.own.x)/2048,(u.y-scene.own.y)/2048};break end
+ end
+ return action,diagnostics
+end
 agent.snapshot=function(bot,st)
  local s=original_snapshot(bot,st)
  if first or (#s.creeps>0 and creep_decisions<10) then
   if #s.creeps>0 then creep_decisions=creep_decisions+1 end
-  original_print("SF_P03_OBSERVATION|"..json.encode({initial=first,creep_decision=creep_decisions,snapshot=s}))
+  original_print("SF_P03_OBSERVATION|"..json.encode({initial=first,creep_decision=creep_decisions,snapshot=s,previous=previous}))
   first=false
  end
  return s
@@ -45,6 +56,8 @@ local last_tick=nil
 local last_second=nil
 local last_attack=nil
 local last_lh=0
+local arrived=false
+local dead=false
 function Think()
  if failed then return end
  local ok,why=pcall(function()
@@ -54,6 +67,13 @@ function Think()
   if tick==last_tick then return end
   last_tick=tick
   controller.Think()
+  local position=bot:GetLocation()
+  if not arrived and bot:IsAlive() and position.x^2+position.y^2<2000^2 and math.abs(position.x-position.y)<1200 then
+   arrived=true;original_print("SF_P03_MID|"..json.encode({team=bot:GetTeam(),time=DotaTime()}))
+  end
+  if not dead and GetHeroDeaths(bot:GetPlayerID())>0 then
+   dead=true;original_print("SF_P03_HERO_DEATH|"..json.encode({team=bot:GetTeam(),time=DotaTime()}))
+  end
   local second=math.floor(DotaTime())
   if second~=last_second then
    last_second=second
@@ -91,6 +111,8 @@ def main():
     parser.add_argument('--seconds', type=float, default=600)
     parser.add_argument('--wall-timeout', type=float, default=900)
     parser.add_argument('--timescale', type=float, default=1)
+    parser.add_argument('--seed', type=int, default=20261103)
+    parser.add_argument('--no-pilot-update', action='store_true')
     args = parser.parse_args()
     if not 0 <= args.worker < 20:
         parser.error('worker must be 0..19')
@@ -100,16 +122,17 @@ def main():
     pilot = args.assets / 'runs/pilot-status.json'
     record = dict(stage='preparing', pid=os.getpid(), command=subprocess.list2cmdline([sys.executable, *sys.argv]),
                   cwd=str(Path.cwd()), run=str(run), worker=args.worker, seconds=args.seconds,
-                  timescale=args.timescale, started_utc=datetime.now(timezone.utc).isoformat(),
+                  timescale=args.timescale, seed=args.seed, started_utc=datetime.now(timezone.utc).isoformat(),
                   background_work_remaining=True, artifacts=[str(run / 'dota.log'), str(run / 'result.json')])
 
     def status(stage, **extra):
         record.update(stage=stage, elapsed_seconds=time.perf_counter() - started,
                       checked_utc=datetime.now(timezone.utc).isoformat(), **extra)
         save(run / 'status.json', record)
-        current = json.loads(pilot.read_text(encoding='utf-8'))
-        current['P03'] = record.copy()
-        save(pilot, current)
+        if not args.no_pilot_update:
+            current = json.loads(pilot.read_text(encoding='utf-8'))
+            current['P03'] = record.copy()
+            save(pilot, current)
 
     source = run / 'bots'
     source.mkdir()
@@ -117,9 +140,10 @@ def main():
     for name in names:
         shutil.copy2(ROOT / 'bots' / name, source / name)
     engine = json.loads((args.assets / 'runs/gpu/dota-calibration-003/engine.json').read_text())
-    settings = dict(teacher_combat=engine['combat'], teacher_prototypes={i: engine['prototypes'][k][16] for i, k in enumerate((0, 2, 6, 7, 8))},
+    settings = dict(p03_seed=args.seed, teacher_combat=engine['combat'], teacher_prototypes={i: engine['prototypes'][k][16] for i, k in enumerate((0, 2, 6, 7, 8))},
                     muzzle_forward=engine['hero'][24], muzzle_side=engine['hero'][25])
     (source / 'p03_settings.lua').write_text('return ' + literal(settings) + '\n', encoding='utf-8')
+    shutil.copy2(ROOT / 'reports/P03/dota_events.lua', source / 'p03_events.lua')
     (source / 'p03_controller.lua').write_text('local M={}\n' + CALLBACK.replace('function Think()', 'function M.Think()') + '\nreturn M\n', encoding='utf-8')
     callback = 'local controller=require("bots/p03_controller")\nfunction Think() controller.Think() end\n'
     (source / 'bot_generic.lua').write_text(callback, encoding='utf-8')
@@ -133,24 +157,25 @@ def main():
         content, _ = isolated_content(args.assets / 'workers' / f'{args.worker:02d}', source)
         status('starting')
         with Game(run, 'P03', args.timescale, 7.5, bot_root=source, content_root=content,
-                  game=content.parents[1], game_port=27155 + args.worker * 10, engine_threads=2) as game:
+                  game=content.parents[1], game_port=27155 + args.worker * 10, engine_threads=2, hero_seed=args.seed) as game:
             status('diagnostic', dota_pid=game.pid)
             game.command('find seed')
+            game.command('script_reload_code bots/p03_events')
             deadline = time.monotonic() + args.wall_timeout
             while time.monotonic() < deadline:
                 log = game.log.read_text(errors='replace')
-                errors = [line for line in log.splitlines() if 'SF_V9_ERROR|' in line or 'SF_RULE_ERROR' in line]
+                errors = [line for line in log.splitlines() if 'SF_V9_ERROR|' in line or 'SF_RULE_ERROR' in line or 'SF_P03_PROBE_ERROR|' in line]
                 if errors:
                     raise RuntimeError('Lua teacher failed: ' + '\n'.join(errors[:8]))
                 samples = [json.loads(line.split('SF_P03_HERO|', 1)[1]) for line in log.splitlines() if 'SF_P03_HERO|' in line]
                 if 'SF_V9_END|' in log or (samples and max(row['time'] for row in samples) >= args.seconds):
-                    save(run / 'result.json', dict(complete=True, requested_seconds=args.seconds, last_samples=samples[-4:],
+                    save(run / 'result.json', dict(complete=True, seed=args.seed, requested_seconds=args.seconds, last_samples=samples[-4:],
                                                   terminal='SF_V9_END|' in log, manifest=hashes))
                     break
                 if game.process.poll() is not None:
                     raise RuntimeError('Dota process exited before completion')
                 status('diagnostic', game_seconds=max((row['time'] for row in samples), default=None), hero_samples=len(samples))
-                time.sleep(2)
+                time.sleep(.25)
             else:
                 raise TimeoutError('Dota diagnostic exceeded wall-timeout')
         status('complete', background_work_remaining=False)
