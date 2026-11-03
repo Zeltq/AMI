@@ -48,9 +48,11 @@ fn diagnostic_forward_move_is_once_masked_and_only_current_radiant_after_zero(){
     assert_eq!(tensor::<2>(marks).into_data().try_to_vec::<f32>().unwrap(),vec![1.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.]);
 }
 
-fn engine()->std::path::PathBuf {
-    std::path::Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap().join("runs/gpu/dota-calibration-003/engine.json")
+fn data_root()->std::path::PathBuf {
+    std::env::var_os("SF_DUEL_DATA_ROOT").map(std::path::PathBuf::from)
+        .unwrap_or_else(||std::path::Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap().to_path_buf())
 }
+fn engine()->std::path::PathBuf {data_root().join("runs/gpu/dota-calibration-003/engine.json")}
 fn arena()->World {
     let d=device();let mut w=World::load(&engine(),1,&d).unwrap();
     let mut state=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();
@@ -173,8 +175,8 @@ fn measured_static_sight_is_phase_and_team_specific_and_keeps_dynamic_sight(){
 
 #[test]
 fn native_raze_boundaries_include_each_target_hull_on_both_sides(){
-    let _g=GPU.lock().unwrap();let root=std::path::Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap();
-    let reference=root.join("runs/gpu/overnight-8h-20261102-001/raze-hull16-qualified.native.json");
+    let _g=GPU.lock().unwrap();
+    let reference=data_root().join("runs/gpu/overnight-8h-20261102-001/raze-hull16-qualified.native.json");
     let output=std::env::temp_dir().join(format!("sf-raze-hull-{}.json",std::process::id()));
     crate::lane_fidelity::replay(&engine(),&reference,&output).unwrap();
     let n:serde_json::Value=serde_json::from_slice(&std::fs::read(reference).unwrap()).unwrap();
@@ -276,8 +278,8 @@ fn episode_reset_clears_both_heroes_pending_attack_fraction(){
 
 #[test]
 fn native_cancellations_do_not_spend_or_clear_the_sf_windup_fraction(){
-    let _g=GPU.lock().unwrap();let root=std::path::Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap();
-    let reference=root.join("runs/gpu/lane-conformance-001/windup-cancellation-001/native.json");
+    let _g=GPU.lock().unwrap();
+    let reference=data_root().join("runs/gpu/lane-conformance-001/windup-cancellation-001/native.json");
     let output=std::env::temp_dir().join(format!("sf-windup-cancellation-{}.json",std::process::id()));
     crate::lane_fidelity::replay(&engine(),&reference,&output).unwrap();
     let native:serde_json::Value=serde_json::from_slice(&std::fs::read(reference).unwrap()).unwrap();
@@ -363,8 +365,7 @@ fn repeated_sf_attacks_keep_the_native_fractional_period(){
 #[test]
 fn native_melee_radius_aggro_preserves_target_retention(){
     let _g=GPU.lock().unwrap();
-    let reference=std::path::Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap()
-        .join("runs/gpu/dota-server-aggro-014-melee-clean/server-scenarios.json");
+    let reference=data_root().join("runs/gpu/dota-server-aggro-014-melee-clean/server-scenarios.json");
     let report=crate::aggro_fidelity::validate(&engine(),&reference).unwrap();
     let failed:Vec<_>=report["cases"].as_array().unwrap().iter().filter(|r|r["passed"]!=true)
         .map(|r|r["case"]["radius"].clone()).collect();
