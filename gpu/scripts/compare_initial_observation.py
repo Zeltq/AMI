@@ -20,8 +20,12 @@ def field_summary(delta,fields,actual=None,expected=None):
   values=delta[...,i];known=delta[...,i+len(fields)]
   if actual is not None:values=np.where((actual[...,i+len(fields)]>.5)&(expected[...,i+len(fields)]>.5),values,0)
   if np.any(values>.01)or np.any(known>.01):
-   result.append(dict(field=name,scale=scale,above_one_percent=int(np.count_nonzero(values>.01)),elements=int(values.size),
-                      max_normalized_error=float(values.max(initial=0)),max_field_error=float(values.max(initial=0)*scale),known_mismatches=int(np.count_nonzero(known>.01))))
+   entry=dict(field=name,scale=scale,above_one_percent=int(np.count_nonzero(values>.01)),elements=int(values.size),
+              max_normalized_error=float(values.max(initial=0)),max_field_error=float(values.max(initial=0)*scale),known_mismatches=int(np.count_nonzero(known>.01)))
+   if actual is not None and np.any(values>.01):
+    index=np.unravel_index(int(np.argmax(values)),values.shape);at=(*index,i)
+    entry['example']=dict(row=[int(v)for v in index],native_normalized=float(expected[at]),gpu_normalized=float(actual[at]),native=float(expected[at]*scale),gpu=float(actual[at]*scale))
+   result.append(entry)
  return result
 
 def group_fields(key):
@@ -98,6 +102,7 @@ def trajectory_comparison(args):
     if different:groups[key]=dict(above_one_percent=different,elements=int(delta.size),max_normalized_error=float(delta.max()),fields=entries)
     for entry in entries:
      name=key+'.'+entry['field'];summary=fields.setdefault(name,dict(group=key,field=entry['field'],scale=entry['scale'],pairs_different=0,pairs=22,above_one_percent=0,packed_value_slots=22*int(np.prod(layout[key][:-1])),max_normalized_error=0,known_mismatches=0))
+     if entry.get('example')and entry['max_normalized_error']>=summary['max_normalized_error']:summary['example']={**entry['example'],'team':team,'decision':index}
      summary['pairs_different']+=1;summary['above_one_percent']+=entry['above_one_percent'];summary['known_mismatches']+=entry['known_mismatches'];summary['max_normalized_error']=max(summary['max_normalized_error'],entry['max_normalized_error'])
    pairs.append(dict(team=team,decision=index,native_time=snapshot['time'],gpu_time=float(actual['global_features'][0]*600),alignment=alignment,groups=groups))
  report=dict(profile='ggd-v2',width=width,pairs_compared=len(pairs),lua_log=args.lua_log,gpu_dataset=str(root),threshold_normalized=.01,
@@ -133,7 +138,7 @@ def main():
  if a.checkpoint:
   import torch
   from sf_duel.model import Policy
-  torch.set_num_threads(2);model=Policy().eval();model.load_state_dict(torch.load(a.checkpoint,map_location='cpu',weights_only=False)['state_dict'])
+  torch.set_num_threads(2);model=Policy(combat_inputs=a.profile=='ggd-v2').eval();model.load_state_dict(torch.load(a.checkpoint,map_location='cpu',weights_only=False)['state_dict'])
  sides={}
  for side,team in enumerate((2,3)):
   row=first[team];snapshot=NativeAdapter().snapshot(row,models[(team,row.decision.observed_tick)]);native=encode(snapshot,combat_inputs=a.profile=='ggd-v2').arrays;groups={};expected_groups={}
