@@ -1,107 +1,111 @@
 {
-  "observed_unix": 1793744613.786282,
-  "controller": {
-    "stage": "rev-async-trial-3e5",
-    "controller_pid": 14192,
-    "child_pid": 34388,
-    "argv": [
-      "C:\\AMI\\runs\\p08\\revised-gpu.exe",
-      "train-ggd",
-      "C:\\AMI-wt\\P08\\reports\\P08\\revised\\async-trial-3e5.json",
-      "C:\\AMI\\runs\\p08\\rev-async-trial-3e5"
+  "stage": "rev-async-trial-3e5",
+  "selection_rule_version": 2,
+  "observed_unix": 1793745228.5056531,
+  "blocks": 10,
+  "latest": {
+    "batch": 0,
+    "block": 10,
+    "collection_seconds": 13.7218332,
+    "components_sum": [
+      1301.0,
+      503.0,
+      -2022.5,
+      -909.25,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -20.0
     ],
-    "command": "C:\\AMI\\runs\\p08\\revised-gpu.exe train-ggd C:\\AMI-wt\\P08\\reports\\P08\\revised\\async-trial-3e5.json C:\\AMI\\runs\\p08\\rev-async-trial-3e5",
-    "artifacts": "C:\\AMI\\runs\\p08\\rev-async-trial-3e5",
-    "started_unix": 1793744573.9114954,
-    "wall_limit_seconds": 2100,
-    "elapsed_seconds": 38.57759213447571,
-    "progress": {
-      "blocks": 4,
-      "completed_initialization_episodes": 0,
-      "decisions": 6400.0,
-      "pid": 34388,
-      "stage": "desynchronizing",
-      "total_blocks": 40,
-      "wall_seconds": 31.6368476
+    "decisions_per_second": 1073.4894873305486,
+    "episodes": 42,
+    "episodes_started": 230,
+    "finished_in_batch": 4,
+    "learning": {
+      "buckets": [
+        16,
+        32,
+        16
+      ],
+      "clip_fraction": 0.007065745929139666,
+      "early_stop": false,
+      "entropy": 0.12292791903018951,
+      "ev_post0": 0.11756658554077148,
+      "ev_pregame": 0.07567381858825684,
+      "explained_variance": 0.2332940697669983,
+      "kl_coefficient": 0.17477324604988098,
+      "kl_m2": 0.006766486563719809,
+      "old_policy_kl": 0.0008454857224933221,
+      "optimizer_steps": 16,
+      "postgame_decisions": 20850.0,
+      "pregame_decisions": 3226.0,
+      "reward_activity": 293.0,
+      "rollout_entropy": 0.12291424721479416,
+      "rollout_kl_m2": 0.006415688898414373,
+      "valid_decisions": 24076,
+      "value_loss": 0.05951749603264034,
+      "warmup": false,
+      "warmup_ev_last5": null,
+      "warmup_post_blocks": 0
+    },
+    "memory_pool": "Some(MemoryPoolUsage { number_allocs: 866, bytes_in_use: 5411024592, bytes_padding: 4688, bytes_reserved: 8847530816 })",
+    "optimization_seconds": 8.8473685,
+    "phase_decisions": [
+      3226.0,
+      6308.0,
+      5811.0,
+      8731.0
+    ],
+    "phase_histogram_verified": true,
+    "phase_names": [
+      "pregame",
+      "0-3min",
+      "3-6min",
+      "6-10min"
+    ],
+    "pregame_death_matches": 0,
+    "pregame_deaths": 0,
+    "pregame_deaths_initial_prefix": 0,
+    "total_decisions": 240873,
+    "training_seconds": 224.3831941
+  },
+  "diagnostics": {
+    "ev_post0": {
+      "min": 0.08854049444198608,
+      "max": 0.1638811230659485,
+      "last5_mean": 0.12008590698242187
+    },
+    "ev_pregame": {
+      "min": 0.07567381858825684,
+      "max": 0.3986358642578125,
+      "last5_mean": 0.19061815738677979
+    },
+    "value_loss": {
+      "min": 0.0475643330719322,
+      "max": 0.12852677167393267,
+      "last5_mean": 0.07281615515239537
+    },
+    "rollout_kl_m2": {
+      "min": 0.0,
+      "max": 0.006644801702350378,
+      "last5_mean": 0.005830696783959866
+    },
+    "clip_fraction": {
+      "min": 0.007065745929139666,
+      "max": 0.023937702819239348,
+      "last5_mean": 0.009576667225337588
     }
   },
-  "first_trial_selection": {
-    "complete": false,
-    "trials": [
-      {
-        "learning_rate": 1e-05,
-        "train_stage": "rev-async-trial-1e5",
-        "evaluation_stage": "rev-async-eval-1e5",
-        "weights": "C:\\AMI\\runs\\p08\\rev-async-trial-1e5\\checkpoint-000054\\weights",
-        "run": "p08",
-        "name": "rev-async-eval-1e5",
-        "complete": true,
-        "matches": 32,
-        "wall_seconds": 280.6132525,
-        "sides": [
-          {
-            "side": "radiant",
-            "matches": 16,
-            "lh": 290.0,
-            "deny": 168.0,
-            "deaths": 2.0,
-            "attack_cycles_completed": 1908.0,
-            "attack_cancellations": 117.0,
-            "death_matches": 2,
-            "pregame_death_matches": 0,
-            "early_deaths": 0,
-            "actions": [
-              46532.0,
-              21808.0,
-              0.0,
-              3034.0,
-              7077.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              105.0
-            ]
-          },
-          {
-            "side": "dire",
-            "matches": 16,
-            "lh": 237.0,
-            "deny": 200.0,
-            "deaths": 3.0,
-            "attack_cycles_completed": 1926.0,
-            "attack_cancellations": 76.0,
-            "death_matches": 3,
-            "pregame_death_matches": 0,
-            "early_deaths": 0,
-            "actions": [
-              49708.0,
-              16091.0,
-              0.0,
-              2905.0,
-              6093.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              58.0
-            ]
-          }
-        ],
-        "farm": 895.0,
-        "early_deaths": 0,
-        "death_matches": 5,
-        "trial_eligible": false,
-        "criterion": false
-      }
-    ]
-  },
+  "all_phases_verified": true,
+  "early_stop_blocks": 0,
+  "completed_episodes": 42,
   "completed_stage_budget": {
     "limit_seconds": 21600,
     "used_seconds": 8346.308397598266,
     "remaining_seconds": 13253.691602401734,
     "reserved_test_seconds": 300
-  }
+  },
+  "active_stage_wall_seconds": 654.5941550731659,
+  "conservative_used_seconds_including_active": 9000.902552671432
 }
