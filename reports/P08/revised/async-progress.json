@@ -1,0 +1,23 @@
+{
+  "stage": "rev-async-trial-1e5",
+  "controller_pid": 14192,
+  "child_pid": 3988,
+  "observed_unix": 1793742763.4150069,
+  "command": "C:\\AMI\\runs\\p08\\revised-gpu.exe train-ggd C:\\AMI-wt\\P08\\reports\\P08\\revised\\async-trial-1e5.json C:\\AMI\\runs\\p08\\rev-async-trial-1e5",
+  "progress": {
+    "blocks": 14,
+    "completed_initialization_episodes": 1,
+    "decisions": 67172.0,
+    "pid": 3988,
+    "stage": "desynchronizing",
+    "total_blocks": 40,
+    "wall_seconds": 122.9054931
+  },
+  "completed_stage_budget": {
+    "limit_seconds": 21600,
+    "used_seconds": 6419.529264039993,
+    "remaining_seconds": 15180.470735960007,
+    "reserved_test_seconds": 300
+  },
+  "note": "Phase initialization only; PPO metrics will be available after the first training block."
+}
