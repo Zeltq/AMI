@@ -51,7 +51,7 @@ def run(stage, command):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('stage', choices=['zero-lr', 'warmup', 'smoke', 'main', 'tests', 'build', 'full-tests', 'v3-smoke', 'prepare'])
+    parser.add_argument('stage', choices=['zero-lr', 'warmup', 'smoke', 'main', 'tests', 'build', 'full-tests', 'v3-smoke', 'prepare', 'smoke-eval'])
     args = parser.parse_args()
     ROOT.mkdir(parents=True, exist_ok=True)
     # The controller is locked for its full lifetime; no duplicate jobs.
@@ -64,6 +64,14 @@ def main():
             execute(stage)
 
 def execute(stage):
+    if stage == 'smoke-eval':
+        result = json.loads((ROOT/'smoke/result.json').read_text(encoding='utf-8'))
+        cfg = json.loads((ROOT/'smoke/config.json').read_text(encoding='utf-8'))
+        for selection in ('sampling', 'argmax'):
+            command = [str(ROOT/'target/release/sf-duel-gpu.exe'), 'evaluate-ggd', cfg['engine'], str(Path(result['latest'])/'weights'), str(ROOT/f'smoke/eval-final-{selection}'), '--mode', 'teacher', '--matches', '64', '--seconds', '600', '--seed', '20261103', f'--{selection}', '--trace']
+            run(f'smoke-eval-{selection}', command)
+        subprocess.run([os.sys.executable, str(REPO/'gpu/scripts/p08_results.py')], cwd=REPO, check=True)
+        return
     if stage in ('tests', 'full-tests', 'build'):
         os.environ['SF_DUEL_DATA_ROOT'] = 'C:/AMI'
         command = ['cargo', 'build' if stage == 'build' else 'test', '--release', '--locked', '--manifest-path', str(REPO/'gpu/Cargo.toml'), '--target-dir', str(ROOT/'target')]

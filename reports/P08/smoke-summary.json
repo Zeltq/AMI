@@ -1,0 +1,41 @@
+{
+  "reward_telemetry_checks": {
+    "passed": 108,
+    "total": 108
+  },
+  "stage": "smoke",
+  "blocks": 66,
+  "completed_episodes": 18,
+  "training_minutes": 12.52764181,
+  "last_learning": {
+    "buckets": [
+      16,
+      32,
+      16
+    ],
+    "clip_fraction": 0.004150390625,
+    "early_stop": false,
+    "entropy": 0.10083578620105982,
+    "explained_variance": 0.06198549270629883,
+    "kl_coefficient": 0.044521089643239975,
+    "kl_m2": 0.0356890992843546,
+    "old_policy_kl": 0.00043056472068769835,
+    "optimizer_steps": 16,
+    "rollout_entropy": 0.09959787875413895,
+    "rollout_kl_m2": 0.029855908825993538,
+    "valid_decisions": 1792.0,
+    "value_loss": 0.05126040778122842,
+    "warmup": false
+  },
+  "component_totals": {
+    "lh": 222.0,
+    "deny": 78.0,
+    "opponent_lh": -383.5,
+    "opponent_deny": -153.75,
+    "death": -80.0,
+    "opponent_death": 0.0,
+    "tower_loss": 0.0,
+    "tower_kill": 0.0,
+    "timeout_result": -50.0
+  }
+}
