@@ -13,6 +13,7 @@ local errors={}
 local identities={}
 local tree_positions={}
 local fixed_methods={attack_range="GetAttackRange",attack_point="GetAttackPoint",projectile_speed="GetAttackProjectileSpeed"}
+local cast_memory={}
 local compare_getters=false
 local function call(object,name,...)
     if object==nil then return nil end
@@ -64,7 +65,10 @@ local function unit_data(unit,bot,own)
     -- Unit visibility is authoritative. A revealed unit may be visible while
     -- its ground tile remains fogged (e.g. attack vision at a height boundary).
     local visible=own or (call(unit,"CanBeSeen")==true and location~=nil)
-    if not visible then return nil end
+    if not visible then
+        if settings.observation_profile=="ggd-v4" and cast_memory[unit] then cast_memory[unit].previous=nil;cast_memory[unit].start=nil end
+        return nil
+    end
     local p=location
     if p==nil then return nil end
     local fixed=identities[unit]
@@ -103,7 +107,7 @@ local function unit_data(unit,bot,own)
     u.raze_stacks,u.raze_remaining=mod(unit,"modifier_nevermore_shadowraze_debuff")
     local activity=call(unit,"GetAnimActivity")
     u.attack_cycle=call(unit,"GetAnimCycle")
-    if settings.observation_profile=="ggd-v3" then
+    if settings.observation_profile=="ggd-v3" or settings.observation_profile=="ggd-v4" then
         local last=call(unit,"GetLastAttackTime")
         local attacking=activity==ACTIVITY_ATTACK or activity==ACTIVITY_ATTACK2
         if activity~=nil then u.attack_animation=attacking end
@@ -120,6 +124,32 @@ local function unit_data(unit,bot,own)
         if activity==_G["ACTIVITY_CHANNEL_ABILITY_"..index] then u.is_channeling=true end
     end
     u.is_using_ability=u.is_casting_ability or u.is_channeling
+    if settings.observation_profile=="ggd-v4" and fixed.hero then
+        local now=GameTime();local memory=cast_memory[unit] or {last={}}
+        -- Sampling gaps can hide both cancellation and a new cast.
+        if memory.time and now-memory.time>.2 then memory.previous=nil;memory.start=nil end
+        local active=call(unit,"GetCurrentActiveAbility");local casting=call(unit,"IsCastingAbility")
+        local spell=nil
+        if casting==false then spell=0
+        elseif casting==true and active then
+            local name=call(active,"GetName")
+            for i,n in ipairs(spells) do if name==n then spell=i end end
+        end
+        local v={raze_stacks=u.raze_stacks,raze_remaining=u.raze_remaining}
+        if spell~=nil then
+            for i=0,4 do v["cast_"..i]=spell==i and 1 or 0 end
+            if spell~=memory.previous then
+                memory.start=spell>0 and memory.previous~=nil and now or nil
+                if memory.start then memory.last[spell]=now end
+            end
+            if spell==0 then v.cast_phase=0
+            elseif memory.start then v.cast_phase=math.min(1,math.max(0,now-memory.start)/(spell==4 and 1.67 or .55)) end
+            memory.previous=spell
+        else memory.previous=nil;memory.start=nil end
+        for i,t in pairs(memory.last) do v["since_cast_"..i]=math.min(60,math.max(0,now-t)) end
+        for i,name in ipairs(spells) do v["spell_level_"..i]=call(call(unit,"GetAbilityByName",name),"GetLevel") end
+        memory.time=now;cast_memory[unit]=memory;u.v4=v
+    end
     if unit==bot then
         u.is_using_ability=call(bot,"IsUsingAbility");u.is_casting_ability=call(bot,"IsCastingAbility")
         u.is_channeling=call(bot,"IsChanneling")
@@ -527,4 +557,5 @@ local function Think()
 end
 
 return {Think=Think, infrastructure=infrastructure, snapshot=snapshot, owned=owned, order_item=order_item,
+    public_spells=function(unit,bot) local u=unit_data(unit,bot,unit==bot);return u and u.v4 end,
     missing_cost=missing_cost, identify=id, execute=execute, resolve=function(identity) return registry[identity] end}

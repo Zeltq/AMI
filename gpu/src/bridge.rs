@@ -62,7 +62,8 @@ pub fn import(root:&Path,d:&Device)->Result<Policy>{
     let mut importer=Importer{bundle:&bundle,path:vec![],error:None,count:0};
     let ggd=bundle.tensors.get("hero.first.weight").is_some_and(|e|e.shape[0]==2*(crate::contract::UNIT_COUNT+crate::contract::COMBAT_UNIT_COUNT));
     let v3=bundle.tensors.get("hero.first.weight").is_some_and(|e|e.shape[0]==2*(crate::contract::UNIT_COUNT+crate::contract::COMBAT_UNIT_COUNT+crate::timing_observe::FIELDS));
-    let model=if v3{Policy::new_ggd_v3(d)}else if ggd{Policy::new_ggd(d)}else{Policy::new(d)}.map(&mut importer);
+    let v4=bundle.tensors.get("hero.first.weight").is_some_and(|e|e.shape[0]==2*(crate::contract::UNIT_COUNT+crate::contract::COMBAT_UNIT_COUNT+crate::timing_observe::FIELDS+crate::enemy_observe::FIELDS));
+    let model=if v4{Policy::new_ggd_v4(d)}else if v3{Policy::new_ggd_v3(d)}else if ggd{Policy::new_ggd(d)}else{Policy::new(d)}.map(&mut importer);
     if let Some(e)=importer.error{return Err(e)}
     ensure!(importer.count==bundle.tensors.len(),"unused tensors in import");
     Ok(model)

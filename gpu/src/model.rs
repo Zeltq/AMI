@@ -100,7 +100,12 @@ impl Policy {
         policy
     }
     pub fn is_ggd_v3(&self)->bool {self.hero.first.weight.val().dims()[0]==2*(UNIT_COUNT+COMBAT_UNIT_COUNT+crate::timing_observe::FIELDS)}
-    pub fn is_ggd(&self)->bool {self.is_ggd_v3() || self.hero.first.weight.val().dims()[0]==2*(UNIT_COUNT+COMBAT_UNIT_COUNT)}
+    pub fn new_ggd_v4(d:&Device)->Self {
+        let mut policy=Self::new_ggd_v3(d);
+        policy.hero.first=LinearConfig::new(2*(UNIT_COUNT+COMBAT_UNIT_COUNT+crate::timing_observe::FIELDS+crate::enemy_observe::FIELDS),128).init(d);policy
+    }
+    pub fn is_ggd_v4(&self)->bool {self.hero.first.weight.val().dims()[0]==2*(UNIT_COUNT+COMBAT_UNIT_COUNT+crate::timing_observe::FIELDS+crate::enemy_observe::FIELDS)}
+    pub fn is_ggd(&self)->bool {self.is_ggd_v4() || self.is_ggd_v3() || self.hero.first.weight.val().dims()[0]==2*(UNIT_COUNT+COMBAT_UNIT_COUNT)}
     pub fn new(d: &Device) -> Self {
         let linear=|i,o| LinearConfig::new(i,o).init(d);
         Self {

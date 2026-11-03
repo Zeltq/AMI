@@ -51,7 +51,10 @@ class NativeAdapter:
    else:
     for key,source in [('is_channeling','is_channeling'),('is_using_ability','is_using_ability')]:
      if u.HasField(source):result[key]=getattr(u,source)
-   if observation_profile=='ggd-v3':
+   if observation_profile=='ggd-v4' and u.name=='npc_dota_hero_nevermore':
+    if extra is None or not extra.v4_json:raise ValueError('ggd-v4 requires Bot API spell supplement')
+    result['v4']=json.loads(extra.v4_json)
+   if observation_profile in ('ggd-v3','ggd-v4'):
     if u.HasField('anim_activity'):result['attack_animation']=u.anim_activity in (1503,1504)
     if u.HasField('last_attack_time'):
      last=u.last_attack_time

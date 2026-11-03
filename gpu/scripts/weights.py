@@ -37,7 +37,7 @@ def main():
     torch.set_num_threads(2)
     checkpoint=torch.load(a.checkpoint,map_location='cpu',weights_only=False)
     state=checkpoint.get('model',checkpoint.get('state_dict',checkpoint))
-    model=Policy(combat_inputs=state['hero.0.weight'].shape[1]>2*48,timing_inputs=state['hero.0.weight'].shape[1]>2*(48+11));model.load_state_dict(state);model.eval()
+    model=Policy(combat_inputs=state['hero.0.weight'].shape[1]>2*48,timing_inputs=state['hero.0.weight'].shape[1]>2*(48+11),enemy_inputs=state['hero.0.weight'].shape[1]>140);model.load_state_dict(state);model.eval()
     arrays={}
     for name,v in state.items():
         value=v.detach().float().numpy()
@@ -47,7 +47,7 @@ def main():
     metadata={'zero_previous':bool(a.zero_previous or checkpoint.get('config',{}).get('zero_previous',False))}
     if model.combat_inputs:
         config=checkpoint.get('config',{})
-        metadata.update(family='GGD',model_name=config.get('model_name'),observation_profile='ggd-v3' if model.timing_inputs else 'ggd-v2',timing_honest=config.get('timing_honest',True),timing_oracle=config.get('timing_oracle',False),teacher_sha256=config.get('teacher_policy_sha256'),provenance='Fresh GGD policy trained by imitation in the GPU simulator')
+        metadata.update(family='GGD',model_name=config.get('model_name'),observation_profile='ggd-v4' if model.enemy_inputs else 'ggd-v3' if model.timing_inputs else 'ggd-v2',timing_honest=config.get('timing_honest',True),timing_oracle=config.get('timing_oracle',False),teacher_sha256=config.get('teacher_policy_sha256'),provenance='Fresh GGD policy trained by imitation in the GPU simulator')
     write_bundle(output/'weights',arrays,source=str(a.checkpoint),source_sha256=hashlib.sha256(Path(a.checkpoint).read_bytes()).hexdigest(),recurrent_reset=128,**metadata)
     if a.fixture:
         data=np.load(a.fixture);count=min(a.steps,len(data['labels']))
