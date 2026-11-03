@@ -39,6 +39,10 @@ def main():
         for key,(n,d) in parity['compared'].items():lines.append(f'| beta=1: {key}, совпало | {n}/{d} |')
     smoke=result('train-smoke')
     if smoke:lines.append(f"| Smoke: обновления | {smoke['updates']}/50 |")
+    collected=result('smoke-collect')
+    if collected:
+        lines.append(f"| Smoke: совпал выбор исполнителя с teacher | {collected['teacher_executed']}/{collected['learner_decisions']} |")
+        lines.append(f"| Smoke: команда ученика отличается от метки | {collected['disagreements']}/{collected['learner_decisions']} |")
     if (reports/'verification.json').exists():
         for test in read(reports/'verification.json')['checks']:lines.append(f"| {test['name']} | {test['passed']}/{test['total']} |")
     lines+=['','| Модель | beta | Новых решений | Отличие команды / решений | Обновления | Validation NLL |','| --- | ---: | ---: | ---: | ---: | ---: |']
@@ -94,12 +98,14 @@ def main():
             '', '## Команды, которыми получены результаты','',
             '`$env:PYTHONPATH="C:/AMI-wt/P02/src;C:/AMI/tools/lua_test_runtime"; C:/Python314/python.exe -m unittest discover -s tests -v`',
             '`cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/gpu/target dagger_ -- --nocapture`',
+            '`cargo test --release --locked --manifest-path C:/AMI-wt/P02/gpu/Cargo.toml --target-dir C:/AMI/gpu/target`',
             '', 'Точные дочерние команды и длительности сбора/обучения/оценки:', '', '| Этап | Команда | Минуты |','| --- | --- | ---: |']
     for job in state['jobs']:
         if 'minutes' in job:lines.append(f"| {job['stage']} | `{job['command']}` | {job['minutes']:.3f} |")
     lines+=['','## Что не получилось или не проверено','',
             '- Первичный узкий Python-запуск без PYTHONPATH: 2 ошибки импорта sf_duel; повтор с путём worktree прошёл. Первый полный запуск пропустил 19 Lua-тестов; повтор с установленным runtime прошёл.',
             '- Resume сохраняет завершённые этапы; незавершённый сбор/проход обучения повторяется целиком. Внутри эпохи оптимизатор не восстанавливается.',
+            '- Сохранён split исходного формата (game % 8): у новых данных validation содержит Radiant, test — Dire; игровой выбор модели использует отдельные 32/32 матча за стороны.',
             '- Реальная Dota, другие seed и перенос на другие карты не проверяются. Все большие артефакты локальны.',
             '', '## Пути к локальным артефактам','',f'- Эксперимент: `{run}`; состояние/команды: `state.json`, `status.json`; общий статус `C:/AMI/runs/pilot-status.json`, секция P02.',
             f"- D0: `{cfg['dataset']}`; M0: `{cfg['initial_checkpoint']}`; бинарник `{cfg['executable']}`.",

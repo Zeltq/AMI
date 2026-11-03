@@ -1,0 +1,26 @@
+{
+  "native_source_commit": "07462b3",
+  "training_source_commit": "fe75c2c",
+  "files": {
+    "executable": {
+      "path": "C:/AMI/runs/p02/sf-duel-gpu.exe",
+      "sha256": "c383cea74fc212d7dfdf6313c571ed16d36a50f9f5af7138df419edb36dd6921"
+    },
+    "initial_checkpoint": {
+      "path": "C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\GGD0-resumed\\epoch-003.pt",
+      "sha256": "6a9975661fda4cef8e89570ae37c3c9be9b416d507a60173d1111268409e45fb"
+    },
+    "engine": {
+      "path": "C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\dataset\\environment\\engine.json",
+      "sha256": "852471976ad4fa402ead5640ae909fc33d9753567758e10ea65a28e731b377a6"
+    },
+    "teacher_decision_source": {
+      "path": "gpu/src/scripted_teacher.rs",
+      "sha256": "55b7f4ff5baef7aea24e706aaaca3e83fa049adca0bd63cee4203c6c23e08312"
+    },
+    "teacher_memory_adapter": {
+      "path": "gpu/src/teacher_dagger.rs",
+      "sha256": "2da77b0aee1020b91ac44927fcc2d2013a621bdcb5e567d01feb3783c8ba79b4"
+    }
+  }
+}

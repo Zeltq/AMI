@@ -1,4 +1,4 @@
-import sys,unittest
+import sys,unittest,tempfile
 from pathlib import Path
 import numpy as np
 from unittest.mock import patch
@@ -7,9 +7,33 @@ sys.path.insert(0,str(ROOT/'gpu/scripts'))
 from dagger_data import eligible,pack,mixed_batches
 from ggd_dataset import layout
 from train_ggd import gameplay_score,selection_score
+from run_dagger import Runner,write
 
 
 class DaggerTests(unittest.TestCase):
+    def test_resume_reuses_completed_stage_and_stop_never_launches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out=Path(tmp);runner=Runner({},out)
+            with patch.object(runner,'status'),patch.object(runner,'archive'),patch('run_dagger.subprocess.Popen') as popen:
+                child=popen.return_value;child.pid=123;child.returncode=0;child.poll.return_value=0
+                target=runner.job('collect',lambda t:['test'],lambda t:write(t/'report.json',{'complete':True}))
+                self.assertEqual(popen.call_count,1)
+            resumed=Runner({},out)
+            with patch('run_dagger.subprocess.Popen') as popen:
+                self.assertEqual(resumed.job('collect',lambda t:['must-not-run']),target)
+                write(out/'stop.json',{})
+                with self.assertRaises(InterruptedError):resumed.job('next',lambda t:['must-not-run'])
+                popen.assert_not_called()
+
+    def test_partial_dataset_is_never_a_completed_stage(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            runner=Runner({},Path(tmp))
+            with patch.object(runner,'status'),patch.object(runner,'archive'),patch('run_dagger.subprocess.Popen') as popen:
+                child=popen.return_value;child.pid=123;child.returncode=0;child.poll.return_value=0
+                with self.assertRaisesRegex(RuntimeError,'Incomplete'):
+                    runner.job('collect',lambda t:['test'],lambda t:write(t/'report.json',{'partial':True}))
+            self.assertNotIn('collect',runner.state['stages'])
+
     def test_new_pass_is_exact_and_terminal_padding_never_makes_replay_majority(self):
         header={'actors':[0,3,4,7,8],'source':'dagger-round-1'}
         obs=np.zeros((5,128,1),np.float16);signals=np.zeros((5,128,13),np.float32)
