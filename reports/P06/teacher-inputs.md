@@ -14,9 +14,9 @@
 | `UNIT_ATTACK_DAMAGE`, min/max и разброс | attack_damage + combat.damage_spread | GetAttackDamage; Св/Вр/К/Б. Разброс — калиброванные статические правила | Да; точный будущий roll неизвестен обеим сторонам |
 | `UNIT_ARMOR`, aura/множитель типа, округление урона | armor, type, incoming damage | GetArmor; Св/Вр/К/Б. Типовые множители/ceil — калибровка | Да при тех же статических правилах |
 | `UNIT_HEALTH_REGEN`, `FLAG_AURA_END` | health_regen; суммарный текущий реген | GetHealthRegen; Св/Вр/К/Б | Да; нельзя угадывать будущий выход из ауры |
-| `UNIT_ATTACK_RANGE`, hull для `attack_reach` | attack_range; hull не явный вход | GetAttackRange; Св/Вр/К/Б. Hull — отдельно проверяемый GetBoundingRadius/статическая калибровка | Да при калиброванном hull |
+| `UNIT_ATTACK_RANGE`, hull для `attack_reach` | attack_range; hull не явный вход | GetAttackRange; Св/Вр/К/Б. GetBoundingRadius подтверждён для Св/Вр/К/Б; трактовка reach — статическая калибровка | Да при калиброванном hull |
 | `UNIT_MOVE_SPEED`, approach | move_speed и позиции | GetCurrentMovementSpeed; Св/Вр/К/Б | Да, гипотеза о сохранении движения |
-| `hero[6]`, поворот к цели | facing + геометрия; turn_rate не явный вход | GetTurnRate, GetFacing; Св/Вр/К/Б; для неподвижных башен поворот не нужен | Да для собственной SF по калибровке |
+| `hero[6]`, поворот к цели | facing + геометрия; turn_rate не явный вход | GetTurnRate недоступен: 0 успешных вызовов на Св/Вр/К/Б (`api-availability-holdout.json`). GetFacing доступен; rate SF — статическая калибровка | Да для собственной SF по калибровке |
 | `UNIT_ATTACK_POINT`, интервал и базовый интервал | attack_point, attack_interval | GetAttackPoint/GetSecondsPerAttack; Св/Вр/К/Б, зонд | Да; point_scaled = point * interval / base |
 | `ATTACK_READY` | Нет явного таймера | GetLastAttackTime + interval - scaled point; Св/Вр/К/Б, зонд. LastAttackTime — момент release в шкале GameTime | Приближение из публичной истории release; изменение скорости атаки требует осторожности |
 | `WINDUP`, оставшийся замах | is_attacking; attack_cycle в симуляторе всегда 0 | GetAnimActivity/GetAnimCycle; Св/Вр/К/Б, зонд и кривые. Это оценка с точностью около тика, не чтение скрытого таймера | Да как калиброванная оценка; ggd-v3 моделирует анимацию из внутреннего времени |

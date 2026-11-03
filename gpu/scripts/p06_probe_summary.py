@@ -73,6 +73,9 @@ def summarize(log, output):
                   attack_samples={k: len(v) for k,v in segments.items()}, last_attack_changes=len(events))
     (output/'probe-summary.json').write_text(json.dumps(result, indent=2), encoding='utf-8')
     (output/'release-events.json').write_text(json.dumps(events[:200], indent=2), encoding='utf-8')
+    event_fields=['team','id','kind','name','time','game_time','last_attack','activity','cycle','interval','point','target','start','elapsed']
+    with (output/'release-events.csv').open('w',newline='') as f:
+        writer=csv.DictWriter(f,fieldnames=event_fields,extrasaction='ignore');writer.writeheader();writer.writerows(events)
     for k, rows in segments.items():
         with (output/f'{k}-attacks.csv').open('w', newline='') as f:
             writer=csv.DictWriter(f, fieldnames=list(rows[0]))

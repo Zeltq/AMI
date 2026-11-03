@@ -1,0 +1,528 @@
+{
+  "ticks": {
+    "2": 8378,
+    "3": 8373
+  },
+  "first_bot_time": {
+    "2": -89.900001525879,
+    "3": -89.733337402344
+  },
+  "states": {
+    "4": {
+      "min": -89.900001525879,
+      "max": 0.033340454101563,
+      "samples": 5393
+    },
+    "5": {
+      "min": 0.0333251953125,
+      "max": 189.30001831055,
+      "samples": 11358
+    }
+  },
+  "methods": {
+    "tower": {
+      "GetCurrentMovementSpeed": {
+        "calls": 50677,
+        "ok": 50677,
+        "non_null": 50677
+      },
+      "GetTurnRate": {
+        "calls": 50677,
+        "errors": 50677,
+        "non_null": 0,
+        "unavailable": 50677
+      },
+      "GetBoundingRadius": {
+        "calls": 50677,
+        "ok": 50677,
+        "non_null": 50677
+      },
+      "GetAttackTarget": {
+        "calls": 50677,
+        "ok": 50677,
+        "non_null": 50677
+      },
+      "GetAnimActivity": {
+        "calls": 50677,
+        "ok": 50677,
+        "non_null": 50677
+      },
+      "GetAnimCycle": {
+        "calls": 50677,
+        "ok": 50677,
+        "non_null": 50677
+      },
+      "GetIncomingTrackingProjectiles": {
+        "calls": 50677,
+        "ok": 50677,
+        "non_null": 50677
+      },
+      "GetArmor": {
+        "calls": 50677,
+        "ok": 50677,
+        "non_null": 50677
+      },
+      "GetHealthRegen": {
+        "calls": 50677,
+        "ok": 50677,
+        "non_null": 50677
+      },
+      "GetMaxHealth": {
+        "calls": 50677,
+        "ok": 50677,
+        "non_null": 50677
+      },
+      "GetHealth": {
+        "calls": 50677,
+        "ok": 50677,
+        "non_null": 50677
+      },
+      "GetFacing": {
+        "calls": 50677,
+        "ok": 50677,
+        "non_null": 50677
+      },
+      "GetAttackDamage": {
+        "calls": 50677,
+        "ok": 50677,
+        "non_null": 50677
+      },
+      "GetAttackRange": {
+        "calls": 50677,
+        "ok": 50677,
+        "non_null": 50677
+      },
+      "GetSecondsPerAttack": {
+        "calls": 50677,
+        "ok": 50677,
+        "non_null": 50677
+      },
+      "GetAttackPoint": {
+        "calls": 50677,
+        "ok": 50677,
+        "non_null": 50677
+      },
+      "GetLastAttackTime": {
+        "calls": 50677,
+        "ok": 50677,
+        "non_null": 50677
+      },
+      "GetAttackProjectileSpeed": {
+        "calls": 50677,
+        "ok": 50677,
+        "non_null": 50677
+      }
+    },
+    "sf_own": {
+      "GetCurrentMovementSpeed": {
+        "calls": 16751,
+        "ok": 16751,
+        "non_null": 16751
+      },
+      "GetTurnRate": {
+        "calls": 16751,
+        "errors": 16751,
+        "non_null": 0,
+        "unavailable": 16751
+      },
+      "GetBoundingRadius": {
+        "calls": 16751,
+        "ok": 16751,
+        "non_null": 16751
+      },
+      "GetAttackTarget": {
+        "calls": 16751,
+        "ok": 16751,
+        "non_null": 16751
+      },
+      "GetAnimActivity": {
+        "calls": 16751,
+        "ok": 16751,
+        "non_null": 16751
+      },
+      "GetAnimCycle": {
+        "calls": 16751,
+        "ok": 16751,
+        "non_null": 16751
+      },
+      "GetIncomingTrackingProjectiles": {
+        "calls": 16751,
+        "ok": 16751,
+        "non_null": 16751
+      },
+      "GetArmor": {
+        "calls": 16751,
+        "ok": 16751,
+        "non_null": 16751
+      },
+      "GetHealthRegen": {
+        "calls": 16751,
+        "ok": 16751,
+        "non_null": 16751
+      },
+      "GetMaxHealth": {
+        "calls": 16751,
+        "ok": 16751,
+        "non_null": 16751
+      },
+      "GetHealth": {
+        "calls": 16751,
+        "ok": 16751,
+        "non_null": 16751
+      },
+      "GetFacing": {
+        "calls": 16751,
+        "ok": 16751,
+        "non_null": 16751
+      },
+      "GetAttackDamage": {
+        "calls": 16751,
+        "ok": 16751,
+        "non_null": 16751
+      },
+      "GetAttackRange": {
+        "calls": 16751,
+        "ok": 16751,
+        "non_null": 16751
+      },
+      "GetSecondsPerAttack": {
+        "calls": 16751,
+        "ok": 16751,
+        "non_null": 16751
+      },
+      "GetAttackPoint": {
+        "calls": 16751,
+        "ok": 16751,
+        "non_null": 16751
+      },
+      "GetLastAttackTime": {
+        "calls": 16751,
+        "ok": 16751,
+        "non_null": 16751
+      },
+      "GetAttackProjectileSpeed": {
+        "calls": 16751,
+        "ok": 16751,
+        "non_null": 16751
+      }
+    },
+    "sf_enemy": {
+      "GetCurrentMovementSpeed": {
+        "calls": 9948,
+        "ok": 9948,
+        "non_null": 9948
+      },
+      "GetTurnRate": {
+        "calls": 9948,
+        "errors": 9948,
+        "non_null": 0,
+        "unavailable": 9948
+      },
+      "GetBoundingRadius": {
+        "calls": 9948,
+        "ok": 9948,
+        "non_null": 9948
+      },
+      "GetAttackTarget": {
+        "calls": 9948,
+        "ok": 9948,
+        "non_null": 9948
+      },
+      "GetAnimActivity": {
+        "calls": 9948,
+        "ok": 9948,
+        "non_null": 9948
+      },
+      "GetAnimCycle": {
+        "calls": 9948,
+        "ok": 9948,
+        "non_null": 9948
+      },
+      "GetIncomingTrackingProjectiles": {
+        "calls": 9948,
+        "ok": 9948,
+        "non_null": 9948
+      },
+      "GetArmor": {
+        "calls": 9948,
+        "ok": 9948,
+        "non_null": 9948
+      },
+      "GetHealthRegen": {
+        "calls": 9948,
+        "ok": 9948,
+        "non_null": 9948
+      },
+      "GetMaxHealth": {
+        "calls": 9948,
+        "ok": 9948,
+        "non_null": 9948
+      },
+      "GetHealth": {
+        "calls": 9948,
+        "ok": 9948,
+        "non_null": 9948
+      },
+      "GetFacing": {
+        "calls": 9948,
+        "ok": 9948,
+        "non_null": 9948
+      },
+      "GetAttackDamage": {
+        "calls": 9948,
+        "ok": 9948,
+        "non_null": 9948
+      },
+      "GetAttackRange": {
+        "calls": 9948,
+        "ok": 9948,
+        "non_null": 9948
+      },
+      "GetSecondsPerAttack": {
+        "calls": 9948,
+        "ok": 9948,
+        "non_null": 9948
+      },
+      "GetAttackPoint": {
+        "calls": 9948,
+        "ok": 9948,
+        "non_null": 9948
+      },
+      "GetLastAttackTime": {
+        "calls": 9948,
+        "ok": 9948,
+        "non_null": 9948
+      },
+      "GetAttackProjectileSpeed": {
+        "calls": 9948,
+        "ok": 9948,
+        "non_null": 9948
+      }
+    },
+    "melee": {
+      "GetAttackDamage": {
+        "calls": 39999,
+        "ok": 39999,
+        "non_null": 39999
+      },
+      "GetAttackRange": {
+        "calls": 39999,
+        "ok": 39999,
+        "non_null": 39999
+      },
+      "GetSecondsPerAttack": {
+        "calls": 39999,
+        "ok": 39999,
+        "non_null": 39999
+      },
+      "GetLastAttackTime": {
+        "calls": 39999,
+        "ok": 39999,
+        "non_null": 39999
+      },
+      "GetHealthRegen": {
+        "calls": 39999,
+        "ok": 39999,
+        "non_null": 39999
+      },
+      "GetAttackProjectileSpeed": {
+        "calls": 39999,
+        "ok": 39999,
+        "non_null": 39999
+      },
+      "GetAttackTarget": {
+        "calls": 39999,
+        "ok": 39999,
+        "non_null": 39999
+      },
+      "GetArmor": {
+        "calls": 39999,
+        "ok": 39999,
+        "non_null": 39999
+      },
+      "GetCurrentMovementSpeed": {
+        "calls": 39999,
+        "ok": 39999,
+        "non_null": 39999
+      },
+      "GetMaxHealth": {
+        "calls": 39999,
+        "ok": 39999,
+        "non_null": 39999
+      },
+      "GetHealth": {
+        "calls": 39999,
+        "ok": 39999,
+        "non_null": 39999
+      },
+      "GetFacing": {
+        "calls": 39999,
+        "ok": 39999,
+        "non_null": 39999
+      },
+      "GetIncomingTrackingProjectiles": {
+        "calls": 39999,
+        "ok": 39999,
+        "non_null": 39999
+      },
+      "GetBoundingRadius": {
+        "calls": 39999,
+        "ok": 39999,
+        "non_null": 39999
+      },
+      "GetAnimActivity": {
+        "calls": 39999,
+        "ok": 39999,
+        "non_null": 39999
+      },
+      "GetTurnRate": {
+        "calls": 39999,
+        "errors": 39999,
+        "non_null": 0,
+        "unavailable": 39999
+      },
+      "GetAnimCycle": {
+        "calls": 39999,
+        "ok": 39999,
+        "non_null": 39999
+      },
+      "GetAttackPoint": {
+        "calls": 39999,
+        "ok": 39999,
+        "non_null": 39999
+      }
+    },
+    "ranged": {
+      "GetCurrentMovementSpeed": {
+        "calls": 28889,
+        "ok": 28889,
+        "non_null": 28889
+      },
+      "GetTurnRate": {
+        "calls": 28889,
+        "errors": 28889,
+        "non_null": 0,
+        "unavailable": 28889
+      },
+      "GetBoundingRadius": {
+        "calls": 28889,
+        "ok": 28889,
+        "non_null": 28889
+      },
+      "GetAttackTarget": {
+        "calls": 28889,
+        "ok": 28889,
+        "non_null": 28889
+      },
+      "GetAnimActivity": {
+        "calls": 28889,
+        "ok": 28889,
+        "non_null": 28889
+      },
+      "GetAnimCycle": {
+        "calls": 28889,
+        "ok": 28889,
+        "non_null": 28889
+      },
+      "GetIncomingTrackingProjectiles": {
+        "calls": 28889,
+        "ok": 28889,
+        "non_null": 28889
+      },
+      "GetArmor": {
+        "calls": 28889,
+        "ok": 28889,
+        "non_null": 28889
+      },
+      "GetHealthRegen": {
+        "calls": 28889,
+        "ok": 28889,
+        "non_null": 28889
+      },
+      "GetMaxHealth": {
+        "calls": 28889,
+        "ok": 28889,
+        "non_null": 28889
+      },
+      "GetHealth": {
+        "calls": 28889,
+        "ok": 28889,
+        "non_null": 28889
+      },
+      "GetFacing": {
+        "calls": 28889,
+        "ok": 28889,
+        "non_null": 28889
+      },
+      "GetAttackDamage": {
+        "calls": 28889,
+        "ok": 28889,
+        "non_null": 28889
+      },
+      "GetAttackRange": {
+        "calls": 28889,
+        "ok": 28889,
+        "non_null": 28889
+      },
+      "GetSecondsPerAttack": {
+        "calls": 28889,
+        "ok": 28889,
+        "non_null": 28889
+      },
+      "GetAttackPoint": {
+        "calls": 28889,
+        "ok": 28889,
+        "non_null": 28889
+      },
+      "GetLastAttackTime": {
+        "calls": 28889,
+        "ok": 28889,
+        "non_null": 28889
+      },
+      "GetAttackProjectileSpeed": {
+        "calls": 28889,
+        "ok": 28889,
+        "non_null": 28889
+      }
+    }
+  },
+  "activities": {
+    "tower": {
+      "1500": 49937,
+      "1503": 740
+    },
+    "sf_own": {
+      "1534": 19,
+      "1502": 3152,
+      "1500": 10281,
+      "1501": 1939,
+      "1504": 697,
+      "1503": 663
+    },
+    "sf_enemy": {
+      "1500": 7015,
+      "1501": 518,
+      "1502": 1055,
+      "1504": 697,
+      "1503": 663
+    },
+    "melee": {
+      "1502": 11200,
+      "1500": 1583,
+      "1503": 27216
+    },
+    "ranged": {
+      "1502": 3694,
+      "1503": 23462,
+      "1500": 1733
+    }
+  },
+  "attack_samples": {
+    "ranged": 23462,
+    "melee": 27216,
+    "sf_own": 1360,
+    "sf_enemy": 1360,
+    "tower": 740
+  },
+  "last_attack_changes": 1902
+}
