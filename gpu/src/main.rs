@@ -13,6 +13,7 @@ mod checks;
 mod experience;
 mod learner;
 mod ggd_ppo;
+mod ggd_arenas;
 mod cell;
 mod gradients;
 mod artifacts;

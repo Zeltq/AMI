@@ -1,0 +1,13 @@
+{
+  "method": "Frozen-policy staggered activation on 128-decision boundaries, then independent terminal arena resets",
+  "activation_blocks": 40,
+  "rollout_recording_during_initialization": false,
+  "updates_during_initialization": 0,
+  "restart_delay_max_decisions": 127,
+  "terminal_tail_masked": true,
+  "targeted_tests": {
+    "passed": 9,
+    "total": 9
+  },
+  "integration_check": "pending: six blocks with native-clock phase histogram verification and lr0"
+}

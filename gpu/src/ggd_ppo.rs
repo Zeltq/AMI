@@ -18,7 +18,7 @@ pub struct Config {
     pub learning_rate:f64,pub critic_learning_rate:f64,pub warmup_blocks:usize,
     pub entropy:f32,pub kl_start:f32,pub kl_end:f32,pub stop_kl:f32,
     pub checkpoint_minutes:f64,pub evaluate:bool,pub evaluation_minutes:f64,
-    pub initialize_weights:Option<String>,pub skip_warmup:bool,pub critic_only:bool,
+    pub initialize_weights:Option<String>,pub skip_warmup:bool,pub critic_only:bool,pub desynchronize:bool,pub verify_phase_histogram:bool,
 }
 impl Default for Config {fn default()->Self{Self{
     engine:"C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json".into(),
@@ -26,7 +26,7 @@ impl Default for Config {fn default()->Self{Self{
     matches:16,seed:20261103,minutes:20.,max_blocks:0,batch_sequences:4,epochs:2,
     learning_rate:1e-5,critic_learning_rate:1e-4,warmup_blocks:32,entropy:0.005,
     kl_start:0.2,kl_end:0.05,stop_kl:0.02,checkpoint_minutes:10.,evaluate:false,evaluation_minutes:60.,
-    initialize_weights:None,skip_warmup:false,critic_only:false,
+    initialize_weights:None,skip_warmup:false,critic_only:false,desynchronize:false,verify_phase_histogram:false,
 }}}
 
 // Cumulative components: differencing these after the same four physics ticks
@@ -56,6 +56,37 @@ fn observation(w:&World,teacher:&crate::scripted_teacher::Teacher,observer:&crat
         extended=crate::timing_observe::extend(w,extended,teacher,manifest["timing_honest"].as_bool().unwrap_or(true),manifest["timing_oracle"].as_bool().unwrap_or(false));
     }
     extended.packed=extended.packed.cast(DType::F16);(extended,scripted)
+}
+/// Stagger initial activation on recurrent boundaries, then independently reset
+/// terminal arenas at boundaries. Only native simulation steps create the states.
+fn disperse(w:&World,t:&crate::scripted_teacher::Teacher,o:&crate::combat_observe::CombatObserver,metrics:&crate::ggd_metrics::Metrics,rng:&Sampler,sampler:&Sampler,actor:&Policy,manifest:&serde_json::Value,root:&Path,seed:u32,sides:&mut [usize])->Result<(Tensor<2>,serde_json::Value)>{
+    let d=&w.device;let n=w.matches*2;let blocks=((w.engine.pre_game_seconds+600.)*7.5/HORIZON as f32).floor()as usize;
+    let delays=crate::ggd_arenas::delays(w.matches,blocks,seed);let mut active=vec![false;w.matches];let started=Instant::now();
+    let mut previous=crate::observe::initial_previous(n,d);let mut decisions=Tensor::<1>::zeros([1],d);let mut completed=0;
+    crate::ggd_arenas::hold_all(t,w.matches);
+    for block in 0..=blocks {
+        let activate:Vec<_>=delays.iter().enumerate().map(|(m,b)|!active[m]&&*b==block).collect();
+        if activate.iter().any(|x|*x){let mask=crate::ggd_arenas::reset(w,t,metrics,&activate);previous=previous.mask_where(mask.unsqueeze_dim::<2>(1),crate::observe::initial_previous(n,d));for m in 0..w.matches{active[m]|=activate[m];}}
+        if block==blocks{break;}
+        let rows=crate::ggd_arenas::learner_rows(sides,d);let mut h=Tensor::<2>::zeros([n,256],d);let mut c=h.clone();
+        for _ in 0..HORIZON {
+            let snapshot=(manifest["observation_profile"]=="ggd-v3").then(||t.command_snapshot());
+            let (obs,scripted)=observation(w,t,o,previous.clone(),manifest);let keep:Tensor<2>=1.0f32-obs.reset.clone().unsqueeze_dim::<2>(1);h=h*keep.clone();c=c*keep;
+            let b=obs.decode();let encoded=actor.encode(&b);(h,c)=actor.memory.step(encoded.fused,h,c);let predicted=actor.heads(&b,h.clone(),encoded.keys,None,sampler).actions;
+            let actions=scripted.clone().mask_where(rows.clone().unsqueeze_dim::<2>(1),predicted);
+            if let Some(snapshot)=snapshot{t.reconcile_commands(w,&obs,snapshot,scripted,actions.clone());}
+            decisions=decisions+(1.0f32-tensor::<1>(t.audit.clone()).reshape([w.matches,crate::scripted_teacher::AUDIT_FIELDS]).slice([0..w.matches,0..1])).sum();
+            previous=obs.previous(actions.clone(),&w.bases,&w.state);metrics.commands(w,t,actions.clone(),&obs.refs);
+            let _=w.advance_teacher(actions,&obs.refs,rng,t,true);t.record(w,600.);metrics.sample(w,t);
+        }
+        let audit=t.values();ensure!(audit.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).all(|x|x[39]==0.),"initialization simulation error");
+        let done:Vec<_>=audit.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).enumerate().map(|(m,x)|active[m]&&x[0]>0.).collect();
+        if done.iter().any(|x|*x){completed+=done.iter().filter(|x|**x).count();let mask=crate::ggd_arenas::reset(w,t,metrics,&done);previous=previous.mask_where(mask.unsqueeze_dim::<2>(1),crate::observe::initial_previous(n,d));for m in 0..w.matches{if done[m]{sides[m]=1-sides[m];}}}
+        crate::artifacts::atomic_json(&root.join("status.json"),&serde_json::json!({"stage":"desynchronizing","pid":std::process::id(),"blocks":block+1,"total_blocks":blocks,"wall_seconds":started.elapsed().as_secs_f64(),"decisions":scalar(decisions.clone()),"completed_initialization_episodes":completed}))?;
+        ensure!(!root.join("stop.json").exists(),"stopped during phase initialization");
+    }
+    d.sync()?;let summary=serde_json::json!({"seconds":started.elapsed().as_secs_f64(),"learner_decisions":scalar(decisions),"completed_episodes":completed,"activation_delay_blocks":delays,"recurrent_block_decisions":HORIZON,"recorded_in_rollout":false,"optimizer_updates":0});
+    crate::artifacts::atomic_json(&root.join("desynchronization.json"),&summary)?;Ok((previous,summary))
 }
 fn recurrent(policy:&Policy,b:&crate::model::Observation,resets:Tensor<3>,size:usize)->(Tensor<2>,Tensor<3>){
     let encoded=policy.encode(b);let projected=policy.memory.input.forward(encoded.fused).reshape([size,HORIZON,1024]);
@@ -186,23 +217,29 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
     crate::artifacts::atomic_json(&root.join("config.json"),&cfg)?;
     let engine=crate::artifacts::freeze_environment(Path::new(&cfg.engine),root,false)?;
     let d=device();d.seed(cfg.seed as u64);let reference=crate::bridge::import(Path::new(&cfg.initial_weights),&d)?.valid();ensure!(reference.is_ggd() && reference.is_ggd_v3()==(profile=="ggd-v3"),"checkpoint profile/shape mismatch");let mut policy=if let Some(path)=cfg.initialize_weights.as_ref(){crate::bridge::import(Path::new(path),&d)?.train()}else{reference.clone().train()};
-    crate::artifacts::atomic_json(&root.join("provenance.json"),&serde_json::json!({"initial_weights":cfg.initial_weights,"initial_manifest_sha256":crate::runtime::file_sha256(&Path::new(&cfg.initial_weights).join("manifest.json"))?,"executable_sha256":crate::runtime::file_sha256(&std::env::current_exe()?)?,"teacher_sha256":crate::teacher_v10::Version::V9.sha256(),"profile":profile,"ppo_source_sha256":crate::runtime::bytes_sha256(include_bytes!("ggd_ppo.rs")),"gamma":0.99,"gae_lambda":0.95,"clip":0.2,"reset_decisions":128,"seed":cfg.seed}))?;
+    crate::artifacts::atomic_json(&root.join("provenance.json"),&serde_json::json!({"initial_weights":cfg.initial_weights,"initial_manifest_sha256":crate::runtime::file_sha256(&Path::new(&cfg.initial_weights).join("manifest.json"))?,"executable_sha256":crate::runtime::file_sha256(&std::env::current_exe()?)?,"teacher_sha256":crate::teacher_v10::Version::V9.sha256(),"profile":profile,"ppo_source_sha256":crate::runtime::bytes_sha256(include_bytes!("ggd_ppo.rs")),"arena_source_sha256":crate::runtime::bytes_sha256(include_bytes!("ggd_arenas.rs")),"initialize_weights":cfg.initialize_weights,"gamma":0.99,"gae_lambda":0.95,"clip":0.2,"reset_decisions":128,"seed":cfg.seed}))?;
     let mut optimizer:ModuleOptimizer=AdamConfig::new().with_epsilon(1e-8).init();
-    let n=cfg.matches*2;let rows=Tensor::<1,Int>::from_data(TensorData::new((0..n).map(|a|i32::from(a%2==(a/2)%2)).collect::<Vec<_>>(),[n]),&d).greater_elem(0);
+    let n=cfg.matches*2;let mut sides:Vec<usize>=(0..cfg.matches).map(|m|m%2).collect();let mut rows=crate::ggd_arenas::learner_rows(&sides,&d);
     let started=Instant::now();let mut training_seconds=0.;let mut evaluation_seconds=0.;let mut block=0;let mut batch=0;let mut episodes=0;
-    let mut warmup=!cfg.skip_warmup;let mut warmup_state=CriticWarmup::default();let mut total_decisions=0u64;let mut pregame_deaths=0u64;let mut pregame_death_matches=0u64;let mut last_checkpoint=0.;let mut last_evaluation=0.;let mut last_path=None;
+    let mut warmup=!cfg.skip_warmup;let mut warmup_state=CriticWarmup::default();let mut total_decisions=0u64;let mut pregame_deaths=0u64;let mut prefix_pregame_deaths=0u64;let mut pregame_death_matches=0u64;let mut last_checkpoint=0.;let mut last_evaluation=0.;let mut last_path=None;let mut initialization=serde_json::Value::Null;let mut episodes_started=0usize;
     let mut history=std::fs::OpenOptions::new().create_new(true).write(true).open(root.join("history.jsonl"))?;
     let mut episode_file=std::fs::OpenOptions::new().create_new(true).write(true).open(root.join("episodes.jsonl"))?;
     'training:loop {
         let w=World::load(&engine,cfg.matches,&d)?;let teacher=crate::scripted_teacher::Teacher::new(&w);let observer=crate::combat_observe::CombatObserver::new(&w);
         let rng=Sampler::new(cfg.matches,cfg.seed.wrapping_add(batch*1009),&d);let sampler=Sampler::new(n,cfg.seed.wrapping_add(batch*1009+1),&d);
         let metrics=crate::ggd_metrics::Metrics::new(&w);metrics.sample(&w,&teacher);
-        let batch_offset=episodes;let mut recorded=vec![false;cfg.matches];
-        let mut previous=crate::observe::initial_previous(n,&d);let mut prior=counts(&w,&teacher);let mut totals=Tensor::<2>::zeros([n,COMPONENTS],&d);
+        let batch_offset=episodes;let mut recorded=vec![false;cfg.matches];episodes_started+=cfg.matches;
+        let mut previous=crate::observe::initial_previous(n,&d);
+        if cfg.desynchronize {(previous,initialization)=disperse(&w,&teacher,&observer,&metrics,&rng,&sampler,&policy.clone().valid(),&manifest,root,cfg.seed,&mut sides)?;rows=crate::ggd_arenas::learner_rows(&sides,&d);}
+        let mut prefix_decisions=tensor::<1>(w.meta.clone()).reshape([cfg.matches,META]).slice([0..cfg.matches,6..7]).reshape([cfg.matches]).into_data().try_to_vec::<f32>()?;
+        let mut prior=counts(&w,&teacher);let mut totals=prior.clone().slice([0..n,0..COMPONENTS])*rows.clone().float().unsqueeze_dim::<2>(1);
+        if cfg.desynchronize {let initial_deaths=scalar(-totals.clone().slice([0..n,4..5]).reshape([n]).sum()/10.)as u64;pregame_deaths+=initial_deaths;prefix_pregame_deaths+=initial_deaths;}
         let limit=((w.engine.pre_game_seconds+600.)*7.5).ceil()as usize+2;
-        for _chunk in 0..limit.div_ceil(HORIZON) {
-            let clock=Instant::now();let actor=policy.clone().valid();let mut h=Tensor::<2>::zeros([n,256],&d);let mut c=h.clone();let mut rh=h.clone();let mut rc=c.clone();
-            let mut experience=None;let mut postgame=vec![];let mut rollout_entropy=Tensor::<1>::zeros([1],&d);let mut rollout_kl=rollout_entropy.clone();let mut valid_count=rollout_entropy.clone();let mut reward_activity=rollout_entropy.clone();let mut pregame_events=rollout_entropy.clone();
+        for _chunk in 0..if cfg.desynchronize{usize::MAX}else{limit.div_ceil(HORIZON)} {
+            let clock=Instant::now();
+            let start_ticks=if cfg.verify_phase_histogram{Some(tensor::<1>(w.meta.clone()).reshape([cfg.matches,META]).slice([0..cfg.matches,0..1]).reshape([cfg.matches]).into_data().try_to_vec::<f32>()?)}else{None};
+            let actor=policy.clone().valid();let mut h=Tensor::<2>::zeros([n,256],&d);let mut c=h.clone();let mut rh=h.clone();let mut rc=c.clone();
+            let mut experience=None;let mut postgame=vec![];let mut rollout_entropy=Tensor::<1>::zeros([1],&d);let mut rollout_kl=rollout_entropy.clone();let mut valid_count=rollout_entropy.clone();let mut reward_activity=rollout_entropy.clone();let mut pregame_events=rollout_entropy.clone();let mut phase_bins=Tensor::<1>::zeros([4],&d);
             for step in 0..HORIZON {
                 let snapshot=if profile=="ggd-v3"{Some(teacher.command_snapshot())}else{None};
                 let (obs,scripted)=observation(&w,&teacher,&observer,previous.clone(),&manifest);
@@ -213,8 +250,9 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
                 let actions=scripted.clone().mask_where(rows.clone().unsqueeze_dim::<2>(1),heads.actions.clone());
                 if let Some(s)=snapshot{teacher.reconcile_commands(&w,&obs,s,scripted,actions.clone());}
                 previous=obs.previous(actions.clone(),&w.bases,&w.state);metrics.commands(&w,&teacher,actions.clone(),&obs.refs);
-                let phase=tensor::<1>(w.meta.clone()).reshape([cfg.matches,META]).slice([0..cfg.matches,0..1]).greater_equal_elem(0.).float().expand([cfg.matches,2]).reshape([n]);postgame.push(phase);
+                let game_seconds=tensor::<1>(w.meta.clone()).reshape([cfg.matches,META]).slice([0..cfg.matches,0..1]).expand([cfg.matches,2]).reshape([n])/30.;postgame.push(game_seconds.clone().greater_equal_elem(0.).float());
                 let valid=(1.0f32-prior.clone().slice([0..n,9..10]).reshape([n]))*rows.clone().float();
+                phase_bins=phase_bins+crate::ggd_arenas::phase_counts(game_seconds,valid.clone());
                 rollout_entropy=rollout_entropy+(heads.entropy.clone()*valid.clone()).sum();
                 let diff=heads.logp.clone()-anchor.logp.clone();rollout_kl=rollout_kl+(((-diff.clone()).exp()-1.+diff)*valid.clone()).sum();valid_count=valid_count+valid.clone().sum();
                 let _=w.advance_teacher(actions,&obs.refs,&rng,&teacher,true);teacher.record(&w,600.);metrics.sample(&w,&teacher);
@@ -237,7 +275,13 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
             let mut learning=optimize(&mut policy,&mut optimizer,&cfg,experience.as_ref().unwrap(),bootstrap,warmup,coefficient,block,Tensor::stack(postgame,1))?;
             learning["rollout_entropy"]=serde_json::json!(scalar(rollout_entropy/valid_count.clone().clamp_min(1.)));
             learning["rollout_kl_m2"]=serde_json::json!(scalar(rollout_kl/valid_count.clone().clamp_min(1.)));
-            let decisions=scalar(valid_count)as u64;total_decisions+=decisions;learning["valid_decisions"]=serde_json::json!(decisions);
+            let decisions=scalar(valid_count)as u64;total_decisions+=decisions;
+            let phase_values=phase_bins.into_data().try_to_vec::<f32>()?;ensure!(phase_values.iter().sum::<f32>()==decisions as f32,"phase histogram count mismatch");
+            if let Some(ticks)=start_ticks {
+                let valid=experience.as_ref().unwrap().signals().slice([0..n,0..HORIZON,11..12]).sum_dim(1).reshape([n]).into_data().try_to_vec::<f32>()?;
+                let mut expected=[0f32;4];for m in 0..cfg.matches{for step in 0..valid[m*2+sides[m]]as usize{let seconds=(ticks[m]+step as f32*4.)/30.;let bin=if seconds<0.{0}else if seconds<180.{1}else if seconds<360.{2}else{3};expected[bin]+=1.;}}
+                ensure!(phase_values==expected,"phase histogram differs from native clock and valid decision counts: {phase_values:?} vs {expected:?}");
+            }learning["valid_decisions"]=serde_json::json!(decisions);
             d.sync()?;let optimization=update.elapsed().as_secs_f64();training_seconds+=collection+optimization;block+=1;
             pregame_deaths+=scalar(pregame_events)as u64;let activity=scalar(reward_activity);learning["reward_activity"]=serde_json::json!(activity);
             if warmup&&warmup_state.observe(block,cfg.warmup_blocks,learning["postgame_decisions"].as_f64().unwrap_or(0.),learning["ev_post0"].as_f64(),activity){warmup=false;}
@@ -246,13 +290,15 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
             let audit=teacher.values();let finished=audit.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).filter(|x|x[0]>0.).count();
             ensure!(audit.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).all(|x|x[39]==0.),"simulation error");
             if finished>recorded.iter().filter(|x|**x).count(){
-                let components=totals.clone().into_data().try_to_vec::<f32>()?;let games=metrics.games(&audit,w.engine.pre_game_seconds,batch_offset,Some("teacher"));
+                let components=totals.clone().into_data().try_to_vec::<f32>()?;let mut games=metrics.games(&audit,w.engine.pre_game_seconds,batch_offset,Some("teacher"));
                 for m in 0..cfg.matches {if !recorded[m]&&audit[m*crate::scripted_teacher::AUDIT_FIELDS]>0. {
-                    let learner=&games[m]["sides"][m%2];if learner["first_death_game_seconds"].as_f64().is_some_and(|x|x<0.){pregame_death_matches+=1;}
-                    let a=m*2+m%2;let values=&components[a*COMPONENTS..(a+1)*COMPONENTS];writeln!(episode_file,"{}",serde_json::json!({"block":block,"training_seconds":training_seconds,"reward":values.iter().sum::<f32>(),"components":values,"game":games[m]}))?;recorded[m]=true;episodes+=1;
+                    for side in 0..2 {games[m]["sides"][side]["controller"]=serde_json::json!(if side==sides[m]{"GGD"}else{"teacher"});}
+                    if cfg.desynchronize {games[m]["game"]=serde_json::json!(episodes);}
+                    let learner=&games[m]["sides"][sides[m]];if learner["first_death_game_seconds"].as_f64().is_some_and(|x|x<0.){pregame_death_matches+=1;}
+                    let a=m*2+sides[m];let values=&components[a*COMPONENTS..(a+1)*COMPONENTS];writeln!(episode_file,"{}",serde_json::json!({"block":block,"training_seconds":training_seconds,"reward":values.iter().sum::<f32>(),"components":values,"arena":m,"initialization_prefix_decisions":prefix_decisions[m],"game":games[m]}))?;recorded[m]=true;episodes+=1;
                 }}episode_file.flush()?;
             }
-            let row=serde_json::json!({"block":block,"batch":batch,"training_seconds":training_seconds,"collection_seconds":collection,"optimization_seconds":optimization,"episodes":episodes,"episodes_started":(batch as usize+1)*cfg.matches,"total_decisions":total_decisions,"decisions_per_second":total_decisions as f64/training_seconds,"pregame_deaths":pregame_deaths,"pregame_death_matches":pregame_death_matches,"memory_pool":format!("{:?}",d.memory_pool_usage()),"finished_in_batch":finished,"components_sum":totals.clone().sum_dim(0).reshape([COMPONENTS]).into_data().try_to_vec::<f32>()?,"learning":learning});
+            let row=serde_json::json!({"block":block,"batch":batch,"training_seconds":training_seconds,"collection_seconds":collection,"optimization_seconds":optimization,"episodes":episodes,"episodes_started":episodes_started,"total_decisions":total_decisions,"decisions_per_second":total_decisions as f64/training_seconds,"pregame_deaths":pregame_deaths,"pregame_deaths_initial_prefix":prefix_pregame_deaths,"pregame_death_matches":pregame_death_matches,"memory_pool":format!("{:?}",d.memory_pool_usage()),"finished_in_batch":finished,"phase_decisions":phase_values,"phase_histogram_verified":cfg.verify_phase_histogram,"phase_names":["pregame","0-3min","3-6min","6-10min"],"components_sum":totals.clone().sum_dim(0).reshape([COMPONENTS]).into_data().try_to_vec::<f32>()?,"learning":learning});
             writeln!(history,"{}",row)?;history.flush()?;eprintln!("{}",row);
             crate::artifacts::atomic_json(&root.join("status.json"),&serde_json::json!({"stage":"training","pid":std::process::id(),"latest":row,"elapsed_seconds":started.elapsed().as_secs_f64()}))?;
             drop(experience);d.memory_cleanup();
@@ -266,12 +312,19 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
                     evaluation_seconds+=report["wall_seconds"].as_f64().unwrap_or(0.);
                 }last_evaluation=training_seconds;}
             }
-            if finished==cfg.matches {if stop{break 'training;}break;}
             if stop{break 'training;}
+            if cfg.desynchronize {
+                let done:Vec<_>=audit.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).map(|x|x[0]>0.).collect();
+                if done.iter().any(|x|*x){
+                    let mask=crate::ggd_arenas::reset(&w,&teacher,&metrics,&done);previous=previous.mask_where(mask.clone().unsqueeze_dim::<2>(1),crate::observe::initial_previous(n,&d));totals=totals.mask_fill(mask.unsqueeze_dim::<2>(1),0.);
+                    for m in 0..cfg.matches{if done[m]{sides[m]=1-sides[m];recorded[m]=false;prefix_decisions[m]=0.;episodes_started+=1;}}
+                    rows=crate::ggd_arenas::learner_rows(&sides,&d);prior=counts(&w,&teacher);
+                }
+            }else if finished==cfg.matches{break;}
         }
         batch+=1;
     }
-    let result=serde_json::json!({"blocks":block,"episodes":episodes,"episodes_started":(batch as usize+1)*cfg.matches,"total_decisions":total_decisions,"pregame_deaths":pregame_deaths,"pregame_death_matches":pregame_death_matches,"warmup_complete":!warmup,"warmup_post_blocks":warmup_state.post_blocks,"warmup_ev_last5":warmup_state.mean(),"training_seconds":training_seconds,"evaluation_seconds":evaluation_seconds,"latest":last_path,"profile":profile,"reward_components":NAMES});
+    let result=serde_json::json!({"blocks":block,"episodes":episodes,"episodes_started":episodes_started,"total_decisions":total_decisions,"pregame_deaths":pregame_deaths,"pregame_deaths_initial_prefix":prefix_pregame_deaths,"pregame_death_matches":pregame_death_matches,"warmup_complete":!warmup,"warmup_post_blocks":warmup_state.post_blocks,"warmup_ev_last5":warmup_state.mean(),"training_seconds":training_seconds,"evaluation_seconds":evaluation_seconds,"latest":last_path,"desynchronization":initialization,"profile":profile,"reward_components":NAMES});
     crate::artifacts::atomic_json(&root.join("result.json"),&result)?;crate::artifacts::atomic_json(&root.join("status.json"),&serde_json::json!({"stage":"complete","result":result}))?;Ok(result)
 }
 

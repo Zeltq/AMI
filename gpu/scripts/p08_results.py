@@ -15,7 +15,7 @@ def lines(path): return [json.loads(x) for x in path.read_text(encoding='utf-8-s
 
 def verify(stage):
     cfg=read(ROOT/stage/'config.json')
-    original=Path(cfg['initial_weights']); result=read(ROOT/stage/'result.json'); output=Path(result['latest'])/'weights'
+    original=Path(cfg.get('initialize_weights')or cfg['initial_weights']); result=read(ROOT/stage/'result.json'); output=Path(result['latest'])/'weights'
     a=read(original/'manifest.json')['tensors']; b=read(output/'manifest.json')['tensors']
     same=[]; different=[]
     for key in a:
