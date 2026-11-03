@@ -590,5 +590,56 @@
     "pid": 11156,
     "exit_code": 0,
     "minutes": 5.174418888333215
+  },
+  {
+    "stage": "control-argmax",
+    "argv": [
+      "C:/AMI/runs/p02/sf-duel-gpu.exe",
+      "evaluate-ggd",
+      "C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\dataset\\environment\\engine.json",
+      "C:\\AMI\\runs\\p02\\experiment\\train-control-attempt-1\\export\\weights",
+      "C:\\AMI\\runs\\p02\\experiment\\control-argmax-attempt-1",
+      "--mode",
+      "teacher",
+      "--matches",
+      "64",
+      "--seconds",
+      "600",
+      "--seed",
+      "20261103",
+      "--argmax"
+    ],
+    "command": "C:/AMI/runs/p02/sf-duel-gpu.exe evaluate-ggd C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\dataset\\environment\\engine.json C:\\AMI\\runs\\p02\\experiment\\train-control-attempt-1\\export\\weights C:\\AMI\\runs\\p02\\experiment\\control-argmax-attempt-1 --mode teacher --matches 64 --seconds 600 --seed 20261103 --argmax",
+    "output": "C:\\AMI\\runs\\p02\\experiment\\control-argmax-attempt-1",
+    "started_utc": "2026-11-03T05:57:49.231798+00:00",
+    "pid": 11132,
+    "exit_code": 0,
+    "minutes": 4.757103959999707
+  },
+  {
+    "stage": "best-traces",
+    "argv": [
+      "C:/AMI/runs/p02/sf-duel-gpu.exe",
+      "evaluate-ggd",
+      "C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\dataset\\environment\\engine.json",
+      "C:\\AMI\\runs\\p02\\experiment\\train-round-2-attempt-1\\export\\weights",
+      "C:\\AMI\\runs\\p02\\experiment\\best-traces-attempt-1",
+      "--mode",
+      "teacher",
+      "--matches",
+      "4",
+      "--seconds",
+      "600",
+      "--seed",
+      "20261103",
+      "--sampling",
+      "--trace"
+    ],
+    "command": "C:/AMI/runs/p02/sf-duel-gpu.exe evaluate-ggd C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\dataset\\environment\\engine.json C:\\AMI\\runs\\p02\\experiment\\train-round-2-attempt-1\\export\\weights C:\\AMI\\runs\\p02\\experiment\\best-traces-attempt-1 --mode teacher --matches 4 --seconds 600 --seed 20261103 --sampling --trace",
+    "output": "C:\\AMI\\runs\\p02\\experiment\\best-traces-attempt-1",
+    "started_utc": "2026-11-03T06:02:34.681558+00:00",
+    "pid": 2640,
+    "exit_code": 0,
+    "minutes": 3.757088980000117
   }
 ]

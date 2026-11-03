@@ -1,0 +1,91 @@
+{
+  "rounds_complete": 4,
+  "rounds_requested": 4,
+  "collected_matches": 1024,
+  "requested_collection_matches": 1024,
+  "updates_by_round": [
+    1951,
+    1943,
+    1929,
+    1850
+  ],
+  "control_updates": 7673,
+  "best_round": {
+    "round": 2,
+    "score": [
+      0,
+      -1607.0
+    ],
+    "weights": "C:\\AMI\\runs\\p02\\experiment\\train-round-2-attempt-1\\export\\weights",
+    "checkpoint": "C:\\AMI\\runs\\p02\\experiment\\train-round-2-attempt-1\\last.pt"
+  },
+  "success": false,
+  "threshold_lh_deny_for_64_matches": 2226.5,
+  "sampling_comparison": [
+    {
+      "model": "M0-sampling",
+      "matches": 64,
+      "hero_sides": 64,
+      "lh": 437.0,
+      "deny": 296.0,
+      "death_matches": 39,
+      "before120": 8
+    },
+    {
+      "model": "round-1-sampling",
+      "matches": 64,
+      "hero_sides": 64,
+      "lh": 568.0,
+      "deny": 469.0,
+      "death_matches": 34,
+      "before120": 9
+    },
+    {
+      "model": "round-2-sampling",
+      "matches": 64,
+      "hero_sides": 64,
+      "lh": 926.0,
+      "deny": 681.0,
+      "death_matches": 7,
+      "before120": 0
+    },
+    {
+      "model": "round-3-sampling",
+      "matches": 64,
+      "hero_sides": 64,
+      "lh": 802.0,
+      "deny": 549.0,
+      "death_matches": 8,
+      "before120": 0
+    },
+    {
+      "model": "round-4-sampling",
+      "matches": 64,
+      "hero_sides": 64,
+      "lh": 178.0,
+      "deny": 134.0,
+      "death_matches": 4,
+      "before120": 1
+    },
+    {
+      "model": "control-sampling",
+      "matches": 64,
+      "hero_sides": 64,
+      "lh": 696.0,
+      "deny": 485.0,
+      "death_matches": 40,
+      "before120": 8
+    },
+    {
+      "model": "teacher-baseline",
+      "matches": 64,
+      "hero_sides": 128,
+      "lh": 5276.0,
+      "deny": 3630.0,
+      "death_matches": 0,
+      "before120": 0
+    }
+  ],
+  "all_jobs_successful": 29,
+  "all_jobs_total": 29
+}

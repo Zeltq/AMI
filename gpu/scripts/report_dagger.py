@@ -2,6 +2,7 @@
 import argparse,collections,json
 from pathlib import Path
 from run_dagger import read,write,score
+from p02_trace_analysis import analyze
 
 ROOT=Path(__file__).resolve().parents[2]
 
@@ -83,22 +84,30 @@ def main():
     else:lines.append('- Критерий успеха пока не оценён: полный эксперимент продолжается.')
     if (reports/'parity.json').exists():lines.append('- **Подтверждено:** beta=1 воспроизводит наблюдения, метки, reset и previous collect-teacher побитово на двух полных матчах.')
     lines+=['- **Подтверждено (код):** `decide` teacher-v9 не изменён. Поля memory 1–6 описывают выданный ATTACK, 9–11 — отмену замаха, 12–13 — приказы, 14 — паузу предмета; при подмене пересчитываются по исполненной команде.',
-            '- **Подтверждено (код/тест):** memory 0/8/15, seen_attacks и наблюдательные forecasts обновляются при каждом решении. Forecast 9 — история конкуренции для диагностики; пересчитывается по фактической цели. При совпадении команд адаптер — точный no-op.',
-            '- **Гипотеза:** коррекция распределения состояний должна уменьшить накопление ошибок; причинный эффект оценивается сравнением с D0-контролем при равном числе обновлений.']
+            '- **Подтверждено (код/тест):** memory 0/8/15, seen_attacks и наблюдательные forecasts обновляются при каждом решении. Forecast 9 — история конкуренции для диагностики; пересчитывается по фактической цели. При совпадении команд адаптер — точный no-op.']
+    comparison=result('control-sampling')
+    if comparison:
+        control_score=score(comparison)
+        lines.append(f"- **Подтверждено на этих seed:** D0-контроль после {control['updates']} обновлений имеет {control_score[0]}/64 ранних смертей и {-control_score[1]:g}/64 LH+deny. Четыре раунда DAgger суммарно имеют тот же бюджет; выбранная M2 использовала первые 3894 обновления. Одного дополнительного обучения D0 оказалось недостаточно для результата M2.")
     if 'best-traces' in stages:
         traces=trace_summary(Path(stages['best-traces']['output']));write(reports/'traces-three.json',traces)
-        for t in traces:
-            dominant=max(t['actions'],key=t['actions'].get);lines.append(f"- Трасса {t['game']} ({t['side']}): Act={dominant} — {t['actions'][dominant]}/{t['decisions']}; максимальная серия {t['longest_action_runs'][dominant]}; min дистанция до T1 {t['enemy_t1_min_distance']:.1f}. Разбор причин — `traces-three.json`.")
+        analysis=analyze(Path(stages['best-traces']['output']));write(reports/'trace-analysis.json',analysis)
+        for game in analysis['games']:
+            learner=next(s for s in game['sides'] if s['controller']=='GGD');teacher=next(s for s in game['sides'] if s['controller']=='teacher')
+            lines.append(f"- Трасса M2, матч {game['game']} ({learner['side']}): LH+deny/зарегистрированные циклы атаки — {learner['lh']+learner['deny']:g}/{learner['attack_cycles_completed']:g}, учитель {teacher['lh']+teacher['deny']:g}/{teacher['attack_cycles_completed']:g}; отмены/ATTACK — {learner['attack_cancellations']:g}/{learner['actions'][3]:g}. Выход на мид {learner['mid_arrival_game_seconds']:.2f} с.")
+        lines+=['- **Подтверждено по 3/3 трассам M2:** основной оставшийся провал — добивание: 60 LH+deny/378 циклов против 279/374 у учителя. После 0:00 MOVE — 3320/12914 решений против 2103/12914, STOP — 1447/12914 против 963/12914. Подробнее: `trace-analysis.json`.',
+                '- **Гипотеза:** неточный момент/выбор цели и лишние перемещения снижают конверсию атак в LH/deny. Трассы не содержат HP цели в момент ожидаемого попадания, поэтому эти причины строго не разделены. Отмены — 15/556 ATTACK против 3/383; ими нельзя объяснить весь разрыв.']
     lines+=['','## Что сделано','',
             '- `gpu/src/imitation.rs`, `main.rs`, `teacher_dagger.rs`: GPU-сбор, beta, источник/формат v3, флаги в signal 6–8; общая очередь offset_ticks=6, шаг 4 тика.',
             '- `scripted_teacher.rs`: только подключение адаптера; `bots/scripted_teacher_v9.lua`: только обновление SHA этой привязки.',
             '- `ggd_dataset.py`, `dagger_data.py`: чтение v2/v3, агрегированный манифест, ровно один проход новых train-последовательностей. Случайные старые последовательности; новых ≥50% последовательностей и валидных loss-кадров в каждом батче.',
             '- `train_ggd.py`: инициализация весов и AdamW из предыдущей модели, игровой выбор best (sampling: смерти до 120 с, затем собственный LH+deny); NLL вторичен. Без игровой оценки сохраняется last, best по NLL не выбирается.',
-            '- `run_dagger.py`: этапы, OS-lock, проверка живого дочернего PID, resume с последнего завершённого этапа, stop.json; прерванный этап повторяется в новой папке. `report_dagger.py`, `tests/test_dagger.py`, GPU-тест памяти.',
+            '- `run_dagger.py`: этапы, OS-lock, проверка живого дочернего PID, resume с последнего завершённого этапа, stop.json; прерванный этап повторяется в новой папке. `report_dagger.py`, `p02_trace_analysis.py`, `tests/test_dagger.py`, GPU-тест памяти.',
             '', '## Команды, которыми получены результаты','',
             '`$env:PYTHONPATH="C:/AMI-wt/P02/src;C:/AMI/tools/lua_test_runtime"; C:/Python314/python.exe -m unittest discover -s tests -v`',
-            '`cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/gpu/target dagger_ -- --nocapture`',
+            '`cargo test --release --locked --manifest-path C:/AMI-wt/P02/gpu/Cargo.toml --target-dir C:/AMI/gpu/target dagger_ -- --nocapture`',
             '`cargo test --release --locked --manifest-path C:/AMI-wt/P02/gpu/Cargo.toml --target-dir C:/AMI/gpu/target`',
+            '`C:/Python314/python.exe gpu/scripts/p02_trace_analysis.py C:/AMI/runs/p02/experiment/best-traces-attempt-1 reports/P02/trace-analysis.json`',
             '', 'Точные дочерние команды и длительности сбора/обучения/оценки:', '', '| Этап | Команда | Минуты |','| --- | --- | ---: |']
     for job in state['jobs']:
         if 'minutes' in job:lines.append(f"| {job['stage']} | `{job['command']}` | {job['minutes']:.3f} |")
@@ -106,9 +115,11 @@ def main():
             '- Первичный узкий Python-запуск без PYTHONPATH: 2 ошибки импорта sf_duel; повтор с путём worktree прошёл. Первый полный запуск пропустил 19 Lua-тестов; повтор с установленным runtime прошёл.',
             '- Resume сохраняет завершённые этапы; незавершённый сбор/проход обучения повторяется целиком. Внутри эпохи оптимизатор не восстанавливается.',
             '- Сохранён split исходного формата (game % 8): у новых данных validation содержит Radiant, test — Dire; игровой выбор модели использует отдельные 32/32 матча за стороны.',
+            '- NLL вычислен на разных накопленных датасетах и не служит прямым рейтингом моделей. Три диагностических матча взяты из отдельной оценки на 4 матчах; выбор модели — по 64 матчам. Для критериев использована одна фиксированная серия seed, независимое подтверждение не выполнено.',
             '- Реальная Dota, другие seed и перенос на другие карты не проверяются. Все большие артефакты локальны.',
             '', '## Пути к локальным артефактам','',f'- Эксперимент: `{run}`; состояние/команды: `state.json`, `status.json`; общий статус `C:/AMI/runs/pilot-status.json`, секция P02.',
             f"- D0: `{cfg['dataset']}`; M0: `{cfg['initial_checkpoint']}`; бинарник `{cfg['executable']}`.",
+            f"- Выбранная модель: `{best['checkpoint'] if best else 'ещё не выбрана'}`; экспорт: `{best['weights'] if best else '—'}`; трассы: `{run / 'best-traces-attempt-1'}`.",
             '- Git-метрики и конфигурация: `reports/P02/*.json`; веса, датасеты, трассы и логи не коммитятся.']
     done='control-argmax' in stages and 'best-traces' in stages and finished==4
     lines+=['','DONE P02' if done else 'Эксперимент выполняется; итоговая отметка будет добавлена после завершения.']
