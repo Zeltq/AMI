@@ -1,0 +1,23 @@
+{
+  "source_commit": "c14927ed4ce0693059efb7cccf17fbf764fb11da",
+  "branch": "agent/P06-lh-timing",
+  "binary": "C:\\AMI\\runs\\p06\\sf-duel-gpu.exe",
+  "binary_sha256": "2065afd7925a716b82228ceb443b6288b1cd7826dce85e72dd29da5fd6cec050",
+  "engine": "C:\\AMI\\runs\\p06\\dota-calibration-004\\engine.json",
+  "engine_sha256": "8bf6eb470affa07aa80aed2850b9ce6820ae339461b7e31637d81f51d43d6a4b",
+  "sources": {
+    "gpu/src/scripted_teacher.rs": "55b7f4ff5baef7aea24e706aaaca3e83fa049adca0bd63cee4203c6c23e08312",
+    "gpu/src/teacher_dagger.rs": "2da77b0aee1020b91ac44927fcc2d2013a621bdcb5e567d01feb3783c8ba79b4",
+    "gpu/src/timing_observe.rs": "bb7a2be42a8a64d4eacaf833eac4742f2f70e9c3405b2c9167e83972ea15b405",
+    "gpu/src/imitation.rs": "4d9d93337b742229b83f5e5d5da9e7171c48244f814f418e833e3d62b99ba595",
+    "gpu/scripts/train_ggd.py": "e46e441118b95f7918aaa70f4ae8b384ae7d2d4ecb004bb2824df51040256261",
+    "gpu/scripts/p06_run.py": "b9973fcbfe7e27ce949a42581fae914f207efdd3ed261d429b4c1004a44c4db0"
+  },
+  "experiment_configs": {
+    "collect.json": "18e6230e6c8996dd79835dc3090a72936a8164d92365d754854cbde71664748d",
+    "train-baseline.json": "6620f3ae32a4246a17d74cd293d934f701ef8b743941faf6ffd2efb00bfc4f94",
+    "train-honest.json": "c49c2c790585b2226eb2de63825910dc5ade433ff04fcd49f6a063e739becc4d",
+    "train-oracle.json": "410a678116d55b7dbbcf54cd293391faa2f7c5e51c85bae62b3d1f5f6ad176a4"
+  },
+  "heartbeat": "p06"
+}
