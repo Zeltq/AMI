@@ -1,0 +1,113 @@
+{
+  "stage": "rev-async-eval-1e5",
+  "argv": [
+    "C:\\AMI\\runs\\p08\\revised-gpu.exe",
+    "evaluate-ggd",
+    "C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json",
+    "C:\\AMI\\runs\\p08\\rev-async-trial-1e5\\checkpoint-000054\\weights",
+    "C:\\AMI\\runs\\p08\\rev-async-eval-1e5",
+    "--mode",
+    "teacher",
+    "--matches",
+    "32",
+    "--seconds",
+    "600",
+    "--seed",
+    "20261103",
+    "--sampling",
+    "--trace"
+  ],
+  "command": "C:\\AMI\\runs\\p08\\revised-gpu.exe evaluate-ggd C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json C:\\AMI\\runs\\p08\\rev-async-trial-1e5\\checkpoint-000054\\weights C:\\AMI\\runs\\p08\\rev-async-eval-1e5 --mode teacher --matches 32 --seconds 600 --seed 20261103 --sampling --trace",
+  "returncode": 0,
+  "timed_out": false,
+  "wall_seconds": 283.56675124168396,
+  "memory_samples": 138,
+  "sampled_peak_memory": {
+    "dedicated_bytes": 646979584.0,
+    "shared_bytes": 103505920.0,
+    "committed_bytes": 681279488.0,
+    "adapter_dedicated_bytes": 3371712512.0
+  },
+  "memory_measurement": "WDDM process/adapter counters sampled every 2 seconds plus query time; sampled peaks",
+  "result": null,
+  "history": [],
+  "config": {
+    "argmax": false,
+    "engine": "C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json",
+    "family": "GGD",
+    "matches": 32,
+    "mode": "teacher",
+    "record_teacher": false,
+    "seconds": 600.0,
+    "seed": 20261103,
+    "teacher_sha256": "55b7f4ff5baef7aea24e706aaaca3e83fa049adca0bd63cee4203c6c23e08312",
+    "teacher_version": "v9",
+    "trace": true,
+    "weights": "C:\\AMI\\runs\\p08\\rev-async-trial-1e5\\checkpoint-000054\\weights",
+    "zero_previous": false
+  },
+  "evaluation": {
+    "run": "p08",
+    "name": "rev-async-eval-1e5",
+    "complete": true,
+    "matches": 32,
+    "wall_seconds": 280.6132525,
+    "sides": [
+      {
+        "side": "radiant",
+        "matches": 16,
+        "lh": 290.0,
+        "deny": 168.0,
+        "deaths": 2.0,
+        "attack_cycles_completed": 1908.0,
+        "attack_cancellations": 117.0,
+        "death_matches": 2,
+        "pregame_death_matches": 0,
+        "early_deaths": 0,
+        "actions": [
+          46532.0,
+          21808.0,
+          0.0,
+          3034.0,
+          7077.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          105.0
+        ]
+      },
+      {
+        "side": "dire",
+        "matches": 16,
+        "lh": 237.0,
+        "deny": 200.0,
+        "deaths": 3.0,
+        "attack_cycles_completed": 1926.0,
+        "attack_cancellations": 76.0,
+        "death_matches": 3,
+        "pregame_death_matches": 0,
+        "early_deaths": 0,
+        "actions": [
+          49708.0,
+          16091.0,
+          0.0,
+          2905.0,
+          6093.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          58.0
+        ]
+      }
+    ],
+    "farm": 895.0,
+    "early_deaths": 0,
+    "death_matches": 5,
+    "trial_eligible": false,
+    "criterion": false
+  }
+}
