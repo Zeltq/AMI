@@ -168,5 +168,30 @@
     "pid": 24076,
     "exit_code": 0,
     "minutes": 4.92531104000033
+  },
+  {
+    "stage": "M0-argmax",
+    "argv": [
+      "C:/AMI/runs/p02/sf-duel-gpu.exe",
+      "evaluate-ggd",
+      "C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\dataset\\environment\\engine.json",
+      "C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\GGD0-resumed\\epoch-003\\weights",
+      "C:\\AMI\\runs\\p02\\experiment\\M0-argmax-attempt-1",
+      "--mode",
+      "teacher",
+      "--matches",
+      "64",
+      "--seconds",
+      "600",
+      "--seed",
+      "20261103",
+      "--argmax"
+    ],
+    "command": "C:/AMI/runs/p02/sf-duel-gpu.exe evaluate-ggd C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\dataset\\environment\\engine.json C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\GGD0-resumed\\epoch-003\\weights C:\\AMI\\runs\\p02\\experiment\\M0-argmax-attempt-1 --mode teacher --matches 64 --seconds 600 --seed 20261103 --argmax",
+    "output": "C:\\AMI\\runs\\p02\\experiment\\M0-argmax-attempt-1",
+    "started_utc": "2026-11-03T02:35:14.743425+00:00",
+    "pid": 13712,
+    "exit_code": 0,
+    "minutes": 4.258695730000424
   }
 ]
