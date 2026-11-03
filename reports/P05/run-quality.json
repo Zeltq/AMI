@@ -1,0 +1,81 @@
+{
+  "matches": 20,
+  "unique_indices": 20,
+  "side_counts": {
+    "2": 10,
+    "3": 10
+  },
+  "checked_commands": 60001,
+  "acknowledged": 60001,
+  "unacknowledged": 0,
+  "late": 0,
+  "rejected": 160,
+  "lua_errors": [],
+  "inference_errors": [],
+  "source_teacher_hashes": [
+    "a38ef2369bb0b707a55f189978381f5c6c39bad4a4bb869194c1f783209bca62"
+  ],
+  "status": {
+    "stage": "complete",
+    "pid": 11772,
+    "command": "C:\\Python314\\python.exe gpu/scripts/evaluate_dota_teacher.py --checkpoint C:/AMI/runs/p05/epoch-003.pt --run C:/AMI/runs/p05/baseline-001 --matches 20 --workers 16 17 18 19 --seconds 600 --inference-device cpu --sampling --resume",
+    "cwd": "C:\\AMI-wt\\P05",
+    "run": "C:\\AMI\\runs\\p05\\baseline-001",
+    "completed": 20,
+    "requested": 20,
+    "wall_minutes": 68.20203146333321,
+    "matches_per_hour": 17.59478381477057,
+    "errors": 0,
+    "retries": 0,
+    "error": null,
+    "jobs": [],
+    "background_work_remaining": false,
+    "updated_utc": "2026-11-03T03:14:47.148156+00:00"
+  },
+  "resume_history": [
+    {
+      "prior_status": {
+        "stage": "failed",
+        "pid": 31056,
+        "command": "C:\\Python314\\python.exe gpu/scripts/evaluate_dota_teacher.py --checkpoint C:/AMI/runs/p05/epoch-003.pt --run C:/AMI/runs/p05/baseline-001 --matches 20 --workers 16 17 18 19 --seconds 600 --inference-device cpu --sampling",
+        "cwd": "C:\\AMI-wt\\P05",
+        "run": "C:\\AMI\\runs\\p05\\baseline-001",
+        "completed": 10,
+        "requested": 20,
+        "wall_minutes": 46.168393101666396,
+        "matches_per_hour": 12.995903894153587,
+        "errors": 1,
+        "retries": 0,
+        "error": "RuntimeError('Match 4 failed transport admission: C:\\\\AMI\\\\runs\\\\p05\\\\baseline-001\\\\match-04/match.json')",
+        "jobs": [],
+        "background_work_remaining": false,
+        "updated_utc": "2026-11-03T02:52:42.145077+00:00"
+      },
+      "command": "C:\\Python314\\python.exe gpu/scripts/evaluate_dota_teacher.py --checkpoint C:/AMI/runs/p05/epoch-003.pt --run C:/AMI/runs/p05/baseline-001 --matches 20 --workers 16 17 18 19 --seconds 600 --inference-device cpu --sampling --resume",
+      "reason": "Recheck terminal censoring with integer ticks and finish missing indices; preserve raw records"
+    }
+  ],
+  "timeout_repairs": [
+    {
+      "pid": 20684,
+      "command": "script print(\"SF_NATIVE_END|2|600|timeout|64\")",
+      "evidence": "Native model timeout and teacher hero telemetry both at 600 seconds",
+      "policy_changed": false
+    }
+  ],
+  "terminal_censored_commands": 29,
+  "terminal_death_clock_correction": {
+    "index": 19,
+    "team": 3,
+    "native_end": 518.4000244140625,
+    "lua_death": 518.43334960938,
+    "ticks_difference": 1,
+    "reason": "same terminal death observed on following Lua Think; first_death uses native terminal time"
+  },
+  "timeout_death_exclusion": {
+    "index": 1,
+    "horizon": 600,
+    "lua_death": 638.73333740234,
+    "included": false
+  }
+}
