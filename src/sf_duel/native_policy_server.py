@@ -35,9 +35,10 @@ def exact(conn,n):
 class Service:
  def __init__(self,checkpoint,out,teacher_hash=None,max_batch_warmup=4,stochastic=False,record_root=None,opponents=(),seed=0,device='cuda',reset_origin=None):
   self.out=Path(out);self.out.mkdir(parents=True,exist_ok=True);self.queue=Queue();self.actors={};self.stats={'requests':0,'batches':{},'episodes':{},'errors':[],'checkpoint':str(checkpoint),'training_started':False}
-  self.device=device;torch.set_num_threads(2);torch.manual_seed(seed);self.stats.update(seed=seed,device=device);saved=torch.load(checkpoint,map_location='cpu',weights_only=False);self.model=Policy(combat_inputs=saved['state_dict']['hero.0.weight'].shape[1]>96,timing_inputs=saved['state_dict']['hero.0.weight'].shape[1]>118).to(device).eval();self.model.load_state_dict(saved['state_dict'],strict=True)
+  self.device=device;torch.set_num_threads(2);torch.manual_seed(seed);self.stats.update(seed=seed,device=device);saved=torch.load(checkpoint,map_location='cpu',weights_only=False);self.model=Policy(combat_inputs=saved['state_dict']['hero.0.weight'].shape[1]>96,timing_inputs=saved['state_dict']['hero.0.weight'].shape[1]>118,enemy_inputs=saved['state_dict']['hero.0.weight'].shape[1]>140).to(device).eval();self.model.load_state_dict(saved['state_dict'],strict=True)
   if saved.get('config',{}).get('timing_oracle',False):raise ValueError('Diagnostic oracle model cannot run in Dota')
   self.model.timing_honest=saved.get('config',{}).get('timing_honest',True)
+  if self.model.enemy_inputs and not self.model.timing_honest:raise ValueError('ggd-v4 requires honest timing')
   self.recurrent_reset_interval,self.observation_storage=policy_contract(saved)
   if reset_origin is not None and(not math.isfinite(reset_origin)or self.recurrent_reset_interval!=128):raise ValueError('Game clock requires the128-step memory contract')
   self.reset_origin=reset_origin;self.stats['memory_reset_origin_seconds']=reset_origin
@@ -50,8 +51,9 @@ class Service:
    if saved_opponent.get('config',{}).get('timing_oracle',False):raise ValueError('Diagnostic oracle model cannot run in Dota')
    self.contracts[str(index)]=policy_contract(saved_opponent)
    if reset_origin is not None and self.contracts[str(index)][0]!=128:raise ValueError('Opponent memory clock contract differs')
-   m=Policy(combat_inputs=saved_opponent['state_dict']['hero.0.weight'].shape[1]>96,timing_inputs=saved_opponent['state_dict']['hero.0.weight'].shape[1]>118).to(device).eval();m.load_state_dict(saved_opponent['state_dict'],strict=True)
+   m=Policy(combat_inputs=saved_opponent['state_dict']['hero.0.weight'].shape[1]>96,timing_inputs=saved_opponent['state_dict']['hero.0.weight'].shape[1]>118,enemy_inputs=saved_opponent['state_dict']['hero.0.weight'].shape[1]>140).to(device).eval();m.load_state_dict(saved_opponent['state_dict'],strict=True)
    m.timing_honest=saved_opponent.get('config',{}).get('timing_honest',True)
+   if m.enemy_inputs and not m.timing_honest:raise ValueError('ggd-v4 requires honest timing')
    self.models[str(index)]=m;self.hashes[str(index)]=hashlib.sha256(Path(path).read_bytes()).hexdigest()
    self.canonical_policy[str(index)]=next(k for k,v in self.hashes.items() if v==self.hashes[str(index)])
   self.writer=None
@@ -72,7 +74,7 @@ class Service:
     for pc in (16,32,64):
      for pt in (32,64,128):
       for pp in (16,32):
-       b=warmup_batch(n,device,self.model.combat_inputs,self.model.timing_inputs)
+       b=warmup_batch(n,device,self.model.combat_inputs,self.model.timing_inputs,self.model.enemy_inputs)
        for group,count,width,mask in [('creeps',pc,2*len(UNIT_FIELDS),'creep_valid'),('trees',pt,2*len(TREE_FIELDS),'tree_valid'),('projectiles',pp,2*len(PROJECTILE_FIELDS),'projectile_valid')]:
         b[group]=torch.zeros((n,count,width),device=device);b[mask]=torch.zeros((n,count),device=device,dtype=torch.bool)
        b['creep_ally']=torch.zeros((n,pc),device=device,dtype=torch.bool)
@@ -192,7 +194,7 @@ class Service:
    if life_reset:
     actor['previous']=None;self.stats['life_resets']=self.stats.get('life_resets',0)+1
    timing=getattr(self.models[policy],'timing_inputs',False) is True
-   profile='ggd-v3' if timing else None
+   profile='ggd-v4' if getattr(self.models[policy],'enemy_inputs',False) else 'ggd-v3' if timing else None
    snapshot=actor['adapter'].snapshot(r,r.model_supplement,observation_profile=profile) if timing else actor['adapter'].snapshot(r,r.model_supplement)
    combat=getattr(self.models[policy],'combat_inputs',False) is True
    if combat:

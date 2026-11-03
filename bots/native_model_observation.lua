@@ -1,6 +1,7 @@
 -- Recording-only inputs. Never consulted by the Go teacher.
 local json=require("game/dkjson")
 local agent=require("bots/agent")
+local settings=require("bots/settings")
 local M={}
 local spells={"nevermore_shadowraze1","nevermore_shadowraze2","nevermore_shadowraze3","nevermore_requiem"}
 local items={"item_wraith_band","item_boots","item_bracer","item_tpscroll","item_enchanted_mango","item_flask","item_tango","item_clarity"}
@@ -15,7 +16,9 @@ local function extra(u,handle,own)
  local attacking=a==ACTIVITY_ATTACK or a==ACTIVITY_ATTACK2
  local using=cast or channel
  if own then attacking=u:GetCurrentActionType()==BOT_ACTION_TYPE_ATTACK;cast=u:IsCastingAbility();channel=u:IsChanneling();using=u:IsUsingAbility() end
- return {handle=handle,attack_interval=u:GetSecondsPerAttack(),attacking=attacking,casting=cast,channeling=channel,using_ability=using}
+ local result={handle=handle,attack_interval=u:GetSecondsPerAttack(),attacking=attacking,casting=cast,channeling=channel,using_ability=using}
+ if settings.observation_profile=="ggd-v4" and u:GetUnitName()=="npc_dota_hero_nevermore" then result.v4_json=json.encode(agent.public_spells(u,GetBot()) or {}) end
+ return result
 end
 function M.emit(bot,tick,commands)
  local p=bot:GetLocation();local info={team=GetTeam(),tick=tick,x=p.x,y=p.y,can_hold=type(bot.Action_HoldPosition)=="function",terrain={},skills={},items={},units={extra(bot,0,true)},towers={},skill_slots={}}

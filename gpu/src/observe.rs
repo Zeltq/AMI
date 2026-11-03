@@ -329,7 +329,8 @@ impl Observed {
         let extra=|offset,count,fields|if packed.dims()[1]>=GGD_WIDTH {cut(offset,count*2*fields).reshape([n,count,2*fields])}else{Tensor::zeros([n,count,2*fields],&packed.device())};
         let unit_extra=|slot,count| {
             let combat=extra(COMBAT_UNIT_OFFSET+slot*2*COMBAT_UNIT_COUNT,count,COMBAT_UNIT_COUNT);
-            if packed.dims()[1]==crate::timing_observe::WIDTH {Tensor::cat(vec![combat,extra(crate::timing_observe::OFFSET+slot*2*crate::timing_observe::FIELDS,count,crate::timing_observe::FIELDS)],2)}else{combat}
+            let combat=if packed.dims()[1]>=crate::timing_observe::WIDTH {Tensor::cat(vec![combat,extra(crate::timing_observe::OFFSET+slot*2*crate::timing_observe::FIELDS,count,crate::timing_observe::FIELDS)],2)}else{combat};
+            if slot==0 && packed.dims()[1]==crate::enemy_observe::WIDTH {Tensor::cat(vec![combat,extra(crate::enemy_observe::OFFSET,2,crate::enemy_observe::FIELDS)],2)}else{combat}
         };
         Observation {
             combat_profile:packed.dims()[1]>=GGD_WIDTH,

@@ -434,6 +434,7 @@ type UnitExtra struct {
 	Casting        bool                   `protobuf:"varint,4,opt,name=casting,proto3" json:"casting,omitempty"`
 	Channeling     bool                   `protobuf:"varint,5,opt,name=channeling,proto3" json:"channeling,omitempty"`
 	UsingAbility   bool                   `protobuf:"varint,6,opt,name=using_ability,json=usingAbility,proto3" json:"using_ability,omitempty"`
+	V4Json         string                 `protobuf:"bytes,7,opt,name=v4_json,json=v4Json,proto3" json:"v4_json,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -508,6 +509,13 @@ func (x *UnitExtra) GetUsingAbility() bool {
 		return x.UsingAbility
 	}
 	return false
+}
+
+func (x *UnitExtra) GetV4Json() string {
+	if x != nil {
+		return x.V4Json
+	}
+	return ""
 }
 
 type AbilityExtra struct {
@@ -943,7 +951,7 @@ const file_duel_proto_rawDesc = "" +
 	"\x04team\x18\x01 \x01(\x05R\x04team\x12\x12\n" +
 	"\x04tick\x18\x02 \x01(\x05R\x04tick\x12$\n" +
 	"\x04shop\x18\x03 \x03(\v2\x10.sfduel.ShopItemR\x04shop\x12)\n" +
-	"\x05trees\x18\x04 \x03(\v2\x13.sfduel.VisibleTreeR\x05trees\"\xc9\x01\n" +
+	"\x05trees\x18\x04 \x03(\v2\x13.sfduel.VisibleTreeR\x05trees\"\xe2\x01\n" +
 	"\tUnitExtra\x12\x16\n" +
 	"\x06handle\x18\x01 \x01(\rR\x06handle\x12'\n" +
 	"\x0fattack_interval\x18\x02 \x01(\x02R\x0eattackInterval\x12\x1c\n" +
@@ -952,7 +960,8 @@ const file_duel_proto_rawDesc = "" +
 	"\n" +
 	"channeling\x18\x05 \x01(\bR\n" +
 	"channeling\x12#\n" +
-	"\rusing_ability\x18\x06 \x01(\bR\fusingAbility\"\x97\x01\n" +
+	"\rusing_ability\x18\x06 \x01(\bR\fusingAbility\x12\x17\n" +
+	"\av4_json\x18\a \x01(\tR\x06v4Json\"\x97\x01\n" +
 	"\fAbilityExtra\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
 	"\x05level\x18\x02 \x01(\x05R\x05level\x12\x1b\n" +

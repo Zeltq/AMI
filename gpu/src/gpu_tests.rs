@@ -4,6 +4,49 @@ use std::sync::Mutex;
 static GPU:Mutex<()>=Mutex::new(());
 
 #[test]
+fn p07_uphill_impacts_use_seeded_rng_only_for_eligible_ranged_attacks(){
+    let _g=GPU.lock().unwrap();
+    let run=|enabled:bool,uphill:bool,kind:usize| {
+        let mut w=arena();w.engine.uphill_miss=enabled;let d=w.device.clone();let rng=Sampler::new(1,7,&d);
+        let mut s=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();let q=6*STRIDE;
+        s[q+ACTIVE]=1.;s[q+UNIT_HEALTH]=100000.;s[q+UNIT_HEALTH_MAX]=100000.;s[q+UNIT_X]=200.;s[q+TEAM]=1.;s[q+KIND]=2.;s[q+ATTACK_READY]=10000.;s[q+TARGET]=-1.;s[q+LANE_POSITION]=-1.;
+        w.state=primitive(Tensor::<1>::from_data(TensorData::new(s,[UNITS*STRIDE]),&d));
+        let mut geometry=vec![1f32;512*512*2];let cell=|x:f32|((256*512+((x+8192.)/32.)as usize)*2)as usize;
+        geometry[cell(-200.)]=if uphill{4.}else{3.};geometry[cell(200.)]=3.;
+        w.geometry=primitive(Tensor::<1>::from_data(TensorData::new(geometry,[512*512*2]),&d));
+        let mut shots=vec![0f32;SHOTS*SHOT_FIELDS];
+        for i in 0..240 {let k=i*SHOT_FIELDS;shots[k]=1.;shots[k+1]=200.;shots[k+3]=6.;shots[k+5]=1200.;shots[k+6]=100.;shots[k+9]=kind as f32;}
+        w.shots=primitive(Tensor::<1>::from_data(TensorData::new(shots,[SHOTS*SHOT_FIELDS]),&d));
+        let _=w.step_ticks_with_waves(&rng,1,false);
+        let s=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();
+        let bytes=rng.client.read_one(rng.state.clone()).unwrap();let seed=u32::from_le_bytes(bytes[..4].try_into().unwrap());
+        (((100000.-s[q+UNIT_HEALTH])/(100.*w.engine.combat[kind*5+2])).round()as usize,seed)
+    };
+    let initial=7u32.wrapping_add(2654435761)|1;let mut seed=initial;let mut hits=0;
+    for _ in 0..240 {seed^=seed<<13;seed^=seed>>17;seed^=seed<<5;hits+=usize::from((seed>>8)as f32/16777216.>=0.25);}
+    assert!(hits>150 && hits<210);
+    assert_eq!(run(true,true,0),(hits,seed));assert_eq!(run(true,true,0),(hits,seed));
+    assert_eq!(run(true,true,3),(hits,seed));assert_eq!(run(true,true,1),(hits,seed));
+    for (enabled,uphill,kind) in [(false,true,0),(true,false,0),(true,false,1)] {assert_eq!(run(enabled,uphill,kind),(240,initial));}
+}
+
+#[test]
+fn p07_actual_enemy_raze_updates_public_cast_clock_and_debuff(){
+    let _g=GPU.lock().unwrap();let w=arena();let d=w.device.clone();let rng=Sampler::new(1,7,&d);
+    let observer=crate::enemy_observe::Observer::new(&w);let combat=crate::combat_observe::CombatObserver::new(&w);let teacher=crate::scripted_teacher::Teacher::new(&w);
+    let read=|| {let obs=w.observe(initial_previous(2,&d));observer.extend(&w,crate::timing_observe::extend(&w,combat.enrich(&w,&obs),&teacher,true,false)).packed.into_data().try_to_vec::<f32>().unwrap()};
+    let at=crate::enemy_observe::OFFSET+2*crate::enemy_observe::FIELDS;
+    assert_eq!(read()[at],1.);
+    let obs=w.observe(initial_previous(2,&d));let actions=Tensor::<2,Int>::from_data([[0,0,0,0,64,64],[7,0,0,0,64,64]],&d);let _=w.advance(actions,&obs.refs,&rng);
+    let mut casting=0;let mut final_row=vec![];
+    for _ in 0..30 {let _=w.step_ticks_with_waves(&rng,1,false);let r=read();if r[at+2]==1. {casting+=1;assert_eq!(r[at+crate::enemy_observe::FIELDS+7],1.);}final_row=r;}
+    assert!(casting>=15 && casting<=18,"unexpected cast phase length: {casting}");
+    assert_eq!(final_row[at],1.);assert!(final_row[at+7]>0.);
+    assert_eq!(final_row[crate::enemy_observe::OFFSET+14],1./16.);
+    assert!(final_row[crate::enemy_observe::OFFSET+15]>0.);
+}
+
+#[test]
 fn dagger_reconciles_actual_attack_item_and_continue_without_touching_equal_commands(){
     let _g=GPU.lock().unwrap();let w=arena();let d=w.device.clone();
     let teacher=crate::scripted_teacher::Teacher::new(&w);let obs=w.observe(initial_previous(2,&d));

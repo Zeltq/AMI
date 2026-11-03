@@ -1,0 +1,32 @@
+{
+  "source": "C:/AMI/runs/p06/dota-calibration-004",
+  "target": "C:/AMI/runs/p07/dota-calibration-005",
+  "changed_keys": [
+    "calibration",
+    "uphill_miss"
+  ],
+  "copied": {
+    "geometry": {
+      "file": "geometry.f32",
+      "bytes": 2097152,
+      "sha256": "e3b471165ea35f9ad5b15f40083e07e2556c4141420ce677ce7104b9a6e50605"
+    },
+    "navigation": {
+      "file": "movement-navigation64.u32",
+      "bytes": 134217728,
+      "sha256": "d9f818813f25a08febc4abb1fe8afb916f17ab91bfb07568a926fd3d72cd0104"
+    },
+    "movement_geometry": {
+      "file": "movement-geometry.f32",
+      "bytes": 2097152,
+      "sha256": "5d8b2b3003288d211b9c86cbabdad6d62b3ab56b415449c89f74fc5ce758d729"
+    },
+    "fow_blockers": {
+      "file": "fow_blockers.f32",
+      "bytes": 1048576,
+      "sha256": "52717c7332a78ffe1b9deebe236ad5127347a841cba7524929f04bbe417ff3c2"
+    }
+  },
+  "old_engine_sha256": "8bf6eb470affa07aa80aed2850b9ce6820ae339461b7e31637d81f51d43d6a4b",
+  "new_engine_sha256": "b6db514226812343a636f87a3182bf7206097056dc5def70d1b893b01382ee4f"
+}

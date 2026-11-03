@@ -21,6 +21,7 @@ mod aggro_fidelity;
 mod requiem_fidelity;
 mod navigation;
 mod timing_observe;
+mod enemy_observe;
 mod selfplay;
 mod evaluation;
 mod departure;
@@ -84,6 +85,7 @@ enum Command {
     ValidateRequiem {engine:PathBuf,reference:PathBuf,#[arg(long,default_value_t=0.)]fear_distance:f32,#[arg(long)]fear_from_caster:bool,#[arg(long)]fear_fixed_goal:bool},
     BuildNavigation {engine:PathBuf},
     CheckTiming {engine:PathBuf,fixture:PathBuf,output:PathBuf},
+    CheckPublicSpells {engine:PathBuf,fixture:PathBuf,output:PathBuf},
     Import {bundle:PathBuf,output:PathBuf},
     Export {checkpoint:PathBuf,output:PathBuf},
     Replay {#[arg(required=true)]logs:Vec<PathBuf>,#[arg(long)]output:PathBuf,#[arg(long,default_value_t=0)]r#match:usize},
@@ -142,6 +144,7 @@ fn main()->anyhow::Result<()> {
         },
         Command::BuildNavigation{engine}=>navigation::build(&engine)?,
         Command::CheckTiming{engine,fixture,output}=>timing_observe::check(&engine,&fixture,&output)?,
+        Command::CheckPublicSpells{engine,fixture,output}=>enemy_observe::check(&engine,&fixture,&output)?,
         Command::Import{bundle,output}=>{
             let policy=bridge::import(&bundle,&runtime::device())?;
             if let Some(parent)=output.parent(){std::fs::create_dir_all(parent)?;}

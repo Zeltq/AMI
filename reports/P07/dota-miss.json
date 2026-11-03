@@ -1,0 +1,138 @@
+{
+  "groups": [
+    {
+      "run": "sf-final",
+      "attacks": 240,
+      "hits": 240,
+      "case": 1,
+      "mode": "same",
+      "misses": 0,
+      "kind": "sf"
+    },
+    {
+      "run": "sf-final",
+      "attacks": 240,
+      "hits": 180,
+      "case": 2,
+      "mode": "uphill",
+      "misses": 60,
+      "kind": "sf"
+    },
+    {
+      "run": "melee-final",
+      "mode": "same",
+      "kind": "melee",
+      "attacks": 240,
+      "hits": 240,
+      "case": 1,
+      "misses": 0
+    },
+    {
+      "run": "melee-final",
+      "mode": "uphill",
+      "kind": "melee",
+      "attacks": 240,
+      "hits": 240,
+      "case": 2,
+      "misses": 0
+    },
+    {
+      "run": "ranged-001",
+      "hits": 240,
+      "case": 1,
+      "mode": "same",
+      "misses": 0,
+      "kind": "ranged",
+      "attacks": 240
+    },
+    {
+      "run": "ranged-001",
+      "hits": 181,
+      "case": 2,
+      "mode": "uphill",
+      "misses": 59,
+      "kind": "ranged",
+      "attacks": 240
+    },
+    {
+      "run": "tower-001",
+      "kind": "tower",
+      "misses": 0,
+      "attacks": 240,
+      "hits": 240,
+      "case": 1,
+      "mode": "same"
+    },
+    {
+      "run": "tower-001",
+      "kind": "tower",
+      "misses": 61,
+      "attacks": 240,
+      "hits": 179,
+      "case": 2,
+      "mode": "uphill"
+    },
+    {
+      "run": "impact-003",
+      "hits": 240,
+      "case": 1,
+      "mode": "up_to_same",
+      "misses": 0,
+      "kind": "sf",
+      "attacks": 240
+    },
+    {
+      "run": "impact-003",
+      "hits": 180,
+      "case": 2,
+      "mode": "same_to_up",
+      "misses": 60,
+      "kind": "sf",
+      "attacks": 240
+    }
+  ],
+  "sources": [
+    {
+      "run": "sf-final",
+      "minutes": 1.6307806900003925,
+      "script_sha256": "1bed1e8b1f1af8812959201d5b390d812a92f52c28b783dc7da5bd54629cb951",
+      "log_sha256": "d2c7836e19b5619c5695bc9b0396abe9618459aba76cf0f8c53b601e7b65758a"
+    },
+    {
+      "run": "melee-final",
+      "minutes": 1.951340621666168,
+      "script_sha256": "37d323053fe8f30ce6207623e1062ad21618bb24044ce4676bdcef12d5cafe3c",
+      "log_sha256": "234822b9df5f9aa2744017150c82db05599cc1a42bb61d22946466f088fbc6a3"
+    },
+    {
+      "run": "ranged-001",
+      "minutes": 1.9383538633342445,
+      "script_sha256": "0ed7328326c5cd9dbcc2243dc17d1f709cad312656293f2676ad74947dfa2f0d",
+      "log_sha256": "e3e03ced463771416c292dacffd90228603efaf94e08ff1a949e06423db11dfe"
+    },
+    {
+      "run": "tower-001",
+      "minutes": 1.7859202600006634,
+      "script_sha256": "c95eef438cf9d41490bd408c800f301943e57aa10dbad7f8ff1feb9443e6a283",
+      "log_sha256": "61f339351df7849a4d9b142feb3dc6cdab1ee606fb8f3c8c5eb4c6c49b0b9679"
+    },
+    {
+      "run": "impact-003",
+      "minutes": 2.839387604999744,
+      "script_sha256": "cd63159dbf7b6d9f6bcd774d664af06ce94a1b55cc843589c9218a215282379b",
+      "log_sha256": "568f947dac4c51a3782154aae1d92386146bae6092ee273cfcfbef83e82230cb"
+    }
+  ],
+  "pooled_ranged_uphill": {
+    "misses": 180,
+    "attacks": 720,
+    "probability": 0.25
+  },
+  "rule": "25% ordinary ranged attacks; target height at impact; melee and abilities excluded",
+  "user_confirmation": "User confirmed the rule and waived further Dota miss testing during P07.",
+  "caveats": [
+    "Attack interval shortened to 0.8 BAT; fixture sources invulnerable in accepted runs.",
+    "Damage events are attributed by attacker entity; unrelated damage is excluded.",
+    "Tower is the attacker in tower-001. Attacks against a tower were not successfully measured."
+  ]
+}

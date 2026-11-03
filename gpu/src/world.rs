@@ -90,6 +90,8 @@ pub struct Engine {
     /// Measured immutable building sight in supported base regions. Empty uses rays.
     #[serde(default)]pub static_vision:String,
     #[serde(default)]pub movement_geometry:String,
+    /// Environment 005: measured 25% ranged uphill miss, checked at impact.
+    #[serde(default)]pub uphill_miss:bool,
 }
 
 pub struct World {
