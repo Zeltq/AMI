@@ -1,0 +1,44 @@
+{
+  "checks": [
+    {
+      "name": "DAgger Python",
+      "passed": 6,
+      "total": 6
+    },
+    {
+      "name": "GGD Python",
+      "passed": 6,
+      "total": 6
+    },
+    {
+      "name": "Полный Python",
+      "passed": 169,
+      "total": 169
+    },
+    {
+      "name": "GPU память DAgger",
+      "passed": 1,
+      "total": 1
+    },
+    {
+      "name": "Полный Rust",
+      "passed": 90,
+      "total": 90
+    },
+    {
+      "name": "Trace/native action counters",
+      "passed": 6,
+      "total": 6
+    }
+  ],
+  "commands": [
+    "C:/Python314/python.exe -m unittest discover -s tests -p test_dagger.py -v",
+    "C:/Python314/python.exe -m unittest discover -s tests -p test_ggd*.py -v",
+    "C:/Python314/python.exe -m unittest discover -s tests -v",
+    "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/gpu/target dagger_ -- --nocapture",
+    "cargo test --release --locked --manifest-path C:/AMI-wt/P02/gpu/Cargo.toml --target-dir C:/AMI/gpu/target"
+  ],
+  "environment": {
+    "PYTHONPATH": "C:/AMI-wt/P02/src;C:/AMI/tools/lua_test_runtime"
+  }
+}

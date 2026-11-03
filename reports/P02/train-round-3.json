@@ -1,0 +1,66 @@
+{
+  "family": "GGD",
+  "model_name": "GGD0",
+  "complete": true,
+  "initialization": "fine-tune weights and AdamW state",
+  "device": "AMD Radeon RX 9070 XT",
+  "runtime": "PyTorch ROCm",
+  "updates": 1929,
+  "epochs": 1,
+  "wall_seconds": 1188.206376733,
+  "first_action_head_gradient_l1": 14.944337844848633,
+  "actor_delta": 0.31523749232292175,
+  "value_head_delta": 0.0,
+  "best_validation_nll": 1.2139806048115778,
+  "best_gameplay_score": null,
+  "mean_batch_seconds_after_first": 0.0653098792334007,
+  "batch_sequences": 8,
+  "sequence_length": 128,
+  "dataset_sha256": "229df7a811afcbd6af1bcf31912cb04f5e31dee842044cff0d0f8dd21892f050",
+  "teacher_sha256": "e9ed506fff0a3f51be809cb33fe567a78eb76cd7d8baa87811c0f0460e22c624",
+  "checkpoint": "/mnt/c/AMI/runs/p02/experiment/train-round-3-attempt-1/last.pt",
+  "test_split_used": false,
+  "history": [
+    {
+      "epoch": 1,
+      "train": {
+        "nll": 1.8286992555764139,
+        "action_accuracy": 0.8661287174223773,
+        "action_correct": 1650630,
+        "frames": 1905756,
+        "batches": 1929,
+        "attack_precision": {
+          "numerator": 23452,
+          "denominator": 63872
+        },
+        "attack_recall": {
+          "numerator": 23452,
+          "denominator": 36607
+        },
+        "conditional_attack_target_accuracy": {
+          "numerator": 35500,
+          "denominator": 36607
+        }
+      },
+      "validation": {
+        "nll": 1.2139806048115778,
+        "action_accuracy": 0.9153488216296487,
+        "action_correct": 1639614,
+        "frames": 1791245,
+        "batches": 4715,
+        "attack_precision": {
+          "numerator": 29272,
+          "denominator": 75261
+        },
+        "attack_recall": {
+          "numerator": 29272,
+          "denominator": 40437
+        },
+        "conditional_attack_target_accuracy": {
+          "numerator": 39085,
+          "denominator": 40437
+        }
+      }
+    }
+  ]
+}

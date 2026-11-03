@@ -24,6 +24,8 @@ def read_block(path,checksum=None):
         size=struct.unpack('<I',f.read(4))[0]
         if not 0<size<4_000_000:raise ValueError('Invalid header size')
         header=json.loads(f.read(size));n=len(header['actors']);width=len(header['columns']);horizon=header['horizon'];signals=header['signal_fields']
+        if header.get('format_version',2) not in (2,3):raise ValueError('Unsupported GGD storage version')
+        header.setdefault('source','teacher-demo')
         if header['version']!=GGD_SPEC_VERSION or horizon!=128 or signals!=13:raise ValueError('Wrong GGD contract')
         raw=f.read(n*horizon*width*2);obs=np.frombuffer(raw,dtype='<f2').reshape(n,horizon,width)
         raw=f.read(n*horizon*signals*4);sig=np.frombuffer(raw,dtype='<f4').reshape(n,horizon,signals)

@@ -4,6 +4,31 @@ use std::sync::Mutex;
 static GPU:Mutex<()>=Mutex::new(());
 
 #[test]
+fn dagger_reconciles_actual_attack_item_and_continue_without_touching_equal_commands(){
+    let _g=GPU.lock().unwrap();let w=arena();let d=w.device.clone();
+    let teacher=crate::scripted_teacher::Teacher::new(&w);let obs=w.observe(initial_previous(2,&d));
+    let snapshot=teacher.command_snapshot();let labels=teacher.actions(&w,&obs);
+    let memory=tensor::<1>(teacher.memory.clone()).into_data().try_to_vec::<f32>().unwrap();
+    let forecasts=tensor::<1>(teacher.forecasts.clone()).into_data().try_to_vec::<f32>().unwrap();
+    teacher.reconcile_commands(&w,&obs,snapshot,labels.clone(),labels.clone());
+    assert_eq!(tensor::<1>(teacher.memory.clone()).into_data().try_to_vec::<f32>().unwrap(),memory);
+    assert_eq!(tensor::<1>(teacher.forecasts.clone()).into_data().try_to_vec::<f32>().unwrap(),forecasts);
+    let snapshot=teacher.command_snapshot();let labels=teacher.actions(&w,&obs);
+    let executed=Tensor::<2,Int>::from_data([[3,0,0,1,64,64],[10,0,5,0,64,64]],&d);
+    teacher.reconcile_commands(&w,&obs,snapshot,labels,executed);
+    let after=tensor::<1>(teacher.memory.clone()).into_data().try_to_vec::<f32>().unwrap();
+    assert_eq!(after[1],1.);assert!(after[3]>w.engine.pre_game_seconds);assert_eq!(after[12],3.);
+    assert_eq!(after[16+1],-1.);assert!((after[16+14]-w.engine.pre_game_seconds-0.4).abs()<0.001);
+    assert_eq!(after[15],memory[15],"observation-derived retreat hysteresis retained");
+    let snapshot=teacher.command_snapshot();let labels=teacher.actions(&w,&obs);
+    let executed=Tensor::<2,Int>::from_data([[0,0,0,0,64,64],[0,0,0,0,64,64]],&d);
+    teacher.reconcile_commands(&w,&obs,snapshot,labels,executed);
+    let continued=tensor::<1>(teacher.memory.clone()).into_data().try_to_vec::<f32>().unwrap();
+    assert_eq!(&continued[1..6],&after[1..6],"CONTINUE retains the pending real attack");
+    assert_eq!(continued[16+14],after[16+14],"CONTINUE retains the real item delay");
+}
+
+#[test]
 fn diagnostic_forward_move_is_once_masked_and_only_current_radiant_after_zero(){
     let _g=GPU.lock().unwrap();let d=device();let mut w=World::load(&engine(),2,&d).unwrap();
     let mut meta=vec![0f32;2*META];meta[0]=-1.;w.meta=primitive(Tensor::<1>::from_data(TensorData::new(meta.clone(),[2*META]),&d));

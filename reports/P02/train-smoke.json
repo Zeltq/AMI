@@ -1,0 +1,66 @@
+{
+  "family": "GGD",
+  "model_name": "GGD0-smoke",
+  "complete": false,
+  "initialization": "fine-tune weights and AdamW state",
+  "device": "AMD Radeon RX 9070 XT",
+  "runtime": "PyTorch ROCm",
+  "updates": 50,
+  "epochs": 1,
+  "wall_seconds": 25.132324724999997,
+  "first_action_head_gradient_l1": 20.071338653564453,
+  "actor_delta": 0.03278641775250435,
+  "value_head_delta": 0.0,
+  "best_validation_nll": 0.6379095911979675,
+  "best_gameplay_score": null,
+  "mean_batch_seconds_after_first": 0.0664726467959183,
+  "batch_sequences": 8,
+  "sequence_length": 128,
+  "dataset_sha256": "d7fe56d95506a1ac3ed165ea925113191ccaee383b9f43fec0fa6c43ee01fde7",
+  "teacher_sha256": "e9ed506fff0a3f51be809cb33fe567a78eb76cd7d8baa87811c0f0460e22c624",
+  "checkpoint": "/mnt/c/AMI/runs/p02/experiment/train-smoke-attempt-1/last.pt",
+  "test_split_used": false,
+  "history": [
+    {
+      "epoch": 1,
+      "train": {
+        "nll": 1.2840651500524158,
+        "action_accuracy": 0.9139989759344598,
+        "action_correct": 44626,
+        "frames": 48825,
+        "batches": 50,
+        "attack_precision": {
+          "numerator": 823,
+          "denominator": 2062
+        },
+        "attack_recall": {
+          "numerator": 823,
+          "denominator": 1211
+        },
+        "conditional_attack_target_accuracy": {
+          "numerator": 1169,
+          "denominator": 1211
+        }
+      },
+      "validation": {
+        "nll": 0.6379095911979675,
+        "action_accuracy": 0.9287109375,
+        "action_correct": 951,
+        "frames": 1024,
+        "batches": 2,
+        "attack_precision": {
+          "numerator": 27,
+          "denominator": 63
+        },
+        "attack_recall": {
+          "numerator": 27,
+          "denominator": 36
+        },
+        "conditional_attack_target_accuracy": {
+          "numerator": 36,
+          "denominator": 36
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "attack_decisions": 1985,
+  "blocks": 41,
+  "compressed_bytes": 41017449,
+  "cpu_boundary": "compact FP16 snapshots every 128 decisions; bounded writer, no dropped samples",
+  "dagger": {
+    "beta": 0.5,
+    "collection": {
+      "engine": "C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\dataset\\environment\\engine.json",
+      "games": 8,
+      "max_blocks": null,
+      "parallel_matches": 8,
+      "seconds": 600.0,
+      "seed": 20361105
+    },
+    "round": 1,
+    "weights": "C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\GGD0-resumed\\epoch-003\\weights"
+  },
+  "dataset": "C:\\AMI\\runs\\p02\\experiment\\smoke-collect-attempt-1",
+  "decisions_per_second": 386.6776962648979,
+  "disagreements": 10592,
+  "family": "GGD",
+  "format_version": 3,
+  "games_recorded": 8,
+  "games_requested": 8,
+  "learner_decisions": 40984,
+  "native_completed": 8,
+  "partial": false,
+  "signal_fields_extra": {
+    "6": "teacher_executed",
+    "7": "learner_label_disagreement_all_six_fields",
+    "8": "learner_actor"
+  },
+  "teacher_executed": 20429,
+  "test_games": 1,
+  "train_games": 6,
+  "valid_decisions": 81968,
+  "validation_games": 1,
+  "wall_seconds": 211.9801602
+}

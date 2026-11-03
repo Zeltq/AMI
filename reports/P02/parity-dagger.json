@@ -1,0 +1,40 @@
+{
+  "attack_decisions": 529,
+  "blocks": 41,
+  "compressed_bytes": 10519980,
+  "cpu_boundary": "compact FP16 snapshots every 128 decisions; bounded writer, no dropped samples",
+  "dagger": {
+    "beta": 1.0,
+    "collection": {
+      "engine": "C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\dataset\\environment\\engine.json",
+      "games": 2,
+      "max_blocks": null,
+      "parallel_matches": 2,
+      "seconds": 600.0,
+      "seed": 20261102
+    },
+    "round": 1,
+    "weights": "C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\GGD0-resumed\\epoch-003\\weights"
+  },
+  "dataset": "C:\\AMI\\runs\\p02\\experiment\\parity-dagger-attempt-1",
+  "decisions_per_second": 118.89306513576648,
+  "disagreements": 2312,
+  "family": "GGD",
+  "format_version": 3,
+  "games_recorded": 2,
+  "games_requested": 2,
+  "learner_decisions": 10246,
+  "native_completed": 2,
+  "partial": false,
+  "signal_fields_extra": {
+    "6": "teacher_executed",
+    "7": "learner_label_disagreement_all_six_fields",
+    "8": "learner_actor"
+  },
+  "teacher_executed": 10246,
+  "test_games": 0,
+  "train_games": 2,
+  "valid_decisions": 20492,
+  "validation_games": 0,
+  "wall_seconds": 172.3565624
+}
