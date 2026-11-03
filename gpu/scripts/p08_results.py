@@ -14,14 +14,17 @@ def save(path, data): path.write_text(json.dumps(data, ensure_ascii=False, inden
 def lines(path): return [json.loads(x) for x in path.read_text(encoding='utf-8-sig').splitlines() if x.strip()] if path.exists() else []
 
 def verify(stage):
-    cfg=read(REPO/f'reports/P08/{stage}.json')
+    cfg=read(ROOT/stage/'config.json')
     original=Path(cfg['initial_weights']); result=read(ROOT/stage/'result.json'); output=Path(result['latest'])/'weights'
     a=read(original/'manifest.json')['tensors']; b=read(output/'manifest.json')['tensors']
     same=[]; different=[]
     for key in a:
         (same if (original/a[key]['file']).read_bytes()==(output/b[key]['file']).read_bytes() else different).append(key)
     nonvalue=[k for k in a if not k.startswith('value_')]
-    passed=not different if stage=='zero-lr' else all(k in same for k in nonvalue) and any(k.startswith('value_') for k in different)
+    history=lines(ROOT/stage/'history.jsonl')
+    if cfg['learning_rate']!=0 and not(history and all(h['learning']['warmup']for h in history)):
+        raise SystemExit('Value-only verification requires completed warmup-only updates')
+    passed=not different if cfg['learning_rate']==0 else all(k in same for k in nonvalue) and any(k.startswith('value_') for k in different)
     result=dict(stage=stage,passed=passed,identical=len(same),total=len(a),different=different,nonvalue_identical=sum(k in same for k in nonvalue),nonvalue_total=len(nonvalue),training_seconds=result['training_seconds'],history=lines(ROOT/stage/'history.jsonl'))
     save(OUT/f'{stage}-verification.json',result)
     if not passed: raise SystemExit(f'{stage} invariant failed: {different}')
@@ -101,7 +104,7 @@ def curves(stage):
     save(OUT/f'{stage}-summary.json',summary)
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--verify',choices=['zero-lr','warmup']);a=p.parse_args();OUT.mkdir(parents=True,exist_ok=True)
+    p=argparse.ArgumentParser();p.add_argument('--verify',choices=['zero-lr','warmup','rev-warmup-memory-check']);a=p.parse_args();OUT.mkdir(parents=True,exist_ok=True)
     if a.verify:verify(a.verify)
     else:
         for stage in ['smoke','main']:curves(stage)

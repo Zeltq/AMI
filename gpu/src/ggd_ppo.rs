@@ -121,7 +121,10 @@ fn optimize(policy:&mut Policy,optimizer:&mut ModuleOptimizer,cfg:&Config,e:&Exp
                 if scalar(mask.clone().sum())==0. {continue;}
                 let input=tensor::<3>(shard.clone()).select(0,local).reshape([size*HORIZON,width]);
                 let obs=Observed{packed:input,refs:shard.clone(),reset:Tensor::zeros([size*HORIZON],&d)};let b=obs.decode_bucket(pc,pt,pp);
-                let (h,keys)=recurrent(policy,&b,signal.clone().slice([0..size,0..HORIZON,10..11]),size);
+                // Value-only warmup must not build an unused encoder/LSTM tape.
+                // Merely detaching its output retains large autodiff intermediates.
+                let frozen=warmup.then(||policy.clone().valid());
+                let (h,keys)=recurrent(frozen.as_ref().unwrap_or(policy),&b,signal.clone().slice([0..size,0..HORIZON,10..11]),size);
                 let target=returns.clone().select(0,ids.clone()).reshape([size*HORIZON]);
                 if warmup {
                     let prediction=policy.value(h.without_autodiff());let loss=weighted((prediction-target).square(),mask);
