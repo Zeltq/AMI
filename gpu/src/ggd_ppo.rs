@@ -69,9 +69,9 @@ fn recurrent(policy:&Policy,b:&crate::model::Observation,resets:Tensor<3>,size:u
 #[derive(Default)]
 struct CriticWarmup {post_blocks:usize,recent:std::collections::VecDeque<Option<f64>>}
 impl CriticWarmup {
-    fn observe(&mut self,block:usize,limit:usize,post_count:f64,ev:Option<f64>)->bool {
+    fn observe(&mut self,block:usize,limit:usize,post_count:f64,ev:Option<f64>,reward_activity:f32)->bool {
         if post_count>0. {self.post_blocks+=1;self.recent.push_back(ev);if self.recent.len()>5{self.recent.pop_front();}}
-        block>=limit || (self.post_blocks>=30 && self.mean().is_some_and(|x|x>0.3))
+        block>=limit || (reward_activity>0. && self.post_blocks>=30 && self.mean().is_some_and(|x|x>0.3))
     }
     fn mean(&self)->Option<f64>{
         if self.recent.len()!=5 || self.recent.iter().any(Option::is_none){return None;}
@@ -237,7 +237,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
             let decisions=scalar(valid_count)as u64;total_decisions+=decisions;learning["valid_decisions"]=serde_json::json!(decisions);
             d.sync()?;let optimization=update.elapsed().as_secs_f64();training_seconds+=collection+optimization;block+=1;
             pregame_deaths+=scalar(pregame_events)as u64;let activity=scalar(reward_activity);learning["reward_activity"]=serde_json::json!(activity);
-            if warmup&&warmup_state.observe(block,cfg.warmup_blocks,learning["postgame_decisions"].as_f64().unwrap_or(0.),learning["ev_post0"].as_f64()){warmup=false;}
+            if warmup&&warmup_state.observe(block,cfg.warmup_blocks,learning["postgame_decisions"].as_f64().unwrap_or(0.),learning["ev_post0"].as_f64(),activity){warmup=false;}
             learning["warmup_post_blocks"]=serde_json::json!(warmup_state.post_blocks);
             learning["warmup_ev_last5"]=serde_json::json!(warmup_state.mean());
             let audit=teacher.values();let finished=audit.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).filter(|x|x[0]>0.).count();
@@ -278,13 +278,14 @@ mod tests {
     #[test]
     fn p08_critic_warmup_requires_30_postgame_blocks_and_five_ev_values(){
         let mut gate=CriticWarmup::default();
-        for block in 1..=10 {assert!(!gate.observe(block,150,0.,Some(0.99)));}
-        for block in 11..40 {assert!(!gate.observe(block,150,100.,Some(0.5)));}
-        assert!(gate.observe(40,150,100.,Some(0.5)));assert_eq!(gate.post_blocks,30);
-        let mut gate=CriticWarmup::default();for block in 1..149{assert!(!gate.observe(block,150,100.,Some(0.1)));}
-        assert!(gate.observe(150,150,0.,None));
-        let mut gate=CriticWarmup::default();for block in 1..=30{assert!(!gate.observe(block,150,100.,if block==30{Some(1.)}else{Some(0.)}));}
-        assert!(!gate.observe(31,150,100.,None));assert_eq!(gate.mean(),None);
+        for block in 1..=10 {assert!(!gate.observe(block,150,0.,Some(0.99),0.));}
+        for block in 11..40 {assert!(!gate.observe(block,150,100.,Some(0.5),1.));}
+        assert!(!gate.observe(40,150,100.,Some(0.5),0.),"the threshold also requires observed reward");assert_eq!(gate.post_blocks,30);
+        assert!(gate.observe(41,150,100.,Some(0.5),1.));
+        let mut gate=CriticWarmup::default();for block in 1..149{assert!(!gate.observe(block,150,100.,Some(0.1),1.));}
+        assert!(gate.observe(150,150,0.,None,0.));
+        let mut gate=CriticWarmup::default();for block in 1..=30{assert!(!gate.observe(block,150,100.,if block==30{Some(1.)}else{Some(0.)},1.));}
+        assert!(!gate.observe(31,150,100.,None,0.));assert_eq!(gate.mean(),None);
     }
     #[test]
     fn p08_pregame_death_counter_uses_event_time_and_counts_events(){

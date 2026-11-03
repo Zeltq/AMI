@@ -12,7 +12,7 @@ def save(p,v):
 def budget():
     base=read(REPORT/'base-budget.json')
     records=[read(p) for p in REPORT.glob('stage-*.json')]
-    used=base['legacy_gpu_process_wall_seconds']+base['legacy_gpu_test_seconds']+sum(r['wall_seconds'] for r in records)
+    used=base['legacy_gpu_process_wall_seconds']+base['legacy_gpu_test_seconds']+base.get('revised_gpu_test_seconds',0)+sum(r['wall_seconds'] for r in records)
     return dict(limit_seconds=21600,used_seconds=used,remaining_seconds=21600-used,reserved_test_seconds=300)
 def publish(stage):
     if (ROOT/stage/'history.jsonl').exists():
