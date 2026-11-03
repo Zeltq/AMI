@@ -24,16 +24,33 @@ fn decide_case(case:usize)->(Vec<i32>,World,crate::scripted_teacher::Teacher){
     if case==6 {s[UNIT_MANA]=w.engine.spells[0][0][1];}
     if case==8 {s[UNIT_MANA]=w.engine.spells[0][0][1];}
     if case==9 {s[CAST]=2.;s[CAST_END]=now+0.3;}
+    if case==10 {for spell in 0..3 {s[COOLDOWNS+spell]=now+0.1;}}
+    if case==11 {s[UNIT_HEALTH]=s[UNIT_HEALTH_MAX]*0.29;s[ORDER]=3.;s[TARGET]=1.;s[TARGET_GENERATION]=s[STRIDE+GENERATION];s[WINDUP]=now+0.6;s[WINDUP_TARGET]=1.;s[WINDUP_GENERATION]=s[STRIDE+GENERATION];}
     w.state=primitive(Tensor::<1>::from_data(TensorData::new(s,[UNITS*STRIDE]),&d));
-    let t=crate::scripted_teacher::Teacher::new(&w);let controller=Controller::new(&w,Version::V10,Version::V9,false);
+    let mut t=crate::scripted_teacher::Teacher::new(&w);let controller=Controller::new(&w,Version::V10,Version::V9,false);
+    if case==11 {
+        let mut memory=vec![0.;32];memory[0]=1.;memory[1]=1.;memory[2]=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap()[STRIDE+GENERATION];memory[3]=now+5.;memory[5]=now+5.;
+        let replacement=primitive(Tensor::<1>::from_data(TensorData::new(memory,[32]),&d));
+        // A real prior ATTACK command, exactly the bookkeeping produced by DAgger.
+        t.memory=replacement;
+    }
     let obs=w.observe(initial_previous(2,&d));let actions=controller.actions(&t,&w,&obs).into_data().try_to_vec::<i32>().unwrap();
     (actions,w,t)
 }
 
 #[test]
+fn v10_low_health_hero_attack_lock_does_not_delay_retreat(){
+    let _g=GPU.lock().unwrap();let (a,w,t)=decide_case(11);
+    assert_eq!(tensor::<1>(t.memory.clone()).into_data().try_to_vec::<f32>().unwrap()[15],1.);
+    assert_eq!(a[0],1,"29% HP must retreat instead of protecting a hero swing: {a:?}");
+    let s=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();
+    assert!((a[4]as f32-64.)*(s[2*STRIDE+UNIT_X]-s[UNIT_X])+(a[5]as f32-64.)*(s[2*STRIDE+UNIT_Y]-s[UNIT_Y])>0.);
+}
+
+#[test]
 fn v10_rules_cast_reserve_farm_lock_aggro_trade_tower_and_hysteresis(){
     let _g=GPU.lock().unwrap();crate::teacher_v10::check_pin().unwrap();
-    for case in 0..10 {let (a,w,_)=decide_case(case);
+    for case in 0..11 {let (a,w,_)=decide_case(case);
         match case {
             0|6=>assert!((6..=8).contains(&a[0]),"case {case}: {a:?}"),
             1=>{assert_eq!(a[0],3,"{a:?}");assert_eq!(a[3],1);},
@@ -43,6 +60,7 @@ fn v10_rules_cast_reserve_farm_lock_aggro_trade_tower_and_hysteresis(){
             7=>assert!(!(6..=8).contains(&a[0]),"useful farm windup interrupted: {a:?}"),
             8=>assert!(!(6..=8).contains(&a[0]),"mana reserve: {a:?}"),
             9=>assert_eq!(a[0],0,"casting must finish: {a:?}"),
+            10=>assert!(!(6..=8).contains(&a[0]),"cooldown becomes ready in queue, but current label must respect the mask: {a:?}"),
             _=>unreachable!(),
         }
         let v9=crate::scripted_teacher::Teacher::new(&w);let obs=w.observe(initial_previous(2,&w.device));

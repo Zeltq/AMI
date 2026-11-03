@@ -17,6 +17,8 @@ pub const AGGRO_RADIUS:f32=500.0;
 pub const EXECUTION_DELAY:f32=7.0/30.0;
 pub const TURN_STEP_FACTOR:f32=0.4712389;
 pub const AIM_STEP:f32=64.0;
+pub const V9_HOME_OFFSET:f32=220.0;
+pub const V9_HOME_TOLERANCE:f32=90.0;
 #[allow(dead_code)]
 pub const V9_RETREAT_HP:f32=0.30; // v9 owns this unchanged hysteresis.
 #[allow(dead_code)]
@@ -85,6 +87,17 @@ fn overlay(state:&mut [f32],meta:&[f32],hero:&[f32],spells:&[f32],commands:&[f32
             }
             let mut action=actions[a*6]as usize;let mut target=actions[a*6+3];let mut change=false;
             if escape {action=1;change=true;}
+            else if memory[mem+15]>0.0f32 && action!=10 &&
+                ((state[p+ORDER]==3.0f32 && state[p+TARGET]==(1-side)as f32) ||
+                 (before[mem]==memory[mem] && before[mem+1]==(1-side)as f32 && time<before[mem+3])) {
+                // v9 protects useful farming swings down to 20% HP. A hero swing
+                // is not a last hit/deny: do not let that inherited lock postpone
+                // the unchanged 30% retreat and 56% return hysteresis.
+                let tower=base+(2+side*2)*STRIDE;let sign=if side==0 {-1.0f32}else{1.0f32};
+                gx=state[tower+UNIT_X]+sign*V9_HOME_OFFSET;gy=state[tower+UNIT_Y]+sign*V9_HOME_OFFSET;
+                let dx=gx-state[p+UNIT_X];let dy=gy-state[p+UNIT_Y];
+                action=if dx*dx+dy*dy>V9_HOME_TOLERANCE*V9_HOME_TOLERANCE {1usize}else{4usize};change=true;
+            }
             else if memory[mem+15]==0.0f32 && !trade && action!=10 {
                 let mut protected=false;
                 let current=before[mem+1]as usize;
