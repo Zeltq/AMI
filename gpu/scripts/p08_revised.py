@@ -15,6 +15,9 @@ def budget():
     used=base['legacy_gpu_process_wall_seconds']+base['legacy_gpu_test_seconds']+sum(r['wall_seconds'] for r in records)
     return dict(limit_seconds=21600,used_seconds=used,remaining_seconds=21600-used,reserved_test_seconds=300)
 def publish(stage):
+    if (ROOT/stage/'history.jsonl').exists():
+        import p08_results
+        p08_results.OUT=REPORT;p08_results.curves(stage)
     save(REPORT/'budget.json',budget())
     for p in REPORT.iterdir():
         if p.is_file() and p.stat().st_size>=1_000_000:raise RuntimeError(f'oversized report {p}')

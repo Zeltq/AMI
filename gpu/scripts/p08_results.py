@@ -36,11 +36,15 @@ def evaluation(path):
         row=dict(side=side,matches=len(rows))
         for k in ['lh','deny','deaths','attack_cycles_completed','attack_cancellations']:
             row[k]=aggregate[k]
+        row['death_matches']=sum(x['deaths']>0 for x in rows)
+        row['pregame_death_matches']=sum(x.get('first_death_game_seconds') is not None and x['first_death_game_seconds']<0 for x in rows)
         row['early_deaths']=sum(x.get('first_death_game_seconds') is not None and x['first_death_game_seconds']<120 for x in rows)
         row['actions']=aggregate['actions']
         result['sides'].append(row)
     result['farm']=sum(s['lh']+s['deny'] for s in result['sides'])
     result['early_deaths']=sum(s['early_deaths'] for s in result['sides'])
+    result['death_matches']=sum(s['death_matches']for s in result['sides'])
+    result['trial_eligible']=(result['early_deaths']<=1 and result['death_matches']<=4) if result['matches']==32 else None
     result['criterion']=result['farm']>=2009 and result['early_deaths']<=2
     return result
 
@@ -69,7 +73,8 @@ def curves(stage):
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
-    fig, axes = plt.subplots(6, 1, figsize=(12, 16), constrained_layout=True)
+    if 'ev_post0' in rows[0]:panels.insert(2,('EV by game phase',rows,['ev_post0','ev_pregame','warmup_ev_last5']))
+    fig, axes = plt.subplots(len(panels), 1, figsize=(12, 2.7*len(panels)), constrained_layout=True)
     for ax, (title, points, keys) in zip(axes, panels):
         ax.set_title(f'{stage}: {title}', loc='left')
         ax.set_xlabel('Training time, minutes')
@@ -92,7 +97,7 @@ def curves(stage):
         for actual, want in zip(episode['components'],expected):
             if actual!=want:raise SystemExit(f'Reward/telemetry mismatch in game {game["game"]}: {actual} != {want}')
             checks+=1
-    summary=dict(reward_telemetry_checks=dict(passed=checks,total=checks),stage=stage,blocks=len(history),completed_episodes=len(episodes),training_minutes=history[-1]['training_seconds']/60,last_learning=history[-1]['learning'],component_totals={k:sum(e['components'][i] for e in episodes)for i,k in enumerate(NAMES)})
+    summary=dict(total_decisions=history[-1].get("total_decisions"),pregame_deaths=history[-1].get("pregame_deaths"),pregame_death_matches=history[-1].get("pregame_death_matches"),reward_telemetry_checks=dict(passed=checks,total=checks),stage=stage,blocks=len(history),completed_episodes=len(episodes),training_minutes=history[-1]['training_seconds']/60,last_learning=history[-1]['learning'],component_totals={k:sum(e['components'][i] for e in episodes)for i,k in enumerate(NAMES)})
     save(OUT/f'{stage}-summary.json',summary)
 
 if __name__=='__main__':
