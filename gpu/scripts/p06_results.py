@@ -62,7 +62,8 @@ def main():
         with (a.output/file).open('w',newline='') as f:
             w=csv.DictWriter(f,fieldnames=list(items[0]));w.writeheader();w.writerows(items)
     commands=read(a.root/'commands.json')
-    (a.output/'experiment-commands.json').write_text(json.dumps(commands,ensure_ascii=False,indent=2),encoding='utf-8')
+    review_commands=[{k:v for k,v in row.items() if k!='minutes' or row['kind'] in ('collection','training','evaluation')} for row in commands]
+    (a.output/'experiment-commands.json').write_text(json.dumps(review_commands,ensure_ascii=False,indent=2),encoding='utf-8')
     lines=['| Модель | Выбор | Сторона | LH / матчи | Deny / матчи | Смерти / матчи | До 120 с / матчи | (LH+deny) / циклы |','| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |']
     for r in rows:lines.append(f"| {r['model']} | {r['mode']} | {r['side']} | {r['lh']}/{r['matches']} | {r['deny']}/{r['matches']} | {r['deaths']}/{r['matches']} | {r['early_deaths']}/{r['matches']} | {r['conversion_numerator']}/{r['cycles']} |")
     lines+=['','| Модель | Сторона validation | ATTACK recall | ATTACK precision | Кадры |','| --- | --- | ---: | ---: | ---: |']
