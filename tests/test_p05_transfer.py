@@ -10,11 +10,35 @@ except ImportError:
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'gpu/scripts'))
-from evaluate_dota_teacher import prepare_bots, digest, CALLBACK, pending_at_terminal
+from evaluate_dota_teacher import prepare_bots, digest, CALLBACK, pending_at_terminal, admitted_result
 from p05_results import summarize
 
 
 class P05TransferTests(unittest.TestCase):
+    def test_censoring_preserves_raw_record_and_excludes_pending_command(self):
+        from unittest.mock import patch
+        from sf_duel.protos.duel_pb2 import Record
+        raw=dict(time=638.8,reason='death',outcome={'reason':'death'},
+                 sides={'2':{'last_hits':12,'denies':3},'3':{'last_hits':9,'denies':2}})
+        decision=Record();decision.decision.team=3;decision.decision.sequence=1
+        decision.decision.observed_tick=15000;decision.decision.execute_tick=15007
+        decision.decision.observed_dota_time=410
+        ack=Record();ack.execution.team=3;ack.execution.sequence=1;ack.execution.tick=15007;ack.execution.accepted=True
+        pending=Record();pending.decision.team=3;pending.decision.sequence=2
+        pending.decision.observed_tick=20696;pending.decision.execute_tick=20703
+        pending.decision.observed_dota_time=599.8667
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);path=root/'duel-result.json';path.write_text(json.dumps(raw));before=path.read_bytes()
+            (root/'dota.log').write_text('\n'.join('SF_P05_HERO|'+json.dumps(dict(team=t,time=600,lh=6,deny=1)) for t in (2,3)))
+            with patch('sf_duel.native_data.records',return_value=iter([decision,ack,pending])):
+                result=admitted_result(root,3,600)
+            self.assertEqual((result['time'],result['reason'],result['outcome']),(600,'timeout',None))
+            self.assertEqual(result['sides']['3']['last_hits'],6)
+            self.assertEqual(result['sides']['3']['checked_before_terminal'],1)
+            self.assertEqual(result['sides']['3']['unacknowledged'],0)
+            self.assertEqual(result['sides']['3']['terminal_censored_commands'],1)
+            self.assertEqual(path.read_bytes(),before)
+
     @unittest.skipIf(LuaRuntime is None,'CPU Lua 5.1 runtime required (lupa)')
     def test_lua_teacher_sends_exactly_one_native_timeout_vote(self):
         lua=LuaRuntime(unpack_returned_tuples=True)

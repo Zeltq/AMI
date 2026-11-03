@@ -39,6 +39,18 @@
       "command": "python -m unittest discover -s tests -p test_p05_capture.py -v",
       "passed": 1,
       "total": 1
+    },
+    {
+      "command": "python -m unittest discover -s tests -p test_p05_transfer.py -v",
+      "passed": 6,
+      "total": 6
+    },
+    {
+      "command": "python -m unittest discover -s tests -v",
+      "passed": 170,
+      "total": 170,
+      "environment": "PYTHONPATH=src;tests;C:/AMI/tools/lua_test_runtime",
+      "log": "C:/AMI/runs/p05/python-tests-final.log"
     }
   ],
   "smoke": {
