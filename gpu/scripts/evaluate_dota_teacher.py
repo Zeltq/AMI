@@ -13,6 +13,7 @@ import json
 import msvcrt
 import os
 from pathlib import Path
+from queue import Queue, Empty
 import shutil
 import subprocess
 import sys
@@ -260,9 +261,14 @@ def main():
                 while (args.run/f'service-before-resume-{suffix}').exists():suffix+=1
                 (args.run/'service').rename(args.run/f'service-before-resume-{suffix}')
             with policy_service(args.checkpoint,args.run,cfg,[],record=False,inference_device='cpu',selection='sampling',inference_host='windows'):
+                pending=Queue()
+                completed={r['index'] for r in results}
+                for index in range(args.matches):
+                    if index not in completed:pending.put(index)
                 def worker(slot):
-                    for index in range(args.workers.index(slot),args.matches,len(args.workers)):
-                        if any(r['index']==index for r in results):continue
+                    while True:
+                        try:index=pending.get_nowait()
+                        except Empty:return
                         results.append(play(args,index,slot,active))
                 with ThreadPoolExecutor(max_workers=len(args.workers)) as pool:
                     futures=[pool.submit(worker,slot) for slot in args.workers]
