@@ -19,15 +19,15 @@ fn store_signal(input:&[f32],output:&mut [f32],step:usize,actors:usize){
     if i<actors*SIGNALS {let a=i/SIGNALS;let f=i%SIGNALS;output[(a*HORIZON+step)*SIGNALS+f]=input[i];}
 }
 #[cube(launch)]
-fn advantages(signals:&[f32],bootstrap:&[f32],advantages:&mut [f32],returns:&mut [f32],actors:usize){
+fn advantages(signals:&[f32],bootstrap:&[f32],advantages:&mut [f32],returns:&mut [f32],actors:usize,gamma:f32,lambda:f32){
     let a=ABSOLUTE_POS;
     if a<actors {
         let mut next=bootstrap[a];let mut carry=(0.0f32).runtime();
         for reverse in 0..HORIZON {
             let t=HORIZON-1-reverse;let p=(a*HORIZON+t)*SIGNALS;
             let alive=1.0f32-signals[p+9];let value=signals[p+7];
-            let delta=signals[p+8]+next*alive-value;
-            carry=delta+alive*carry;
+            let delta=signals[p+8]+gamma*next*alive-value;
+            carry=delta+gamma*lambda*alive*carry;
             advantages[a*HORIZON+t]=carry;returns[a*HORIZON+t]=carry+value;next=value;
         }
     }
@@ -54,7 +54,7 @@ impl Experience {
     pub fn new_ggd_v3(actors:usize,d:&burn::tensor::Device)->Self {
         Self::with_width(actors,crate::timing_observe::WIDTH,32,d)
     }
-    fn with_width(actors:usize,width:usize,shard_size:usize,d:&burn::tensor::Device)->Self {
+    pub(crate) fn with_width(actors:usize,width:usize,shard_size:usize,d:&burn::tensor::Device)->Self {
         // Vulkan drivers can reject a single multi-gigabyte storage buffer even
         // when total free VRAM suffices. Shards stay on the same GPU and retain
         // complete recurrent sequences; no observation is staged on the host.
@@ -75,10 +75,13 @@ impl Experience {
     }
     pub fn signals(&self)->Tensor<3>{tensor(self.signals.clone())}
     pub fn gae(&self,bootstrap:Tensor<1>)->(Tensor<2>,Tensor<2>){
+        self.gae_discounted(bootstrap,1.,1.)
+    }
+    pub fn gae_discounted(&self,bootstrap:Tensor<1>,gamma:f32,lambda:f32)->(Tensor<2>,Tensor<2>){
         let bootstrap=primitive(bootstrap);let d=crate::runtime::tensor::<1>(bootstrap.clone()).device();
         let adv=primitive(Tensor::<2>::zeros([self.actors,HORIZON],&d));let ret=primitive(Tensor::<2>::zeros([self.actors,HORIZON],&d));
         advantages::launch(&self.signals.client,CubeCount::Static(self.actors.div_ceil(64) as u32,1,1),CubeDim::new_1d(64),
-            argument(&self.signals),argument(&bootstrap),argument(&adv),argument(&ret),self.actors);
+            argument(&self.signals),argument(&bootstrap),argument(&adv),argument(&ret),self.actors,gamma,lambda);
         (tensor(adv),tensor(ret))
     }
 }
