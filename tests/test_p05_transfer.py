@@ -11,11 +11,19 @@ except ImportError:
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'gpu/scripts'))
 from evaluate_dota_teacher import prepare_bots, digest, CALLBACK, pending_at_terminal, admitted_result
-from p05_results import summarize
+from p05_results import summarize, terminal_deaths
 from p05_finish_timeout import timeout_vote
 
 
 class P05TransferTests(unittest.TestCase):
+    def test_death_callback_one_tick_after_native_end_is_not_lost(self):
+        events=[dict(time=518.43334960938,deaths=1)]
+        self.assertEqual(terminal_deaths(events,518.4000244140625,'death'),
+                         [dict(time=518.4000244140625,deaths=1)])
+        self.assertEqual(terminal_deaths([dict(time=600.0333,deaths=1)],600,'timeout'),[])
+        self.assertEqual(terminal_deaths([dict(time=638.7333,deaths=1)],600,'timeout'),[])
+        self.assertEqual(events[0]['time'],518.43334960938)
+
     def test_legacy_timeout_repair_requires_both_terminal_evidence_sources(self):
         hero='SF_P05_HERO|'+json.dumps(dict(team=2,time=600,lh=61))
         native='SF_NATIVE_END|3|600|timeout|6'

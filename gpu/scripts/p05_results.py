@@ -24,6 +24,14 @@ def distribution(values,denominator):
                 min=min(present) if present else None,max=max(present) if present else None)
 
 
+def terminal_deaths(events,end,reason):
+    # Native scoreboard can end the game one tick before the next Lua Think
+    # reports the same death. Allow that callback delay only for a death end;
+    # never include a death after the requested timeout horizon.
+    tolerance=1/30+.001 if reason=='death' else .001
+    return [{**v,'time':min(v['time'],end)} for v in events if v['time']<=end+tolerance]
+
+
 def summarize(rows):
     result={}
     for team in (2,3):
@@ -80,7 +88,7 @@ def dota_match(match):
         tower=next((u for u in r.observation.units if u.name==name),None)
         if own.is_alive and tower:positions.append(math.hypot(own.location.x-tower.location.x,own.location.y-tower.location.y))
     samples=[v for v in samples if v['time']<=end+.001]
-    deaths=[v for v in deaths if v['time']<=end+.001]
+    deaths=terminal_deaths(deaths,end,match['result']['reason'])
     if mid is not None and mid>end:mid=None
     s=match['result']['sides'][str(team)]
     return dict(index=match['index'],team=team,lh=s['last_hits'],deny=s['denies'],
