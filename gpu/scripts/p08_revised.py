@@ -60,6 +60,13 @@ def run_stage(name,cmd,limit,allow_failure=False):
     if history:
         decisions=sum(h['learning']['valid_decisions']for h in history)
         record.update(learner_decisions=decisions,collection_decisions_per_second=decisions/sum(h['collection_seconds']for h in history),learner_decisions_per_second=decisions/sum(h['collection_seconds']+h['optimization_seconds']for h in history))
+    if(root/'provenance.json').exists():record['provenance']=read(root/'provenance.json')
+    if(root/'config.json').exists():record['config']=read(root/'config.json')
+    if len(history)>100:
+        files=[]
+        for start in range(0,len(history),100):
+            filename=f'{name}-history-{start//100:03}.json';save(REPORT/filename,history[start:start+100]);files.append(filename)
+        record['history_files']=files;record['history']=[]
     if(root/'report.json').exists():
         import p08_results
         record['evaluation']=p08_results.evaluation(root/'report.json')
