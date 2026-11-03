@@ -8,6 +8,7 @@ from sf_duel.model import Policy
 from sf_duel.observations import packed_tensors
 from ggd_dataset import read_block,decode
 from weights import rust_name,write_bundle
+from dagger_data import eligible,mixed_batches
 
 def local_path(path):
     text=str(path).replace('\\','/')
@@ -50,15 +51,27 @@ def evaluate_epoch(model,checkpoint,out,epoch,config,metadata):
     optimizer_memory='model/optimizer retained; inactive GPU allocations released before native evaluation'
     torch.cuda.synchronize();gc.collect();torch.cuda.empty_cache()
     for mode in config.get('modes',['teacher','mirror']):
-        target=directory/f'vs-{mode}';args=[str(executable),'evaluate-ggd',native_path(engine,executable),native_path(directory/'weights',executable),native_path(target,executable),'--matches',str(config.get('matches',32)),'--seconds',str(config.get('seconds',600)),'--mode',mode,'--seed',str(config.get('seed',20261103))]
+        target=directory/f'vs-{mode}';args=[str(executable),'evaluate-ggd',native_path(engine,executable),native_path(directory/'weights',executable),native_path(target,executable),'--matches',str(config.get('matches',32)),'--seconds',str(config.get('seconds',600)),'--mode',mode,'--seed',str(config.get('seed',20261103)),'--sampling']
         status={'stage':'gameplay_evaluation','epoch':epoch,'mode':mode,'command':args,'report':str(target/'report.json'),'gpu_memory':optimizer_memory}
         (out/'status.json').write_text(json.dumps(status,indent=2));print(json.dumps(status),flush=True)
         with (directory/f'vs-{mode}.log').open('w') as log:subprocess.run(args,cwd=ROOT,stdout=log,stderr=subprocess.STDOUT,check=True)
         report=json.loads((target/'report.json').read_text())
         if not report['complete']:raise RuntimeError('Gameplay evaluation interrupted before its configured horizon')
-        results[mode]={'report':str(target/'report.json'),'summary':report['summary'],'wall_seconds':report['wall_seconds']}
+        results[mode]={'report':str(target/'report.json'),'summary':report['summary'],'wall_seconds':report['wall_seconds'],'selection_score':gameplay_score(report)}
         print(json.dumps({'epoch':epoch,'mode':mode,'gameplay':report['summary']}),flush=True)
     return results
+
+def gameplay_score(report):
+    sides=[s for g in report['per_match'] for s in g['sides'] if s['controller']=='GGD']
+    if not report['complete'] or not sides:raise ValueError('Completed learner evaluation required')
+    return (sum(s['first_death_game_seconds'] is not None and s['first_death_game_seconds']<120 for s in sides),
+            -sum(s['lh']+s['deny'] for s in sides))
+
+
+def selection_score(row):
+    # No NLL fallback: validation remains diagnostic when gameplay is disabled.
+    return tuple(row['gameplay']['teacher']['selection_score']) if 'teacher' in row.get('gameplay',{}) and 'selection_score' in row['gameplay']['teacher'] else (math.inf,math.inf)
+
 
 def write_epoch_csv(out,history):
     rows=[]
@@ -93,16 +106,16 @@ def batches(root,manifest,stage,batch_size,seed):
     for entry in files:
         if not any(split(a)==stage for a in entry['actors']):continue
         header,obs,signals=read_block(root/entry['file'],entry['sha256'])
-        ids=[i for i,a in enumerate(header['actors']) if split(a)==stage and (signals[i,:,11]>.5).any()]
+        ids=[i for i,a in enumerate(header['actors']) if eligible(a,stage,header['source']) and (signals[i,:,11]>.5).any()]
         rng.shuffle(ids)
         for begin in range(0,len(ids),batch_size):
             chosen=ids[begin:begin+batch_size];arrays=decode(header,obs[chosen],signals[chosen]);labels=arrays.pop('labels');valid=arrays.pop('loss_valid')
             yield arrays,labels,valid,len(chosen),signals[chosen,:,10].copy()
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('config');p.add_argument('output');p.add_argument('--max-updates',type=int);p.add_argument('--resume');p.add_argument('--check-resume',action='store_true');p.add_argument('--zero-previous',action='store_true');a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('config');p.add_argument('output');p.add_argument('--max-updates',type=int);p.add_argument('--resume');p.add_argument('--initialize');p.add_argument('--updates',type=int);p.add_argument('--check-resume',action='store_true');p.add_argument('--zero-previous',action='store_true');a=p.parse_args()
     if a.max_updates is not None and a.max_updates<=0:raise ValueError('Positive smoke update limit required')
-    config=json.loads(Path(a.config).read_text());allowed={'dataset','epochs','batch_sequences','learning_rate','seed','gradient_norm','attack_weight','evaluation','zero_previous'}
+    config=json.loads(Path(a.config).read_text());allowed={'dataset','epochs','batch_sequences','learning_rate','seed','gradient_norm','attack_weight','evaluation','zero_previous','dagger'}
     if set(config)-allowed:raise ValueError('Unknown IL configuration keys')
     config['zero_previous']=bool(a.zero_previous or config.get('zero_previous',False))
     evaluation=config.get('evaluation')
@@ -117,6 +130,13 @@ def main():
     if manifest['partial'] and not a.max_updates:raise ValueError('Partial dataset is allowed only in a smoke run')
     dataset_hash=hashlib.sha256((root/'dataset.json').read_bytes()).hexdigest()
     resumed=load_resume(a.resume,config,dataset_hash) if a.resume else None
+    if a.resume and a.initialize:raise ValueError('Choose resume or initialize')
+    initialized=torch.load(resolved(a.initialize),map_location='cpu',weights_only=False) if a.initialize else None
+    if initialized:
+        if initialized.get('spec_version')!=2 or initialized['config'].get('zero_previous',False):raise ValueError('DAgger initialization requires GGD with previous')
+        for key in ('batch_sequences','learning_rate','gradient_norm','attack_weight'):
+            if initialized['config'].get(key)!=config.get(key):raise ValueError('Initialization configuration differs: '+key)
+    if a.updates is not None and a.updates<=0:raise ValueError('Positive update budget required')
     if a.check_resume:
         if resumed is None:raise ValueError('--check-resume requires --resume')
         print(json.dumps({'passed':True,'check':'CPU checkpoint inspection; no training started','completed_epochs':resumed['epoch'],'next_epoch':resumed['epoch']+1,'target_epochs':config.get('epochs',5),'optimizer_steps':resumed['optimizer_steps'],'optimizer_states':len(resumed['optimizer']['state']),'dataset_sha256':dataset_hash}));return
@@ -131,13 +151,16 @@ def main():
     model=Policy(combat_inputs=True).cuda();optimizer=torch.optim.AdamW(model.parameters(),lr=lr,weight_decay=1e-5)
     if resumed:
         model.load_state_dict(resumed['state_dict'],strict=True);optimizer.load_state_dict(resumed['optimizer'])
+    if initialized:
+        model.load_state_dict(initialized['state_dict'],strict=True);optimizer.load_state_dict(initialized['optimizer'])
     initial_actor=model.action_head.weight.detach().clone();initial_value=[v.detach().clone() for v in model.value_head.parameters()]
     metadata={**config,'family':'GGD','model_name':name,'teacher_policy_sha256':manifest['teacher_sha256'],'observation_profile':'ggd-v2','initialization':'fresh random weights; no MIA checkpoint or optimizer loaded','device':torch.cuda.get_device_name(0),'torch':torch.__version__,'hip':torch.version.hip,'parameters':sum(p.numel() for p in model.parameters()),'dataset_sha256':hashlib.sha256((root/'dataset.json').read_bytes()).hexdigest()}
+    if initialized:metadata.update(initialization='fine-tune weights and AdamW state',initial_checkpoint=str(a.initialize),initial_optimizer_steps=initialized['optimizer_steps'])
     if resumed:metadata.update(resume_checkpoint=str(a.resume),resumed_after_epoch=resumed['epoch'],initialization=resumed['config']['initialization'])
     (out/'config.json').write_text(json.dumps(metadata,indent=2))
-    started=time.monotonic();updates=resumed['optimizer_steps'] if resumed else 0;history=resumed['history'] if resumed else [];best=min((r['validation']['nll'] for r in history),default=math.inf);stopped=False;first_gradient=None;step_times=[]
-    if resumed:
-        best_epoch=min(history,key=lambda r:r['validation']['nll'])['epoch'];source=resolved(a.resume).parent/f'epoch-{best_epoch:03d}.pt'
+    started=time.monotonic();updates=resumed['optimizer_steps'] if resumed else 0;history=resumed['history'] if resumed else [];best=min((selection_score(r) for r in history),default=(math.inf,math.inf));stopped=False;first_gradient=None;step_times=[]
+    if resumed and best!=(math.inf,math.inf):
+        best_epoch=min(history,key=selection_score)['epoch'];source=resolved(a.resume).parent/f'epoch-{best_epoch:03d}.pt'
         if best_epoch==resumed['epoch']:torch.save(resumed,out/'best.pt')
         elif source.exists():shutil.copy2(source,out/'best.pt')
         else:raise FileNotFoundError('Historical best checkpoint missing: '+str(source))
@@ -146,7 +169,9 @@ def main():
         row={'epoch':epoch+1}
         for stage in ('train','validation'):
             training=stage=='train';model.train(training);total_nll=0.;frames=0;correct=0;count=0;tp=0;pred_attacks=0;label_attacks=0;targets_correct=0
-            for arrays,labels,valid,n,resets in batches(root,manifest,stage,batch_size,seed+epoch):
+            iterator=mixed_batches(root,manifest,batch_size,seed+epoch) if training and config.get('dagger') else batches(root,manifest,stage,batch_size,seed+epoch)
+            for arrays,labels,valid,n,resets in iterator:
+                if training and a.updates and updates>=a.updates:break
                 if training and a.max_updates and updates>=a.max_updates:stopped=True;break
                 if (out/'stop.json').exists():stopped=True;break
                 tick=time.perf_counter();b=packed_tensors(arrays,'cuda');y=torch.as_tensor(labels,device='cuda');mask=torch.as_tensor(valid,device='cuda')
@@ -176,19 +201,19 @@ def main():
             if training and a.max_updates and updates>=a.max_updates:stopped=True
             row[stage]={'nll':total_nll/max(1,frames),'action_accuracy':correct/max(1,frames),'action_correct':correct,'frames':frames,'batches':count,'attack_precision':{'numerator':tp,'denominator':pred_attacks},'attack_recall':{'numerator':tp,'denominator':label_attacks},'conditional_attack_target_accuracy':{'numerator':targets_correct,'denominator':label_attacks}}
         history.append(row)
-        checkpoint={'state_dict':model.state_dict(),'optimizer':optimizer.state_dict(),'config':metadata,'epoch':epoch+1,'history':history,'spec_version':2,'gpu_pipeline':{'recurrent_reset_interval':128,'observation_storage':'f16','observation_spec':2,'observation_profile':'ggd-v2'},'optimizer_steps':updates}
+        checkpoint={'state_dict':model.state_dict(),'optimizer':optimizer.state_dict(),'config':metadata,'epoch':epoch+1,'history':history,'spec_version':2,'gpu_pipeline':{'recurrent_reset_interval':128,'observation_storage':'f16','observation_spec':2,'observation_profile':'ggd-v2'},'optimizer_steps':updates+(initialized['optimizer_steps'] if initialized else 0)}
         torch.save(checkpoint,out/f'epoch-{epoch+1:03d}.pt')
         if evaluation:row['gameplay']=evaluate_epoch(model,out/f'epoch-{epoch+1:03d}.pt',out,epoch+1,evaluation,metadata)
         torch.save(checkpoint,out/f'epoch-{epoch+1:03d}.pt')
         torch.save(checkpoint,out/'last.pt')
-        if row['validation']['nll']<best:best=row['validation']['nll'];torch.save(checkpoint,out/'best.pt')
+        if selection_score(row)<best:best=selection_score(row);torch.save(checkpoint,out/'best.pt')
         (out/'history.json').write_text(json.dumps(history,indent=2))
         write_epoch_csv(out,history)
         (out/f'epoch-{epoch+1:03d}' ).mkdir(exist_ok=True);(out/f'epoch-{epoch+1:03d}'/'report.json').write_text(json.dumps(row,indent=2))
-        if stopped:break
+        if stopped or (a.updates and updates>=a.updates):break
     actor_delta=float((model.action_head.weight.detach()-initial_actor).norm());value_delta=max(float((p.detach()-v).abs().max()) for p,v in zip(model.value_head.parameters(),initial_value))
     if not actor_delta>0 or value_delta!=0:raise RuntimeError(f'Invalid parameter updates: actor={actor_delta}, value={value_delta}')
-    result={'family':'GGD','model_name':name,'complete':not stopped and not a.max_updates,'initialization':metadata['initialization'],'device':metadata['device'],'runtime':'PyTorch ROCm' if torch.version.hip else 'PyTorch CUDA','updates':updates,'epochs':len(history),'wall_seconds':time.monotonic()-started,'first_action_head_gradient_l1':first_gradient,'actor_delta':actor_delta,'value_head_delta':value_delta,'best_validation_nll':best,'mean_batch_seconds_after_first':sum(step_times[1:])/max(1,len(step_times)-1),'batch_sequences':batch_size,'sequence_length':128,'dataset_sha256':metadata['dataset_sha256'],'teacher_sha256':manifest['teacher_sha256'],'checkpoint':str(out/'best.pt'),'test_split_used':False,'history':history}
+    result={'family':'GGD','model_name':name,'complete':not stopped and not a.max_updates,'initialization':metadata['initialization'],'device':metadata['device'],'runtime':'PyTorch ROCm' if torch.version.hip else 'PyTorch CUDA','updates':updates,'epochs':len(history),'wall_seconds':time.monotonic()-started,'first_action_head_gradient_l1':first_gradient,'actor_delta':actor_delta,'value_head_delta':value_delta,'best_validation_nll':min(r['validation']['nll'] for r in history),'best_gameplay_score':best if all(math.isfinite(x) for x in best) else None,'mean_batch_seconds_after_first':sum(step_times[1:])/max(1,len(step_times)-1),'batch_sequences':batch_size,'sequence_length':128,'dataset_sha256':metadata['dataset_sha256'],'teacher_sha256':manifest['teacher_sha256'],'checkpoint':str(out/('best.pt' if (out/'best.pt').exists() else 'last.pt')),'test_split_used':False,'history':history}
     (out/'result.json').write_text(json.dumps(result,indent=2));print(json.dumps(result),flush=True)
 
 if __name__=='__main__':main()

@@ -1,0 +1,32 @@
+[
+  {
+    "stage": "parity-teacher",
+    "argv": [
+      "C:/AMI/runs/p02/sf-duel-gpu.exe",
+      "collect-teacher",
+      "C:\\AMI\\runs\\p02\\experiment\\parity-teacher-attempt-1\\input.json",
+      "C:\\AMI\\runs\\p02\\experiment\\parity-teacher-attempt-1"
+    ],
+    "command": "C:/AMI/runs/p02/sf-duel-gpu.exe collect-teacher C:\\AMI\\runs\\p02\\experiment\\parity-teacher-attempt-1\\input.json C:\\AMI\\runs\\p02\\experiment\\parity-teacher-attempt-1",
+    "output": "C:\\AMI\\runs\\p02\\experiment\\parity-teacher-attempt-1",
+    "started_utc": "2026-11-03T02:08:38.506851+00:00",
+    "pid": 13756,
+    "exit_code": 0,
+    "minutes": 2.841491791666097
+  },
+  {
+    "stage": "parity-dagger",
+    "argv": [
+      "C:/AMI/runs/p02/sf-duel-gpu.exe",
+      "collect-dagger",
+      "C:\\AMI\\runs\\p02\\experiment\\parity-dagger-attempt-1\\input.json",
+      "C:\\AMI\\runs\\p02\\experiment\\parity-dagger-attempt-1"
+    ],
+    "command": "C:/AMI/runs/p02/sf-duel-gpu.exe collect-dagger C:\\AMI\\runs\\p02\\experiment\\parity-dagger-attempt-1\\input.json C:\\AMI\\runs\\p02\\experiment\\parity-dagger-attempt-1",
+    "output": "C:\\AMI\\runs\\p02\\experiment\\parity-dagger-attempt-1",
+    "started_utc": "2026-11-03T02:11:29.002558+00:00",
+    "pid": 27576,
+    "exit_code": 0,
+    "minutes": 2.9239496416664528
+  }
+]
