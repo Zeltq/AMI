@@ -13,7 +13,8 @@ def save(path,value):
 def pilot_status(record):
     run=(ROOT/'runs/p01').resolve();pilot=run.parent/'pilot-status.json';status=json.loads(pilot.read_text(encoding='utf-8'))
     jobs=[json.loads(p.read_text(encoding='utf-8')) for p in run.glob('*/job.json')]
-    status['P01']={**record,'background_work_remaining':any(j['stage']=='running' for j in jobs),'run':str(run),'workspace':str(ROOT),'jobs':jobs}
+    active=[j for j in jobs if j['stage']=='running'];current=max(active,key=lambda j:j['started_utc']) if active else record
+    status['P01']={**current,'background_work_remaining':bool(active),'run':str(run),'workspace':str(ROOT),'jobs':jobs,'last_event':record,'heartbeat_automation':'p01-ggd'}
     save(pilot,status)
 
 def main():
