@@ -12,9 +12,18 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'gpu/scripts'))
 from evaluate_dota_teacher import prepare_bots, digest, CALLBACK, pending_at_terminal, admitted_result
 from p05_results import summarize
+from p05_finish_timeout import timeout_vote
 
 
 class P05TransferTests(unittest.TestCase):
+    def test_legacy_timeout_repair_requires_both_terminal_evidence_sources(self):
+        hero='SF_P05_HERO|'+json.dumps(dict(team=2,time=600,lh=61))
+        native='SF_NATIVE_END|3|600|timeout|6'
+        self.assertIsNone(timeout_vote(hero))
+        self.assertIsNone(timeout_vote(native))
+        self.assertIsNone(timeout_vote(native+'\n'+hero.replace('600','599')))
+        self.assertEqual(timeout_vote(native+'\n'+hero),'SF_NATIVE_END|2|600|timeout|61')
+
     def test_censoring_preserves_raw_record_and_excludes_pending_command(self):
         from unittest.mock import patch
         from sf_duel.protos.duel_pb2 import Record
