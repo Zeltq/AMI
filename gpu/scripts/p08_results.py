@@ -10,7 +10,7 @@ OUT = REPO / 'reports/P08'
 NAMES = ['lh','deny','opponent_lh','opponent_deny','death','opponent_death','tower_loss','tower_kill','timeout_result']
 
 def read(path): return json.loads(path.read_text(encoding='utf-8-sig'))
-def save(path, data): path.write_text(json.dumps(data, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
+def save(path, data): path.write_bytes((json.dumps(data, ensure_ascii=False, indent=2)+'\n').encode('utf-8'))
 def lines(path): return [json.loads(x) for x in path.read_text(encoding='utf-8-sig').splitlines() if x.strip()] if path.exists() else []
 
 def verify(stage):
@@ -61,7 +61,7 @@ def curves(stage):
         for i,name in enumerate(NAMES):row[f'partial_batch_{name}']=h['components_sum'][i]
         rows.append(row)
     with (OUT/f'{stage}-updates.csv').open('w',newline='',encoding='utf-8')as f:
-        w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
+        w=csv.DictWriter(f,fieldnames=list(rows[0]),lineterminator='\n');w.writeheader();w.writerows(rows)
     grouped={}
     for e in episodes:grouped.setdefault(e['block'],[]).append(e)
     episode_rows=[]
@@ -71,7 +71,7 @@ def curves(stage):
         row['own_lh']=row['lh'];row['own_deny']=row['deny']*2;episode_rows.append(row)
     if episode_rows:
         with (OUT/f'{stage}-episodes.csv').open('w',newline='',encoding='utf-8')as f:
-            w=csv.DictWriter(f,fieldnames=list(episode_rows[0]));w.writeheader();w.writerows(episode_rows)
+            w=csv.DictWriter(f,fieldnames=list(episode_rows[0]),lineterminator='\n');w.writeheader();w.writerows(episode_rows)
     panels=[('PPO diagnostics',rows,['rollout_kl_m2','old_policy_kl','clip_fraction']),('Critic',rows,['value_loss','explained_variance']),('Entropy / anchor coefficient',rows,['rollout_entropy','kl_coefficient']),('Mean episode reward',episode_rows,['reward']),('Farm per episode',episode_rows,['own_lh','own_deny']),('Reward components per episode',episode_rows,NAMES)]
     import matplotlib
     matplotlib.use('Agg')
