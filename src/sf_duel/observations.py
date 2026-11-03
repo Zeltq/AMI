@@ -58,7 +58,9 @@ def visible_units(snapshot,combat_inputs=False):
     return own,enemy,units
 
 
-def encode(snapshot, previous=None,combat_inputs=False,combat_memory=None):
+def encode(snapshot, previous=None,combat_inputs=False,combat_memory=None,observation_profile=None):
+    if observation_profile not in (None,'ggd-v2','ggd-v3'):raise ValueError('Unknown observation profile')
+    if observation_profile:combat_inputs=True
     own,enemy,units=visible_units(snapshot,combat_inputs)
     towers = snapshot.get('towers', [])
     if len(towers) != 4:
@@ -142,6 +144,14 @@ def encode(snapshot, previous=None,combat_inputs=False,combat_memory=None):
     if combat_inputs:
         from .combat_observations import CombatMemory,encode_combat
         arrays.update(encode_combat(snapshot,own,enemy,units,tower_rows,projectiles,combat_memory or CombatMemory()))
+    if observation_profile=='ggd-v3':
+        from .timing_observations import timing_rows
+        for group,key,records in [('heroes','hero_combat',[own,enemy]),('creeps','creep_combat',units),('towers','tower_combat',tower_rows)]:
+            arrays[key]=np.concatenate((arrays[key],timing_rows(records)),-1)
+            cycle=list(UNIT_FIELDS).index('attack_cycle')
+            for i,r in enumerate(records):
+                if not r.get('attack_animation') or r.get('creep_siege') or 'tower2' in r.get('name',''):
+                    arrays[group][i,cycle]=arrays[group][i,len(UNIT_FIELDS)+cycle]=0
     return Encoded(arrays,snapshot,refs,prev)
 
 def numpy_batch(rows):
@@ -199,7 +209,7 @@ def batch(observations,device='cpu'):
     return {k:torch.as_tensor(v,device=device) for k,v in arrays.items()}
 
 
-def warmup_batch(n,device,combat_inputs=False):
+def warmup_batch(n,device,combat_inputs=False,timing_inputs=False):
     import torch
     sizes={'heroes':(2,2*len(UNIT_FIELDS)),'creeps':(16,2*len(UNIT_FIELDS)),
         'towers':(4,2*len(UNIT_FIELDS)),'trees':(32,2*len(TREE_FIELDS)),
@@ -209,6 +219,10 @@ def warmup_batch(n,device,combat_inputs=False):
     result={k:torch.zeros((n,*shape),device=device) for k,shape in sizes.items()}
     if combat_inputs:
         for key,count,fields in [('hero_combat',2,COMBAT_UNIT_FIELDS),('creep_combat',16,COMBAT_UNIT_FIELDS),('tower_combat',4,COMBAT_UNIT_FIELDS),('projectile_combat',16,COMBAT_PROJECTILE_FIELDS)]:result[key]=torch.zeros((n,count,2*len(fields)),device=device)
+    if timing_inputs:
+        from .timing_observations import TIMING_FIELDS
+        for key in ('hero_combat','creep_combat','tower_combat'):
+            old=result[key];result[key]=torch.cat((old,torch.zeros((*old.shape[:-1],2*len(TIMING_FIELDS)),device=device)),-1)
     sizes={'hero_valid':2,'creep_valid':16,'creep_ally':16,'tree_valid':32,'projectile_valid':16,
         'action_mask':len(Act),'buy_mask':len(BUYS),'item_mask':len(ITEMS),
         'attack_mask':55,'tree_mask':55,'tp_mask':55,'self_mask':55}

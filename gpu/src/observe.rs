@@ -326,12 +326,16 @@ impl Observed {
         let mask=|offset,len|cut(offset,len).greater_elem(0.5f32);
         let target_mask=|offset|Tensor::cat(vec![mask(offset,2+pc),
             mask(offset+2+CREEPS,4+pt),mask(offset+TARGETS-1,1)],1);
-        let extra=|offset,count,fields|if packed.dims()[1]==GGD_WIDTH {cut(offset,count*2*fields).reshape([n,count,2*fields])}else{Tensor::zeros([n,count,2*fields],&packed.device())};
+        let extra=|offset,count,fields|if packed.dims()[1]>=GGD_WIDTH {cut(offset,count*2*fields).reshape([n,count,2*fields])}else{Tensor::zeros([n,count,2*fields],&packed.device())};
+        let unit_extra=|slot,count| {
+            let combat=extra(COMBAT_UNIT_OFFSET+slot*2*COMBAT_UNIT_COUNT,count,COMBAT_UNIT_COUNT);
+            if packed.dims()[1]==crate::timing_observe::WIDTH {Tensor::cat(vec![combat,extra(crate::timing_observe::OFFSET+slot*2*crate::timing_observe::FIELDS,count,crate::timing_observe::FIELDS)],2)}else{combat}
+        };
         Observation {
-            combat_profile:packed.dims()[1]==GGD_WIDTH,
-            hero_combat:extra(COMBAT_UNIT_OFFSET,2,COMBAT_UNIT_COUNT),
-            creep_combat:extra(COMBAT_UNIT_OFFSET+2*2*COMBAT_UNIT_COUNT,pc,COMBAT_UNIT_COUNT),
-            tower_combat:extra(COMBAT_UNIT_OFFSET+(2+CREEPS)*2*COMBAT_UNIT_COUNT,4,COMBAT_UNIT_COUNT),
+            combat_profile:packed.dims()[1]>=GGD_WIDTH,
+            hero_combat:unit_extra(0,2),
+            creep_combat:unit_extra(2,pc),
+            tower_combat:unit_extra(2+CREEPS,4),
             projectile_combat:extra(COMBAT_PROJECTILE_OFFSET,pp,COMBAT_PROJECTILE_COUNT),
             heroes:cut(HERO_OFFSET,2*2*UNIT_COUNT).reshape([n,2,2*UNIT_COUNT]),
             creeps:cut(CREEP_OFFSET,pc*2*UNIT_COUNT).reshape([n,pc,2*UNIT_COUNT]),

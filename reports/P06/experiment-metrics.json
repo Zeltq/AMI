@@ -1,0 +1,942 @@
+{
+  "dataset": {
+    "attack_decisions": 254109,
+    "blocks": 656,
+    "compressed_bytes": 6670711886,
+    "cpu_boundary": "compact FP16 snapshots every 128 decisions; bounded writer, no dropped samples",
+    "dataset": "C:\\AMI\\runs\\p06\\experiment\\dataset",
+    "decisions_per_second": 2088.4297325366692,
+    "disagreements": 0,
+    "family": "GGD",
+    "format_version": 3,
+    "games_recorded": 1024,
+    "games_requested": 1024,
+    "learner_decisions": 0,
+    "native_completed": 1024,
+    "partial": false,
+    "signal_fields_extra": {
+      "6": "teacher_executed",
+      "7": "learner_label_disagreement_all_six_fields",
+      "8": "learner_actor"
+    },
+    "teacher_executed": 0,
+    "test_games": 128,
+    "train_games": 768,
+    "valid_decisions": 10530098,
+    "validation_games": 128,
+    "wall_seconds": 5042.1126629
+  },
+  "models": {
+    "baseline": {
+      "config": {
+        "dataset": "C:/AMI/runs/p06/experiment/dataset",
+        "epochs": 2,
+        "batch_sequences": 8,
+        "learning_rate": 0.0001,
+        "seed": 20261102,
+        "gradient_norm": 1.0,
+        "attack_weight": 4.0,
+        "timing_honest": false,
+        "timing_oracle": false,
+        "zero_previous": false,
+        "family": "GGD",
+        "model_name": "GGD0",
+        "teacher_policy_sha256": "55b7f4ff5baef7aea24e706aaaca3e83fa049adca0bd63cee4203c6c23e08312",
+        "observation_profile": "ggd-v3",
+        "initialization": "fresh random weights; no MIA checkpoint or optimizer loaded",
+        "device": "AMD Radeon RX 9070 XT",
+        "torch": "2.14.1+rocm7.2",
+        "hip": "7.2.53211",
+        "parameters": 1150253,
+        "dataset_sha256": "798e923526a9902c8ed9a58fe27e3638cbc360d91ef41464b0755a434d3f1fe4",
+        "initial_weights_sha256": "cd82878608bf64722cbe24b3f2788d6007db84a9563f20ad0afee0e5efad3bcf"
+      },
+      "training": {
+        "family": "GGD",
+        "model_name": "GGD0",
+        "complete": true,
+        "initialization": "fresh random weights; no MIA checkpoint or optimizer loaded",
+        "device": "AMD Radeon RX 9070 XT",
+        "runtime": "PyTorch ROCm",
+        "updates": 15744,
+        "epochs": 2,
+        "wall_seconds": 2479.096581588,
+        "first_action_head_gradient_l1": 11.253735542297363,
+        "actor_delta": 4.528727054595947,
+        "value_head_delta": 0.0,
+        "best_validation_nll": 1.0049652233111526,
+        "best_gameplay_score": null,
+        "mean_batch_seconds_after_first": 0.057537468163945844,
+        "batch_sequences": 8,
+        "sequence_length": 128,
+        "dataset_sha256": "798e923526a9902c8ed9a58fe27e3638cbc360d91ef41464b0755a434d3f1fe4",
+        "teacher_sha256": "55b7f4ff5baef7aea24e706aaaca3e83fa049adca0bd63cee4203c6c23e08312",
+        "checkpoint": "/mnt/c/AMI/runs/p06/experiment/baseline/last.pt",
+        "test_split_used": false,
+        "history": [
+          {
+            "epoch": 1,
+            "train": {
+              "nll": 1.8518009049530622,
+              "action_accuracy": 0.8597752150409649,
+              "action_correct": 6782734,
+              "frames": 7888962,
+              "batches": 7872,
+              "attack_precision": {
+                "numerator": 19954,
+                "denominator": 81356
+              },
+              "attack_recall": {
+                "numerator": 19954,
+                "denominator": 190215
+              },
+              "conditional_attack_target_accuracy": {
+                "numerator": 174978,
+                "denominator": 190215
+              },
+              "attack_by_side": {
+                "radiant": {
+                  "frames": 3944481,
+                  "tp": 9559,
+                  "predicted": 38620,
+                  "labels": 91699
+                },
+                "dire": {
+                  "frames": 3944481,
+                  "tp": 10395,
+                  "predicted": 42736,
+                  "labels": 98516
+                }
+              }
+            },
+            "validation": {
+              "nll": 1.3501283795351946,
+              "action_accuracy": 0.9228678106229127,
+              "action_correct": 1218060,
+              "frames": 1319864,
+              "batches": 2624,
+              "attack_precision": {
+                "numerator": 10877,
+                "denominator": 35072
+              },
+              "attack_recall": {
+                "numerator": 10877,
+                "denominator": 31817
+              },
+              "conditional_attack_target_accuracy": {
+                "numerator": 30053,
+                "denominator": 31817
+              },
+              "attack_by_side": {
+                "radiant": {
+                  "frames": 659932,
+                  "tp": 5207,
+                  "predicted": 17208,
+                  "labels": 15274
+                },
+                "dire": {
+                  "frames": 659932,
+                  "tp": 5670,
+                  "predicted": 17864,
+                  "labels": 16543
+                }
+              }
+            }
+          },
+          {
+            "epoch": 2,
+            "train": {
+              "nll": 1.1656663773915623,
+              "action_accuracy": 0.9236371020674202,
+              "action_correct": 7286538,
+              "frames": 7888962,
+              "batches": 7872,
+              "attack_precision": {
+                "numerator": 103109,
+                "denominator": 325221
+              },
+              "attack_recall": {
+                "numerator": 103109,
+                "denominator": 190215
+              },
+              "conditional_attack_target_accuracy": {
+                "numerator": 181924,
+                "denominator": 190215
+              },
+              "attack_by_side": {
+                "radiant": {
+                  "frames": 3944481,
+                  "tp": 49158,
+                  "predicted": 153980,
+                  "labels": 91699
+                },
+                "dire": {
+                  "frames": 3944481,
+                  "tp": 53951,
+                  "predicted": 171241,
+                  "labels": 98516
+                }
+              }
+            },
+            "validation": {
+              "nll": 1.0049652233111526,
+              "action_accuracy": 0.9383239485280301,
+              "action_correct": 1238460,
+              "frames": 1319864,
+              "batches": 2624,
+              "attack_precision": {
+                "numerator": 13719,
+                "denominator": 31613
+              },
+              "attack_recall": {
+                "numerator": 13719,
+                "denominator": 31817
+              },
+              "conditional_attack_target_accuracy": {
+                "numerator": 30488,
+                "denominator": 31817
+              },
+              "attack_by_side": {
+                "radiant": {
+                  "frames": 659932,
+                  "tp": 6205,
+                  "predicted": 14279,
+                  "labels": 15274
+                },
+                "dire": {
+                  "frames": 659932,
+                  "tp": 7514,
+                  "predicted": 17334,
+                  "labels": 16543
+                }
+              }
+            }
+          }
+        ]
+      },
+      "checkpoint_sha256": "7793144593c6959623bc2894cfbf56ce3b0e2f7995c7828a756f89f1af7c795f"
+    },
+    "honest": {
+      "config": {
+        "dataset": "C:/AMI/runs/p06/experiment/dataset",
+        "epochs": 2,
+        "batch_sequences": 8,
+        "learning_rate": 0.0001,
+        "seed": 20261102,
+        "gradient_norm": 1.0,
+        "attack_weight": 4.0,
+        "timing_honest": true,
+        "timing_oracle": false,
+        "zero_previous": false,
+        "family": "GGD",
+        "model_name": "GGD0",
+        "teacher_policy_sha256": "55b7f4ff5baef7aea24e706aaaca3e83fa049adca0bd63cee4203c6c23e08312",
+        "observation_profile": "ggd-v3",
+        "initialization": "fresh random weights; no MIA checkpoint or optimizer loaded",
+        "device": "AMD Radeon RX 9070 XT",
+        "torch": "2.14.1+rocm7.2",
+        "hip": "7.2.53211",
+        "parameters": 1150253,
+        "dataset_sha256": "798e923526a9902c8ed9a58fe27e3638cbc360d91ef41464b0755a434d3f1fe4",
+        "initial_weights_sha256": "cd82878608bf64722cbe24b3f2788d6007db84a9563f20ad0afee0e5efad3bcf"
+      },
+      "training": {
+        "family": "GGD",
+        "model_name": "GGD0",
+        "complete": true,
+        "initialization": "fresh random weights; no MIA checkpoint or optimizer loaded",
+        "device": "AMD Radeon RX 9070 XT",
+        "runtime": "PyTorch ROCm",
+        "updates": 15744,
+        "epochs": 2,
+        "wall_seconds": 2450.468757536,
+        "first_action_head_gradient_l1": 11.278303146362305,
+        "actor_delta": 4.654384136199951,
+        "value_head_delta": 0.0,
+        "best_validation_nll": 1.0422174613797177,
+        "best_gameplay_score": null,
+        "mean_batch_seconds_after_first": 0.06304964561741742,
+        "batch_sequences": 8,
+        "sequence_length": 128,
+        "dataset_sha256": "798e923526a9902c8ed9a58fe27e3638cbc360d91ef41464b0755a434d3f1fe4",
+        "teacher_sha256": "55b7f4ff5baef7aea24e706aaaca3e83fa049adca0bd63cee4203c6c23e08312",
+        "checkpoint": "/mnt/c/AMI/runs/p06/experiment/honest/last.pt",
+        "test_split_used": false,
+        "history": [
+          {
+            "epoch": 1,
+            "train": {
+              "nll": 1.8300751810843836,
+              "action_accuracy": 0.8629221436229506,
+              "action_correct": 6807560,
+              "frames": 7888962,
+              "batches": 7872,
+              "attack_precision": {
+                "numerator": 27339,
+                "denominator": 108206
+              },
+              "attack_recall": {
+                "numerator": 27339,
+                "denominator": 190215
+              },
+              "conditional_attack_target_accuracy": {
+                "numerator": 174374,
+                "denominator": 190215
+              },
+              "attack_by_side": {
+                "radiant": {
+                  "frames": 3944481,
+                  "tp": 13013,
+                  "predicted": 50636,
+                  "labels": 91699
+                },
+                "dire": {
+                  "frames": 3944481,
+                  "tp": 14326,
+                  "predicted": 57570,
+                  "labels": 98516
+                }
+              }
+            },
+            "validation": {
+              "nll": 1.3768469968546189,
+              "action_accuracy": 0.9006753726141481,
+              "action_correct": 1188769,
+              "frames": 1319864,
+              "batches": 2624,
+              "attack_precision": {
+                "numerator": 20184,
+                "denominator": 88658
+              },
+              "attack_recall": {
+                "numerator": 20184,
+                "denominator": 31817
+              },
+              "conditional_attack_target_accuracy": {
+                "numerator": 29995,
+                "denominator": 31817
+              },
+              "attack_by_side": {
+                "radiant": {
+                  "frames": 659932,
+                  "tp": 9909,
+                  "predicted": 44870,
+                  "labels": 15274
+                },
+                "dire": {
+                  "frames": 659932,
+                  "tp": 10275,
+                  "predicted": 43788,
+                  "labels": 16543
+                }
+              }
+            }
+          },
+          {
+            "epoch": 2,
+            "train": {
+              "nll": 1.1688419646288404,
+              "action_accuracy": 0.9247345848541291,
+              "action_correct": 7295196,
+              "frames": 7888962,
+              "batches": 7872,
+              "attack_precision": {
+                "numerator": 105357,
+                "denominator": 329504
+              },
+              "attack_recall": {
+                "numerator": 105357,
+                "denominator": 190215
+              },
+              "conditional_attack_target_accuracy": {
+                "numerator": 181069,
+                "denominator": 190215
+              },
+              "attack_by_side": {
+                "radiant": {
+                  "frames": 3944481,
+                  "tp": 50397,
+                  "predicted": 157655,
+                  "labels": 91699
+                },
+                "dire": {
+                  "frames": 3944481,
+                  "tp": 54960,
+                  "predicted": 171849,
+                  "labels": 98516
+                }
+              }
+            },
+            "validation": {
+              "nll": 1.0422174613797177,
+              "action_accuracy": 0.9399832103913737,
+              "action_correct": 1240650,
+              "frames": 1319864,
+              "batches": 2624,
+              "attack_precision": {
+                "numerator": 6207,
+                "denominator": 13524
+              },
+              "attack_recall": {
+                "numerator": 6207,
+                "denominator": 31817
+              },
+              "conditional_attack_target_accuracy": {
+                "numerator": 30477,
+                "denominator": 31817
+              },
+              "attack_by_side": {
+                "radiant": {
+                  "frames": 659932,
+                  "tp": 2619,
+                  "predicted": 5747,
+                  "labels": 15274
+                },
+                "dire": {
+                  "frames": 659932,
+                  "tp": 3588,
+                  "predicted": 7777,
+                  "labels": 16543
+                }
+              }
+            }
+          }
+        ]
+      },
+      "checkpoint_sha256": "b9b43d62db52905f332bd65e47dec505d982411172f2f766bcad8d413377a942"
+    },
+    "oracle": {
+      "config": {
+        "dataset": "C:/AMI/runs/p06/experiment/dataset",
+        "epochs": 2,
+        "batch_sequences": 8,
+        "learning_rate": 0.0001,
+        "seed": 20261102,
+        "gradient_norm": 1.0,
+        "attack_weight": 4.0,
+        "timing_honest": true,
+        "timing_oracle": true,
+        "zero_previous": false,
+        "family": "GGD",
+        "model_name": "GGD0",
+        "teacher_policy_sha256": "55b7f4ff5baef7aea24e706aaaca3e83fa049adca0bd63cee4203c6c23e08312",
+        "observation_profile": "ggd-v3",
+        "initialization": "fresh random weights; no MIA checkpoint or optimizer loaded",
+        "device": "AMD Radeon RX 9070 XT",
+        "torch": "2.14.1+rocm7.2",
+        "hip": "7.2.53211",
+        "parameters": 1150253,
+        "dataset_sha256": "798e923526a9902c8ed9a58fe27e3638cbc360d91ef41464b0755a434d3f1fe4",
+        "initial_weights_sha256": "cd82878608bf64722cbe24b3f2788d6007db84a9563f20ad0afee0e5efad3bcf"
+      },
+      "training": {
+        "family": "GGD",
+        "model_name": "GGD0",
+        "complete": true,
+        "initialization": "fresh random weights; no MIA checkpoint or optimizer loaded",
+        "device": "AMD Radeon RX 9070 XT",
+        "runtime": "PyTorch ROCm",
+        "updates": 15744,
+        "epochs": 2,
+        "wall_seconds": 2425.210602821,
+        "first_action_head_gradient_l1": 11.273354530334473,
+        "actor_delta": 4.704093933105469,
+        "value_head_delta": 0.0,
+        "best_validation_nll": 0.9963936685069253,
+        "best_gameplay_score": null,
+        "mean_batch_seconds_after_first": 0.06242077726748466,
+        "batch_sequences": 8,
+        "sequence_length": 128,
+        "dataset_sha256": "798e923526a9902c8ed9a58fe27e3638cbc360d91ef41464b0755a434d3f1fe4",
+        "teacher_sha256": "55b7f4ff5baef7aea24e706aaaca3e83fa049adca0bd63cee4203c6c23e08312",
+        "checkpoint": "/mnt/c/AMI/runs/p06/experiment/oracle/last.pt",
+        "test_split_used": false,
+        "history": [
+          {
+            "epoch": 1,
+            "train": {
+              "nll": 1.804118117963815,
+              "action_accuracy": 0.8612594407223663,
+              "action_correct": 6794443,
+              "frames": 7888962,
+              "batches": 7872,
+              "attack_precision": {
+                "numerator": 36496,
+                "denominator": 129393
+              },
+              "attack_recall": {
+                "numerator": 36496,
+                "denominator": 190215
+              },
+              "conditional_attack_target_accuracy": {
+                "numerator": 178446,
+                "denominator": 190215
+              },
+              "attack_by_side": {
+                "radiant": {
+                  "frames": 3944481,
+                  "tp": 17510,
+                  "predicted": 61530,
+                  "labels": 91699
+                },
+                "dire": {
+                  "frames": 3944481,
+                  "tp": 18986,
+                  "predicted": 67863,
+                  "labels": 98516
+                }
+              }
+            },
+            "validation": {
+              "nll": 1.3464239859489517,
+              "action_accuracy": 0.9122614148124352,
+              "action_correct": 1204061,
+              "frames": 1319864,
+              "batches": 2624,
+              "attack_precision": {
+                "numerator": 22119,
+                "denominator": 77362
+              },
+              "attack_recall": {
+                "numerator": 22119,
+                "denominator": 31817
+              },
+              "conditional_attack_target_accuracy": {
+                "numerator": 30844,
+                "denominator": 31817
+              },
+              "attack_by_side": {
+                "radiant": {
+                  "frames": 659932,
+                  "tp": 10513,
+                  "predicted": 37220,
+                  "labels": 15274
+                },
+                "dire": {
+                  "frames": 659932,
+                  "tp": 11606,
+                  "predicted": 40142,
+                  "labels": 16543
+                }
+              }
+            }
+          },
+          {
+            "epoch": 2,
+            "train": {
+              "nll": 1.1373747964156176,
+              "action_accuracy": 0.9315258458590623,
+              "action_correct": 7348772,
+              "frames": 7888962,
+              "batches": 7872,
+              "attack_precision": {
+                "numerator": 125918,
+                "denominator": 316126
+              },
+              "attack_recall": {
+                "numerator": 125918,
+                "denominator": 190215
+              },
+              "conditional_attack_target_accuracy": {
+                "numerator": 185791,
+                "denominator": 190215
+              },
+              "attack_by_side": {
+                "radiant": {
+                  "frames": 3944481,
+                  "tp": 59642,
+                  "predicted": 148001,
+                  "labels": 91699
+                },
+                "dire": {
+                  "frames": 3944481,
+                  "tp": 66276,
+                  "predicted": 168125,
+                  "labels": 98516
+                }
+              }
+            },
+            "validation": {
+              "nll": 0.9963936685069253,
+              "action_accuracy": 0.942608480873787,
+              "action_correct": 1244115,
+              "frames": 1319864,
+              "batches": 2624,
+              "attack_precision": {
+                "numerator": 23816,
+                "denominator": 47211
+              },
+              "attack_recall": {
+                "numerator": 23816,
+                "denominator": 31817
+              },
+              "conditional_attack_target_accuracy": {
+                "numerator": 31273,
+                "denominator": 31817
+              },
+              "attack_by_side": {
+                "radiant": {
+                  "frames": 659932,
+                  "tp": 10825,
+                  "predicted": 20549,
+                  "labels": 15274
+                },
+                "dire": {
+                  "frames": 659932,
+                  "tp": 12991,
+                  "predicted": 26662,
+                  "labels": 16543
+                }
+              }
+            }
+          }
+        ]
+      },
+      "checkpoint_sha256": "72d4f3d8241e59552b587f7bf73f7d5d36c28e792b54327046c2f75147c448d5"
+    }
+  },
+  "evaluations": [
+    {
+      "model": "baseline",
+      "mode": "sampling",
+      "settings": {
+        "argmax": false,
+        "engine": "C:\\AMI\\runs\\p06\\dota-calibration-004\\engine.json",
+        "family": "GGD",
+        "matches": 64,
+        "mode": "teacher",
+        "record_teacher": false,
+        "seconds": 600.0,
+        "seed": 20261103,
+        "trace": true,
+        "weights": "C:\\AMI\\runs\\p06\\experiment\\baseline\\export\\weights",
+        "zero_previous": false
+      },
+      "trace": {
+        "matches": 4,
+        "attack_commands": 185,
+        "non_creep_target": 7,
+        "forecast_unknown": 9,
+        "forecast_dead": 58,
+        "forecast_too_high": 61,
+        "forecast_hp_window": 50,
+        "meaning": "HP forecast window only; excludes no own-shot/commitment/competition checks, not teacher label eligibility"
+      },
+      "sides": [
+        {
+          "model": "baseline",
+          "mode": "sampling",
+          "side": "radiant",
+          "matches": 32,
+          "lh": 187,
+          "deny": 111,
+          "deaths": 20,
+          "early_deaths": 5,
+          "cycles": 1883,
+          "conversion_numerator": 298,
+          "conversion_denominator": 1883
+        },
+        {
+          "model": "baseline",
+          "mode": "sampling",
+          "side": "dire",
+          "matches": 32,
+          "lh": 147,
+          "deny": 119,
+          "deaths": 26,
+          "early_deaths": 14,
+          "cycles": 1402,
+          "conversion_numerator": 266,
+          "conversion_denominator": 1402
+        }
+      ]
+    },
+    {
+      "model": "baseline",
+      "mode": "argmax",
+      "settings": {
+        "argmax": true,
+        "engine": "C:\\AMI\\runs\\p06\\dota-calibration-004\\engine.json",
+        "family": "GGD",
+        "matches": 64,
+        "mode": "teacher",
+        "record_teacher": false,
+        "seconds": 600.0,
+        "seed": 20261103,
+        "trace": true,
+        "weights": "C:\\AMI\\runs\\p06\\experiment\\baseline\\export\\weights",
+        "zero_previous": false
+      },
+      "trace": {
+        "matches": 4,
+        "attack_commands": 88,
+        "non_creep_target": 0,
+        "forecast_unknown": 2,
+        "forecast_dead": 25,
+        "forecast_too_high": 23,
+        "forecast_hp_window": 38,
+        "meaning": "HP forecast window only; excludes no own-shot/commitment/competition checks, not teacher label eligibility"
+      },
+      "sides": [
+        {
+          "model": "baseline",
+          "mode": "argmax",
+          "side": "radiant",
+          "matches": 32,
+          "lh": 142,
+          "deny": 84,
+          "deaths": 24,
+          "early_deaths": 14,
+          "cycles": 926,
+          "conversion_numerator": 226,
+          "conversion_denominator": 926
+        },
+        {
+          "model": "baseline",
+          "mode": "argmax",
+          "side": "dire",
+          "matches": 32,
+          "lh": 51,
+          "deny": 49,
+          "deaths": 32,
+          "early_deaths": 17,
+          "cycles": 483,
+          "conversion_numerator": 100,
+          "conversion_denominator": 483
+        }
+      ]
+    },
+    {
+      "model": "honest",
+      "mode": "sampling",
+      "settings": {
+        "argmax": false,
+        "engine": "C:\\AMI\\runs\\p06\\dota-calibration-004\\engine.json",
+        "family": "GGD",
+        "matches": 64,
+        "mode": "teacher",
+        "record_teacher": false,
+        "seconds": 600.0,
+        "seed": 20261103,
+        "trace": true,
+        "weights": "C:\\AMI\\runs\\p06\\experiment\\honest\\export\\weights",
+        "zero_previous": false
+      },
+      "trace": {
+        "matches": 4,
+        "attack_commands": 287,
+        "non_creep_target": 13,
+        "forecast_unknown": 11,
+        "forecast_dead": 111,
+        "forecast_too_high": 65,
+        "forecast_hp_window": 87,
+        "meaning": "HP forecast window only; excludes no own-shot/commitment/competition checks, not teacher label eligibility"
+      },
+      "sides": [
+        {
+          "model": "honest",
+          "mode": "sampling",
+          "side": "radiant",
+          "matches": 32,
+          "lh": 44,
+          "deny": 26,
+          "deaths": 32,
+          "early_deaths": 18,
+          "cycles": 356,
+          "conversion_numerator": 70,
+          "conversion_denominator": 356
+        },
+        {
+          "model": "honest",
+          "mode": "sampling",
+          "side": "dire",
+          "matches": 32,
+          "lh": 315,
+          "deny": 136,
+          "deaths": 5,
+          "early_deaths": 0,
+          "cycles": 2310,
+          "conversion_numerator": 451,
+          "conversion_denominator": 2310
+        }
+      ]
+    },
+    {
+      "model": "honest",
+      "mode": "argmax",
+      "settings": {
+        "argmax": true,
+        "engine": "C:\\AMI\\runs\\p06\\dota-calibration-004\\engine.json",
+        "family": "GGD",
+        "matches": 64,
+        "mode": "teacher",
+        "record_teacher": false,
+        "seconds": 600.0,
+        "seed": 20261103,
+        "trace": true,
+        "weights": "C:\\AMI\\runs\\p06\\experiment\\honest\\export\\weights",
+        "zero_previous": false
+      },
+      "trace": {
+        "matches": 4,
+        "attack_commands": 6,
+        "non_creep_target": 0,
+        "forecast_unknown": 0,
+        "forecast_dead": 1,
+        "forecast_too_high": 3,
+        "forecast_hp_window": 2,
+        "meaning": "HP forecast window only; excludes no own-shot/commitment/competition checks, not teacher label eligibility"
+      },
+      "sides": [
+        {
+          "model": "honest",
+          "mode": "argmax",
+          "side": "radiant",
+          "matches": 32,
+          "lh": 0,
+          "deny": 0,
+          "deaths": 32,
+          "early_deaths": 32,
+          "cycles": 0,
+          "conversion_numerator": 0,
+          "conversion_denominator": 0
+        },
+        {
+          "model": "honest",
+          "mode": "argmax",
+          "side": "dire",
+          "matches": 32,
+          "lh": 2,
+          "deny": 0,
+          "deaths": 2,
+          "early_deaths": 0,
+          "cycles": 21,
+          "conversion_numerator": 2,
+          "conversion_denominator": 21
+        }
+      ]
+    },
+    {
+      "model": "oracle",
+      "mode": "sampling",
+      "settings": {
+        "argmax": false,
+        "engine": "C:\\AMI\\runs\\p06\\dota-calibration-004\\engine.json",
+        "family": "GGD",
+        "matches": 64,
+        "mode": "teacher",
+        "record_teacher": false,
+        "seconds": 600.0,
+        "seed": 20261103,
+        "trace": true,
+        "weights": "C:\\AMI\\runs\\p06\\experiment\\oracle\\export\\weights",
+        "zero_previous": false
+      },
+      "trace": {
+        "matches": 4,
+        "attack_commands": 230,
+        "non_creep_target": 13,
+        "forecast_unknown": 8,
+        "forecast_dead": 31,
+        "forecast_too_high": 99,
+        "forecast_hp_window": 79,
+        "meaning": "HP forecast window only; excludes no own-shot/commitment/competition checks, not teacher label eligibility"
+      },
+      "sides": [
+        {
+          "model": "oracle",
+          "mode": "sampling",
+          "side": "radiant",
+          "matches": 32,
+          "lh": 225,
+          "deny": 133,
+          "deaths": 23,
+          "early_deaths": 4,
+          "cycles": 1715,
+          "conversion_numerator": 358,
+          "conversion_denominator": 1715
+        },
+        {
+          "model": "oracle",
+          "mode": "sampling",
+          "side": "dire",
+          "matches": 32,
+          "lh": 199,
+          "deny": 132,
+          "deaths": 29,
+          "early_deaths": 15,
+          "cycles": 1468,
+          "conversion_numerator": 331,
+          "conversion_denominator": 1468
+        }
+      ]
+    },
+    {
+      "model": "oracle",
+      "mode": "argmax",
+      "settings": {
+        "argmax": true,
+        "engine": "C:\\AMI\\runs\\p06\\dota-calibration-004\\engine.json",
+        "family": "GGD",
+        "matches": 64,
+        "mode": "teacher",
+        "record_teacher": false,
+        "seconds": 600.0,
+        "seed": 20261103,
+        "trace": true,
+        "weights": "C:\\AMI\\runs\\p06\\experiment\\oracle\\export\\weights",
+        "zero_previous": false
+      },
+      "trace": {
+        "matches": 4,
+        "attack_commands": 16,
+        "non_creep_target": 0,
+        "forecast_unknown": 0,
+        "forecast_dead": 1,
+        "forecast_too_high": 4,
+        "forecast_hp_window": 11,
+        "meaning": "HP forecast window only; excludes no own-shot/commitment/competition checks, not teacher label eligibility"
+      },
+      "sides": [
+        {
+          "model": "oracle",
+          "mode": "argmax",
+          "side": "radiant",
+          "matches": 32,
+          "lh": 116,
+          "deny": 98,
+          "deaths": 28,
+          "early_deaths": 11,
+          "cycles": 827,
+          "conversion_numerator": 214,
+          "conversion_denominator": 827
+        },
+        {
+          "model": "oracle",
+          "mode": "argmax",
+          "side": "dire",
+          "matches": 32,
+          "lh": 0,
+          "deny": 0,
+          "deaths": 32,
+          "early_deaths": 32,
+          "cycles": 0,
+          "conversion_numerator": 0,
+          "conversion_denominator": 0
+        }
+      ]
+    }
+  ],
+  "equal_initialization": {
+    "numerator": 3,
+    "denominator": 3,
+    "sha256": "cd82878608bf64722cbe24b3f2788d6007db84a9563f20ad0afee0e5efad3bcf"
+  },
+  "equal_updates": {
+    "numerator": 3,
+    "denominator": 3,
+    "updates": 15744
+  },
+  "teacher_sha256": "55b7f4ff5baef7aea24e706aaaca3e83fa049adca0bd63cee4203c6c23e08312",
+  "observation_profile": "ggd-v3"
+}

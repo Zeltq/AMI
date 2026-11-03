@@ -1,0 +1,85 @@
+{
+  "curves": [
+    {
+      "group": "npc_dota_badguys_tower1_mid",
+      "max_abs_error": 0.037985086441042704,
+      "mean_abs_error": 0.001911275304137647,
+      "samples": 100
+    },
+    {
+      "group": "npc_dota_creep_badguys_flagbearer",
+      "max_abs_error": 0.03574711084365623,
+      "mean_abs_error": 0.03431394013482934,
+      "samples": 820
+    },
+    {
+      "group": "npc_dota_creep_badguys_melee",
+      "max_abs_error": 0.10715711116790705,
+      "mean_abs_error": 0.02307978558176385,
+      "samples": 12454
+    },
+    {
+      "group": "npc_dota_creep_badguys_ranged",
+      "max_abs_error": 0.06897199153900546,
+      "mean_abs_error": 0.01734466844573548,
+      "samples": 11850
+    },
+    {
+      "group": "npc_dota_creep_goodguys_flagbearer",
+      "max_abs_error": 0.033333361148839225,
+      "mean_abs_error": 0.03210882488755599,
+      "samples": 1590
+    },
+    {
+      "group": "npc_dota_creep_goodguys_melee",
+      "max_abs_error": 0.033363878726964225,
+      "mean_abs_error": 0.02824846451554393,
+      "samples": 12352
+    },
+    {
+      "group": "npc_dota_creep_goodguys_ranged",
+      "max_abs_error": 0.06667277216911566,
+      "mean_abs_error": 0.022425292970548714,
+      "samples": 11600
+    },
+    {
+      "group": "npc_dota_goodguys_tower1_mid",
+      "max_abs_error": 0.03798496723175249,
+      "mean_abs_error": 0.001878684070026478,
+      "samples": 609
+    },
+    {
+      "group": "npc_dota_hero_nevermore/sf_enemy",
+      "max_abs_error": 0.04392808675766291,
+      "mean_abs_error": 0.021224970116108004,
+      "samples": 1360
+    },
+    {
+      "group": "npc_dota_hero_nevermore/sf_own",
+      "max_abs_error": 0.04392808675766291,
+      "mean_abs_error": 0.0024779521518521084,
+      "samples": 1360
+    }
+  ],
+  "device": "production CubeCL GPU kernel",
+  "extension_zero": {
+    "denominator": 11528,
+    "numerator": 11528
+  },
+  "fixture": "C:/AMI/runs/p06/holdout-fixture.json",
+  "hidden_towers_masked": 4,
+  "initial_inactive": {
+    "denominator": 6,
+    "numerator": 6
+  },
+  "legacy_prefix_equal": {
+    "denominator": 102560,
+    "numerator": 102560
+  },
+  "public_clock_check": {
+    "oracle_ready": 0.20000052452087402,
+    "passed": true,
+    "ready": 0.22500059008598328,
+    "since_attack": 0.5999995470046997
+  }
+}

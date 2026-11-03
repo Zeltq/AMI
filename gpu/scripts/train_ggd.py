@@ -18,16 +18,18 @@ def split(actor):return 'validation' if actor//2%8==6 else 'test' if actor//2%8=
 
 def load_resume(path,config,dataset_hash):
     saved=torch.load(resolved(path),map_location='cpu',weights_only=False)
-    if saved.get('spec_version')!=2 or saved['config'].get('observation_profile')!='ggd-v2':raise ValueError('Not a GGD checkpoint')
+    if saved.get('spec_version') not in (2,3) or saved['config'].get('observation_profile') not in ('ggd-v2','ggd-v3'):raise ValueError('Not a GGD checkpoint')
     if saved['config'].get('dataset_sha256')!=dataset_hash:raise ValueError('Resume dataset differs')
     for key in ('seed','batch_sequences','learning_rate','gradient_norm','attack_weight'):
         if saved['config'].get(key)!=config.get(key):raise ValueError('Resume configuration differs: '+key)
     if bool(saved['config'].get('zero_previous',False))!=bool(config.get('zero_previous',False)):raise ValueError('Resume configuration differs: zero_previous')
+    for key in ('timing_honest','timing_oracle'):
+        if saved['config'].get(key,key=='timing_honest')!=config.get(key,key=='timing_honest'):raise ValueError('Resume configuration differs: '+key)
     epoch=saved.get('epoch',0);history=saved.get('history',[])
     if len(history)!=epoch or epoch<1 or not history[-1]['validation']['frames'] or not history[-1]['train']['frames']:raise ValueError('Resume requires a completed IL epoch')
     if 'optimizer' not in saved or 'optimizer_steps' not in saved:raise ValueError('Optimizer checkpoint missing')
     if epoch>=config.get('epochs',5):raise ValueError('Checkpoint already reached the requested final epoch')
-    model=Policy(combat_inputs=True);model.load_state_dict(saved['state_dict'],strict=True)
+    model=Policy(combat_inputs=True,timing_inputs=saved['config']['observation_profile']=='ggd-v3');model.load_state_dict(saved['state_dict'],strict=True)
     return saved
 
 def resolved(path):
@@ -46,7 +48,7 @@ def evaluate_epoch(model,checkpoint,out,epoch,config,metadata):
         value=value.detach().float().cpu().numpy()
         if value.ndim==2 and not name.endswith('_embed.weight'):value=value.T
         tensors[rust_name(name)]=value
-    write_bundle(directory/'weights',tensors,family='GGD',model_name=metadata['model_name'],epoch=epoch,observation_profile='ggd-v2',teacher_sha256=metadata['teacher_policy_sha256'],source=str(checkpoint),source_sha256=hashlib.sha256(checkpoint.read_bytes()).hexdigest(),recurrent_reset=128,zero_previous=metadata.get('zero_previous',False),provenance='Fresh GGD imitation in the GPU simulator')
+    write_bundle(directory/'weights',tensors,family='GGD',model_name=metadata['model_name'],epoch=epoch,observation_profile=metadata['observation_profile'],timing_honest=metadata.get('timing_honest',True),timing_oracle=metadata.get('timing_oracle',False),teacher_sha256=metadata['teacher_policy_sha256'],source=str(checkpoint),source_sha256=hashlib.sha256(checkpoint.read_bytes()).hexdigest(),recurrent_reset=128,zero_previous=metadata.get('zero_previous',False),provenance='Fresh GGD imitation in the GPU simulator')
     executable=resolved(config['executable']);engine=resolved(config['engine']);results={}
     optimizer_memory='model/optimizer retained; inactive GPU allocations released before native evaluation'
     torch.cuda.synchronize();gc.collect();torch.cuda.empty_cache()
@@ -115,7 +117,7 @@ def batches(root,manifest,stage,batch_size,seed):
 def main():
     p=argparse.ArgumentParser();p.add_argument('config');p.add_argument('output');p.add_argument('--max-updates',type=int);p.add_argument('--resume');p.add_argument('--initialize');p.add_argument('--updates',type=int);p.add_argument('--check-resume',action='store_true');p.add_argument('--zero-previous',action='store_true');a=p.parse_args()
     if a.max_updates is not None and a.max_updates<=0:raise ValueError('Positive smoke update limit required')
-    config=json.loads(Path(a.config).read_text());allowed={'dataset','epochs','batch_sequences','learning_rate','seed','gradient_norm','attack_weight','evaluation','zero_previous','dagger'}
+    config=json.loads(Path(a.config).read_text());allowed={'dataset','epochs','batch_sequences','learning_rate','seed','gradient_norm','attack_weight','evaluation','zero_previous','dagger','timing_honest','timing_oracle'}
     if set(config)-allowed:raise ValueError('Unknown IL configuration keys')
     config['zero_previous']=bool(a.zero_previous or config.get('zero_previous',False))
     evaluation=config.get('evaluation')
@@ -126,8 +128,10 @@ def main():
         if any(m not in ('teacher','mirror') for m in evaluation.get('modes',['teacher','mirror'])):raise ValueError('Unknown gameplay mode')
     torch.set_num_threads(2);seed=config.get('seed',20261102);torch.manual_seed(seed)
     root=local_path(config['dataset']);root=root if root.is_absolute() else ROOT/root;manifest=json.loads((root/'dataset.json').read_text())
-    if manifest['family']!='GGD' or manifest['observation_profile']!='ggd-v2':raise ValueError('Wrong demonstration contract')
+    if manifest['family']!='GGD' or manifest['observation_profile'] not in ('ggd-v2','ggd-v3'):raise ValueError('Wrong demonstration contract')
     if manifest['partial'] and not a.max_updates:raise ValueError('Partial dataset is allowed only in a smoke run')
+    timing=manifest['observation_profile']=='ggd-v3'
+    if not timing and ('timing_honest' in config or 'timing_oracle' in config):raise ValueError('Timing switches require ggd-v3')
     dataset_hash=hashlib.sha256((root/'dataset.json').read_bytes()).hexdigest()
     resumed=load_resume(a.resume,config,dataset_hash) if a.resume else None
     if a.resume and a.initialize:raise ValueError('Choose resume or initialize')
@@ -148,13 +152,14 @@ def main():
     epochs=config.get('epochs',5);batch_size=config.get('batch_sequences',8);lr=config.get('learning_rate',1e-4);clip=config.get('gradient_norm',1.);attack_weight=config.get('attack_weight',4.)
     if min(epochs,batch_size,lr,clip)<=0 or attack_weight<1:raise ValueError('Invalid IL parameters')
     name='GGD0-smoke' if a.max_updates else 'GGD0-P01-zero-previous' if config['zero_previous'] else 'GGD0'
-    model=Policy(combat_inputs=True).cuda();optimizer=torch.optim.AdamW(model.parameters(),lr=lr,weight_decay=1e-5)
+    model=Policy(combat_inputs=True,timing_inputs=timing).cuda();optimizer=torch.optim.AdamW(model.parameters(),lr=lr,weight_decay=1e-5)
     if resumed:
         model.load_state_dict(resumed['state_dict'],strict=True);optimizer.load_state_dict(resumed['optimizer'])
     if initialized:
         model.load_state_dict(initialized['state_dict'],strict=True);optimizer.load_state_dict(initialized['optimizer'])
     initial_actor=model.action_head.weight.detach().clone();initial_value=[v.detach().clone() for v in model.value_head.parameters()]
-    metadata={**config,'family':'GGD','model_name':name,'teacher_policy_sha256':manifest['teacher_sha256'],'observation_profile':'ggd-v2','initialization':'fresh random weights; no MIA checkpoint or optimizer loaded','device':torch.cuda.get_device_name(0),'torch':torch.__version__,'hip':torch.version.hip,'parameters':sum(p.numel() for p in model.parameters()),'dataset_sha256':hashlib.sha256((root/'dataset.json').read_bytes()).hexdigest()}
+    metadata={**config,'family':'GGD','model_name':name,'teacher_policy_sha256':manifest['teacher_sha256'],'observation_profile':manifest['observation_profile'],'initialization':'fresh random weights; no MIA checkpoint or optimizer loaded','device':torch.cuda.get_device_name(0),'torch':torch.__version__,'hip':torch.version.hip,'parameters':sum(p.numel() for p in model.parameters()),'dataset_sha256':hashlib.sha256((root/'dataset.json').read_bytes()).hexdigest()}
+    metadata['initial_weights_sha256']=hashlib.sha256(b''.join(v.detach().cpu().numpy().tobytes() for v in model.state_dict().values())).hexdigest()
     if initialized:metadata.update(initialization='fine-tune weights and AdamW state',initial_checkpoint=str(a.initialize),initial_optimizer_steps=initialized['optimizer_steps'])
     if resumed:metadata.update(resume_checkpoint=str(a.resume),resumed_after_epoch=resumed['epoch'],initialization=resumed['config']['initialization'])
     (out/'config.json').write_text(json.dumps(metadata,indent=2))
@@ -169,11 +174,15 @@ def main():
         row={'epoch':epoch+1}
         for stage in ('train','validation'):
             training=stage=='train';model.train(training);total_nll=0.;frames=0;correct=0;count=0;tp=0;pred_attacks=0;label_attacks=0;targets_correct=0
+            by_side={side:dict(frames=0,tp=0,predicted=0,labels=0) for side in ('radiant','dire')}
             iterator=mixed_batches(root,manifest,batch_size,seed+epoch) if training and config.get('dagger') else batches(root,manifest,stage,batch_size,seed+epoch)
             for arrays,labels,valid,n,resets in iterator:
                 if training and a.updates and updates>=a.updates:break
                 if training and a.max_updates and updates>=a.max_updates:stopped=True;break
                 if (out/'stop.json').exists():stopped=True;break
+                if timing:
+                    from sf_duel.timing_observations import ablate
+                    arrays=ablate(arrays,config.get('timing_honest',True),config.get('timing_oracle',False))
                 tick=time.perf_counter();b=packed_tensors(arrays,'cuda');y=torch.as_tensor(labels,device='cuda');mask=torch.as_tensor(valid,device='cuda')
                 with torch.set_grad_enabled(training):
                     h,keys=recurrent(model,b,n,resets,zero_previous=config['zero_previous'])
@@ -191,6 +200,13 @@ def main():
                 with torch.no_grad():
                     pa=prediction['action']==3;la=y[:,0]==3
                     stats=torch.stack((-(logp*mask).sum(),mask.sum(),((prediction['action']==y[:,0])&mask).sum(),(pa&la&mask).sum(),(pa&mask).sum(),(la&mask).sum(),((prediction['target']==y[:,3])&la&mask).sum())).cpu().tolist()
+                    side_stats=[]
+                    for sign in (1,-1):
+                        sm=mask & (b['global_features'][:,2]*sign>0)
+                        side_stats.extend([sm.sum(),(pa&la&sm).sum(),(pa&sm).sum(),(la&sm).sum()])
+                    side_values=torch.stack(side_stats).cpu().tolist()
+                    for index,side in enumerate(by_side):
+                        for j,key in enumerate(by_side[side]):by_side[side][key]+=int(side_values[index*4+j])
                 total_nll+=stats[0];frames+=int(stats[1]);correct+=int(stats[2]);tp+=int(stats[3]);pred_attacks+=int(stats[4]);label_attacks+=int(stats[5]);targets_correct+=int(stats[6]);count+=1
                 elapsed=time.perf_counter()-tick
                 if training:step_times.append(elapsed)
@@ -199,9 +215,9 @@ def main():
                 if count%8==0 or a.max_updates:print(json.dumps(progress),flush=True)
                 if not training and a.max_updates and count>=2:break
             if training and a.max_updates and updates>=a.max_updates:stopped=True
-            row[stage]={'nll':total_nll/max(1,frames),'action_accuracy':correct/max(1,frames),'action_correct':correct,'frames':frames,'batches':count,'attack_precision':{'numerator':tp,'denominator':pred_attacks},'attack_recall':{'numerator':tp,'denominator':label_attacks},'conditional_attack_target_accuracy':{'numerator':targets_correct,'denominator':label_attacks}}
+            row[stage]={'nll':total_nll/max(1,frames),'action_accuracy':correct/max(1,frames),'action_correct':correct,'frames':frames,'batches':count,'attack_precision':{'numerator':tp,'denominator':pred_attacks},'attack_recall':{'numerator':tp,'denominator':label_attacks},'conditional_attack_target_accuracy':{'numerator':targets_correct,'denominator':label_attacks},'attack_by_side':by_side}
         history.append(row)
-        checkpoint={'state_dict':model.state_dict(),'optimizer':optimizer.state_dict(),'config':metadata,'epoch':epoch+1,'history':history,'spec_version':2,'gpu_pipeline':{'recurrent_reset_interval':128,'observation_storage':'f16','observation_spec':2,'observation_profile':'ggd-v2'},'optimizer_steps':updates+(initialized['optimizer_steps'] if initialized else 0)}
+        checkpoint={'state_dict':model.state_dict(),'optimizer':optimizer.state_dict(),'config':metadata,'epoch':epoch+1,'history':history,'spec_version':3 if timing else 2,'gpu_pipeline':{'recurrent_reset_interval':128,'observation_storage':'f16','observation_spec':3 if timing else 2,'observation_profile':manifest['observation_profile']},'optimizer_steps':updates+(initialized['optimizer_steps'] if initialized else 0)}
         torch.save(checkpoint,out/f'epoch-{epoch+1:03d}.pt')
         if evaluation:row['gameplay']=evaluate_epoch(model,out/f'epoch-{epoch+1:03d}.pt',out,epoch+1,evaluation,metadata)
         torch.save(checkpoint,out/f'epoch-{epoch+1:03d}.pt')

@@ -103,6 +103,16 @@ local function unit_data(unit,bot,own)
     u.raze_stacks,u.raze_remaining=mod(unit,"modifier_nevermore_shadowraze_debuff")
     local activity=call(unit,"GetAnimActivity")
     u.attack_cycle=call(unit,"GetAnimCycle")
+    if settings.observation_profile=="ggd-v3" then
+        local last=call(unit,"GetLastAttackTime")
+        local attacking=activity==ACTIVITY_ATTACK or activity==ACTIVITY_ATTACK2
+        if activity~=nil then u.attack_animation=attacking end
+        if type(last)=="number" and last>0 then u.since_attack=math.min(3,math.max(0,GameTime()-last)) end
+        if type(last)=="number" and u.attack_interval and u.attack_point then
+            local base=fixed.hero and 1.6 or (string.find(fixed.name or "","tower",1,true) and .9 or (string.find(fixed.name or "","siege",1,true) and 3 or 1))
+            u.ready_in=last>0 and math.min(3,math.max(0,last+u.attack_interval-u.attack_point*u.attack_interval/base-GameTime())) or 0
+        end
+    end
     u.is_attacking=activity==ACTIVITY_ATTACK or activity==ACTIVITY_ATTACK2
     u.is_casting_ability=false;u.is_channeling=false
     for index=1,6 do

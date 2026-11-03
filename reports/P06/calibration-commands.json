@@ -1,0 +1,37 @@
+[
+  {
+    "stage": "probe-002",
+    "kind": "Dota data collection",
+    "command": "C:\\Python314\\python.exe gpu/scripts/p06_probe.py --run C:/AMI/runs/p06/probe-002 --worker 14 --seconds 180 --wall-timeout 600 --timescale 4 --seed 20261103 --capture-world --capture-start-phases --no-pilot-update",
+    "minutes": 1.5126796166664767,
+    "complete": true
+  },
+  {
+    "stage": "tower-003",
+    "kind": "Dota data collection",
+    "command": "C:\\Python314\\python.exe gpu/scripts/p06_probe.py --run C:/AMI/runs/p06/tower-003 --worker 14 --seconds -20 --wall-timeout 300 --timescale 4 --seed 20261103 --capture-world --events-script reports/P06/clock_probe.lua --no-pilot-update --tower-scenario",
+    "minutes": 0.594442136666233,
+    "complete": true
+  },
+  {
+    "stage": "clock-004",
+    "kind": "Dota data collection",
+    "command": "C:\\Python314\\python.exe gpu/scripts/p06_probe.py --run C:/AMI/runs/p06/clock-004 --worker 14 --seconds 2 --wall-timeout 300 --timescale 4 --seed 20261103 --events-script reports/P06/clock_probe.lua --no-pilot-update",
+    "minutes": 0.6874693216668675,
+    "complete": true
+  },
+  {
+    "stage": "parity-005",
+    "kind": "Dota data collection",
+    "command": "C:\\Python314\\python.exe gpu/scripts/p06_probe.py --run C:/AMI/runs/p06/parity-005 --worker 14 --seconds 3 --wall-timeout 300 --timescale 4 --seed 20261103 --events-script reports/P06/clock_probe.lua --capture-start-phases --no-pilot-update",
+    "minutes": 0.7010043533334586,
+    "complete": true
+  },
+  {
+    "stage": "holdout-006",
+    "kind": "Dota data collection",
+    "command": "C:\\Python314\\python.exe gpu/scripts/p06_probe.py --run C:/AMI/runs/p06/holdout-006 --worker 14 --seconds 180 --wall-timeout 600 --timescale 4 --seed 20261104 --events-script reports/P06/clock_probe.lua --capture-start-phases --no-pilot-update",
+    "minutes": 1.6191841400005311,
+    "complete": true
+  }
+]

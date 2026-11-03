@@ -20,11 +20,14 @@ def distribution(logits, mask):
     return Categorical(logits=logits.masked_fill(~mask,torch.finfo(logits.dtype).min), validate_args=False)
 
 class Policy(nn.Module):
-    def __init__(self,hidden_size=256,combat_inputs=False):
+    def __init__(self,hidden_size=256,combat_inputs=False,timing_inputs=False):
         super().__init__()
         self.hidden_size=hidden_size
         self.combat_inputs=combat_inputs
-        unit_inputs=2*(len(UNIT_FIELDS)+(len(COMBAT_UNIT_FIELDS) if combat_inputs else 0))
+        self.timing_inputs=timing_inputs
+        if timing_inputs and not combat_inputs:raise ValueError('ggd-v3 requires combat inputs')
+        from .timing_observations import TIMING_FIELDS
+        unit_inputs=2*(len(UNIT_FIELDS)+(len(COMBAT_UNIT_FIELDS) if combat_inputs else 0)+(len(TIMING_FIELDS) if timing_inputs else 0))
         self.hero=mlp(unit_inputs,128,128)
         self.unit=mlp(unit_inputs,64,64)
         self.tree=mlp(2*len(TREE_FIELDS),32,32)

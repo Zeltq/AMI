@@ -24,7 +24,7 @@ def verified_manifest(root):
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('bundle');p.add_argument('output');a=p.parse_args();root=Path(a.bundle)
-    torch.set_num_threads(2);manifest=verified_manifest(root);ggd=manifest['tensors']['hero.first.weight']['shape'][0]>2*48;model=Policy(combat_inputs=ggd);state={}
+    torch.set_num_threads(2);manifest=verified_manifest(root);ggd=manifest['tensors']['hero.first.weight']['shape'][0]>2*48;timing=manifest['tensors']['hero.first.weight']['shape'][0]>118;model=Policy(combat_inputs=ggd,timing_inputs=timing);state={}
     for name,expected in model.state_dict().items():
         key=rust_name(name);entry=manifest['tensors'][key]
         value=np.fromfile(root/entry['file'],dtype='<f4').reshape(entry['shape'])
@@ -34,9 +34,10 @@ def main():
         state[name]=torch.from_numpy(value.copy())
     if len(state)!=len(manifest['tensors']):raise ValueError('Unused Burn tensors')
     model.load_state_dict(state,strict=True)
-    config={'teacher_policy_sha256':manifest.get('teacher_sha256') or hashlib.sha256((ROOT/'tools/nativecollect/teacher.go').read_bytes()).hexdigest(),'observation_profile':'ggd-v2' if ggd else 'mia-v1','family':'GGD' if ggd else 'MIA','model_name':manifest.get('model_name')}
+    config={'teacher_policy_sha256':manifest.get('teacher_sha256') or hashlib.sha256((ROOT/'tools/nativecollect/teacher.go').read_bytes()).hexdigest(),'observation_profile':'ggd-v3' if timing else 'ggd-v2' if ggd else 'mia-v1','family':'GGD' if ggd else 'MIA','model_name':manifest.get('model_name')}
+    config.update(timing_honest=manifest.get('timing_honest',True),timing_oracle=manifest.get('timing_oracle',False))
     torch.save({'state_dict':state,'config':config,'gpu_pipeline':{'recurrent_reset_interval':128,'observation_storage':'f16',
-        'observation_spec':2 if ggd else 1,'observation_profile':'ggd-v2' if ggd else 'mia-v1','architecture':'existing entity/CNN/LSTM-256 policy with additional combat inputs' if ggd else 'existing entity/CNN/LSTM-256 policy',
+        'observation_spec':3 if timing else 2 if ggd else 1,'observation_profile':'ggd-v3' if timing else 'ggd-v2' if ggd else 'mia-v1','architecture':'existing entity/CNN/LSTM-256 policy with additional combat inputs' if ggd else 'existing entity/CNN/LSTM-256 policy',
         'provenance':manifest.get('provenance','GPU policy export; training provenance is not recorded in this bundle.')}},a.output)
     print(json.dumps({'output':a.output,'parameters':sum(v.numel() for v in state.values()),'sha256':hashlib.sha256(Path(a.output).read_bytes()).hexdigest()}))
 if __name__=='__main__':main()
