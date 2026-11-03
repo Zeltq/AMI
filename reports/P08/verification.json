@@ -31,5 +31,15 @@
     "blocks": 1,
     "passed": true
   },
-  "rust_full": "pending"
+  "rust_full": {
+    "command": "cargo test --release --locked --manifest-path C:/AMI-wt/P08/gpu/Cargo.toml --target-dir C:/AMI/runs/p08/target -- --test-threads=1",
+    "passed": 99,
+    "total": 99,
+    "exit_code": 0
+  },
+  "critic_warmup_gate": {
+    "test": "p08_critic_warmup_requires_observed_reward_or_the_limit",
+    "passed": true,
+    "cases": 4
+  }
 }

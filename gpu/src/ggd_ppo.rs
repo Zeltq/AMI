@@ -64,6 +64,11 @@ fn recurrent(policy:&Policy,b:&crate::model::Observation,resets:Tensor<3>,size:u
     }
     (Tensor::stack::<3>(sequence,1).reshape([size*HORIZON,256]),encoded.keys)
 }
+fn critic_warmup_complete(block:usize,limit:usize,ev:f64,reward_activity:f32)->bool {
+    // Bootstrap variation alone in pregame is not evidence that the critic
+    // learned the task reward. A hard limit still guarantees a bounded warmup.
+    (reward_activity>0. && ev>0.3) || block>=limit
+}
 fn weighted(x:Tensor<1>,mask:Tensor<1>)->Tensor<1>{(x*mask.clone()).sum()/mask.sum().clamp_min(1.)}
 fn scalar(x:Tensor<1>)->f32{x.without_autodiff().into_scalar::<f32>()}
 fn variance(x:Tensor<1>,mask:Tensor<1>)->Tensor<1>{let mean=weighted(x.clone(),mask.clone());weighted((x-mean).square(),mask)}
@@ -167,7 +172,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
         let limit=((w.engine.pre_game_seconds+600.)*7.5).ceil()as usize+2;
         for _chunk in 0..limit.div_ceil(HORIZON) {
             let clock=Instant::now();let actor=policy.clone().valid();let mut h=Tensor::<2>::zeros([n,256],&d);let mut c=h.clone();let mut rh=h.clone();let mut rc=c.clone();
-            let mut experience=None;let mut rollout_entropy=Tensor::<1>::zeros([1],&d);let mut rollout_kl=rollout_entropy.clone();let mut valid_count=rollout_entropy.clone();
+            let mut experience=None;let mut rollout_entropy=Tensor::<1>::zeros([1],&d);let mut rollout_kl=rollout_entropy.clone();let mut valid_count=rollout_entropy.clone();let mut reward_activity=rollout_entropy.clone();
             for step in 0..HORIZON {
                 let snapshot=if profile=="ggd-v3"{Some(teacher.command_snapshot())}else{None};
                 let (obs,scripted)=observation(&w,&teacher,&observer,previous.clone(),&manifest);
@@ -183,6 +188,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
                 let diff=heads.logp.clone()-anchor.logp.clone();rollout_kl=rollout_kl+(((-diff.clone()).exp()-1.+diff)*valid.clone()).sum();valid_count=valid_count+valid.clone().sum();
                 let _=w.advance_teacher(actions,&obs.refs,&rng,&teacher,true);teacher.record(&w,600.);metrics.sample(&w,&teacher);
                 let current=counts(&w,&teacher);let components=current.clone().slice([0..n,0..COMPONENTS])-prior.slice([0..n,0..COMPONENTS]);
+                reward_activity=reward_activity+(components.clone().abs()*valid.clone().unsqueeze_dim::<2>(1)).sum();
                 totals=totals+components.clone()*valid.clone().unsqueeze_dim::<2>(1);
                 let reward=components.sum_dim(1);let done=current.clone().slice([0..n,9..10]);prior=current;
                 let signals=Tensor::cat(vec![heads.actions.float(),heads.logp.unsqueeze_dim::<2>(1),heads.value.unsqueeze_dim::<2>(1),reward,done,obs.reset.clone().unsqueeze_dim::<2>(1),valid.unsqueeze_dim::<2>(1),anchor.logp.unsqueeze_dim::<2>(1)],1);
@@ -200,7 +206,8 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
             learning["rollout_kl_m2"]=serde_json::json!(scalar(rollout_kl/valid_count.clone().clamp_min(1.)));
             learning["valid_decisions"]=serde_json::json!(scalar(valid_count));
             d.sync()?;let optimization=update.elapsed().as_secs_f64();training_seconds+=collection+optimization;block+=1;
-            if warmup&&(learning["explained_variance"].as_f64().unwrap_or(-1.)>0.3||block>=cfg.warmup_blocks){warmup=false;}
+            let activity=scalar(reward_activity);learning["reward_activity"]=serde_json::json!(activity);
+            if warmup&&critic_warmup_complete(block,cfg.warmup_blocks,learning["explained_variance"].as_f64().unwrap_or(-1.),activity){warmup=false;}
             let audit=teacher.values();let finished=audit.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).filter(|x|x[0]>0.).count();
             ensure!(audit.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).all(|x|x[39]==0.),"simulation error");
             if finished>recorded.iter().filter(|x|**x).count(){
@@ -235,6 +242,13 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn p08_critic_warmup_requires_observed_reward_or_the_limit(){
+        assert!(!critic_warmup_complete(4,64,0.8,0.),"pregame bootstrap EV must not release the actor");
+        assert!(!critic_warmup_complete(8,64,0.2,3.),"reward alone is insufficient");
+        assert!(critic_warmup_complete(8,64,0.4,3.));
+        assert!(critic_warmup_complete(64,64,-1.,0.),"hard update limit must remain effective");
+    }
     #[test]
     fn p08_discounted_gae_respects_terminal_and_bootstrap(){
         let d=device();let mut e=Experience::with_width(2,crate::observe::GGD_WIDTH,2,&d);
