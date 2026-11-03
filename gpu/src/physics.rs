@@ -435,7 +435,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
     teacher_memory:&[f32],teacher_forecasts:&[f32],teacher_audit:&mut [f32],telemetry:&mut [f32],
     rewards:&mut [f32],terminals:&mut [f32],tree_alive:&mut [f32],rng:&mut [u32],grid:&mut [u32],
     proto:&[f32],spells:&[f32],items:&[f32],hero:&[f32],animation:&[f32],combat:&[f32],experience:&[f32],geometry:&[f32],fow_blockers:&[f32],static_vision:&[u32],navigation:&[u32],trees:&[f32],tree_map:&[f32],bases:&[f32],spawns:&[f32],lane:&[f32],fountains:&[f32],extra_vision:&[f32],
-    matches:usize,tree_count:usize,vision_count:usize,pregame:f32,ticks_per_call:usize,radiant_lane_points:usize,dire_lane_points:usize,#[comptime] spawn_waves:bool,#[comptime] audit_enabled:bool){
+    matches:usize,tree_count:usize,vision_count:usize,pregame:f32,ticks_per_call:usize,radiant_lane_points:usize,dire_lane_points:usize,#[comptime] spawn_waves:bool,#[comptime] audit_enabled:bool,#[comptime] uphill_miss:bool){
     let m=ABSOLUTE_POS;
     if m<matches && (!audit_enabled || teacher_audit[m*crate::scripted_teacher::AUDIT_FIELDS]==0.0f32) {
         let base=m*UNITS*STRIDE;let mb=m*META;
@@ -892,8 +892,16 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                         else {
                             let dx=state[q+UNIT_X]-shots[k+1];let dy=state[q+UNIT_Y]-shots[k+2];let length=(dx*dx+dy*dy).sqrt();
                             if length<=shots[k+5]*dt+8.0f32 {
-                                hit(state,telemetry,audit_enabled,hero,combat,base,shots[k+7] as usize,target,shots[k+6],false,time,shots[k+9],shots[k+8]);shots[k]=0.0f32;
-                                if target<2 {meta[mb+10]=meta[mb];meta[mb+13]+=1.0f32;}
+                                let source=base+shots[k+7] as usize*STRIDE;
+                                let mut missed=false;
+                                if uphill_miss {
+                                    // Height categories are inverted: Z = 512 - 128*level.
+                                    // Only eligible ranged impacts consume an extra RNG draw.
+                                    if geometry[cell(state[source+UNIT_X],state[source+UNIT_Y])]>geometry[cell(state[q+UNIT_X],state[q+UNIT_Y])] {missed=random(rng,m)<0.25f32;}
+                                }
+                                if !missed {hit(state,telemetry,audit_enabled,hero,combat,base,shots[k+7] as usize,target,shots[k+6],false,time,shots[k+9],shots[k+8]);}
+                                shots[k]=0.0f32;
+                                if target<2 && !missed {meta[mb+10]=meta[mb];meta[mb+13]+=1.0f32;}
                             }
                             else {shots[k+1]+=dx/length*shots[k+5]*dt;shots[k+2]+=dy/length*shots[k+5]*dt;}
                         }
@@ -1045,7 +1053,7 @@ impl World {
             argument(teacher.map_or(&self.meta,|t|&t.memory)),argument(teacher.map_or(&self.meta,|t|&t.forecasts)),argument(teacher.map_or(&self.rewards,|t|&t.audit)),argument(&self.teacher_combat),argument(&self.rewards),argument(&self.terminals),
             argument(&self.tree_alive),unsafe{BufferArg::from_raw_parts(rng.state.clone(),1)},argument(&self.collision_grid),argument(&self.prototypes),argument(&self.spells),
             argument(&self.items),argument(&self.hero),argument(&self.sf_projectile_animation),argument(&self.combat),argument(&self.experience),argument(self.movement_geometry.as_ref().unwrap_or(&self.geometry)),argument(&self.fow_blockers),argument(&self.static_vision),argument(&self.navigation),argument(&self.trees),argument(&self.tree_map),argument(&self.bases),argument(&self.spawns),argument(&self.lane),argument(&self.fountains),argument(&self.extra_vision),
-            self.matches,self.tree_count,self.engine.extra_vision.len(),self.engine.pre_game_seconds,ticks,self.lane_lengths[0],self.lane_lengths[1],spawn_waves,teacher.is_some());
+            self.matches,self.tree_count,self.engine.extra_vision.len(),self.engine.pre_game_seconds,ticks,self.lane_lengths[0],self.lane_lengths[1],spawn_waves,teacher.is_some(),self.engine.uphill_miss);
         // Addition allocates independent storage: the next step mutates the
         // simulator's buffers, whereas rollout data must remain immutable.
         (tensor::<1>(self.rewards.clone())+0.0f32,tensor::<1>(self.terminals.clone())+0.0f32)

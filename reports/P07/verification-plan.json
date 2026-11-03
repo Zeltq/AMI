@@ -1,0 +1,30 @@
+[
+  {
+    "stage": "rust-narrow-final",
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p07/target p07_ -- --test-threads=1"
+  },
+  {
+    "stage": "rust-full",
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p07/target -- --test-threads=1"
+  },
+  {
+    "stage": "build-final",
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p07/target"
+  },
+  {
+    "stage": "public-parity-final",
+    "command": "C:/AMI/runs/p07/target/release/sf-duel-gpu.exe check-public-spells C:/AMI/runs/p06/dota-calibration-004/engine.json C:/AMI/runs/p07/spell-fixture.json C:/AMI-wt/P07/reports/P07/gpu-parity.json"
+  },
+  {
+    "stage": "regression-004",
+    "command": "C:/AMI/runs/p07/target/release/sf-duel-gpu.exe evaluate-teachers C:/AMI/runs/p06/dota-calibration-004/engine.json C:/AMI/runs/p07/regression-004 --matches 200 --seed 20261103"
+  },
+  {
+    "stage": "evaluation-005",
+    "command": "C:/AMI/runs/p07/target/release/sf-duel-gpu.exe evaluate-teachers C:/AMI/runs/p07/dota-calibration-005/engine.json C:/AMI/runs/p07/evaluation-005 --matches 200 --seed 20261103"
+  },
+  {
+    "stage": "collect-v4",
+    "command": "C:/AMI/runs/p07/target/release/sf-duel-gpu.exe collect-teacher C:/AMI-wt/P07/reports/P07/collect.json C:/AMI/runs/p07/collect-v4"
+  }
+]
