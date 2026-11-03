@@ -16,6 +16,20 @@
     "total": 3,
     "exit_code": 0
   },
-  "zero_lr": "pending",
-  "warmup_freeze": "pending"
+  "zero_lr": {
+    "identical": 59,
+    "total": 59,
+    "passed": true
+  },
+  "warmup_freeze": {
+    "nonvalue_identical": 55,
+    "nonvalue_total": 55,
+    "value_tensors_changed": 4,
+    "passed": true
+  },
+  "v3_smoke": {
+    "blocks": 1,
+    "passed": true
+  },
+  "rust_full": "pending"
 }

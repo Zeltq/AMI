@@ -82,7 +82,14 @@ def curves(stage):
             ax.text(.5,.5,'No completed episodes',ha='center',transform=ax.transAxes)
     fig.savefig(OUT/f'{stage}-curves.svg')
     plt.close(fig)
-    summary=dict(stage=stage,blocks=len(history),completed_episodes=len(episodes),training_minutes=history[-1]['training_seconds']/60,last_learning=history[-1]['learning'],component_totals={k:sum(e['components'][i] for e in episodes)for i,k in enumerate(NAMES)})
+    checks=0
+    for episode in episodes:
+        game=episode['game']; learner=next(s for s in game['sides'] if s['controller']=='GGD'); opponent=next(s for s in game['sides'] if s['controller']=='teacher')
+        expected=[learner['lh'],.5*learner['deny'],-.5*opponent['lh'],-.25*opponent['deny'],-10*learner['deaths'],10*opponent['deaths']]
+        for actual, want in zip(episode['components'],expected):
+            if actual!=want:raise SystemExit(f'Reward/telemetry mismatch in game {game["game"]}: {actual} != {want}')
+            checks+=1
+    summary=dict(reward_telemetry_checks=dict(passed=checks,total=checks),stage=stage,blocks=len(history),completed_episodes=len(episodes),training_minutes=history[-1]['training_seconds']/60,last_learning=history[-1]['learning'],component_totals={k:sum(e['components'][i] for e in episodes)for i,k in enumerate(NAMES)})
     save(OUT/f'{stage}-summary.json',summary)
 
 if __name__=='__main__':

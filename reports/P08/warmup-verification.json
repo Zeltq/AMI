@@ -1,0 +1,57 @@
+{
+  "stage": "warmup",
+  "passed": true,
+  "identical": 55,
+  "total": 59,
+  "different": [
+    "value_first.weight",
+    "value_first.bias",
+    "value_second.weight",
+    "value_second.bias"
+  ],
+  "nonvalue_identical": 55,
+  "nonvalue_total": 55,
+  "training_seconds": 8.9965914,
+  "history": [
+    {
+      "batch": 0,
+      "block": 1,
+      "collection_seconds": 7.7586437,
+      "components_sum": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "episodes": 0,
+      "finished_in_batch": 0,
+      "learning": {
+        "buckets": [
+          16,
+          32,
+          16
+        ],
+        "clip_fraction": 0.0,
+        "early_stop": false,
+        "entropy": 0.0,
+        "explained_variance": -0.03667140007019043,
+        "kl_coefficient": 0.10000000149011612,
+        "kl_m2": 0.0,
+        "old_policy_kl": 0.0,
+        "optimizer_steps": 2,
+        "rollout_entropy": 0.0269805695861578,
+        "rollout_kl_m2": 0.0,
+        "valid_decisions": 256.0,
+        "value_loss": 0.002653978008311242,
+        "warmup": true
+      },
+      "optimization_seconds": 1.2379477,
+      "training_seconds": 8.9965914
+    }
+  ]
+}

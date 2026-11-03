@@ -1,0 +1,74 @@
+[
+  {
+    "stage": "tests",
+    "command": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P08\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p08\\target p08_ -- --nocapture --test-threads=1",
+    "argv": [
+      "cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "C:\\AMI-wt\\P08\\gpu\\Cargo.toml",
+      "--target-dir",
+      "C:\\AMI\\runs\\p08\\target",
+      "p08_",
+      "--",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "wall_seconds": 480.8482356071472,
+    "returncode": 0
+  },
+  {
+    "stage": "build",
+    "command": "cargo build --release --locked --manifest-path C:\\AMI-wt\\P08\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p08\\target",
+    "argv": [
+      "cargo",
+      "build",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "C:\\AMI-wt\\P08\\gpu\\Cargo.toml",
+      "--target-dir",
+      "C:\\AMI\\runs\\p08\\target"
+    ],
+    "wall_seconds": 150.39894461631775,
+    "returncode": 0
+  },
+  {
+    "stage": "zero-lr",
+    "command": "C:\\AMI\\runs\\p08\\target\\release\\sf-duel-gpu.exe train-ggd C:\\AMI-wt\\P08\\reports\\P08\\zero-lr.json C:\\AMI\\runs\\p08\\zero-lr",
+    "argv": [
+      "C:\\AMI\\runs\\p08\\target\\release\\sf-duel-gpu.exe",
+      "train-ggd",
+      "C:\\AMI-wt\\P08\\reports\\P08\\zero-lr.json",
+      "C:\\AMI\\runs\\p08\\zero-lr"
+    ],
+    "wall_seconds": 80.88034129142761,
+    "returncode": 0
+  },
+  {
+    "stage": "warmup",
+    "command": "C:\\AMI\\runs\\p08\\target\\release\\sf-duel-gpu.exe train-ggd C:\\AMI-wt\\P08\\reports\\P08\\warmup.json C:\\AMI\\runs\\p08\\warmup",
+    "argv": [
+      "C:\\AMI\\runs\\p08\\target\\release\\sf-duel-gpu.exe",
+      "train-ggd",
+      "C:\\AMI-wt\\P08\\reports\\P08\\warmup.json",
+      "C:\\AMI\\runs\\p08\\warmup"
+    ],
+    "wall_seconds": 20.508057832717896,
+    "returncode": 0
+  },
+  {
+    "stage": "v3-smoke",
+    "command": "C:\\AMI\\runs\\p08\\target\\release\\sf-duel-gpu.exe train-ggd C:\\AMI-wt\\P08\\reports\\P08\\v3-smoke.json C:\\AMI\\runs\\p08\\v3-smoke",
+    "argv": [
+      "C:\\AMI\\runs\\p08\\target\\release\\sf-duel-gpu.exe",
+      "train-ggd",
+      "C:\\AMI-wt\\P08\\reports\\P08\\v3-smoke.json",
+      "C:\\AMI\\runs\\p08\\v3-smoke"
+    ],
+    "wall_seconds": 20.480430126190186,
+    "returncode": 0
+  }
+]
