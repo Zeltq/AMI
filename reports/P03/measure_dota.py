@@ -118,6 +118,7 @@ def save(path, value):
 class WorldCapture:
     def __init__(self, run, ports):
         self.stop = threading.Event()
+        self.expect_disconnect = False
         self.errors = []
         self.threads = [threading.Thread(target=self.receive, args=(run, team, port), daemon=True)
                         for team, port in zip((2, 3), ports)]
@@ -150,6 +151,8 @@ class WorldCapture:
                     if not 0 < size < 32_000_000:raise ValueError('Invalid world state size')
                     output.write(header + read(size))
             except EOFError:pass
+            except ConnectionResetError as error:
+                if not self.expect_disconnect:self.errors.append(str(error))
             except Exception as error:self.errors.append(str(error))
 
     def close(self):
@@ -239,6 +242,9 @@ def main():
                 time.sleep(.25)
             else:
                 raise TimeoutError('Dota diagnostic exceeded wall-timeout')
+            # Dedicated-server shutdown may reset TCP instead of sending FIN.
+            # A reset before the requested observation window remains an error.
+            if capture:capture.expect_disconnect = True
         if capture:
             capture.close()
             if capture.errors:raise RuntimeError(capture.errors)
