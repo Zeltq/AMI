@@ -382,5 +382,52 @@
     "pid": 26724,
     "exit_code": 0,
     "minutes": 12.091183501666334
+  },
+  {
+    "stage": "train-round-3",
+    "argv": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "bash",
+      "/mnt/c/AMI-wt/P02/scripts/wsl_python.sh",
+      "/mnt/c/AMI-wt/P02/gpu/scripts/train_ggd.py",
+      "/mnt/c/AMI/runs/p02/experiment/train-round-3-attempt-1/input.json",
+      "/mnt/c/AMI/runs/p02/experiment/train-round-3-attempt-1",
+      "--initialize",
+      "/mnt/c/AMI/runs/p02/experiment/train-round-2-attempt-1/last.pt"
+    ],
+    "command": "wsl -d Ubuntu -- bash /mnt/c/AMI-wt/P02/scripts/wsl_python.sh /mnt/c/AMI-wt/P02/gpu/scripts/train_ggd.py /mnt/c/AMI/runs/p02/experiment/train-round-3-attempt-1/input.json /mnt/c/AMI/runs/p02/experiment/train-round-3-attempt-1 --initialize /mnt/c/AMI/runs/p02/experiment/train-round-2-attempt-1/last.pt",
+    "output": "C:\\AMI\\runs\\p02\\experiment\\train-round-3-attempt-1",
+    "started_utc": "2026-11-03T04:15:07.127619+00:00",
+    "pid": 1876,
+    "exit_code": 0,
+    "minutes": 20.002040095000606
+  },
+  {
+    "stage": "round-3-sampling",
+    "argv": [
+      "C:/AMI/runs/p02/sf-duel-gpu.exe",
+      "evaluate-ggd",
+      "C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\dataset\\environment\\engine.json",
+      "C:\\AMI\\runs\\p02\\experiment\\train-round-3-attempt-1\\export\\weights",
+      "C:\\AMI\\runs\\p02\\experiment\\round-3-sampling-attempt-1",
+      "--mode",
+      "teacher",
+      "--matches",
+      "64",
+      "--seconds",
+      "600",
+      "--seed",
+      "20261103",
+      "--sampling"
+    ],
+    "command": "C:/AMI/runs/p02/sf-duel-gpu.exe evaluate-ggd C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\dataset\\environment\\engine.json C:\\AMI\\runs\\p02\\experiment\\train-round-3-attempt-1\\export\\weights C:\\AMI\\runs\\p02\\experiment\\round-3-sampling-attempt-1 --mode teacher --matches 64 --seconds 600 --seed 20261103 --sampling",
+    "output": "C:\\AMI\\runs\\p02\\experiment\\round-3-sampling-attempt-1",
+    "started_utc": "2026-11-03T04:35:09.699061+00:00",
+    "pid": 25864,
+    "exit_code": 0,
+    "minutes": 5.5091491483336235
   }
 ]
