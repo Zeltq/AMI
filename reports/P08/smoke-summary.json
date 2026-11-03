@@ -1,41 +1,41 @@
 {
   "reward_telemetry_checks": {
-    "passed": 108,
-    "total": 108
+    "passed": 198,
+    "total": 198
   },
   "stage": "smoke",
-  "blocks": 66,
-  "completed_episodes": 18,
-  "training_minutes": 12.52764181,
+  "blocks": 93,
+  "completed_episodes": 33,
+  "training_minutes": 22.18436055333333,
   "last_learning": {
     "buckets": [
       16,
       32,
       16
     ],
-    "clip_fraction": 0.004150390625,
+    "clip_fraction": 0.005394720239564776,
     "early_stop": false,
-    "entropy": 0.10083578620105982,
-    "explained_variance": 0.06198549270629883,
-    "kl_coefficient": 0.044521089643239975,
-    "kl_m2": 0.0356890992843546,
-    "old_policy_kl": 0.00043056472068769835,
+    "entropy": 0.1079082116484642,
+    "explained_variance": 0.015008330345153809,
+    "kl_coefficient": 0.01166931539773941,
+    "kl_m2": 0.0340507416985929,
+    "old_policy_kl": 0.0006398916632406326,
     "optimizer_steps": 16,
-    "rollout_entropy": 0.09959787875413895,
-    "rollout_kl_m2": 0.029855908825993538,
-    "valid_decisions": 1792.0,
-    "value_loss": 0.05126040778122842,
+    "rollout_entropy": 0.10771787166595459,
+    "rollout_kl_m2": 0.035615190863609314,
+    "valid_decisions": 2040.0,
+    "value_loss": 0.44906131754396483,
     "warmup": false
   },
   "component_totals": {
-    "lh": 222.0,
-    "deny": 78.0,
-    "opponent_lh": -383.5,
-    "opponent_deny": -153.75,
-    "death": -80.0,
+    "lh": 456.0,
+    "deny": 161.5,
+    "opponent_lh": -686.0,
+    "opponent_deny": -284.0,
+    "death": -120.0,
     "opponent_death": 0.0,
     "tower_loss": 0.0,
     "tower_kill": 0.0,
-    "timeout_result": -50.0
+    "timeout_result": -105.0
   }
 }

@@ -1,7 +1,6 @@
 """Small reviewable metrics and standalone Matplotlib SVG curves."""
 import argparse
 import csv
-import hashlib
 import json
 from pathlib import Path
 
@@ -81,6 +80,9 @@ def curves(stage):
         else:
             ax.text(.5,.5,'No completed episodes',ha='center',transform=ax.transAxes)
     fig.savefig(OUT/f'{stage}-curves.svg')
+    figure = OUT/f'{stage}-curves.svg'
+    figure.write_bytes(('\n'.join(line.rstrip() for line in figure.read_text(encoding='utf-8').splitlines())+'\n').encode('utf-8'))
+    fig.savefig(ROOT/stage/'curves-preview.png', dpi=100)
     plt.close(fig)
     checks=0
     for episode in episodes:
