@@ -141,10 +141,21 @@ fn overlay(state:&mut [f32],meta:&[f32],hero:&[f32],spells:&[f32],commands:&[f32
                             let turn=(wrap_angle(desired-state[p+FACING]).abs()/(hero[6]*TURN_STEP_FACTOR)).ceil()/30.0f32;
                             let delay=EXECUTION_DELAY+spells[k+5]+turn;
                             let ex=state[enemy+UNIT_X]+motion[eh+2]*delay;let ey=state[enemy+UNIT_Y]+motion[eh+3]*delay;
-                            let px=state[p+UNIT_X]+motion[ph+2]*delay;let py=state[p+UNIT_Y]+motion[ph+3]*delay;
+                            // Physics suspends translation during cast point, while
+                            // MOVE keeps turning. Only queued execution time permits
+                            // travel; a short destination cannot be overshot and then
+                            // used to infer a backwards-facing raze.
+                            let moving=state[p+ORDER]==1.0f32 || state[p+ORDER]==2.0f32;
+                            let travel=if moving || state[p+ORDER]==3.0f32 {EXECUTION_DELAY}else{0.0f32};
+                            let mut mx=motion[ph+2]*travel;let mut my=motion[ph+3]*travel;
                             let mut facing=state[p+FACING];
-                            if state[p+ORDER]==1.0f32 || state[p+ORDER]==2.0f32 {facing=(state[p+DEST_Y]-py).atan2(state[p+DEST_X]-px);}
-                            else if state[p+TARGET]==(1-side)as f32 {facing=(ey-py).atan2(ex-px);}
+                            if moving {
+                                let dx=state[p+DEST_X]-state[p+UNIT_X];let dy=state[p+DEST_Y]-state[p+UNIT_Y];
+                                if mx*mx+my*my>dx*dx+dy*dy {mx=dx;my=dy;}
+                                if dx*dx+dy*dy>1.0f32 {facing=dy.atan2(dx);}
+                            }
+                            let px=state[p+UNIT_X]+mx;let py=state[p+UNIT_Y]+my;
+                            if !moving && state[p+TARGET]==(1-side)as f32 {facing=(ey-py).atan2(ex-px);}
                             let cx=px+facing.cos()*spells[k+3];let cy=py+facing.sin()*spells[k+3];
                             let dx=ex-cx;let dy=ey-cy;let hero_dist=(dx*dx+dy*dy).sqrt();
                             let mut kills=false;

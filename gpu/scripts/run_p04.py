@@ -13,7 +13,7 @@ def main():
     p.add_argument('binary',type=Path);p.add_argument('output',type=Path)
     p.add_argument('--engine',default='C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json')
     p.add_argument('--weights',default='C:/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003/weights')
-    p.add_argument('--phase',choices=['evaluation','parity','revision'],default='evaluation')
+    p.add_argument('--phase',choices=['evaluation','parity','revision','revision2'],default='evaluation')
     a=p.parse_args();a.output.mkdir(parents=True,exist_ok=True)
     # OS lock is released on exit; a stale file never authorizes duplicate work.
     lock=(a.output/'runner.lock').open('a+b')
@@ -25,8 +25,8 @@ def main():
     if a.phase=='evaluation':
         jobs.append(('regression',['teacher',a.engine,'{out}','--matches','200','--seconds','600','--seed','20261103','--wall-seconds','1800']))
         jobs.append(('v9-v9',['evaluate-teachers',a.engine,'{out}','--matches','200','--seed','20261103']))
-    if a.phase in ('evaluation','revision'):
-        suffix='-revision' if a.phase=='revision' else ''
+    if a.phase in ('evaluation','revision','revision2'):
+        suffix='-'+a.phase if a.phase!='evaluation' else ''
         jobs.extend([('v10-v9'+suffix,['evaluate-teachers',a.engine,'{out}','--matches','200','--seed','20261103','--left','v10','--right','v9','--swap','--trace']),
                      ('v10-v10'+suffix,['evaluate-teachers',a.engine,'{out}','--matches','200','--seed','20261103','--left','v10','--right','v10'])])
     else:

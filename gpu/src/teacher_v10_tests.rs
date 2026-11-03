@@ -48,6 +48,22 @@ fn v10_low_health_hero_attack_lock_does_not_delay_retreat(){
 }
 
 #[test]
+fn v10_cast_prediction_stops_at_the_current_move_destination(){
+    let _g=GPU.lock().unwrap();let mut w=arena();let d=w.device.clone();
+    let t=crate::scripted_teacher::Teacher::new(&w);let c=Controller::new(&w,Version::V10,Version::V9,false);
+    let mut s=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();
+    s[UNIT_X]=-232.;s[ORDER]=1.;s[DEST_X]=-136.;s[DEST_Y]=0.;
+    w.state=primitive(Tensor::<1>::from_data(TensorData::new(s.clone(),[UNITS*STRIDE]),&d));
+    let obs=w.observe(initial_previous(2,&d));let _=c.actions(&t,&w,&obs).into_data();
+    // Observe 32 units of actual movement over four ticks. The hero will stop
+    // at -136 before the raze completes, never pass it and face backwards.
+    s[UNIT_X]=-200.;w.state=primitive(Tensor::<1>::from_data(TensorData::new(s,[UNITS*STRIDE]),&d));
+    let mut meta=vec![0.;META];meta[0]=4.;w.meta=primitive(Tensor::<1>::from_data(TensorData::new(meta,[META]),&d));
+    let obs=w.observe(initial_previous(2,&d));let a=c.actions(&t,&w,&obs).into_data().try_to_vec::<i32>().unwrap();
+    assert!((6..=8).contains(&a[0]),"a raze hits from the actual casting position: {a:?}");
+}
+
+#[test]
 fn v10_rules_cast_reserve_farm_lock_aggro_trade_tower_and_hysteresis(){
     let _g=GPU.lock().unwrap();crate::teacher_v10::check_pin().unwrap();
     for case in 0..11 {let (a,w,_)=decide_case(case);
