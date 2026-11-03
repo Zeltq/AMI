@@ -12,8 +12,10 @@
     "started_utc": "2026-11-03T00:58:37.380689+00:00",
     "wrapper_pid": 14644,
     "log": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI\\runs\\p01\\ablation-grid\\output.log",
-    "stage": "running",
-    "pid": 23964
+    "stage": "complete",
+    "pid": 23964,
+    "exit_code": 0,
+    "seconds": 966.197823799972
   },
   {
     "job": "baseline-grid",
@@ -449,6 +451,35 @@
     "seconds": 615.9757586999913
   },
   {
+    "job": "eval-zero-previous-argmax",
+    "command": [
+      "C:/AMI/runs/p01/selection.exe",
+      "evaluate-ggd",
+      "C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json",
+      "C:/AMI/runs/p01/zero-previous/burn/weights",
+      "C:\\AMI\\runs\\p01\\eval-zero-previous-argmax\\evaluation",
+      "--mode",
+      "teacher",
+      "--matches",
+      "32",
+      "--seconds",
+      "600",
+      "--seed",
+      "20261103",
+      "--argmax",
+      "--zero-previous"
+    ],
+    "command_display": "C:/AMI/runs/p01/selection.exe evaluate-ggd C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json C:/AMI/runs/p01/zero-previous/burn/weights C:\\AMI\\runs\\p01\\eval-zero-previous-argmax\\evaluation --mode teacher --matches 32 --seconds 600 --seed 20261103 --argmax --zero-previous",
+    "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+    "started_utc": "2026-11-03T01:08:09.622771+00:00",
+    "wrapper_pid": 14548,
+    "log": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI\\runs\\p01\\eval-zero-previous-argmax\\output.log",
+    "stage": "complete",
+    "pid": 5344,
+    "exit_code": 0,
+    "seconds": 393.90540980000515
+  },
+  {
     "job": "eval-zero-previous-sampling",
     "command": [
       "C:/AMI/runs/p01/selection.exe",
@@ -472,8 +503,10 @@
     "started_utc": "2026-11-03T00:58:37.660224+00:00",
     "wrapper_pid": 33728,
     "log": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI\\runs\\p01\\eval-zero-previous-sampling\\output.log",
-    "stage": "running",
-    "pid": 14352
+    "stage": "complete",
+    "pid": 14352,
+    "exit_code": 0,
+    "seconds": 571.8598263000022
   },
   {
     "job": "evaluate-teacher-recording",
