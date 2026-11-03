@@ -1,0 +1,41 @@
+{
+  "epoch": 1,
+  "train": {
+    "nll": 1.860692363600896,
+    "action_accuracy": 0.8545106772879619,
+    "action_correct": 6679281,
+    "frames": 7816498,
+    "batches": 7995,
+    "attack_precision": {
+      "numerator": 14429,
+      "denominator": 59498
+    },
+    "attack_recall": {
+      "numerator": 14429,
+      "denominator": 192222
+    },
+    "conditional_attack_target_accuracy": {
+      "numerator": 176198,
+      "denominator": 192222
+    }
+  },
+  "validation": {
+    "nll": 1.4411489758023779,
+    "action_accuracy": 0.8795251908396946,
+    "action_correct": 1152178,
+    "frames": 1310000,
+    "batches": 2747,
+    "attack_precision": {
+      "numerator": 20162,
+      "denominator": 105740
+    },
+    "attack_recall": {
+      "numerator": 20162,
+      "denominator": 32440
+    },
+    "conditional_attack_target_accuracy": {
+      "numerator": 30629,
+      "denominator": 32440
+    }
+  }
+}

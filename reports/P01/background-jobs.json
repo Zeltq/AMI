@@ -1,5 +1,21 @@
 [
   {
+    "job": "ablation-grid",
+    "command": [
+      "C:/Python314/python.exe",
+      "gpu/scripts/p01_diagnostics.py",
+      "evaluation-grid",
+      "reports/P01/ablation-evaluation-config.json"
+    ],
+    "command_display": "C:/Python314/python.exe gpu/scripts/p01_diagnostics.py evaluation-grid reports/P01/ablation-evaluation-config.json",
+    "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+    "started_utc": "2026-11-03T00:58:37.380689+00:00",
+    "wrapper_pid": 14644,
+    "log": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI\\runs\\p01\\ablation-grid\\output.log",
+    "stage": "running",
+    "pid": 23964
+  },
+  {
     "job": "baseline-grid",
     "command": [
       "C:/Python314/python.exe",
@@ -433,6 +449,33 @@
     "seconds": 615.9757586999913
   },
   {
+    "job": "eval-zero-previous-sampling",
+    "command": [
+      "C:/AMI/runs/p01/selection.exe",
+      "evaluate-ggd",
+      "C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json",
+      "C:/AMI/runs/p01/zero-previous/burn/weights",
+      "C:\\AMI\\runs\\p01\\eval-zero-previous-sampling\\evaluation",
+      "--mode",
+      "teacher",
+      "--matches",
+      "32",
+      "--seconds",
+      "600",
+      "--seed",
+      "20261103",
+      "--sampling",
+      "--zero-previous"
+    ],
+    "command_display": "C:/AMI/runs/p01/selection.exe evaluate-ggd C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json C:/AMI/runs/p01/zero-previous/burn/weights C:\\AMI\\runs\\p01\\eval-zero-previous-sampling\\evaluation --mode teacher --matches 32 --seconds 600 --seed 20261103 --sampling --zero-previous",
+    "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+    "started_utc": "2026-11-03T00:58:37.660224+00:00",
+    "wrapper_pid": 33728,
+    "log": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI\\runs\\p01\\eval-zero-previous-sampling\\output.log",
+    "stage": "running",
+    "pid": 14352
+  },
+  {
     "job": "evaluate-teacher-recording",
     "command": [
       "C:/AMI/runs/p01/parity-v2.exe",
@@ -736,6 +779,32 @@
     "seconds": 10.333949099993333
   },
   {
+    "job": "zero-previous-export",
+    "command": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "bash",
+      "/mnt/c/AMI/scripts/wsl_python.sh",
+      "/mnt/c/Users/levik/.codex/worktrees/p01-pregame-parity/AMI/gpu/scripts/weights.py",
+      "--checkpoint",
+      "/mnt/c/AMI/runs/p01/zero-previous/epoch-001.pt",
+      "--output",
+      "/mnt/c/AMI/runs/p01/zero-previous/burn",
+      "--zero-previous"
+    ],
+    "command_display": "wsl -d Ubuntu -- bash /mnt/c/AMI/scripts/wsl_python.sh /mnt/c/Users/levik/.codex/worktrees/p01-pregame-parity/AMI/gpu/scripts/weights.py --checkpoint /mnt/c/AMI/runs/p01/zero-previous/epoch-001.pt --output /mnt/c/AMI/runs/p01/zero-previous/burn --zero-previous",
+    "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+    "started_utc": "2026-11-03T00:58:08.423447+00:00",
+    "wrapper_pid": 20060,
+    "log": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI\\runs\\p01\\zero-previous-export\\output.log",
+    "stage": "complete",
+    "pid": 20920,
+    "exit_code": 0,
+    "seconds": 9.497544099984225
+  },
+  {
     "job": "zero-previous-train",
     "command": [
       "wsl",
@@ -754,7 +823,9 @@
     "started_utc": "2026-11-03T00:38:07.870584+00:00",
     "wrapper_pid": 4816,
     "log": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI\\runs\\p01\\zero-previous-train\\output.log",
-    "stage": "running",
-    "pid": 28624
+    "stage": "complete",
+    "pid": 28624,
+    "exit_code": 0,
+    "seconds": 1072.3726638000226
   }
 ]
