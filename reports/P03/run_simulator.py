@@ -18,12 +18,25 @@ def read_json(path):
     return json.loads(path.read_text(encoding='utf-8'))
 
 
+def initial_rng_states(seed,games,parallel):
+    # Mirrors the public initialization in sampling.rs, not the RNG transition.
+    return [((seed+(game//parallel*parallel)*7919+(game%parallel+1)*2654435761)&0xffffffff)|1 for game in range(games)]
+
+
+def validate_seed_plan(parallel,second_parallel):
+    states=initial_rng_states(20261103,100,parallel)+initial_rng_states(20261105,100,second_parallel)
+    if len(set(states))!=200:raise ValueError('Evaluation seed plan contains duplicate initial RNG states')
+    return states
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--run', type=Path, required=True)
     parser.add_argument('--parallel', type=int, default=20)
+    parser.add_argument('--second-parallel', type=int, default=100)
     parser.add_argument('--adopt-pid', type=int)
     args = parser.parse_args()
+    validate_seed_plan(args.parallel,args.second_parallel)
     args.run.mkdir(parents=True, exist_ok=args.adopt_pid is not None)
     if not args.adopt_pid:(args.run / 'started.json').write_text(json.dumps({'pid': os.getpid()}))
     original = Path('C:/AMI/runs/gpu/ggd0-il-20261102-202637')
@@ -40,11 +53,11 @@ def main():
     pilot = Path('C:/AMI/runs/pilot-status.json')
     started = time.monotonic()
     results = []
-    for seed in (20261103, 20261104):
+    for seed in (20261103, 20261105):
         config = args.run / f'collect-{seed}.json'
         output = args.run / f'seed-{seed}'
         save(config, dict(engine='C:/AMI/runs/gpu/dota-calibration-003/engine.json', games=100,
-                          parallel_matches=args.parallel, seconds=600, seed=seed, max_blocks=None))
+                          parallel_matches=args.parallel if seed==20261103 else args.second_parallel, seconds=600, seed=seed, max_blocks=None))
         command = [str(executable), 'collect-teacher', str(config), str(output)]
         seed_started = time.monotonic()
         adopted = args.adopt_pid if seed == 20261103 else None

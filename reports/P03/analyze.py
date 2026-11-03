@@ -141,7 +141,7 @@ def main():
         if match['exit_code']==0:dota.append(dota_game(Path(match['run']),match['index'],match['seed']))
     save(args.output/'dota-games.json',dota)
     simulator=[]
-    for seed in (20261103,20261104):
+    for seed in (20261103,20261105):
         root=args.simulator/f'seed-{seed}'
         if not(root/'dataset.json').exists():continue
         games=simulator_games(root);simulator.extend(games);save(args.output/f'simulator-games-{seed}.json',games)
