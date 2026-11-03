@@ -25,15 +25,16 @@ def run(stage, command):
     previous = json.loads(state_path.read_text()) if state_path.exists() else {}
     history = previous.get('history', [])
     started = time.time()
+    artifact_dir = Path(command[4]) if len(command)>4 and command[1]=='evaluate-ggd' else ROOT/stage
     with (ROOT / f'{stage}.stdout.log').open('w') as out, (ROOT / f'{stage}.stderr.log').open('w') as err:
         child = subprocess.Popen(command, cwd=REPO, stdout=out, stderr=err)
         state = dict(stage=stage, controller_pid=os.getpid(), child_pid=child.pid,
                      command=subprocess.list2cmdline(command), argv=command,
-                     artifacts=str(ROOT / stage), started_unix=started, history=history)
+                     artifacts=str(artifact_dir), started_unix=started, history=history)
         save(state_path, state)
         while child.poll() is None:
             state['elapsed_seconds'] = time.time() - started
-            status = ROOT / stage / 'status.json'
+            status = artifact_dir / 'status.json'
             if status.exists():
                 try: state['progress'] = json.loads(status.read_text())
                 except (OSError, json.JSONDecodeError): pass
