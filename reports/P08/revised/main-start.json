@@ -1,0 +1,25 @@
+{
+  "stage": "rev-main",
+  "controller_pid": 21192,
+  "child_pid": 23624,
+  "argv": [
+    "C:\\AMI\\runs\\p08\\revised-gpu.exe",
+    "train-ggd",
+    "C:\\AMI-wt\\P08\\reports\\P08\\revised\\main.json",
+    "C:\\AMI\\runs\\p08\\rev-main"
+  ],
+  "command": "C:\\AMI\\runs\\p08\\revised-gpu.exe train-ggd C:\\AMI-wt\\P08\\reports\\P08\\revised\\main.json C:\\AMI\\runs\\p08\\rev-main",
+  "artifacts": "C:\\AMI\\runs\\p08\\rev-main",
+  "started_unix": 1793746602.827042,
+  "wall_limit_seconds": 10380.0,
+  "elapsed_seconds": 16.48580050468445,
+  "progress": {
+    "blocks": 1,
+    "completed_initialization_episodes": 0,
+    "decisions": 640.0,
+    "pid": 23624,
+    "stage": "desynchronizing",
+    "total_blocks": 40,
+    "wall_seconds": 9.6086816
+  }
+}
