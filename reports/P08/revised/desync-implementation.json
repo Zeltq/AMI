@@ -9,5 +9,10 @@
     "passed": 9,
     "total": 9
   },
-  "integration_check": "pending: six blocks with native-clock phase histogram verification and lr0"
+  "integration_check": "pending: six blocks with native-clock phase histogram verification and lr0",
+  "full_rust": {
+    "passed": 104,
+    "total": 104,
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p08/target -- --test-threads=1"
+  }
 }
