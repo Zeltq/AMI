@@ -1,7 +1,8 @@
 # Реестр ключевых моделей
 
-Состояние на 3 ноября 2026 года, задача M02. Пути и выбор M2 сверены с
-`C:/AMI/runs/p02/experiment/state.json`; веса хранятся локально вне git.
+Состояние на 3 ноября 2026 года, задача M03. Пути и выбор M2 сверены с
+`C:/AMI/runs/p02/experiment/state.json`; модели P06 — с [отчётом P06](P06.md)
+и локальными экспортами. Веса хранятся локально вне git.
 
 ## Сравнение против teacher-v9 при sampling
 
@@ -34,8 +35,9 @@ LH+deny. После M0 она получила 3894 обновления в дв
 ## Локальные checkpoint и экспорты
 
 Burn-экспорт — каталог `weights`, содержащий `manifest.json` и 59 файлов `.f32`.
-Имена M0/M2/M4/D0 обозначают этапы эксперимента: в метаданных всех четырёх
-экспортов `model_name` остаётся `GGD0`, поэтому модель определяется полным путём.
+Имена M0/M2/M4/D0 и baseline/honest/oracle обозначают этапы экспериментов:
+в метаданных всех семи экспортов `model_name` остаётся `GGD0`, поэтому модель
+определяется полным путём.
 
 | Модель | Checkpoint `.pt` | Burn-экспорт | PyTorch-экспорт для Dota |
 | --- | --- | --- | --- |
@@ -43,6 +45,93 @@ Burn-экспорт — каталог `weights`, содержащий `manifest
 | DAgger M2 | `C:/AMI/runs/p02/experiment/train-round-2-attempt-1/last.pt` | `C:/AMI/runs/p02/experiment/train-round-2-attempt-1/export/weights` | Отдельный пакет в артефактах P02/P05 не найден; Dota не проверена |
 | DAgger M4 | `C:/AMI/runs/p02/experiment/train-round-4-attempt-1/last.pt` | `C:/AMI/runs/p02/experiment/train-round-4-attempt-1/export/weights` | Отдельный пакет в артефактах P02/P05 не найден; Dota не проверена |
 | D0-контроль | `C:/AMI/runs/p02/experiment/train-control-attempt-1/last.pt` | `C:/AMI/runs/p02/experiment/train-control-attempt-1/export/weights` | Отдельный пакет в артефактах P02/P05 не найден; Dota не проверена |
+
+## Модели P06: ggd-v3, окружение 004
+
+Все три модели обучены с нуля на одном датасете teacher-v9 из 1024 матчей
+окружения 004: по две эпохи, 15744 обновления и 1 150 253 параметра, одинаковые
+начальные веса. Профиль у всех — `ggd-v3`; baseline обнуляет оба новых блока,
+honest использует честные тайминги, oracle — честные тайминги и диагностический
+прогноз учителя. При сравнении с M0/M2/M4/D0 учитываются другое окружение,
+обучение с нуля и бюджет. Источник: [P06](P06.md).
+
+Оценка против teacher-v9: `--sampling`, seed `20261103`, 64 матча на модель
+(32 за сторону), горизонт 600 игровых секунд/штатный конец; определения ранней
+смерти и собственных LH/deny совпадают с таблицей P02 выше.
+
+| Модель | Профиль | timing_honest / timing_oracle | Смерти до 120 с | Все смерти | LH | Deny | LH+deny за 64 матча | Отчёт |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
+| P06 baseline | `ggd-v3` | false / false | 19/64 | 46/64 | 334 | 230 | 564 | [P06](P06.md) |
+| P06 honest | `ggd-v3` | true / false | 18/64 | 37/64 | 359 | 162 | 521 | [P06](P06.md) |
+| P06 oracle | `ggd-v3` | true / true | 19/64 | 52/64 | 424 | 265 | 689 | [P06](P06.md) |
+
+Для `--argmax` те же 64 матча дали LH+deny 326, 2 и 214; ранние смерти —
+31/64, 32/64 и 43/64 соответственно. Полные результаты по сторонам и validation
+ATTACK recall/precision: [таблицы P06](P06/tables.md),
+[измерения P06](P06/experiment-metrics.json).
+
+| Модель | Checkpoint `.pt` | Burn-экспорт | PyTorch-экспорт для Dota |
+| --- | --- | --- | --- |
+| P06 baseline | `C:/AMI/runs/p06/experiment/baseline/epoch-002.pt` | `C:/AMI/runs/p06/experiment/baseline/export/weights` | Отдельный пакет в P06 не зарегистрирован |
+| P06 honest | `C:/AMI/runs/p06/experiment/honest/epoch-002.pt` | `C:/AMI/runs/p06/experiment/honest/export/weights` | Отдельный пакет в P06 не зарегистрирован |
+| P06 oracle | `C:/AMI/runs/p06/experiment/oracle/epoch-002.pt` | `C:/AMI/runs/p06/experiment/oracle/export/weights` | Только диагностика симулятора; запуск oracle в Dota отклоняется |
+
+В Dota oracle-блок всегда нулевой; полноценная игровая оценка новых моделей
+в Dota в P06 не проводилась. Проверены входы и совместимость baseline/honest;
+oracle требует привилегированных данных симулятора. [Контракт ggd-v3](P06/contract.md).
+
+## Окружения
+
+| Версия | pre_game_seconds | engine.json | Обученные модели |
+| --- | ---: | --- | --- |
+| 003 | 83 | `C:/AMI/runs/gpu/dota-calibration-003/engine.json` | GGD0 epoch-003 (M0), DAgger M2, DAgger M4, D0-контроль |
+| 004 | 90.03333333333333 (90.03 с, 2701 тик) | `C:/AMI/runs/p06/dota-calibration-004/engine.json` | P06 baseline, honest, oracle |
+
+Для M0 и моделей P02 использовалась замороженная копия окружения 003:
+`C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json`.
+Она меняет пути calibration/navigation; навигационные данные совпадают с 003.
+Окружение 004 расположено в `C:/AMI/runs/p06/dota-calibration-004` и изменяет
+относительно исходного 003 только calibration path и длительность pregame.
+SHA-256 пересобранной навигации совпадает у всех трёх копий:
+`d9f818813f25a08febc4abb1fe8afb916f17ab91bfb07568a926fd3d72cd0104`.
+Основания: [окружения P06](P06/environment.json), [pregame P06](P06/pregame.json).
+
+## Учителя
+
+SHA-256 ниже относятся к текущим исходникам модулей и сверены с
+[provenance P04](P04/provenance.json). В старых метаданных M0/P02 сохранён
+исторический `teacher_policy_sha256`; его значение не заменяет SHA текущего исходника.
+
+| Версия | Исходник | SHA-256 |
+| --- | --- | --- |
+| v9 | `gpu/src/scripted_teacher.rs` | `55b7f4ff5baef7aea24e706aaaca3e83fa049adca0bd63cee4203c6c23e08312` |
+| v10 | `gpu/src/teacher_v10.rs` | `858bc93841b4a77397574721fcc8e114e6efabb8a4d02d3d472eebefd27a95ae` |
+
+Финальный v10 из `e127e78`, SHA-пин `gpu/src/teacher_v10.sha256`.
+Серии [P04](P04.md): окружение 003, seed `20261103`, по 200 матчей,
+в v10–v9 по 100 матчей v10 за сторону, горизонт 600 с/штатный конец.
+
+| Метрика P04 | v9 | v10 |
+| --- | --- | --- |
+| Self-play: LH / стороны | 16414/400 | 12243/400 |
+| Self-play: deny / стороны | 11459/400 | 6593/400 |
+| Self-play: смерти / стороны | 0/400 | 105/400 |
+| Победы / ничьи / поражения v10 против v9 | Соперник | 142/200; 3/200; 55/200 |
+| Касты против v9 / матчи | 0 у v9 | 3238/200 |
+| Выпущенные атаки героя против v9 / матчи | 0 у v9 | 4211/200 |
+| Вызванное агро / исполненные ATTACK героя против v9 | 0/0 | 0/25275 |
+
+Общий критерий P04 не достигнут: self-play LH v10 — 12243/16414 от v9
+при требовании ≥85%. Порог побед и активности достигнут. Регрессия v9 пройдена
+на 200/200 строках матчей и 17/17 стабильных полях; DAgger beta=1 сохраняет
+побитовое равенство FP16/labels/reset/valid/previous на двух матчах.
+[Критерии P04](P04/criteria.json), [паритет P04](P04/parity.json).
+
+По умолчанию выбран v9. Для collect-teacher/collect-dagger версия задаётся
+полем `teacher_version`, для evaluate-ggd — `--teacher-version`;
+evaluate-teachers задаёт стороны через `--left`, `--right`, `--swap`.
+Выбор учителя совместим с выбором профиля `ggd-v2`/`ggd-v3` в collect-teacher;
+ограничение P06 на DAgger с профилем ggd-v3 сохранено.
 
 ## Другие выборки M0 и перенос в Dota
 
@@ -59,7 +148,7 @@ Burn-экспорт — каталог `weights`, содержащий `manifest
 
 ## Проверка локальных артефактов
 
-На дату реестра существуют все четыре checkpoint, четыре Burn-manifest,
+Для моделей M0/M2/M4/D0 существуют все четыре checkpoint, четыре Burn-manifest,
 236/236 файлов тензоров и PyTorch-пакет M0 для Dota. Для каждого Burn-экспорта
 проверены размеры и SHA-256 всех 59 файлов по manifest; все 59 тензоров каждого
 экспорта побитово совпадают с соответствующим checkpoint после преобразования
@@ -72,3 +161,9 @@ Burn-экспорт — каталог `weights`, содержащий `manifest
 (совпадает с [provenance P02](P02/provenance.json)). Причина расхождения хеша
 всего файла не установлена; равенство весов проверено отдельно, как указано выше.
 У M2, M4 и D0-контроля `source_sha256` совпадает с текущими checkpoint.
+
+У baseline/honest/oracle P06 существуют ещё три checkpoint `epoch-002.pt`,
+три Burn-manifest и 177/177 файлов тензоров. Проверены размеры и SHA-256 файлов,
+соответствие всех 59 тензоров каждого экспорта checkpoint, а также совпадение
+`source_sha256` с файлом checkpoint. Пути обоих окружений, замороженной копии 003
+и SHA исходников учителей проверены локально. Артефакты прошлых экспериментов сохранены.
