@@ -541,5 +541,54 @@
     "pid": 22352,
     "exit_code": 0,
     "minutes": 7.1743070933337245
+  },
+  {
+    "stage": "train-control",
+    "argv": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "bash",
+      "/mnt/c/AMI-wt/P02/scripts/wsl_python.sh",
+      "/mnt/c/AMI-wt/P02/gpu/scripts/train_ggd.py",
+      "/mnt/c/AMI/runs/p02/experiment/train-control-attempt-1/input.json",
+      "/mnt/c/AMI/runs/p02/experiment/train-control-attempt-1",
+      "--initialize",
+      "/mnt/c/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003.pt",
+      "--updates",
+      "7673"
+    ],
+    "command": "wsl -d Ubuntu -- bash /mnt/c/AMI-wt/P02/scripts/wsl_python.sh /mnt/c/AMI-wt/P02/gpu/scripts/train_ggd.py /mnt/c/AMI/runs/p02/experiment/train-control-attempt-1/input.json /mnt/c/AMI/runs/p02/experiment/train-control-attempt-1 --initialize /mnt/c/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003.pt --updates 7673",
+    "output": "C:\\AMI\\runs\\p02\\experiment\\train-control-attempt-1",
+    "started_utc": "2026-11-03T05:34:16.131918+00:00",
+    "pid": 15832,
+    "exit_code": 0,
+    "minutes": 18.335608513334105
+  },
+  {
+    "stage": "control-sampling",
+    "argv": [
+      "C:/AMI/runs/p02/sf-duel-gpu.exe",
+      "evaluate-ggd",
+      "C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\dataset\\environment\\engine.json",
+      "C:\\AMI\\runs\\p02\\experiment\\train-control-attempt-1\\export\\weights",
+      "C:\\AMI\\runs\\p02\\experiment\\control-sampling-attempt-1",
+      "--mode",
+      "teacher",
+      "--matches",
+      "64",
+      "--seconds",
+      "600",
+      "--seed",
+      "20261103",
+      "--sampling"
+    ],
+    "command": "C:/AMI/runs/p02/sf-duel-gpu.exe evaluate-ggd C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\dataset\\environment\\engine.json C:\\AMI\\runs\\p02\\experiment\\train-control-attempt-1\\export\\weights C:\\AMI\\runs\\p02\\experiment\\control-sampling-attempt-1 --mode teacher --matches 64 --seconds 600 --seed 20261103 --sampling",
+    "output": "C:\\AMI\\runs\\p02\\experiment\\control-sampling-attempt-1",
+    "started_utc": "2026-11-03T05:52:38.728331+00:00",
+    "pid": 11156,
+    "exit_code": 0,
+    "minutes": 5.174418888333215
   }
 ]
