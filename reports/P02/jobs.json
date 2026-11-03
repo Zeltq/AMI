@@ -117,5 +117,56 @@
     "pid": 32120,
     "exit_code": 0,
     "minutes": 1.6749970016661488
+  },
+  {
+    "stage": "teacher-baseline",
+    "argv": [
+      "C:/AMI/runs/p02/sf-duel-gpu.exe",
+      "evaluate-ggd",
+      "C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\dataset\\environment\\engine.json",
+      "C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\GGD0-resumed\\epoch-003\\weights",
+      "C:\\AMI\\runs\\p02\\experiment\\teacher-baseline-attempt-1",
+      "--mode",
+      "teacher",
+      "--matches",
+      "64",
+      "--seconds",
+      "600",
+      "--seed",
+      "20261103",
+      "--sampling",
+      "--record-teacher"
+    ],
+    "command": "C:/AMI/runs/p02/sf-duel-gpu.exe evaluate-ggd C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\dataset\\environment\\engine.json C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\GGD0-resumed\\epoch-003\\weights C:\\AMI\\runs\\p02\\experiment\\teacher-baseline-attempt-1 --mode teacher --matches 64 --seconds 600 --seed 20261103 --sampling --record-teacher",
+    "output": "C:\\AMI\\runs\\p02\\experiment\\teacher-baseline-attempt-1",
+    "started_utc": "2026-11-03T02:25:38.736307+00:00",
+    "pid": 27616,
+    "exit_code": 0,
+    "minutes": 4.6741914449996935
+  },
+  {
+    "stage": "M0-sampling",
+    "argv": [
+      "C:/AMI/runs/p02/sf-duel-gpu.exe",
+      "evaluate-ggd",
+      "C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\dataset\\environment\\engine.json",
+      "C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\GGD0-resumed\\epoch-003\\weights",
+      "C:\\AMI\\runs\\p02\\experiment\\M0-sampling-attempt-1",
+      "--mode",
+      "teacher",
+      "--matches",
+      "64",
+      "--seconds",
+      "600",
+      "--seed",
+      "20261103",
+      "--sampling"
+    ],
+    "command": "C:/AMI/runs/p02/sf-duel-gpu.exe evaluate-ggd C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\dataset\\environment\\engine.json C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\GGD0-resumed\\epoch-003\\weights C:\\AMI\\runs\\p02\\experiment\\M0-sampling-attempt-1 --mode teacher --matches 64 --seconds 600 --seed 20261103 --sampling",
+    "output": "C:\\AMI\\runs\\p02\\experiment\\M0-sampling-attempt-1",
+    "started_utc": "2026-11-03T02:30:19.208072+00:00",
+    "pid": 24076,
+    "exit_code": 0,
+    "minutes": 4.92531104000033
   }
 ]
