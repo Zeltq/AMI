@@ -6,6 +6,7 @@ import subprocess
 import sys
 import time
 from datetime import datetime, timezone
+from p07_status import publish
 
 name, *command = sys.argv[1:]
 root=Path('C:/AMI/runs/p07');root.mkdir(parents=True,exist_ok=True)
@@ -19,9 +20,7 @@ with (root/f'{name}.stdout.log').open('w') as out, (root/f'{name}.stderr.log').o
                     exit_code=code,minutes=(time.monotonic()-start)/60,background_work_remaining=code is None,
                     checked_utc=datetime.now(timezone.utc).isoformat(),artifacts=[str(root/f'{name}.stdout.log'),str(root/f'{name}.stderr.log')])
         (root/f'{name}.status.json').write_text(json.dumps(status,indent=2),encoding='utf-8')
-        pilot=Path('C:/AMI/runs/pilot-status.json');current=json.loads(pilot.read_text(encoding='utf-8'))
-        current.setdefault('P07_jobs',{})[name]=status
-        temporary=pilot.with_suffix(f'.p07-{os.getpid()}.tmp');temporary.write_text(json.dumps(current,ensure_ascii=False,indent=2),encoding='utf-8');temporary.replace(pilot)
+        publish(name,status)
         if code is not None:break
         time.sleep(10)
 sys.exit(code)
