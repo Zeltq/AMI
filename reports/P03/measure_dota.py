@@ -1,13 +1,17 @@
 """P03: observe two unchanged Lua v9 teachers on an existing isolated worker."""
 import argparse
+import gzip
 import hashlib
 import json
 import os
 from pathlib import Path
 import shutil
+import socket
+import struct
 import subprocess
 import sys
 import time
+import threading
 from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -35,7 +39,8 @@ local core=require("bots/scripted_teacher_v9")
 local decide=core.decide
 core.decide=function(scene,memory)
  local action,diagnostics=decide(scene,memory)
- previous={action=action.action,x=action.x or 64,y=action.y or 64,item=action.item or 0,buy=action.buy or 0}
+ previous={action=action.action,x=64,y=64,item=action.item or 0,buy=action.buy or 0}
+ if action.action==1 then previous.x=64+(action.x-scene.own.x)/16;previous.y=64+(action.y-scene.own.y)/16 end
  for _,u in ipairs(scene.units) do
   if u.id==action.target_id then previous.target_offset={(u.x-scene.own.x)/2048,(u.y-scene.own.y)/2048};break end
  end
@@ -43,6 +48,8 @@ core.decide=function(scene,memory)
 end
 agent.snapshot=function(bot,st)
  local s=original_snapshot(bot,st)
+ s.p03_action_type=bot:GetCurrentActionType()
+ s.p03_entity_index_available=type(bot.GetEntityIndex)=="function"
  if first or (#s.creeps>0 and creep_decisions<10) then
   if #s.creeps>0 then creep_decisions=creep_decisions+1 end
   original_print("SF_P03_OBSERVATION|"..json.encode({initial=first,creep_decision=creep_decisions,snapshot=s,previous=previous}))
@@ -103,6 +110,48 @@ def save(path, value):
     temporary.replace(path)
 
 
+class WorldCapture:
+    def __init__(self, run, ports):
+        self.stop = threading.Event()
+        self.errors = []
+        self.threads = [threading.Thread(target=self.receive, args=(run, team, port), daemon=True)
+                        for team, port in zip((2, 3), ports)]
+        for thread in self.threads:thread.start()
+
+    def receive(self, run, team, port):
+        deadline = time.monotonic() + 100
+        while not self.stop.is_set():
+            try:
+                connection = socket.create_connection(('127.0.0.1', port), timeout=1)
+                break
+            except OSError:
+                if time.monotonic() > deadline:self.errors.append(f'world-{team}: connection timeout');return
+                time.sleep(.1)
+        else:return
+        connection.settimeout(1)
+        def read(size):
+            data = bytearray()
+            while len(data) < size and not self.stop.is_set():
+                try:chunk = connection.recv(size-len(data))
+                except socket.timeout:continue
+                if not chunk:raise EOFError()
+                data.extend(chunk)
+            if len(data) != size:raise EOFError()
+            return bytes(data)
+        with connection, gzip.open(run / f'world-{team}.pb.gz', 'wb', compresslevel=1) as output:
+            try:
+                while not self.stop.is_set():
+                    header = read(4);size = struct.unpack('<I', header)[0]
+                    if not 0 < size < 32_000_000:raise ValueError('Invalid world state size')
+                    output.write(header + read(size))
+            except EOFError:pass
+            except Exception as error:self.errors.append(str(error))
+
+    def close(self):
+        self.stop.set()
+        for thread in self.threads:thread.join(3)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--run', required=True, type=Path)
@@ -113,6 +162,7 @@ def main():
     parser.add_argument('--timescale', type=float, default=1)
     parser.add_argument('--seed', type=int, default=20261103)
     parser.add_argument('--no-pilot-update', action='store_true')
+    parser.add_argument('--capture-world', action='store_true')
     args = parser.parse_args()
     if not 0 <= args.worker < 20:
         parser.error('worker must be 0..19')
@@ -153,11 +203,15 @@ def main():
     hashes['gpu/src/scripted_teacher.rs'] = hashlib.sha256((ROOT / 'gpu/src/scripted_teacher.rs').read_bytes()).hexdigest()
     save(run / 'source-manifest.json', hashes)
     status('preparing')
+    capture = None
     try:
         content, _ = isolated_content(args.assets / 'workers' / f'{args.worker:02d}', source)
         status('starting')
+        ports = (12250 + args.worker*2, 12251 + args.worker*2) if args.capture_world else None
+        if ports:capture = WorldCapture(run, ports)
         with Game(run, 'P03', args.timescale, 7.5, bot_root=source, content_root=content,
-                  game=content.parents[1], game_port=27155 + args.worker * 10, engine_threads=2, hero_seed=args.seed) as game:
+                  game=content.parents[1], game_port=27155 + args.worker * 10, engine_threads=2, hero_seed=args.seed,
+                  worldstate_ports=ports, worldstate_frames=1) as game:
             status('diagnostic', dota_pid=game.pid)
             game.command('find seed')
             game.command('script_reload_code bots/p03_events')
@@ -178,11 +232,16 @@ def main():
                 time.sleep(.25)
             else:
                 raise TimeoutError('Dota diagnostic exceeded wall-timeout')
+        if capture:
+            capture.close()
+            if capture.errors:raise RuntimeError(capture.errors)
         status('complete', background_work_remaining=False)
     except Exception as error:
         save(run / 'result.json', dict(complete=False, error=str(error), type=type(error).__name__, manifest=hashes))
         status('blocked', error=str(error), background_work_remaining=False)
         raise
+    finally:
+        if capture:capture.close()
 
 
 if __name__ == '__main__':

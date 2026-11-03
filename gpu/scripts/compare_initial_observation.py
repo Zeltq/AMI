@@ -75,7 +75,7 @@ def trajectory_comparison(args):
   if not line.startswith('SF_P03_OBSERVATION|'):continue
   row=json.loads(line.split('|',1)[1]);snapshot=row['snapshot'];team=snapshot['team'];index=0 if row['initial']else row['creep_decision']
   native[team][index]=(snapshot,encode(snapshot,row.get('previous'),combat_inputs=True,combat_memory=memory[team]).arrays)
- root=Path(args.gpu_dataset);manifest=json.loads((root/'dataset.json').read_text());gpu={2:{},3:{}};post={2:0,3:0}
+ root=Path(args.gpu_dataset);manifest=json.loads((root/'dataset.json').read_text())if(root/'dataset.json').exists()else{'files':[{'file':p.name}for p in sorted(root.glob('*.ggd.gz'))]};gpu={2:{},3:{}};post={2:0,3:0}
  for entry in manifest['files']:
   header,compact,signals=read_block(root/entry['file'])
   for actor_index,actor in enumerate(header['actors']):

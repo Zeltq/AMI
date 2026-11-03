@@ -3,6 +3,42 @@ import gzip,json,socket,struct,sys,threading,time,uuid
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'src'));sys.path.insert(0,str(ROOT/'scripts'))
+
+def recorded_alignment():
+    import argparse
+    from sf_duel.protos.worldstate_pb2 import CMsgBotWorldState
+    p=argparse.ArgumentParser();p.add_argument('--lua-log',required=True);p.add_argument('--world-root',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
+    samples={2:{},3:{}}
+    for line in Path(a.lua_log).read_text(errors='replace').splitlines():
+        if line.startswith('SF_P03_OBSERVATION|'):
+            s=json.loads(line.split('|',1)[1])['snapshot'];samples[s['team']][round(s['time']*30)]=s
+    checks={};examples=[];matched={2:0,3:0};frames={2:0,3:0};seen=set()
+    for team in (2,3):
+        with gzip.open(a.world_root/f'world-{team}.pb.gz','rb')as f:
+            while header:=f.read(4):
+                if len(header)!=4:raise ValueError('Truncated world header')
+                size=struct.unpack('<I',header)[0];payload=f.read(size)
+                if len(payload)!=size:raise ValueError('Truncated world payload')
+                state=CMsgBotWorldState.FromString(payload);frames[team]+=1;tick=round(state.dota_time*30)
+                if tick not in samples[team]or(team,tick)in seen:continue
+                u=next((u for u in state.units if u.name=='npc_dota_hero_nevermore'and u.team_id==team),None)
+                if u is None:continue
+                seen.add((team,tick));matched[team]+=1;s=samples[team][tick];h=s['self']
+                for field,native in [('health',u.health),('mana',u.mana),('x',u.location.x),('y',u.location.y),('action_type',u.action_type)]:
+                    actual=s.get('p03_action_type')if field=='action_type'else h.get(field)
+                    c=checks.setdefault(field,dict(equal=0,different=0,missing=0,total=0));c['total']+=1
+                    if actual is None:c['missing']+=1
+                    elif abs(native-actual)<.0001:c['equal']+=1
+                    else:
+                        c['different']+=1
+                        if len(examples)<20:examples.append(dict(team=team,tick=tick,field=field,lua=actual,native=native))
+    report=dict(checks=checks,mismatches=examples,native_frames=frames,lua_frames={t:len(v)for t,v in samples.items()},matched_frames=matched,errors=[],scope='Same-tick Lua and protobuf audit; GPU and ggd-v2 comparison is a separate report')
+    a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(json.dumps(report,indent=2),encoding='utf-8');print(json.dumps(report))
+
+if '--lua-log' in sys.argv:
+    recorded_alignment()
+    raise SystemExit(0)
+
 from prepare_teacher import prepare
 from sf_duel.live.install import isolated_content
 from sf_duel.live.game import Game
