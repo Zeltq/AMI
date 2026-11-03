@@ -51,6 +51,14 @@
       "total": 170,
       "environment": "PYTHONPATH=src;tests;C:/AMI/tools/lua_test_runtime",
       "log": "C:/AMI/runs/p05/python-tests-final.log"
+    },
+    {
+      "command": "python -m unittest discover -s tests -v",
+      "passed": 171,
+      "total": 171,
+      "environment": "PYTHONPATH=src;tests;C:/AMI/tools/lua_test_runtime",
+      "log": "C:/AMI/runs/p05/python-tests-final.log",
+      "scope": "final evaluator, shared resume queue, timeout helper"
     }
   ],
   "smoke": {
