@@ -1,0 +1,11 @@
+{
+  "targeted_rust": {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p08/target p08_ -- --test-threads=1",
+    "passed": 5,
+    "total": 5
+  },
+  "python_compile": [
+    "gpu/scripts/p08_revised.py"
+  ],
+  "full_rust": "pending after revised changes"
+}

@@ -18,13 +18,15 @@ pub struct Config {
     pub learning_rate:f64,pub critic_learning_rate:f64,pub warmup_blocks:usize,
     pub entropy:f32,pub kl_start:f32,pub kl_end:f32,pub stop_kl:f32,
     pub checkpoint_minutes:f64,pub evaluate:bool,pub evaluation_minutes:f64,
+    pub initialize_weights:Option<String>,pub skip_warmup:bool,pub critic_only:bool,
 }
 impl Default for Config {fn default()->Self{Self{
     engine:"C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json".into(),
     initial_weights:"C:/AMI/runs/p02/experiment/train-round-2-attempt-1/export/weights".into(),
     matches:16,seed:20261103,minutes:20.,max_blocks:0,batch_sequences:4,epochs:2,
     learning_rate:1e-5,critic_learning_rate:1e-4,warmup_blocks:32,entropy:0.005,
-    kl_start:0.1,kl_end:0.01,stop_kl:0.02,checkpoint_minutes:10.,evaluate:false,evaluation_minutes:60.,
+    kl_start:0.2,kl_end:0.05,stop_kl:0.02,checkpoint_minutes:10.,evaluate:false,evaluation_minutes:60.,
+    initialize_weights:None,skip_warmup:false,critic_only:false,
 }}}
 
 // Cumulative components: differencing these after the same four physics ticks
@@ -64,22 +66,40 @@ fn recurrent(policy:&Policy,b:&crate::model::Observation,resets:Tensor<3>,size:u
     }
     (Tensor::stack::<3>(sequence,1).reshape([size*HORIZON,256]),encoded.keys)
 }
-fn critic_warmup_complete(block:usize,limit:usize,ev:f64,reward_activity:f32)->bool {
-    // Bootstrap variation alone in pregame is not evidence that the critic
-    // learned the task reward. A hard limit still guarantees a bounded warmup.
-    (reward_activity>0. && ev>0.3) || block>=limit
+#[derive(Default)]
+struct CriticWarmup {post_blocks:usize,recent:std::collections::VecDeque<Option<f64>>}
+impl CriticWarmup {
+    fn observe(&mut self,block:usize,limit:usize,post_count:f64,ev:Option<f64>)->bool {
+        if post_count>0. {self.post_blocks+=1;self.recent.push_back(ev);if self.recent.len()>5{self.recent.pop_front();}}
+        block>=limit || (self.post_blocks>=30 && self.mean().is_some_and(|x|x>0.3))
+    }
+    fn mean(&self)->Option<f64>{
+        if self.recent.len()!=5 || self.recent.iter().any(Option::is_none){return None;}
+        Some(self.recent.iter().flatten().sum::<f64>()/5.)
+    }
+}
+fn explained_variance(target:Tensor<1>,prediction:Tensor<1>,mask:Tensor<1>)->Option<f64>{
+    if scalar(mask.clone().sum())<2. {return None;}
+    let var=scalar(variance(target.clone(),mask.clone()));
+    if var<=1e-8{return None;}
+    let ev=1.-scalar(variance(target-prediction,mask))/var;
+    ev.is_finite().then_some(ev as f64)
 }
 fn weighted(x:Tensor<1>,mask:Tensor<1>)->Tensor<1>{(x*mask.clone()).sum()/mask.sum().clamp_min(1.)}
 fn scalar(x:Tensor<1>)->f32{x.without_autodiff().into_scalar::<f32>()}
 fn variance(x:Tensor<1>,mask:Tensor<1>)->Tensor<1>{let mean=weighted(x.clone(),mask.clone());weighted((x-mean).square(),mask)}
 
-fn optimize(policy:&mut Policy,optimizer:&mut ModuleOptimizer,cfg:&Config,e:&Experience,bootstrap:Tensor<1>,warmup:bool,coefficient:f32,block:usize)->Result<serde_json::Value>{
+fn optimize(policy:&mut Policy,optimizer:&mut ModuleOptimizer,cfg:&Config,e:&Experience,bootstrap:Tensor<1>,warmup:bool,coefficient:f32,block:usize,postgame:Tensor<2>)->Result<serde_json::Value>{
     let d=device();let n=e.actors;let signals=e.signals();let (advantages,returns)=e.gae_discounted(bootstrap,0.99,0.95);
     let mask=signals.clone().slice([0..n,0..HORIZON,11..12]).reshape([n*HORIZON]);
     let raw=advantages.reshape([n*HORIZON]);let mean=weighted(raw.clone(),mask.clone());let sd=variance(raw.clone(),mask.clone()).sqrt().clamp_min(1e-8);
     let adv=((raw-mean)/sd).reshape([n,HORIZON]);
     let old_value=signals.clone().slice([0..n,0..HORIZON,7..8]).reshape([n*HORIZON]);let ret=returns.clone().reshape([n*HORIZON]);
-    let ev=1.-scalar(variance(ret.clone()-old_value,mask.clone())/variance(ret,mask.clone()).clamp_min(1e-8));
+    let ev=explained_variance(ret.clone(),old_value.clone(),mask.clone());
+    let phase=postgame.reshape([n*HORIZON]);let post_mask=mask.clone()*phase.clone();let pre_mask=mask.clone()*(1.0f32-phase);
+    let ev_post=explained_variance(ret.clone(),old_value.clone(),post_mask.clone());
+    let ev_pre=explained_variance(ret,old_value,pre_mask.clone());
+    let post_count=scalar(post_mask.sum());let pre_count=scalar(pre_mask.sum());
     let (pc,pt,pp)=e.buckets();let mut values=Vec::new();let mut stopped=false;let mut offset;
     for epoch in 0..cfg.epochs {
         offset=0;
@@ -132,7 +152,7 @@ fn optimize(policy:&mut Policy,optimizer:&mut ModuleOptimizer,cfg:&Config,e:&Exp
         if stopped{break;}
     }
     let mean=|i:usize|values.iter().map(|v|v[i]as f64).sum::<f64>()/values.len().max(1)as f64;
-    Ok(serde_json::json!({"optimizer_steps":values.len(),"warmup":warmup,"explained_variance":ev,"value_loss":mean(0),"kl_m2":mean(1),"entropy":mean(2),"clip_fraction":mean(3),"old_policy_kl":mean(4),"kl_coefficient":coefficient,"early_stop":stopped,"buckets":[pc,pt,pp]}))
+    Ok(serde_json::json!({"optimizer_steps":values.len(),"warmup":warmup,"explained_variance":ev,"ev_post0":ev_post,"ev_pregame":ev_pre,"postgame_decisions":post_count,"pregame_decisions":pre_count,"value_loss":mean(0),"kl_m2":mean(1),"entropy":mean(2),"clip_fraction":mean(3),"old_policy_kl":mean(4),"kl_coefficient":coefficient,"early_stop":stopped,"buckets":[pc,pt,pp]}))
 }
 fn checkpoint(policy:&Policy,optimizer:&ModuleOptimizer,manifest:&serde_json::Value,root:&Path,block:usize)->Result<std::path::PathBuf>{
     let path=root.join(format!("checkpoint-{block:06}"));std::fs::create_dir_all(&path)?;
@@ -155,12 +175,12 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
     ensure!(!manifest["zero_previous"].as_bool().unwrap_or(false),"zero_previous ablation not supported by PPO");
     crate::artifacts::atomic_json(&root.join("config.json"),&cfg)?;
     let engine=crate::artifacts::freeze_environment(Path::new(&cfg.engine),root,false)?;
-    let d=device();d.seed(cfg.seed as u64);let reference=crate::bridge::import(Path::new(&cfg.initial_weights),&d)?.valid();ensure!(reference.is_ggd() && reference.is_ggd_v3()==(profile=="ggd-v3"),"checkpoint profile/shape mismatch");let mut policy=reference.clone().train();
+    let d=device();d.seed(cfg.seed as u64);let reference=crate::bridge::import(Path::new(&cfg.initial_weights),&d)?.valid();ensure!(reference.is_ggd() && reference.is_ggd_v3()==(profile=="ggd-v3"),"checkpoint profile/shape mismatch");let mut policy=if let Some(path)=cfg.initialize_weights.as_ref(){crate::bridge::import(Path::new(path),&d)?.train()}else{reference.clone().train()};
     crate::artifacts::atomic_json(&root.join("provenance.json"),&serde_json::json!({"initial_weights":cfg.initial_weights,"initial_manifest_sha256":crate::runtime::file_sha256(&Path::new(&cfg.initial_weights).join("manifest.json"))?,"executable_sha256":crate::runtime::file_sha256(&std::env::current_exe()?)?,"teacher_sha256":crate::teacher_v10::Version::V9.sha256(),"profile":profile,"ppo_source_sha256":crate::runtime::bytes_sha256(include_bytes!("ggd_ppo.rs")),"gamma":0.99,"gae_lambda":0.95,"clip":0.2,"reset_decisions":128,"seed":cfg.seed}))?;
     let mut optimizer:ModuleOptimizer=AdamConfig::new().with_epsilon(1e-8).init();
     let n=cfg.matches*2;let rows=Tensor::<1,Int>::from_data(TensorData::new((0..n).map(|a|i32::from(a%2==(a/2)%2)).collect::<Vec<_>>(),[n]),&d).greater_elem(0);
     let started=Instant::now();let mut training_seconds=0.;let mut evaluation_seconds=0.;let mut block=0;let mut batch=0;let mut episodes=0;
-    let mut warmup=true;let mut last_checkpoint=0.;let mut last_evaluation=0.;let mut last_path=None;
+    let mut warmup=!cfg.skip_warmup;let mut warmup_state=CriticWarmup::default();let mut total_decisions=0u64;let mut pregame_deaths=0u64;let mut last_checkpoint=0.;let mut last_evaluation=0.;let mut last_path=None;
     let mut history=std::fs::OpenOptions::new().create_new(true).write(true).open(root.join("history.jsonl"))?;
     let mut episode_file=std::fs::OpenOptions::new().create_new(true).write(true).open(root.join("episodes.jsonl"))?;
     'training:loop {
@@ -172,17 +192,18 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
         let limit=((w.engine.pre_game_seconds+600.)*7.5).ceil()as usize+2;
         for _chunk in 0..limit.div_ceil(HORIZON) {
             let clock=Instant::now();let actor=policy.clone().valid();let mut h=Tensor::<2>::zeros([n,256],&d);let mut c=h.clone();let mut rh=h.clone();let mut rc=c.clone();
-            let mut experience=None;let mut rollout_entropy=Tensor::<1>::zeros([1],&d);let mut rollout_kl=rollout_entropy.clone();let mut valid_count=rollout_entropy.clone();let mut reward_activity=rollout_entropy.clone();
+            let mut experience=None;let mut postgame=vec![];let mut rollout_entropy=Tensor::<1>::zeros([1],&d);let mut rollout_kl=rollout_entropy.clone();let mut valid_count=rollout_entropy.clone();let mut reward_activity=rollout_entropy.clone();
             for step in 0..HORIZON {
                 let snapshot=if profile=="ggd-v3"{Some(teacher.command_snapshot())}else{None};
                 let (obs,scripted)=observation(&w,&teacher,&observer,previous.clone(),&manifest);
-                if experience.is_none(){experience=Some(Experience::with_width(n,obs.packed.dims()[1],32,&d));}
+                if experience.is_none(){experience=Some(Experience::with_width(n,obs.packed.dims()[1],cfg.batch_sequences.max(32),&d));}
                 let keep:Tensor<2>=1.0f32-obs.reset.clone().unsqueeze_dim::<2>(1);h=h*keep.clone();c=c*keep.clone();rh=rh*keep.clone();rc=rc*keep;
                 let b=obs.decode();let encoded=actor.encode(&b);(h,c)=actor.memory.step(encoded.fused,h,c);let heads=actor.heads(&b,h.clone(),encoded.keys,None,&sampler);
                 let enc=reference.encode(&b);(rh,rc)=reference.memory.step(enc.fused,rh,rc);let anchor=reference.heads(&b,rh.clone(),enc.keys,Some(heads.actions.clone()),&sampler);
                 let actions=scripted.clone().mask_where(rows.clone().unsqueeze_dim::<2>(1),heads.actions.clone());
                 if let Some(s)=snapshot{teacher.reconcile_commands(&w,&obs,s,scripted,actions.clone());}
                 previous=obs.previous(actions.clone(),&w.bases,&w.state);metrics.commands(&w,&teacher,actions.clone(),&obs.refs);
+                let phase=tensor::<1>(w.meta.clone()).reshape([cfg.matches,META]).slice([0..cfg.matches,0..1]).greater_equal_elem(0.).float().expand([cfg.matches,2]).reshape([n]);postgame.push(phase);
                 let valid=(1.0f32-prior.clone().slice([0..n,9..10]).reshape([n]))*rows.clone().float();
                 rollout_entropy=rollout_entropy+(heads.entropy.clone()*valid.clone()).sum();
                 let diff=heads.logp.clone()-anchor.logp.clone();rollout_kl=rollout_kl+(((-diff.clone()).exp()-1.+diff)*valid.clone()).sum();valid_count=valid_count+valid.clone().sum();
@@ -201,26 +222,29 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
             let bootstrap=actor.value(bh)*(1.0f32-prior.clone().slice([0..n,9..10]).reshape([n]));
             d.sync()?;let collection=clock.elapsed().as_secs_f64();let update=Instant::now();
             let coefficient=cfg.kl_start+(cfg.kl_end-cfg.kl_start)*(training_seconds/(cfg.minutes*60.)).min(1.)as f32;
-            let mut learning=optimize(&mut policy,&mut optimizer,&cfg,experience.as_ref().unwrap(),bootstrap,warmup,coefficient,block)?;
+            let mut learning=optimize(&mut policy,&mut optimizer,&cfg,experience.as_ref().unwrap(),bootstrap,warmup,coefficient,block,Tensor::stack(postgame,1))?;
             learning["rollout_entropy"]=serde_json::json!(scalar(rollout_entropy/valid_count.clone().clamp_min(1.)));
             learning["rollout_kl_m2"]=serde_json::json!(scalar(rollout_kl/valid_count.clone().clamp_min(1.)));
-            learning["valid_decisions"]=serde_json::json!(scalar(valid_count));
+            let decisions=scalar(valid_count)as u64;total_decisions+=decisions;learning["valid_decisions"]=serde_json::json!(decisions);
             d.sync()?;let optimization=update.elapsed().as_secs_f64();training_seconds+=collection+optimization;block+=1;
             let activity=scalar(reward_activity);learning["reward_activity"]=serde_json::json!(activity);
-            if warmup&&critic_warmup_complete(block,cfg.warmup_blocks,learning["explained_variance"].as_f64().unwrap_or(-1.),activity){warmup=false;}
+            if warmup&&warmup_state.observe(block,cfg.warmup_blocks,learning["postgame_decisions"].as_f64().unwrap_or(0.),learning["ev_post0"].as_f64()){warmup=false;}
+            learning["warmup_post_blocks"]=serde_json::json!(warmup_state.post_blocks);
+            learning["warmup_ev_last5"]=serde_json::json!(warmup_state.mean());
             let audit=teacher.values();let finished=audit.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).filter(|x|x[0]>0.).count();
             ensure!(audit.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).all(|x|x[39]==0.),"simulation error");
             if finished>recorded.iter().filter(|x|**x).count(){
                 let components=totals.clone().into_data().try_to_vec::<f32>()?;let games=metrics.games(&audit,w.engine.pre_game_seconds,batch_offset,Some("teacher"));
                 for m in 0..cfg.matches {if !recorded[m]&&audit[m*crate::scripted_teacher::AUDIT_FIELDS]>0. {
+                    let learner=&games[m]["sides"][m%2];if learner["first_death_game_seconds"].as_f64().is_some_and(|x|x<0.){pregame_deaths+=1;}
                     let a=m*2+m%2;let values=&components[a*COMPONENTS..(a+1)*COMPONENTS];writeln!(episode_file,"{}",serde_json::json!({"block":block,"training_seconds":training_seconds,"reward":values.iter().sum::<f32>(),"components":values,"game":games[m]}))?;recorded[m]=true;episodes+=1;
                 }}episode_file.flush()?;
             }
-            let row=serde_json::json!({"block":block,"batch":batch,"training_seconds":training_seconds,"collection_seconds":collection,"optimization_seconds":optimization,"episodes":episodes,"finished_in_batch":finished,"components_sum":totals.clone().sum_dim(0).reshape([COMPONENTS]).into_data().try_to_vec::<f32>()?,"learning":learning});
+            let row=serde_json::json!({"block":block,"batch":batch,"training_seconds":training_seconds,"collection_seconds":collection,"optimization_seconds":optimization,"episodes":episodes,"total_decisions":total_decisions,"decisions_per_second":total_decisions as f64/training_seconds,"pregame_deaths":pregame_deaths,"memory_pool":format!("{:?}",d.memory_pool_usage()),"finished_in_batch":finished,"components_sum":totals.clone().sum_dim(0).reshape([COMPONENTS]).into_data().try_to_vec::<f32>()?,"learning":learning});
             writeln!(history,"{}",row)?;history.flush()?;eprintln!("{}",row);
             crate::artifacts::atomic_json(&root.join("status.json"),&serde_json::json!({"stage":"training","pid":std::process::id(),"latest":row,"elapsed_seconds":started.elapsed().as_secs_f64()}))?;
             drop(experience);d.memory_cleanup();
-            let stop=training_seconds>=cfg.minutes*60.||(cfg.max_blocks>0&&block>=cfg.max_blocks)||root.join("stop.json").exists();
+            let stop=(cfg.critic_only&&!warmup)||training_seconds>=cfg.minutes*60.||(cfg.max_blocks>0&&block>=cfg.max_blocks)||root.join("stop.json").exists();
             let eval=cfg.evaluate&&(training_seconds-last_evaluation>=cfg.evaluation_minutes*60.||stop);
             if training_seconds-last_checkpoint>=cfg.checkpoint_minutes*60.||stop||eval{
                 let path=checkpoint(&policy,&optimizer,&manifest,root,block)?;last_checkpoint=training_seconds;last_path=Some(path.clone());
@@ -235,7 +259,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
         }
         batch+=1;
     }
-    let result=serde_json::json!({"blocks":block,"episodes":episodes,"training_seconds":training_seconds,"evaluation_seconds":evaluation_seconds,"latest":last_path,"profile":profile,"reward_components":NAMES});
+    let result=serde_json::json!({"blocks":block,"episodes":episodes,"total_decisions":total_decisions,"pregame_deaths":pregame_deaths,"warmup_complete":!warmup,"warmup_post_blocks":warmup_state.post_blocks,"warmup_ev_last5":warmup_state.mean(),"training_seconds":training_seconds,"evaluation_seconds":evaluation_seconds,"latest":last_path,"profile":profile,"reward_components":NAMES});
     crate::artifacts::atomic_json(&root.join("result.json"),&result)?;crate::artifacts::atomic_json(&root.join("status.json"),&serde_json::json!({"stage":"complete","result":result}))?;Ok(result)
 }
 
@@ -243,11 +267,21 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
 mod tests {
     use super::*;
     #[test]
-    fn p08_critic_warmup_requires_observed_reward_or_the_limit(){
-        assert!(!critic_warmup_complete(4,64,0.8,0.),"pregame bootstrap EV must not release the actor");
-        assert!(!critic_warmup_complete(8,64,0.2,3.),"reward alone is insufficient");
-        assert!(critic_warmup_complete(8,64,0.4,3.));
-        assert!(critic_warmup_complete(64,64,-1.,0.),"hard update limit must remain effective");
+    fn p08_critic_warmup_requires_30_postgame_blocks_and_five_ev_values(){
+        let mut gate=CriticWarmup::default();
+        for block in 1..=10 {assert!(!gate.observe(block,150,0.,Some(0.99)));}
+        for block in 11..40 {assert!(!gate.observe(block,150,100.,Some(0.5)));}
+        assert!(gate.observe(40,150,100.,Some(0.5)));assert_eq!(gate.post_blocks,30);
+        let mut gate=CriticWarmup::default();for block in 1..149{assert!(!gate.observe(block,150,100.,Some(0.1)));}
+        assert!(gate.observe(150,150,0.,None));
+        let mut gate=CriticWarmup::default();for block in 1..=30{assert!(!gate.observe(block,150,100.,if block==30{Some(1.)}else{Some(0.)}));}
+        assert!(!gate.observe(31,150,100.,None));assert_eq!(gate.mean(),None);
+    }
+    #[test]
+    fn p08_phase_ev_masks_only_diagnostics(){
+        let d=device();let target=Tensor::from_data([0f32,1.,2.,3.],&d);let pred=Tensor::from_data([10f32,10.,2.,3.],&d);
+        assert_eq!(explained_variance(target.clone(),pred.clone(),Tensor::from_data([0f32,0.,1.,1.],&d)),Some(1.));
+        assert_eq!(explained_variance(target,pred,Tensor::from_data([1f32,1.,0.,0.],&d)),Some(0.));
     }
     #[test]
     fn p08_discounted_gae_respects_terminal_and_bootstrap(){
