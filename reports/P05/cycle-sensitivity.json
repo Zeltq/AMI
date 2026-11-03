@@ -1,0 +1,153 @@
+{
+  "games": [
+    {
+      "index": 0,
+      "team": 2,
+      "decisions": 1200,
+      "last_time": 71.46665954589844,
+      "sensitivity": {
+        "pregame/heroes": {
+          "decisions": 663,
+          "tv_sum": 0.007001106472470764,
+          "max_tv": 0.0018427981995046139,
+          "tv_over_one_percent": 0,
+          "argmax_changed": 0,
+          "mean_tv": 1.0559738269186673e-05
+        },
+        "pregame/creeps": {
+          "decisions": 663,
+          "tv_sum": 1.2051171172089425e-10,
+          "max_tv": 1.1641532182693481e-10,
+          "tv_over_one_percent": 0,
+          "argmax_changed": 0,
+          "mean_tv": 1.8176728766349057e-13
+        },
+        "pregame/towers": {
+          "decisions": 663,
+          "tv_sum": 0.027893640610241688,
+          "max_tv": 0.010385332629084587,
+          "tv_over_one_percent": 1,
+          "argmax_changed": 0,
+          "mean_tv": 4.2071856124044776e-05
+        },
+        "pregame/all_cycles": {
+          "decisions": 663,
+          "tv_sum": 0.023130404843749952,
+          "max_tv": 0.008476181887090206,
+          "tv_over_one_percent": 0,
+          "argmax_changed": 0,
+          "mean_tv": 3.488748845211154e-05
+        },
+        "after_zero/heroes": {
+          "decisions": 537,
+          "tv_sum": 0.10279152202553954,
+          "max_tv": 0.012599547393620014,
+          "tv_over_one_percent": 1,
+          "argmax_changed": 0,
+          "mean_tv": 0.00019141810433061368
+        },
+        "after_zero/creeps": {
+          "decisions": 537,
+          "tv_sum": 0.925911277384321,
+          "max_tv": 0.10853027552366257,
+          "tv_over_one_percent": 17,
+          "argmax_changed": 1,
+          "mean_tv": 0.001724229566823689
+        },
+        "after_zero/towers": {
+          "decisions": 537,
+          "tv_sum": 0.26630330416794656,
+          "max_tv": 0.016802262514829636,
+          "tv_over_one_percent": 4,
+          "argmax_changed": 0,
+          "mean_tv": 0.0004959093187485038
+        },
+        "after_zero/all_cycles": {
+          "decisions": 537,
+          "tv_sum": 1.0647526940540004,
+          "max_tv": 0.10151705145835876,
+          "tv_over_one_percent": 23,
+          "argmax_changed": 1,
+          "mean_tv": 0.0019827796909757923
+        }
+      }
+    },
+    {
+      "index": 3,
+      "team": 3,
+      "decisions": 1200,
+      "last_time": 71.46665954589844,
+      "sensitivity": {
+        "pregame/heroes": {
+          "decisions": 663,
+          "tv_sum": 0.013581897664714349,
+          "max_tv": 0.006015368737280369,
+          "tv_over_one_percent": 0,
+          "argmax_changed": 0,
+          "mean_tv": 2.0485516839689818e-05
+        },
+        "pregame/creeps": {
+          "decisions": 663,
+          "tv_sum": 1.0005707373750283e-10,
+          "max_tv": 1.0005707373750283e-10,
+          "tv_over_one_percent": 0,
+          "argmax_changed": 0,
+          "mean_tv": 1.509156466629002e-13
+        },
+        "pregame/towers": {
+          "decisions": 663,
+          "tv_sum": 0.015180842513710324,
+          "max_tv": 0.0035114448983222246,
+          "tv_over_one_percent": 0,
+          "argmax_changed": 0,
+          "mean_tv": 2.2897198361554034e-05
+        },
+        "pregame/all_cycles": {
+          "decisions": 663,
+          "tv_sum": 0.025046622747788128,
+          "max_tv": 0.005377400666475296,
+          "tv_over_one_percent": 0,
+          "argmax_changed": 0,
+          "mean_tv": 3.777771153512538e-05
+        },
+        "after_zero/heroes": {
+          "decisions": 537,
+          "tv_sum": 0.26808009787258413,
+          "max_tv": 0.03367315232753754,
+          "tv_over_one_percent": 3,
+          "argmax_changed": 1,
+          "mean_tv": 0.000499218059353043
+        },
+        "after_zero/creeps": {
+          "decisions": 537,
+          "tv_sum": 1.738929172176256,
+          "max_tv": 0.07691742479801178,
+          "tv_over_one_percent": 54,
+          "argmax_changed": 1,
+          "mean_tv": 0.0032382293709055047
+        },
+        "after_zero/towers": {
+          "decisions": 537,
+          "tv_sum": 0.4103135424529114,
+          "max_tv": 0.015141588635742664,
+          "tv_over_one_percent": 6,
+          "argmax_changed": 0,
+          "mean_tv": 0.0007640848090370789
+        },
+        "after_zero/all_cycles": {
+          "decisions": 537,
+          "tv_sum": 1.6102727553415548,
+          "max_tv": 0.0731106624007225,
+          "tv_over_one_percent": 48,
+          "argmax_changed": 1,
+          "mean_tv": 0.0029986457268930257
+        }
+      }
+    }
+  ],
+  "device": "cpu",
+  "method": "CPU diagnostic: action-distribution sensitivity to GPU's zero animation fields.\n\nEach counterfactual shares the real trajectory, issued previous command and\nBASELINE recurrent state. This is local input sensitivity, never a match result.\n",
+  "checkpoint": "C:\\AMI\\runs\\p05\\epoch-003.pt",
+  "max_decisions": 1200,
+  "wall_minutes": 0.3345376650007286
+}

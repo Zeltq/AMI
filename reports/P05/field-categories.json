@@ -1,0 +1,4715 @@
+{
+  "value_fields": [
+    {
+      "field": "creeps.attack_cycle",
+      "category": "b",
+      "certainty": "подтверждено",
+      "reason": "GPU копирует неизменяемый нулевой prototype anim_cycle; Dota передаёт фазу текущей анимации, включая idle/walk.",
+      "code": [
+        "gpu/src/observe.rs:100",
+        "bots/agent.lua:91",
+        "src/sf_duel/native_data.py:47"
+      ],
+      "proposed": "После P02 определить семантику attack_cycle и новый контракт: моделировать фактическую фазу либо отмечать неизвестность; синхронно переобучить/версионировать. Не обнулять достоверное наблюдение Dota ради старой модели."
+    },
+    {
+      "field": "creeps.dx",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Dota spawn event предшествует расстановке и движению; GPU стартует с калиброванной расстановки. После спавна расходятся путь/поворот/высота. dx/dy также зависят от положения наблюдателя; точная доля каждого эффекта не изолирована.",
+      "code": [
+        "gpu/src/physics.rs:492",
+        "gpu/src/physics.rs:206",
+        "gpu/src/physics.rs:188"
+      ],
+      "proposed": null
+    },
+    {
+      "field": "creeps.dy",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Dota spawn event предшествует расстановке и движению; GPU стартует с калиброванной расстановки. После спавна расходятся путь/поворот/высота. dx/dy также зависят от положения наблюдателя; точная доля каждого эффекта не изолирована.",
+      "code": [
+        "gpu/src/physics.rs:492",
+        "gpu/src/physics.rs:206",
+        "gpu/src/physics.rs:188"
+      ],
+      "proposed": null
+    },
+    {
+      "field": "creeps.facing_cos",
+      "category": "c",
+      "certainty": "гипотеза",
+      "reason": "Dota spawn event предшествует расстановке и движению; GPU стартует с калиброванной расстановки. После спавна расходятся путь/поворот/высота. dx/dy также зависят от положения наблюдателя; точная доля каждого эффекта не изолирована.",
+      "code": [
+        "gpu/src/physics.rs:492",
+        "gpu/src/physics.rs:206",
+        "gpu/src/physics.rs:188"
+      ],
+      "proposed": null
+    },
+    {
+      "field": "creeps.facing_sin",
+      "category": "c",
+      "certainty": "гипотеза",
+      "reason": "Dota spawn event предшествует расстановке и движению; GPU стартует с калиброванной расстановки. После спавна расходятся путь/поворот/высота. dx/dy также зависят от положения наблюдателя; точная доля каждого эффекта не изолирована.",
+      "code": [
+        "gpu/src/physics.rs:492",
+        "gpu/src/physics.rs:206",
+        "gpu/src/physics.rs:188"
+      ],
+      "proposed": null
+    },
+    {
+      "field": "creeps.x",
+      "category": "c",
+      "certainty": "гипотеза",
+      "reason": "Dota spawn event предшествует расстановке и движению; GPU стартует с калиброванной расстановки. После спавна расходятся путь/поворот/высота. dx/dy также зависят от положения наблюдателя; точная доля каждого эффекта не изолирована.",
+      "code": [
+        "gpu/src/physics.rs:492",
+        "gpu/src/physics.rs:206",
+        "gpu/src/physics.rs:188"
+      ],
+      "proposed": null
+    },
+    {
+      "field": "creeps.y",
+      "category": "c",
+      "certainty": "гипотеза",
+      "reason": "Dota spawn event предшествует расстановке и движению; GPU стартует с калиброванной расстановки. После спавна расходятся путь/поворот/высота. dx/dy также зависят от положения наблюдателя; точная доля каждого эффекта не изолирована.",
+      "code": [
+        "gpu/src/physics.rs:492",
+        "gpu/src/physics.rs:206",
+        "gpu/src/physics.rs:188"
+      ],
+      "proposed": null
+    },
+    {
+      "field": "creeps.z",
+      "category": "c",
+      "certainty": "гипотеза",
+      "reason": "Dota spawn event предшествует расстановке и движению; GPU стартует с калиброванной расстановки. После спавна расходятся путь/поворот/высота. dx/dy также зависят от положения наблюдателя; точная доля каждого эффекта не изолирована.",
+      "code": [
+        "gpu/src/physics.rs:492",
+        "gpu/src/physics.rs:206",
+        "gpu/src/physics.rs:188"
+      ],
+      "proposed": null
+    },
+    {
+      "field": "global_features.time",
+      "category": "c",
+      "certainty": "подтверждено",
+      "reason": "Pregame Dota около 90 с, конфиг GPU 83 с. Оба кодируют именно DotaTime/600 и одинаковый 0:00; первый кадр относится к разным временам.",
+      "code": [
+        "gpu/src/observe.rs:154",
+        "src/sf_duel/observations.py"
+      ],
+      "proposed": null
+    },
+    {
+      "field": "heroes.armor",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Первый Lua кадр попал в перенос Wraith Band из stash и применение ауры; GPU уже инициализирован с предметом. К 0:00 запрошенные собственные статы равны. TP cooldown отличается на длительность pregame, у обоих готовность около +10 с.",
+      "code": [
+        "bots/agent.lua:91",
+        "bots/agent.lua:345",
+        "gpu/src/world.rs:283"
+      ],
+      "proposed": null
+    },
+    {
+      "field": "heroes.attack_cycle",
+      "category": "b",
+      "certainty": "подтверждено",
+      "reason": "GPU копирует неизменяемый нулевой prototype anim_cycle; Dota передаёт фазу текущей анимации, включая idle/walk.",
+      "code": [
+        "gpu/src/observe.rs:100",
+        "bots/agent.lua:91",
+        "src/sf_duel/native_data.py:47"
+      ],
+      "proposed": "После P02 определить семантику attack_cycle и новый контракт: моделировать фактическую фазу либо отмечать неизвестность; синхронно переобучить/версионировать. Не обнулять достоверное наблюдение Dota ради старой модели."
+    },
+    {
+      "field": "heroes.attack_damage",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Первый Lua кадр попал в перенос Wraith Band из stash и применение ауры; GPU уже инициализирован с предметом. К 0:00 запрошенные собственные статы равны. TP cooldown отличается на длительность pregame, у обоих готовность около +10 с.",
+      "code": [
+        "bots/agent.lua:91",
+        "bots/agent.lua:345",
+        "gpu/src/world.rs:283"
+      ],
+      "proposed": null
+    },
+    {
+      "field": "heroes.attack_interval",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Первый Lua кадр попал в перенос Wraith Band из stash и применение ауры; GPU уже инициализирован с предметом. К 0:00 запрошенные собственные статы равны. TP cooldown отличается на длительность pregame, у обоих готовность около +10 с.",
+      "code": [
+        "bots/agent.lua:91",
+        "bots/agent.lua:345",
+        "gpu/src/world.rs:283"
+      ],
+      "proposed": null
+    },
+    {
+      "field": "heroes.facing_cos",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Разные положения и направления героя на двух траекториях; обе стороны преобразуют угол в sin/cos.",
+      "code": [
+        "bots/agent.lua:91",
+        "gpu/src/physics.rs:188"
+      ],
+      "proposed": null
+    },
+    {
+      "field": "heroes.facing_sin",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Разные положения и направления героя на двух траекториях; обе стороны преобразуют угол в sin/cos.",
+      "code": [
+        "bots/agent.lua:91",
+        "gpu/src/physics.rs:188"
+      ],
+      "proposed": null
+    },
+    {
+      "field": "heroes.health",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Первый Lua кадр попал в перенос Wraith Band из stash и применение ауры; GPU уже инициализирован с предметом. К 0:00 запрошенные собственные статы равны. TP cooldown отличается на длительность pregame, у обоих готовность около +10 с.",
+      "code": [
+        "bots/agent.lua:91",
+        "bots/agent.lua:345",
+        "gpu/src/world.rs:283"
+      ],
+      "proposed": null
+    },
+    {
+      "field": "heroes.health_max",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Первый Lua кадр попал в перенос Wraith Band из stash и применение ауры; GPU уже инициализирован с предметом. К 0:00 запрошенные собственные статы равны. TP cooldown отличается на длительность pregame, у обоих готовность около +10 с.",
+      "code": [
+        "bots/agent.lua:91",
+        "bots/agent.lua:345",
+        "gpu/src/world.rs:283"
+      ],
+      "proposed": null
+    },
+    {
+      "field": "heroes.health_regen",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Первый Lua кадр попал в перенос Wraith Band из stash и применение ауры; GPU уже инициализирован с предметом. К 0:00 запрошенные собственные статы равны. TP cooldown отличается на длительность pregame, у обоих готовность около +10 с.",
+      "code": [
+        "bots/agent.lua:91",
+        "bots/agent.lua:345",
+        "gpu/src/world.rs:283"
+      ],
+      "proposed": null
+    },
+    {
+      "field": "heroes.mana",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Первый Lua кадр попал в перенос Wraith Band из stash и применение ауры; GPU уже инициализирован с предметом. К 0:00 запрошенные собственные статы равны. TP cooldown отличается на длительность pregame, у обоих готовность около +10 с.",
+      "code": [
+        "bots/agent.lua:91",
+        "bots/agent.lua:345",
+        "gpu/src/world.rs:283"
+      ],
+      "proposed": null
+    },
+    {
+      "field": "heroes.mana_max",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Первый Lua кадр попал в перенос Wraith Band из stash и применение ауры; GPU уже инициализирован с предметом. К 0:00 запрошенные собственные статы равны. TP cooldown отличается на длительность pregame, у обоих готовность около +10 с.",
+      "code": [
+        "bots/agent.lua:91",
+        "bots/agent.lua:345",
+        "gpu/src/world.rs:283"
+      ],
+      "proposed": null
+    },
+    {
+      "field": "heroes.mana_regen",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Первый Lua кадр попал в перенос Wraith Band из stash и применение ауры; GPU уже инициализирован с предметом. К 0:00 запрошенные собственные статы равны. TP cooldown отличается на длительность pregame, у обоих готовность около +10 с.",
+      "code": [
+        "bots/agent.lua:91",
+        "bots/agent.lua:345",
+        "gpu/src/world.rs:283"
+      ],
+      "proposed": null
+    },
+    {
+      "field": "items.cooldown",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Первый Lua кадр попал в перенос Wraith Band из stash и применение ауры; GPU уже инициализирован с предметом. К 0:00 запрошенные собственные статы равны. TP cooldown отличается на длительность pregame, у обоих готовность около +10 с.",
+      "code": [
+        "bots/agent.lua:91",
+        "bots/agent.lua:345",
+        "gpu/src/world.rs:283"
+      ],
+      "proposed": null
+    },
+    {
+      "field": "items.inventory",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Первый Lua кадр попал в перенос Wraith Band из stash и применение ауры; GPU уже инициализирован с предметом. К 0:00 запрошенные собственные статы равны. TP cooldown отличается на длительность pregame, у обоих готовность около +10 с.",
+      "code": [
+        "bots/agent.lua:91",
+        "bots/agent.lua:345",
+        "gpu/src/world.rs:283"
+      ],
+      "proposed": null
+    },
+    {
+      "field": "items.slot",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Первый Lua кадр попал в перенос Wraith Band из stash и применение ауры; GPU уже инициализирован с предметом. К 0:00 запрошенные собственные статы равны. TP cooldown отличается на длительность pregame, у обоих готовность около +10 с.",
+      "code": [
+        "bots/agent.lua:91",
+        "bots/agent.lua:345",
+        "gpu/src/world.rs:283"
+      ],
+      "proposed": null
+    },
+    {
+      "field": "items.stash",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Первый Lua кадр попал в перенос Wraith Band из stash и применение ауры; GPU уже инициализирован с предметом. К 0:00 запрошенные собственные статы равны. TP cooldown отличается на длительность pregame, у обоих готовность около +10 с.",
+      "code": [
+        "bots/agent.lua:91",
+        "bots/agent.lua:345",
+        "gpu/src/world.rs:283"
+      ],
+      "proposed": null
+    },
+    {
+      "field": "towers.attack_cycle",
+      "category": "b",
+      "certainty": "подтверждено",
+      "reason": "GPU копирует неизменяемый нулевой prototype anim_cycle; Dota передаёт фазу текущей анимации, включая idle/walk.",
+      "code": [
+        "gpu/src/observe.rs:100",
+        "bots/agent.lua:91",
+        "src/sf_duel/native_data.py:47"
+      ],
+      "proposed": "После P02 определить семантику attack_cycle и новый контракт: моделировать фактическую фазу либо отмечать неизвестность; синхронно переобучить/версионировать. Не обнулять достоверное наблюдение Dota ради старой модели."
+    }
+  ],
+  "known_fields": [
+    {
+      "field": "creeps.raze_remaining",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Lua возвращает raze_remaining=0 у своего крипа, NativeAdapter не добавляет это поле. GPU соответствует native-пути."
+    },
+    {
+      "field": "enemy_items.backpack",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Наследует видимость enemy."
+    },
+    {
+      "field": "enemy_items.inventory",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Наследует видимость enemy."
+    },
+    {
+      "field": "hero_combat.damage_spread",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Наследует наличие enemy и доступность его известных статов."
+    },
+    {
+      "field": "hero_combat.incoming_attack_damage",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Наследует наличие enemy и доступность его известных статов."
+    },
+    {
+      "field": "hero_combat.incoming_attack_dps",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Наследует наличие enemy и доступность его известных статов."
+    },
+    {
+      "field": "hero_combat.incoming_attackers",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Наследует наличие enemy и доступность его известных статов."
+    },
+    {
+      "field": "hero_combat.incoming_projectile_damage",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Наследует наличие enemy и доступность его известных статов."
+    },
+    {
+      "field": "hero_combat.incoming_projectiles",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Наследует наличие enemy и доступность его известных статов."
+    },
+    {
+      "field": "heroes.armor",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.attack_cycle",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.attack_damage",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.attack_interval",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.attack_point",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.attack_range",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.attack_target_enemy",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.attack_target_self",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.clarity",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.dx",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.dy",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.facing_cos",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.facing_sin",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.fear",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.flask",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.health",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.health_fraction",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.health_max",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.health_regen",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.is_attacking",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.is_casting_ability",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.is_channeling",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.is_using_ability",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.level",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.magic_resist",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.mana",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.mana_fraction",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.mana_max",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.mana_regen",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.move_speed",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.projectile_speed",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.raze_stacks",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.tango",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.x",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.y",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "heroes.z",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Enemy отсутствует в Lua в первом кадре волны, но уже виден GPU; со следующего кадра есть в обоих."
+    },
+    {
+      "field": "items.cooldown",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Wraith Band ещё в stash: cooldown/mana_cost неизвестны Lua до инвентаря."
+    },
+    {
+      "field": "items.mana_cost",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "Wraith Band ещё в stash: cooldown/mana_cost неизвестны Lua до инвентаря."
+    },
+    {
+      "field": "towers.armor",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.attack_cycle",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.attack_damage",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.attack_point",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.attack_range",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.attack_target_enemy",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.attack_target_self",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.clarity",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.dx",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.dy",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.facing_cos",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.facing_sin",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.fear",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.flask",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.health",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.health_fraction",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.health_max",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.health_regen",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.level",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.magic_resist",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.mana",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.mana_max",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.mana_regen",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.move_speed",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.projectile_speed",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.raze_remaining",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.raze_stacks",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "towers.tango",
+      "category": "d",
+      "certainty": "подтверждено",
+      "reason": "P03 использует Lua snapshot, скрывающий enemy towers; GPU хранит публичное/последнее состояние как native protobuf. Это разные пути наблюдения, не доказанная ошибка адаптера."
+    },
+    {
+      "field": "trees.distance",
+      "category": "d",
+      "certainty": "гипотеза",
+      "reason": "Разные позиции героя, радиус/видимость и сопоставление деревьев (4 единицы). Вне пересечения сравнивать значения нельзя."
+    },
+    {
+      "field": "trees.dx",
+      "category": "d",
+      "certainty": "гипотеза",
+      "reason": "Разные позиции героя, радиус/видимость и сопоставление деревьев (4 единицы). Вне пересечения сравнивать значения нельзя."
+    },
+    {
+      "field": "trees.dy",
+      "category": "d",
+      "certainty": "гипотеза",
+      "reason": "Разные позиции героя, радиус/видимость и сопоставление деревьев (4 единицы). Вне пересечения сравнивать значения нельзя."
+    },
+    {
+      "field": "trees.z",
+      "category": "d",
+      "certainty": "гипотеза",
+      "reason": "Разные позиции героя, радиус/видимость и сопоставление деревьев (4 единицы). Вне пересечения сравнивать значения нельзя."
+    }
+  ],
+  "category_counts": {
+    "b": 3,
+    "d": 17,
+    "c": 6
+  },
+  "value_fields_total": 220,
+  "value_fields_different": 26,
+  "known_fields_different": 79,
+  "initial_stats": [
+    {
+      "team": 2,
+      "field": "health_max",
+      "dota": 538.0859375,
+      "gpu": 582.03125,
+      "equal_fp16": false
+    },
+    {
+      "team": 2,
+      "field": "mana_max",
+      "dota": 267.08984375,
+      "gpu": 291.015625,
+      "equal_fp16": false
+    },
+    {
+      "team": 2,
+      "field": "armor",
+      "dota": 4.16748046875,
+      "gpu": 6.748046875,
+      "equal_fp16": false
+    },
+    {
+      "team": 2,
+      "field": "attack_damage",
+      "dota": 43.994140625,
+      "gpu": 48.9990234375,
+      "equal_fp16": false
+    },
+    {
+      "team": 2,
+      "field": "attack_interval",
+      "dota": 1.2802734375,
+      "gpu": 1.17626953125,
+      "equal_fp16": false
+    },
+    {
+      "team": 2,
+      "field": "attack_point",
+      "dota": 0.5,
+      "gpu": 0.5,
+      "equal_fp16": true
+    },
+    {
+      "team": 2,
+      "field": "health_regen",
+      "dota": 29.04296875,
+      "gpu": 31.4453125,
+      "equal_fp16": false
+    },
+    {
+      "team": 2,
+      "field": "mana_regen",
+      "dota": 0.0,
+      "gpu": 18.662109375,
+      "equal_fp16": false
+    },
+    {
+      "team": 2,
+      "field": "move_speed",
+      "dota": 304.98046875,
+      "gpu": 304.98046875,
+      "equal_fp16": true
+    },
+    {
+      "team": 2,
+      "field": "attack_range",
+      "dota": 524.90234375,
+      "gpu": 524.90234375,
+      "equal_fp16": true
+    },
+    {
+      "team": 3,
+      "field": "health_max",
+      "dota": 538.0859375,
+      "gpu": 582.03125,
+      "equal_fp16": false
+    },
+    {
+      "team": 3,
+      "field": "mana_max",
+      "dota": 267.08984375,
+      "gpu": 291.015625,
+      "equal_fp16": false
+    },
+    {
+      "team": 3,
+      "field": "armor",
+      "dota": 4.16748046875,
+      "gpu": 6.748046875,
+      "equal_fp16": false
+    },
+    {
+      "team": 3,
+      "field": "attack_damage",
+      "dota": 43.994140625,
+      "gpu": 48.9990234375,
+      "equal_fp16": false
+    },
+    {
+      "team": 3,
+      "field": "attack_interval",
+      "dota": 1.2802734375,
+      "gpu": 1.17626953125,
+      "equal_fp16": false
+    },
+    {
+      "team": 3,
+      "field": "attack_point",
+      "dota": 0.5,
+      "gpu": 0.5,
+      "equal_fp16": true
+    },
+    {
+      "team": 3,
+      "field": "health_regen",
+      "dota": 29.04296875,
+      "gpu": 31.4453125,
+      "equal_fp16": false
+    },
+    {
+      "team": 3,
+      "field": "mana_regen",
+      "dota": 0.0,
+      "gpu": 18.662109375,
+      "equal_fp16": false
+    },
+    {
+      "team": 3,
+      "field": "move_speed",
+      "dota": 304.98046875,
+      "gpu": 304.98046875,
+      "equal_fp16": true
+    },
+    {
+      "team": 3,
+      "field": "attack_range",
+      "dota": 524.90234375,
+      "gpu": 524.90234375,
+      "equal_fp16": true
+    }
+  ],
+  "zero_stats": [
+    {
+      "team": 2,
+      "field": "health_max",
+      "dota": 582.03125,
+      "gpu": 582.03125,
+      "equal_fp16": true
+    },
+    {
+      "team": 2,
+      "field": "mana_max",
+      "dota": 291.015625,
+      "gpu": 291.015625,
+      "equal_fp16": true
+    },
+    {
+      "team": 2,
+      "field": "armor",
+      "dota": 9.7509765625,
+      "gpu": 9.7509765625,
+      "equal_fp16": true
+    },
+    {
+      "team": 2,
+      "field": "attack_damage",
+      "dota": 48.9990234375,
+      "gpu": 48.9990234375,
+      "equal_fp16": true
+    },
+    {
+      "team": 2,
+      "field": "attack_interval",
+      "dota": 1.17626953125,
+      "gpu": 1.17626953125,
+      "equal_fp16": true
+    },
+    {
+      "team": 2,
+      "field": "attack_point",
+      "dota": 0.5,
+      "gpu": 0.5,
+      "equal_fp16": true
+    },
+    {
+      "team": 2,
+      "field": "health_regen",
+      "dota": 3.349609375,
+      "gpu": 3.349609375,
+      "equal_fp16": true
+    },
+    {
+      "team": 2,
+      "field": "mana_regen",
+      "dota": 1.199951171875,
+      "gpu": 1.199951171875,
+      "equal_fp16": true
+    },
+    {
+      "team": 2,
+      "field": "move_speed",
+      "dota": 304.98046875,
+      "gpu": 304.98046875,
+      "equal_fp16": true
+    },
+    {
+      "team": 2,
+      "field": "attack_range",
+      "dota": 524.90234375,
+      "gpu": 524.90234375,
+      "equal_fp16": true
+    },
+    {
+      "team": 3,
+      "field": "health_max",
+      "dota": 582.03125,
+      "gpu": 582.03125,
+      "equal_fp16": true
+    },
+    {
+      "team": 3,
+      "field": "mana_max",
+      "dota": 291.015625,
+      "gpu": 291.015625,
+      "equal_fp16": true
+    },
+    {
+      "team": 3,
+      "field": "armor",
+      "dota": 9.7509765625,
+      "gpu": 9.7509765625,
+      "equal_fp16": true
+    },
+    {
+      "team": 3,
+      "field": "attack_damage",
+      "dota": 48.9990234375,
+      "gpu": 48.9990234375,
+      "equal_fp16": true
+    },
+    {
+      "team": 3,
+      "field": "attack_interval",
+      "dota": 1.17626953125,
+      "gpu": 1.17626953125,
+      "equal_fp16": true
+    },
+    {
+      "team": 3,
+      "field": "attack_point",
+      "dota": 0.5,
+      "gpu": 0.5,
+      "equal_fp16": true
+    },
+    {
+      "team": 3,
+      "field": "health_regen",
+      "dota": 3.349609375,
+      "gpu": 3.349609375,
+      "equal_fp16": true
+    },
+    {
+      "team": 3,
+      "field": "mana_regen",
+      "dota": 1.199951171875,
+      "gpu": 1.199951171875,
+      "equal_fp16": true
+    },
+    {
+      "team": 3,
+      "field": "move_speed",
+      "dota": 304.98046875,
+      "gpu": 304.98046875,
+      "equal_fp16": true
+    },
+    {
+      "team": 3,
+      "field": "attack_range",
+      "dota": 524.90234375,
+      "gpu": 524.90234375,
+      "equal_fp16": true
+    }
+  ],
+  "transitions": {
+    "2": [
+      {
+        "time": -89.833335876465,
+        "stats": {
+          "health_max": 538,
+          "mana_max": 267,
+          "armor": 4.1666669845581,
+          "attack_damage": 44,
+          "attack_interval": 1.2799999713898,
+          "attack_point": 0.5,
+          "health_regen": 29.049999237061,
+          "mana_regen": 0,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 538,
+        "mana": 267,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 1,
+          "castable": false,
+          "slot": -1,
+          "courier": 0,
+          "inventory": 0
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 99.900001525879,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -89.699996948242,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 99.800003051758,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -89.566665649414,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 99.600006103516,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -89.433334350586,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 99.500007629395,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -89.300003051758,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 99.400009155273,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -89.16667175293,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 99.200012207031,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -89.033340454102,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 99.10001373291,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -88.900001525879,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 99.000015258789,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -88.766670227051,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 98.800018310547,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -88.633331298828,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 98.700019836426,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -88.5,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 98.600021362305,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -88.366668701172,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 98.400024414063,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -88.233337402344,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 98.300025939941,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -88.100006103516,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 98.20002746582,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -87.966674804688,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 98.000030517578,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -87.833335876465,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 97.900032043457,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -1.9666595458984,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 12.000961303711,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -1.8333282470703,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 11.900960922241,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -1.6999969482422,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 11.800960540771,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -1.5666656494141,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 11.600959777832,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -1.4333343505859,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 11.500959396362,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -1.3000030517578,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 11.400959014893,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -1.1666717529297,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 11.200958251953,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -1.0333251953125,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 11.100957870483,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -0.89999389648438,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 11.000957489014,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -0.76666259765625,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 10.800956726074,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -0.63333129882813,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 10.700956344604,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -0.5,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 10.600955963135,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -0.36666870117188,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 10.400955200195,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -0.23333740234375,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 10.300954818726,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": -0.099990844726563,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 10.200954437256,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": 0.033340454101563,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 10.000953674316,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": 0.13333129882813,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 9.9009532928467,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": 0.26666259765625,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 9.800952911377,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": 0.39999389648438,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 9.6009521484375,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": 0.5333251953125,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 9.5009517669678,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": 0.66665649414063,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 9.400951385498,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": 0.79998779296875,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 9.2009506225586,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": 0.93333435058594,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 9.1009502410889,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": 1.0666656494141,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 9.0009498596191,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": 1.1999969482422,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 8.8009490966797,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": 1.3333282470703,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 8.70094871521,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": 1.4666595458984,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 8.6009483337402,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": 1.5999908447266,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 8.4009475708008,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": 1.7333221435547,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 8.3009471893311,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": 1.8666687011719,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 8.2009468078613,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      },
+      {
+        "time": 2,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "courier": 0,
+          "inventory": 1
+        },
+        "tp": {
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "mana_cost": 75,
+          "cooldown": 8.0009460449219,
+          "slot": 15,
+          "courier": 0,
+          "inventory": 1
+        }
+      }
+    ],
+    "3": [
+      {
+        "time": -89.699996948242,
+        "stats": {
+          "health_max": 538,
+          "mana_max": 267,
+          "armor": 4.1666669845581,
+          "attack_damage": 44,
+          "attack_interval": 1.2799999713898,
+          "attack_point": 0.5,
+          "health_regen": 29.049999237061,
+          "mana_regen": 0,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 538,
+        "mana": 267,
+        "wraith_band": {
+          "slot": -1,
+          "inventory": 0,
+          "backpack": 0,
+          "stash": 1,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 99.900001525879,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -89.566665649414,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 17.120000839233,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 99.800003051758,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -89.433334350586,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 99.700004577637,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -89.300003051758,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 99.500007629395,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -89.16667175293,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 99.400009155273,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -89.033340454102,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 99.300010681152,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -88.900001525879,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 99.10001373291,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -88.766670227051,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 99.000015258789,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -88.633331298828,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 98.900016784668,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -88.5,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 98.700019836426,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -88.366668701172,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 98.600021362305,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -88.233337402344,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 98.500022888184,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -88.100006103516,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 98.300025939941,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -87.966674804688,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 98.20002746582,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -87.833335876465,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 98.100028991699,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -87.699996948242,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 6.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 31.450000762939,
+          "mana_regen": 18.659999847412,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 97.900032043457,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -1.9666595458984,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 12.20096206665,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -1.8333282470703,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 12.100961685181,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -1.6999969482422,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 11.900960922241,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -1.5666656494141,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 11.800960540771,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -1.4333343505859,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 11.700960159302,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -1.3000030517578,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 11.500959396362,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -1.1666717529297,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 11.400959014893,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -1.0333251953125,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 11.300958633423,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -0.89999389648438,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 11.100957870483,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -0.76666259765625,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 11.000957489014,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -0.63333129882813,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 10.900957107544,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -0.5,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 10.700956344604,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -0.36666870117188,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 10.600955963135,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -0.23333740234375,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 10.500955581665,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": -0.099990844726563,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 10.300954818726,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": 0.033340454101563,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 10.200954437256,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": 0.13333129882813,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 10.100954055786,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": 0.26666259765625,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 9.9009532928467,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": 0.39999389648438,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 9.800952911377,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": 0.5333251953125,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 9.7009525299072,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": 0.66665649414063,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 9.5009517669678,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": 0.79998779296875,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 9.400951385498,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": 0.93333435058594,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 9.3009510040283,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": 1.0666656494141,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 9.1009502410889,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": 1.1999969482422,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 9.0009498596191,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": 1.3333282470703,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 8.9009494781494,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": 1.4666595458984,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 8.70094871521,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": 1.5999908447266,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 8.6009483337402,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": 1.7333221435547,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 8.5009479522705,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": 1.8666687011719,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 8.3009471893311,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      },
+      {
+        "time": 2,
+        "stats": {
+          "health_max": 582,
+          "mana_max": 291,
+          "armor": 9.75,
+          "attack_damage": 49,
+          "attack_interval": 1.1764705181122,
+          "attack_point": 0.5,
+          "health_regen": 3.3500001430511,
+          "mana_regen": 1.2000000476837,
+          "move_speed": 305,
+          "attack_range": 525
+        },
+        "health": 582,
+        "mana": 291,
+        "wraith_band": {
+          "mana_cost": 0,
+          "cooldown": 0,
+          "slot": 0,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        },
+        "tp": {
+          "mana_cost": 75,
+          "cooldown": 8.2009468078613,
+          "slot": 15,
+          "inventory": 1,
+          "backpack": 0,
+          "stash": 0,
+          "castable": false,
+          "courier": 0
+        }
+      }
+    ]
+  },
+  "spawn_events": [
+    {
+      "time": 0,
+      "team": 3,
+      "entity": 244,
+      "y": 3584,
+      "name": "npc_dota_creep_badguys_ranged",
+      "z": 368,
+      "x": 4096
+    },
+    {
+      "time": 0,
+      "team": 2,
+      "entity": 247,
+      "y": -4488,
+      "name": "npc_dota_creep_goodguys_ranged",
+      "z": 352,
+      "x": -5008
+    },
+    {
+      "time": 0,
+      "team": 3,
+      "entity": 250,
+      "y": 3584,
+      "name": "npc_dota_creep_badguys_melee",
+      "z": 368,
+      "x": 4096
+    },
+    {
+      "time": 0,
+      "team": 2,
+      "entity": 253,
+      "y": -4488,
+      "name": "npc_dota_creep_goodguys_melee",
+      "z": 352,
+      "x": -5008
+    },
+    {
+      "time": 0,
+      "team": 3,
+      "entity": 256,
+      "y": 3584,
+      "name": "npc_dota_creep_badguys_melee",
+      "z": 368,
+      "x": 4096
+    },
+    {
+      "time": 0,
+      "team": 2,
+      "entity": 259,
+      "y": -4488,
+      "name": "npc_dota_creep_goodguys_melee",
+      "z": 352,
+      "x": -5008
+    },
+    {
+      "time": 0,
+      "team": 3,
+      "entity": 262,
+      "y": 3584,
+      "name": "npc_dota_creep_badguys_melee",
+      "z": 368,
+      "x": 4096
+    },
+    {
+      "time": 0,
+      "team": 2,
+      "entity": 265,
+      "y": -4488,
+      "name": "npc_dota_creep_goodguys_melee",
+      "z": 352,
+      "x": -5008
+    }
+  ],
+  "simulator_spawns": [
+    {
+      "x": -5212.0,
+      "y": -4692.0,
+      "z": 256.0
+    },
+    {
+      "x": -4988.0,
+      "y": -4524.0,
+      "z": 256.0
+    },
+    {
+      "x": -5048.0,
+      "y": -4488.0,
+      "z": 256.0
+    },
+    {
+      "x": -4976.0,
+      "y": -4448.0,
+      "z": 256.0
+    },
+    {
+      "x": 4424.0,
+      "y": 3816.0,
+      "z": 256.0
+    },
+    {
+      "x": 4116.0,
+      "y": 3620.0,
+      "z": 256.0
+    },
+    {
+      "x": 4048.0,
+      "y": 3576.0,
+      "z": 256.0
+    },
+    {
+      "x": 4116.0,
+      "y": 3548.0,
+      "z": 256.0
+    }
+  ],
+  "engine_sha256": "852471976ad4fa402ead5640ae909fc33d9753567758e10ea65a28e731b377a6",
+  "references": {
+    "unit": "bots/agent.lua:91",
+    "items": "bots/agent.lua:345",
+    "spawn": "gpu/src/physics.rs:492",
+    "height": "gpu/src/physics.rs:206",
+    "init": "gpu/src/world.rs:283",
+    "observer": "gpu/src/observe.rs:100",
+    "facing": "gpu/src/physics.rs:188",
+    "clock": "gpu/src/observe.rs:154",
+    "towers": "gpu/src/observe.rs:193",
+    "native": "src/sf_duel/native_data.py:47",
+    "native_towers": "src/sf_duel/native_data.py:91"
+  },
+  "capture_status": {
+    "stage": "complete",
+    "pid": 20516,
+    "command": "C:\\Python314\\python.exe reports/P03/measure_dota.py --run C:/AMI/runs/p05/start-phases-002 --worker 15 --seconds 3 --wall-timeout 240 --timescale 4 --seed 20261103 --capture-world --capture-start-phases --events-script reports/P05/spawn_events.lua --no-pilot-update",
+    "cwd": "C:\\AMI-wt\\P05",
+    "run": "C:\\AMI\\runs\\p05\\start-phases-002",
+    "worker": 15,
+    "seconds": 3.0,
+    "timescale": 4.0,
+    "seed": 20261103,
+    "started_utc": "2026-11-03T02:11:34.737015+00:00",
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p05\\start-phases-002\\dota.log",
+      "C:\\AMI\\runs\\p05\\start-phases-002\\result.json"
+    ],
+    "elapsed_seconds": 41.339429099985864,
+    "checked_utc": "2026-11-03T02:12:16.076354+00:00",
+    "dota_pid": 23892,
+    "game_seconds": 2,
+    "hero_samples": 186
+  },
+  "adapter_changes": 0,
+  "note": "Категории описывают причину превышения порога P03, а не объявляют все отличающиеся состояния ошибками. Ошибка (a) по этим данным не подтверждена; адаптеры не подгонялись под GPU."
+}

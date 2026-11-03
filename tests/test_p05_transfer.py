@@ -1,0 +1,149 @@
+import json
+from pathlib import Path
+import sys
+import tempfile
+import unittest
+try:
+    from lupa.lua51 import LuaRuntime
+except ImportError:
+    LuaRuntime=None
+
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'gpu/scripts'))
+from evaluate_dota_teacher import prepare_bots, digest, CALLBACK, pending_at_terminal, admitted_result
+from p05_results import summarize, terminal_deaths
+from p05_finish_timeout import timeout_vote
+
+
+class P05TransferTests(unittest.TestCase):
+    def test_death_callback_one_tick_after_native_end_is_not_lost(self):
+        events=[dict(time=518.43334960938,deaths=1)]
+        self.assertEqual(terminal_deaths(events,518.4000244140625,'death'),
+                         [dict(time=518.4000244140625,deaths=1)])
+        self.assertEqual(terminal_deaths([dict(time=600.0333,deaths=1)],600,'timeout'),[])
+        self.assertEqual(terminal_deaths([dict(time=638.7333,deaths=1)],600,'timeout'),[])
+        self.assertEqual(events[0]['time'],518.43334960938)
+
+    def test_legacy_timeout_repair_requires_both_terminal_evidence_sources(self):
+        hero='SF_P05_HERO|'+json.dumps(dict(team=2,time=600,lh=61))
+        native='SF_NATIVE_END|3|600|timeout|6'
+        self.assertIsNone(timeout_vote(hero))
+        self.assertIsNone(timeout_vote(native))
+        self.assertIsNone(timeout_vote(native+'\n'+hero.replace('600','599')))
+        self.assertEqual(timeout_vote(native+'\n'+hero),'SF_NATIVE_END|2|600|timeout|61')
+
+    def test_censoring_preserves_raw_record_and_excludes_pending_command(self):
+        from unittest.mock import patch
+        from sf_duel.protos.duel_pb2 import Record
+        raw=dict(time=638.8,reason='death',outcome={'reason':'death'},
+                 sides={'2':{'last_hits':12,'denies':3},'3':{'last_hits':9,'denies':2}})
+        decision=Record();decision.decision.team=3;decision.decision.sequence=1
+        decision.decision.observed_tick=15000;decision.decision.execute_tick=15007
+        decision.decision.observed_dota_time=410
+        ack=Record();ack.execution.team=3;ack.execution.sequence=1;ack.execution.tick=15007;ack.execution.accepted=True
+        pending=Record();pending.decision.team=3;pending.decision.sequence=2
+        pending.decision.observed_tick=20696;pending.decision.execute_tick=20703
+        pending.decision.observed_dota_time=599.8667
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);path=root/'duel-result.json';path.write_text(json.dumps(raw));before=path.read_bytes()
+            (root/'dota.log').write_text('\n'.join('SF_P05_HERO|'+json.dumps(dict(team=t,time=600,lh=6,deny=1)) for t in (2,3)))
+            with patch('sf_duel.native_data.records',return_value=iter([decision,ack,pending])):
+                result=admitted_result(root,3,600)
+            self.assertEqual((result['time'],result['reason'],result['outcome']),(600,'timeout',None))
+            self.assertEqual(result['sides']['3']['last_hits'],6)
+            self.assertEqual(result['sides']['3']['checked_before_terminal'],1)
+            self.assertEqual(result['sides']['3']['unacknowledged'],0)
+            self.assertEqual(result['sides']['3']['terminal_censored_commands'],1)
+            self.assertEqual(path.read_bytes(),before)
+
+    @unittest.skipIf(LuaRuntime is None,'CPU Lua 5.1 runtime required (lupa)')
+    def test_lua_teacher_sends_exactly_one_native_timeout_vote(self):
+        lua=LuaRuntime(unpack_returned_tuples=True)
+        lua.execute('''
+        messages={};function print(s) messages[#messages+1]=s end
+        package.preload["bots/settings"]=function() return {model_team=2} end
+        package.preload["bots/p05_settings"]=function() return {} end
+        package.preload["game/dkjson"]=function() return {encode=function() return "{}" end} end
+        package.preload["bots/scripted_teacher_v9_live"]=function() return {Think=function() end} end
+        GAME_STATE_PRE_GAME=4;GAME_STATE_GAME_IN_PROGRESS=5;TOWER_MID_1=0
+        function GetTeam() return 3 end;function GetGameState() return 5 end
+        function GameTime() return 690 end;function DotaTime() return 600 end
+        function GetHeroDeaths() return 0 end;function GetTower() return nil end
+        bot={GetUnitName=function() return "npc_dota_hero_nevermore" end,
+          GetLocation=function() return {x=3000,y=3000} end,IsAlive=function() return true end,
+          GetPlayerID=function() return 0 end,GetHealth=function() return 582 end,
+          GetMana=function() return 291 end,GetLastHits=function() return 6 end,GetDenies=function() return 2 end}
+        function GetBot() return bot end
+        ''')
+        controller=lua.execute(CALLBACK);controller.Think();controller.Think()
+        votes=[str(s) for s in lua.globals().messages.values() if str(s).startswith('SF_NATIVE_END|')]
+        self.assertEqual(votes,['SF_NATIVE_END|3|600|timeout|6'])
+
+    def test_command_on_death_tick_is_censored_despite_float_error(self):
+        from sf_duel.protos.duel_pb2 import Decision
+        d=Decision(observed_tick=10148,execute_tick=10155,observed_dota_time=201.06668)
+        self.assertTrue(pending_at_terminal(d,201.30001831055))
+        d.execute_tick=10154
+        self.assertFalse(pending_at_terminal(d,201.30001831055))
+        self.assertIn('GetTeam()~=settings.model_team and t>=600',CALLBACK)
+        self.assertIn('"|timeout|"',CALLBACK)
+
+    def test_censored_times_and_missing_distance_keep_denominators(self):
+        rows=[dict(team=2,deaths=1,first_death=-3,lh=1,deny=2,actions=[1]+[0]*10,
+                   mid_game_time=None,mid_elapsed=None,t1_mean=None,game_seconds=0),
+              dict(team=2,deaths=0,first_death=None,lh=3,deny=1,actions=[0,2]+[0]*9,
+                   mid_game_time=20,mid_elapsed=110,t1_mean=500,t1_samples=2,game_seconds=600)]
+        side=summarize(rows)['2']
+        self.assertEqual((side['pregame_deaths'],side['matches']), (1,2))
+        self.assertEqual((side['first_death']['count'],side['first_death']['denominator']), (1,2))
+        self.assertEqual(side['mid_elapsed']['mean'],110)
+        self.assertEqual((side['t1_mean']['mean'],side['t1_samples']), (500,2))
+        self.assertEqual(side['action_fractions'][1],dict(numerator=2,denominator=3))
+
+    def test_cpu_serving_uses_rounded_input_sampling_and_issued_previous(self):
+        import torch
+        from unittest.mock import Mock,patch
+        from test_native_data import fixture
+        from sf_duel.native_policy_server import Service
+        from sf_duel.native_data import NativeAdapter
+        from sf_duel.protos.duel_pb2 import Decision
+        r,m=fixture();r.model_supplement.CopyFrom(m);r.episode='P05-contract'
+        r.decision.sequence=129
+        service=Service.__new__(Service);service.device='cpu';service.stochastic=True;service.writer=None
+        service.contracts={'current':(128,'f16')};service.reset_origin=None
+        service.stats={'episodes':{},'requests':0,'batches':{}}
+        model=Mock();model.combat_inputs=True
+        model.initial_state.return_value=(torch.zeros(1,1,2),torch.zeros(1,1,2))
+        def decide(b,memory,**kwargs):
+            self.assertFalse(kwargs['deterministic'])
+            self.assertEqual(b['heroes'].device.type,'cpu')
+            torch.testing.assert_close(b['heroes'],b['heroes'].half().float(),rtol=0,atol=0)
+            a={k:torch.tensor([v]) for k,v in dict(action=1,buy=0,item=0,target=0,x=65,y=62).items()}
+            return a,None,None,None,memory
+        model.decide.side_effect=decide;service.models={'current':model}
+        actor=dict(seq=128,tick=2996,deaths=0,previous=None,adapter=NativeAdapter(),
+                   state=(torch.ones(1,1,2),torch.ones(1,1,2)),shots=set(),cooldowns={})
+        service.actors={('P05-contract',2):actor}
+        reply=Decision.FromString(service.decide_group([r],'current')[0])
+        model.initial_state.assert_called_once_with(1)
+        self.assertEqual((reply.action,reply.x,reply.y),(1,116,168))
+        self.assertEqual((actor['previous']['action'],actor['previous']['x'],actor['previous']['y']),(1,65,62))
+
+    def test_each_side_routes_to_exactly_one_controller_and_pins_teacher(self):
+        engine={'combat':[1], 'prototypes':[[0]*17 for _ in range(9)], 'hero':[0]*26}
+        for side in (2,3):
+            with self.subTest(side=side),tempfile.TemporaryDirectory() as folder:
+                source=Path(folder)/'bots'
+                manifest=prepare_bots(source,side,engine,123)
+                for name in ('scripted_teacher_v9.lua','scripted_teacher_v9_live.lua'):
+                    self.assertEqual(manifest[name],digest(ROOT/'bots'/name))
+                settings=(source/'p05_settings.lua').read_text()
+                self.assertIn(f'["model_team"]={side}',settings)
+                self.assertIn(f'["teacher_team"]={5-side}',settings)
+                self.assertIn('if GetTeam()==settings.model_team then controller=require("bots/native_executor")\nelse controller=require("bots/scripted_teacher_v9_live") end',CALLBACK)
+                self.assertEqual(CALLBACK.count('pcall(controller.Think)'),1)
+                self.assertEqual((source/'native_commands_2.lua').read_text(),'return {}\n')
+                self.assertIn('ItemPurchaseThink()', (source/'item_purchase_generic.lua').read_text())
+
+
+if __name__=='__main__':unittest.main()
