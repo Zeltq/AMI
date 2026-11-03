@@ -1,0 +1,112 @@
+[
+  {
+    "task": "P04",
+    "stage": "regression",
+    "pid": 7112,
+    "runner_pid": 8264,
+    "command": "C:\\AMI\\runs\\p04\\sf-duel-gpu.exe teacher C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json C:\\AMI\\runs\\p04\\regression --matches 200 --seconds 600 --seed 20261103 --wall-seconds 1800",
+    "artifacts": "C:\\AMI\\runs\\p04\\regression",
+    "started_utc": "2026-11-03T10:52:03.976093+00:00",
+    "exit_code": 0,
+    "minutes": 5.116740381666265
+  },
+  {
+    "task": "P04",
+    "stage": "v9-v9",
+    "pid": 7664,
+    "runner_pid": 8264,
+    "command": "C:\\AMI\\runs\\p04\\sf-duel-gpu.exe evaluate-teachers C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json C:\\AMI\\runs\\p04\\v9-v9 --matches 200 --seed 20261103",
+    "artifacts": "C:\\AMI\\runs\\p04\\v9-v9",
+    "started_utc": "2026-11-03T10:57:11.011205+00:00",
+    "exit_code": 0,
+    "minutes": 4.734065774999908
+  },
+  {
+    "task": "P04",
+    "stage": "v10-v9",
+    "pid": 18500,
+    "runner_pid": 8264,
+    "command": "C:\\AMI\\runs\\p04\\sf-duel-gpu.exe evaluate-teachers C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json C:\\AMI\\runs\\p04\\v10-v9 --matches 200 --seed 20261103 --left v10 --right v9 --swap --trace",
+    "artifacts": "C:\\AMI\\runs\\p04\\v10-v9",
+    "started_utc": "2026-11-03T11:01:55.017259+00:00",
+    "exit_code": 0,
+    "minutes": 5.585670343332458
+  },
+  {
+    "task": "P04",
+    "stage": "v10-v10",
+    "pid": 20880,
+    "runner_pid": 8264,
+    "command": "C:\\AMI\\runs\\p04\\sf-duel-gpu.exe evaluate-teachers C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json C:\\AMI\\runs\\p04\\v10-v10 --matches 200 --seed 20261103 --left v10 --right v10",
+    "artifacts": "C:\\AMI\\runs\\p04\\v10-v10",
+    "started_utc": "2026-11-03T11:07:30.187297+00:00",
+    "exit_code": 0,
+    "minutes": 5.318351314999745
+  },
+  {
+    "task": "P04",
+    "stage": "v10-v9-revision",
+    "pid": 8244,
+    "runner_pid": 33992,
+    "command": "C:\\AMI\\runs\\p04\\v10-final.exe evaluate-teachers C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json C:\\AMI\\runs\\p04\\v10-v9-revision --matches 200 --seed 20261103 --left v10 --right v9 --swap --trace",
+    "artifacts": "C:\\AMI\\runs\\p04\\v10-v9-revision",
+    "started_utc": "2026-11-03T11:16:24.152968+00:00",
+    "exit_code": 0,
+    "minutes": 6.263122510000055
+  },
+  {
+    "task": "P04",
+    "stage": "v10-v10-revision",
+    "pid": 31920,
+    "runner_pid": 33992,
+    "command": "C:\\AMI\\runs\\p04\\v10-final.exe evaluate-teachers C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json C:\\AMI\\runs\\p04\\v10-v10-revision --matches 200 --seed 20261103 --left v10 --right v10",
+    "artifacts": "C:\\AMI\\runs\\p04\\v10-v10-revision",
+    "started_utc": "2026-11-03T11:22:39.924272+00:00",
+    "exit_code": 0,
+    "minutes": 5.843028309999499
+  },
+  {
+    "task": "P04",
+    "stage": "v10-v9-revision2",
+    "pid": 27488,
+    "runner_pid": 32064,
+    "command": "C:\\AMI\\runs\\p04\\v10-final2.exe evaluate-teachers C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json C:\\AMI\\runs\\p04\\v10-v9-revision2 --matches 200 --seed 20261103 --left v10 --right v9 --swap --trace",
+    "artifacts": "C:\\AMI\\runs\\p04\\v10-v9-revision2",
+    "started_utc": "2026-11-03T11:32:23.942824+00:00",
+    "exit_code": 0,
+    "minutes": 7.82438808666678
+  },
+  {
+    "task": "P04",
+    "stage": "v10-v10-revision2",
+    "pid": 22536,
+    "runner_pid": 32064,
+    "command": "C:\\AMI\\runs\\p04\\v10-final2.exe evaluate-teachers C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json C:\\AMI\\runs\\p04\\v10-v10-revision2 --matches 200 --seed 20261103 --left v10 --right v10",
+    "artifacts": "C:\\AMI\\runs\\p04\\v10-v10-revision2",
+    "started_utc": "2026-11-03T11:40:13.306891+00:00",
+    "exit_code": 0,
+    "minutes": 8.866006713333384
+  },
+  {
+    "task": "P04",
+    "stage": "parity-teacher",
+    "pid": 28700,
+    "runner_pid": 33832,
+    "command": "C:\\AMI\\runs\\p04\\v10-final2.exe collect-teacher C:\\AMI\\runs\\p04\\parity-teacher-input.json C:\\AMI\\runs\\p04\\parity-teacher",
+    "artifacts": "C:\\AMI\\runs\\p04\\parity-teacher",
+    "started_utc": "2026-11-03T11:49:36.103795+00:00",
+    "exit_code": 0,
+    "minutes": 5.472025111665911
+  },
+  {
+    "task": "P04",
+    "stage": "parity-dagger",
+    "pid": 23640,
+    "runner_pid": 33832,
+    "command": "C:\\AMI\\runs\\p04\\v10-final2.exe collect-dagger C:\\AMI\\runs\\p04\\parity-dagger-input.json C:\\AMI\\runs\\p04\\parity-dagger",
+    "artifacts": "C:\\AMI\\runs\\p04\\parity-dagger",
+    "started_utc": "2026-11-03T11:55:04.458336+00:00",
+    "exit_code": 0,
+    "minutes": 17.07080607333337
+  }
+]

@@ -1,0 +1,44 @@
+{
+  "rust_full": {
+    "passed": 95,
+    "total": 95,
+    "command": "$env:SF_DUEL_DATA_ROOT='C:/AMI'; cargo test --release --locked --manifest-path C:/AMI-wt/P04/gpu/Cargo.toml --target-dir C:/AMI/gpu/target -- --test-threads=1",
+    "scope": "Final implementation e127e78, complete Rust suite",
+    "minutes": 4.092333333333333,
+    "exit_code": 0
+  },
+  "python_full": {
+    "passed": 178,
+    "total": 178,
+    "command": "$env:PYTHONPATH='C:/AMI-wt/P04/src;C:/AMI/tools/lua_test_runtime'; C:/Python314/python.exe -m unittest discover -s tests -v"
+  },
+  "v10_final": {
+    "passed": 5,
+    "total": 5,
+    "command": "$env:SF_DUEL_DATA_ROOT='C:/AMI'; cargo test --release --locked --manifest-path C:/AMI-wt/P04/gpu/Cargo.toml --target-dir C:/AMI/gpu/target v10_ -- --nocapture"
+  },
+  "retreat_bug_before_fix": {
+    "expected_failure_reproduced": true,
+    "hp_fraction": 0.29,
+    "actual_action": 0,
+    "expected_action": 1,
+    "command": "$env:SF_DUEL_DATA_ROOT='C:/AMI'; cargo test --release --locked --manifest-path C:/AMI-wt/P04/gpu/Cargo.toml --target-dir C:/AMI/gpu/target v10_low_health_hero_attack_lock -- --nocapture"
+  },
+  "prediction_bug_before_fix": {
+    "expected_failure_reproduced": true,
+    "actual_action": 3,
+    "expected_action": "any raze (6..8)",
+    "command": "$env:SF_DUEL_DATA_ROOT='C:/AMI'; cargo test --release --locked --manifest-path C:/AMI-wt/P04/gpu/Cargo.toml --target-dir C:/AMI/gpu/target v10_cast_prediction_stops -- --nocapture"
+  },
+  "rust_initial_full": {
+    "passed": 93,
+    "total": 93,
+    "command": "$env:SF_DUEL_DATA_ROOT='C:/AMI'; cargo test --release --locked --manifest-path C:/AMI-wt/P04/gpu/Cargo.toml --target-dir C:/AMI/gpu/target -- --test-threads=1",
+    "scope": "Initial integration before the two v10 corrections."
+  },
+  "python_report_scripts_syntax": {
+    "passed": 3,
+    "total": 3,
+    "command": "python -m py_compile gpu/scripts/run_p04.py gpu/scripts/report_p04.py gpu/scripts/p04_trace_analysis.py"
+  }
+}

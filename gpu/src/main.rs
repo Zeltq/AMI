@@ -30,6 +30,9 @@ mod startup_audit;
 mod startup_step;
 mod critic_dataset;
 mod scripted_teacher;
+mod teacher_combat;
+mod teacher_v10;
+mod teacher_eval;
 mod combat_observe;
 mod imitation;
 mod ggd_metrics;
@@ -65,7 +68,8 @@ enum Command {
     CollectDagger {config:PathBuf,output:PathBuf},
     TrainIl {config:PathBuf,output:PathBuf,#[arg(long)]max_updates:Option<usize>},
     EvaluateGgd {engine:PathBuf,weights:PathBuf,output:PathBuf,#[arg(long,default_value_t=8)]matches:usize,#[arg(long,default_value_t=600.)]seconds:f32,#[arg(long,default_value="teacher")]mode:String,#[arg(long,default_value_t=20261103)]seed:u32,#[arg(long)]trace:bool,#[arg(long)]record_teacher:bool,
-        #[arg(long,conflicts_with="sampling",help="Greedy selection (also the legacy default)")]argmax:bool,#[arg(long,help="Sample all conditional action heads")]sampling:bool,#[arg(long)]zero_previous:bool},
+        #[arg(long,conflicts_with="sampling",help="Greedy selection (also the legacy default)")]argmax:bool,#[arg(long,help="Sample all conditional action heads")]sampling:bool,#[arg(long)]zero_previous:bool,#[arg(long,value_enum,default_value="v9")]teacher_version:teacher_v10::Version},
+    EvaluateTeachers {engine:PathBuf,output:PathBuf,#[arg(long,default_value_t=200)]matches:usize,#[arg(long,default_value_t=600.)]seconds:f32,#[arg(long,default_value_t=20261103)]seed:u32,#[arg(long,value_enum,default_value="v9")]left:teacher_v10::Version,#[arg(long,value_enum,default_value="v9")]right:teacher_v10::Version,#[arg(long)]swap:bool,#[arg(long)]trace:bool},
     TeacherCheck {engine:PathBuf,output:PathBuf},
     Teacher {engine:PathBuf,output:PathBuf,#[arg(long,default_value_t=100)]matches:usize,#[arg(long,default_value_t=600.)]seconds:f32,#[arg(long,default_value_t=20261102)]seed:u32,#[arg(long,default_value_t=900.)]wall_seconds:f64,#[arg(long)]trace:bool},
     Qualify,
@@ -105,7 +109,8 @@ fn main()->anyhow::Result<()> {
         Command::CollectTeacher{config,output}=>imitation::collect(serde_json::from_slice(&std::fs::read(config)?)?,&output)?,
         Command::CollectDagger{config,output}=>imitation::collect_dagger(serde_json::from_slice(&std::fs::read(config)?)?,&output)?,
         Command::TrainIl{config,output,max_updates}=>imitation::train(&config,&output,max_updates)?,
-        Command::EvaluateGgd{engine,weights,output,matches,seconds,mode,seed,trace,record_teacher,argmax,sampling,zero_previous}=>imitation::evaluate(&engine,&weights,&output,matches,seconds,&mode,seed,trace,record_teacher,argmax||!sampling,zero_previous)?,
+        Command::EvaluateGgd{engine,weights,output,matches,seconds,mode,seed,trace,record_teacher,argmax,sampling,zero_previous,teacher_version}=>imitation::evaluate(&engine,&weights,&output,matches,seconds,&mode,seed,trace,record_teacher,argmax||!sampling,zero_previous,teacher_version)?,
+        Command::EvaluateTeachers{engine,output,matches,seconds,seed,left,right,swap,trace}=>teacher_eval::run(&engine,&output,matches,seconds,seed,left,right,swap,trace)?,
         Command::TeacherCheck{engine,output}=>scripted_teacher::check(&engine,&output)?,
         Command::Teacher{engine,output,matches,seconds,seed,wall_seconds,trace}=>scripted_teacher::run(&engine,&output,matches,seconds,seed,wall_seconds,trace)?,
         Command::Qualify=>runtime::qualification()?,

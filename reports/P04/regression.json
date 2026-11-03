@@ -1,0 +1,77 @@
+{
+  "passed": true,
+  "matches_equal": 200,
+  "matches": 200,
+  "stable_top_level_fields_equal": 17,
+  "stable_top_level_fields": 17,
+  "excluded_fields": [
+    "aggregate_realtime_factor",
+    "environment_fingerprint",
+    "total_wall_seconds_including_setup_and_trace_export",
+    "wall_seconds"
+  ],
+  "fingerprint_note": "Contains output-specific calibration path and kernel source hash; event instrumentation changes the latter. All engine values except calibration path and every binary asset are compared separately.",
+  "engine_values_equal": true,
+  "binary_assets_equal": {
+    "fow_blockers.f32": true,
+    "geometry.f32": true,
+    "movement-geometry.f32": true,
+    "navigation.bin": true
+  },
+  "baseline_sides": [
+    {
+      "arrival_seconds_max": 25.06666374206543,
+      "arrival_seconds_mean": 25.066696166992188,
+      "arrived": 200,
+      "cancellation_commands": 264.0,
+      "denies": 5127.0,
+      "first_move_seconds_max": 0.2666623592376709,
+      "hero_deaths": 0.0,
+      "last_hits": 7965.0,
+      "longest_movement_stall_seconds": 11.066661834716797,
+      "matches": 200,
+      "side": "radiant"
+    },
+    {
+      "arrival_seconds_max": 25.59999656677246,
+      "arrival_seconds_mean": 25.600051879882812,
+      "arrived": 200,
+      "cancellation_commands": 273.0,
+      "denies": 6332.0,
+      "first_move_seconds_max": 0.2666623592376709,
+      "hero_deaths": 0.0,
+      "last_hits": 8449.0,
+      "longest_movement_stall_seconds": 13.33332633972168,
+      "matches": 200,
+      "side": "dire"
+    }
+  ],
+  "after_sides": [
+    {
+      "arrival_seconds_max": 25.06666374206543,
+      "arrival_seconds_mean": 25.066696166992188,
+      "arrived": 200,
+      "cancellation_commands": 264.0,
+      "denies": 5127.0,
+      "first_move_seconds_max": 0.2666623592376709,
+      "hero_deaths": 0.0,
+      "last_hits": 7965.0,
+      "longest_movement_stall_seconds": 11.066661834716797,
+      "matches": 200,
+      "side": "radiant"
+    },
+    {
+      "arrival_seconds_max": 25.59999656677246,
+      "arrival_seconds_mean": 25.600051879882812,
+      "arrived": 200,
+      "cancellation_commands": 273.0,
+      "denies": 6332.0,
+      "first_move_seconds_max": 0.2666623592376709,
+      "hero_deaths": 0.0,
+      "last_hits": 8449.0,
+      "longest_movement_stall_seconds": 13.33332633972168,
+      "matches": 200,
+      "side": "dire"
+    }
+  ]
+}

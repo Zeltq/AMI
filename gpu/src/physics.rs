@@ -212,7 +212,7 @@ fn move_unit(state:&mut [f32],grid:&mut [u32],geometry:&[f32],navigation:&[u32],
 }
 
 #[cube]
-fn hit(state:&mut [f32],hero:&[f32],combat:&[f32],base:usize,source:usize,target:usize,amount:f32,magical:bool,time:f32,source_kind:f32,source_team:f32){
+fn hit(state:&mut [f32],telemetry:&mut [f32],#[comptime] audit_enabled:bool,hero:&[f32],combat:&[f32],base:usize,source:usize,target:usize,amount:f32,magical:bool,time:f32,source_kind:f32,source_team:f32){
     let q=base+target*STRIDE;
     if state[q+ACTIVE]>0.0f32 && state[q+UNIT_HEALTH]>state[q+DAMAGE] {
         let armor=effective_armor(state,hero,base,q,time);
@@ -232,7 +232,11 @@ fn hit(state:&mut [f32],hero:&[f32],combat:&[f32],base:usize,source:usize,target
         }
         // Native OnTakeDamage reports integral damage after armor/type rules:
         // melee21 -> SF12, ranged23 -> SF9, SF49 -> melee44 (both sides).
-        if !invulnerable {state[q+DAMAGE]+=(amount*multiplier*(1.0f32-reduction)).ceil();}
+        if !invulnerable {
+            let dealt=(amount*multiplier*(1.0f32-reduction)).ceil();
+            if audit_enabled {crate::teacher_combat::damage(telemetry,base/(UNITS*STRIDE),target,source_kind,dealt.min(state[q+UNIT_HEALTH]-state[q+DAMAGE]),time);}
+            state[q+DAMAGE]+=dealt;
+        }
         state[q+CREDIT]=source as f32;
         state[q+CREDIT_TEAM]=source_team;
         if source<2 || source_kind==1.0f32 {
@@ -428,7 +432,7 @@ fn enqueue(actions:&[f32],refs:&[f32],commands:&mut [f32],state:&[f32],meta:&[f3
 
 #[cube(launch)]
 fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f32],commands:&mut [f32],
-    teacher_memory:&[f32],teacher_forecasts:&[f32],teacher_audit:&mut [f32],
+    teacher_memory:&[f32],teacher_forecasts:&[f32],teacher_audit:&mut [f32],telemetry:&mut [f32],
     rewards:&mut [f32],terminals:&mut [f32],tree_alive:&mut [f32],rng:&mut [u32],grid:&mut [u32],
     proto:&[f32],spells:&[f32],items:&[f32],hero:&[f32],animation:&[f32],combat:&[f32],experience:&[f32],geometry:&[f32],fow_blockers:&[f32],static_vision:&[u32],navigation:&[u32],trees:&[f32],tree_map:&[f32],bases:&[f32],spawns:&[f32],lane:&[f32],fountains:&[f32],extra_vision:&[f32],
     matches:usize,tree_count:usize,vision_count:usize,pregame:f32,ticks_per_call:usize,radiant_lane_points:usize,dire_lane_points:usize,#[comptime] spawn_waves:bool,#[comptime] audit_enabled:bool){
@@ -561,10 +565,13 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                         state[p+ORDER]=3.0f32;state[p+TARGET]=target as f32;
                                         if !same_attack{fresh_hero_attack=fresh_hero_attack|(1u32<<u as u32);}
                                         state[p+TARGET_GENERATION]=state[q+GENERATION];
+                                        let mut caused_aggro=false;
+                                        if audit_enabled && target<2 {telemetry[(m*2+u)*crate::teacher_combat::FIELDS+crate::teacher_combat::HERO_ORDERS]+=1.0f32;}
                                         for v in 2..UNITS {
                                             let q=base+v*STRIDE;
                                             if target<2 && state[q+ACTIVE]>0.0f32 && state[q+UNIT_HEALTH]>0.0f32 && state[q+TEAM]!=u as f32 && distance(state,p,q)<500.0f32 {
                                                 if state[q+KIND]>=2.0f32 && state[q+AGGRO_READY]<=time {
+                                                    caused_aggro=true;
                                                     if state[q+AGGRO_END]==0.0f32 {state[q+AGGRO_PREVIOUS]=state[q+TARGET]+1.0f32;state[q+AGGRO_PREVIOUS_GENERATION]=state[q+TARGET_GENERATION];}
                                                     state[q+AGGRO_PENDING]=(u+1)as f32;state[q+AGGRO_END]=time+2.3f32;state[q+AGGRO_READY]=time+3.0f32;
                                                 }
@@ -573,6 +580,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                                 }
                                             }
                                         }
+                                        if audit_enabled && caused_aggro {telemetry[(m*2+u)*crate::teacher_combat::FIELDS+crate::teacher_combat::AGGRO_ORDERS]+=1.0f32;}
                                     }
                                 }
                                 if action==4 || action==5 {state[p+ORDER]=0.0f32;state[p+TARGET]=-1.0f32;state[p+HOLD]=if action==5 {1.0f32} else {0.0f32};}
@@ -745,7 +753,9 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                         let stacks=if state[q+STACK_END]>time {state[q+UNIT_RAZE_STACKS]} else {0.0f32};
                                         if audit_enabled {if v<2 {telemetry_heroes+=1.0f32;if stacks>0.0f32 {telemetry_stacks+=1.0f32;}}else if v<CREEP_END {telemetry_creeps+=1.0f32;}}
                                         let talent=if state[p+UNIT_LEVEL]>=10.0f32 {hero[21]}else{0.0f32};
-                                        let amount=spells[k]+stacks*(spells[k+6]+talent)+state[p+UNIT_SOULS]*2.0f32;hit(state,hero,combat,base,u,v,amount,true,time,0.0f32,side);
+                                        let alive_before=state[q+UNIT_HEALTH]>state[q+DAMAGE];
+                                        let amount=spells[k]+stacks*(spells[k+6]+talent)+state[p+UNIT_SOULS]*2.0f32;hit(state,telemetry,audit_enabled,hero,combat,base,u,v,amount,true,time,0.0f32,side);
+                                        if audit_enabled && v>=6 && v<CREEP_END && alive_before && state[q+UNIT_HEALTH]<=state[q+DAMAGE] {telemetry[(m*2+u)*crate::teacher_combat::FIELDS+crate::teacher_combat::RAZE_KILLS]+=1.0f32;}
                                         if v<2 {meta[mb+11]=meta[mb];meta[mb+12]+=1.0f32;}
                                         state[q+UNIT_RAZE_STACKS]=stacks+1.0f32;state[q+STACK_END]=time+spells[k+7];
                                     }
@@ -841,9 +851,10 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                             let target=state[p+WINDUP_TARGET] as usize;let q=base+target*STRIDE;
                             if target<UNITS && state[q+ACTIVE]>0.0f32 && state[q+GENERATION]==state[p+WINDUP_GENERATION] && distance(state,p,q)<state[p+UNIT_ATTACK_RANGE]+250.0f32 {
                                 let variance=if u<2 {hero[27]}else if u>=FOUNTAIN_START {hero[32]}else if state[p+KIND]==1.0f32 {hero[31]}else{hero[26+state[p+KIND] as usize]};
+                                if audit_enabled && u<2 && target<2 {telemetry[(m*2+u)*crate::teacher_combat::FIELDS+crate::teacher_combat::HERO_ATTACKS]+=1.0f32;}
                                 let damage=state[p+UNIT_ATTACK_DAMAGE]+(random(rng,m)*2.0f32-1.0f32)*variance;
                                 if state[p+UNIT_PROJECTILE_SPEED]>0.0f32 {launch_shot(state,shots,meta,hero,animation,rng,base,m,u,target,damage,time);}
-                                else {let kind=state[p+KIND];hit(state,hero,combat,base,u,target,damage,false,time,kind,side);}
+                                else {let kind=state[p+KIND];hit(state,telemetry,audit_enabled,hero,combat,base,u,target,damage,false,time,kind,side);}
                                 if state[q+TEAM]!=side {state[p+REVEAL_END]=time+2.0f32;}
                             }
                             let base_interval=if u<2 {1.6f32} else if state[p+KIND]==4.0f32 {proto[8*UNIT_COUNT+UNIT_ATTACK_INTERVAL]} else if state[p+KIND]==1.0f32 {0.9f32} else {1.0f32};
@@ -881,7 +892,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                         else {
                             let dx=state[q+UNIT_X]-shots[k+1];let dy=state[q+UNIT_Y]-shots[k+2];let length=(dx*dx+dy*dy).sqrt();
                             if length<=shots[k+5]*dt+8.0f32 {
-                                hit(state,hero,combat,base,shots[k+7] as usize,target,shots[k+6],false,time,shots[k+9],shots[k+8]);shots[k]=0.0f32;
+                                hit(state,telemetry,audit_enabled,hero,combat,base,shots[k+7] as usize,target,shots[k+6],false,time,shots[k+9],shots[k+8]);shots[k]=0.0f32;
                                 if target<2 {meta[mb+10]=meta[mb];meta[mb+13]+=1.0f32;}
                             }
                             else {shots[k+1]+=dx/length*shots[k+5]*dt;shots[k+2]+=dy/length*shots[k+5]*dt;}
@@ -896,7 +907,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                 let along=(dx*shots[k+9]+dy*shots[k+10]).clamp(0.0f32,step);
                                 let ex=dx-shots[k+9]*along;let ey=dy-shots[k+10]*along;
                                 if ex*ex+ey*ey<=width*width {
-                                    hit(state,hero,combat,base,shots[k+7] as usize,v,shots[k+6],true,time,0.0f32,shots[k+8]);shot_hits[word]=shot_hits[word]|bit;
+                                    hit(state,telemetry,audit_enabled,hero,combat,base,shots[k+7] as usize,v,shots[k+6],true,time,0.0f32,shots[k+8]);shot_hits[word]=shot_hits[word]|bit;
                                     let was_feared=state[q+FEAR_END]>time;
                                     state[q+FEAR_END]=time+f32::min(hero[20],f32::max(0.0f32,state[q+FEAR_END]-time)+hero[19]);
                                     let mut fixed_goal=false;if hero.len()>41 {fixed_goal=hero[41]>0.0f32;}
@@ -1031,7 +1042,7 @@ impl World {
     fn step_ticks_audit(&self,rng:&crate::sampling::Sampler,ticks:usize,spawn_waves:bool,teacher:Option<&crate::scripted_teacher::Teacher>)->(Tensor<1>,Tensor<1>){
         simulate::launch(&self.state.client,CubeCount::Static(self.matches.div_ceil(32) as u32,1,1),CubeDim::new_1d(32),
             argument(&self.state),argument(&self.shots),argument(&self.shot_hits),argument(&self.meta),argument(&self.commands),
-            argument(teacher.map_or(&self.meta,|t|&t.memory)),argument(teacher.map_or(&self.meta,|t|&t.forecasts)),argument(teacher.map_or(&self.rewards,|t|&t.audit)),argument(&self.rewards),argument(&self.terminals),
+            argument(teacher.map_or(&self.meta,|t|&t.memory)),argument(teacher.map_or(&self.meta,|t|&t.forecasts)),argument(teacher.map_or(&self.rewards,|t|&t.audit)),argument(&self.teacher_combat),argument(&self.rewards),argument(&self.terminals),
             argument(&self.tree_alive),unsafe{BufferArg::from_raw_parts(rng.state.clone(),1)},argument(&self.collision_grid),argument(&self.prototypes),argument(&self.spells),
             argument(&self.items),argument(&self.hero),argument(&self.sf_projectile_animation),argument(&self.combat),argument(&self.experience),argument(self.movement_geometry.as_ref().unwrap_or(&self.geometry)),argument(&self.fow_blockers),argument(&self.static_vision),argument(&self.navigation),argument(&self.trees),argument(&self.tree_map),argument(&self.bases),argument(&self.spawns),argument(&self.lane),argument(&self.fountains),argument(&self.extra_vision),
             self.matches,self.tree_count,self.engine.extra_vision.len(),self.engine.pre_game_seconds,ticks,self.lane_lengths[0],self.lane_lengths[1],spawn_waves,teacher.is_some());

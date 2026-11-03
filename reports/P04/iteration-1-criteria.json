@@ -1,0 +1,39 @@
+{
+  "criteria": {
+    "wins": {
+      "numerator": 108,
+      "denominator": 200,
+      "threshold_strict": 0.6,
+      "passed": false
+    },
+    "farm": {
+      "numerator": 12221.0,
+      "denominator": 16414.0,
+      "v10_actor_matches": 400,
+      "v9_actor_matches": 400,
+      "threshold": 0.85,
+      "passed": false
+    },
+    "casts": {
+      "numerator": 3149.0,
+      "denominator": 200,
+      "threshold": 3,
+      "passed": true
+    },
+    "hero_attacks": {
+      "numerator": 4239.0,
+      "denominator": 200,
+      "threshold": 5,
+      "passed": true
+    },
+    "regression": {
+      "passed": true
+    },
+    "parity": {
+      "passed": false,
+      "tested": false
+    }
+  },
+  "all_passed": false,
+  "version_suffix": ""
+}
