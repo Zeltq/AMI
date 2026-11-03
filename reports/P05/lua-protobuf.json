@@ -1,0 +1,611 @@
+{
+  "scope": "Same tick and same visible entity; direct UNIT_MAP fields only, no invented supplement",
+  "frames": [
+    {
+      "team": 2,
+      "time": -89.833335876465,
+      "matched_entities": 3
+    },
+    {
+      "team": 2,
+      "time": 0.033340454101563,
+      "matched_entities": 4
+    },
+    {
+      "team": 2,
+      "time": 0.13333129882813,
+      "matched_entities": 8
+    },
+    {
+      "team": 2,
+      "time": 0.26666259765625,
+      "matched_entities": 8
+    },
+    {
+      "team": 2,
+      "time": 0.39999389648438,
+      "matched_entities": 8
+    },
+    {
+      "team": 2,
+      "time": 0.5333251953125,
+      "matched_entities": 8
+    },
+    {
+      "team": 2,
+      "time": 0.66665649414063,
+      "matched_entities": 8
+    },
+    {
+      "team": 2,
+      "time": 0.79998779296875,
+      "matched_entities": 8
+    },
+    {
+      "team": 2,
+      "time": 0.93333435058594,
+      "matched_entities": 8
+    },
+    {
+      "team": 2,
+      "time": 1.0666656494141,
+      "matched_entities": 8
+    },
+    {
+      "team": 2,
+      "time": 1.1999969482422,
+      "matched_entities": 8
+    },
+    {
+      "team": 3,
+      "time": -89.699996948242,
+      "matched_entities": 3
+    },
+    {
+      "team": 3,
+      "time": 0.033340454101563,
+      "matched_entities": 5
+    },
+    {
+      "team": 3,
+      "time": 0.13333129882813,
+      "matched_entities": 8
+    },
+    {
+      "team": 3,
+      "time": 0.26666259765625,
+      "matched_entities": 8
+    },
+    {
+      "team": 3,
+      "time": 0.39999389648438,
+      "matched_entities": 8
+    },
+    {
+      "team": 3,
+      "time": 0.5333251953125,
+      "matched_entities": 8
+    },
+    {
+      "team": 3,
+      "time": 0.66665649414063,
+      "matched_entities": 8
+    },
+    {
+      "team": 3,
+      "time": 0.79998779296875,
+      "matched_entities": 8
+    },
+    {
+      "team": 3,
+      "time": 0.93333435058594,
+      "matched_entities": 8
+    },
+    {
+      "team": 3,
+      "time": 1.0666656494141,
+      "matched_entities": 8
+    },
+    {
+      "team": 3,
+      "time": 1.1999969482422,
+      "matched_entities": 8
+    }
+  ],
+  "checks": {
+    "heroes.health": {
+      "compared": 40,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "heroes.health_max": {
+      "compared": 40,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "heroes.mana": {
+      "compared": 40,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "heroes.mana_max": {
+      "compared": 40,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "heroes.health_regen": {
+      "compared": 40,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 2.2737367544323207e-14,
+      "examples": []
+    },
+    "heroes.mana_regen": {
+      "compared": 40,
+      "above_one_percent": 1,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 1.7120000839233398,
+      "examples": [
+        {
+          "team": 2,
+          "time": -89.833335876465,
+          "index": 0,
+          "lua": 0,
+          "protobuf": 17.1200008392334
+        }
+      ]
+    },
+    "heroes.move_speed": {
+      "compared": 40,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "heroes.facing": {
+      "compared": 40,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "heroes.attack_damage": {
+      "compared": 40,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "heroes.attack_range": {
+      "compared": 40,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "heroes.attack_point": {
+      "compared": 40,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "heroes.projectile_speed": {
+      "compared": 40,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "heroes.armor": {
+      "compared": 40,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 2.6645352591003756e-16,
+      "examples": []
+    },
+    "heroes.magic_resist": {
+      "compared": 40,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 3.219646771412954e-15,
+      "examples": []
+    },
+    "heroes.level": {
+      "compared": 40,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "heroes.attack_cycle": {
+      "compared": 40,
+      "above_one_percent": 40,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0.9729893207550084,
+      "examples": [
+        {
+          "team": 2,
+          "time": -89.833335876465,
+          "index": 0,
+          "lua": 0.06718647480011,
+          "protobuf": 0.1007797122001648
+        },
+        {
+          "team": 2,
+          "time": 0.033340454101563,
+          "index": 0,
+          "lua": 0.9928412437439,
+          "protobuf": 0.0198519229888916
+        },
+        {
+          "team": 2,
+          "time": 0.13333129882813,
+          "index": 0,
+          "lua": 0.059564858675003,
+          "protobuf": 0.0794258713722229
+        },
+        {
+          "team": 2,
+          "time": 0.13333129882813,
+          "index": 1,
+          "lua": 0.31770348548889,
+          "protobuf": 0.33756449818611145
+        }
+      ]
+    },
+    "towers.health": {
+      "compared": 44,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "towers.health_max": {
+      "compared": 44,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "towers.mana": {
+      "compared": 44,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "towers.mana_max": {
+      "compared": 44,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "towers.health_regen": {
+      "compared": 44,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "towers.mana_regen": {
+      "compared": 44,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "towers.move_speed": {
+      "compared": 44,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "towers.facing": {
+      "compared": 44,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "towers.attack_damage": {
+      "compared": 44,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "towers.attack_range": {
+      "compared": 44,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "towers.attack_point": {
+      "compared": 44,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 2.1094237467877974e-15,
+      "examples": []
+    },
+    "towers.projectile_speed": {
+      "compared": 44,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "towers.armor": {
+      "compared": 44,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "towers.magic_resist": {
+      "compared": 44,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "towers.level": {
+      "compared": 44,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "towers.attack_cycle": {
+      "compared": 44,
+      "above_one_percent": 44,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0.066680908203125,
+      "examples": [
+        {
+          "team": 2,
+          "time": -89.833335876465,
+          "index": 0,
+          "lua": 0.26667022705078,
+          "protobuf": 0.33333587646484375
+        },
+        {
+          "team": 2,
+          "time": -89.833335876465,
+          "index": 1,
+          "lua": 0.26667022705078,
+          "protobuf": 0.33333587646484375
+        },
+        {
+          "team": 2,
+          "time": 0.033340454101563,
+          "index": 0,
+          "lua": 0.066680908203125,
+          "protobuf": 0.133331298828125
+        },
+        {
+          "team": 2,
+          "time": 0.033340454101563,
+          "index": 1,
+          "lua": 0.066680908203125,
+          "protobuf": 0.133331298828125
+        }
+      ]
+    },
+    "creeps.health": {
+      "compared": 75,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "creeps.health_max": {
+      "compared": 75,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "creeps.mana": {
+      "compared": 75,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "creeps.mana_max": {
+      "compared": 75,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "creeps.health_regen": {
+      "compared": 75,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "creeps.mana_regen": {
+      "compared": 75,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "creeps.move_speed": {
+      "compared": 75,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "creeps.facing": {
+      "compared": 75,
+      "above_one_percent": 2,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0.05555555555555555,
+      "examples": [
+        {
+          "team": 3,
+          "time": 0.033340454101563,
+          "index": 0,
+          "lua": 345,
+          "protobuf": 325
+        },
+        {
+          "team": 3,
+          "time": 0.033340454101563,
+          "index": 2,
+          "lua": 345,
+          "protobuf": 325
+        }
+      ]
+    },
+    "creeps.attack_damage": {
+      "compared": 75,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "creeps.attack_range": {
+      "compared": 75,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "creeps.attack_point": {
+      "compared": 75,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 4.551914400963142e-15,
+      "examples": []
+    },
+    "creeps.projectile_speed": {
+      "compared": 75,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "creeps.armor": {
+      "compared": 75,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "creeps.magic_resist": {
+      "compared": 75,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "creeps.level": {
+      "compared": 75,
+      "above_one_percent": 0,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0,
+      "examples": []
+    },
+    "creeps.attack_cycle": {
+      "compared": 75,
+      "above_one_percent": 74,
+      "missing_lua": 0,
+      "missing_proto": 0,
+      "max_normalized_error": 0.9453258514404275,
+      "examples": [
+        {
+          "team": 2,
+          "time": 0.033340454101563,
+          "index": 3,
+          "lua": 0.26366281509399,
+          "protobuf": 0.0
+        },
+        {
+          "team": 2,
+          "time": 0.13333129882813,
+          "index": 0,
+          "lua": 0.03570556640625,
+          "protobuf": 0.08631161600351334
+        },
+        {
+          "team": 2,
+          "time": 0.13333129882813,
+          "index": 1,
+          "lua": 0.23631936311722,
+          "protobuf": 0.279622882604599
+        },
+        {
+          "team": 2,
+          "time": 0.13333129882813,
+          "index": 2,
+          "lua": 0.46450915932655,
+          "protobuf": 0.5078126788139343
+        }
+      ]
+    }
+  }
+}

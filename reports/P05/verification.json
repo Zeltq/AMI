@@ -1,0 +1,61 @@
+{
+  "tensor_equal": 59,
+  "tensor_total": 59,
+  "checkpoint_sha256": {
+    "C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\GGD0-resumed\\epoch-003.pt": "6a9975661fda4cef8e89570ae37c3c9be9b416d507a60173d1111268409e45fb",
+    "C:\\AMI\\runs\\p05\\epoch-003.pt": "aad274d5b20e095b3da67b436207ca52b0bec02a50a28a89fa2df976efae927f"
+  },
+  "contract": {
+    "recurrent_reset_interval": 128,
+    "observation_storage": "f16",
+    "observation_spec": 2,
+    "observation_profile": "ggd-v2",
+    "architecture": "existing entity/CNN/LSTM-256 policy with additional combat inputs",
+    "provenance": "Fresh GGD imitation in the GPU simulator"
+  },
+  "checks": [
+    {
+      "command": "python -m unittest discover -s tests -p test_native_rpc.py -v",
+      "passed": 6,
+      "total": 6
+    },
+    {
+      "command": "python -m unittest discover -s tests -p test_gpu_weight_export.py -v",
+      "passed": 3,
+      "total": 3
+    },
+    {
+      "command": "python -m unittest discover -s tests -p test_p05_transfer.py -v",
+      "passed": 3,
+      "total": 3
+    },
+    {
+      "command": "python -m unittest discover -s tests -v",
+      "passed": 166,
+      "total": 166,
+      "note": "before addition of capture-shutdown regression"
+    },
+    {
+      "command": "python -m unittest discover -s tests -p test_p05_capture.py -v",
+      "passed": 1,
+      "total": 1
+    }
+  ],
+  "smoke": {
+    "stage": "complete",
+    "pid": 11792,
+    "command": "C:\\Python314\\python.exe gpu/scripts/evaluate_dota_teacher.py --checkpoint C:/AMI/runs/p05/epoch-003.pt --run C:/AMI/runs/p05/smoke-001 --matches 2 --workers 18 19 --seconds 5 --inference-device cpu --sampling",
+    "cwd": "C:\\AMI-wt\\P05",
+    "run": "C:\\AMI\\runs\\p05\\smoke-001",
+    "completed": 2,
+    "requested": 2,
+    "wall_minutes": 2.5411772549996385,
+    "matches_per_hour": 47.22220684039054,
+    "errors": 0,
+    "retries": 0,
+    "error": null,
+    "jobs": [],
+    "background_work_remaining": false,
+    "updated_utc": "2026-11-03T02:06:12.244152+00:00"
+  }
+}

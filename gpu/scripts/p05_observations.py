@@ -53,6 +53,11 @@ def decoded_rows(arrays,key):
 
 def audit(lua,gpu):
     native=native_frames(lua);sim=gpu_frames(gpu);layout,_=observation_layout('ggd-v2')
+    return audit_frames(native,sim)
+
+
+def audit_frames(native,sim):
+    layout,_=observation_layout('ggd-v2')
     pairs=[]
     for team in (2,3):
         for index,(snapshot,arrays) in enumerate(native[team]):
@@ -83,10 +88,39 @@ def audit(lua,gpu):
                 all_known_fields=unique(pairs,'known_mismatches'),pairs=pairs)
 
 
+def native_record_frames(cohort):
+    from sf_duel.native_data import records,NativeAdapter,action_label
+    frames={2:[],3:[]}
+    for match in json.loads((cohort/'matches.json').read_text()):
+        team=match['model_team']
+        if frames[team]:continue
+        path=Path(match['run'])/'native-decisions.pb.gz'
+        supplements={}
+        for row in records(path):
+            if row.HasField('model_supplement') and row.model_supplement.team==team:
+                m=row.model_supplement;supplements[m.tick]=m
+        adapter=NativeAdapter();memory=CombatMemory();previous=None;creep_count=0
+        for row in records(path):
+            if not row.HasField('decision') or row.decision.team!=team:continue
+            s=adapter.snapshot(row,supplements[row.decision.observed_tick])
+            e=encode(s,previous,combat_inputs=True,combat_memory=memory)
+            if not frames[team] or (s['creeps'] and creep_count<10):
+                frames[team].append((s,e.arrays))
+                if s['creeps']:creep_count+=1
+            previous=action_label(row.decision,e)
+            if creep_count==10:break
+    if any(len(v)!=11 for v in frames.values()):raise ValueError('Need initial and ten first-wave frames on both model sides')
+    return frames
+
+
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--lua-log',type=Path,required=True)
+    p=argparse.ArgumentParser();source=p.add_mutually_exclusive_group(required=True)
+    source.add_argument('--lua-log',type=Path);source.add_argument('--native-cohort',type=Path)
     p.add_argument('--gpu-dataset',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
-    a=p.parse_args();result=audit(a.lua_log,a.gpu_dataset)
+    a=p.parse_args()
+    result=audit(a.lua_log,a.gpu_dataset) if a.lua_log else audit_frames(native_record_frames(a.native_cohort),gpu_frames(a.gpu_dataset))
+    result['source']=str(a.lua_log or a.native_cohort)
+    result['native_policy_trajectory']=a.native_cohort is not None
     a.output.parent.mkdir(parents=True,exist_ok=True)
     a.output.write_text(json.dumps(result,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
     print(json.dumps({k:v for k,v in result.items() if k!='pairs'}))
