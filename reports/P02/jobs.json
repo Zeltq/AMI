@@ -208,5 +208,52 @@
     "pid": 18404,
     "exit_code": 0,
     "minutes": 12.009085764999812
+  },
+  {
+    "stage": "train-round-1",
+    "argv": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "bash",
+      "/mnt/c/AMI-wt/P02/scripts/wsl_python.sh",
+      "/mnt/c/AMI-wt/P02/gpu/scripts/train_ggd.py",
+      "/mnt/c/AMI/runs/p02/experiment/train-round-1-attempt-1/input.json",
+      "/mnt/c/AMI/runs/p02/experiment/train-round-1-attempt-1",
+      "--initialize",
+      "/mnt/c/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003.pt"
+    ],
+    "command": "wsl -d Ubuntu -- bash /mnt/c/AMI-wt/P02/scripts/wsl_python.sh /mnt/c/AMI-wt/P02/gpu/scripts/train_ggd.py /mnt/c/AMI/runs/p02/experiment/train-round-1-attempt-1/input.json /mnt/c/AMI/runs/p02/experiment/train-round-1-attempt-1 --initialize /mnt/c/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003.pt",
+    "output": "C:\\AMI\\runs\\p02\\experiment\\train-round-1-attempt-1",
+    "started_utc": "2026-11-03T02:51:31.722367+00:00",
+    "pid": 20768,
+    "exit_code": 0,
+    "minutes": 20.00176391833326
+  },
+  {
+    "stage": "round-1-sampling",
+    "argv": [
+      "C:/AMI/runs/p02/sf-duel-gpu.exe",
+      "evaluate-ggd",
+      "C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\dataset\\environment\\engine.json",
+      "C:\\AMI\\runs\\p02\\experiment\\train-round-1-attempt-1\\export\\weights",
+      "C:\\AMI\\runs\\p02\\experiment\\round-1-sampling-attempt-1",
+      "--mode",
+      "teacher",
+      "--matches",
+      "64",
+      "--seconds",
+      "600",
+      "--seed",
+      "20261103",
+      "--sampling"
+    ],
+    "command": "C:/AMI/runs/p02/sf-duel-gpu.exe evaluate-ggd C:\\AMI\\runs\\gpu\\ggd0-il-20261102-202637\\dataset\\environment\\engine.json C:\\AMI\\runs\\p02\\experiment\\train-round-1-attempt-1\\export\\weights C:\\AMI\\runs\\p02\\experiment\\round-1-sampling-attempt-1 --mode teacher --matches 64 --seconds 600 --seed 20261103 --sampling",
+    "output": "C:\\AMI\\runs\\p02\\experiment\\round-1-sampling-attempt-1",
+    "started_utc": "2026-11-03T03:11:34.539871+00:00",
+    "pid": 34000,
+    "exit_code": 0,
+    "minutes": 5.258082254999318
   }
 ]
