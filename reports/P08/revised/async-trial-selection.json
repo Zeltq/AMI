@@ -68,6 +68,74 @@
       "death_matches": 5,
       "trial_eligible": false,
       "criterion": false
+    },
+    {
+      "learning_rate": 3e-05,
+      "train_stage": "rev-async-trial-3e5",
+      "evaluation_stage": "rev-async-eval-3e5",
+      "weights": "C:\\AMI\\runs\\p08\\rev-async-trial-3e5\\checkpoint-000054\\weights",
+      "run": "p08",
+      "name": "rev-async-eval-3e5",
+      "complete": true,
+      "matches": 32,
+      "wall_seconds": 281.1869819,
+      "sides": [
+        {
+          "side": "radiant",
+          "matches": 16,
+          "lh": 254.0,
+          "deny": 158.0,
+          "deaths": 6.0,
+          "attack_cycles_completed": 1772.0,
+          "attack_cancellations": 64.0,
+          "death_matches": 6,
+          "pregame_death_matches": 0,
+          "early_deaths": 0,
+          "actions": [
+            47958.0,
+            16555.0,
+            0.0,
+            2824.0,
+            5485.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            41.0
+          ]
+        },
+        {
+          "side": "dire",
+          "matches": 16,
+          "lh": 321.0,
+          "deny": 217.0,
+          "deaths": 1.0,
+          "attack_cycles_completed": 2166.0,
+          "attack_cancellations": 54.0,
+          "death_matches": 1,
+          "pregame_death_matches": 0,
+          "early_deaths": 0,
+          "actions": [
+            56954.0,
+            13778.0,
+            0.0,
+            3205.0,
+            5865.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            27.0
+          ]
+        }
+      ],
+      "farm": 950.0,
+      "early_deaths": 0,
+      "death_matches": 7,
+      "trial_eligible": false,
+      "criterion": false
     }
   ]
 }
