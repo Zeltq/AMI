@@ -1,0 +1,91 @@
+{
+  "stage": "rev-critic-2",
+  "argv": [
+    "C:\\AMI\\runs\\p08\\revised-gpu.exe",
+    "train-ggd",
+    "C:\\AMI-wt\\P08\\reports\\P08\\revised\\critic.json",
+    "C:\\AMI\\runs\\p08\\rev-critic-2"
+  ],
+  "command": "C:\\AMI\\runs\\p08\\revised-gpu.exe train-ggd C:\\AMI-wt\\P08\\reports\\P08\\revised\\critic.json C:\\AMI\\runs\\p08\\rev-critic-2",
+  "returncode": 0,
+  "timed_out": false,
+  "wall_seconds": 1872.2320818901062,
+  "memory_samples": 915,
+  "sampled_peak_memory": {
+    "dedicated_bytes": 10003251200.0,
+    "shared_bytes": 119365632.0,
+    "committed_bytes": 10113572864.0,
+    "adapter_dedicated_bytes": 12716441600.0
+  },
+  "memory_measurement": "WDDM process/adapter counters sampled every 2 seconds plus query time; sampled peaks",
+  "result": {
+    "blocks": 150,
+    "episodes": 594,
+    "episodes_started": 768,
+    "evaluation_seconds": 0.0,
+    "latest": "C:\\AMI\\runs\\p08\\rev-critic-2\\checkpoint-000150",
+    "pregame_death_matches": 0,
+    "pregame_deaths": 0,
+    "profile": "ggd-v2",
+    "reward_components": [
+      "lh",
+      "deny",
+      "opponent_lh",
+      "opponent_deny",
+      "death",
+      "opponent_death",
+      "tower_loss",
+      "tower_kill",
+      "timeout_result"
+    ],
+    "total_decisions": 3372663,
+    "training_seconds": 1818.7150624999995,
+    "warmup_complete": true,
+    "warmup_ev_last5": 0.1479960322380066,
+    "warmup_post_blocks": 134
+  },
+  "history": [],
+  "learner_decisions": 3372663,
+  "collection_decisions_per_second": 2068.910083051611,
+  "learner_decisions_per_second": 1854.4207773613246,
+  "provenance": {
+    "clip": 0.2,
+    "executable_sha256": "2c74a11b8657842f8ec55a15e319dbe13986f78af062df77af0af0f6959f03e6",
+    "gae_lambda": 0.95,
+    "gamma": 0.99,
+    "initial_manifest_sha256": "1dc130e759875f22492e6737d32503c1470fbfa96419a062be030f4a167177d0",
+    "initial_weights": "C:/AMI/runs/p02/experiment/train-round-2-attempt-1/export/weights",
+    "ppo_source_sha256": "1fa056b3bab3b1206ba8ec71788abddb0d4875bd3b0e1296fd3d84f6537906a7",
+    "profile": "ggd-v2",
+    "reset_decisions": 128,
+    "seed": 20261103,
+    "teacher_sha256": "55b7f4ff5baef7aea24e706aaaca3e83fa049adca0bd63cee4203c6c23e08312"
+  },
+  "config": {
+    "engine": "C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json",
+    "initial_weights": "C:/AMI/runs/p02/experiment/train-round-2-attempt-1/export/weights",
+    "matches": 192,
+    "seed": 20261103,
+    "minutes": 60.0,
+    "max_blocks": 0,
+    "batch_sequences": 48,
+    "epochs": 2,
+    "learning_rate": 1e-05,
+    "critic_learning_rate": 0.0003,
+    "warmup_blocks": 150,
+    "entropy": 0.005,
+    "kl_start": 0.2,
+    "kl_end": 0.05,
+    "stop_kl": 0.02,
+    "checkpoint_minutes": 5.0,
+    "evaluate": false,
+    "evaluation_minutes": 60.0,
+    "initialize_weights": null,
+    "skip_warmup": false,
+    "critic_only": true
+  },
+  "history_files": [
+    "rev-critic-2-history-000.json",
+    "rev-critic-2-history-001.json"
+  ]
+}

@@ -1,15 +1,15 @@
 {
-  "total_decisions": 1868415,
+  "total_decisions": 3372663,
   "pregame_deaths": 0,
   "pregame_death_matches": 0,
   "reward_telemetry_checks": {
-    "passed": 2304,
-    "total": 2304
+    "passed": 3564,
+    "total": 3564
   },
   "stage": "rev-critic-2",
-  "blocks": 84,
-  "completed_episodes": 384,
-  "training_minutes": 16.94747052833333,
+  "blocks": 150,
+  "completed_episodes": 594,
+  "training_minutes": 30.311917708333326,
   "last_learning": {
     "buckets": [
       16,
@@ -19,33 +19,33 @@
     "clip_fraction": 0.0,
     "early_stop": false,
     "entropy": 0.0,
-    "ev_post0": null,
-    "ev_pregame": 0.08365052938461304,
-    "explained_variance": 0.08365041017532349,
-    "kl_coefficient": 0.15801392495632172,
+    "ev_post0": 0.18145465850830078,
+    "ev_pregame": null,
+    "explained_variance": 0.18145465850830078,
+    "kl_coefficient": 0.12478801608085632,
     "kl_m2": 0.0,
     "old_policy_kl": 0.0,
     "optimizer_steps": 16,
-    "postgame_decisions": 0.0,
-    "pregame_decisions": 24576.0,
-    "reward_activity": 0.0,
-    "rollout_entropy": 0.14957347512245178,
+    "postgame_decisions": 22272.0,
+    "pregame_decisions": 0.0,
+    "reward_activity": 263.0,
+    "rollout_entropy": 0.14283479750156403,
     "rollout_kl_m2": 0.0,
-    "valid_decisions": 24576,
-    "value_loss": 0.007844477877370082,
+    "valid_decisions": 22272,
+    "value_loss": 0.03965734364464879,
     "warmup": true,
-    "warmup_ev_last5": 0.1446100354194641,
-    "warmup_post_blocks": 74
+    "warmup_ev_last5": 0.1479960322380066,
+    "warmup_post_blocks": 134
   },
   "component_totals": {
-    "lh": 5391.0,
-    "deny": 2000.5,
-    "opponent_lh": -8534.0,
-    "opponent_deny": -3603.75,
-    "death": -610.0,
+    "lh": 8077.0,
+    "deny": 3037.5,
+    "opponent_lh": -12998.5,
+    "opponent_deny": -5504.25,
+    "death": -1070.0,
     "opponent_death": 0.0,
     "tower_loss": 0.0,
-    "tower_kill": 10.0,
-    "timeout_result": -1610.0
+    "tower_kill": 20.0,
+    "timeout_result": -2425.0
   }
 }
