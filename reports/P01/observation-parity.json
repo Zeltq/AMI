@@ -1,0 +1,234 @@
+{
+  "blocks": 41,
+  "tensors": {
+    "heroes": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 1967232
+      },
+      "max_absolute_delta": 0.0
+    },
+    "creeps": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 15737856
+      },
+      "max_absolute_delta": 0.0
+    },
+    "towers": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 3934464
+      },
+      "max_absolute_delta": 0.0
+    },
+    "trees": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 2622976
+      },
+      "max_absolute_delta": 0.0
+    },
+    "projectiles": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 1967232
+      },
+      "max_absolute_delta": 0.0
+    },
+    "skills": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 491808
+      },
+      "max_absolute_delta": 0.0
+    },
+    "items": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 1311488
+      },
+      "max_absolute_delta": 0.0
+    },
+    "enemy_items": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 1311488
+      },
+      "max_absolute_delta": 0.0
+    },
+    "terrain": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 2622976
+      },
+      "max_absolute_delta": 0.0
+    },
+    "global_features": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 61476
+      },
+      "max_absolute_delta": 0.0
+    },
+    "previous": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 307380
+      },
+      "max_absolute_delta": 0.0
+    },
+    "hero_valid": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 20492
+      },
+      "max_absolute_delta": 0.0
+    },
+    "creep_valid": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 163936
+      },
+      "max_absolute_delta": 0.0
+    },
+    "creep_ally": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 163936
+      },
+      "max_absolute_delta": 0.0
+    },
+    "tree_valid": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 327872
+      },
+      "max_absolute_delta": 0.0
+    },
+    "projectile_valid": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 163936
+      },
+      "max_absolute_delta": 0.0
+    },
+    "action_mask": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 112706
+      },
+      "max_absolute_delta": 0.0
+    },
+    "buy_mask": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 71722
+      },
+      "max_absolute_delta": 0.0
+    },
+    "item_mask": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 81968
+      },
+      "max_absolute_delta": 0.0
+    },
+    "attack_mask": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 563530
+      },
+      "max_absolute_delta": 0.0
+    },
+    "tree_mask": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 563530
+      },
+      "max_absolute_delta": 0.0
+    },
+    "tp_mask": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 563530
+      },
+      "max_absolute_delta": 0.0
+    },
+    "self_mask": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 563530
+      },
+      "max_absolute_delta": 0.0
+    },
+    "hero_combat": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 450824
+      },
+      "max_absolute_delta": 0.0
+    },
+    "creep_combat": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 3606592
+      },
+      "max_absolute_delta": 0.0
+    },
+    "tower_combat": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 901648
+      },
+      "max_absolute_delta": 0.0
+    },
+    "projectile_combat": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 2622976
+      },
+      "max_absolute_delta": 0.0
+    },
+    "labels": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 61476
+      },
+      "max_absolute_delta": 0.0
+    },
+    "loss_valid": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 10246
+      },
+      "max_absolute_delta": 0.0
+    },
+    "packed_fp16_all_frames": {
+      "mismatches": {
+        "numerator": 0,
+        "denominator": 44335104
+      },
+      "max_absolute_delta": 0.0
+    }
+  },
+  "signals_equal": {
+    "numerator": 136448,
+    "denominator": 136448
+  },
+  "resets_equal": {
+    "numerator": 10496,
+    "denominator": 10496
+  },
+  "previous_is_prior_issued_action": {
+    "numerator": 10246,
+    "denominator": 10246
+  },
+  "periodic_reset_matches_128_step_boundaries": {
+    "numerator": 10246,
+    "denominator": 10246
+  },
+  "first_difference": null,
+  "seed": 20261103,
+  "comparison": "same one-game teacher-v9 rollout, FP16 bits including padding; decoded valid inputs also compared per tensor; initial previous action is canonical CONTINUE"
+}

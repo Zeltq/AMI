@@ -1,0 +1,43 @@
+{
+  "test-previous": {
+    "passed": 6,
+    "total": 6,
+    "process_seconds": 11.757513899996411,
+    "command": "wsl -d Ubuntu -- bash /mnt/c/AMI/scripts/wsl_python.sh -m unittest discover -s /mnt/c/Users/levik/.codex/worktrees/p01-pregame-parity/AMI/tests -p test_ggd*.py -v",
+    "log_path": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI\\runs\\p01\\test-previous\\output.log",
+    "log_sha256": "1fce7f9efcdad156585e711b305764192d04fec15ada343d11ed380b6c5ab003"
+  },
+  "test-windows-full": {
+    "passed": 155,
+    "total": 155,
+    "process_seconds": 10.333949099993333,
+    "command": "C:/Python314/python.exe -m unittest discover -s tests -v",
+    "log_path": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI\\runs\\p01\\test-windows-full\\output.log",
+    "log_sha256": "aa92db8ae1df48501abff7a55c8094f809cd3fb8d9f7b113c8429de774814783"
+  },
+  "test-rust-full": {
+    "passed": 89,
+    "total": 89,
+    "process_seconds": 197.22222870000405,
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/gpu/target",
+    "log_path": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI\\runs\\p01\\test-rust-full\\output.log",
+    "log_sha256": "0fbc696cb7c33e9db6994bd43e8fe9c7c1d849d4822fbcc8085a695b4fcaf245"
+  },
+  "evaluation_matches": {
+    "completed": 192,
+    "requested": 192
+  },
+  "trace_matches": {
+    "completed": 8,
+    "requested": 8
+  },
+  "epochs_trained": {
+    "completed": 1,
+    "authorized": 1
+  },
+  "teacher_source_unchanged": true,
+  "no_background_jobs_running": true,
+  "native_binary_sha256": "be9dda2315b3538af24510e36b955ac38921383fd8e04e48bff4bb99d598c109",
+  "native_binary_path": "C:\\AMI\\runs\\p01\\selection.exe",
+  "source_revision_before_final_report": "b8231e2a97042e02799edd0a9b850dc563831b4f"
+}

@@ -33,6 +33,7 @@ mod scripted_teacher;
 mod combat_observe;
 mod imitation;
 mod ggd_metrics;
+mod ggd_diagnostic;
 #[cfg(test)]
 mod gpu_tests;
 
@@ -43,16 +44,33 @@ use burn::module::Module;
 #[derive(Parser)]
 #[command(version,about="GPU SF Duel simulator and recurrent PPO")]
 struct Cli {#[command(subcommand)] command:Command}
+
+#[cfg(test)]
+mod cli_tests {
+    use super::*;
+    #[test]
+    fn ggd_selection_preserves_default_and_rejects_conflicting_flags(){
+        for (flags,greedy,zero) in [(vec![],true,false),(vec!["--argmax"],true,false),(vec!["--sampling","--zero-previous"],false,true)]{
+            let mut args=vec!["sf-duel-gpu","evaluate-ggd","engine","weights","output"];args.extend(flags);
+            let Command::EvaluateGgd{argmax,sampling,zero_previous,..}=Cli::try_parse_from(args).unwrap().command else{panic!("wrong command")};
+            assert_eq!(argmax||!sampling,greedy);assert_eq!(zero_previous,zero);
+        }
+        assert!(Cli::try_parse_from(["sf-duel-gpu","evaluate-ggd","engine","weights","output","--argmax","--sampling"]).is_err());
+    }
+}
+
 #[derive(Subcommand)]
 enum Command {
     CollectTeacher {config:PathBuf,output:PathBuf},
     TrainIl {config:PathBuf,output:PathBuf,#[arg(long)]max_updates:Option<usize>},
-    EvaluateGgd {engine:PathBuf,weights:PathBuf,output:PathBuf,#[arg(long,default_value_t=8)]matches:usize,#[arg(long,default_value_t=600.)]seconds:f32,#[arg(long,default_value="teacher")]mode:String,#[arg(long,default_value_t=20261103)]seed:u32},
+    EvaluateGgd {engine:PathBuf,weights:PathBuf,output:PathBuf,#[arg(long,default_value_t=8)]matches:usize,#[arg(long,default_value_t=600.)]seconds:f32,#[arg(long,default_value="teacher")]mode:String,#[arg(long,default_value_t=20261103)]seed:u32,#[arg(long)]trace:bool,#[arg(long)]record_teacher:bool,
+        #[arg(long,conflicts_with="sampling",help="Greedy selection (also the legacy default)")]argmax:bool,#[arg(long,help="Sample all conditional action heads")]sampling:bool,#[arg(long)]zero_previous:bool},
     TeacherCheck {engine:PathBuf,output:PathBuf},
     Teacher {engine:PathBuf,output:PathBuf,#[arg(long,default_value_t=100)]matches:usize,#[arg(long,default_value_t=600.)]seconds:f32,#[arg(long,default_value_t=20261102)]seed:u32,#[arg(long,default_value_t=900.)]wall_seconds:f64,#[arg(long)]trace:bool},
     Qualify,
     Validate {bundle:PathBuf},
     #[command(hide=true)] ValidatePrevious {bundle:PathBuf,output:PathBuf},
+    #[command(hide=true)] CheckGgdParity {weights:PathBuf,fixture:PathBuf,output:PathBuf},
     ValidateCombat {engine:PathBuf,reference:PathBuf},
     ValidateMovement {engine:PathBuf,reference:PathBuf},
     ReplayLane {engine:PathBuf,reference:PathBuf,output:PathBuf},
@@ -85,11 +103,12 @@ fn main()->anyhow::Result<()> {
     let result=match Cli::parse().command {
         Command::CollectTeacher{config,output}=>imitation::collect(serde_json::from_slice(&std::fs::read(config)?)?,&output)?,
         Command::TrainIl{config,output,max_updates}=>imitation::train(&config,&output,max_updates)?,
-        Command::EvaluateGgd{engine,weights,output,matches,seconds,mode,seed}=>imitation::evaluate(&engine,&weights,&output,matches,seconds,&mode,seed)?,
+        Command::EvaluateGgd{engine,weights,output,matches,seconds,mode,seed,trace,record_teacher,argmax,sampling,zero_previous}=>imitation::evaluate(&engine,&weights,&output,matches,seconds,&mode,seed,trace,record_teacher,argmax||!sampling,zero_previous)?,
         Command::TeacherCheck{engine,output}=>scripted_teacher::check(&engine,&output)?,
         Command::Teacher{engine,output,matches,seconds,seed,wall_seconds,trace}=>scripted_teacher::run(&engine,&output,matches,seconds,seed,wall_seconds,trace)?,
         Command::Qualify=>runtime::qualification()?,
         Command::Validate{bundle}=>bridge::validate(&bundle,&runtime::device())?,
+        Command::CheckGgdParity{weights,fixture,output}=>ggd_diagnostic::parity(&weights,&fixture,&output)?,
         Command::ValidatePrevious{bundle,output}=>{
             let report=bridge::validate_previous(&bundle,&runtime::device())?;
             artifacts::atomic_json(&output,&report)?;

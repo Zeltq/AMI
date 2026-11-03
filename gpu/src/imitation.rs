@@ -143,28 +143,49 @@ pub fn train(config:&Path,root:&Path,max_updates:Option<usize>)->Result<serde_js
 
 /// Closed-loop GGD versus the fixed teacher, balanced by learner side. This
 /// reports the learner's own LH/deny, so the opponent cannot hide weak play.
-pub fn evaluate(engine:&Path,weights:&Path,root:&Path,matches:usize,seconds:f32,mode:&str,seed:u32)->Result<serde_json::Value>{
-    ensure!(matches>0&&matches%2==0&&seconds>0.&&seconds<=600.,"an even positive match count and 0 < seconds <= 600 required");
+pub fn evaluate(engine:&Path,weights:&Path,root:&Path,matches:usize,seconds:f32,mode:&str,seed:u32,trace:bool,record_teacher:bool,argmax:bool,zero_previous:bool)->Result<serde_json::Value>{
+    ensure!(matches>0&&(matches%2==0||record_teacher)&&seconds>0.&&seconds<=600.,"an even positive match count (or teacher recording) and 0 < seconds <= 600 required");
     ensure!(mode=="teacher"||mode=="mirror","mode must be teacher or mirror");
+    ensure!(!record_teacher||mode=="teacher","teacher recording requires --mode teacher");
     std::fs::create_dir_all(root)?;ensure!(!root.join("config.json").exists(),"choose a fresh evaluation directory");
-    crate::artifacts::atomic_json(&root.join("config.json"),&serde_json::json!({"family":"GGD","weights":weights,"engine":engine,"matches":matches,"seconds":seconds,"mode":mode,"seed":seed,"argmax":true}))?;
+    let manifest:serde_json::Value=serde_json::from_slice(&std::fs::read(weights.join("manifest.json"))?)?;
+    let zero_previous=zero_previous||manifest["zero_previous"].as_bool().unwrap_or(false);
+    crate::artifacts::atomic_json(&root.join("config.json"),&serde_json::json!({"family":"GGD","weights":weights,"engine":engine,"matches":matches,"seconds":seconds,"mode":mode,"seed":seed,"argmax":argmax,"zero_previous":zero_previous,"trace":trace,"record_teacher":record_teacher}))?;
     let d=device();let w=World::load(engine,matches,&d)?;let policy=crate::bridge::import(weights,&d)?.valid();ensure!(policy.is_ggd(),"GGD weights required");
-    let teacher=crate::scripted_teacher::Teacher::new(&w);let metrics=crate::ggd_metrics::Metrics::new(&w);metrics.sample(&w,&teacher);let observer=crate::combat_observe::CombatObserver::new(&w);let rng=Sampler::new(matches,seed,&d);let sampler=Sampler::new(matches*2,seed.wrapping_add(1),&d).with_argmax(true);
+    let teacher=crate::scripted_teacher::Teacher::new(&w);let metrics=crate::ggd_metrics::Metrics::new(&w);metrics.sample(&w,&teacher);let observer=crate::combat_observe::CombatObserver::new(&w);let rng=Sampler::new(matches,seed,&d);let sampler=Sampler::new(matches*2,seed.wrapping_add(1),&d).with_argmax(argmax);
     let rows=Tensor::<1,Int>::from_data(TensorData::new((0..matches*2).map(|a|i32::from(a%2==(a/2)%2)).collect::<Vec<_>>(),[matches*2]),&d).greater_elem(0).unsqueeze_dim::<2>(1);
     let mut h=Tensor::<2>::zeros([matches*2,256],&d);let mut c=h.clone();let mut previous=observe::initial_previous(matches*2,&d);let started=Instant::now();
+    let mut diagnostic=if trace{Some(crate::ggd_diagnostic::Trace::new(&w,root)?)}else{None};
+    let recording=root.join("observations");
+    let writer=if record_teacher{std::fs::create_dir_all(&recording)?;Some(DemoWriter::new(&recording))}else{None};
+    let mut experience=if record_teacher{Some(Experience::new_ggd(matches*2,&d))}else{None};
+    let mask=primitive(Tensor::<1>::zeros([matches*2],&d));let mut steps=0;
     let limit=((w.engine.pre_game_seconds+seconds)*7.5).ceil()as usize+2;
     for step in 0..limit {
+        if let Some(e)=experience.as_mut(){if step%HORIZON==0&&step>0{e.signals=primitive(Tensor::<3>::zeros([matches*2,HORIZON,SIGNALS],&d));}}
         if step%HORIZON==0 {h=Tensor::zeros([matches*2,256],&d);c=h.clone();}
         let obs=w.observe(previous.clone());let mut extended=observer.enrich(&w,&obs);extended.packed=extended.packed.cast(DType::F16);
         let keep:Tensor<2>=1.0f32-obs.reset.clone().unsqueeze_dim::<2>(1);h=h*keep.clone();c=c*keep;
-        let b=extended.decode();let encoded=policy.encode(&b);(h,c)=policy.memory.step(encoded.fused,h,c);
+        let mut b=extended.decode();if zero_previous{b.previous=Tensor::zeros([matches*2,PREVIOUS],&d);}let encoded=policy.encode(&b);(h,c)=policy.memory.step(encoded.fused,h,c);
         let predicted=policy.heads(&b,h.clone(),encoded.keys,None,&sampler).actions;let scripted=teacher.actions(&w,&obs);
-        let actions=if mode=="mirror"{predicted}else{scripted.mask_where(rows.clone(),predicted)};previous=obs.previous(actions.clone(),&w.bases,&w.state);metrics.commands(&w,&teacher,actions.clone(),&obs.refs);
+        let actions=if record_teacher{scripted}else if mode=="mirror"{predicted}else{scripted.mask_where(rows.clone(),predicted)};
+        if let Some(t)=diagnostic.as_ref(){t.record(&w,&teacher,step%HORIZON,actions.clone(),policy.action_head.forward(h.clone()),b.action_mask.clone(),obs.reset.clone());}
+        if let Some(e)=experience.as_mut(){
+            valid::launch(&w.state.client,CubeCount::Static((matches*2).div_ceil(64)as u32,1,1),CubeDim::new_1d(64),argument(&w.state),argument(&teacher.audit),argument(&mask),matches*2);
+            let signal=Tensor::cat(vec![actions.clone().float(),Tensor::zeros([matches*2,4],&d),obs.reset.clone().unsqueeze_dim::<2>(1),(tensor::<1>(mask.clone())+0.0f32).unsqueeze_dim::<2>(1),Tensor::full([matches*2,1],GGD_SPEC_VERSION as f32,&d)],1);
+            e.store(step%HORIZON,&extended,signal);
+        }
+        previous=obs.previous(actions.clone(),&w.bases,&w.state);metrics.commands(&w,&teacher,actions.clone(),&obs.refs);
         let _=w.advance_teacher(actions,&obs.refs,&rng,&teacher,true);teacher.record(&w,seconds);metrics.sample(&w,&teacher);
-        if (step+1)%128==0 {let values=teacher.values();let done=values.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).filter(|v|v[0]>0.).count();
+        steps=step+1;
+        if steps%HORIZON==0||steps==limit {
+            if let Some(t)=diagnostic.as_mut(){t.flush((steps-1)%HORIZON+1)?;}
+            if let (Some(writer),Some(e))=(writer.as_ref(),experience.as_ref()){writer.store(e,0,step/HORIZON)?;}
+            let values=teacher.values();let done=values.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).filter(|v|v[0]>0.).count();
             crate::artifacts::atomic_json(&root.join("status.json"),&serde_json::json!({"stage":"evaluating","pid":std::process::id(),"mode":mode,"decisions":step+1,"game_time":values[1],"finished":done,"matches":matches,"wall_seconds":started.elapsed().as_secs_f64()}))?;if done==matches||root.join("stop.json").exists(){break;}}
     }
-    let values=teacher.values();let games=metrics.games(&values,w.engine.pre_game_seconds,0,Some(mode));
+    if let Some(writer)=writer{let files=writer.finish()?;crate::artifacts::atomic_json(&recording.join("recording.json"),&serde_json::json!({"files":files,"steps":steps,"seed":seed,"observer":"ggd-v2","dtype":"f16_le","controllers":"teacher-v9 both sides"}))?;}
+    let values=teacher.values();let games=metrics.games(&values,w.engine.pre_game_seconds,0,if record_teacher{None}else{Some(mode)});
     ensure!(games.iter().all(|g|g["simulation_error"]==0.),"GPU simulation error");
     let report=serde_json::json!({"family":"GGD","matches":matches,"mode":mode,"seed":seed,"complete":values.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).all(|v|v[0]>0.),"wall_seconds":started.elapsed().as_secs_f64(),"native_completed":values.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).filter(|v|v[2]>0.).count(),"estimate":"closed-loop simulator evaluation; not real Dota transfer","summary":crate::ggd_metrics::summary(&games),"per_match":games});
     crate::artifacts::atomic_json(&root.join("report.json"),&report)?;Ok(report)

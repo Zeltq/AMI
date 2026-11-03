@@ -1,0 +1,528 @@
+{
+  "note": "Дословные PowerShell-вызовы; длительность относится ко всему вызову. Точные argv и собственные длительности фоновых процессов — background-jobs.json. Некоторые ранние read-only осмотры до включения журнала не сохранены; отдельные длительности их команд не выдумывались.",
+  "foreground_shell_calls": [
+    {
+      "command": "Get-Location; git status --short; git branch --show-current; git remote -v; rg --files -g AGENTS.md -g '*ggd*' -g '*GGD*' -g '*pilot-status*' -g 'pyproject.toml' -g 'Cargo.toml' -g '.gitignore' -g '*requirements*'",
+      "cwd": "C:\\AMI",
+      "seconds": 0.4132947,
+      "exit_code": 0
+    },
+    {
+      "command": "git checkout main; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; git pull; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; git switch -c agent/P01-pregame-parity; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; Get-Content AGENTS.md; Get-Content docs/ggd0-il-20261103.md; Get-Content gpu/GGD.md; Get-Content .gitignore",
+      "cwd": "C:\\AMI",
+      "seconds": 2.2852737,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content gpu/scripts/train_ggd.py; Get-Content src/sf_duel/model.py; Get-Content gpu/src/model.rs",
+      "seconds": 0.1969903,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content gpu/src/trace.rs; Get-Content gpu/src/policy_trace.rs; Get-Content gpu/src/observe.rs -TotalCount 160; Get-Content gpu/src/ggd_metrics.rs -TotalCount 140; Get-Content src/sf_duel/spec.py -TotalCount 170",
+      "seconds": 0.230691,
+      "exit_code": 0
+    },
+    {
+      "command": "python -c \"import sys; print(sys.executable); import numpy; print('numpy', numpy.__version__)\"; Get-Content gpu/scripts/ggd_dataset.py; Get-Content gpu/scripts/weights.py; Get-Content gpu/scripts/bridge_bundle.py; Get-Content gpu/src/main.rs -TotalCount 110; Get-Content gpu/Cargo.toml",
+      "seconds": 0.5177741,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content gpu/src/model.rs; Get-Content src/sf_duel/model.py | Select-Object -Skip 80 -First 70; Get-Content gpu/src/policy_trace.rs -TotalCount 160; Get-Content gpu/src/trace.rs -TotalCount 100",
+      "seconds": 0.224932,
+      "exit_code": 0
+    },
+    {
+      "command": "rg -n 'DAMAGE|HURT|LAST.*(ATTACK|HIT)|LAST_SOURCE|SOURCE|pub const|shots|health' gpu/src/world.rs | Select-Object -First 150; rg -n 'damage|health|pre_game|tower' gpu/src/ggd_metrics.rs | Select-Object -First 50; rg -n 'health|damage|p\\+|LAST' gpu/src/physics.rs | Select-Object -Last 80; Get-Content gpu/src/observe.rs -TotalCount 95; Get-Content tests/test_ggd.py; Get-Content scripts/wsl_python.sh; Get-Content C:/Users/levik/.codex/automations/ggd0-il-3-5/automation.toml -ErrorAction SilentlyContinue",
+      "seconds": 0.342676,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content gpu/src/physics.rs -TotalCount 150; Get-Content gpu/src/world.rs | Select-Object -Skip 135 -First 75; Get-Content gpu/src/contract.rs -TotalCount 85; Get-Content gpu/src/scripted_teacher.rs | Select-Object -Last 85; Get-Content C:/Users/levik/.codex/skills/.system/openai-docs/SKILL.md -TotalCount 150",
+      "seconds": 0.3227131,
+      "exit_code": 0
+    },
+    {
+      "command": "@'\nimport hashlib,json,pathlib\nroot=pathlib.Path('runs/gpu/ggd0-il-20261102-202637');d=root/'dataset';m=json.loads((d/'dataset.json').read_text())\npaths=[d/'dataset.json',d/'environment/engine.json']\nfor folder,epochs in [('GGD0',[1,2]),('GGD0-resumed',[3])]:\n for e in epochs: paths += [root/folder/f'epoch-{e:03}.pt',root/folder/f'epoch-{e:03}'/'weights/manifest.json']\nr={'dataset':str(d.resolve()),'dataset_files':len(m['files']),'missing_blocks':[e['file'] for e in m['files'] if not (d/e['file']).is_file()],'block_bytes':sum(e['bytes'] for e in m['files']),'paths':[{'path':str(p.resolve()),'exists':p.is_file(),'bytes':p.stat().st_size if p.is_file() else None,'sha256':hashlib.sha256(p.read_bytes()).hexdigest() if p.is_file() else None} for p in paths]}\nfor p in paths:\n if p.name=='manifest.json':\n  w=json.loads(p.read_text());r.setdefault('exports',[]).append({'directory':str(p.parent.resolve()),'tensors':len(w['tensors']),'missing':[v['file'] for v in w['tensors'].values() if not (p.parent/v['file']).is_file()]})\npathlib.Path('reports/P01').mkdir(parents=True,exist_ok=True);pathlib.Path('runs/p01').mkdir(parents=True,exist_ok=True)\npathlib.Path('reports/P01/inventory.json').write_text(json.dumps(r,indent=2),encoding='utf-8');print(json.dumps(r,indent=2))\n'@ | python -; rg -n 'P01|status|id =|kind' C:/Users/levik/.codex/automations/*/automation.toml",
+      "seconds": 0.7421515,
+      "exit_code": 1
+    },
+    {
+      "command": "git add reports/P01.md reports/P01/inventory.json; git diff --cached --stat; git commit -m \"[P01] docs: inventory GGD0 data and checkpoints\"",
+      "seconds": 0.3988613,
+      "exit_code": 0
+    },
+    {
+      "command": "rg -n 'fn hit|CREDIT\\]|ORDER\\].*action|action==0|action == 0|command.*0|pub fn advance_teacher|TOWER_TIER|prototypes\\[2\\]|pre_game_seconds' gpu/src/physics.rs gpu/src/world.rs gpu/src/observe.rs; Get-Content gpu/src/physics.rs | Select-Object -Skip 215 -First 65; Get-Content gpu/src/world.rs | Select-Object -Skip 270 -First 45; Get-Content gpu/src/contract.rs -TotalCount 40; rg -n 'time|UNIT_X|UNIT_Y|global' gpu/src/observe.rs | Select-Object -Last 25; rg -n 'P01' C:/Users/levik/.codex/automations -g automation.toml",
+      "seconds": 0.3735414,
+      "exit_code": 1
+    },
+    {
+      "command": "Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','build-diagnostics','--','cargo','build','--release','--locked','--manifest-path','gpu/Cargo.toml') -WorkingDirectory C:/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; wsl -d Ubuntu -- bash /mnt/c/AMI/scripts/wsl_python.sh -c \"import torch; print(torch.__version__); print(torch.cuda.is_available()); print(torch.cuda.get_device_name(0))\"",
+      "seconds": 10.0151579
+    },
+    {
+      "command": "Get-Content runs/p01/build-diagnostics/job.json; Get-Content runs/p01/build-diagnostics/output.log -Tail 14; Get-CimInstance Win32_Process | Where-Object { $_.Name -in @('cargo.exe','rustc.exe') } | Select-Object ProcessId,Name,CommandLine | Format-List",
+      "seconds": 0.4707553,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content runs/p01/build-diagnostics/job.json; Get-Content runs/p01/build-diagnostics/output.log -Tail 4; gpu/target/release/sf-duel-gpu.exe evaluate-ggd --help",
+      "seconds": 0.6925068,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content runs/p01/build-diagnostics/job.json; Get-Content runs/p01/build-diagnostics/output.log -Tail 5; Get-Content runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003/vs-teacher/report.json -TotalCount 35; Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'rustc.exe' } | Select-Object ProcessId,CreationDate",
+      "seconds": 0.3527633,
+      "exit_code": 0
+    },
+    {
+      "command": "Copy-Item -LiteralPath gpu/target/release/sf-duel-gpu.exe -Destination runs/p01/diagnostics-v1.exe; Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','epoch003-trace','--','runs/p01/diagnostics-v1.exe','evaluate-ggd','runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json','runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003/weights','runs/p01/epoch003-trace/evaluation','--mode','teacher','--matches','8','--seconds','600','--seed','20261103','--trace') -WorkingDirectory C:/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; python -m py_compile gpu/scripts/p01_job.py gpu/scripts/p01_diagnostics.py; git add gpu/src/main.rs gpu/src/imitation.rs gpu/src/ggd_diagnostic.rs gpu/scripts/p01_job.py gpu/scripts/p01_diagnostics.py; git diff --cached --stat; git commit -m \"[P01] feat: capture GGD decisions and teacher observations\"",
+      "seconds": 1.3478345,
+      "exit_code": 0
+    },
+    {
+      "command": "git status --short; git branch -v; git log -5 --oneline; git worktree list; Get-Content runs/p01/epoch003-trace/job.json; Get-Content runs/p01/epoch003-trace/output.log -Tail 8; Get-Content runs/p01/epoch003-trace/evaluation/status.json -ErrorAction SilentlyContinue",
+      "seconds": 0.4321657,
+      "exit_code": 1
+    },
+    {
+      "command": "Get-Content runs/p01/epoch003-trace/evaluation/status.json -ErrorAction SilentlyContinue; Get-Content runs/p01/epoch003-trace/output.log -Tail 10; Get-Process -Id 32320 | Select-Object Id,CPU,WorkingSet; Get-ChildItem C:/Users/levik/.codex/worktrees/p01-pregame-parity -ErrorAction SilentlyContinue | Select-Object Name",
+      "seconds": 0.2880198,
+      "exit_code": 0
+    },
+    {
+      "command": "git switch agent/P01-pregame-parity; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; git cherry-pick ed8a311; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; New-Item -ItemType Junction -Path runs -Target C:/AMI/runs | Select-Object FullName,Target; git status --short",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.7289452,
+      "exit_code": 0
+    },
+    {
+      "command": "New-Item -ItemType Junction -Path runs/p01 -Target C:/AMI/runs/p01 | Select-Object FullName,Target; Get-Content C:/AMI/runs/p01/epoch003-trace/job.json; Get-Content C:/AMI/runs/p01/epoch003-trace/evaluation/status.json -ErrorAction SilentlyContinue; Get-Content C:/AMI/runs/p01/epoch003-trace/output.log -Tail 6",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.252855,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content C:/AMI/runs/p01/epoch003-trace/job.json; Get-Content C:/AMI/runs/p01/epoch003-trace/evaluation/status.json; python -c \"import json; r=json.load(open('C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json')); print(len(r['prototypes']), [len(x) for x in r['prototypes']]); print([r['prototypes'][i][:2] for i in [2,4]])\"; Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','dataset-statistics','--','C:/Python314/python.exe','gpu/scripts/p01_diagnostics.py','dataset','C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset','C:/AMI/runs/p01/dataset-statistics.json') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','build-parity','--','cargo','build','--release','--locked','--manifest-path','gpu/Cargo.toml','--target-dir','C:/AMI/gpu/target') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.3516397,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content C:/AMI/runs/p01/dataset-statistics/output.log -Tail 6; Get-Content C:/AMI/runs/p01/build-parity/output.log -Tail 8; Get-Content C:/AMI/runs/p01/epoch003-trace/evaluation/status.json; Get-Content C:/AMI/runs/p01/epoch003-trace/job.json -Tail 7; Get-CimInstance Win32_Process | Where-Object { $_.Name -in @('diagnostics-v1.exe','python.exe','rustc.exe') } | Select-Object ProcessId,Name,CommandLine | Format-List",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.478808,
+      "exit_code": 0
+    },
+    {
+      "command": "Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','build-parity-v2','--','cargo','build','--release','--locked','--manifest-path','gpu/Cargo.toml','--target-dir','C:/AMI/gpu/target') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; Get-Content C:/AMI/runs/p01/epoch003-trace/evaluation/status.json; Get-Content C:/AMI/runs/p01/dataset-statistics/output.log -Tail 2",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.2998266,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content gpu/src/observe.rs | Select-Object -Skip 350 -First 36; Get-Content gpu/src/observe.rs | Select-Object -Skip 385 -First 34; Get-Content gpu/src/combat_observe.rs | Select-Object -Last 68; Get-Content gpu/src/cell.rs -TotalCount 90; Get-Content tests/test_ggd_resume.py -TotalCount 150; Get-Content gpu/src/ggd_metrics.rs | Select-Object -Skip 92 -First 13",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.2859399,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content C:/AMI/runs/p01/epoch003-trace/evaluation/status.json; Get-Content C:/AMI/runs/p01/build-parity-v2/job.json -Tail 6; Get-Content C:/AMI/runs/p01/dataset-statistics/output.log -Tail 2; @'\nimport json,collections\nfrom pathlib import Path\np=Path('C:/AMI/runs/p01/epoch003-trace/evaluation/trace.jsonl');rows=[]\nwith p.open() as f:\n for line in f:\n  r=json.loads(line)\n  if r['actor']==0: rows.append(r['v'])\nlast=next((i for i,r in enumerate(rows) if r[11]>0),None)\nprint('first_death_index',last,'game_seconds',rows[last][0]/30 if last else None)\nif last:\n w=rows[max(0,last-113):last+1];print('actions',collections.Counter(int(r[19]) for r in w),'positions',w[0][1:3],w[-1][1:3]);print('every_2_seconds',[{'time':r[0]/30,'xy':r[1:3],'hp':r[3],'order':r[5:8],'act':r[19:25],'p':r[36:47],'source':r[9]} for r in w[::15]])\n'@ | python -",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 1.1557692,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-ChildItem C:/AMI/runs/p01/validation-*.npz | Select-Object Name,Length; Get-Content C:/AMI/runs/p01/dataset-statistics/output.log -Tail 2; Get-Content C:/AMI/runs/p01/build-parity-v2/job.json -Tail 7; Get-Content C:/AMI/runs/p01/epoch003-trace/evaluation/status.json; Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','parity-fixture-0','--','wsl','-d','Ubuntu','--','bash','/mnt/c/AMI/scripts/wsl_python.sh','/mnt/c/Users/levik/.codex/worktrees/p01-pregame-parity/AMI/gpu/scripts/p01_diagnostics.py','parity-fixture','/mnt/c/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003.pt','/mnt/c/AMI/runs/p01/validation-0.npz','/mnt/c/AMI/runs/p01/parity-fixture-0/fixture') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.3348807,
+      "exit_code": 0
+    },
+    {
+      "command": "rg -n 'buckets|new_ggd|fn store' gpu/src/experience.rs; Get-Content C:/AMI/runs/p01/build-parity-v2/output.log -Tail 5; Get-Content C:/AMI/runs/p01/parity-fixture-0/job.json -Tail 8; Get-Content C:/AMI/runs/p01/parity-fixture-0/output.log -Tail 5; Get-Content C:/AMI/runs/p01/epoch003-trace/evaluation/status.json",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.2654156,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content gpu/src/experience.rs -TotalCount 75; Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','parity-fixture-1','--','wsl','-d','Ubuntu','--','bash','/mnt/c/AMI/scripts/wsl_python.sh','/mnt/c/Users/levik/.codex/worktrees/p01-pregame-parity/AMI/gpu/scripts/p01_diagnostics.py','parity-fixture','/mnt/c/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003.pt','/mnt/c/AMI/runs/p01/validation-1.npz','/mnt/c/AMI/runs/p01/parity-fixture-1/fixture') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.3884051,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content C:/AMI/runs/p01/epoch003-trace/job.json -Tail 6; Get-Content C:/AMI/runs/p01/build-parity-v2/job.json -Tail 6; Get-Content C:/AMI/runs/p01/dataset-statistics/output.log -Tail 2; Get-Content C:/AMI/runs/p01/parity-fixture-1/job.json -Tail 5",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.1985261,
+      "exit_code": 0
+    },
+    {
+      "command": "Copy-Item -LiteralPath C:/AMI/gpu/target/release/sf-duel-gpu.exe -Destination C:/AMI/runs/p01/parity-v2.exe; Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','burn-parity-0','--','C:/AMI/runs/p01/parity-v2.exe','check-ggd-parity','C:/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003/weights','C:/AMI/runs/p01/parity-fixture-0/fixture','C:/AMI/runs/p01/burn-parity-0/result.json') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; @'\nimport json,pathlib\np=pathlib.Path('C:/AMI/runs/p01/collect-teacher.json');p.write_text(json.dumps(dict(engine='C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json',games=1,parallel_matches=1,seconds=600,seed=20261103,max_blocks=None),indent=2))\n'@ | python -; git add gpu/scripts/p01_job.py gpu/scripts/p01_diagnostics.py gpu/src/ggd_diagnostic.rs gpu/src/main.rs gpu/src/model.rs gpu/src/sampling.rs; git diff --cached --stat; git commit -m \"[P01] feat: compare recurrent logits and recorded observations\"",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 1.5938061000000001,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content C:/AMI/runs/p01/epoch003-trace/job.json -Tail 6; Get-Content C:/AMI/runs/p01/dataset-statistics/job.json -Tail 6; Get-Content C:/AMI/runs/p01/burn-parity-0/job.json -Tail 6; Get-Content C:/AMI/runs/p01/burn-parity-0/result.json -ErrorAction SilentlyContinue; Get-Content C:/AMI/runs/p01/epoch003-trace/evaluation/status.json",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.2436616,
+      "exit_code": 0
+    },
+    {
+      "command": "python gpu/scripts/p01_diagnostics.py deaths C:/AMI/runs/p01/epoch003-trace/evaluation reports/P01/pregame-deaths.json; Copy-Item -LiteralPath C:/AMI/runs/p01/dataset-statistics.json -Destination reports/P01/dataset-statistics.json; Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','burn-parity-1','--','C:/AMI/runs/p01/parity-v2.exe','check-ggd-parity','C:/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003/weights','C:/AMI/runs/p01/parity-fixture-1/fixture','C:/AMI/runs/p01/burn-parity-1/result.json') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','evaluate-teacher-recording','--','C:/AMI/runs/p01/parity-v2.exe','evaluate-ggd','C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json','C:/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003/weights','C:/AMI/runs/p01/evaluate-teacher-recording/evaluation','--mode','teacher','--matches','1','--seconds','600','--seed','20261103','--record-teacher','--trace') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 1.8927698,
+      "exit_code": 0
+    },
+    {
+      "command": "@'\nimport json\nr=json.load(open('reports/P01/dataset-statistics.json')); print(json.dumps({k:v for k,v in r.items() if k not in ['continue_run_lengths','validation_fixtures']},indent=2)); print('runs', {k:v for k,v in r['continue_run_lengths'].items() if k!='histogram'}); print('validation',r['validation_fixtures'])\n'@ | python -; Get-Content C:/AMI/runs/p01/burn-parity-1/result.json -TotalCount 70; Get-Content C:/AMI/runs/p01/evaluate-teacher-recording/evaluation/status.json -ErrorAction SilentlyContinue",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.2825427,
+      "exit_code": 1
+    },
+    {
+      "command": "Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','dataset-statistics-v2','--','C:/Python314/python.exe','gpu/scripts/p01_diagnostics.py','dataset','C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset','C:/AMI/runs/p01/dataset-statistics.json') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; python gpu/scripts/p01_diagnostics.py deaths C:/AMI/runs/p01/epoch003-trace/evaluation reports/P01/pregame-deaths.json > C:/AMI/runs/p01/death-analysis.json; Get-Content C:/AMI/runs/p01/evaluate-teacher-recording/evaluation/status.json -ErrorAction SilentlyContinue",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 1.9479522999999999,
+      "exit_code": 0
+    },
+    {
+      "command": "Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','test-previous','--','wsl','-d','Ubuntu','--','bash','/mnt/c/AMI/scripts/wsl_python.sh','-m','unittest','discover','-s','/mnt/c/Users/levik/.codex/worktrees/p01-pregame-parity/AMI/tests','-p','test_ggd*.py','-v') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','build-selection','--','cargo','build','--release','--locked','--manifest-path','gpu/Cargo.toml','--target-dir','C:/AMI/gpu/target') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; Get-Content C:/AMI/runs/p01/evaluate-teacher-recording/evaluation/status.json; Get-Content C:/AMI/runs/p01/dataset-statistics-v2/output.log -Tail 2",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.2920112,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content C:/AMI/runs/p01/test-previous/output.log -Tail 20; Get-Content C:/AMI/runs/p01/build-selection/output.log -Tail 5; rg -n '^fn |^#\\[test\\]|ggd|teacher' gpu/src/gpu_tests.rs | Select-Object -Last 45; Get-ChildItem tools -ErrorAction SilentlyContinue | Select-Object Name; Get-Content C:/AMI/runs/p01/evaluate-teacher-recording/evaluation/status.json; Get-Content C:/AMI/runs/p01/dataset-statistics-v2/output.log -Tail 2",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.300385,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content gpu/src/gpu_tests.rs -TotalCount 32; rg -n 'lua_test|C:/AMI|ROOT.*runs|subprocess|lua' tests/test_teacher_lua.py tests/test_teacher*.py tests/test_lua*.py; Get-ChildItem C:/AMI/tools/lua_test_runtime -ErrorAction SilentlyContinue | Select-Object Name; git diff --stat; Get-Content C:/Users/levik/.codex/automations/p01-ggd/automation.toml -TotalCount 15",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.4353434,
+      "exit_code": 0
+    },
+    {
+      "command": "rg --files tests | Select-Object -Last 18; rg -n 'lua_test|lupa|sys.platform|ROOT' tests -g '*lua*.py'; Get-Content C:/AMI/runs/p01/build-selection/job.json -Tail 7; Get-Content C:/AMI/runs/p01/dataset-statistics-v2/output.log -Tail 2; Get-Content C:/AMI/runs/p01/evaluate-teacher-recording/evaluation/status.json",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.926214,
+      "exit_code": 0
+    },
+    {
+      "command": "Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','test-python-full','--','wsl','-d','Ubuntu','--','bash','/mnt/c/AMI/scripts/wsl_python.sh','-m','unittest','discover','-s','/mnt/c/Users/levik/.codex/worktrees/p01-pregame-parity/AMI/tests','-v') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; Get-Content C:/AMI/runs/p01/evaluate-teacher-recording/job.json -Tail 6; Get-Content C:/AMI/runs/p01/build-selection/job.json -Tail 6; Get-Content C:/AMI/runs/p01/dataset-statistics-v2/output.log -Tail 2",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.3734266,
+      "exit_code": 0
+    },
+    {
+      "command": "Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','collect-teacher-recording','--','C:/AMI/runs/p01/parity-v2.exe','collect-teacher','C:/AMI/runs/p01/collect-teacher.json','C:/AMI/runs/p01/collect-teacher-recording/dataset') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; Copy-Item -LiteralPath C:/AMI/runs/p01/burn-parity-0/result.json -Destination reports/P01/parity-validation-0.json; Copy-Item -LiteralPath C:/AMI/runs/p01/burn-parity-1/result.json -Destination reports/P01/parity-validation-1-initial-dire.json; git add gpu/scripts/train_ggd.py gpu/scripts/weights.py gpu/src/main.rs gpu/src/imitation.rs tests/test_ggd_resume.py tests/test_ggd_previous.py; git diff --cached --stat; git commit -m \"[P01] feat: add action selection and previous ablation flags\"",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.6494911,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content C:/AMI/runs/p01/test-python-full/output.log -Tail 22; Get-Content C:/AMI/runs/p01/build-selection/job.json -Tail 6; Get-Content C:/AMI/runs/p01/build-selection/output.log -Tail 4; Get-Content C:/AMI/runs/p01/dataset-statistics-v2/job.json -Tail 6; Get-Content C:/AMI/runs/p01/collect-teacher-recording/output.log -Tail 3",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.222169,
+      "exit_code": 0
+    },
+    {
+      "command": "python -c \"import torch; print(torch.__version__); print(torch.cuda.is_available())\"; Get-Content C:/AMI/runs/p01/test-python-full/output.log | Select-String -Pattern '^ERROR:|ModuleNotFoundError:|^Ran|^FAILED' ; Copy-Item -LiteralPath C:/AMI/gpu/target/release/sf-duel-gpu.exe -Destination C:/AMI/runs/p01/selection.exe; C:/AMI/runs/p01/selection.exe evaluate-ggd --help; Copy-Item -LiteralPath C:/AMI/runs/p01/dataset-statistics.json -Destination reports/P01/dataset-statistics.json",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 4.7731584,
+      "exit_code": 0
+    },
+    {
+      "command": "$env:PYTHONPATH='C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI/src;C:/AMI/tools/lua_test_runtime'; Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','test-windows-full','--','C:/Python314/python.exe','-m','unittest','discover','-s','tests','-v') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','parity-fixture-1-radiant','--','wsl','-d','Ubuntu','--','bash','/mnt/c/AMI/scripts/wsl_python.sh','/mnt/c/Users/levik/.codex/worktrees/p01-pregame-parity/AMI/gpu/scripts/p01_diagnostics.py','parity-fixture','/mnt/c/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003.pt','/mnt/c/AMI/runs/p01/validation-1.npz','/mnt/c/AMI/runs/p01/parity-fixture-1-radiant/fixture') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; @'\nimport json\nr=json.load(open('reports/P01/dataset-statistics.json'));h=r['continue_run_lengths']['histogram'];print('runs',r['continue_run_lengths']);print('fixtures',r['validation_fixtures'])\n'@ | python -; Get-Content C:/AMI/runs/p01/collect-teacher-recording/output.log -Tail 2",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.4006893,
+      "exit_code": 0
+    },
+    {
+      "command": "@'\nimport json\np='C:/AMI/runs/p01/evaluate-teacher-recording/evaluation/trace.jsonl';rows=[]\nfor line in open(p):\n r=json.loads(line)\n if r['actor']==0 and r['v'][0]<0: rows.append(r['v'])\nstop=next((i for i,r in enumerate(rows) if r[19]==4),None)\nprint('first_teacher_stop_index',stop)\nif stop:\n for r in rows[stop-3:stop+5]: print({'time':r[0]/30,'pos':r[1:3],'teacher_action':r[19],'xy':r[23:25],'p_continue':r[36],'p_move':r[37],'p_stop':r[40]})\n'@ | python -; Get-Content C:/AMI/runs/p01/test-windows-full/output.log -Tail 7; Get-Content C:/AMI/runs/p01/parity-fixture-1-radiant/job.json -Tail 6; Get-Content C:/AMI/runs/p01/collect-teacher-recording/output.log -Tail 2",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.3750751,
+      "exit_code": 0
+    },
+    {
+      "command": "Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','burn-parity-1-radiant','--','C:/AMI/runs/p01/selection.exe','check-ggd-parity','C:/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003/weights','C:/AMI/runs/p01/parity-fixture-1-radiant/fixture','C:/AMI/runs/p01/burn-parity-1-radiant/result.json') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; Get-Content C:/AMI/runs/p01/test-windows-full/job.json -Tail 6; Get-Content C:/AMI/runs/p01/test-windows-full/output.log | Select-String -Pattern '^Ran|^FAILED|^OK|^ERROR:|^FAIL:'; Get-Content C:/AMI/runs/p01/collect-teacher-recording/output.log -Tail 2",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.3228749,
+      "exit_code": 0
+    },
+    {
+      "command": "rg -n 'Ran |FAILED|OK|skipped' C:/AMI/runs/p01/test-windows-full/output.log; Get-Content C:/AMI/runs/p01/collect-teacher-recording/job.json -Tail 6; Get-Content C:/AMI/runs/p01/burn-parity-1-radiant/result.json -TotalCount 14; Get-Content reports/P01/death-game-00.csv -TotalCount 2; Get-Content runs/gpu/dota-calibration-003/engine.json -TotalCount 2",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.219254,
+      "exit_code": 0
+    },
+    {
+      "command": "Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','test-rust-full','--','cargo','test','--release','--locked','--manifest-path','gpu/Cargo.toml','--target-dir','C:/AMI/gpu/target') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; Get-Content C:/AMI/runs/p01/collect-teacher-recording/job.json -Tail 6; Get-Content C:/AMI/runs/p01/collect-teacher-recording/output.log -Tail 3",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.3043984,
+      "exit_code": 0
+    },
+    {
+      "command": "python gpu/scripts/p01_diagnostics.py observations C:/AMI/runs/p01/collect-teacher-recording/dataset C:/AMI/runs/p01/evaluate-teacher-recording/evaluation/observations reports/P01/observation-parity.json > C:/AMI/runs/p01/observation-comparison.json; Copy-Item -LiteralPath C:/AMI/runs/p01/burn-parity-1-radiant/result.json -Destination reports/P01/parity-validation-1.json; Get-Content reports/P01/observation-parity.json -Tail 38; git status --short",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 1.759045,
+      "exit_code": 0
+    },
+    {
+      "command": "python gpu/scripts/p01_diagnostics.py observations C:/AMI/runs/p01/collect-teacher-recording/dataset C:/AMI/runs/p01/evaluate-teacher-recording/evaluation/observations reports/P01/observation-parity.json > C:/AMI/runs/p01/observation-comparison.json; Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','baseline-grid','--','C:/Python314/python.exe','gpu/scripts/p01_diagnostics.py','evaluation-grid','reports/P01/baseline-evaluation-config.json') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; Get-Content C:/AMI/runs/p01/test-rust-full/output.log -Tail 4",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 1.8125426,
+      "exit_code": 0
+    },
+    {
+      "command": "@'\nimport json\nfrom pathlib import Path\nfor i in (0,1):\n r=json.loads(Path(f'reports/P01/parity-validation-{i}.json').read_text());print(i,{k:(v['max_absolute_delta'],v['masked_argmax']['numerator'],v['raw_argmax']['numerator']) for k,v in r['heads'].items()},r['value_max_absolute_delta'])\nr=json.load(open('reports/P01/pregame-deaths.json'));print([{k:v for k,v in w.items() if k!='damage'} for w in r['windows']]);r=json.load(open('reports/P01/observation-parity.json'));print('previous',r['previous_is_prior_issued_action'],'resets',r['periodic_reset_matches_128_step_boundaries']);print('packed',r['tensors']['packed_fp16_all_frames'])\n'@ | python -; Get-Content C:/AMI/runs/p01/test-rust-full/output.log -Tail 7; Get-Content C:/AMI/runs/p01/eval-epoch001-sampling/evaluation/status.json -ErrorAction SilentlyContinue",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.2584863,
+      "exit_code": 1
+    },
+    {
+      "command": "Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','parity-rocm-0','--','wsl','-d','Ubuntu','--','bash','/mnt/c/AMI/scripts/wsl_python.sh','/mnt/c/Users/levik/.codex/worktrees/p01-pregame-parity/AMI/gpu/scripts/p01_diagnostics.py','parity-fixture','/mnt/c/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003.pt','/mnt/c/AMI/runs/p01/validation-0.npz','/mnt/c/AMI/runs/p01/parity-rocm-0/fixture') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; Get-Content C:/AMI/runs/p01/eval-epoch001-sampling/evaluation/status.json -ErrorAction SilentlyContinue; Get-Content C:/AMI/runs/p01/test-rust-full/output.log -Tail 4",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.295232,
+      "exit_code": 0
+    },
+    {
+      "command": "@'\nimport json\nr=json.load(open('reports/P01/dataset-statistics.json'));hist={int(k):v for k,v in r['continue_run_lengths']['histogram'].items()}\nfor lo,hi in [(1,1),(2,4),(5,8),(9,16),(17,32),(33,64),(65,128),(129,256),(257,540)]:print(f'{lo}-{hi}: {sum(v for k,v in hist.items() if lo<=k<=hi)}/{sum(hist.values())}')\nfor p in ['C:/AMI/runs/p01/parity-rocm-0/job.json','C:/AMI/runs/p01/test-rust-full/job.json']:\n print(p,json.load(open(p)).get('stage'))\n'@ | python -; Get-Content C:/AMI/runs/p01/parity-rocm-0/output.log -Tail 3; Get-Content C:/AMI/runs/p01/eval-epoch001-sampling/evaluation/status.json",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.2393153,
+      "exit_code": 0
+    },
+    {
+      "command": "Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','parity-rocm-1','--','wsl','-d','Ubuntu','--','bash','/mnt/c/AMI/scripts/wsl_python.sh','/mnt/c/Users/levik/.codex/worktrees/p01-pregame-parity/AMI/gpu/scripts/p01_diagnostics.py','parity-fixture','/mnt/c/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003.pt','/mnt/c/AMI/runs/p01/validation-1.npz','/mnt/c/AMI/runs/p01/parity-rocm-1/fixture') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','burn-parity-rocm-0','--','C:/AMI/runs/p01/selection.exe','check-ggd-parity','C:/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003/weights','C:/AMI/runs/p01/parity-rocm-0/fixture','C:/AMI/runs/p01/burn-parity-rocm-0/result.json') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; Get-Content C:/AMI/runs/p01/test-rust-full/output.log -Tail 3",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.3079317,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content C:/AMI/runs/p01/burn-parity-rocm-0/result.json -TotalCount 32; Get-Content C:/AMI/runs/p01/parity-rocm-1/job.json -Tail 6; Get-Content C:/AMI/runs/p01/test-rust-full/output.log -Tail 6; Get-Content C:/AMI/runs/p01/eval-epoch001-sampling/evaluation/status.json; @'\nimport json\nfirst={};teacher=[]\nfor line in open('C:/AMI/runs/p01/epoch003-trace/evaluation/trace.jsonl'):\n r=json.loads(line);a=r['actor'];v=r['v']\n if a in [0,4,8,12] and v[11]>0 and a not in first:first[a]={'game_seconds':v[0]/30,'reset':v[18],'source':v[9],'kind':v[48],'tier':v[49]}\nfor line in open('C:/AMI/runs/p01/evaluate-teacher-recording/evaluation/trace.jsonl'):\n r=json.loads(line);v=r['v']\n if r['actor']==0 and -56.61<=v[0]/30<=-55.65:teacher.append({'game_seconds':v[0]/30,'x':v[1],'y':v[2],'teacher_action':v[19],'p_continue':v[36],'p_move':v[37],'p_stop':v[40]})\njson.dump({'first_dead_decisions':first,'teacher_arrival_window':teacher},open('reports/P01/reset-and-teacher-arrival.json','w'),indent=2);print(first)\n'@ | python -",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 1.5126119,
+      "exit_code": 0
+    },
+    {
+      "command": "Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','burn-parity-rocm-1','--','C:/AMI/runs/p01/selection.exe','check-ggd-parity','C:/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003/weights','C:/AMI/runs/p01/parity-rocm-1/fixture','C:/AMI/runs/p01/burn-parity-rocm-1/result.json') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; Get-Content C:/AMI/runs/p01/test-rust-full/job.json -Tail 6; Get-Content C:/AMI/runs/p01/eval-epoch001-sampling/evaluation/status.json",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.2910919,
+      "exit_code": 0
+    },
+    {
+      "command": "@'\nimport json,math,pathlib\np=pathlib.Path('reports/P01');rows=[]\nfor i in (0,1):\n result=json.loads(pathlib.Path(f'C:/AMI/runs/p01/burn-parity-rocm-{i}/result.json').read_text());fixture=json.loads(pathlib.Path(f'C:/AMI/runs/p01/parity-rocm-{i}/fixture/manifest.json').read_text());fixture.pop('tensors')\n assert all(math.isfinite(v['max_absolute_delta']) and v['max_absolute_delta']<0.0005 and v['masked_argmax']['numerator']==128 and v['raw_argmax']['numerator']==128 for v in result['heads'].values())\n (p/f'parity-validation-{i}.json').write_text(json.dumps(result,indent=2));rows.append({'fixture':fixture,'result':result})\n(p/'parity-fixtures.json').write_text(json.dumps({'passed':True,'sequences':rows},indent=2));print({name:max(r['result']['heads'][name]['max_absolute_delta'] for r in rows) for name in rows[0]['result']['heads']})\nreport=p.parent/'P01.md';text=report.read_text(encoding='utf-8');table='| Голова | max |Δ|, Dire | max |Δ|, Radiant | raw argmax | masked argmax |\\n| --- | ---: | ---: | ---: | ---: |\\n'\nfor name in rows[0]['result']['heads']:\n a,b=[r['result']['heads'][name] for r in rows];table+=f\"| {name} | {a['max_absolute_delta']:.9g} | {b['max_absolute_delta']:.9g} | 256/256 | 256/256 |\\n\"\ntext=text.replace('<!-- PARITY_TABLE -->',table+'\\nИтог: **подтверждено**, ROCm PyTorch и экспортированная Burn-модель совпадают до ожидаемого численного шума. Максимальный |Δ| всех логитов '+f\"{max(v['max_absolute_delta'] for r in rows for v in r['result']['heads'].values()):.9g}\"+'. Диагностические forward выполнялись без обучения. Метаданные среды и результаты: `reports/P01/parity-fixtures.json`.')\ntext=text.replace('Предварительное сравнение с PyTorch CPU совпало 256/256 по всем головам;\\nдля итоговой таблицы выполняется тот же forward на ROCm 2.14.1+rocm7.2.','Предварительное сравнение с PyTorch CPU совпало 256/256 по всем головам.\\nИтоговый forward выполнен на RX 9070 XT, PyTorch 2.14.1+rocm7.2, HIP 7.2.53211,\\nкак в исходном тренере. PyTorch GPU сравнивается с экспортированными весами GGD0 epoch-003,\\nбез переэкспорта или модификации весов.')\ntext=text.replace('Сравнения выбора действий, проверка ROCm forward, полный Rust-набор и абляция ещё выполняются.','Сравнения выбора действий и абляция ещё выполняются. Полный Rust-набор: **89/89**, 136,67 с тестов, 197,222 с полный процесс.')\nreport.write_text(text,encoding='utf-8')\n'@ | python -; Get-Content C:/AMI/runs/p01/eval-epoch001-sampling/evaluation/status.json; Get-Content C:/AMI/runs/p01/baseline-grid/job.json -Tail 5",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.2461631,
+      "exit_code": 0
+    },
+    {
+      "command": "@'\nimport json,pathlib\np=pathlib.Path('C:/AMI/runs/p01/baseline-summary.json')\nif p.exists():\n for r in json.loads(p.read_text()):print({k:v for k,v in r.items() if k!='source'})\nr=pathlib.Path('reports/P01.md');t=r.read_text(encoding='utf-8').replace('| Голова | max |Δ|, Dire | max |Δ|, Radiant | raw argmax | masked argmax |','| Голова | max abs Δ, Dire | max abs Δ, Radiant | raw argmax | masked argmax |');r.write_text(t,encoding='utf-8')\n'@ | python -; Get-Content C:/AMI/runs/p01/eval-epoch001-argmax/evaluation/status.json -ErrorAction SilentlyContinue; git diff --check; git add gpu/scripts/p01_diagnostics.py gpu/src/main.rs reports/P01.md reports/P01; git diff --cached --stat; git commit -m \"[P01] docs: diagnose pregame deaths and verify runtime parity\"",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.6946983,
+      "exit_code": 0
+    },
+    {
+      "command": "@'\nfrom pathlib import Path\nfor p in [Path('reports/P01.md'),*Path('reports/P01').glob('*')]:\n if p.is_file():p.write_bytes(p.read_bytes().replace(b'\\r\\n',b'\\n'))\nassert all(p.stat().st_size<1_000_000 for p in Path('reports/P01').rglob('*') if p.is_file())\n'@ | python -; git add reports/P01.md reports/P01; git diff --cached --stat; git diff --cached --check; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; git commit --amend --no-edit; Get-Content C:/AMI/runs/p01/eval-epoch001-argmax/evaluation/status.json -ErrorAction SilentlyContinue; Get-Content C:/AMI/runs/p01/baseline-grid/job.json -Tail 5",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.6536347,
+      "exit_code": 0
+    },
+    {
+      "command": "Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','parity-full-0','--','wsl','-d','Ubuntu','--','bash','/mnt/c/AMI/scripts/wsl_python.sh','/mnt/c/Users/levik/.codex/worktrees/p01-pregame-parity/AMI/gpu/scripts/p01_diagnostics.py','parity-fixture','/mnt/c/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003.pt','/mnt/c/AMI/runs/p01/validation-0.npz','/mnt/c/AMI/runs/p01/parity-full-0/fixture','--full-buckets') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; Get-Content C:/AMI/runs/p01/eval-epoch001-argmax/evaluation/status.json",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.2940854,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content C:/AMI/runs/p01/parity-full-0/job.json -Tail 6; Get-Content C:/AMI/runs/p01/parity-full-0/output.log -Tail 3; Get-Content C:/AMI/runs/p01/eval-epoch001-argmax/evaluation/status.json; Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'selection.exe' } | Select-Object ProcessId,CommandLine | Format-List; Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','parity-full-1','--','wsl','-d','Ubuntu','--','bash','/mnt/c/AMI/scripts/wsl_python.sh','/mnt/c/Users/levik/.codex/worktrees/p01-pregame-parity/AMI/gpu/scripts/p01_diagnostics.py','parity-fixture','/mnt/c/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003.pt','/mnt/c/AMI/runs/p01/validation-1.npz','/mnt/c/AMI/runs/p01/parity-full-1/fixture','--full-buckets') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.481233,
+      "exit_code": 0
+    },
+    {
+      "command": "Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','burn-parity-full-0','--','C:/AMI/runs/p01/selection.exe','check-ggd-parity','C:/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003/weights','C:/AMI/runs/p01/parity-full-0/fixture','C:/AMI/runs/p01/burn-parity-full-0/result.json') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; @'\nimport json,pathlib\np=pathlib.Path('C:/AMI/runs/p01/baseline-summary.json');rows=json.loads(p.read_text());print([(r['model'],r['selection'],r['controller'],r['side'],r['lh'],r['deny'],r['deaths'],r['first_death_game_seconds']['mean']) for r in rows]);p=pathlib.Path('C:/AMI/runs/p01/parity-full-0/fixture/manifest.json');print('padding',json.loads(p.read_text())['padding'])\n'@ | python -; Get-Content C:/AMI/runs/p01/eval-epoch003-sampling/evaluation/status.json -ErrorAction SilentlyContinue",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.425161,
+      "exit_code": 0
+    },
+    {
+      "command": "@'\nimport json,pathlib\nold=pathlib.Path('C:/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0/epoch-001/vs-teacher/report.json');new=pathlib.Path('C:/AMI/runs/p01/eval-epoch001-argmax/evaluation/report.json');a=json.loads(old.read_text());b=json.loads(new.read_text());result={'epoch001_argmax_per_match_equal_original':a['per_match']==b['per_match'],'old_matches':a['matches'],'new_matches':b['matches']};print(result);pathlib.Path('reports/P01/legacy-evaluation-check.json').write_text(json.dumps(result,indent=2),newline='\\n')\n'@ | python -; Get-Content C:/AMI/runs/p01/burn-parity-full-0/job.json -Tail 6; Get-Content C:/AMI/runs/p01/parity-full-1/job.json -Tail 6; Get-Content C:/AMI/runs/p01/eval-epoch003-sampling/evaluation/status.json",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.287431,
+      "exit_code": 0
+    },
+    {
+      "command": "Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','burn-parity-full-1','--','C:/AMI/runs/p01/selection.exe','check-ggd-parity','C:/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003/weights','C:/AMI/runs/p01/parity-full-1/fixture','C:/AMI/runs/p01/burn-parity-full-1/result.json') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; python -m py_compile gpu/scripts/p01_diagnostics.py; @'\nimport json,pathlib\nr=json.load(open('C:/AMI/runs/p01/burn-parity-full-0/result.json'));print('full_0',{k:(v['max_absolute_delta'],v['masked_argmax']['numerator']) for k,v in r['heads'].items()})\n'@ | python -",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.4598186,
+      "exit_code": 0
+    },
+    {
+      "command": "@'\nimport json,math,pathlib\nrun=pathlib.Path('C:/AMI/runs/p01');out=pathlib.Path('reports/P01');rows=[]\nfor i in (0,1):\n result=json.loads((run/f'burn-parity-full-{i}/result.json').read_text());fixture=json.loads((run/f'parity-full-{i}/fixture/manifest.json').read_text());fixture.pop('tensors');assert fixture['padding']['compact_hidden_max_absolute_delta']<0.0005\n assert all(math.isfinite(v['max_absolute_delta']) and v['max_absolute_delta']<0.0005 and v['masked_argmax']['numerator']==128 for v in result['heads'].values());rows.append({'fixture':fixture,'result':result})\n(out/'parity-full-buckets.json').write_text(json.dumps({'passed':True,'sequences':rows},indent=2),newline='\\n');print([(r['fixture']['padding']['compact_hidden_max_absolute_delta'],max(v['max_absolute_delta'] for v in r['result']['heads'].values())) for r in rows]);jobs=[json.loads(p.read_text(encoding='utf-8')) for p in run.glob('*/job.json')];(out/'background-jobs.json').write_text(json.dumps(jobs,indent=2),newline='\\n')\n'@ | python -; Get-Content C:/AMI/runs/p01/eval-epoch003-sampling/evaluation/status.json",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.2908425,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content C:/AMI/runs/p01/eval-epoch003-sampling/evaluation/status.json; Get-Content C:/AMI/runs/p01/baseline-grid/job.json -Tail 5; git status --short; git diff --check",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.3660276,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content C:/AMI/runs/p01/baseline-grid/job.json -Tail 7; Get-Content C:/AMI/runs/p01/eval-epoch003-sampling/evaluation/status.json; Get-Content C:/AMI/runs/p01/eval-epoch003-argmax/evaluation/status.json -ErrorAction SilentlyContinue; Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'selection.exe' } | Select-Object ProcessId,CommandLine | Format-List; @'\nimport json,pathlib\np=pathlib.Path('C:/AMI/runs/p01/baseline-summary.json')\nfor r in json.loads(p.read_text()):\n if r['controller']=='GGD':print({k:r[k] for k in ['model','selection','side','games','lh','deny','deaths','games_with_death','pregame_deaths','first_death_game_seconds']})\n'@ | python -",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.600715,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content C:/AMI/runs/p01/eval-epoch003-sampling/evaluation/status.json; Get-Content C:/AMI/runs/p01/eval-epoch003-sampling/job.json -Tail 5; Get-Content C:/AMI/runs/p01/eval-epoch003-argmax/evaluation/status.json -ErrorAction SilentlyContinue; git add gpu/scripts/p01_diagnostics.py reports/P01.md reports/P01/ablation-train-config.json reports/P01/ablation-evaluation-config.json reports/P01/commands.json reports/P01/background-jobs.json reports/P01/legacy-evaluation-check.json reports/P01/parity-full-buckets.json; git diff --cached --stat; git diff --cached --check; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; git commit -m \"[P01] test: verify full observation buckets and freeze run configs\"",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.5711155,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content C:/AMI/runs/p01/eval-epoch003-sampling/evaluation/status.json; Get-Content C:/AMI/runs/p01/eval-epoch003-sampling/job.json -Tail 6; Get-Content C:/AMI/runs/p01/eval-epoch003-argmax/evaluation/status.json -ErrorAction SilentlyContinue; Get-Process -Name selection -ErrorAction SilentlyContinue | Select-Object Id,CPU,StartTime; Get-Content C:/AMI/runs/p01/baseline-grid/output.log -Tail 2",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.264761,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content C:/AMI/runs/p01/eval-epoch003-sampling/job.json -Tail 6; Get-Content C:/AMI/runs/p01/eval-epoch003-sampling/evaluation/status.json; Get-Content C:/AMI/runs/p01/eval-epoch003-argmax/evaluation/status.json -ErrorAction SilentlyContinue; @'\nimport json,pathlib\nr=json.loads(pathlib.Path('C:/AMI/runs/p01/baseline-summary.json').read_text());print([{k:x[k] for k in ['model','selection','side','lh','deny','deaths','games_with_death','pregame_deaths','first_death_game_seconds']} for x in r if x['controller']=='GGD' and x['model']=='epoch003'])\n'@ | python -",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.2682417,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content C:/AMI/runs/p01/eval-epoch003-argmax/evaluation/status.json -ErrorAction SilentlyContinue; Get-Content C:/AMI/runs/p01/eval-epoch003-argmax/job.json -Tail 5; Get-Content C:/AMI/runs/p01/baseline-grid/job.json -Tail 5; Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'selection.exe' } | Select-Object ProcessId,CommandLine | Format-List; @'\nimport json,pathlib\nr=json.loads(pathlib.Path('C:/AMI/runs/p01/baseline-summary.json').read_text());pathlib.Path('reports/P01/baseline-summary.json').write_text(json.dumps(r,indent=2),newline='\\n')\n'@ | python -",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.4661623,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content C:/AMI/runs/p01/eval-epoch003-argmax/evaluation/status.json; Get-Process -Id 23320 | Select-Object Id,CPU,WorkingSet; Get-CimInstance Win32_Process | Where-Object { $_.Name -notmatch 'powershell|pwsh|conhost|cmd' -and $_.CommandLine -match 'collect-teacher|train_ggd.py|p03.*exe' } | Select-Object ProcessId,Name,CommandLine | Format-List",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.4420976,
+      "exit_code": 0
+    },
+    {
+      "command": "python -c \"import sys; sys.path.insert(0,'gpu/scripts'); from p01_job import pilot_status; pilot_status({'job':'status-refresh','stage':'complete'})\"; Get-Content C:/AMI/runs/p01/eval-epoch003-argmax/evaluation/status.json; git diff --check",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.3721079,
+      "exit_code": 0
+    },
+    {
+      "command": "@'\nimport json,datetime,pathlib\np=pathlib.Path('C:/AMI/runs/pilot-status.json');status=json.loads(p.read_text(encoding='utf-8'));job=json.loads(pathlib.Path('C:/AMI/runs/p01/eval-epoch003-argmax/job.json').read_text());progress=json.loads(pathlib.Path('C:/AMI/runs/p01/eval-epoch003-argmax/evaluation/status.json').read_text());current=status.setdefault('P01',{});current.update(job);current.update(stage='evaluating',background_work_remaining=True,current_status='C:/AMI/runs/p01/eval-epoch003-argmax/evaluation/status.json',last_checked_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),process_verified_alive=True,progress=progress,decisions_per_second=progress['decisions']/progress['wall_seconds'],heartbeat_automation='p01-ggd',training_started=False);tmp=p.with_name('pilot-status.p01-heartbeat.pending');tmp.write_text(json.dumps(status,ensure_ascii=False,indent=2),encoding='utf-8');tmp.replace(p);print(json.dumps({'pid':job['pid'],'finished':progress['finished'],'matches':progress['matches'],'decisions':progress['decisions'],'decisions_per_second':current['decisions_per_second']}))\n'@ | python -",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.2227751,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content AGENTS.md; Get-Content reports/P01.md -Tail 30; Get-Content C:/AMI/runs/p01/baseline-grid/job.json; Get-Content C:/AMI/runs/p01/eval-epoch003-argmax/evaluation/status.json; Get-Content C:/AMI/runs/p01/eval-epoch003-argmax/job.json -Tail 8; Get-Content C:/AMI/runs/p01/eval-epoch003-argmax/output.log -Tail 1; Get-CimInstance Win32_Process | Where-Object { $_.Name -in @('selection.exe','wsl.exe') } | Select-Object ProcessId,Name,CommandLine | Format-List; git status --short",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.4759734,
+      "exit_code": 0
+    },
+    {
+      "command": "@'\nimport json,datetime,pathlib\np=pathlib.Path('C:/AMI/runs/pilot-status.json');state=json.loads(p.read_text(encoding='utf-8'));job=json.loads(pathlib.Path('C:/AMI/runs/p01/eval-epoch003-argmax/job.json').read_text());progress=json.loads(pathlib.Path('C:/AMI/runs/p01/eval-epoch003-argmax/evaluation/status.json').read_text());current=state.setdefault('P01',{});previous=current.get('progress',{});elapsed=progress['wall_seconds']-previous.get('wall_seconds',0);rate=(progress['decisions']-previous.get('decisions',0))/elapsed if elapsed>0 else None;current.update(job);current.update(stage='evaluating',background_work_remaining=True,current_status='C:/AMI/runs/p01/eval-epoch003-argmax/evaluation/status.json',last_checked_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),process_verified_alive=True,progress=progress,recent_decisions_per_second=rate,heartbeat_automation='p01-ggd',training_started=False,next_stage='one_epoch_zero_previous_after_baseline_grid');tmp=p.with_name('pilot-status.p01-heartbeat.pending');tmp.write_text(json.dumps(state,ensure_ascii=False,indent=2),encoding='utf-8');tmp.replace(p);print(json.dumps({'pid':job['pid'],'finished':progress['finished'],'decisions':progress['decisions'],'rate':rate}))\n'@ | python -",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.2429738,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content AGENTS.md; Get-Content reports/P01.md -Tail 12; Get-Content C:/AMI/runs/p01/baseline-grid/job.json; Get-Content C:/AMI/runs/p01/eval-epoch003-argmax/job.json -Tail 8; Get-Content C:/AMI/runs/p01/eval-epoch003-argmax/evaluation/status.json; Get-ChildItem C:/AMI/runs/p01 -Directory | Where-Object Name -Match 'zero|train'; Get-CimInstance Win32_Process | Where-Object { $_.Name -notmatch 'powershell|pwsh|conhost|cmd' -and ($_.CommandLine -match 'train_ggd.py|p01_job.py|selection.exe') } | Select-Object ProcessId,Name,CommandLine | Format-List; Get-Content reports/P01/ablation-train-config.json; Get-Content gpu/scripts/p01_job.py",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.4214972,
+      "exit_code": 0
+    },
+    {
+      "command": "Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','zero-previous-train','--','wsl','-d','Ubuntu','--','bash','/mnt/c/AMI/scripts/wsl_python.sh','/mnt/c/Users/levik/.codex/worktrees/p01-pregame-parity/AMI/gpu/scripts/train_ggd.py','/mnt/c/Users/levik/.codex/worktrees/p01-pregame-parity/AMI/reports/P01/ablation-train-config.json','/mnt/c/AMI/runs/p01/zero-previous','--zero-previous') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; @'\nimport json,pathlib\nrun=pathlib.Path('C:/AMI/runs/p01');out=pathlib.Path('reports/P01');rows=json.loads((run/'baseline-summary.json').read_text());assert len(rows)==16\n(out/'baseline-summary.json').write_text(json.dumps(rows,indent=2),newline='\\n');dest=out/'evaluations';dest.mkdir(exist_ok=True)\nfor model in ('epoch001','epoch003'):\n for mode in ('sampling','argmax'):\n  report=json.loads((run/f'eval-{model}-{mode}/evaluation/report.json').read_text());assert report['complete'] and report['matches']==32\n  (dest/f'{model}-{mode}.json').write_text(json.dumps(report,indent=2),newline='\\n')\nold=json.loads(pathlib.Path('C:/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003/vs-teacher/report.json').read_text());new=json.loads((dest/'epoch003-argmax.json').read_text());check=json.loads((out/'legacy-evaluation-check.json').read_text());check['epoch003_argmax_per_match_equal_original']=old['per_match']==new['per_match'];(out/'legacy-evaluation-check.json').write_text(json.dumps(check,indent=2),newline='\\n');print(check)\ntable='| Модель | Выбор | Контроллер | Сторона | LH / матчей | Deny / матчей | Смертей; матчей со смертью | Первая смерть, с; n/N | До 0:00 |\\n| --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: |\\n'\nfor r in rows:\n d=r['first_death_game_seconds'];mean='не определено' if d['mean'] is None else f\"{d['mean']:.3f}\";n=r['games'];table+=f\"| {r['model']} | {r['selection']} | {r['controller']} | {r['side']} | {int(r['lh'])}/{n} | {int(r['deny'])}/{n} | {int(r['deaths'])}; {r['games_with_death']}/{n} | {mean}; {d['count']}/{d['denominator']} | {r['pregame_deaths']}/{n} |\\n\"\np=pathlib.Path('reports/P01.md');text=p.read_text(encoding='utf-8');text=text.replace('<!-- BASELINE_TABLE -->',table+'\\nLH и deny — суммы, знаменатель — число матчей за эту сторону. Первая смерть усреднена только по умершим.\\n\\n**Подтверждено:** epoch-003 sampling даёт 316 LH+deny за 32 матча против 64 у argmax; pregame-смерти Radiant 0/16 против 16/16. Epoch-001 sampling даёт 95 LH+deny за 32 матча, argmax — 42. Оба повторных argmax воспроизвели все per_match-значения исходного GGD0 (32/32 каждый).\\n')\ntext=text.replace('Выполняются 4 оценки по 32 матча vs teacher','Завершены 4/4 оценки, 128/128 матчей vs teacher').replace('Сравнения выбора действий и абляция ещё выполняются.','Базовые сравнения выбора действий завершены; абляция выполняется.').replace('Будет выполнена строго одна эпоха с нуля','Запущена строго одна эпоха с нуля')\np.write_text(text,encoding='utf-8',newline='\\n')\nprint([{k:r[k] for k in ['model','selection','side','lh','deny','deaths','pregame_deaths','first_death_game_seconds']} for r in rows if r['controller']=='GGD' and r['model']=='epoch003'])\n'@ | python -",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.3978971,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content C:/AMI/runs/p01/zero-previous-train/job.json; Get-Content C:/AMI/runs/p01/zero-previous/status.json -ErrorAction SilentlyContinue; Get-Content C:/AMI/runs/p01/zero-previous-train/output.log -Tail 2; wsl -d Ubuntu -- pgrep -af 'gpu/scripts/train_ggd.py'; Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'wsl.exe' } | Select-Object ProcessId,CommandLine | Format-List; python -m py_compile gpu/scripts/p01_job.py; @'\nimport json,pathlib\nrun=pathlib.Path('C:/AMI/runs/p01');out=pathlib.Path('reports/P01');(out/'background-jobs.json').write_text(json.dumps([json.loads(p.read_text(encoding='utf-8')) for p in run.glob('*/job.json')],indent=2),newline='\\n');files=[p for p in out.rglob('*') if p.is_file()];assert all(p.stat().st_size<1_000_000 for p in files);print('largest_report_file',max((p.stat().st_size,str(p)) for p in files))\n'@ | python -; git diff --check; git add gpu/scripts/p01_job.py reports/P01.md reports/P01/background-jobs.json reports/P01/baseline-summary.json reports/P01/legacy-evaluation-check.json reports/P01/evaluations; git diff --cached --stat; git diff --cached --check; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; git commit -m \"[P01] report: complete baseline evaluations and start previous ablation\"",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 1.3544408,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content AGENTS.md; Get-Content reports/P01.md -Tail 16; Get-Content C:/AMI/runs/p01/zero-previous-train/job.json; Get-Content C:/AMI/runs/p01/zero-previous/status.json; Get-Content C:/AMI/runs/p01/zero-previous-train/output.log -Tail 2; Test-Path C:/AMI/runs/p01/zero-previous/result.json; wsl -d Ubuntu -- pgrep -af 'gpu/scripts/train_ggd.py'; Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'wsl.exe' } | Select-Object ProcessId,CommandLine | Format-List; @'\nimport json,pathlib\ns=json.loads(pathlib.Path('C:/AMI/runs/pilot-status.json').read_text(encoding='utf-8'))['P01'];print(json.dumps({k:v for k,v in s.items() if k not in ['jobs','last_event']},indent=2))\n'@ | python -",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.6216406,
+      "exit_code": 0
+    },
+    {
+      "command": "@'\nimport json,datetime,pathlib\np=pathlib.Path('C:/AMI/runs/pilot-status.json');state=json.loads(p.read_text(encoding='utf-8'));progress=json.loads(pathlib.Path('C:/AMI/runs/p01/zero-previous/status.json').read_text());current=state['P01'];old=current.get('progress',{});elapsed=progress['wall_seconds']-old.get('wall_seconds',0);rate=(progress['updates']-old.get('updates',0))/elapsed if elapsed>0 else None;current.update(stage=progress['stage'],last_checked_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),process_verified_alive=True,wsl_training_pid=787,progress=progress,recent_updates_per_second=rate,background_work_remaining=True,training_epochs_authorized=1);tmp=p.with_name('pilot-status.p01-heartbeat.pending');tmp.write_text(json.dumps(state,ensure_ascii=False,indent=2),encoding='utf-8');tmp.replace(p);print(json.dumps({'updates':progress['updates'],'frames':progress['frames'],'nll':progress['nll'],'attack_recall':progress['attack_recall'],'rate':rate,'stage':progress['stage']}))\n'@ | python -",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.257372,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content AGENTS.md; Get-Content reports/P01.md -Tail 12; Get-Content C:/AMI/runs/p01/zero-previous-train/job.json; Get-Content C:/AMI/runs/p01/zero-previous/result.json -ErrorAction SilentlyContinue; Get-Content C:/AMI/runs/p01/zero-previous-train/output.log -Tail 1; Get-ChildItem C:/AMI/runs/p01 -Directory | Where-Object Name -Match 'ablation|zero-previous'; Get-CimInstance Win32_Process | Where-Object { $_.Name -notmatch 'powershell|pwsh|cmd|conhost' -and $_.CommandLine -match 'train_ggd.py|weights.py|ablation-evaluation-config' } | Select-Object ProcessId,Name,CommandLine | Format-List; wsl -d Ubuntu -- pgrep -af 'gpu/scripts/train_ggd.py'; git status --short",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 5.1757219,
+      "exit_code": 0
+    },
+    {
+      "command": "Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','zero-previous-export','--','wsl','-d','Ubuntu','--','bash','/mnt/c/AMI/scripts/wsl_python.sh','/mnt/c/Users/levik/.codex/worktrees/p01-pregame-parity/AMI/gpu/scripts/weights.py','--checkpoint','/mnt/c/AMI/runs/p01/zero-previous/epoch-001.pt','--output','/mnt/c/AMI/runs/p01/zero-previous/burn','--zero-previous') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName; @'\nimport json,pathlib\nrun=pathlib.Path('C:/AMI/runs/p01');out=pathlib.Path('reports/P01');r=json.loads((run/'zero-previous/result.json').read_text());assert r['complete'] and r['epochs']==1 and r['updates']==7995;cfg=json.loads((run/'zero-previous/config.json').read_text());assert cfg['zero_previous'] and cfg['epochs']==1\n(out/'ablation-training.json').write_text(json.dumps(r,indent=2),newline='\\n');old=json.loads(pathlib.Path('C:/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0/epoch-001/report.json').read_text());v=old['validation'];print('original',v)\n(out/'original-epoch001-il.json').write_text(json.dumps({k:old[k] for k in ['epoch','train','validation']},indent=2),newline='\\n')\np=pathlib.Path('reports/P01.md');t=p.read_text(encoding='utf-8').replace('Запущена строго одна эпоха с нуля','Завершена ровно одна эпоха с нуля').replace('Базовые сравнения выбора действий завершены; абляция выполняется.','Базовые сравнения выбора действий и обучение абляции завершены; её игровые оценки выполняются.')\nsummary='Обучение завершено за 1060,136 с (полный процесс 1072,373 с): 7995/7995 обновлений, 7 816 498/7 816 498 train-решений. Value head не изменился (max delta 0), action head изменился (L2 delta 2,31727).\\n\\n| Validation после одной эпохи | Исходный epoch-001 | zero previous |\\n| --- | ---: | ---: |\\n'\nz=r['history'][0]['validation'];summary+=f\"| NLL | {v['nll']:.6f} | {z['nll']:.6f} |\\n| Верный Act | {v['action_correct']}/{v['frames']} | {z['action_correct']}/{z['frames']} |\\n\"\nfor key,name in [('attack_recall','ATTACK recall'),('attack_precision','ATTACK precision'),('conditional_attack_target_accuracy','Target accuracy при учительском ATTACK')]:\n a,b=v[key],z[key];summary+=f\"| {name} | {a['numerator']}/{a['denominator']} | {b['numerator']}/{b['denominator']} |\\n\"\nt=t.replace('<!-- ABLATION_TABLE -->',summary+'\\n<!-- ABLATION_TABLE -->');p.write_text(t,encoding='utf-8',newline='\\n')\n'@ | python -",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.3691479,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content C:/AMI/runs/p01/zero-previous-export/job.json; Get-Content C:/AMI/runs/p01/zero-previous-export/output.log -Tail 3; @'\nimport json,pathlib,hashlib\np=pathlib.Path('C:/AMI/runs/p01/zero-previous/burn/weights/manifest.json');r=json.loads(p.read_text());assert r['zero_previous'] is True and len(r['tensors'])==59\nfor v in r['tensors'].values():assert hashlib.sha256((p.parent/v['file']).read_bytes()).hexdigest()==v['sha256']\ns={'zero_previous':r['zero_previous'],'tensors_verified':{'numerator':59,'denominator':59},'checkpoint':r['source'],'checkpoint_sha256':r['source_sha256'],'manifest':str(p),'manifest_sha256':hashlib.sha256(p.read_bytes()).hexdigest()};pathlib.Path('reports/P01/ablation-export.json').write_text(json.dumps(s,indent=2),newline='\\n');print(s)\njob=json.loads(pathlib.Path('C:/AMI/runs/p01/zero-previous-export/job.json').read_text());assert job['stage']=='complete' and job['exit_code']==0\n'@ | python -; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; Start-Process -FilePath C:/Python314/python.exe -ArgumentList @('gpu/scripts/p01_job.py','ablation-grid','--','C:/Python314/python.exe','gpu/scripts/p01_diagnostics.py','evaluation-grid','reports/P01/ablation-evaluation-config.json') -WorkingDirectory C:/Users/levik/.codex/worktrees/p01-pregame-parity/AMI -WindowStyle Hidden -PassThru | Select-Object Id,ProcessName",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.3537812,
+      "exit_code": 0
+    },
+    {
+      "command": "@'\nimport json,pathlib\nrun=pathlib.Path('C:/AMI/runs/p01');out=pathlib.Path('reports/P01');(out/'background-jobs.json').write_text(json.dumps([json.loads(p.read_text(encoding='utf-8')) for p in run.glob('*/job.json')],indent=2),newline='\\n')\nassert all(p.stat().st_size<1_000_000 for p in out.rglob('*') if p.is_file())\n'@ | python -; git add reports/P01.md reports/P01/ablation-training.json reports/P01/ablation-export.json reports/P01/original-epoch001-il.json reports/P01/background-jobs.json; git diff --cached --stat; git diff --cached --check; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; git commit -m \"[P01] report: finish one epoch previous ablation and verify export\"; Get-Content C:/AMI/runs/p01/eval-zero-previous-sampling/job.json; Get-Content C:/AMI/runs/p01/eval-zero-previous-sampling/evaluation/config.json; Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'selection.exe' } | Select-Object ProcessId,CommandLine | Format-List",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.822886,
+      "exit_code": 0
+    },
+    {
+      "command": "@'\nimport json,datetime,pathlib\np=pathlib.Path('C:/AMI/runs/pilot-status.json');s=json.loads(p.read_text(encoding='utf-8'));r=json.loads(pathlib.Path('C:/AMI/runs/p01/zero-previous/result.json').read_text());q=pathlib.Path('C:/AMI/runs/p01/eval-zero-previous-sampling/evaluation/status.json');s['P01'].update(stage='evaluating',current_status=str(q),last_checked_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),process_verified_alive=True,training_complete=True,training_epochs_completed=1,training_validation=r['history'][0]['validation'],export_verified_tensors=59,zero_previous=True,progress=json.loads(q.read_text()) if q.exists() else {'stage':'initializing'},next_stage='argmax_then_final_report_and_push');tmp=p.with_name('pilot-status.p01-heartbeat.pending');tmp.write_text(json.dumps(s,ensure_ascii=False,indent=2),encoding='utf-8');tmp.replace(p);print(json.dumps(s['P01']['progress']))\n'@ | python -",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.2528685,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content AGENTS.md; Get-Content reports/P01.md -Tail 10; Get-Content C:/AMI/runs/p01/ablation-grid/job.json; Get-Content C:/AMI/runs/p01/eval-zero-previous-sampling/job.json -Tail 8; Get-Content C:/AMI/runs/p01/eval-zero-previous-sampling/evaluation/status.json; Get-Content C:/AMI/runs/p01/eval-zero-previous-sampling/output.log -Tail 1; Get-Content C:/AMI/runs/p01/eval-zero-previous-argmax/job.json -ErrorAction SilentlyContinue; Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'selection.exe' } | Select-Object ProcessId,CommandLine | Format-List; git status --short; @'\nimport json,pathlib\ns=json.loads(pathlib.Path('C:/AMI/runs/pilot-status.json').read_text(encoding='utf-8'))['P01'];print(json.dumps({k:s.get(k) for k in ['stage','pid','current_status','progress','training_epochs_completed','last_checked_utc']},indent=2))\n'@ | python -",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.5879713,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content C:/AMI/runs/p01/eval-zero-previous-sampling/job.json -Tail 6; Get-Content C:/AMI/runs/p01/eval-zero-previous-sampling/evaluation/status.json; Get-Content C:/AMI/runs/p01/eval-zero-previous-argmax/evaluation/status.json -ErrorAction SilentlyContinue; @'\nimport json,pathlib\np=pathlib.Path('C:/AMI/runs/p01/ablation-summary.json')\nif p.exists():\n for r in json.loads(p.read_text()):\n  if r['controller']=='GGD':print(r)\n'@ | python -",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.2418865,
+      "exit_code": 0
+    },
+    {
+      "command": "@'\nimport json,pathlib,datetime\nrun=pathlib.Path('C:/AMI/runs/p01');r=json.loads((run/'eval-zero-previous-sampling/evaluation/report.json').read_text());assert r['complete'] and r['matches']==32\npathlib.Path('reports/P01/evaluations/zero-previous-sampling.json').write_text(json.dumps(r,indent=2),newline='\\n')\nfor s in r['summary']['sides']:\n if s['controller']=='GGD':print({k:s[k] for k in ['side','mid_arrival_elapsed_seconds','first_move_game_seconds','longest_idle_seconds','actions']})\np=pathlib.Path('C:/AMI/runs/pilot-status.json');state=json.loads(p.read_text(encoding='utf-8'));q=run/'eval-zero-previous-argmax/evaluation/status.json';progress=json.loads(q.read_text());state['P01'].update(stage='evaluating',current_status=str(q),last_checked_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),progress=progress,decisions_per_second=progress['decisions']/progress['wall_seconds'],training_epochs_completed=1,process_verified_alive=True,sampling_ablation_complete=True,next_stage='final_report_and_push_after_argmax');tmp=p.with_name('pilot-status.p01-heartbeat.pending');tmp.write_text(json.dumps(state,ensure_ascii=False,indent=2),encoding='utf-8');tmp.replace(p)\n'@ | python -; Get-CimInstance Win32_Process | Where-Object { $_.ProcessId -eq 5344 } | Select-Object ProcessId,CommandLine | Format-List",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.4619117,
+      "exit_code": 0
+    },
+    {
+      "command": "Get-Content AGENTS.md; Get-Content reports/P01.md -Tail 12; Get-Content C:/AMI/runs/p01/ablation-grid/job.json; Get-Content C:/AMI/runs/p01/eval-zero-previous-argmax/job.json -Tail 8; Get-Content C:/AMI/runs/p01/eval-zero-previous-argmax/evaluation/status.json; Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'selection.exe' } | Select-Object ProcessId,CommandLine | Format-List; @'\nimport json,pathlib\nr=json.loads(pathlib.Path('C:/AMI/runs/p01/ablation-summary.json').read_text());print(r)\n'@ | python -; git status --short",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.581563,
+      "exit_code": 0
+    },
+    {
+      "command": "@'\nimport json,pathlib\nrun=pathlib.Path('C:/AMI/runs/p01');out=pathlib.Path('reports/P01');rows=json.loads((run/'ablation-summary.json').read_text());assert len(rows)==8\n(out/'ablation-summary.json').write_text(json.dumps(rows,indent=2),newline='\\n');arrival=[]\nfor model in ('epoch001','zero-previous'):\n for mode in ('sampling','argmax'):\n  r=json.loads((run/f'eval-{model}-{mode}/evaluation/report.json').read_text());assert r['complete'] and r['matches']==32\n  if model=='zero-previous':(out/f'evaluations/{model}-{mode}.json').write_text(json.dumps(r,indent=2),newline='\\n')\n  for side in r['summary']['sides']:\n   if side['controller']=='GGD':arrival.append({'model':model,'selection':mode,**{k:side[k] for k in ['side','mid_arrival_elapsed_seconds','longest_idle_seconds','actions']}})\n(out/'ablation-participation.json').write_text(json.dumps(arrival,indent=2),newline='\\n');print(arrival)\ntable='| Выбор | Контроллер | Сторона | LH / матчей | Deny / матчей | Смертей; матчей со смертью | Первая смерть, с; n/N | До 0:00 |\\n| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |\\n'\nfor r in rows:\n d=r['first_death_game_seconds'];mean='не определено' if d['mean'] is None else f\"{d['mean']:.3f}\";n=r['games'];table+=f\"| {r['selection']} | {r['controller']} | {r['side']} | {int(r['lh'])}/{n} | {int(r['deny'])}/{n} | {int(r['deaths'])}; {r['games_with_death']}/{n} | {mean}; {d['count']}/{d['denominator']} | {r['pregame_deaths']}/{n} |\\n\"\ntable+='\\n| Модель | Выбор | Сторона | Дошли на мид | Среднее время от старта, с (только дошедшие) |\\n| --- | --- | --- | ---: | ---: |\\n'\nfor r in arrival:\n a=r['mid_arrival_elapsed_seconds'];mean='не определено' if a['mean'] is None else f\"{a['mean']:.3f}\";table+=f\"| {r['model']} | {r['selection']} | {r['side']} | {a['count']}/{a['denominator']} | {mean} |\\n\"\ntable+='\\n**Подтверждено:** по сравнению с исходным epoch-001, zero previous снижает LH+deny sampling с 95/32 матчей до 20/32, argmax — с 42/32 до 0/32. Матчей со смертью становится 12/32 вместо 29/32 в sampling и 1/32 вместо 31/32 в argmax. Это сопровождается слабым участием в игре и не является подтверждением большей игровой силы.\\n\\n**Ограничение:** абляция проверяет одну эпоху против одной эпохи. Она показывает полезность previous для быстрого обучения, но не устанавливает причину перехода от epoch-001 к epoch-003; обучение zero previous до третьей эпохи не выполнялось.\\n'\np=pathlib.Path('reports/P01.md');t=p.read_text(encoding='utf-8');assert '<!-- ABLATION_TABLE -->' in t;t=t.replace('<!-- ABLATION_TABLE -->',table)\nt=t.replace('Базовые сравнения выбора действий и обучение абляции завершены; её игровые оценки выполняются.','Все требуемые оценки завершены: 128/128 базовых и 64/64 абляционных матчей, дополнительно 8/8 матчей с трассами и две записи одного учительского матча для сравнения путей.')\nt=t.replace('Для оценки роли previous нужна абляция; одной корреляции action=previous недостаточно.','Одноэпоховая абляция ухудшила фарм и ATTACK recall; она не доказывает и не исключает этот механизм на третьей эпохе.')\nt=t.replace('; это делает копирование previous выгодным сокращением NLL.','. Возможность использования этой корреляции моделью — гипотеза, отдельно от измеренного совпадения меток.')\nt=t.replace('- Допущение: разрешённый лимит обучения — одна полная эпоха с нуля только для абляции `previous`; прочие проверки выполняются без обучения.','- **Подтверждено:** обучение ограничено одной полной эпохой с нуля для абляции previous; остальные эксперименты выполнялись без обучения.\\n- **Подтверждено:** смена argmax на sampling у epoch-003 устранила pregame-смерти Radiant в этой серии (16/16 → 0/16), увеличив LH+deny с 64/32 матчей до 316/32. Это эксперимент на фиксированном наборе seed, а не оценка реальной Dota.\\n- **Гипотеза:** сочетание ошибок относительных координат и обратной связи previous закрепляет MOVE вне учительского распределения. Численный/наблюдательный паритет подтверждён; исправление расхождения обучения и инференса по этим проверкам не требовалось.')\nt=t.replace('## Что не получилось или не проверено, и почему','## Что не получилось или не проверено, и почему\\n\\nРеальная Dota, другие семейства seed и обучение абляции дольше одной эпохи не проверялись: это вне P01. Проверка collect/evaluate ограничена одним seed; проверка логитов — двумя реальными validation-последовательностями (по одной за сторону). У обеих условные головы сравнивались при одинаковых учительских action/item. Время исполнения измерялось при разделении ресурсов машины с P03 и не является изолированным тестом производительности.')\nt=t.replace('В работе P01.','DONE P01')\nt=t.replace('DONE P01','- Чекпоинт абляции: `C:\\\\AMI\\\\runs\\\\p01\\\\zero-previous\\\\epoch-001.pt`; экспорт: `C:\\\\AMI\\\\runs\\\\p01\\\\zero-previous\\\\burn\\\\weights`.\\n- Новые полные оценки: `C:\\\\AMI\\\\runs\\\\p01\\\\eval-{epoch001,epoch003,zero-previous}-{sampling,argmax}\\\\evaluation\\\\report.json`.\\n\\nDONE P01')\njobs=[json.loads(q.read_text(encoding='utf-8')) for q in run.glob('*/job.json')];assert not any(j['stage']=='running' for j in jobs);(out/'background-jobs.json').write_text(json.dumps(jobs,indent=2),newline='\\n')\nselected={'epoch003-trace','dataset-statistics-v2','parity-rocm-0','parity-rocm-1','burn-parity-rocm-0','burn-parity-rocm-1','evaluate-teacher-recording','collect-teacher-recording','test-previous','test-windows-full','test-rust-full','zero-previous-train','zero-previous-export'}\ncommands='\\nКлючевые команды (остальные вызовы и неуспешные попытки сохранены в JSON выше):\\n\\n| Дословная команда | Длительность, с | Exit code |\\n| --- | ---: | ---: |\\n'\nfor j in sorted(jobs,key=lambda j:j['started_utc']):\n if j['job'] in selected or j['job'].startswith('eval-'):commands+=f\"| `{j['command_display']}` | {j['seconds']:.3f} | {j['exit_code']} |\\n\"\nt=t.replace('## Результаты',commands+'\\n## Результаты',1);p.write_text(t,encoding='utf-8',newline='\\n')\n'@ | python -",
+      "cwd": "C:\\Users\\levik\\.codex\\worktrees\\p01-pregame-parity\\AMI",
+      "seconds": 0.2496928,
+      "exit_code": 0
+    }
+  ]
+}

@@ -24,5 +24,6 @@ class GgdResumeTests(unittest.TestCase):
    self.assertEqual(checkpoint['epoch']+1,3)
    with self.assertRaisesRegex(ValueError,'dataset'):load_resume(path,config,'different')
    with self.assertRaisesRegex(ValueError,'seed'):load_resume(path,dict(config,seed=8),'dataset')
+   with self.assertRaisesRegex(ValueError,'zero_previous'):load_resume(path,dict(config,zero_previous=True),'dataset')
 
 if __name__=='__main__':unittest.main()
