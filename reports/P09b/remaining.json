@@ -50,7 +50,7 @@
   "post_dagger_commands": [
     "C:/Python314/python.exe gpu/scripts/p09b_run.py verify",
     "C:/Python314/python.exe gpu/scripts/p09b_rl.py references",
-    "Selection.json already committed for ZOg-d1; after references verify its metrics match the original trajectories, then run critic.",
+    "After references finish, run C:/Python314/python.exe gpu/scripts/p09b_passive_check.py; require8 completed series and512/512 equal match records. Selection.json already committed for ZOg-d1; then run critic.",
     "C:/Python314/python.exe gpu/scripts/p09b_rl.py critic",
     "C:/Python314/python.exe gpu/scripts/p09b_rl.py smoke",
     "C:/Python314/python.exe gpu/scripts/p09b_rl.py warmup",
@@ -61,5 +61,6 @@
     "checkpoint": "absolute .pt path",
     "weights": "absolute Burn weights directory",
     "reason_ru": "Evidence using wins, farm/spawn, survival and razes from 128 matches"
-  }
+  },
+  "notes_reward_sum": "Undiscounted shaping sum need not be zero: for zero endpoint potentials it equals(gamma-1)*sum intermediatePhi. e3 raw6733.298/128 despite outcome-940/128 is consistent with being behind; do not rank policies by raw episode reward. Corrected residuals and unchanged full trajectories are verified."
 }
