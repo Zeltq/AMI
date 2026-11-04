@@ -59,9 +59,9 @@ mod tests {
     #[test]
     fn p09b_potential_terminal_and_discount(){
         let d=crate::runtime::device();
-        let a=Tensor::from_data(TensorData::new(vec![0.,2.,1.,-.5,.2,0.,0.,-2.,-1.,.5,-.2,0.],[2,6]),&d);
-        let b=Tensor::from_data(TensorData::new(vec![10.,0.,0.,0.,0.,1.,-10.,0.,0.,0.,0.,1.],[2,6]),&d);
-        assert_eq!(components(a,b.clone()).into_data().try_to_vec::<f32>().unwrap(),vec![10.,-2.,-1.,.5,-.2,-10.,2.,1.,-.5,.2]);
+        let a=Tensor::from_data(TensorData::new(vec![0f32,2.,1.,-0.5,0.2,0.,0.,-2.,-1.,0.5,-0.2,0.],[2,6]),&d);
+        let b=Tensor::from_data(TensorData::new(vec![10f32,0.,0.,0.,0.,1.,-10.,0.,0.,0.,0.,1.],[2,6]),&d);
+        assert_eq!(components(a,b.clone()).into_data().try_to_vec::<f32>().unwrap(),vec![10.,-2.,-1.,0.5,-0.2,-10.,2.,1.,-0.5,0.2]);
         assert!(components(b.clone(),b).into_data().try_to_vec::<f32>().unwrap().iter().all(|v|*v==0.));
     }
 }
