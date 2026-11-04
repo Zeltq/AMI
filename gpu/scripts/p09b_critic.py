@@ -31,21 +31,21 @@ def actor_hash(model):
     return hashlib.sha256(b''.join(v.detach().cpu().numpy().tobytes() for k,v in model.state_dict().items() if not k.startswith('value_head.'))).hexdigest()
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('checkpoint');p.add_argument('output');p.add_argument('--datasets',nargs='+',required=True);p.add_argument('--epochs',type=int,default=8);p.add_argument('--smoke-files',type=int,default=0);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('checkpoint');p.add_argument('output');p.add_argument('--datasets',nargs='+',required=True);p.add_argument('--epochs',type=int,default=8);p.add_argument('--smoke-files',type=int,default=0);p.add_argument('--reward-mode',choices=['potential-v1','event-v2'],default='potential-v1');a=p.parse_args()
     torch.set_num_threads(2);torch.manual_seed(20261105);rng=np.random.default_rng(20261105)
     out=Path(a.output);out.mkdir(parents=True,exist_ok=True);start=time.monotonic()
     saved=torch.load(local_path(a.checkpoint),map_location='cpu',weights_only=False)
     assert saved['spec_version']==4
     policy=Policy(combat_inputs=True,timing_inputs=True,enemy_inputs=True).cuda();policy.load_state_dict(saved['state_dict']);policy.eval()
     for param in policy.parameters():param.requires_grad_(False)
-    before=actor_hash(policy);config=dict(checkpoint=str(a.checkpoint),datasets=a.datasets,dataset_manifest_sha256=[hashlib.sha256((local_path(p)/'dataset.json').read_bytes()).hexdigest() for p in a.datasets],epochs=a.epochs,smoke_files=a.smoke_files,lr=3e-4,batch_frames=8192,seed=20261105,gamma=.99,mana_weight=.5,actor_sha256=before,feature_cache_dtype='float16',device=torch.cuda.get_device_name(0),torch=torch.__version__,hip=torch.version.hip)
+    before=actor_hash(policy);config=dict(checkpoint=str(a.checkpoint),datasets=a.datasets,dataset_manifest_sha256=[hashlib.sha256((local_path(p)/'dataset.json').read_bytes()).hexdigest() for p in a.datasets],reward_mode=a.reward_mode,epochs=a.epochs,smoke_files=a.smoke_files,lr=3e-4,batch_frames=8192,seed=20261105,gamma=.99,mana_weight=.5,actor_sha256=before,feature_cache_dtype='float16',device=torch.cuda.get_device_name(0),torch=torch.__version__,hip=torch.version.hip)
     if (out/'config.json').exists():assert json.loads((out/'config.json').read_text())==config
     save(out/'config.json',config)
     cache=[];frames=0
     for dataset_index,dataset in enumerate(a.datasets):
         root=local_path(dataset);target_dir=out/f'targets-{dataset_index}'
         cached=json.loads((target_dir/'targets.json').read_text()) if (target_dir/'targets.json').exists() else {}
-        if cached.get('version')!=2 or cached.get('metadata_sha256')!=hashlib.sha256((root/'reward-metadata.json').read_bytes()).hexdigest():targets(root,target_dir)
+        if cached.get('version')!=(3 if a.reward_mode=='event-v2' else 2) or cached.get('metadata_sha256')!=hashlib.sha256((root/'reward-metadata.json').read_bytes()).hexdigest():targets(root,target_dir,reward_mode=a.reward_mode)
         target_manifest=json.loads((target_dir/'targets.json').read_text());lookup={x['demonstration']:x for x in target_manifest['files']}
         manifest=json.loads((root/'dataset.json').read_text());folder=out/f'features-{dataset_index}';folder.mkdir(exist_ok=True)
         files=manifest['files']
@@ -100,7 +100,7 @@ def main():
                 for name,mask in [('all',np.ones(len(ix),bool)),('pregame',~post[ix]),('post0',post[ix])]:stats[name].append(ev_stats(y[ix][mask],pred[mask]))
         row=dict(epoch=epoch+1,train_frames=train_n,train_mse=train_loss/max(1,train_n),validation={k:summarize(v) for k,v in stats.items()});history.append(row)
         assert row['validation']['all']['n']>0,'No held-out critic validation examples'
-        checkpoint={**saved,'state_dict':policy.state_dict(),'config':{**saved['config'],'model_name':saved['config']['model_name']+'-c'},'critic_optimizer':optimizer.state_dict(),'critic_history':history,'critic_epoch':epoch+1}
+        checkpoint={**saved,'state_dict':policy.state_dict(),'config':{**saved['config'],'model_name':saved['config']['model_name']+('-c2' if a.reward_mode=='event-v2' else '-c')},'critic_optimizer':optimizer.state_dict(),'critic_history':history,'critic_epoch':epoch+1}
         save_checkpoint(out/'last.pt',checkpoint)
         if row['validation']['all']['mse']<best:best=row['validation']['all']['mse'];save_checkpoint(out/'best.pt',checkpoint)
         save(out/'status.json',dict(stage='value fitting',**row,minutes=(time.monotonic()-start)/60));print(json.dumps(row),flush=True)

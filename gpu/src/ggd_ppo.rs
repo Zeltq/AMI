@@ -155,7 +155,7 @@ fn optimize(policy:&mut Policy,optimizer:&mut ModuleOptimizer,cfg:&Config,e:&Exp
     let ev_post=explained_variance(ret.clone(),old_value.clone(),post_mask.clone());
     let ev_pre=explained_variance(ret,old_value,pre_mask.clone());
     let post_count=scalar(post_mask.sum());let pre_count=scalar(pre_mask.sum());
-    let active=if cfg.reward_mode=="potential-v1"{Some(signals.clone().slice([0..n,0..HORIZON,11..12]).sum_dim(1).reshape([n]).into_data().try_to_vec::<f32>()?)}else{None};
+    let active=if cfg.reward_mode!="p08"{Some(signals.clone().slice([0..n,0..HORIZON,11..12]).sum_dim(1).reshape([n]).into_data().try_to_vec::<f32>()?)}else{None};
     let (pc,pt,pp)=e.buckets();let mut values=Vec::new();let mut stopped=false;let mut offset;
     for epoch in 0..cfg.epochs {
         offset=0;
@@ -233,9 +233,9 @@ fn checkpoint(policy:&Policy,optimizer:&ModuleOptimizer,manifest:&serde_json::Va
 
 pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
     ensure!(cfg.matches>0&&cfg.matches%2==0&&cfg.batch_sequences>0&&cfg.epochs>0&&cfg.minutes>0.&&cfg.minutes<=840.,"invalid PPO limits");
-    ensure!(cfg.reward_mode=="p08"||cfg.reward_mode=="potential-v1","unknown reward mode");
+    ensure!(["p08","potential-v1","event-v2"].contains(&cfg.reward_mode.as_str()),"unknown reward mode");
     ensure!(cfg.schedule_minutes>0.&&cfg.mana_weight==0.5,"invalid schedule or unvalidated mana weight");
-    let potential_reward=cfg.reward_mode=="potential-v1";
+    let state_reward=cfg.reward_mode!="p08";let event_reward=cfg.reward_mode=="event-v2";
     if cfg.teacher_version==crate::teacher_v10::Version::V10 {crate::teacher_v10::check_pin()?;}
     std::fs::create_dir_all(root)?;let lock=std::fs::OpenOptions::new().create(true).truncate(false).write(true).open(root.join("run.lock"))?;lock.try_lock()?;
     ensure!(!root.join("config.json").exists(),"fresh run directory required");
@@ -275,6 +275,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
         if cfg.desynchronize {(previous,initialization)=disperse(&w,&teacher,&observer,&enemy,&controller,&metrics,&rng,&sampler,&policy.clone().valid(),&manifest,root,cfg.seed,&mut sides)?;rows=crate::ggd_arenas::learner_rows(&sides,&d);}
         let mut prefix_decisions=tensor::<1>(w.meta.clone()).reshape([cfg.matches,META]).slice([0..cfg.matches,6..7]).reshape([cfg.matches]).into_data().try_to_vec::<f32>()?;
         let mut potential=crate::potential_reward::Tracker::new(&w,&teacher,cfg.mana_weight);
+        let mut events=event_reward.then(||crate::event_reward::Tracker::new(&w,&teacher));
         let mut prior=counts(&w,&teacher);let mut totals=prior.clone().slice([0..n,0..COMPONENTS])*rows.clone().float().unsqueeze_dim::<2>(1);
         if cfg.desynchronize {let initial_deaths=scalar(-totals.clone().slice([0..n,4..5]).reshape([n]).sum()/10.)as u64;pregame_deaths+=initial_deaths;prefix_pregame_deaths+=initial_deaths;}
         let limit=((w.engine.pre_game_seconds+600.)*7.5).ceil()as usize+2;
@@ -286,7 +287,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
             for step in 0..HORIZON {
                 let snapshot=if profile!="ggd-v2"{Some(teacher.command_snapshot())}else{None};
                 let (obs,scripted)=observation(&w,&teacher,&observer,&enemy,&controller,previous.clone(),&manifest);
-                if experience.is_none(){experience=Some(Experience::with_width(n,obs.packed.dims()[1],cfg.batch_sequences.max(32)*if potential_reward{2}else{1},&d));}
+                if experience.is_none(){experience=Some(Experience::with_width(n,obs.packed.dims()[1],cfg.batch_sequences.max(32)*if state_reward{2}else{1},&d));}
                 let keep:Tensor<2>=1.0f32-obs.reset.clone().unsqueeze_dim::<2>(1);h=h*keep.clone();c=c*keep.clone();rh=rh*keep.clone();rc=rc*keep;
                 let b=obs.decode();let encoded=actor.encode(&b);(h,c)=actor.memory.step(encoded.fused,h,c);let heads=actor.heads(&b,h.clone(),encoded.keys,None,&sampler);
                 let enc=reference.encode(&b);(rh,rc)=reference.memory.step(enc.fused,rh,rc);let anchor=reference.heads(&b,rh.clone(),enc.keys,Some(heads.actions.clone()),&sampler);
@@ -300,7 +301,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
                 let diff=heads.logp.clone()-anchor.logp.clone();rollout_kl=rollout_kl+(((-diff.clone()).exp()-1.+diff)*valid.clone()).sum();valid_count=valid_count+valid.clone().sum();
                 let _=w.advance_teacher(actions,&obs.refs,&rng,&teacher,true);teacher.record(&w,600.);metrics.sample(&w,&teacher);
                 let current=counts(&w,&teacher);let components=current.clone().slice([0..n,0..COMPONENTS])-prior.slice([0..n,0..COMPONENTS]);
-                let learning_components=if potential_reward{potential.step(&w,&teacher)}else{components.clone()};
+                let learning_components=if let Some(e)=events.as_mut(){e.step(&w,&teacher)}else if state_reward{potential.step(&w,&teacher)}else{components.clone()};
                 let respawn_at=tensor::<1>(w.state.clone()).reshape([cfg.matches,UNITS,STRIDE]).slice([0..cfg.matches,0..2,RESPAWN_AT..RESPAWN_AT+1]).reshape([n]);
                 pregame_events=pregame_events+pregame_death_events(components.clone(),respawn_at,valid.clone(),w.engine.pre_game_seconds);
                 reward_activity=reward_activity+(learning_components.clone().abs()*valid.clone().unsqueeze_dim::<2>(1)).sum();
@@ -315,7 +316,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
             let encoded=actor.encode(&next.decode());let (bh,_)=actor.memory.step(encoded.fused,Tensor::zeros([n,256],&d),Tensor::zeros([n,256],&d));
             let bootstrap=actor.value(bh)*(1.0f32-prior.clone().slice([0..n,9..10]).reshape([n]));
             d.sync()?;let collection=clock.elapsed().as_secs_f64();let update=Instant::now();
-            let coefficient=cfg.kl_start+(cfg.kl_end-cfg.kl_start)*(training_seconds/(if potential_reward{cfg.schedule_minutes}else{cfg.minutes}*60.)).min(1.)as f32;
+            let coefficient=cfg.kl_start+(cfg.kl_end-cfg.kl_start)*(training_seconds/(if state_reward{cfg.schedule_minutes}else{cfg.minutes}*60.)).min(1.)as f32;
             let mut learning=optimize(&mut policy,&mut optimizer,&cfg,experience.as_ref().unwrap(),bootstrap,warmup,coefficient,block,Tensor::stack(postgame,1))?;
             learning["rollout_entropy"]=serde_json::json!(scalar(rollout_entropy/valid_count.clone().clamp_min(1.)));
             learning["rollout_kl_m2"]=serde_json::json!(scalar(rollout_kl/valid_count.clone().clamp_min(1.)));
@@ -335,15 +336,15 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
             ensure!(audit.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).all(|x|x[39]==0.),"simulation error");
             if finished>recorded.iter().filter(|x|**x).count(){
                 let components=totals.clone().into_data().try_to_vec::<f32>()?;let mut games=metrics.games(&audit,w.engine.pre_game_seconds,batch_offset,Some("teacher"));
-                crate::demo_telemetry::enrich(&w,&mut games)?;if potential_reward{potential.enrich(&mut games)?;}
+                crate::demo_telemetry::enrich(&w,&mut games)?;if state_reward{potential.enrich(&mut games)?;}if let Some(e)=&events{e.enrich(&mut games)?;}
                 for m in 0..cfg.matches {if !recorded[m]&&audit[m*crate::scripted_teacher::AUDIT_FIELDS]>0. {
                     for side in 0..2 {games[m]["sides"][side]["controller"]=serde_json::json!(if side==sides[m]{"GGD"}else{"teacher"});}
                     if cfg.desynchronize {games[m]["game"]=serde_json::json!(episodes);}
                     let learner=&games[m]["sides"][sides[m]];if learner["first_death_game_seconds"].as_f64().is_some_and(|x|x<0.){pregame_death_matches+=1;}
-                    let a=m*2+sides[m];let legacy=&components[a*COMPONENTS..(a+1)*COMPONENTS];let reward_values:Vec<f32>=if potential_reward{serde_json::from_value(games[m]["sides"][sides[m]]["reward_components"].clone())?}else{legacy.to_vec()};let values=&reward_values;writeln!(episode_file,"{}",serde_json::json!({"block":block,"training_seconds":training_seconds,"reward":values.iter().sum::<f32>(),"components":values,"arena":m,"initialization_prefix_decisions":prefix_decisions[m],"game":games[m]}))?;recorded[m]=true;episodes+=1;
+                    let a=m*2+sides[m];let legacy=&components[a*COMPONENTS..(a+1)*COMPONENTS];let reward_values:Vec<f32>=if state_reward{serde_json::from_value(games[m]["sides"][sides[m]][if event_reward{"event_v2_components"}else{"reward_components"}].clone())?}else{legacy.to_vec()};let values=&reward_values;writeln!(episode_file,"{}",serde_json::json!({"block":block,"training_seconds":training_seconds,"reward":values.iter().sum::<f32>(),"components":values,"arena":m,"initialization_prefix_decisions":prefix_decisions[m],"game":games[m]}))?;recorded[m]=true;episodes+=1;
                 }}episode_file.flush()?;
             }
-            let row=serde_json::json!({"block":block,"batch":batch,"training_seconds":training_seconds,"collection_seconds":collection,"optimization_seconds":optimization,"episodes":episodes,"episodes_started":episodes_started,"total_decisions":total_decisions,"decisions_per_second":total_decisions as f64/training_seconds,"pregame_deaths":pregame_deaths,"pregame_deaths_initial_prefix":prefix_pregame_deaths,"pregame_death_matches":pregame_death_matches,"memory_pool":format!("{:?}",d.memory_pool_usage()),"finished_in_batch":finished,"phase_decisions":phase_values,"phase_histogram_verified":cfg.verify_phase_histogram,"phase_names":["pregame","0-3min","3-6min","6-10min"],"components_sum":if potential_reward{(potential.totals.clone()*rows.clone().float().unsqueeze_dim::<2>(1)).sum_dim(0).reshape([5]).into_data().try_to_vec::<f32>()?}else{totals.clone().sum_dim(0).reshape([COMPONENTS]).into_data().try_to_vec::<f32>()?},"reward_component_names":if potential_reward{crate::potential_reward::NAMES.to_vec()}else{NAMES.to_vec()},"learning":learning});
+            let row=serde_json::json!({"block":block,"batch":batch,"training_seconds":training_seconds,"collection_seconds":collection,"optimization_seconds":optimization,"episodes":episodes,"episodes_started":episodes_started,"total_decisions":total_decisions,"decisions_per_second":total_decisions as f64/training_seconds,"pregame_deaths":pregame_deaths,"pregame_deaths_initial_prefix":prefix_pregame_deaths,"pregame_death_matches":pregame_death_matches,"memory_pool":format!("{:?}",d.memory_pool_usage()),"finished_in_batch":finished,"phase_decisions":phase_values,"phase_histogram_verified":cfg.verify_phase_histogram,"phase_names":["pregame","0-3min","3-6min","6-10min"],"components_sum":if let Some(e)=&events{(e.totals.clone()*rows.clone().float().unsqueeze_dim::<2>(1)).sum_dim(0).reshape([6]).into_data().try_to_vec::<f32>()?}else if state_reward{(potential.totals.clone()*rows.clone().float().unsqueeze_dim::<2>(1)).sum_dim(0).reshape([5]).into_data().try_to_vec::<f32>()?}else{totals.clone().sum_dim(0).reshape([COMPONENTS]).into_data().try_to_vec::<f32>()?},"reward_component_names":if event_reward{crate::event_reward::NAMES.to_vec()}else if state_reward{crate::potential_reward::NAMES.to_vec()}else{NAMES.to_vec()},"learning":learning});
             writeln!(history,"{}",row)?;history.flush()?;eprintln!("{}",row);
             crate::artifacts::atomic_json(&root.join("status.json"),&serde_json::json!({"stage":"training","pid":std::process::id(),"latest":row,"elapsed_seconds":started.elapsed().as_secs_f64()}))?;
             drop(experience);d.memory_cleanup();
@@ -354,7 +355,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
                 let path=checkpoint(&policy,&optimizer,&manifest,root,block)?;last_checkpoint=training_seconds;last_path=Some(path.clone());
                 let progress=||serde_json::json!({"training_seconds":training_seconds,"block":block,"anchor_sha256":crate::runtime::file_sha256(&Path::new(&cfg.initial_weights).join("manifest.json")).unwrap(),"reward_mode":cfg.reward_mode,"schedule_minutes":cfg.schedule_minutes,"warmup_complete":!warmup});
                 let mut saved=progress();saved["last_evaluation"]=last_evaluation.into();saved["previous_evaluation_weights"]=previous_evaluation_weights.clone().into();crate::artifacts::atomic_json(&path.join("progress.json"),&saved)?;
-                if eval&&potential_reward {
+                if eval&&state_reward {
                     for opponent in [false,true] {for seed in [20261103u32,20261104] {
                         let name=if opponent{"previous"}else{"v10"};let target=root.join(format!("eval-{block:06}-{name}-{seed}"));
                         crate::artifacts::atomic_json(&root.join("status.json"),&serde_json::json!({"stage":"evaluating","pid":std::process::id(),"block":block,"training_seconds":training_seconds,"opponent":name,"seed":seed,"report":target.join("report.json")}))?;
@@ -365,7 +366,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
                     let mut saved=progress();saved["last_evaluation"]=last_evaluation.into();saved["previous_evaluation_weights"]=previous_evaluation_weights.clone().into();crate::artifacts::atomic_json(&path.join("progress.json"),&saved)?;
                     crate::artifacts::atomic_json(&root.join("evaluation-complete.json"),&serde_json::json!({"block":block,"training_seconds":training_seconds,"checkpoint":path,"previous_evaluation_weights":previous_evaluation_weights}))?;
                 }
-                if eval&&!potential_reward {for greedy in [false,true]{let name=if greedy{"argmax"}else{"sampling"};
+                if eval&&!state_reward {for greedy in [false,true]{let name=if greedy{"argmax"}else{"sampling"};
                     crate::artifacts::atomic_json(&root.join("status.json"),&serde_json::json!({"stage":"evaluating","pid":std::process::id(),"block":block,"training_seconds":training_seconds,"mode":name}))?;
                     let report=crate::imitation::evaluate(&engine,&path.join("weights"),&root.join(format!("eval-{block:06}-{name}")),64,600.,"teacher",20261103,true,false,greedy,false,cfg.teacher_version)?;
                     evaluation_seconds+=report["wall_seconds"].as_f64().unwrap_or(0.);
@@ -375,7 +376,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
             if cfg.desynchronize {
                 let done:Vec<_>=audit.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).map(|x|x[0]>0.).collect();
                 if done.iter().any(|x|*x){
-                    let mask=crate::ggd_arenas::reset(&w,&teacher,&metrics,&done);potential.reset(&w,&teacher,mask.clone());previous=previous.mask_where(mask.clone().unsqueeze_dim::<2>(1),crate::observe::initial_previous(n,&d));totals=totals.mask_fill(mask.unsqueeze_dim::<2>(1),0.);
+                    let mask=crate::ggd_arenas::reset(&w,&teacher,&metrics,&done);potential.reset(&w,&teacher,mask.clone());if let Some(e)=events.as_mut(){e.reset(&w,&teacher,mask.clone());}previous=previous.mask_where(mask.clone().unsqueeze_dim::<2>(1),crate::observe::initial_previous(n,&d));totals=totals.mask_fill(mask.unsqueeze_dim::<2>(1),0.);
                     for m in 0..cfg.matches{if done[m]{sides[m]=1-sides[m];recorded[m]=false;prefix_decisions[m]=0.;episodes_started+=1;}}
                     rows=crate::ggd_arenas::learner_rows(&sides,&d);prior=counts(&w,&teacher);
                 }
@@ -383,7 +384,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
         }
         batch+=1;
     }
-    let result=serde_json::json!({"blocks":block,"episodes":episodes,"episodes_started":episodes_started,"total_decisions":total_decisions,"pregame_deaths":pregame_deaths,"pregame_deaths_initial_prefix":prefix_pregame_deaths,"pregame_death_matches":pregame_death_matches,"warmup_complete":!warmup,"warmup_post_blocks":warmup_state.post_blocks,"warmup_ev_last5":warmup_state.mean(),"training_seconds":training_seconds,"evaluation_seconds":evaluation_seconds,"latest":last_path,"desynchronization":initialization,"profile":profile,"reward_components":if potential_reward{crate::potential_reward::NAMES.to_vec()}else{NAMES.to_vec()},"resumed_training_seconds":resumed_seconds});
+    let result=serde_json::json!({"blocks":block,"episodes":episodes,"episodes_started":episodes_started,"total_decisions":total_decisions,"pregame_deaths":pregame_deaths,"pregame_deaths_initial_prefix":prefix_pregame_deaths,"pregame_death_matches":pregame_death_matches,"warmup_complete":!warmup,"warmup_post_blocks":warmup_state.post_blocks,"warmup_ev_last5":warmup_state.mean(),"training_seconds":training_seconds,"evaluation_seconds":evaluation_seconds,"latest":last_path,"desynchronization":initialization,"profile":profile,"reward_components":if event_reward{crate::event_reward::NAMES.to_vec()}else if state_reward{crate::potential_reward::NAMES.to_vec()}else{NAMES.to_vec()},"resumed_training_seconds":resumed_seconds});
     crate::artifacts::atomic_json(&root.join("result.json"),&result)?;crate::artifacts::atomic_json(&root.join("status.json"),&serde_json::json!({"stage":"complete","result":result}))?;Ok(result)
 }
 
@@ -401,7 +402,6 @@ mod tests {
         assert!((scalar(weighted(clip,mask))-0.4).abs()<1e-6);
         eprintln!("P09c legacy bool-to-float diagnostic: {legacy:?}");
     }
-
     #[test]
     fn p09b_minibatch_uses_learner_sequences_and_preserves_legacy_order(){
         let active:Vec<f32>=(0..384).map(|i|if i%2==0{128.}else{0.}).collect();

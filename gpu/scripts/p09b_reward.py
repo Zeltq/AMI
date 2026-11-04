@@ -36,8 +36,12 @@ def numeric_table(engine):
     assert min(min(r['last_hit'],r['hero'],r['hero_and_last_hit']) for r in rows)>=.1
     return dict(gamma=GAMMA,mana_weight=MANA_WEIGHT,assumptions='Equal hero levels; initial stat item and no additional bracer, zero souls and zero raze stacks, first nonlethal hit, no simultaneous regen/other damage/level-up, old potential=0. Actual step adds (gamma-1)*old potential. Souls/stacks increase damage. Last hit means one enemy lane creep.',rows=rows)
 
-def targets(root,out):
+def targets(root,out,reward_mode='potential-v1'):
     """MC return on every native decision-clock step; validity masks only the loss."""
+    reward_fn=rewards
+    if reward_mode=='event-v2':
+        from p09c_reward import rewards as reward_fn
+    elif reward_mode!='potential-v1':raise ValueError(reward_mode)
     root=Path(root);out=Path(out);out.mkdir(parents=True,exist_ok=True)
     complete=out/'targets.json'
     if complete.exists():complete.unlink()
@@ -63,7 +67,7 @@ def targets(root,out):
         entry=manifest['files'][index]
         with np.load(root/entry['file']) as z:
             state=z['state'].astype(np.float64);valid=z['valid'];actors=z['actors'];fields=z['fields'].tolist();outcome=z['match_outcome']
-        r=rewards(state,fields).sum(-1);fi={k:i for i,k in enumerate(fields)}
+        r=reward_fn(state,fields).sum(-1);fi={k:i for i,k in enumerate(fields)}
         ret=np.zeros(valid.shape,np.float32);last_count=0
         for i,actor in enumerate(actors):
             actor=int(actor);terminal_file,terminal_step=terminals[actor]
@@ -87,6 +91,10 @@ def targets(root,out):
         if index%8==0:progress('return targets',len(entries))
     report=dict(version=2,dataset=str(root),gamma=GAMMA,mana_weight=MANA_WEIGHT,actors=len(terminals),frames=counts,files=list(reversed(entries)),invalid_steps_before_or_at_terminal=internal_invalid,terminals_outside_imitation_mask=terminal_invalid,terminal_convention='actual first native terminal, Phi(next)=0; gamma at every four-tick decision step, including invalid imitation frames; invalid loss frames and post-terminal padding are not training examples')
     report['metadata_sha256']=hashlib.sha256((root/'reward-metadata.json').read_bytes()).hexdigest()
+    report['reward_mode']=reward_mode
+    if reward_mode=='event-v2':
+        report['version']=3
+        report['terminal_convention']='first native terminal, outcome once; gamma every decision step including invalid imitation frames; losses of raw current resources / pre-step maximum, growth zero; no terminal zeroing of resources'
     complete.write_text(json.dumps(report,indent=2),newline='\n')
     (out/'targets-status.json').write_text(json.dumps(dict(stage='complete',files=len(entries),frames=counts,pid=None),indent=2),newline='\n');return report
 

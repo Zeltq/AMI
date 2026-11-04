@@ -214,6 +214,7 @@ pub fn evaluate_against(engine:&Path,weights:&Path,root:&Path,matches:usize,seco
     if teacher_version==crate::teacher_v10::Version::V10 {crate::teacher_v10::check_pin()?;}
     let controller=crate::teacher_v10::Controller::new(&w,teacher_version,teacher_version,false);
     let mut potential=crate::potential_reward::Tracker::new(&w,&teacher,0.5);
+    let mut events=crate::event_reward::Tracker::new(&w,&teacher);
     let v4=policy.is_ggd_v4();let v3=v4||policy.is_ggd_v3();ensure!(!v3||!record_teacher,"use collect-teacher for ggd-v3 recordings");
     let honest=manifest["timing_honest"].as_bool().unwrap_or(true);let oracle=manifest["timing_oracle"].as_bool().unwrap_or(false);
     let rows=Tensor::<1,Int>::from_data(TensorData::new((0..matches*2).map(|a|i32::from(a%2==(a/2)%2)).collect::<Vec<_>>(),[matches*2]),&d).greater_elem(0).unsqueeze_dim::<2>(1);
@@ -251,7 +252,7 @@ pub fn evaluate_against(engine:&Path,weights:&Path,root:&Path,matches:usize,seco
             e.store(step%HORIZON,&extended,signal);
         }
         previous=obs.previous(actions.clone(),&w.bases,&w.state);metrics.commands(&w,&teacher,actions.clone(),&obs.refs);
-        let _=w.advance_teacher(actions,&obs.refs,&rng,&teacher,true);teacher.record(&w,seconds);metrics.sample(&w,&teacher);let _=potential.step(&w,&teacher);
+        let _=w.advance_teacher(actions,&obs.refs,&rng,&teacher,true);teacher.record(&w,seconds);metrics.sample(&w,&teacher);let _=potential.step(&w,&teacher);let _=events.step(&w,&teacher);
         steps=step+1;
         if steps%HORIZON==0||steps==limit {
             if let Some(t)=diagnostic.as_mut(){t.flush((steps-1)%HORIZON+1)?;}
@@ -262,7 +263,7 @@ pub fn evaluate_against(engine:&Path,weights:&Path,root:&Path,matches:usize,seco
     }
     if let Some(writer)=writer{let files=writer.finish()?;crate::artifacts::atomic_json(&recording.join("recording.json"),&serde_json::json!({"files":files,"steps":steps,"seed":seed,"observer":"ggd-v2","dtype":"f16_le","controllers":teacher_version}))?;}
     let values=teacher.values();let mut games=metrics.games(&values,w.engine.pre_game_seconds,0,if record_teacher{None}else{Some(mode)});crate::demo_telemetry::enrich(&w,&mut games)?;
-    potential.enrich(&mut games)?;
+    potential.enrich(&mut games)?;events.enrich(&mut games)?;
     if opponent.is_some(){for g in &mut games{let selected=g["game"].as_u64().unwrap()as usize%2;g["sides"][selected]["controller"]=serde_json::json!("GGD");g["sides"][1-selected]["controller"]=serde_json::json!("previous");}}
     ensure!(games.iter().all(|g|g["simulation_error"]==0.),"GPU simulation error");
     let report=serde_json::json!({"family":"GGD","matches":matches,"mode":mode,"seed":seed,"complete":values.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).all(|v|v[0]>0.),"wall_seconds":started.elapsed().as_secs_f64(),"native_completed":values.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).filter(|v|v[2]>0.).count(),"estimate":"closed-loop simulator evaluation; not real Dota transfer","summary":crate::ggd_metrics::summary(&games),"per_match":games});

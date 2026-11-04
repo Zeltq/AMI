@@ -14,6 +14,7 @@ mod experience;
 mod learner;
 mod ggd_ppo;
 mod potential_reward;
+mod event_reward;
 mod ggd_arenas;
 mod cell;
 mod gradients;

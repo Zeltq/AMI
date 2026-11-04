@@ -5,8 +5,8 @@ use burn_cubecl::tensor::CubeTensor;
 use cubecl::prelude::*;
 use anyhow::Result;
 use std::{path::Path,io::Write};
-pub const FIELDS:usize=26;
-pub const NAMES:[&str;FIELDS]=["game_seconds","own_lh","own_deny","own_hp_fraction","own_mana_fraction","own_level","own_xp_in_level","own_xp_total","own_souls","own_raze_stacks","own_deaths","enemy_lh","enemy_deny","enemy_hp_fraction","enemy_mana_fraction","enemy_level","enemy_xp_in_level","enemy_xp_total","enemy_souls","enemy_raze_stacks","enemy_deaths","own_t1_hp_fraction","enemy_t1_hp_fraction","terminal","result","reason"];
+pub const FIELDS:usize=34;
+pub const NAMES:[&str;FIELDS]=["game_seconds","own_lh","own_deny","own_hp_fraction","own_mana_fraction","own_level","own_xp_in_level","own_xp_total","own_souls","own_raze_stacks","own_deaths","enemy_lh","enemy_deny","enemy_hp_fraction","enemy_mana_fraction","enemy_level","enemy_xp_in_level","enemy_xp_total","enemy_souls","enemy_raze_stacks","enemy_deaths","own_t1_hp_fraction","enemy_t1_hp_fraction","terminal","result","reason","own_hp","own_hp_max","own_mana","own_mana_max","enemy_hp","enemy_hp_max","enemy_mana","enemy_mana_max"];
 
 #[cube]
 pub fn reason(state:&[f32],meta:&[f32],m:usize)->f32{
@@ -26,6 +26,9 @@ fn record(state:&[f32],meta:&[f32],xp:&[f32],out:&mut [f32],actors:usize,step:us
         for j in 0..2 {let p=base+if j==0 {side}else{1-side}*STRIDE;let at=r+1+j*10;
             out[at]=state[p+UNIT_LAST_HITS];out[at+1]=state[p+UNIT_DENIES];
             out[at+2]=state[p+UNIT_HEALTH]/state[p+UNIT_HEALTH_MAX].max(1.0f32);out[at+3]=state[p+UNIT_MANA]/state[p+UNIT_MANA_MAX].max(1.0f32);
+            let exact=r+26+j*4;
+            out[exact]=state[p+UNIT_HEALTH];out[exact+1]=state[p+UNIT_HEALTH_MAX];
+            out[exact+2]=state[p+UNIT_MANA];out[exact+3]=state[p+UNIT_MANA_MAX];
             out[at+4]=state[p+UNIT_LEVEL];out[at+5]=state[p+XP];let mut total=state[p+XP];
             for l in 1..30 {if (l as f32)<state[p+UNIT_LEVEL] {total+=xp[l-1];}}out[at+6]=total;
             out[at+7]=state[p+UNIT_SOULS];out[at+8]=if state[p+STACK_END]>((meta[m*META]+pregame*30.0f32)/30.0f32).max(0.0f32) {state[p+UNIT_RAZE_STACKS]}else{0.0f32};out[at+9]=state[p+DEATHS];
