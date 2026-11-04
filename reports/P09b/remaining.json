@@ -1,12 +1,12 @@
 {
-  "status": "d1 complete and evaluated; d2 training; post-DAgger controllers prepared, GPU verification pending",
-  "active_controller": "C:/Python314/python.exe gpu/scripts/p09b_run.py dagger",
-  "controller_pid": 27512,
+  "status": "DAgger2/2 complete, d1 selected in selection.json; verify controller retry3 PID17500 active",
+  "active_controller": "C:/Python314/python.exe gpu/scripts/p09b_run.py verify",
+  "controller_pid": 17500,
   "heartbeat_id": "p09b-zog-dagger-8-rl",
   "gpu_limit_minutes": 840,
   "runner_state": "C:/AMI/runs/p09/P09b/state.json",
   "remaining": [
-    "Finish d1/d2 collection, one mixed-data epoch each, 2x64 sampling evaluations; current controller does these automatically. Do not duplicate.",
+    "DAgger finished. d1 selected from complete128-match evaluations; selection.json and report contain explicit tradeoffs. Preserve selection unless the new passive-reward benchmark materially changes trajectories; then investigate first.",
     "When the current DAgger controller has exited and both rounds finished, launch C:/Python314/python.exe gpu/scripts/p09b_run.py verify from this worktree. It takes the same OS lock, runs narrow GPU reward tests then full Rust suite with GPU accounting, rebuilds rl-gpu.exe, and checks v10 and two DIFFERENT checkpoints on 2 balanced complete matches each. Do not run concurrently with DAgger.",
     "The critic stage runs an eight-shard GPU smoke with validation, then fits eight value epochs on all three datasets; targets-0/1/2 are already prepared. Uses atomic checkpoints/features and verifies nonvalue weights before/after export.",
     "Run new reward evaluations for e3,d1,d2,P08 final and v10-v10 (two seeds x64); old DAgger executable evaluations lack reward. Reuse P09a other metrics and verify same-seed equality before replacing registry. Add reports to evaluations.json; p09b_results.py publishes both perspectives.",
@@ -49,7 +49,7 @@
   "post_dagger_commands": [
     "C:/Python314/python.exe gpu/scripts/p09b_run.py verify",
     "C:/Python314/python.exe gpu/scripts/p09b_rl.py references",
-    "Write and commit reports/P09b/selection.json with model, checkpoint, weights, reason_ru after the complete comparison. Model must match checkpoint export metadata.",
+    "Selection.json already committed for ZOg-d1; after references verify its metrics match the original trajectories, then run critic.",
     "C:/Python314/python.exe gpu/scripts/p09b_rl.py critic",
     "C:/Python314/python.exe gpu/scripts/p09b_rl.py smoke",
     "C:/Python314/python.exe gpu/scripts/p09b_rl.py warmup",

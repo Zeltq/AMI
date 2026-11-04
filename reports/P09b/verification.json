@@ -85,5 +85,11 @@
   "p09b_cpu_latest": {
     "passed": 7,
     "command": "C:/Python314/python.exe -m unittest test_p09b -v"
+  },
+  "rust_test_build": {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/gpu/target --no-run",
+    "exit_code": 0,
+    "tests_executed": false,
+    "log": "C:/AMI/runs/p09/P09b/test-build-final.log"
   }
 }
