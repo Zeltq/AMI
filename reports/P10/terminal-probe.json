@@ -1,0 +1,74 @@
+{
+  "model_team": 3,
+  "first_blood": {
+    "time": -86.566665649414,
+    "team": 3,
+    "killer_team": 2,
+    "killer": "npc_dota_hero_nevermore",
+    "kind": "death"
+  },
+  "end": -86.566665649414,
+  "sides": {
+    "2": {
+      "last": {
+        "y": -6700.00390625,
+        "lh": 0,
+        "deny": 0,
+        "deaths": 0,
+        "kills": 1,
+        "health": 538,
+        "alive": true,
+        "player": 0,
+        "team": 2,
+        "time": -86.533340454102,
+        "kind": "hero",
+        "x": -6700
+      },
+      "at_seconds": {
+        "300": null,
+        "600": null
+      },
+      "deaths": 0,
+      "kills": 1,
+      "casts": {},
+      "raze_casts": 0,
+      "raze_hit_events": 0,
+      "raze_hero_hits": 0,
+      "hero_attack_hits": 1,
+      "mid_game_time": null,
+      "telemetry_samples": 21
+    },
+    "3": {
+      "last": {
+        "y": 6649.99609375,
+        "lh": 0,
+        "deny": 0,
+        "deaths": 1,
+        "kills": 0,
+        "health": 0,
+        "alive": false,
+        "player": 5,
+        "team": 3,
+        "time": -86.533340454102,
+        "kind": "hero",
+        "x": 6900
+      },
+      "at_seconds": {
+        "300": null,
+        "600": null
+      },
+      "deaths": 1,
+      "kills": 0,
+      "casts": {},
+      "raze_casts": 0,
+      "raze_hit_events": 0,
+      "raze_hero_hits": 0,
+      "hero_attack_hits": 0,
+      "mid_game_time": null,
+      "telemetry_samples": 21
+    }
+  },
+  "hit_definition": "entity_hurt events, one event per damaged target; hero hits separately",
+  "missing_marks": "null means duel ended early or no sample within 0.15 seconds",
+  "scope": "Forced server diagnostic, no policy: death attribution and human-only setup rejection"
+}

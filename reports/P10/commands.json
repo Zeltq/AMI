@@ -1,14 +1,36 @@
 [
   {
-    "stage": "running",
+    "stage": "failed",
     "pid": 8452,
     "child_pid": 22844,
     "command": "C:/Python314/python.exe gpu/scripts/evaluate_dota_teacher.py --checkpoint C:/AMI/runs/p10/ZOg-000470.pt --run C:/AMI/runs/p10/native-eight --collector C:/AMI/runs/p10/nativecollect.exe --engine C:/AMI/runs/p07/dota-calibration-005/engine.json --matches 8 --workers 16 17 18 19 --seconds 600 --seed 20261105 --sampling --console-debug",
     "cwd": "C:\\AMI-wt\\P10",
     "artifact": "C:\\AMI\\runs\\p10",
-    "minutes": 2.8379850933337973,
+    "minutes": 12.770165096666704,
+    "exit_code": 1,
+    "updated_utc": "2026-11-04T23:48:30.109158+00:00"
+  },
+  {
+    "stage": "failed",
+    "pid": 21204,
+    "child_pid": 33832,
+    "command": "C:/Python314/python.exe gpu/scripts/evaluate_dota_teacher.py --checkpoint C:/AMI/runs/p10/ZOg-000470.pt --run C:/AMI/runs/p10/native-eight --collector C:/AMI/runs/p10/nativecollect.exe --engine C:/AMI/runs/p07/dota-calibration-005/engine.json --matches 8 --workers 16 17 18 19 --seconds 600 --seed 20261105 --sampling --console-debug --resume",
+    "cwd": "C:\\AMI-wt\\P10",
+    "artifact": "C:\\AMI\\runs\\p10",
+    "minutes": 1.2523780800004412,
+    "exit_code": 1,
+    "updated_utc": "2026-11-04T23:50:48.563753+00:00"
+  },
+  {
+    "stage": "running",
+    "pid": 34084,
+    "child_pid": 34684,
+    "command": "C:/Python314/python.exe gpu/scripts/evaluate_dota_teacher.py --checkpoint C:/AMI/runs/p10/ZOg-000470.pt --run C:/AMI/runs/p10/native-eight --collector C:/AMI/runs/p10/nativecollect.exe --engine C:/AMI/runs/p07/dota-calibration-005/engine.json --matches 8 --workers 16 17 18 19 --seconds 600 --seed 20261105 --sampling --console-debug --resume",
+    "cwd": "C:\\AMI-wt\\P10",
+    "artifact": "C:\\AMI\\runs\\p10",
+    "minutes": 1.8366281449998496,
     "exit_code": null,
-    "updated_utc": "2026-11-04T23:38:34.178357+00:00"
+    "updated_utc": "2026-11-04T23:53:50.718082+00:00"
   },
   {
     "stage": "failed",
@@ -67,6 +89,17 @@
   },
   {
     "stage": "complete",
+    "pid": 23664,
+    "child_pid": 5596,
+    "command": "C:/Python314/python.exe -m unittest discover -s tests -v",
+    "cwd": "C:\\AMI-wt\\P10",
+    "artifact": "C:\\AMI\\runs\\p10",
+    "minutes": 0.2505566916671038,
+    "exit_code": 0,
+    "updated_utc": "2026-11-04T23:50:28.839714+00:00"
+  },
+  {
+    "stage": "complete",
     "pid": 25924,
     "child_pid": 17472,
     "command": "C:/Python314/python.exe -m unittest discover -s tests -v",
@@ -119,5 +152,16 @@
     "minutes": 0.6680646099994192,
     "exit_code": 0,
     "updated_utc": "2026-11-04T23:30:33.168821+00:00"
+  },
+  {
+    "stage": "complete",
+    "pid": 29772,
+    "child_pid": 32752,
+    "command": "C:/Python314/python.exe gpu/scripts/p10_terminal_probe.py",
+    "cwd": "C:\\AMI-wt\\P10",
+    "artifact": "C:\\AMI\\runs\\p10",
+    "minutes": 1.0014607849996537,
+    "exit_code": 0,
+    "updated_utc": "2026-11-04T23:46:38.683998+00:00"
   }
 ]
