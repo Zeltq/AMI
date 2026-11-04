@@ -76,7 +76,8 @@ def publish(reason):
     if any(p!='reports/P09b.md' and not p.startswith('reports/P09b/') for p in staged):raise RuntimeError('Unrelated staged files; defer automated publication')
     subprocess.run(['git','diff','--cached','--stat'],cwd=ROOT,check=True)
     if staged:subprocess.run(['git','commit','-m','[P09b] '+reason],cwd=ROOT,check=True)
-    subprocess.run(['git','push','-u','origin','agent/P09b-zog-rl'],cwd=ROOT,check=True)
+    ssh='C:/Windows/System32/OpenSSH/ssh.exe -o BatchMode=yes -o ConnectTimeout=15 -o ServerAliveInterval=15 -o ServerAliveCountMax=2'
+    subprocess.run(['git','-c','core.sshCommand='+ssh,'push','-u','origin','agent/P09b-zog-rl'],cwd=ROOT,check=True,timeout=120)
     save(RUN/'publication.json',dict(reason=reason,commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),updated_utc=datetime.now(timezone.utc).isoformat()))
 def status(row):
     value={**row,'controller_pid':os.getpid(),'updated_utc':datetime.now(timezone.utc).isoformat(),'worktree':str(ROOT),'artifacts':str(RUN)}
