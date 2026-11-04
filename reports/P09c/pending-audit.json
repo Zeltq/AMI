@@ -1,13 +1,20 @@
 {
-  "before_long_rl": [
-    "Completed: pilot1 healthy, both seed reports audited, live main config resumed exact checkpoint with continuous .2 anchor, 60-minute plan and both opponents enabled.",
-    "Actual pilot evaluation cost checked against projection; same shared hour/final budget branch. No pilot2."
+  "audit_complete": true,
+  "pending": [],
+  "completed": [
+    "All exact-data parity checks",
+    "Frozen actor for critic/warmup and all weights for lr0 smoke",
+    "Pilot health gate and continuous long-run KL schedule",
+    "All final seeds/sides/opponent identity/reward components",
+    "Unchanged checkpoint during evaluations",
+    "Exact reference reward with gameplay parity to P09b",
+    "GPU budget and absence of active workers",
+    "Protected source hashes and report artifact sizes"
   ],
-  "final": [
-    "Check both players and both seeds, reward components, policy equality, clip range, protected source hashes, budget, report <=150 lines, all evidence committed and pushed."
-  ],
-  "completed_auxiliary_checks": [
-    "Cargo check completed successfully after throughput-log fix; process exited. No GPU restart; current binary unchanged.",
-    "Protected-source audit passed against9f7949a; file hashes published."
+  "remaining_limitations": [
+    "Fixed evaluation seeds; no real-Dota transfer test",
+    "Hour and final are aliases of one series",
+    "Historical clip>1 cause not reproduced",
+    "Raw native resumed throughput corrected in derived CSV; one-line source fix compiled separately"
   ]
 }

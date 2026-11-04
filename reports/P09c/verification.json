@@ -46,6 +46,16 @@
       "exit_code_captured": false,
       "stderr_sha256": "33e4e12186ee0cbfd88477bcd83d23d51d1bbae40288bf46613963a485638655",
       "scope": "One-line resumed throughput logging fix; current GPU run uses previously verified binary"
+    },
+    {
+      "command": "C:/Python314/python.exe gpu/scripts/p09c_audit.py",
+      "passed": true,
+      "final_matches": 256,
+      "final_hero_perspectives": 512,
+      "reference_matches_equal": 256,
+      "reference_hero_perspectives": 512,
+      "ppo_clip_blocks": 314,
+      "protected_sources": 72
     }
   ],
   "clip_diagnostic": "Small legacy bool-to-float fixture also returned 0/1; historical >1 not reproduced. Explicit mask_fill and range invariant validated; PPO smoke pending."
