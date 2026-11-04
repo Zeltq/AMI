@@ -32,9 +32,20 @@ function M.emit(bot,tick,commands)
  for channel=1,3 do for _,v in ipairs(grid[channel]) do info.terrain[#info.terrain+1]=v end end
  for _,name in ipairs(spells) do info.skills[#info.skills+1]=ability(bot:GetAbilityByName(name),name) end
  for _,name in ipairs(items) do local slot=bot:FindItemSlot(name);info.items[#info.items+1]=ability(slot>=0 and bot:GetItemInSlot(slot) or nil,name) end
+ -- Enemy visibility can change before the previous command's handle list arrives.
+ -- Reserved handle identifies the sole opposing SF without a stale native handle.
+ if settings.observation_profile=="ggd-v4" then
+  local enemy={handle=4294967295,v4_json="{}"}
+  for _,u in ipairs(GetUnitList(UNIT_LIST_ENEMY_HEROES)) do
+   if u:GetUnitName()=="npc_dota_hero_nevermore" and u:CanBeSeen() and u:IsAlive() then enemy=extra(u,4294967295,false);break end
+  end
+  info.units[#info.units+1]=enemy
+ end
  for _,handle in ipairs(commands.units or {}) do
   local u=GetBotByHandle(handle)
-  if (type(u)=="table" or type(u)=="userdata") and not u:IsNull() and u~=bot and type(u.CanBeSeen)=="function" and type(u.GetSecondsPerAttack)=="function" and u:CanBeSeen() and u:IsAlive() then info.units[#info.units+1]=extra(u,handle,false) end
+  if (type(u)=="table" or type(u)=="userdata") and not u:IsNull() and u~=bot and type(u.CanBeSeen)=="function" and type(u.GetSecondsPerAttack)=="function" and u:CanBeSeen() and u:IsAlive() then
+   if settings.observation_profile~="ggd-v4" or u:GetUnitName()~="npc_dota_hero_nevermore" then info.units[#info.units+1]=extra(u,handle,false) end
+  end
  end
  for _,team in ipairs({TEAM_RADIANT,TEAM_DIRE}) do for _,which in ipairs({TOWER_MID_1,TOWER_MID_2}) do
   local u=GetTower(team,which);if u then local q=u:GetLocation();info.towers[#info.towers+1]={id=#info.towers+1,x=q.x,y=q.y,z=q.z} else info.towers[#info.towers+1]={id=#info.towers+1} end

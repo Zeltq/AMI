@@ -23,7 +23,7 @@ class PublicSpellTests(unittest.TestCase):
             saved=dict(state_dict=model.state_dict(),config=dict(timing_honest=True,timing_oracle=False),gpu_pipeline=dict(recurrent_reset_interval=128,observation_storage='f16'))
             torch.save(saved,path)
             with patch('threading.Thread.start'):
-                service=Service(path,root/'service',max_batch_warmup=0,device='cpu')
+                service=Service(path,root/'service',max_batch_warmup=1,device='cpu')
             self.assertTrue(service.model.enemy_inputs)
             saved['config']['timing_honest']=False;torch.save(saved,path)
             with self.assertRaisesRegex(ValueError,'requires honest timing'):

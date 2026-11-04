@@ -47,13 +47,16 @@ class NativeAdapter:
    for target,source in UNIT_MAP.items():
     if u.HasField(source):result[target]=getattr(u,source)
    extra=extras.get(u.handle)
+   public_enemy=extras.get(4294967295) if u.name=='npc_dota_hero_nevermore' and u.team_id!=team else None
+   if extra is None and public_enemy is not None and public_enemy.attack_interval>0:extra=public_enemy
    if extra is not None:result.update(attack_interval=extra.attack_interval,is_attacking=extra.attacking,is_casting_ability=extra.casting,is_channeling=extra.channeling,is_using_ability=extra.using_ability)
    else:
     for key,source in [('is_channeling','is_channeling'),('is_using_ability','is_using_ability')]:
      if u.HasField(source):result[key]=getattr(u,source)
    if observation_profile=='ggd-v4' and u.name=='npc_dota_hero_nevermore':
-    if extra is None or not extra.v4_json:raise ValueError('ggd-v4 requires Bot API spell supplement')
-    result['v4']=json.loads(extra.v4_json)
+    spells=extra if extra is not None and extra.v4_json else public_enemy
+    if spells is None or not spells.v4_json:raise ValueError('ggd-v4 requires Bot API spell supplement')
+    result['v4']=json.loads(spells.v4_json)
    if observation_profile in ('ggd-v3','ggd-v4'):
     if u.HasField('anim_activity'):result['attack_animation']=u.anim_activity in (1503,1504)
     if u.HasField('last_attack_time'):
