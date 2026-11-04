@@ -215,5 +215,182 @@
     "background_work_remaining": false,
     "pid": 15880,
     "exit_code": 0
+  },
+  {
+    "stage": "rust-tests",
+    "kind": "verification",
+    "command": [
+      "cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "C:\\AMI-wt\\P09a\\gpu\\Cargo.toml",
+      "--target-dir",
+      "C:/AMI/gpu/target",
+      "--",
+      "--test-threads=1"
+    ],
+    "command_literal": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P09a\\gpu\\Cargo.toml --target-dir C:/AMI/gpu/target -- --test-threads=1",
+    "environment": {
+      "SF_DUEL_DATA_ROOT": "C:/AMI"
+    },
+    "artifact": null,
+    "gpu_budget": true,
+    "started_utc": "2026-11-04T02:28:59.761529+00:00",
+    "background_work_remaining": false,
+    "pid": 17672,
+    "exit_code": 0
+  },
+  {
+    "stage": "python-tests",
+    "kind": "cpu-check",
+    "command": [
+      "C:\\Python314\\python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-v"
+    ],
+    "command_literal": "C:\\Python314\\python.exe -m unittest discover -s tests -v",
+    "environment": {
+      "SF_DUEL_DATA_ROOT": "C:/AMI",
+      "PYTHONPATH": "C:\\AMI-wt\\P09a\\src;C:\\AMI-wt\\P09a\\tests;C:/AMI/tools/lua_test_runtime"
+    },
+    "artifact": null,
+    "gpu_budget": false,
+    "started_utc": "2026-11-04T02:31:19.995532+00:00",
+    "background_work_remaining": false,
+    "pid": 27948,
+    "exit_code": 0
+  },
+  {
+    "stage": "prepare-training-smoke",
+    "kind": "audit",
+    "command": [
+      "C:\\Python314\\python.exe",
+      "C:\\AMI-wt\\P09a\\gpu\\scripts\\p09_training_smoke.py"
+    ],
+    "command_literal": "C:\\Python314\\python.exe C:\\AMI-wt\\P09a\\gpu\\scripts\\p09_training_smoke.py",
+    "environment": {
+      "SF_DUEL_DATA_ROOT": "C:/AMI",
+      "PYTHONPATH": "C:\\AMI-wt\\P09a\\src;C:\\AMI-wt\\P09a\\tests;C:/AMI/tools/lua_test_runtime"
+    },
+    "artifact": "C:\\AMI-wt\\P09a\\reports\\P09a\\train-smoke.json",
+    "gpu_budget": false,
+    "started_utc": "2026-11-04T02:31:40.038786+00:00",
+    "background_work_remaining": false,
+    "pid": 17596,
+    "exit_code": 0
+  },
+  {
+    "stage": "training-smoke",
+    "kind": "training",
+    "command": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "timeout",
+      "--signal=TERM",
+      "--kill-after=10s",
+      "13347s",
+      "bash",
+      "/mnt/c/AMI-wt/P09a/scripts/wsl_python.sh",
+      "/mnt/c/AMI-wt/P09a/gpu/scripts/train_ggd.py",
+      "/mnt/c/AMI-wt/P09a/reports/P09a/train-smoke.json",
+      "/mnt/c/AMI/runs/p09/training-smoke",
+      "--max-updates",
+      "2"
+    ],
+    "command_literal": "wsl -d Ubuntu -- timeout --signal=TERM --kill-after=10s 13347s bash /mnt/c/AMI-wt/P09a/scripts/wsl_python.sh /mnt/c/AMI-wt/P09a/gpu/scripts/train_ggd.py /mnt/c/AMI-wt/P09a/reports/P09a/train-smoke.json /mnt/c/AMI/runs/p09/training-smoke --max-updates 2",
+    "environment": {
+      "SF_DUEL_DATA_ROOT": "C:/AMI",
+      "PYTHONPATH": "C:\\AMI-wt\\P09a\\src;C:\\AMI-wt\\P09a\\tests;C:/AMI/tools/lua_test_runtime"
+    },
+    "artifact": "C:\\AMI\\runs\\p09\\training-smoke\\result.json",
+    "gpu_budget": true,
+    "started_utc": "2026-11-04T02:31:50.077769+00:00",
+    "background_work_remaining": false,
+    "pid": 26372,
+    "exit_code": 0,
+    "minutes": 0.3341713499995725
+  },
+  {
+    "stage": "export-smoke",
+    "kind": "export",
+    "command": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "timeout",
+      "--signal=TERM",
+      "--kill-after=10s",
+      "13327s",
+      "bash",
+      "/mnt/c/AMI-wt/P09a/scripts/wsl_python.sh",
+      "/mnt/c/AMI-wt/P09a/gpu/scripts/weights.py",
+      "--checkpoint",
+      "/mnt/c/AMI/runs/p09/training-smoke/epoch-001.pt",
+      "--output",
+      "/mnt/c/AMI/runs/p09/smoke-export",
+      "--fixture",
+      "/mnt/c/AMI/runs/p09/training-fixture.npz",
+      "--steps",
+      "128"
+    ],
+    "command_literal": "wsl -d Ubuntu -- timeout --signal=TERM --kill-after=10s 13327s bash /mnt/c/AMI-wt/P09a/scripts/wsl_python.sh /mnt/c/AMI-wt/P09a/gpu/scripts/weights.py --checkpoint /mnt/c/AMI/runs/p09/training-smoke/epoch-001.pt --output /mnt/c/AMI/runs/p09/smoke-export --fixture /mnt/c/AMI/runs/p09/training-fixture.npz --steps 128",
+    "environment": {
+      "SF_DUEL_DATA_ROOT": "C:/AMI",
+      "PYTHONPATH": "C:\\AMI-wt\\P09a\\src;C:\\AMI-wt\\P09a\\tests;C:/AMI/tools/lua_test_runtime"
+    },
+    "artifact": "C:\\AMI\\runs\\p09\\smoke-export\\weights\\manifest.json",
+    "gpu_budget": true,
+    "started_utc": "2026-11-04T02:32:10.148834+00:00",
+    "background_work_remaining": false,
+    "pid": 21092,
+    "exit_code": 0
+  },
+  {
+    "stage": "validate-smoke",
+    "kind": "verification",
+    "command": [
+      "C:\\AMI\\runs\\p09\\sf-duel-gpu.exe",
+      "validate",
+      "C:\\AMI\\runs\\p09\\smoke-export"
+    ],
+    "command_literal": "C:\\AMI\\runs\\p09\\sf-duel-gpu.exe validate C:\\AMI\\runs\\p09\\smoke-export",
+    "environment": {
+      "SF_DUEL_DATA_ROOT": "C:/AMI",
+      "PYTHONPATH": "C:\\AMI-wt\\P09a\\src;C:\\AMI-wt\\P09a\\tests;C:/AMI/tools/lua_test_runtime"
+    },
+    "artifact": null,
+    "gpu_budget": true,
+    "started_utc": "2026-11-04T02:32:20.200333+00:00",
+    "background_work_remaining": false,
+    "pid": 10336,
+    "exit_code": 0
+  },
+  {
+    "stage": "publish-verification",
+    "kind": "audit",
+    "command": [
+      "C:\\Python314\\python.exe",
+      "C:\\AMI-wt\\P09a\\gpu\\scripts\\p09_verification.py"
+    ],
+    "command_literal": "C:\\Python314\\python.exe C:\\AMI-wt\\P09a\\gpu\\scripts\\p09_verification.py",
+    "environment": {
+      "SF_DUEL_DATA_ROOT": "C:/AMI",
+      "PYTHONPATH": "C:\\AMI-wt\\P09a\\src;C:\\AMI-wt\\P09a\\tests;C:/AMI/tools/lua_test_runtime"
+    },
+    "artifact": "C:\\AMI-wt\\P09a\\reports\\P09a\\verification.json",
+    "gpu_budget": false,
+    "started_utc": "2026-11-04T02:33:11.039160+00:00",
+    "background_work_remaining": false,
+    "pid": 18892,
+    "exit_code": 0
   }
 ]
