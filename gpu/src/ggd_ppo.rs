@@ -1,5 +1,5 @@
-//! Recurrent GGD PPO against the fixed v9 teacher. Physics and observation
-//! construction are shared with evaluate-ggd; only the reward is replaced.
+//! Recurrent GGD PPO against a configured fixed teacher. Physics and observation
+//! construction are shared with evaluate-ggd; P08 and potential rewards coexist.
 use anyhow::{ensure, Result};
 use burn::{module::Module, optim::{AdamConfig, GradientsParams, ModuleOptimizer}, tensor::{Tensor, TensorData, Int, DType}};
 use cubecl::prelude::*;
@@ -19,6 +19,10 @@ pub struct Config {
     pub entropy:f32,pub kl_start:f32,pub kl_end:f32,pub stop_kl:f32,
     pub checkpoint_minutes:f64,pub evaluate:bool,pub evaluation_minutes:f64,
     pub initialize_weights:Option<String>,pub skip_warmup:bool,pub critic_only:bool,pub desynchronize:bool,pub verify_phase_histogram:bool,
+    pub teacher_version:crate::teacher_v10::Version,pub reward_mode:String,pub mana_weight:f32,
+    pub warmup_min_blocks:usize,pub separate_critic_lr:bool,pub resume_checkpoint:Option<String>,
+    pub schedule_minutes:f64,pub stop_at_minutes:f64,
+    pub kl_decay_start_minutes:f64,pub begin_decay_on_resume:bool,
 }
 impl Default for Config {fn default()->Self{Self{
     engine:"C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json".into(),
@@ -27,7 +31,14 @@ impl Default for Config {fn default()->Self{Self{
     learning_rate:1e-5,critic_learning_rate:1e-4,warmup_blocks:32,entropy:0.005,
     kl_start:0.2,kl_end:0.05,stop_kl:0.02,checkpoint_minutes:10.,evaluate:false,evaluation_minutes:60.,
     initialize_weights:None,skip_warmup:false,critic_only:false,desynchronize:false,verify_phase_histogram:false,
+    teacher_version:crate::teacher_v10::Version::V9,reward_mode:"p08".into(),mana_weight:0.5,warmup_min_blocks:30,separate_critic_lr:false,resume_checkpoint:None,schedule_minutes:480.,stop_at_minutes:0.,kl_decay_start_minutes:0.,begin_decay_on_resume:false,
 }}}
+
+fn anchor_coefficient(cfg:&Config,training_seconds:f64)->f32 {
+    let end=if cfg.reward_mode=="p08"{cfg.minutes}else{cfg.schedule_minutes};
+    let progress=((training_seconds/60.-cfg.kl_decay_start_minutes)/(end-cfg.kl_decay_start_minutes)).clamp(0.,1.);
+    cfg.kl_start+(cfg.kl_end-cfg.kl_start)*progress as f32
+}
 
 // Cumulative components: differencing these after the same four physics ticks
 // captures simultaneous events, pregame deaths and exactly one timeout result.
@@ -49,17 +60,18 @@ fn counts(w:&World,t:&crate::scripted_teacher::Teacher)->Tensor<2>{
     counters::launch(&w.state.client,CubeCount::Static((w.matches*2).div_ceil(64)as u32,1,1),CubeDim::new_1d(64),argument(&w.state),argument(&w.meta),argument(&t.audit),argument(&out),w.matches*2);
     tensor(out)
 }
-fn observation(w:&World,teacher:&crate::scripted_teacher::Teacher,observer:&crate::combat_observe::CombatObserver,previous:Tensor<2>,manifest:&serde_json::Value)->(Observed,Tensor<2,Int>){
+fn observation(w:&World,teacher:&crate::scripted_teacher::Teacher,observer:&crate::combat_observe::CombatObserver,enemy:&crate::enemy_observe::Observer,controller:&crate::teacher_v10::Controller,previous:Tensor<2>,manifest:&serde_json::Value)->(Observed,Tensor<2,Int>){
     let obs=w.observe(previous);let mut extended=observer.enrich(w,&obs);
-    let scripted=teacher.actions(w,&obs);
-    if manifest["observation_profile"]=="ggd-v3" {
+    let scripted=controller.actions(teacher,w,&obs);
+    if manifest["observation_profile"]=="ggd-v3"||manifest["observation_profile"]=="ggd-v4" {
         extended=crate::timing_observe::extend(w,extended,teacher,manifest["timing_honest"].as_bool().unwrap_or(true),manifest["timing_oracle"].as_bool().unwrap_or(false));
     }
+    if manifest["observation_profile"]=="ggd-v4" {extended=enemy.extend(w,extended);}
     extended.packed=extended.packed.cast(DType::F16);(extended,scripted)
 }
 /// Stagger initial activation on recurrent boundaries, then independently reset
 /// terminal arenas at boundaries. Only native simulation steps create the states.
-fn disperse(w:&World,t:&crate::scripted_teacher::Teacher,o:&crate::combat_observe::CombatObserver,metrics:&crate::ggd_metrics::Metrics,rng:&Sampler,sampler:&Sampler,actor:&Policy,manifest:&serde_json::Value,root:&Path,seed:u32,sides:&mut [usize])->Result<(Tensor<2>,serde_json::Value)>{
+fn disperse(w:&World,t:&crate::scripted_teacher::Teacher,o:&crate::combat_observe::CombatObserver,enemy:&crate::enemy_observe::Observer,controller:&crate::teacher_v10::Controller,metrics:&crate::ggd_metrics::Metrics,rng:&Sampler,sampler:&Sampler,actor:&Policy,manifest:&serde_json::Value,root:&Path,seed:u32,sides:&mut [usize])->Result<(Tensor<2>,serde_json::Value)>{
     let d=&w.device;let n=w.matches*2;let blocks=((w.engine.pre_game_seconds+600.)*7.5/HORIZON as f32).floor()as usize;
     let delays=crate::ggd_arenas::delays(w.matches,blocks,seed);let mut active=vec![false;w.matches];let started=Instant::now();
     let mut previous=crate::observe::initial_previous(n,d);let mut decisions=Tensor::<1>::zeros([1],d);let mut completed=0;
@@ -70,8 +82,8 @@ fn disperse(w:&World,t:&crate::scripted_teacher::Teacher,o:&crate::combat_observ
         if block==blocks{break;}
         let rows=crate::ggd_arenas::learner_rows(sides,d);let mut h=Tensor::<2>::zeros([n,256],d);let mut c=h.clone();
         for _ in 0..HORIZON {
-            let snapshot=(manifest["observation_profile"]=="ggd-v3").then(||t.command_snapshot());
-            let (obs,scripted)=observation(w,t,o,previous.clone(),manifest);let keep:Tensor<2>=1.0f32-obs.reset.clone().unsqueeze_dim::<2>(1);h=h*keep.clone();c=c*keep;
+            let snapshot=(manifest["observation_profile"]!="ggd-v2").then(||t.command_snapshot());
+            let (obs,scripted)=observation(w,t,o,enemy,controller,previous.clone(),manifest);let keep:Tensor<2>=1.0f32-obs.reset.clone().unsqueeze_dim::<2>(1);h=h*keep.clone();c=c*keep;
             let b=obs.decode();let encoded=actor.encode(&b);(h,c)=actor.memory.step(encoded.fused,h,c);let predicted=actor.heads(&b,h.clone(),encoded.keys,None,sampler).actions;
             let actions=scripted.clone().mask_where(rows.clone().unsqueeze_dim::<2>(1),predicted);
             if let Some(snapshot)=snapshot{t.reconcile_commands(w,&obs,snapshot,scripted,actions.clone());}
@@ -98,11 +110,11 @@ fn recurrent(policy:&Policy,b:&crate::model::Observation,resets:Tensor<3>,size:u
     (Tensor::stack::<3>(sequence,1).reshape([size*HORIZON,256]),encoded.keys)
 }
 #[derive(Default)]
-struct CriticWarmup {post_blocks:usize,recent:std::collections::VecDeque<Option<f64>>}
+struct CriticWarmup {minimum:usize,post_blocks:usize,recent:std::collections::VecDeque<Option<f64>>}
 impl CriticWarmup {
     fn observe(&mut self,block:usize,limit:usize,post_count:f64,ev:Option<f64>,reward_activity:f32)->bool {
         if post_count>0. {self.post_blocks+=1;self.recent.push_back(ev);if self.recent.len()>5{self.recent.pop_front();}}
-        block>=limit || (reward_activity>0. && self.post_blocks>=30 && self.mean().is_some_and(|x|x>0.3))
+        block>=limit || (reward_activity>0. && self.post_blocks>=if self.minimum==0{30}else{self.minimum} && self.mean().is_some_and(|x|x>0.3))
     }
     fn mean(&self)->Option<f64>{
         if self.recent.len()!=5 || self.recent.iter().any(Option::is_none){return None;}
@@ -127,6 +139,18 @@ fn weighted(x:Tensor<1>,mask:Tensor<1>)->Tensor<1>{(x*mask.clone()).sum()/mask.s
 fn scalar(x:Tensor<1>)->f32{x.without_autodiff().into_scalar::<f32>()}
 fn variance(x:Tensor<1>,mask:Tensor<1>)->Tensor<1>{let mean=weighted(x.clone(),mask.clone());weighted((x-mean).square(),mask)}
 
+fn take_value_gradients(policy:&Policy,grads:&mut GradientsParams)->GradientsParams {
+    use burn::module::{ModuleVisitor,Param};
+    struct Take<'a>{source:&'a mut GradientsParams,target:GradientsParams}
+    impl ModuleVisitor for Take<'_>{fn visit_float<const D:usize>(&mut self,p:&Param<Tensor<D>>){if let Some(g)=self.source.remove::<D>(p.id){self.target.register(p.id,g);}}}
+    let mut take=Take{source:grads,target:GradientsParams::new()};policy.value_first.visit(&mut take);policy.value_second.visit(&mut take);take.target
+}
+
+fn sequence_order(shard_n:usize,offset:usize,active:Option<&[f32]>,rotation:usize)->Vec<i32>{
+    let mut ids:Vec<i32>=(0..shard_n).filter(|i|active.is_none_or(|a|a[offset+*i]>0.)).map(|i|i as i32).collect();
+    if !ids.is_empty(){let count=ids.len();ids.rotate_left(rotation%count);}ids
+}
+
 fn optimize(policy:&mut Policy,optimizer:&mut ModuleOptimizer,cfg:&Config,e:&Experience,bootstrap:Tensor<1>,warmup:bool,coefficient:f32,block:usize,postgame:Tensor<2>)->Result<serde_json::Value>{
     let d=device();let n=e.actors;let signals=e.signals();let (advantages,returns)=e.gae_discounted(bootstrap,0.99,0.95);
     let mask=signals.clone().slice([0..n,0..HORIZON,11..12]).reshape([n*HORIZON]);
@@ -138,16 +162,18 @@ fn optimize(policy:&mut Policy,optimizer:&mut ModuleOptimizer,cfg:&Config,e:&Exp
     let ev_post=explained_variance(ret.clone(),old_value.clone(),post_mask.clone());
     let ev_pre=explained_variance(ret,old_value,pre_mask.clone());
     let post_count=scalar(post_mask.sum());let pre_count=scalar(pre_mask.sum());
+    let active=if cfg.reward_mode!="p08"{Some(signals.clone().slice([0..n,0..HORIZON,11..12]).sum_dim(1).reshape([n]).into_data().try_to_vec::<f32>()?)}else{None};
     let (pc,pt,pp)=e.buckets();let mut values=Vec::new();let mut stopped=false;let mut offset;
     for epoch in 0..cfg.epochs {
         offset=0;
         for shard in &e.observations {
             let shard_n=shard.meta.shape()[0];let width=shard.meta.shape()[2];
             // Deterministic cyclic sequence permutation, with full recurrent resets.
-            let ids:Vec<i32>=(0..shard_n).map(|i|((i+epoch+block)%shard_n)as i32).collect();
-            let order=Tensor::<1,Int>::from_data(TensorData::new(ids,[shard_n]),&d);
-            for start in (0..shard_n).step_by(cfg.batch_sequences){
-                let size=cfg.batch_sequences.min(shard_n-start);let local=order.clone().slice([start..start+size]);let ids=local.clone()+offset as i32;
+            let ids=sequence_order(shard_n,offset,active.as_deref(),epoch+block);let sequences=ids.len();
+            if sequences==0{offset+=shard_n;continue;}
+            let order=Tensor::<1,Int>::from_data(TensorData::new(ids,[sequences]),&d);
+            for start in (0..sequences).step_by(cfg.batch_sequences){
+                let size=cfg.batch_sequences.min(sequences-start);let local=order.clone().slice([start..start+size]);let ids=local.clone()+offset as i32;
                 let signal=signals.clone().select(0,ids.clone());let mask=signal.clone().slice([0..size,0..HORIZON,11..12]).reshape([size*HORIZON]);
                 if scalar(mask.clone().sum())==0. {continue;}
                 let input=tensor::<3>(shard.clone()).select(0,local).reshape([size*HORIZON,width]);
@@ -181,12 +207,18 @@ fn optimize(policy:&mut Policy,optimizer:&mut ModuleOptimizer,cfg:&Config,e:&Exp
                 // Keep rho in the gradient: detaching it would change the objective.
                 let diff=heads.logp-reference;let anchor=ratio.clone()*((-diff.clone()).exp()-1.+diff);
                 let vl=(heads.value-target).square();let entropy=heads.entropy;
-                let clip=ratio.clone().lower_elem(0.8).bool_or(ratio.greater_elem(1.2)).float();
+                let clipped=ratio.clone().lower_elem(0.8).bool_or(ratio.greater_elem(1.2));
+                let clip=Tensor::<1>::zeros([size*HORIZON],&d).mask_fill(clipped,1.);
                 let row=[scalar(weighted(vl.clone(),mask.clone())),scalar(weighted(anchor.clone(),mask.clone())),scalar(weighted(entropy.clone(),mask.clone())),scalar(weighted(clip,mask.clone())),old_kl];
+                ensure!((0.0..=1.0).contains(&row[3]),"clip fraction outside [0,1]: {}",row[3]);
                 let loss=weighted(actor+vl*0.5-entropy*cfg.entropy+anchor*coefficient,mask);
                 ensure!(scalar(loss.clone()).is_finite(),"nonfinite GGD PPO objective");
                 let mut grads=GradientsParams::from_grads(loss.backward(),policy);crate::gradients::clip(policy,&mut grads,0.5);
-                *policy=optimizer.step(cfg.learning_rate,policy.clone(),grads);values.push(row);
+                if cfg.separate_critic_lr {
+                    let value_grads=take_value_gradients(policy,&mut grads);
+                    *policy=optimizer.step(cfg.learning_rate,policy.clone(),grads);
+                    *policy=optimizer.step(if cfg.learning_rate==0.{0.}else{cfg.critic_learning_rate},policy.clone(),value_grads);
+                }else{*policy=optimizer.step(cfg.learning_rate,policy.clone(),grads);}values.push(row);
             }
             offset+=shard_n;if stopped{break;}
         }
@@ -207,31 +239,60 @@ fn checkpoint(policy:&Policy,optimizer:&ModuleOptimizer,manifest:&serde_json::Va
 }
 
 pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
-    ensure!(cfg.matches>0&&cfg.matches%2==0&&cfg.batch_sequences>0&&cfg.epochs>0&&cfg.minutes>0.&&cfg.minutes<=360.,"invalid PPO limits");
+    ensure!(cfg.matches>0&&cfg.matches%2==0&&cfg.batch_sequences>0&&cfg.epochs>0&&cfg.minutes>0.&&cfg.minutes<=840.,"invalid PPO limits");
+    ensure!(["p08","potential-v1","event-v2"].contains(&cfg.reward_mode.as_str()),"unknown reward mode");
+    ensure!(cfg.schedule_minutes>0.&&cfg.mana_weight==0.5,"invalid schedule or unvalidated mana weight");
+    ensure!(cfg.kl_decay_start_minutes>=0.&&cfg.kl_decay_start_minutes<cfg.schedule_minutes,"invalid KL decay interval");
+    let state_reward=cfg.reward_mode!="p08";let event_reward=cfg.reward_mode=="event-v2";
+    if cfg.teacher_version==crate::teacher_v10::Version::V10 {crate::teacher_v10::check_pin()?;}
     std::fs::create_dir_all(root)?;let lock=std::fs::OpenOptions::new().create(true).truncate(false).write(true).open(root.join("run.lock"))?;lock.try_lock()?;
     ensure!(!root.join("config.json").exists(),"fresh run directory required");
     let manifest:serde_json::Value=serde_json::from_slice(&std::fs::read(Path::new(&cfg.initial_weights).join("manifest.json"))?)?;
     let profile=manifest["observation_profile"].as_str().ok_or_else(||anyhow::anyhow!("checkpoint must declare observation_profile"))?;
-    ensure!(profile=="ggd-v2"||profile=="ggd-v3","profile {profile} requires its observer implementation; never silently fall back");
+    ensure!(["ggd-v2","ggd-v3","ggd-v4"].contains(&profile),"unsupported profile {profile}");
+    ensure!(profile!="ggd-v4"||(manifest["timing_honest"].as_bool().unwrap_or(true)&&!manifest["timing_oracle"].as_bool().unwrap_or(false)),"ggd-v4 requires honest timing without oracle");
     ensure!(!manifest["zero_previous"].as_bool().unwrap_or(false),"zero_previous ablation not supported by PPO");
     crate::artifacts::atomic_json(&root.join("config.json"),&cfg)?;
     let engine=crate::artifacts::freeze_environment(Path::new(&cfg.engine),root,false)?;
-    let d=device();d.seed(cfg.seed as u64);let reference=crate::bridge::import(Path::new(&cfg.initial_weights),&d)?.valid();ensure!(reference.is_ggd() && reference.is_ggd_v3()==(profile=="ggd-v3"),"checkpoint profile/shape mismatch");let mut policy=if let Some(path)=cfg.initialize_weights.as_ref(){crate::bridge::import(Path::new(path),&d)?.train()}else{reference.clone().train()};
-    crate::artifacts::atomic_json(&root.join("provenance.json"),&serde_json::json!({"initial_weights":cfg.initial_weights,"initial_manifest_sha256":crate::runtime::file_sha256(&Path::new(&cfg.initial_weights).join("manifest.json"))?,"executable_sha256":crate::runtime::file_sha256(&std::env::current_exe()?)?,"teacher_sha256":crate::teacher_v10::Version::V9.sha256(),"profile":profile,"ppo_source_sha256":crate::runtime::bytes_sha256(include_bytes!("ggd_ppo.rs")),"arena_source_sha256":crate::runtime::bytes_sha256(include_bytes!("ggd_arenas.rs")),"initialize_weights":cfg.initialize_weights,"gamma":0.99,"gae_lambda":0.95,"clip":0.2,"reset_decisions":128,"seed":cfg.seed}))?;
+    let d=device();d.seed(cfg.seed as u64);let reference=crate::bridge::import(Path::new(&cfg.initial_weights),&d)?.valid();ensure!(reference.is_ggd() && reference.is_ggd_v3()==(profile=="ggd-v3") && reference.is_ggd_v4()==(profile=="ggd-v4"),"checkpoint profile/shape mismatch");let mut policy=if let Some(path)=cfg.initialize_weights.as_ref(){crate::bridge::import(Path::new(path),&d)?.train()}else{reference.clone().train()};
+    crate::artifacts::atomic_json(&root.join("provenance.json"),&serde_json::json!({"initial_weights":cfg.initial_weights,"initial_manifest_sha256":crate::runtime::file_sha256(&Path::new(&cfg.initial_weights).join("manifest.json"))?,"executable_sha256":crate::runtime::file_sha256(&std::env::current_exe()?)?,"teacher_sha256":cfg.teacher_version.sha256(),"reward_mode":cfg.reward_mode,"profile":profile,"ppo_source_sha256":crate::runtime::bytes_sha256(include_bytes!("ggd_ppo.rs")),"arena_source_sha256":crate::runtime::bytes_sha256(include_bytes!("ggd_arenas.rs")),"initialize_weights":cfg.initialize_weights,"gamma":0.99,"gae_lambda":0.95,"clip":0.2,"reset_decisions":128,"seed":cfg.seed}))?;
     let mut optimizer:ModuleOptimizer=AdamConfig::new().with_epsilon(1e-8).init();
+    let mut resume=serde_json::Value::Null;
+    let mut new_decay=false;
+    if let Some(path)=&cfg.resume_checkpoint {
+        let path=Path::new(path);resume=serde_json::from_slice(&std::fs::read(path.join("progress.json"))?)?;
+        ensure!(resume["anchor_sha256"]==crate::runtime::file_sha256(&Path::new(&cfg.initial_weights).join("manifest.json"))?,"resume anchor changed");
+        ensure!(resume["reward_mode"]==cfg.reward_mode,"resume reward changed");
+        let schedule_same=resume["schedule_minutes"]==cfg.schedule_minutes&&resume["kl_start"].as_f64().is_none_or(|x|(x-cfg.kl_start as f64).abs()<1e-7)&&resume["kl_end"].as_f64().is_none_or(|x|(x-cfg.kl_end as f64).abs()<1e-7)&&resume["kl_decay_start_minutes"].as_f64().unwrap_or(0.)==cfg.kl_decay_start_minutes;
+        if !schedule_same {
+            ensure!(cfg.reward_mode=="event-v2"&&cfg.begin_decay_on_resume,"resume schedule changed without explicit pilot-to-main transition");
+            let time=resume["training_seconds"].as_f64().unwrap();
+            ensure!((time/60.-cfg.kl_decay_start_minutes).abs()<1e-6,"decay must start at resumed training time");
+            ensure!(resume["kl_coefficient_next"].as_f64().is_some_and(|x|(x-cfg.kl_start as f64).abs()<1e-6),"anchor discontinuity at pilot-to-main transition");new_decay=true;
+        }
+        policy=policy.try_load_record(burn::store::ModuleRecord::load(path.join("model.bpk"))?)?;
+        optimizer=optimizer.load(path.join("optimizer.bpk"))?;
+    }
     let n=cfg.matches*2;let mut sides:Vec<usize>=(0..cfg.matches).map(|m|m%2).collect();let mut rows=crate::ggd_arenas::learner_rows(&sides,&d);
     let started=Instant::now();let mut training_seconds=0.;let mut evaluation_seconds=0.;let mut block=0;let mut batch=0;let mut episodes=0;
-    let mut warmup=!cfg.skip_warmup;let mut warmup_state=CriticWarmup::default();let mut total_decisions=0u64;let mut pregame_deaths=0u64;let mut prefix_pregame_deaths=0u64;let mut pregame_death_matches=0u64;let mut last_checkpoint=0.;let mut last_evaluation=0.;let mut last_path=None;let mut initialization=serde_json::Value::Null;let mut episodes_started=0usize;
+    if !resume.is_null(){training_seconds=resume["training_seconds"].as_f64().unwrap();block=resume["block"].as_u64().unwrap()as usize;}
+    let resumed_seconds=training_seconds;
+    let mut warmup=!cfg.skip_warmup;let mut warmup_state=CriticWarmup{minimum:cfg.warmup_min_blocks,..Default::default()};let mut total_decisions=0u64;let mut pregame_deaths=0u64;let mut prefix_pregame_deaths=0u64;let mut pregame_death_matches=0u64;let mut last_checkpoint=0.;let mut last_evaluation=0.;let mut last_path=None;let mut initialization=serde_json::Value::Null;let mut episodes_started=0usize;
+    let mut previous_evaluation_weights=cfg.initial_weights.clone();
+    if !resume.is_null(){last_checkpoint=training_seconds;last_evaluation=resume["last_evaluation"].as_f64().unwrap_or(0.);previous_evaluation_weights=resume["previous_evaluation_weights"].as_str().unwrap_or(&cfg.initial_weights).to_string();warmup=warmup&&!resume["warmup_complete"].as_bool().unwrap_or(false);batch=block as u32;}
+    if new_decay{last_evaluation=training_seconds;}
     let mut history=std::fs::OpenOptions::new().create_new(true).write(true).open(root.join("history.jsonl"))?;
     let mut episode_file=std::fs::OpenOptions::new().create_new(true).write(true).open(root.join("episodes.jsonl"))?;
     'training:loop {
-        let w=World::load(&engine,cfg.matches,&d)?;let teacher=crate::scripted_teacher::Teacher::new(&w);let observer=crate::combat_observe::CombatObserver::new(&w);
+        let w=World::load(&engine,cfg.matches,&d)?;let teacher=crate::scripted_teacher::Teacher::new(&w);let observer=crate::combat_observe::CombatObserver::new(&w);let enemy=crate::enemy_observe::Observer::new(&w);let controller=crate::teacher_v10::Controller::new(&w,cfg.teacher_version,cfg.teacher_version,false);
         let rng=Sampler::new(cfg.matches,cfg.seed.wrapping_add(batch*1009),&d);let sampler=Sampler::new(n,cfg.seed.wrapping_add(batch*1009+1),&d);
         let metrics=crate::ggd_metrics::Metrics::new(&w);metrics.sample(&w,&teacher);
         let batch_offset=episodes;let mut recorded=vec![false;cfg.matches];episodes_started+=cfg.matches;
         let mut previous=crate::observe::initial_previous(n,&d);
-        if cfg.desynchronize {(previous,initialization)=disperse(&w,&teacher,&observer,&metrics,&rng,&sampler,&policy.clone().valid(),&manifest,root,cfg.seed,&mut sides)?;rows=crate::ggd_arenas::learner_rows(&sides,&d);}
+        if cfg.desynchronize {(previous,initialization)=disperse(&w,&teacher,&observer,&enemy,&controller,&metrics,&rng,&sampler,&policy.clone().valid(),&manifest,root,cfg.seed,&mut sides)?;rows=crate::ggd_arenas::learner_rows(&sides,&d);}
         let mut prefix_decisions=tensor::<1>(w.meta.clone()).reshape([cfg.matches,META]).slice([0..cfg.matches,6..7]).reshape([cfg.matches]).into_data().try_to_vec::<f32>()?;
+        let mut potential=crate::potential_reward::Tracker::new(&w,&teacher,cfg.mana_weight);
+        let mut events=event_reward.then(||crate::event_reward::Tracker::new(&w,&teacher));
         let mut prior=counts(&w,&teacher);let mut totals=prior.clone().slice([0..n,0..COMPONENTS])*rows.clone().float().unsqueeze_dim::<2>(1);
         if cfg.desynchronize {let initial_deaths=scalar(-totals.clone().slice([0..n,4..5]).reshape([n]).sum()/10.)as u64;pregame_deaths+=initial_deaths;prefix_pregame_deaths+=initial_deaths;}
         let limit=((w.engine.pre_game_seconds+600.)*7.5).ceil()as usize+2;
@@ -241,9 +302,9 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
             let actor=policy.clone().valid();let mut h=Tensor::<2>::zeros([n,256],&d);let mut c=h.clone();let mut rh=h.clone();let mut rc=c.clone();
             let mut experience=None;let mut postgame=vec![];let mut rollout_entropy=Tensor::<1>::zeros([1],&d);let mut rollout_kl=rollout_entropy.clone();let mut valid_count=rollout_entropy.clone();let mut reward_activity=rollout_entropy.clone();let mut pregame_events=rollout_entropy.clone();let mut phase_bins=Tensor::<1>::zeros([4],&d);
             for step in 0..HORIZON {
-                let snapshot=if profile=="ggd-v3"{Some(teacher.command_snapshot())}else{None};
-                let (obs,scripted)=observation(&w,&teacher,&observer,previous.clone(),&manifest);
-                if experience.is_none(){experience=Some(Experience::with_width(n,obs.packed.dims()[1],cfg.batch_sequences.max(32),&d));}
+                let snapshot=if profile!="ggd-v2"{Some(teacher.command_snapshot())}else{None};
+                let (obs,scripted)=observation(&w,&teacher,&observer,&enemy,&controller,previous.clone(),&manifest);
+                if experience.is_none(){experience=Some(Experience::with_width(n,obs.packed.dims()[1],cfg.batch_sequences.max(32)*if state_reward{2}else{1},&d));}
                 let keep:Tensor<2>=1.0f32-obs.reset.clone().unsqueeze_dim::<2>(1);h=h*keep.clone();c=c*keep.clone();rh=rh*keep.clone();rc=rc*keep;
                 let b=obs.decode();let encoded=actor.encode(&b);(h,c)=actor.memory.step(encoded.fused,h,c);let heads=actor.heads(&b,h.clone(),encoded.keys,None,&sampler);
                 let enc=reference.encode(&b);(rh,rc)=reference.memory.step(enc.fused,rh,rc);let anchor=reference.heads(&b,rh.clone(),enc.keys,Some(heads.actions.clone()),&sampler);
@@ -257,21 +318,22 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
                 let diff=heads.logp.clone()-anchor.logp.clone();rollout_kl=rollout_kl+(((-diff.clone()).exp()-1.+diff)*valid.clone()).sum();valid_count=valid_count+valid.clone().sum();
                 let _=w.advance_teacher(actions,&obs.refs,&rng,&teacher,true);teacher.record(&w,600.);metrics.sample(&w,&teacher);
                 let current=counts(&w,&teacher);let components=current.clone().slice([0..n,0..COMPONENTS])-prior.slice([0..n,0..COMPONENTS]);
+                let learning_components=if let Some(e)=events.as_mut(){e.step(&w,&teacher)}else if state_reward{potential.step(&w,&teacher)}else{components.clone()};
                 let respawn_at=tensor::<1>(w.state.clone()).reshape([cfg.matches,UNITS,STRIDE]).slice([0..cfg.matches,0..2,RESPAWN_AT..RESPAWN_AT+1]).reshape([n]);
                 pregame_events=pregame_events+pregame_death_events(components.clone(),respawn_at,valid.clone(),w.engine.pre_game_seconds);
-                reward_activity=reward_activity+(components.clone().abs()*valid.clone().unsqueeze_dim::<2>(1)).sum();
+                reward_activity=reward_activity+(learning_components.clone().abs()*valid.clone().unsqueeze_dim::<2>(1)).sum();
                 totals=totals+components.clone()*valid.clone().unsqueeze_dim::<2>(1);
-                let reward=components.sum_dim(1);let done=current.clone().slice([0..n,9..10]);prior=current;
+                let reward=learning_components.sum_dim(1);let done=current.clone().slice([0..n,9..10]);prior=current;
                 let signals=Tensor::cat(vec![heads.actions.float(),heads.logp.unsqueeze_dim::<2>(1),heads.value.unsqueeze_dim::<2>(1),reward,done,obs.reset.clone().unsqueeze_dim::<2>(1),valid.unsqueeze_dim::<2>(1),anchor.logp.unsqueeze_dim::<2>(1)],1);
                 experience.as_ref().unwrap().store(step,&obs,signals);
             }
             // Bootstrap at periodic memory reset, without advancing teacher state.
             let next=w.observe(previous.clone());let mut next=observer.enrich(&w,&next);
-            if profile=="ggd-v3"{next=crate::timing_observe::extend(&w,next,&teacher,manifest["timing_honest"].as_bool().unwrap_or(true),manifest["timing_oracle"].as_bool().unwrap_or(false));}next.packed=next.packed.cast(DType::F16);
+            if profile!="ggd-v2"{next=crate::timing_observe::extend(&w,next,&teacher,manifest["timing_honest"].as_bool().unwrap_or(true),manifest["timing_oracle"].as_bool().unwrap_or(false));}if profile=="ggd-v4"{next=enemy.extend(&w,next);}next.packed=next.packed.cast(DType::F16);
             let encoded=actor.encode(&next.decode());let (bh,_)=actor.memory.step(encoded.fused,Tensor::zeros([n,256],&d),Tensor::zeros([n,256],&d));
             let bootstrap=actor.value(bh)*(1.0f32-prior.clone().slice([0..n,9..10]).reshape([n]));
             d.sync()?;let collection=clock.elapsed().as_secs_f64();let update=Instant::now();
-            let coefficient=cfg.kl_start+(cfg.kl_end-cfg.kl_start)*(training_seconds/(cfg.minutes*60.)).min(1.)as f32;
+            let coefficient=anchor_coefficient(&cfg,training_seconds);
             let mut learning=optimize(&mut policy,&mut optimizer,&cfg,experience.as_ref().unwrap(),bootstrap,warmup,coefficient,block,Tensor::stack(postgame,1))?;
             learning["rollout_entropy"]=serde_json::json!(scalar(rollout_entropy/valid_count.clone().clamp_min(1.)));
             learning["rollout_kl_m2"]=serde_json::json!(scalar(rollout_kl/valid_count.clone().clamp_min(1.)));
@@ -291,24 +353,39 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
             ensure!(audit.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).all(|x|x[39]==0.),"simulation error");
             if finished>recorded.iter().filter(|x|**x).count(){
                 let components=totals.clone().into_data().try_to_vec::<f32>()?;let mut games=metrics.games(&audit,w.engine.pre_game_seconds,batch_offset,Some("teacher"));
+                crate::demo_telemetry::enrich(&w,&mut games)?;if state_reward{potential.enrich(&mut games)?;}if let Some(e)=&events{e.enrich(&mut games)?;}
                 for m in 0..cfg.matches {if !recorded[m]&&audit[m*crate::scripted_teacher::AUDIT_FIELDS]>0. {
                     for side in 0..2 {games[m]["sides"][side]["controller"]=serde_json::json!(if side==sides[m]{"GGD"}else{"teacher"});}
                     if cfg.desynchronize {games[m]["game"]=serde_json::json!(episodes);}
                     let learner=&games[m]["sides"][sides[m]];if learner["first_death_game_seconds"].as_f64().is_some_and(|x|x<0.){pregame_death_matches+=1;}
-                    let a=m*2+sides[m];let values=&components[a*COMPONENTS..(a+1)*COMPONENTS];writeln!(episode_file,"{}",serde_json::json!({"block":block,"training_seconds":training_seconds,"reward":values.iter().sum::<f32>(),"components":values,"arena":m,"initialization_prefix_decisions":prefix_decisions[m],"game":games[m]}))?;recorded[m]=true;episodes+=1;
+                    let a=m*2+sides[m];let legacy=&components[a*COMPONENTS..(a+1)*COMPONENTS];let reward_values:Vec<f32>=if state_reward{serde_json::from_value(games[m]["sides"][sides[m]][if event_reward{"event_v2_components"}else{"reward_components"}].clone())?}else{legacy.to_vec()};let values=&reward_values;writeln!(episode_file,"{}",serde_json::json!({"block":block,"training_seconds":training_seconds,"reward":values.iter().sum::<f32>(),"components":values,"arena":m,"initialization_prefix_decisions":prefix_decisions[m],"game":games[m]}))?;recorded[m]=true;episodes+=1;
                 }}episode_file.flush()?;
             }
-            let row=serde_json::json!({"block":block,"batch":batch,"training_seconds":training_seconds,"collection_seconds":collection,"optimization_seconds":optimization,"episodes":episodes,"episodes_started":episodes_started,"total_decisions":total_decisions,"decisions_per_second":total_decisions as f64/training_seconds,"pregame_deaths":pregame_deaths,"pregame_deaths_initial_prefix":prefix_pregame_deaths,"pregame_death_matches":pregame_death_matches,"memory_pool":format!("{:?}",d.memory_pool_usage()),"finished_in_batch":finished,"phase_decisions":phase_values,"phase_histogram_verified":cfg.verify_phase_histogram,"phase_names":["pregame","0-3min","3-6min","6-10min"],"components_sum":totals.clone().sum_dim(0).reshape([COMPONENTS]).into_data().try_to_vec::<f32>()?,"learning":learning});
+            let row=serde_json::json!({"block":block,"batch":batch,"training_seconds":training_seconds,"collection_seconds":collection,"optimization_seconds":optimization,"episodes":episodes,"episodes_started":episodes_started,"total_decisions":total_decisions,"decisions_per_second":total_decisions as f64/(training_seconds-resumed_seconds).max(1e-9),"pregame_deaths":pregame_deaths,"pregame_deaths_initial_prefix":prefix_pregame_deaths,"pregame_death_matches":pregame_death_matches,"memory_pool":format!("{:?}",d.memory_pool_usage()),"finished_in_batch":finished,"phase_decisions":phase_values,"phase_histogram_verified":cfg.verify_phase_histogram,"phase_names":["pregame","0-3min","3-6min","6-10min"],"components_sum":if let Some(e)=&events{(e.totals.clone()*rows.clone().float().unsqueeze_dim::<2>(1)).sum_dim(0).reshape([6]).into_data().try_to_vec::<f32>()?}else if state_reward{(potential.totals.clone()*rows.clone().float().unsqueeze_dim::<2>(1)).sum_dim(0).reshape([5]).into_data().try_to_vec::<f32>()?}else{totals.clone().sum_dim(0).reshape([COMPONENTS]).into_data().try_to_vec::<f32>()?},"reward_component_names":if event_reward{crate::event_reward::NAMES.to_vec()}else if state_reward{crate::potential_reward::NAMES.to_vec()}else{NAMES.to_vec()},"learning":learning});
             writeln!(history,"{}",row)?;history.flush()?;eprintln!("{}",row);
             crate::artifacts::atomic_json(&root.join("status.json"),&serde_json::json!({"stage":"training","pid":std::process::id(),"latest":row,"elapsed_seconds":started.elapsed().as_secs_f64()}))?;
             drop(experience);d.memory_cleanup();
-            let stop=(cfg.critic_only&&!warmup)||training_seconds>=cfg.minutes*60.||(cfg.max_blocks>0&&block>=cfg.max_blocks)||root.join("stop.json").exists();
-            let eval=cfg.evaluate&&(training_seconds-last_evaluation>=cfg.evaluation_minutes*60.||stop);
+            let user_stop=root.join("stop.json").exists();
+            let stop=(cfg.critic_only&&!warmup)||training_seconds>=cfg.minutes*60.||(cfg.stop_at_minutes>0.&&training_seconds>=cfg.stop_at_minutes*60.)||(cfg.max_blocks>0&&block>=cfg.max_blocks)||user_stop;
+            let eval=cfg.evaluate&&!user_stop&&(training_seconds-last_evaluation>=cfg.evaluation_minutes*60.||stop);
             if training_seconds-last_checkpoint>=cfg.checkpoint_minutes*60.||stop||eval{
                 let path=checkpoint(&policy,&optimizer,&manifest,root,block)?;last_checkpoint=training_seconds;last_path=Some(path.clone());
-                if eval {for greedy in [false,true]{let name=if greedy{"argmax"}else{"sampling"};
+                let progress=||serde_json::json!({"training_seconds":training_seconds,"block":block,"anchor_sha256":crate::runtime::file_sha256(&Path::new(&cfg.initial_weights).join("manifest.json")).unwrap(),"reward_mode":cfg.reward_mode,"schedule_minutes":cfg.schedule_minutes,"kl_start":cfg.kl_start,"kl_end":cfg.kl_end,"kl_decay_start_minutes":cfg.kl_decay_start_minutes,"kl_coefficient_next":anchor_coefficient(&cfg,training_seconds),"warmup_complete":!warmup});
+                let mut saved=progress();saved["last_evaluation"]=last_evaluation.into();saved["previous_evaluation_weights"]=previous_evaluation_weights.clone().into();crate::artifacts::atomic_json(&path.join("progress.json"),&saved)?;
+                if eval&&state_reward {
+                    for opponent in [false,true] {for seed in [20261103u32,20261104] {
+                        let name=if opponent{"previous"}else{"v10"};let target=root.join(format!("eval-{block:06}-{name}-{seed}"));
+                        crate::artifacts::atomic_json(&root.join("status.json"),&serde_json::json!({"stage":"evaluating","pid":std::process::id(),"block":block,"training_seconds":training_seconds,"opponent":name,"seed":seed,"report":target.join("report.json")}))?;
+                        let report=crate::imitation::evaluate_against(&engine,&path.join("weights"),&target,64,600.,"teacher",seed,false,false,false,false,cfg.teacher_version,if opponent{Some(Path::new(if event_reward{&cfg.initial_weights}else{&previous_evaluation_weights}))}else{None})?;
+                        ensure!(report["complete"]==true,"incomplete scheduled evaluation");evaluation_seconds+=report["wall_seconds"].as_f64().unwrap_or(0.);
+                    }}
+                    if !event_reward{previous_evaluation_weights=path.join("weights").to_string_lossy().to_string();}last_evaluation=training_seconds;
+                    let mut saved=progress();saved["last_evaluation"]=last_evaluation.into();saved["previous_evaluation_weights"]=previous_evaluation_weights.clone().into();crate::artifacts::atomic_json(&path.join("progress.json"),&saved)?;
+                    crate::artifacts::atomic_json(&root.join("evaluation-complete.json"),&serde_json::json!({"block":block,"training_seconds":training_seconds,"checkpoint":path,"previous_evaluation_weights":previous_evaluation_weights}))?;
+                }
+                if eval&&!state_reward {for greedy in [false,true]{let name=if greedy{"argmax"}else{"sampling"};
                     crate::artifacts::atomic_json(&root.join("status.json"),&serde_json::json!({"stage":"evaluating","pid":std::process::id(),"block":block,"training_seconds":training_seconds,"mode":name}))?;
-                    let report=crate::imitation::evaluate(&engine,&path.join("weights"),&root.join(format!("eval-{block:06}-{name}")),64,600.,"teacher",20261103,true,false,greedy,false,crate::teacher_v10::Version::V9)?;
+                    let report=crate::imitation::evaluate(&engine,&path.join("weights"),&root.join(format!("eval-{block:06}-{name}")),64,600.,"teacher",20261103,true,false,greedy,false,cfg.teacher_version)?;
                     evaluation_seconds+=report["wall_seconds"].as_f64().unwrap_or(0.);
                 }last_evaluation=training_seconds;}
             }
@@ -316,7 +393,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
             if cfg.desynchronize {
                 let done:Vec<_>=audit.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).map(|x|x[0]>0.).collect();
                 if done.iter().any(|x|*x){
-                    let mask=crate::ggd_arenas::reset(&w,&teacher,&metrics,&done);previous=previous.mask_where(mask.clone().unsqueeze_dim::<2>(1),crate::observe::initial_previous(n,&d));totals=totals.mask_fill(mask.unsqueeze_dim::<2>(1),0.);
+                    let mask=crate::ggd_arenas::reset(&w,&teacher,&metrics,&done);potential.reset(&w,&teacher,mask.clone());if let Some(e)=events.as_mut(){e.reset(&w,&teacher,mask.clone());}previous=previous.mask_where(mask.clone().unsqueeze_dim::<2>(1),crate::observe::initial_previous(n,&d));totals=totals.mask_fill(mask.unsqueeze_dim::<2>(1),0.);
                     for m in 0..cfg.matches{if done[m]{sides[m]=1-sides[m];recorded[m]=false;prefix_decisions[m]=0.;episodes_started+=1;}}
                     rows=crate::ggd_arenas::learner_rows(&sides,&d);prior=counts(&w,&teacher);
                 }
@@ -324,13 +401,44 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
         }
         batch+=1;
     }
-    let result=serde_json::json!({"blocks":block,"episodes":episodes,"episodes_started":episodes_started,"total_decisions":total_decisions,"pregame_deaths":pregame_deaths,"pregame_deaths_initial_prefix":prefix_pregame_deaths,"pregame_death_matches":pregame_death_matches,"warmup_complete":!warmup,"warmup_post_blocks":warmup_state.post_blocks,"warmup_ev_last5":warmup_state.mean(),"training_seconds":training_seconds,"evaluation_seconds":evaluation_seconds,"latest":last_path,"desynchronization":initialization,"profile":profile,"reward_components":NAMES});
+    let result=serde_json::json!({"blocks":block,"episodes":episodes,"episodes_started":episodes_started,"total_decisions":total_decisions,"pregame_deaths":pregame_deaths,"pregame_deaths_initial_prefix":prefix_pregame_deaths,"pregame_death_matches":pregame_death_matches,"warmup_complete":!warmup,"warmup_post_blocks":warmup_state.post_blocks,"warmup_ev_last5":warmup_state.mean(),"training_seconds":training_seconds,"evaluation_seconds":evaluation_seconds,"latest":last_path,"desynchronization":initialization,"profile":profile,"reward_components":if event_reward{crate::event_reward::NAMES.to_vec()}else if state_reward{crate::potential_reward::NAMES.to_vec()}else{NAMES.to_vec()},"resumed_training_seconds":resumed_seconds});
     crate::artifacts::atomic_json(&root.join("result.json"),&result)?;crate::artifacts::atomic_json(&root.join("status.json"),&serde_json::json!({"stage":"complete","result":result}))?;Ok(result)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn p09c_anchor_holds_in_pilot_and_continues_after_resume(){
+        let mut cfg=Config::default();cfg.reward_mode="event-v2".into();cfg.kl_start=0.2;cfg.kl_end=0.2;cfg.schedule_minutes=40.;
+        assert_eq!(anchor_coefficient(&cfg,1200.),0.2);
+        cfg.kl_end=0.05;cfg.kl_decay_start_minutes=40.;cfg.schedule_minutes=160.;
+        for (minutes,want) in [(40.,0.2),(100.,0.125),(160.,0.05),(170.,0.05)]{assert!((anchor_coefficient(&cfg,minutes*60.)-want).abs()<1e-6);}
+        let loaded:Config=serde_json::from_str(&serde_json::to_string(&cfg).unwrap()).unwrap();
+        assert_eq!(anchor_coefficient(&cfg,6000.),anchor_coefficient(&loaded,6000.));
+    }
+    #[test]
+    fn p09c_clip_fraction_counts_binary_events(){
+        let d=device();let r=Tensor::<1>::from_data(TensorData::new(vec![0.1f32,0.8,1.,1.2,2.,4.],[6]),&d);
+        let condition=r.clone().lower_elem(0.8).bool_or(r.greater_elem(1.2));
+        let legacy=condition.clone().float().into_data().try_to_vec::<f32>().unwrap();
+        let clip=Tensor::<1>::zeros([6],&d).mask_fill(condition,1.);
+        assert_eq!(clip.clone().into_data().try_to_vec::<f32>().unwrap(),vec![1.,0.,0.,0.,1.,1.]);
+        let mask=Tensor::<1>::from_data(TensorData::new(vec![1f32,1.,1.,1.,1.,0.],[6]),&d);
+        assert!((scalar(weighted(clip,mask))-0.4).abs()<1e-6);
+        eprintln!("P09c legacy bool-to-float diagnostic: {legacy:?}");
+    }
+    #[test]
+    fn p09b_minibatch_uses_learner_sequences_and_preserves_legacy_order(){
+        let active:Vec<f32>=(0..384).map(|i|if i%2==0{128.}else{0.}).collect();
+        for offset in (0..384).step_by(96){
+            let order=sequence_order(96,offset,Some(&active),17);
+            assert_eq!(order.len(),48);assert!(order.iter().all(|i|*i%2==0));
+            let mut sorted=order;sorted.sort();assert_eq!(sorted,(0..96).step_by(2).collect::<Vec<i32>>());
+        }
+        assert_eq!(sequence_order(4,0,None,1),vec![1,2,3,0]);
+        assert!(sequence_order(4,0,Some(&[0.;4]),1).is_empty());
+    }
     #[test]
     fn p08_critic_warmup_requires_30_postgame_blocks_and_five_ev_values(){
         let mut gate=CriticWarmup::default();

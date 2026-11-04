@@ -2,6 +2,57 @@ use burn::tensor::{Tensor,TensorData,Int};
 use crate::{runtime::{device,primitive,tensor},world::*,contract::*,observe::{initial_previous,TERRAIN_OFFSET,WIDTH},sampling::Sampler};
 use std::sync::Mutex;
 static GPU:Mutex<()>=Mutex::new(());
+use cubecl::frontend::CompilationArg;
+
+#[cubecl::prelude::cube(launch)]
+fn p09_events(state:&mut [f32],out:&mut [f32],kind:f32,spell:usize){
+    crate::teacher_combat::damage(out,0,0,kind,17.0f32,5.0f32,spell);
+    // Zero or overkill damage must not replace the last effective source.
+    crate::teacher_combat::damage(out,0,0,1.0f32,0.0f32,5.0f32,0);
+    crate::teacher_combat::death(out,state,0,0);
+    crate::teacher_combat::finish(out,state,0,-1.0f32);
+}
+
+#[test]
+fn p09_death_sources_distances_and_reward_snapshots(){
+    use cubecl::prelude::{CubeCount,CubeDim};
+    use crate::{runtime::argument,teacher_combat as c};
+    let _g=GPU.lock().unwrap();let mut w=arena();let d=w.device.clone();
+    let mut state=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();
+    state[UNIT_X]=0.;state[UNIT_Y]=0.;state[2*STRIDE+UNIT_X]=3.;state[2*STRIDE+UNIT_Y]=4.;state[4*STRIDE+UNIT_X]=6.;state[4*STRIDE+UNIT_Y]=8.;state[CREDIT]=1.;
+    state[UNIT_LAST_HITS]=13.;state[UNIT_DENIES]=7.;state[UNIT_LEVEL]=3.;state[XP]=29.;state[UNIT_SOULS]=11.;state[UNIT_RAZE_STACKS]=2.;state[STACK_END]=10000.;
+    w.state=primitive(Tensor::<1>::from_data(TensorData::new(state.clone(),[UNITS*STRIDE]),&d));
+    for (kind,spell,cause) in [(0.,0,0),(0.,1,1),(2.,0,2),(1.,0,3),(0.,4,4)] {
+        let out=primitive(Tensor::<1>::zeros([2*c::FIELDS],&d));
+        p09_events::launch(&w.state.client,CubeCount::Static(1,1,1),CubeDim::new_1d(1),argument(&w.state),argument(&out),kind,spell);
+        let data=tensor::<1>(out).into_data().try_to_vec::<f32>().unwrap();
+        assert_eq!(data[c::DEATH_COUNTS+cause],1.);assert_eq!(data[c::DEATH_OWN_DISTANCE+cause],5.);assert_eq!(data[c::DEATH_ENEMY_DISTANCE+cause],10.);assert_eq!(data[c::FIRST_SOURCE],(cause+1)as f32);assert_eq!(data[c::FIELDS+c::HERO_KILLS],1.);
+        assert_eq!(data[c::OUTCOME_REASON],3.);assert_eq!(data[c::OUTCOME_RESULT],-1.);
+    }
+    assert_eq!(tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap(),state);
+    let before=w.observe(initial_previous(2,&d)).packed.into_data().try_to_vec::<f32>().unwrap();
+    // observe refreshes fog proxy units; snapshot after that intentional update.
+    state=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();
+    let recorder=crate::demo_telemetry::Recorder::new(&w);recorder.record(&w,0,0);recorder.record(&w,0,1);
+    let directory=std::env::temp_dir().join(format!("p09-telemetry-{}",std::process::id()));std::fs::create_dir_all(&directory).unwrap();recorder.flush(&directory,0,0,1).unwrap();
+    use std::io::Read;let mut bytes=vec![];flate2::read::GzDecoder::new(std::fs::File::open(directory.join("telemetry-000000.f32.gz")).unwrap()).read_to_end(&mut bytes).unwrap();
+    let start=4+u32::from_le_bytes(bytes[..4].try_into().unwrap())as usize;let data:Vec<_>=bytes[start..].chunks_exact(4).map(|v|f32::from_le_bytes(v.try_into().unwrap())).collect();
+    assert_eq!(&data[1..3],&[13.,7.]);assert_eq!(&data[5..7],&[3.,29.]);assert_eq!(&data[8..10],&[11.,2.]);
+    let xp=tensor::<1>(w.experience.clone()).into_data().try_to_vec::<f32>().unwrap();assert_eq!(data[7],29.+xp[0]+xp[1]);
+    let fields=crate::demo_telemetry::FIELDS;
+    assert_eq!(&data[..fields],&data[fields..2*fields]);
+    for side in 0..2 {let p=side*STRIDE;let at=26+side*4;
+        assert_eq!(&data[at..at+4],&[state[p+UNIT_HEALTH],state[p+UNIT_HEALTH_MAX],state[p+UNIT_MANA],state[p+UNIT_MANA_MAX]]);
+    }
+    assert_eq!(tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap(),state);
+    assert_eq!(w.observe(initial_previous(2,&d)).packed.into_data().try_to_vec::<f32>().unwrap(),before);
+    let mut expired=state.clone();expired[STACK_END]=0.;
+    w.state=primitive(Tensor::<1>::from_data(TensorData::new(expired,[UNITS*STRIDE]),&d));recorder.record(&w,0,0);recorder.flush(&directory,1,0,1).unwrap();
+    let mut bytes=vec![];flate2::read::GzDecoder::new(std::fs::File::open(directory.join("telemetry-000001.f32.gz")).unwrap()).read_to_end(&mut bytes).unwrap();
+    let start=4+u32::from_le_bytes(bytes[..4].try_into().unwrap())as usize;assert_eq!(f32::from_le_bytes(bytes[start+9*4..start+10*4].try_into().unwrap()),0.);
+    std::fs::remove_file(directory.join("telemetry-000001.f32.gz")).unwrap();
+    std::fs::remove_file(directory.join("telemetry-000000.f32.gz")).unwrap();std::fs::remove_dir(directory).unwrap();
+}
 
 #[test]
 fn p07_uphill_impacts_use_seeded_rng_only_for_eligible_ranged_attacks(){

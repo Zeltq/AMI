@@ -1,0 +1,154 @@
+{
+  "rust-targeted-2": {
+    "passed": 1,
+    "total": 1,
+    "failed": 0
+  },
+  "rust-tests": {
+    "passed": 107,
+    "total": 107,
+    "failed": 0
+  },
+  "python-tests": {
+    "passed": 204,
+    "total": 204,
+    "skipped": 0
+  },
+  "pytorch_burn": {
+    "absolute_errors": {
+      "c": 1.5273690223693848e-07,
+      "fused": 2.5331974029541016e-07,
+      "h": 1.1548399925231934e-07,
+      "keys": 1.1920928955078125e-07,
+      "logp": 1.9073486328125e-06,
+      "value": 2.7939677238464355e-08
+    },
+    "atol": 0.0005,
+    "passed": true,
+    "rtol": 0.0005,
+    "steps": 128
+  },
+  "training_smoke": {
+    "updates": 2,
+    "actor_delta": 0.008739978075027466,
+    "value_head_delta": 0.0,
+    "first_action_head_gradient_l1": 6.802030563354492,
+    "history": [
+      {
+        "epoch": 1,
+        "train": {
+          "nll": 6.445510387420654,
+          "action_accuracy": 0.46484375,
+          "action_correct": 238,
+          "joint_action_correct": 111,
+          "frames": 512,
+          "batches": 2,
+          "attack_precision": {
+            "numerator": 0,
+            "denominator": 0
+          },
+          "attack_recall": {
+            "numerator": 0,
+            "denominator": 17
+          },
+          "conditional_attack_target_accuracy": {
+            "numerator": 1,
+            "denominator": 17
+          },
+          "attack_by_side": {
+            "radiant": {
+              "frames": 256,
+              "tp": 0,
+              "predicted": 0,
+              "labels": 3,
+              "action_correct": 105,
+              "nll_sum": 1768.6901245117188,
+              "joint_action_correct": 42
+            },
+            "dire": {
+              "frames": 256,
+              "tp": 0,
+              "predicted": 0,
+              "labels": 14,
+              "action_correct": 133,
+              "nll_sum": 1531.4113159179688,
+              "joint_action_correct": 69
+            }
+          }
+        },
+        "validation": {
+          "nll": 5.125926494598389,
+          "action_accuracy": 0.580078125,
+          "action_correct": 297,
+          "joint_action_correct": 297,
+          "frames": 512,
+          "batches": 2,
+          "attack_precision": {
+            "numerator": 0,
+            "denominator": 0
+          },
+          "attack_recall": {
+            "numerator": 0,
+            "denominator": 28
+          },
+          "conditional_attack_target_accuracy": {
+            "numerator": 2,
+            "denominator": 28
+          },
+          "attack_by_side": {
+            "radiant": {
+              "frames": 256,
+              "tp": 0,
+              "predicted": 0,
+              "labels": 4,
+              "action_correct": 185,
+              "nll_sum": 1249.3118896484375,
+              "joint_action_correct": 185
+            },
+            "dire": {
+              "frames": 256,
+              "tp": 0,
+              "predicted": 0,
+              "labels": 24,
+              "action_correct": 112,
+              "nll_sum": 1375.1624755859375,
+              "joint_action_correct": 112
+            }
+          }
+        }
+      }
+    ]
+  },
+  "export_profile": {
+    "profile": "ggd-v4",
+    "hero_width": 172,
+    "timing_oracle": false
+  },
+  "failed_preparation_attempts": [
+    {
+      "stage": "smoke-audit",
+      "exit_code": 1,
+      "command": "C:\\Python314\\python.exe C:\\AMI-wt\\P09a\\gpu\\scripts\\p09_data.py C:\\AMI\\runs\\p09\\smoke C:\\AMI-wt\\P09a\\reports\\P09a\\smoke-audit.json"
+    },
+    {
+      "stage": "smoke2-audit",
+      "exit_code": 1,
+      "command": "C:\\Python314\\python.exe C:\\AMI-wt\\P09a\\gpu\\scripts\\p09_data.py C:\\AMI\\runs\\p09\\smoke2 C:\\AMI-wt\\P09a\\reports\\P09a\\smoke-audit.json"
+    },
+    {
+      "stage": "smoke3-audit",
+      "exit_code": 1,
+      "command": "C:\\Python314\\python.exe C:\\AMI-wt\\P09a\\gpu\\scripts\\p09_data.py C:\\AMI\\runs\\p09\\smoke3 C:\\AMI-wt\\P09a\\reports\\P09a\\smoke-audit.json"
+    },
+    {
+      "stage": "rust-targeted",
+      "exit_code": 101,
+      "command": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P09a\\gpu\\Cargo.toml --target-dir C:/AMI/gpu/target p09_ -- --nocapture"
+    }
+  ],
+  "notes": [
+    "First collection audit read a reset live arena; final outcome is now captured at terminal event.",
+    "Reward stacks use active debuff and exactly the observer clock arithmetic; original ggd-v4 profile is unchanged.",
+    "First targeted GPU test sampled state before observe updated fog proxy units; corrected test snapshots after observe."
+  ]
+}

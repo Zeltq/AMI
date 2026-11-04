@@ -1,0 +1,181 @@
+[
+  {
+    "stage": "rust-compile-546e5ab7a34c",
+    "kind": "build",
+    "command_literal": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P09c\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p09\\P09c\\target --no-run",
+    "exit_code": 101
+  },
+  {
+    "stage": "rust-compile-2a60e96c4661",
+    "kind": "build",
+    "command_literal": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P09c\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p09\\P09c\\target --no-run",
+    "exit_code": 0
+  },
+  {
+    "stage": "rust-targeted-2a60e96c4661",
+    "kind": "verification",
+    "command_literal": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P09c\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p09\\P09c\\target p09c_ -- --nocapture --test-threads=1",
+    "exit_code": 0
+  },
+  {
+    "stage": "rust-full-2a60e96c4661",
+    "kind": "verification",
+    "command_literal": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P09c\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p09\\P09c\\target -- --test-threads=1",
+    "exit_code": 0
+  },
+  {
+    "stage": "python-full-2a60e96c4661",
+    "kind": "verification",
+    "command_literal": "C:\\Python314\\python.exe -m unittest discover -s tests -v",
+    "exit_code": 0
+  },
+  {
+    "stage": "build-2a60e96c4661",
+    "kind": "build",
+    "command_literal": "cargo build --release --locked --manifest-path C:\\AMI-wt\\P09c\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p09\\P09c\\target",
+    "exit_code": 0
+  },
+  {
+    "stage": "demo-collect",
+    "kind": "collection",
+    "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe collect-teacher C:\\AMI-wt\\P09c\\reports\\P09c\\demo-collect.json C:\\AMI\\runs\\p09\\P09c\\demo-data",
+    "exit_code": 0
+  },
+  {
+    "stage": "demo-audit",
+    "kind": "audit",
+    "command_literal": "C:\\Python314\\python.exe C:\\AMI-wt\\P09c\\gpu\\scripts\\p09_data.py C:\\AMI\\runs\\p09\\P09c\\demo-data C:\\AMI-wt\\P09c\\reports\\P09c\\demo-audit.json",
+    "exit_code": 0
+  },
+  {
+    "stage": "demo-parity",
+    "kind": "audit",
+    "command_literal": "C:\\Python314\\python.exe C:\\AMI-wt\\P09c\\gpu\\scripts\\p09c_data_parity.py C:\\AMI\\runs\\p09\\dataset C:\\AMI\\runs\\p09\\P09c\\demo-data C:\\AMI-wt\\P09c\\reports\\P09c\\demo-parity.json",
+    "exit_code": 0
+  },
+  {
+    "stage": "d1-collect",
+    "kind": "collection",
+    "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe collect-dagger C:\\AMI-wt\\P09c\\reports\\P09c\\d1-collect.json C:\\AMI\\runs\\p09\\P09c\\d1-data",
+    "exit_code": 0
+  },
+  {
+    "stage": "d1-audit",
+    "kind": "audit",
+    "command_literal": "C:\\Python314\\python.exe C:\\AMI-wt\\P09c\\gpu\\scripts\\p09_data.py C:\\AMI\\runs\\p09\\P09c\\d1-data C:\\AMI-wt\\P09c\\reports\\P09c\\d1-audit.json",
+    "exit_code": 0
+  },
+  {
+    "stage": "d1-parity",
+    "kind": "audit",
+    "command_literal": "C:\\Python314\\python.exe C:\\AMI-wt\\P09c\\gpu\\scripts\\p09c_data_parity.py C:\\AMI\\runs\\p09\\P09b\\d1-data C:\\AMI\\runs\\p09\\P09c\\d1-data C:\\AMI-wt\\P09c\\reports\\P09c\\d1-parity.json",
+    "exit_code": 0
+  },
+  {
+    "stage": "d2-collect",
+    "kind": "collection",
+    "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe collect-dagger C:\\AMI-wt\\P09c\\reports\\P09c\\d2-collect.json C:\\AMI\\runs\\p09\\P09c\\d2-data",
+    "exit_code": 0
+  },
+  {
+    "stage": "d2-audit",
+    "kind": "audit",
+    "command_literal": "C:\\Python314\\python.exe C:\\AMI-wt\\P09c\\gpu\\scripts\\p09_data.py C:\\AMI\\runs\\p09\\P09c\\d2-data C:\\AMI-wt\\P09c\\reports\\P09c\\d2-audit.json",
+    "exit_code": 0
+  },
+  {
+    "stage": "d2-parity",
+    "kind": "audit",
+    "command_literal": "C:\\Python314\\python.exe C:\\AMI-wt\\P09c\\gpu\\scripts\\p09c_data_parity.py C:\\AMI\\runs\\p09\\P09b\\d2-data C:\\AMI\\runs\\p09\\P09c\\d2-data C:\\AMI-wt\\P09c\\reports\\P09c\\d2-parity.json",
+    "exit_code": 0
+  },
+  {
+    "stage": "event-targets-and-feature-cache",
+    "kind": "audit",
+    "command_literal": "C:\\Python314\\python.exe C:\\AMI-wt\\P09c\\gpu\\scripts\\p09c_cache.py C:\\AMI\\runs\\p09\\P09c\\critic",
+    "exit_code": 0
+  },
+  {
+    "stage": "critic-fit-001",
+    "kind": "training",
+    "command_literal": "wsl -d Ubuntu -- timeout --signal=TERM --kill-after=5s 12979s bash /mnt/c/AMI-wt/P09c/scripts/wsl_python.sh /mnt/c/AMI-wt/P09c/gpu/scripts/p09b_critic.py /mnt/c/AMI/runs/p09/P09b/ZOg-d1/last.pt /mnt/c/AMI/runs/p09/P09c/critic --datasets /mnt/c/AMI/runs/p09/P09c/demo-data /mnt/c/AMI/runs/p09/P09c/d1-data /mnt/c/AMI/runs/p09/P09c/d2-data --epochs 8 --reward-mode event-v2",
+    "minutes": 14.69781689333322,
+    "exit_code": 0
+  },
+  {
+    "stage": "critic-export",
+    "kind": "export",
+    "command_literal": "wsl -d Ubuntu -- timeout --signal=TERM --kill-after=5s 12097s bash /mnt/c/AMI-wt/P09c/scripts/wsl_python.sh /mnt/c/AMI-wt/P09c/gpu/scripts/weights.py --checkpoint /mnt/c/AMI/runs/p09/P09c/critic/best.pt --output /mnt/c/AMI/runs/p09/P09c/critic/export",
+    "exit_code": 0
+  },
+  {
+    "stage": "smoke-lr0-001",
+    "kind": "training",
+    "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe train-ggd C:\\AMI-wt\\P09c\\reports\\P09c\\smoke-lr0-001.json C:\\AMI\\runs\\p09\\P09c\\smoke-lr0-001",
+    "minutes": 5.1848084149998614,
+    "exit_code": 0
+  },
+  {
+    "stage": "warmup-001",
+    "kind": "training",
+    "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe train-ggd C:\\AMI-wt\\P09c\\reports\\P09c\\warmup-001.json C:\\AMI\\runs\\p09\\P09c\\warmup-001",
+    "minutes": 12.616041491666692,
+    "exit_code": 0
+  },
+  {
+    "stage": "rl-pilot1-001",
+    "kind": "training",
+    "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe train-ggd C:\\AMI-wt\\P09c\\reports\\P09c\\rl-pilot1-001.json C:\\AMI\\runs\\p09\\P09c\\rl-pilot1-001",
+    "minutes": 48.190650500000146,
+    "exit_code": 0
+  },
+  {
+    "stage": "eval-pilot1-vs-v10-20261103",
+    "kind": "evaluation",
+    "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:\\AMI\\runs\\p09\\P09c\\rl-pilot1-001\\checkpoint-000126\\weights C:\\AMI\\runs\\p09\\P09c\\eval-pilot1-vs-v10-20261103 --mode teacher --matches 64 --seconds 600 --seed 20261103 --sampling --teacher-version v10",
+    "minutes": 5.519039221666754,
+    "exit_code": 0
+  },
+  {
+    "stage": "eval-pilot1-vs-v10-20261104",
+    "kind": "evaluation",
+    "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:\\AMI\\runs\\p09\\P09c\\rl-pilot1-001\\checkpoint-000126\\weights C:\\AMI\\runs\\p09\\P09c\\eval-pilot1-vs-v10-20261104 --mode teacher --matches 64 --seconds 600 --seed 20261104 --sampling --teacher-version v10",
+    "minutes": 5.601910095000251,
+    "exit_code": 0
+  },
+  {
+    "stage": "rl-main-001",
+    "kind": "training",
+    "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe train-ggd C:\\AMI-wt\\P09c\\reports\\P09c\\rl-main-001.json C:\\AMI\\runs\\p09\\P09c\\rl-main-001",
+    "minutes": 87.92926568333253,
+    "exit_code": 0
+  },
+  {
+    "stage": "eval-ZOg-d1-vs-v10-20261103",
+    "kind": "evaluation",
+    "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:\\AMI\\runs\\p09\\P09b\\ZOg-d1\\export\\weights C:\\AMI\\runs\\p09\\P09c\\eval-ZOg-d1-vs-v10-20261103 --mode teacher --matches 64 --seconds 600 --seed 20261103 --sampling --teacher-version v10",
+    "minutes": 5.267929416666933,
+    "exit_code": 0
+  },
+  {
+    "stage": "eval-ZOg-d1-vs-v10-20261104",
+    "kind": "evaluation",
+    "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:\\AMI\\runs\\p09\\P09b\\ZOg-d1\\export\\weights C:\\AMI\\runs\\p09\\P09c\\eval-ZOg-d1-vs-v10-20261104 --mode teacher --matches 64 --seconds 600 --seed 20261104 --sampling --teacher-version v10",
+    "minutes": 5.35142827333281,
+    "exit_code": 0
+  },
+  {
+    "stage": "eval-v10-vs-v10-20261103",
+    "kind": "evaluation",
+    "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe evaluate-teachers C:/AMI/runs/p07/dota-calibration-005/engine.json C:\\AMI\\runs\\p09\\P09c\\eval-v10-vs-v10-20261103 --matches 64 --seconds 600 --seed 20261103 --left v10 --right v10",
+    "minutes": 5.102076613333581,
+    "exit_code": 0
+  },
+  {
+    "stage": "eval-v10-vs-v10-20261104",
+    "kind": "evaluation",
+    "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe evaluate-teachers C:/AMI/runs/p07/dota-calibration-005/engine.json C:\\AMI\\runs\\p09\\P09c\\eval-v10-vs-v10-20261104 --matches 64 --seconds 600 --seed 20261104 --left v10 --right v10",
+    "minutes": 5.018239848333178,
+    "exit_code": 0
+  }
+]

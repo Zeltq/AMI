@@ -1,0 +1,22 @@
+{
+  "status": "DONE P09b: user cancelled further RL and evaluations; final checkpoint saved",
+  "remaining": [],
+  "heartbeat_id": "p09b-zog-dagger-8-rl",
+  "heartbeat_status": "PAUSED",
+  "resume_authorized": false,
+  "final_training_minutes": 205.0615077816668,
+  "final_checkpoint": "C:\\AMI\\runs\\p09\\P09b\\rl-main-001\\checkpoint-000604",
+  "last_completed_evaluation_hours": 2,
+  "not_run_by_user_request": [
+    "4h evaluation",
+    "6h evaluation",
+    "8h evaluation",
+    "remaining PPO to480 minutes"
+  ],
+  "known_limits": [
+    "clip_fraction >1 allegation was not confirmed; exponent e-05 explains cited values",
+    "User-stop source fix was compile-checked only; no GPU rerun",
+    "Native final result.json absent after intentional pre-evaluation guard; stop-result.json is an explicit audited summary",
+    "Arena state is not serialized in checkpoints; model/optimizer/progress are saved"
+  ]
+}

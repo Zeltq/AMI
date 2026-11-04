@@ -1,0 +1,20 @@
+{
+  "audit_complete": true,
+  "pending": [],
+  "completed": [
+    "All exact-data parity checks",
+    "Frozen actor for critic/warmup and all weights for lr0 smoke",
+    "Pilot health gate and continuous long-run KL schedule",
+    "All final seeds/sides/opponent identity/reward components",
+    "Unchanged checkpoint during evaluations",
+    "Exact reference reward with gameplay parity to P09b",
+    "GPU budget and absence of active workers",
+    "Protected source hashes and report artifact sizes"
+  ],
+  "remaining_limitations": [
+    "Fixed evaluation seeds; no real-Dota transfer test",
+    "Hour and final are aliases of one series",
+    "Historical clip>1 cause not reproduced",
+    "Raw native resumed throughput corrected in derived CSV; one-line source fix compiled separately"
+  ]
+}

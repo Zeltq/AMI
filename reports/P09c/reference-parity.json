@@ -1,0 +1,51 @@
+{
+  "passed": true,
+  "matches_equal": 256,
+  "hero_perspectives_equal": 512,
+  "checks": [
+    {
+      "model": "ZOg-d1",
+      "seed": 20261103,
+      "gameplay_matches_equal": 64,
+      "both_heroes": 128,
+      "old_report_sha256": "cc0a6ba35243121e361a271a0b1ac8fe343761491c0301ed301bdec9a68dc84d",
+      "new_report_sha256": "6a9ab4f25b9f79a18508e7d0fe7f9cc7d5828b973d2b37d7f59cf4dac6f0d008",
+      "evaluation_minutes": 5.227571005
+    },
+    {
+      "model": "ZOg-d1",
+      "seed": 20261104,
+      "gameplay_matches_equal": 64,
+      "both_heroes": 128,
+      "old_report_sha256": "eb5453da59cdf21d26277c591a675fe89b9f4befe6aea58e1535e4315aecfe84",
+      "new_report_sha256": "d479a24296ac2b04b75f7d6beb7086cb82d6785746a9aa405aba52707b212fde",
+      "evaluation_minutes": 5.264669571666667
+    },
+    {
+      "model": "v10",
+      "seed": 20261103,
+      "gameplay_matches_equal": 64,
+      "both_heroes": 128,
+      "old_report_sha256": "fc7b54c93402ebec969f717e9390179cd9b6400ee4683584f1fb47bae890d193",
+      "new_report_sha256": "40494166a6381e3f3238c874f5f5ac031b87518ef006ad3374b477963994229d",
+      "evaluation_minutes": 4.995617038333333
+    },
+    {
+      "model": "v10",
+      "seed": 20261104,
+      "gameplay_matches_equal": 64,
+      "both_heroes": 128,
+      "old_report_sha256": "e77bb021b2453df3d93adbcc1c4b7e89179c6a89d7040da176c189efdb176735",
+      "new_report_sha256": "78ad26677ae1fa24712ddbd37b8d4c15f4d9032d57f1b1d8d03236116f3fa4fc",
+      "evaluation_minutes": 4.955404821666666
+    }
+  ],
+  "excluded_fields": [
+    "event_v2_components",
+    "event_v2_reward",
+    "reward",
+    "reward_components",
+    "shaping_telescoping_residual"
+  ],
+  "scope": "Every gameplay field, including minute snapshots, unchanged; only reward fields excluded."
+}

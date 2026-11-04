@@ -212,7 +212,7 @@ fn move_unit(state:&mut [f32],grid:&mut [u32],geometry:&[f32],navigation:&[u32],
 }
 
 #[cube]
-fn hit(state:&mut [f32],telemetry:&mut [f32],#[comptime] audit_enabled:bool,hero:&[f32],combat:&[f32],base:usize,source:usize,target:usize,amount:f32,magical:bool,time:f32,source_kind:f32,source_team:f32){
+fn hit(state:&mut [f32],telemetry:&mut [f32],#[comptime] audit_enabled:bool,hero:&[f32],combat:&[f32],base:usize,source:usize,target:usize,amount:f32,magical:bool,time:f32,source_kind:f32,source_team:f32,spell:usize){
     let q=base+target*STRIDE;
     if state[q+ACTIVE]>0.0f32 && state[q+UNIT_HEALTH]>state[q+DAMAGE] {
         let armor=effective_armor(state,hero,base,q,time);
@@ -234,7 +234,7 @@ fn hit(state:&mut [f32],telemetry:&mut [f32],#[comptime] audit_enabled:bool,hero
         // melee21 -> SF12, ranged23 -> SF9, SF49 -> melee44 (both sides).
         if !invulnerable {
             let dealt=(amount*multiplier*(1.0f32-reduction)).ceil();
-            if audit_enabled {crate::teacher_combat::damage(telemetry,base/(UNITS*STRIDE),target,source_kind,dealt.min(state[q+UNIT_HEALTH]-state[q+DAMAGE]),time);}
+            if audit_enabled {crate::teacher_combat::damage(telemetry,base/(UNITS*STRIDE),target,source_kind,dealt.min(state[q+UNIT_HEALTH]-state[q+DAMAGE]),time,spell);}
             state[q+DAMAGE]+=dealt;
         }
         state[q+CREDIT]=source as f32;
@@ -507,6 +507,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                         state[p+UNIT_MAGIC_RESIST]=1.0f32-remaining;
                                     }
                                     state[p+LANE_POSITION]=if side==0 {0.0f32}else{radiant_lane_points as f32};
+                                    if audit_enabled {telemetry[(m*2+side)*crate::teacher_combat::FIELDS+crate::teacher_combat::LANE_SPAWNED]+=1.0f32;}
                                     allocated=true;
                                 }
                             }
@@ -754,7 +755,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                         if audit_enabled {if v<2 {telemetry_heroes+=1.0f32;if stacks>0.0f32 {telemetry_stacks+=1.0f32;}}else if v<CREEP_END {telemetry_creeps+=1.0f32;}}
                                         let talent=if state[p+UNIT_LEVEL]>=10.0f32 {hero[21]}else{0.0f32};
                                         let alive_before=state[q+UNIT_HEALTH]>state[q+DAMAGE];
-                                        let amount=spells[k]+stacks*(spells[k+6]+talent)+state[p+UNIT_SOULS]*2.0f32;hit(state,telemetry,audit_enabled,hero,combat,base,u,v,amount,true,time,0.0f32,side);
+                                        let amount=spells[k]+stacks*(spells[k+6]+talent)+state[p+UNIT_SOULS]*2.0f32;hit(state,telemetry,audit_enabled,hero,combat,base,u,v,amount,true,time,0.0f32,side,spell+1);
                                         if audit_enabled && v>=6 && v<CREEP_END && alive_before && state[q+UNIT_HEALTH]<=state[q+DAMAGE] {telemetry[(m*2+u)*crate::teacher_combat::FIELDS+crate::teacher_combat::RAZE_KILLS]+=1.0f32;}
                                         if v<2 {meta[mb+11]=meta[mb];meta[mb+12]+=1.0f32;}
                                         state[q+UNIT_RAZE_STACKS]=stacks+1.0f32;state[q+STACK_END]=time+spells[k+7];
@@ -762,7 +763,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                 }
                             }
                             if spell==3 {launch_requiem(state,shots,shot_hits,meta,hero,base,m,u,spells[k]);}
-                            if audit_enabled {crate::ggd_metrics::cast(teacher_audit,m,u,spell,telemetry_heroes,telemetry_creeps,telemetry_stacks);}
+                            if audit_enabled {crate::ggd_metrics::cast(teacher_audit,m,u,spell,telemetry_heroes,telemetry_creeps,telemetry_stacks);if spell<3 {telemetry[(m*2+u)*crate::teacher_combat::FIELDS+crate::teacher_combat::RAZE_HITS+spell]+=telemetry_heroes;}}
                             state[p+UNIT_MANA]-=spells[k+1];state[p+COOLDOWNS+spell]=time+spells[k+2];state[p+CAST_END]=0.0f32;state[p+CAST]=0.0f32;
                         }
                         let target=state[p+TARGET] as usize;
@@ -854,7 +855,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                 if audit_enabled && u<2 && target<2 {telemetry[(m*2+u)*crate::teacher_combat::FIELDS+crate::teacher_combat::HERO_ATTACKS]+=1.0f32;}
                                 let damage=state[p+UNIT_ATTACK_DAMAGE]+(random(rng,m)*2.0f32-1.0f32)*variance;
                                 if state[p+UNIT_PROJECTILE_SPEED]>0.0f32 {launch_shot(state,shots,meta,hero,animation,rng,base,m,u,target,damage,time);}
-                                else {let kind=state[p+KIND];hit(state,telemetry,audit_enabled,hero,combat,base,u,target,damage,false,time,kind,side);}
+                                else {let kind=state[p+KIND];hit(state,telemetry,audit_enabled,hero,combat,base,u,target,damage,false,time,kind,side,0);}
                                 if state[q+TEAM]!=side {state[p+REVEAL_END]=time+2.0f32;}
                             }
                             let base_interval=if u<2 {1.6f32} else if state[p+KIND]==4.0f32 {proto[8*UNIT_COUNT+UNIT_ATTACK_INTERVAL]} else if state[p+KIND]==1.0f32 {0.9f32} else {1.0f32};
@@ -899,7 +900,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                     // Only eligible ranged impacts consume an extra RNG draw.
                                     if geometry[cell(state[source+UNIT_X],state[source+UNIT_Y])]>geometry[cell(state[q+UNIT_X],state[q+UNIT_Y])] {missed=random(rng,m)<0.25f32;}
                                 }
-                                if !missed {hit(state,telemetry,audit_enabled,hero,combat,base,shots[k+7] as usize,target,shots[k+6],false,time,shots[k+9],shots[k+8]);}
+                                if !missed {hit(state,telemetry,audit_enabled,hero,combat,base,shots[k+7] as usize,target,shots[k+6],false,time,shots[k+9],shots[k+8],0);}
                                 shots[k]=0.0f32;
                                 if target<2 && !missed {meta[mb+10]=meta[mb];meta[mb+13]+=1.0f32;}
                             }
@@ -915,7 +916,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                 let along=(dx*shots[k+9]+dy*shots[k+10]).clamp(0.0f32,step);
                                 let ex=dx-shots[k+9]*along;let ey=dy-shots[k+10]*along;
                                 if ex*ex+ey*ey<=width*width {
-                                    hit(state,telemetry,audit_enabled,hero,combat,base,shots[k+7] as usize,v,shots[k+6],true,time,0.0f32,shots[k+8]);shot_hits[word]=shot_hits[word]|bit;
+                                    hit(state,telemetry,audit_enabled,hero,combat,base,shots[k+7] as usize,v,shots[k+6],true,time,0.0f32,shots[k+8],4);shot_hits[word]=shot_hits[word]|bit;
                                     let was_feared=state[q+FEAR_END]>time;
                                     state[q+FEAR_END]=time+f32::min(hero[20],f32::max(0.0f32,state[q+FEAR_END]-time)+hero[19]);
                                     let mut fixed_goal=false;if hero.len()>41 {fixed_goal=hero[41]>0.0f32;}
@@ -949,7 +950,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                         if state[p+UNIT_HEALTH]==0.0f32 {
                             state[p+ACTIVE]=0.0f32;let source=state[p+CREDIT] as usize;
                             if u<2 {
-                                if audit_enabled {crate::ggd_metrics::hero_death(teacher_audit,m,u,time);}
+                                if audit_enabled {crate::ggd_metrics::hero_death(teacher_audit,m,u,time);crate::teacher_combat::death(telemetry,state,m,u);}
                                 let first=state[base+DEATHS]+state[base+STRIDE+DEATHS]==0.0f32;
                                 let enemy=1-u;let q=base+enemy*STRIDE;
                                 let hero_kill=state[p+CREDIT]>=0.0f32 && source==enemy;
@@ -1016,6 +1017,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                     meta[mb+2]=1.0f32;meta[mb+4]+=1.0f32;terminals[m*2]=1.0f32;terminals[m*2+1]=1.0f32;
                     if result>0.0f32 {meta[mb+14]+=1.0f32;}else if result<0.0f32 {meta[mb+15]+=1.0f32;}else{meta[mb+16]+=1.0f32;}
                     meta[mb+17]=result;
+                    if audit_enabled {crate::teacher_combat::finish(telemetry,state,m,result);}
                 }
             }
         }

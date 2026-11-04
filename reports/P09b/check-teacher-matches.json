@@ -1,0 +1,1131 @@
+{
+  "complete": true,
+  "estimate": "closed-loop simulator evaluation; not real Dota transfer",
+  "family": "GGD",
+  "matches": 2,
+  "mode": "teacher",
+  "native_completed": 2,
+  "per_match": [
+    {
+      "accessible_credited": 39.0,
+      "accessible_deaths": 61.0,
+      "credited": 39.0,
+      "game": 0,
+      "game_seconds": 255.40000915527344,
+      "lane_creeps_spawned": 72.0,
+      "lane_deaths": 61.0,
+      "native_terminal": true,
+      "outcome_reason": "death",
+      "result": 1.0,
+      "sides": [
+        {
+          "actions": [
+            1832.0,
+            428.0,
+            0.0,
+            185.0,
+            131.0,
+            0.0,
+            1.0,
+            6.0,
+            4.0,
+            0.0,
+            4.0
+          ],
+          "alive_seconds": 345.433349609375,
+          "attack_cancellations": 2.0,
+          "attack_cycles_completed": 67.0,
+          "attack_enemy_creep_commands": 40.0,
+          "attack_hero_commands": 111.0,
+          "attack_structure_commands": 0.0,
+          "buys": [
+            2584.0,
+            0.0,
+            0.0,
+            0.0,
+            5.0,
+            2.0,
+            0.0
+          ],
+          "commands_during_windup": 5.0,
+          "controller": "GGD",
+          "damage_from_creeps": 463.0,
+          "damage_from_hero": 1135.0,
+          "damage_from_tower": 0.0,
+          "dead_seconds": 0.0,
+          "death_causes": [
+            {
+              "cause": "hero_attack",
+              "count": 0.0,
+              "enemy_t1_distance_sum": 0.0,
+              "own_t1_distance_sum": 0.0
+            },
+            {
+              "cause": "raze",
+              "count": 0.0,
+              "enemy_t1_distance_sum": 0.0,
+              "own_t1_distance_sum": 0.0
+            },
+            {
+              "cause": "creeps",
+              "count": 0.0,
+              "enemy_t1_distance_sum": 0.0,
+              "own_t1_distance_sum": 0.0
+            },
+            {
+              "cause": "tower",
+              "count": 0.0,
+              "enemy_t1_distance_sum": 0.0,
+              "own_t1_distance_sum": 0.0
+            },
+            {
+              "cause": "requiem",
+              "count": 0.0,
+              "enemy_t1_distance_sum": 0.0,
+              "own_t1_distance_sum": 0.0
+            }
+          ],
+          "deaths": 0.0,
+          "deny": 10.0,
+          "deny_commands": 34.0,
+          "distance_travelled": 20015.0625,
+          "first_death_game_seconds": null,
+          "first_death_location": {
+            "cause_code": 0.0,
+            "enemy_t1_distance": 0.0,
+            "own_t1_distance": 0.0
+          },
+          "first_move_game_seconds": -89.63333892822266,
+          "gold": 678.6534423828125,
+          "health": 483.37109375,
+          "hero_attacks_released": 16.0,
+          "hero_kills": 1.0,
+          "items": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            2.0,
+            2.0,
+            0.0
+          ],
+          "level": 5.0,
+          "lh": 10.0,
+          "longest_idle_seconds": 80.26667022705078,
+          "longest_movement_stall_seconds": 0.1333465576171875,
+          "mana": 36.69561004638672,
+          "mid_arrival_elapsed_seconds": 25.199996948242188,
+          "mid_arrival_game_seconds": -64.83333587646484,
+          "minimum_health_fraction": 0.31852132081985474,
+          "net_worth": 1763.6534423828125,
+          "raze_creep_hits": 7.0,
+          "raze_hero_hits": 2.0,
+          "raze_hero_hits_by_spell": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "razes_hitting_any_target": 4.0,
+          "razes_hitting_hero": 2.0,
+          "reward": 56.87937545776367,
+          "reward_components": [
+            10.0,
+            44.045188903808594,
+            -0.7420015335083008,
+            2.293278694152832,
+            1.282910704612732
+          ],
+          "shaping_telescoping_residual": [
+            -8.869171142578125e-05,
+            0.0,
+            -1.6689300537109375e-06,
+            -1.9371509552001953e-06
+          ],
+          "side": "radiant",
+          "souls": 20.0,
+          "spell_completions": [
+            0.0,
+            5.0,
+            4.0,
+            0.0
+          ],
+          "stacked_raze_hero_hits": 0.0,
+          "xp_in_level": 232.0
+        },
+        {
+          "actions": [
+            1251.0,
+            1123.0,
+            0.0,
+            75.0,
+            126.0,
+            0.0,
+            1.0,
+            7.0,
+            5.0,
+            0.0,
+            3.0
+          ],
+          "alive_seconds": 345.3333435058594,
+          "attack_cancellations": 4.0,
+          "attack_cycles_completed": 32.0,
+          "attack_enemy_creep_commands": 17.0,
+          "attack_hero_commands": 46.0,
+          "attack_structure_commands": 0.0,
+          "buys": [
+            2579.0,
+            2.0,
+            0.0,
+            0.0,
+            8.0,
+            2.0,
+            0.0
+          ],
+          "commands_during_windup": 5.0,
+          "controller": "teacher",
+          "damage_from_creeps": 1071.0,
+          "damage_from_hero": 1070.406005859375,
+          "damage_from_tower": 0.0,
+          "dead_seconds": 0.100006103515625,
+          "death_causes": [
+            {
+              "cause": "hero_attack",
+              "count": 1.0,
+              "enemy_t1_distance_sum": 2279.446044921875,
+              "own_t1_distance_sum": 736.2158813476562
+            },
+            {
+              "cause": "raze",
+              "count": 0.0,
+              "enemy_t1_distance_sum": 0.0,
+              "own_t1_distance_sum": 0.0
+            },
+            {
+              "cause": "creeps",
+              "count": 0.0,
+              "enemy_t1_distance_sum": 0.0,
+              "own_t1_distance_sum": 0.0
+            },
+            {
+              "cause": "tower",
+              "count": 0.0,
+              "enemy_t1_distance_sum": 0.0,
+              "own_t1_distance_sum": 0.0
+            },
+            {
+              "cause": "requiem",
+              "count": 0.0,
+              "enemy_t1_distance_sum": 0.0,
+              "own_t1_distance_sum": 0.0
+            }
+          ],
+          "deaths": 1.0,
+          "deny": 7.0,
+          "deny_commands": 12.0,
+          "distance_travelled": 26510.76171875,
+          "first_death_game_seconds": 255.36669921875,
+          "first_death_location": {
+            "cause_code": 1.0,
+            "enemy_t1_distance": 2279.446044921875,
+            "own_t1_distance": 736.2158813476562
+          },
+          "first_move_game_seconds": -89.63333892822266,
+          "gold": 4.659540176391602,
+          "health": 0.0,
+          "hero_attacks_released": 6.0,
+          "hero_kills": 0.0,
+          "items": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            3.0,
+            0.0,
+            0.0
+          ],
+          "level": 4.0,
+          "lh": 12.0,
+          "longest_idle_seconds": 74.79999542236328,
+          "longest_movement_stall_seconds": 0.13336181640625,
+          "mana": 83.3157958984375,
+          "mid_arrival_elapsed_seconds": 25.73332977294922,
+          "mid_arrival_game_seconds": -64.30000305175781,
+          "minimum_health_fraction": 0.0,
+          "net_worth": 1479.6595458984375,
+          "raze_creep_hits": 13.0,
+          "raze_hero_hits": 7.0,
+          "raze_hero_hits_by_spell": [
+            0.0,
+            4.0,
+            3.0
+          ],
+          "razes_hitting_any_target": 8.0,
+          "razes_hitting_hero": 7.0,
+          "reward": -56.879371643066406,
+          "reward_components": [
+            -10.0,
+            -44.045188903808594,
+            0.7420015335083008,
+            -2.2932791709899902,
+            -1.2829070091247559
+          ],
+          "shaping_telescoping_residual": [
+            8.869171142578125e-05,
+            0.0,
+            2.2649765014648438e-06,
+            2.3171305656433105e-06
+          ],
+          "side": "dire",
+          "souls": 14.0,
+          "spell_completions": [
+            1.0,
+            4.0,
+            3.0,
+            0.0
+          ],
+          "stacked_raze_hero_hits": 3.0,
+          "xp_in_level": 217.0
+        }
+      ],
+      "simulation_error": 0.0
+    },
+    {
+      "accessible_credited": 19.0,
+      "accessible_deaths": 22.0,
+      "credited": 19.0,
+      "game": 1,
+      "game_seconds": 105.93334197998047,
+      "lane_creeps_spawned": 32.0,
+      "lane_deaths": 22.0,
+      "native_terminal": true,
+      "outcome_reason": "death",
+      "result": 1.0,
+      "sides": [
+        {
+          "actions": [
+            1050.0,
+            287.0,
+            0.0,
+            76.0,
+            51.0,
+            0.0,
+            1.0,
+            3.0,
+            2.0,
+            0.0,
+            0.0
+          ],
+          "alive_seconds": 195.9666748046875,
+          "attack_cancellations": 1.0,
+          "attack_cycles_completed": 27.0,
+          "attack_enemy_creep_commands": 10.0,
+          "attack_hero_commands": 56.0,
+          "attack_structure_commands": 0.0,
+          "buys": [
+            1466.0,
+            2.0,
+            0.0,
+            0.0,
+            0.0,
+            2.0,
+            0.0
+          ],
+          "commands_during_windup": 1.0,
+          "controller": "teacher",
+          "damage_from_creeps": 0.0,
+          "damage_from_hero": 180.0,
+          "damage_from_tower": 0.0,
+          "dead_seconds": 0.0,
+          "death_causes": [
+            {
+              "cause": "hero_attack",
+              "count": 0.0,
+              "enemy_t1_distance_sum": 0.0,
+              "own_t1_distance_sum": 0.0
+            },
+            {
+              "cause": "raze",
+              "count": 0.0,
+              "enemy_t1_distance_sum": 0.0,
+              "own_t1_distance_sum": 0.0
+            },
+            {
+              "cause": "creeps",
+              "count": 0.0,
+              "enemy_t1_distance_sum": 0.0,
+              "own_t1_distance_sum": 0.0
+            },
+            {
+              "cause": "tower",
+              "count": 0.0,
+              "enemy_t1_distance_sum": 0.0,
+              "own_t1_distance_sum": 0.0
+            },
+            {
+              "cause": "requiem",
+              "count": 0.0,
+              "enemy_t1_distance_sum": 0.0,
+              "own_t1_distance_sum": 0.0
+            }
+          ],
+          "deaths": 0.0,
+          "deny": 8.0,
+          "deny_commands": 10.0,
+          "distance_travelled": 12169.1708984375,
+          "first_death_game_seconds": null,
+          "first_death_location": {
+            "cause_code": 0.0,
+            "enemy_t1_distance": 0.0,
+            "own_t1_distance": 0.0
+          },
+          "first_move_game_seconds": -89.63333892822266,
+          "gold": 361.5408935546875,
+          "health": 670.450927734375,
+          "hero_attacks_released": 9.0,
+          "hero_kills": 1.0,
+          "items": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "level": 3.0,
+          "lh": 9.0,
+          "longest_idle_seconds": 79.0666732788086,
+          "longest_movement_stall_seconds": 0.1333465576171875,
+          "mana": 129.26466369628906,
+          "mid_arrival_elapsed_seconds": 25.199996948242188,
+          "mid_arrival_game_seconds": -64.83333587646484,
+          "minimum_health_fraction": 0.7620913982391357,
+          "net_worth": 1736.5408935546875,
+          "raze_creep_hits": 3.0,
+          "raze_hero_hits": 3.0,
+          "raze_hero_hits_by_spell": [
+            0.0,
+            2.0,
+            1.0
+          ],
+          "razes_hitting_any_target": 3.0,
+          "razes_hitting_hero": 3.0,
+          "reward": -15.048672676086426,
+          "reward_components": [
+            10.0,
+            -14.64498233795166,
+            -5.587996482849121,
+            -3.7511086463928223,
+            -1.0645859241485596
+          ],
+          "shaping_telescoping_residual": [
+            3.528594970703125e-05,
+            1.2516975402832031e-05,
+            4.5299530029296875e-06,
+            9.5367431640625e-07
+          ],
+          "side": "radiant",
+          "souls": 20.0,
+          "spell_completions": [
+            1.0,
+            2.0,
+            1.0,
+            0.0
+          ],
+          "stacked_raze_hero_hits": 0.0,
+          "xp_in_level": 163.0
+        },
+        {
+          "actions": [
+            1012.0,
+            349.0,
+            0.0,
+            51.0,
+            49.0,
+            0.0,
+            0.0,
+            2.0,
+            6.0,
+            0.0,
+            1.0
+          ],
+          "alive_seconds": 195.86666870117188,
+          "attack_cancellations": 0.0,
+          "attack_cycles_completed": 17.0,
+          "attack_enemy_creep_commands": 10.0,
+          "attack_hero_commands": 28.0,
+          "attack_structure_commands": 0.0,
+          "buys": [
+            1467.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            2.0,
+            0.0
+          ],
+          "commands_during_windup": 2.0,
+          "controller": "GGD",
+          "damage_from_creeps": 290.0,
+          "damage_from_hero": 531.657470703125,
+          "damage_from_tower": 0.0,
+          "dead_seconds": 0.100006103515625,
+          "death_causes": [
+            {
+              "cause": "hero_attack",
+              "count": 1.0,
+              "enemy_t1_distance_sum": 2815.368896484375,
+              "own_t1_distance_sum": 350.86065673828125
+            },
+            {
+              "cause": "raze",
+              "count": 0.0,
+              "enemy_t1_distance_sum": 0.0,
+              "own_t1_distance_sum": 0.0
+            },
+            {
+              "cause": "creeps",
+              "count": 0.0,
+              "enemy_t1_distance_sum": 0.0,
+              "own_t1_distance_sum": 0.0
+            },
+            {
+              "cause": "tower",
+              "count": 0.0,
+              "enemy_t1_distance_sum": 0.0,
+              "own_t1_distance_sum": 0.0
+            },
+            {
+              "cause": "requiem",
+              "count": 0.0,
+              "enemy_t1_distance_sum": 0.0,
+              "own_t1_distance_sum": 0.0
+            }
+          ],
+          "deaths": 1.0,
+          "deny": 2.0,
+          "deny_commands": 13.0,
+          "distance_travelled": 15391.0087890625,
+          "first_death_game_seconds": 105.90001678466797,
+          "first_death_location": {
+            "cause_code": 1.0,
+            "enemy_t1_distance": 2815.368896484375,
+            "own_t1_distance": 350.86065673828125
+          },
+          "first_move_game_seconds": -89.63333892822266,
+          "gold": 81.55956268310547,
+          "health": 0.0,
+          "hero_attacks_released": 5.0,
+          "hero_kills": 0.0,
+          "items": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "level": 2.0,
+          "lh": 0.0,
+          "longest_idle_seconds": 54.26667022705078,
+          "longest_movement_stall_seconds": 0.1333465576171875,
+          "mana": 46.24246597290039,
+          "mid_arrival_elapsed_seconds": 25.73332977294922,
+          "mid_arrival_game_seconds": -64.30000305175781,
+          "minimum_health_fraction": 0.0,
+          "net_worth": 1056.5595703125,
+          "raze_creep_hits": 0.0,
+          "raze_hero_hits": 0.0,
+          "raze_hero_hits_by_spell": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "razes_hitting_any_target": 0.0,
+          "razes_hitting_hero": 0.0,
+          "reward": 15.048672676086426,
+          "reward_components": [
+            -10.0,
+            14.64498233795166,
+            5.587996482849121,
+            3.751107931137085,
+            1.0645854473114014
+          ],
+          "shaping_telescoping_residual": [
+            -3.528594970703125e-05,
+            -1.2516975402832031e-05,
+            -4.5299530029296875e-06,
+            -9.611248970031738e-07
+          ],
+          "side": "dire",
+          "souls": 2.0,
+          "spell_completions": [
+            0.0,
+            2.0,
+            3.0,
+            0.0
+          ],
+          "stacked_raze_hero_hits": 0.0,
+          "xp_in_level": 114.0
+        }
+      ],
+      "simulation_error": 0.0
+    }
+  ],
+  "seed": 20261107,
+  "summary": {
+    "action_names": [
+      "continue",
+      "move",
+      "move_direct",
+      "attack",
+      "stop",
+      "hold",
+      "raze_near",
+      "raze_mid",
+      "raze_far",
+      "requiem",
+      "item"
+    ],
+    "all_lane_creeps": {
+      "denominator": 83.0,
+      "numerator": 58.0
+    },
+    "first_death_precision_seconds": 0.03333333333333333,
+    "games": 2,
+    "minute_snapshots": "latest observed state in each minute bin, plus pregame; early terminal games retain only reached bins",
+    "native_completed": 2,
+    "position_sampling_seconds": 0.13333333333333333,
+    "sides": [
+      {
+        "actions": [
+          1050.0,
+          287.0,
+          0.0,
+          76.0,
+          51.0,
+          0.0,
+          1.0,
+          3.0,
+          2.0,
+          0.0,
+          0.0
+        ],
+        "alive_seconds": 195.9666748046875,
+        "attack_cancellations": 1.0,
+        "attack_cycles_completed": 27.0,
+        "buys": [
+          1466.0,
+          2.0,
+          0.0,
+          0.0,
+          0.0,
+          2.0,
+          0.0
+        ],
+        "commands_during_windup": 1.0,
+        "controller": "teacher",
+        "dead_seconds": 0.0,
+        "deaths": 0.0,
+        "deny": 8.0,
+        "first_death_game_seconds": {
+          "count": 0,
+          "denominator": 1,
+          "maximum": null,
+          "mean": null,
+          "median": null,
+          "minimum": null
+        },
+        "first_move_game_seconds": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": -89.63333892822266,
+          "mean": -89.63333892822266,
+          "median": -89.63333892822266,
+          "minimum": -89.63333892822266
+        },
+        "games": 1,
+        "health": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 670.450927734375,
+          "mean": 670.450927734375,
+          "median": 670.450927734375,
+          "minimum": 670.450927734375
+        },
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "level": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 3.0,
+          "mean": 3.0,
+          "median": 3.0,
+          "minimum": 3.0
+        },
+        "lh": 9.0,
+        "longest_idle_seconds": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 79.0666732788086,
+          "mean": 79.0666732788086,
+          "median": 79.0666732788086,
+          "minimum": 79.0666732788086
+        },
+        "longest_movement_stall_seconds": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 0.1333465576171875,
+          "mean": 0.1333465576171875,
+          "median": 0.1333465576171875,
+          "minimum": 0.1333465576171875
+        },
+        "mid_arrival_elapsed_seconds": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 25.199996948242188,
+          "mean": 25.199996948242188,
+          "median": 25.199996948242188,
+          "minimum": 25.199996948242188
+        },
+        "mid_arrival_game_seconds": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": -64.83333587646484,
+          "mean": -64.83333587646484,
+          "median": -64.83333587646484,
+          "minimum": -64.83333587646484
+        },
+        "net_worth": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 1736.5408935546875,
+          "mean": 1736.5408935546875,
+          "median": 1736.5408935546875,
+          "minimum": 1736.5408935546875
+        },
+        "raze_creep_hits": 3.0,
+        "raze_hero_hits": 3.0,
+        "razes_hitting_any_target": 3.0,
+        "razes_hitting_hero": 3.0,
+        "side": "radiant",
+        "spell_completions": [
+          1.0,
+          2.0,
+          1.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 0.0
+      },
+      {
+        "actions": [
+          1251.0,
+          1123.0,
+          0.0,
+          75.0,
+          126.0,
+          0.0,
+          1.0,
+          7.0,
+          5.0,
+          0.0,
+          3.0
+        ],
+        "alive_seconds": 345.3333435058594,
+        "attack_cancellations": 4.0,
+        "attack_cycles_completed": 32.0,
+        "buys": [
+          2579.0,
+          2.0,
+          0.0,
+          0.0,
+          8.0,
+          2.0,
+          0.0
+        ],
+        "commands_during_windup": 5.0,
+        "controller": "teacher",
+        "dead_seconds": 0.100006103515625,
+        "deaths": 1.0,
+        "deny": 7.0,
+        "first_death_game_seconds": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 255.36669921875,
+          "mean": 255.36669921875,
+          "median": 255.36669921875,
+          "minimum": 255.36669921875
+        },
+        "first_move_game_seconds": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": -89.63333892822266,
+          "mean": -89.63333892822266,
+          "median": -89.63333892822266,
+          "minimum": -89.63333892822266
+        },
+        "games": 1,
+        "health": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 0.0,
+          "mean": 0.0,
+          "median": 0.0,
+          "minimum": 0.0
+        },
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          3.0,
+          0.0,
+          0.0
+        ],
+        "level": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 4.0,
+          "mean": 4.0,
+          "median": 4.0,
+          "minimum": 4.0
+        },
+        "lh": 12.0,
+        "longest_idle_seconds": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 74.79999542236328,
+          "mean": 74.79999542236328,
+          "median": 74.79999542236328,
+          "minimum": 74.79999542236328
+        },
+        "longest_movement_stall_seconds": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 0.13336181640625,
+          "mean": 0.13336181640625,
+          "median": 0.13336181640625,
+          "minimum": 0.13336181640625
+        },
+        "mid_arrival_elapsed_seconds": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 25.73332977294922,
+          "mean": 25.73332977294922,
+          "median": 25.73332977294922,
+          "minimum": 25.73332977294922
+        },
+        "mid_arrival_game_seconds": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": -64.30000305175781,
+          "mean": -64.30000305175781,
+          "median": -64.30000305175781,
+          "minimum": -64.30000305175781
+        },
+        "net_worth": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 1479.6595458984375,
+          "mean": 1479.6595458984375,
+          "median": 1479.6595458984375,
+          "minimum": 1479.6595458984375
+        },
+        "raze_creep_hits": 13.0,
+        "raze_hero_hits": 7.0,
+        "razes_hitting_any_target": 8.0,
+        "razes_hitting_hero": 7.0,
+        "side": "dire",
+        "spell_completions": [
+          1.0,
+          4.0,
+          3.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 3.0
+      },
+      {
+        "actions": [
+          1832.0,
+          428.0,
+          0.0,
+          185.0,
+          131.0,
+          0.0,
+          1.0,
+          6.0,
+          4.0,
+          0.0,
+          4.0
+        ],
+        "alive_seconds": 345.433349609375,
+        "attack_cancellations": 2.0,
+        "attack_cycles_completed": 67.0,
+        "buys": [
+          2584.0,
+          0.0,
+          0.0,
+          0.0,
+          5.0,
+          2.0,
+          0.0
+        ],
+        "commands_during_windup": 5.0,
+        "controller": "GGD",
+        "dead_seconds": 0.0,
+        "deaths": 0.0,
+        "deny": 10.0,
+        "first_death_game_seconds": {
+          "count": 0,
+          "denominator": 1,
+          "maximum": null,
+          "mean": null,
+          "median": null,
+          "minimum": null
+        },
+        "first_move_game_seconds": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": -89.63333892822266,
+          "mean": -89.63333892822266,
+          "median": -89.63333892822266,
+          "minimum": -89.63333892822266
+        },
+        "games": 1,
+        "health": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 483.37109375,
+          "mean": 483.37109375,
+          "median": 483.37109375,
+          "minimum": 483.37109375
+        },
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.0,
+          2.0,
+          0.0
+        ],
+        "level": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 5.0,
+          "mean": 5.0,
+          "median": 5.0,
+          "minimum": 5.0
+        },
+        "lh": 10.0,
+        "longest_idle_seconds": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 80.26667022705078,
+          "mean": 80.26667022705078,
+          "median": 80.26667022705078,
+          "minimum": 80.26667022705078
+        },
+        "longest_movement_stall_seconds": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 0.1333465576171875,
+          "mean": 0.1333465576171875,
+          "median": 0.1333465576171875,
+          "minimum": 0.1333465576171875
+        },
+        "mid_arrival_elapsed_seconds": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 25.199996948242188,
+          "mean": 25.199996948242188,
+          "median": 25.199996948242188,
+          "minimum": 25.199996948242188
+        },
+        "mid_arrival_game_seconds": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": -64.83333587646484,
+          "mean": -64.83333587646484,
+          "median": -64.83333587646484,
+          "minimum": -64.83333587646484
+        },
+        "net_worth": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 1763.6534423828125,
+          "mean": 1763.6534423828125,
+          "median": 1763.6534423828125,
+          "minimum": 1763.6534423828125
+        },
+        "raze_creep_hits": 7.0,
+        "raze_hero_hits": 2.0,
+        "razes_hitting_any_target": 4.0,
+        "razes_hitting_hero": 2.0,
+        "side": "radiant",
+        "spell_completions": [
+          0.0,
+          5.0,
+          4.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 0.0
+      },
+      {
+        "actions": [
+          1012.0,
+          349.0,
+          0.0,
+          51.0,
+          49.0,
+          0.0,
+          0.0,
+          2.0,
+          6.0,
+          0.0,
+          1.0
+        ],
+        "alive_seconds": 195.86666870117188,
+        "attack_cancellations": 0.0,
+        "attack_cycles_completed": 17.0,
+        "buys": [
+          1467.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          2.0,
+          0.0
+        ],
+        "commands_during_windup": 2.0,
+        "controller": "GGD",
+        "dead_seconds": 0.100006103515625,
+        "deaths": 1.0,
+        "deny": 2.0,
+        "first_death_game_seconds": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 105.90001678466797,
+          "mean": 105.90001678466797,
+          "median": 105.90001678466797,
+          "minimum": 105.90001678466797
+        },
+        "first_move_game_seconds": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": -89.63333892822266,
+          "mean": -89.63333892822266,
+          "median": -89.63333892822266,
+          "minimum": -89.63333892822266
+        },
+        "games": 1,
+        "health": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 0.0,
+          "mean": 0.0,
+          "median": 0.0,
+          "minimum": 0.0
+        },
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "level": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 2.0,
+          "mean": 2.0,
+          "median": 2.0,
+          "minimum": 2.0
+        },
+        "lh": 0.0,
+        "longest_idle_seconds": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 54.26667022705078,
+          "mean": 54.26667022705078,
+          "median": 54.26667022705078,
+          "minimum": 54.26667022705078
+        },
+        "longest_movement_stall_seconds": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 0.1333465576171875,
+          "mean": 0.1333465576171875,
+          "median": 0.1333465576171875,
+          "minimum": 0.1333465576171875
+        },
+        "mid_arrival_elapsed_seconds": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 25.73332977294922,
+          "mean": 25.73332977294922,
+          "median": 25.73332977294922,
+          "minimum": 25.73332977294922
+        },
+        "mid_arrival_game_seconds": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": -64.30000305175781,
+          "mean": -64.30000305175781,
+          "median": -64.30000305175781,
+          "minimum": -64.30000305175781
+        },
+        "net_worth": {
+          "count": 1,
+          "denominator": 1,
+          "maximum": 1056.5595703125,
+          "mean": 1056.5595703125,
+          "median": 1056.5595703125,
+          "minimum": 1056.5595703125
+        },
+        "raze_creep_hits": 0.0,
+        "raze_hero_hits": 0.0,
+        "razes_hitting_any_target": 0.0,
+        "razes_hitting_hero": 0.0,
+        "side": "dire",
+        "spell_completions": [
+          0.0,
+          2.0,
+          3.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 0.0
+      }
+    ],
+    "spell_names": [
+      "raze_near",
+      "raze_mid",
+      "raze_far",
+      "requiem"
+    ],
+    "time_origin": "Dota game seconds; negative values are pregame",
+    "within_attack_distance": {
+      "denominator": 83.0,
+      "numerator": 58.0
+    }
+  },
+  "wall_seconds": 166.5674137
+}

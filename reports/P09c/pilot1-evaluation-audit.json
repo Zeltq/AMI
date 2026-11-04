@@ -1,0 +1,60 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "seed": 20261103,
+      "matches": 64,
+      "radiant": 32,
+      "dire": 32,
+      "both_heroes_checked": 128,
+      "source_sha256": "4f13d287bda4d8a9d422f4fa06322f42067a6282206f69c58a8d91552e6c3438"
+    },
+    {
+      "seed": 20261104,
+      "matches": 64,
+      "radiant": 32,
+      "dire": 32,
+      "both_heroes_checked": 128,
+      "source_sha256": "4fd81935ba9967b498e46e676716d2a37f46d949d03da67cec14e8ab0ff308f2"
+    }
+  ],
+  "matches": 128,
+  "both_heroes": 256,
+  "health_gate": true,
+  "live_main_config": {
+    "engine": "C:/AMI/runs/p07/dota-calibration-005/engine.json",
+    "initial_weights": "C:\\AMI\\runs\\p09\\P09b\\ZOg-d1\\export\\weights",
+    "matches": 192,
+    "seed": 20261109,
+    "minutes": 100.21026507333332,
+    "max_blocks": 0,
+    "batch_sequences": 48,
+    "epochs": 2,
+    "learning_rate": 3e-05,
+    "critic_learning_rate": 0.0003,
+    "warmup_blocks": 100,
+    "entropy": 0.005,
+    "kl_start": 0.2,
+    "kl_end": 0.05,
+    "stop_kl": 0.02,
+    "checkpoint_minutes": 30.0,
+    "evaluate": true,
+    "evaluation_minutes": 60.0,
+    "initialize_weights": null,
+    "skip_warmup": true,
+    "critic_only": false,
+    "desynchronize": true,
+    "verify_phase_histogram": true,
+    "teacher_version": "v10",
+    "reward_mode": "event-v2",
+    "mana_weight": 0.5,
+    "warmup_min_blocks": 20,
+    "separate_critic_lr": true,
+    "resume_checkpoint": "C:\\AMI\\runs\\p09\\P09c\\rl-pilot1-001\\checkpoint-000126",
+    "schedule_minutes": 100.21026507333332,
+    "stop_at_minutes": 0.0,
+    "kl_decay_start_minutes": 40.21026507333333,
+    "begin_decay_on_resume": true
+  },
+  "continuous_anchor_at_resume": 0.20000000298023224
+}

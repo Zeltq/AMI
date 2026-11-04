@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "matches": 128,
+  "hero_perspectives": 256,
+  "checks": [
+    {
+      "seed": 20261103,
+      "matches": 64,
+      "radiant": 32,
+      "dire": 32,
+      "hero_perspectives": 128,
+      "evaluation_minutes": 4.328047345
+    },
+    {
+      "seed": 20261104,
+      "matches": 64,
+      "radiant": 32,
+      "dire": 32,
+      "hero_perspectives": 128,
+      "evaluation_minutes": 4.172052421666667
+    }
+  ],
+  "final": "C:\\AMI\\runs\\p09\\P09c\\rl-main-001\\checkpoint-000314\\weights",
+  "pilot": "C:\\AMI\\runs\\p09\\P09c\\rl-pilot1-001\\checkpoint-000126\\weights",
+  "sampling": true,
+  "environment": "005",
+  "trained_during_evaluation": false,
+  "independent_audit_passed": true,
+  "seed_results": [
+    {
+      "seed": 20261103,
+      "matches": 64,
+      "final_wins": 39,
+      "draws": 0,
+      "pilot_wins": 25,
+      "radiant": 32,
+      "dire": 32
+    },
+    {
+      "seed": 20261104,
+      "matches": 64,
+      "final_wins": 46,
+      "draws": 0,
+      "pilot_wins": 18,
+      "radiant": 32,
+      "dire": 32
+    }
+  ],
+  "outcome_symmetry_checked": true,
+  "all_simulation_errors_zero": true,
+  "components_checked_for_256_heroes": true,
+  "averages_recalculated": true
+}

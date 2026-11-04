@@ -1,0 +1,43 @@
+{
+  "dataset": "C:\\AMI\\runs\\p09\\dataset",
+  "model_name": "ZOg",
+  "epochs": 3,
+  "batch_sequences": 8,
+  "learning_rate": 0.0001,
+  "seed": 20261102,
+  "gradient_norm": 1.0,
+  "attack_weight": 4.0,
+  "timing_honest": true,
+  "timing_oracle": false,
+  "action_weights": {
+    "6": 4.0,
+    "7": 2.93,
+    "8": 4.0
+  },
+  "hero_attack_weight": 4.0,
+  "evaluation": {
+    "executable": "C:\\AMI\\runs\\p09\\sf-duel-gpu.exe",
+    "engine": "C:/AMI/runs/p07/dota-calibration-005/engine.json",
+    "matches": 64,
+    "seconds": 600,
+    "seeds": [
+      20261103,
+      20261104
+    ],
+    "modes": [
+      "teacher"
+    ],
+    "teacher_version": "v10"
+  },
+  "zero_previous": false,
+  "family": "GGD",
+  "teacher_policy_sha256": "858bc93841b4a77397574721fcc8e114e6efabb8a4d02d3d472eebefd27a95ae",
+  "observation_profile": "ggd-v4",
+  "initialization": "fresh random weights; no MIA checkpoint or optimizer loaded",
+  "device": "AMD Radeon RX 9070 XT",
+  "torch": "2.14.1+rocm7.2",
+  "hip": "7.2.53211",
+  "parameters": 1154349,
+  "dataset_sha256": "19d772e7fc35f104aa3a1c689d6a690e02fff18aecd32010be25f0c4bc4b337c",
+  "initial_weights_sha256": "370ccbdd190b2d16d00773bd446afcc76e59bed18b426e7a5e2efb50ee656f9c"
+}

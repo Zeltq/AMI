@@ -1,0 +1,64 @@
+{
+  "blocks": 188,
+  "training_minutes": 60.16057017333335,
+  "cumulative_ppo_minutes": 100.37083524666669,
+  "decisions": 4526741,
+  "corrected_decisions_per_second": 1254.0719463921444,
+  "maximum_schedule_error": 1.2285169381787142e-08,
+  "first_anchor": 0.20000000298023224,
+  "last_used_anchor": 0.05040052533149719,
+  "checkpoint_next_anchor": 0.04999999701976776,
+  "clip_min": 0.00033094581885961816,
+  "clip_max": 0.023063192018526024,
+  "first5": {
+    "value_loss": 0.21497463965788483,
+    "ev_post0": 0.5073682069778442,
+    "ev_pregame": 0.37500269412994386,
+    "entropy": 0.14083905555307866,
+    "rollout_kl_m2": 0.020402056723833085,
+    "clip_fraction": 0.0041224886397685625,
+    "kl_coefficient": 0.19835126399993896
+  },
+  "last5": {
+    "value_loss": 0.2684924745932221,
+    "ev_post0": 0.5203508853912353,
+    "ev_pregame": 0.17787761688232423,
+    "entropy": 0.13275830950587988,
+    "rollout_kl_m2": 0.056714826822280885,
+    "clip_fraction": 0.004163464359589852,
+    "kl_coefficient": 0.05199105143547058
+  },
+  "completed_matches": 1392,
+  "full_reward_matches": 1208,
+  "excluded_prefix_matches": 184,
+  "first100": {
+    "matches": 100,
+    "reward_sum": -122.56141424179077,
+    "components_sum": [
+      -300.0,
+      299.5,
+      92.40000607073307,
+      -752.2330765724182,
+      637.8486146330833,
+      -100.07694578170776
+    ],
+    "farm": 1061.0,
+    "spawn": 7108.0,
+    "death_matches": 63
+  },
+  "last100": {
+    "matches": 100,
+    "reward_sum": -118.91690051555634,
+    "components_sum": [
+      -480.0,
+      427.5,
+      125.60001115500927,
+      -957.1982625722885,
+      884.7633069753647,
+      -119.58194196224213
+    ],
+    "farm": 1483.0,
+    "spawn": 9286.0,
+    "death_matches": 63
+  }
+}

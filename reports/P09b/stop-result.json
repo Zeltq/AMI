@@ -1,0 +1,37 @@
+{
+  "reason_ru": "RL остановлен пользователем: награда potential-v1 обнуляет ценность фарма",
+  "requested_utc": "2026-11-04T13:32:08.306777+00:00",
+  "last_completed_block_at_request": 603,
+  "stopped_at_block": 604,
+  "training_seconds": 12303.690466900007,
+  "training_minutes": 205.0615077816668,
+  "checkpoint": "C:\\AMI\\runs\\p09\\P09b\\rl-main-001\\checkpoint-000604",
+  "tensor_sha256_matches": 59,
+  "tensor_count": 59,
+  "checkpoint_files": {
+    "model.bpk": {
+      "bytes": 4625156,
+      "sha256": "0acd88a5d63856ed754ab8bdcc49e1c574988bfaa0b533c8221589476af66427"
+    },
+    "optimizer.bpk": {
+      "bytes": 9260288,
+      "sha256": "11f979bbaf63105f36abb7afe371c87a71b544809f3cb2d69392b3df0e83f916"
+    },
+    "weights/manifest.json": {
+      "bytes": 23582,
+      "sha256": "c28c3f4036f1156283485ccd71169d20e9a7974b9fece6d3b758511a38c20267"
+    }
+  },
+  "existing_evaluation_reports": 4,
+  "evaluated_matches": 256,
+  "new_evaluation_matches_after_stop": 0,
+  "native_exit_code": 1,
+  "native_exit_reason": "Existing binary saved checkpoint and progress at the block boundary; fresh-directory guard rejected its automatic final-evaluation entry before World::load. No force kill or training restart.",
+  "native_result_json_created": false,
+  "gpu_budget": {
+    "used_minutes": 472.79348532166523,
+    "limit_minutes": 840
+  },
+  "heartbeat": "PAUSED",
+  "finalization_utc": "2026-11-04T13:35:23.256443+00:00"
+}

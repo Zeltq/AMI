@@ -1,0 +1,379 @@
+{
+  "passed": true,
+  "baseline": "9f7949a",
+  "files_checked": 72,
+  "files_unchanged": 72,
+  "command": "git diff --exit-code 9f7949a -- <all protected gpu/src and src/sf_duel files listed here>",
+  "files": [
+    {
+      "path": "gpu/src/aggro_fidelity.rs",
+      "baseline_git_blob": "d932cfa09c1954b0e5145dacb7f2ce7327132a08",
+      "working_sha256": "91e5ff037dca5c8b9dfaf248bf74166bcbafb6da65e55d7f2a17c3c8555b5356"
+    },
+    {
+      "path": "gpu/src/artifacts.rs",
+      "baseline_git_blob": "8306fd9c4a6926231bc27fd435cf519151c8e62b",
+      "working_sha256": "25334bfcd2bc5317a02bbe9f5107c4415ee2a96c2e462d77bc7194c8f5d46992"
+    },
+    {
+      "path": "gpu/src/bridge.rs",
+      "baseline_git_blob": "4baf84df09006f11d2ef6a2825e9323a925f9a35",
+      "working_sha256": "6ac31f698342f36dcc0dba6c3ef3bf0b11cd938c2242204d6f57b1a6e375b15b"
+    },
+    {
+      "path": "gpu/src/cell.rs",
+      "baseline_git_blob": "18e94ca67c396ac6e151e58bb94772ea719c6e85",
+      "working_sha256": "1feca993af8b7d09cecc623539b9ecad1113b5bc5f9b60c377d7c615134b6aef"
+    },
+    {
+      "path": "gpu/src/checks.rs",
+      "baseline_git_blob": "8744b559ac78e52e341695d57b1c0b664618a113",
+      "working_sha256": "6cadfcc48314f3df9dce0ad190277553a8482627cdf481ac9695410231925e6c"
+    },
+    {
+      "path": "gpu/src/combat_observe.rs",
+      "baseline_git_blob": "4047ce2b201c5827ad802f7568fb180c651c9637",
+      "working_sha256": "2311b685c0751c5f7ac43813414f3baf6dd5c2076bb5046e596eda5f120053be"
+    },
+    {
+      "path": "gpu/src/contract.rs",
+      "baseline_git_blob": "783fb3c31b3ead9115a4c82cfbf493066e864a2d",
+      "working_sha256": "fe55cb6d0500f5693b3a6f6c871e7ce73614bd23b81b83b7ccf5af225b5b8a98"
+    },
+    {
+      "path": "gpu/src/critic_dataset.rs",
+      "baseline_git_blob": "a581a58aa16fdc75dde6817d8411d45eca08793e",
+      "working_sha256": "780848e9304c7684217790784194a0ba3a0b3c46d87e066e5005254ca2f16d5e"
+    },
+    {
+      "path": "gpu/src/departure.rs",
+      "baseline_git_blob": "88440b43ddc70bc53218c873d33d282b7f7916f1",
+      "working_sha256": "346f695ddb6117e0908d63369af1afb99fba87afba5a9a6cdf08659a95f6f153"
+    },
+    {
+      "path": "gpu/src/enemy_observe.rs",
+      "baseline_git_blob": "53023eb9fe89b1276c507d272c24283b1d081dd1",
+      "working_sha256": "cd6496544f40189f92466dd1b692729a880f57c55517282cc7be8d300e25f533"
+    },
+    {
+      "path": "gpu/src/evaluation.rs",
+      "baseline_git_blob": "07a8d550747e40148d513bc7b213a619a182e929",
+      "working_sha256": "630035c802f2da3c8d0b5b87d8723251560a90ec2d1b01b1b21d1b0e44a9efe4"
+    },
+    {
+      "path": "gpu/src/experience.rs",
+      "baseline_git_blob": "201273c9ed726f0716bdf3c5b488e99a7b6b5ded",
+      "working_sha256": "5f95692312db2c2e517c5b03537086cfd1a9517d7f43dbaae377fc3195f1863d"
+    },
+    {
+      "path": "gpu/src/fidelity.rs",
+      "baseline_git_blob": "8658d429100270455d36459f47f77effe85eddfd",
+      "working_sha256": "5b0678b19b046935946b599f7a15e29ff8602455a721480759e66d0baf3db517"
+    },
+    {
+      "path": "gpu/src/ggd_arenas.rs",
+      "baseline_git_blob": "a5ab356dc981009c2976a56490f8a4b7d3502543",
+      "working_sha256": "0065d5125c0e668d191fe5c176d74b45b10fba663469422da8405eb70c96371a"
+    },
+    {
+      "path": "gpu/src/ggd_diagnostic.rs",
+      "baseline_git_blob": "a841ae6f8cac00d4e3718aa4599dee61a1c5a0eb",
+      "working_sha256": "d80c22d0d8108dc3f85af99c2d36a26a722a6e6f9884fdf0b60656d5dc398e8b"
+    },
+    {
+      "path": "gpu/src/ggd_metrics.rs",
+      "baseline_git_blob": "01836f3f07521c0fae219bb63b1aafa2dd4020b9",
+      "working_sha256": "d8865ee9390b9b19a5400a2c76be0baca603f8f488ca8b6aeb716420bc99f73f"
+    },
+    {
+      "path": "gpu/src/gradients.rs",
+      "baseline_git_blob": "26a2d4e13b64da45d9f95b48eb67266e66be8597",
+      "working_sha256": "85b164f04840df8b8a77c5272831df8d49054d255794ef289b3e256f447fa8d9"
+    },
+    {
+      "path": "gpu/src/lane_fidelity.rs",
+      "baseline_git_blob": "336617c634382abe2e8a657f4fc1c1a625cfca20",
+      "working_sha256": "bb219f5260218794b165cb1d5d9705d98edf536a9f6da1b1e2fe3678186f9bc5"
+    },
+    {
+      "path": "gpu/src/learner.rs",
+      "baseline_git_blob": "c6785319e4f4f9c9172d97c36af9b1f1045f5eac",
+      "working_sha256": "ba6342ad5706e4cb80b82a2f8ed8de3d6ed015d8fb418c5ceaf40741163acfda"
+    },
+    {
+      "path": "gpu/src/lr_diagnostic.rs",
+      "baseline_git_blob": "ba71e4cde31b9f57f9e5330a44818e8ce461a716",
+      "working_sha256": "efda1ed8355ca5f371245134e499e32df4dba3a4ed68b3e97b2658b72822e3f6"
+    },
+    {
+      "path": "gpu/src/model.rs",
+      "baseline_git_blob": "04d0f9d9846982ceda2e6aa1e7938377abb3915a",
+      "working_sha256": "f822545ea62e42adc5866a8209eaffa5b139c2b8d163f02edf6b0867eeacf9f7"
+    },
+    {
+      "path": "gpu/src/navigation.rs",
+      "baseline_git_blob": "1aa8027fe5ecc7946582710247199b67b3e5313e",
+      "working_sha256": "2ba3178210c91da397ed2c474b957d50c72e806a544f208ed263f616e86ccd35"
+    },
+    {
+      "path": "gpu/src/observe.rs",
+      "baseline_git_blob": "67969051391b869f2b5a39e6c882144704540556",
+      "working_sha256": "9bb949027d5973a8612a922b4d7ef44753b497a293d9f025e525d72adcb580bb"
+    },
+    {
+      "path": "gpu/src/physics.rs",
+      "baseline_git_blob": "eb949d38317c35302a040478e7dc96f3a62308b9",
+      "working_sha256": "5bc80587701f2fc2dae0be573bb9758359e304810e2537bb08830206a06d6a67"
+    },
+    {
+      "path": "gpu/src/policy_trace.rs",
+      "baseline_git_blob": "954f2822affc1b569b1c80ee04314e9cadd80b19",
+      "working_sha256": "7165beebe830bf7f800024a793baf8dfc30ddcef99172ca3ae06132a4d397c6d"
+    },
+    {
+      "path": "gpu/src/potential_reward.rs",
+      "baseline_git_blob": "95aacf0dc2b1891868f4414bea09b6f81c12e033",
+      "working_sha256": "d843e2eed8f5542d5562965bf24ad50074e76a981b59ae2e66f066c5102cee56"
+    },
+    {
+      "path": "gpu/src/requiem_fidelity.rs",
+      "baseline_git_blob": "2dd8ca14a5ad82ee5935f1b06211f3868ff46c16",
+      "working_sha256": "d5150aa7e54d86ca4c549ca618bdf85d0f4aa63e84f5b7e2a6c900f557df128b"
+    },
+    {
+      "path": "gpu/src/runtime.rs",
+      "baseline_git_blob": "7b0fced310fff6031684a085be0e61ae6f23a6ce",
+      "working_sha256": "7932ab80756f47129db3a431f65b5bab460a48e95cdd07d4c19bc09f6fea45ae"
+    },
+    {
+      "path": "gpu/src/sampling.rs",
+      "baseline_git_blob": "1d6e35ff471a701ef4c46fef661626a86ec0b724",
+      "working_sha256": "b9b753505b8e55a7f386eff5655f8e4865e0006b717d5f842ca3a0dadebf5d8d"
+    },
+    {
+      "path": "gpu/src/scripted_teacher.rs",
+      "baseline_git_blob": "d37d6f18657bcfbb564ad877932b3a27274c3548",
+      "working_sha256": "55b7f4ff5baef7aea24e706aaaca3e83fa049adca0bd63cee4203c6c23e08312"
+    },
+    {
+      "path": "gpu/src/selfplay.rs",
+      "baseline_git_blob": "80f4e66a8cd2d1af0263fdc6ddcf56b7bd9a4782",
+      "working_sha256": "fbf644b22792e20a5ebfac122c16f2560a8bcb53bb97493d2d745de2861bff09"
+    },
+    {
+      "path": "gpu/src/startup_audit.rs",
+      "baseline_git_blob": "c9910f0c1a13b68195d1bbd0ae89736995a90d1b",
+      "working_sha256": "78dd0f6a3c57fc89f2d5e737122cfd88ddfe79b29a13937396344333de2b522c"
+    },
+    {
+      "path": "gpu/src/startup_step.rs",
+      "baseline_git_blob": "0593e7b373cab63ef6963e7cc5c77c870663ea9c",
+      "working_sha256": "9c60e9285cdc9bc376b3c3d1d1e82be94f3f8baefba1d344045d734e530fce16"
+    },
+    {
+      "path": "gpu/src/teacher_combat.rs",
+      "baseline_git_blob": "b7d4463e7713841ab8234a05e5cb99599e37bdd3",
+      "working_sha256": "4d7176bbc5fec846028a9c0dff07807160f26599a7b6262fc8770af4590809bc"
+    },
+    {
+      "path": "gpu/src/teacher_dagger.rs",
+      "baseline_git_blob": "214e5f86d64bffc861995d7a05542f3392c646ad",
+      "working_sha256": "2da77b0aee1020b91ac44927fcc2d2013a621bdcb5e567d01feb3783c8ba79b4"
+    },
+    {
+      "path": "gpu/src/teacher_v10.rs",
+      "baseline_git_blob": "34c629119603aa301c518bab895b6b2b89d33287",
+      "working_sha256": "858bc93841b4a77397574721fcc8e114e6efabb8a4d02d3d472eebefd27a95ae"
+    },
+    {
+      "path": "gpu/src/teacher_v10.sha256",
+      "baseline_git_blob": "9bb4f6dd1ec8e9c1388721d0daf03520602ad427",
+      "working_sha256": "196f1744a99ba41db17af78b088f1b269b8060390b481dce044f218b618f0c4f"
+    },
+    {
+      "path": "gpu/src/teacher_v10_tests.rs",
+      "baseline_git_blob": "b2bc93d873a561f9e7299293c7b551aac374c83a",
+      "working_sha256": "7186ee5434bb1f515ef93de24b164ee978d6e24fbe161a29fcd12c56b09e0075"
+    },
+    {
+      "path": "gpu/src/timing_observe.rs",
+      "baseline_git_blob": "43e16c04d9d428185eeb8b93fb65331b56f35131",
+      "working_sha256": "bb7a2be42a8a64d4eacaf833eac4742f2f70e9c3405b2c9167e83972ea15b405"
+    },
+    {
+      "path": "gpu/src/trace.rs",
+      "baseline_git_blob": "56a081d659267b1ccb15867211415bcaddf6f5f3",
+      "working_sha256": "2af60d1db0cc2160652eb4745067d958fba66cefdc3aa6ca6bfc1f9a6ac05692"
+    },
+    {
+      "path": "gpu/src/world.rs",
+      "baseline_git_blob": "d062e6f54d6754997853a615ff8b85d42edcfe99",
+      "working_sha256": "795e1c760bc22fb6388d2494ff27bfc1df3e336b082211b768b2c752a0a28277"
+    },
+    {
+      "path": "src/sf_duel/__init__.py",
+      "baseline_git_blob": "e08a355dfd228fe677b6c75f625fb5e86dd2ed78",
+      "working_sha256": "20a0e2363343b7d6d0af3ea67cac34bce57103857d140fdd1ea20de201b3f27e"
+    },
+    {
+      "path": "src/sf_duel/bc_data.py",
+      "baseline_git_blob": "aad09fa61304810e97d62dd41b6275cd2789e429",
+      "working_sha256": "8434c07793c5dcf5b35be0af402a2c9c3845d4bdcc964914fcc03d8af4478c88"
+    },
+    {
+      "path": "src/sf_duel/bc_metrics.py",
+      "baseline_git_blob": "0a70165f84d04d4b745d485b97604169896dd9c2",
+      "working_sha256": "2bceb8572266acbaf5b5cb936de110b6ff304519bfe2a292d351ff6599276f2d"
+    },
+    {
+      "path": "src/sf_duel/combat_observations.py",
+      "baseline_git_blob": "9c95b4f4292a77102a4857f9a031b078c06c0553",
+      "working_sha256": "d7b4d8ddf1685a53fe201cf4cbe186f00942a176f52b79ddfa27a1838b8c86f3"
+    },
+    {
+      "path": "src/sf_duel/demonstrations.py",
+      "baseline_git_blob": "4948a7fbf37219724aad301aff51c6e340f15ade",
+      "working_sha256": "31c6c71019f1350c1519dac843cf304d3c643df8de2bf5d372f2a1fd2a468932"
+    },
+    {
+      "path": "src/sf_duel/enemy_observations.py",
+      "baseline_git_blob": "30e6b61cabcb6a3478fbe2bc7fc991d007912e4a",
+      "working_sha256": "e11bb441b13df217355b11b6cba1e7459b51dc852c01a784a921ac3df49f3e02"
+    },
+    {
+      "path": "src/sf_duel/live/__init__.py",
+      "baseline_git_blob": "c3cd0b73946eb7ab7ce9d38aa54e59ccc78ed1bc",
+      "working_sha256": "d5bae59fded046d152257dec1d6a69aa72e7955a705dbcd1976631a879d91d99"
+    },
+    {
+      "path": "src/sf_duel/live/bridge.py",
+      "baseline_git_blob": "fe756f84e47b683c1d7b58c24a253656c13d1601",
+      "working_sha256": "51321bf3c80cc3f77b10101f1bc00f789ff73345a0fc5ba0291facf4391b24e3"
+    },
+    {
+      "path": "src/sf_duel/live/console.py",
+      "baseline_git_blob": "8c7e01160665cde3bfd9f71f0ca7ba7845a0aaf2",
+      "working_sha256": "bddfbf638071e169e5208a51121770549e27eca95c0f5b2268365062272138e6"
+    },
+    {
+      "path": "src/sf_duel/live/game.py",
+      "baseline_git_blob": "1d367852bdb9d2218b0261ec256aec35ce62c12e",
+      "working_sha256": "fd16744480474f58c23a607842bd0e1cf39ab7c510e55c9768e1d1fb1f0eb81a"
+    },
+    {
+      "path": "src/sf_duel/live/install.py",
+      "baseline_git_blob": "63777dc9940d23d4cc4111bf7784a8d2cb24f1a9",
+      "working_sha256": "6ff64acba9da47a92fed833f58e95f6d0e5210cd13c3e00a771efa08d086b385"
+    },
+    {
+      "path": "src/sf_duel/live/rpc.py",
+      "baseline_git_blob": "63cc6725380eb7b76c8be7c0e6d2b104f327b209",
+      "working_sha256": "25e5bfc9ca81483ef520ecc269549d733c8e5fe8ce5a3def75793609ed2bef41"
+    },
+    {
+      "path": "src/sf_duel/model.py",
+      "baseline_git_blob": "91f6368ec6260386666deb9728969c6fd178cdbd",
+      "working_sha256": "3b959a275faf45fc3c4c5c290e602042da66e07f8b4405a9afa066efe25d6142"
+    },
+    {
+      "path": "src/sf_duel/native_data.py",
+      "baseline_git_blob": "5ed16dda8f77ee03c3cd9b28c0154c1a839ae389",
+      "working_sha256": "d9dd297d9d6a915a3387510989501661538bc2be8dd25c9b91d948070e14370d"
+    },
+    {
+      "path": "src/sf_duel/native_policy_server.py",
+      "baseline_git_blob": "fd0cac8bbf2522746d823ae0e5685379d0d14cb6",
+      "working_sha256": "24f86aaaeb5c2e9c43bc09412b2f8f49a9c658d0f478d4a6f41df51ba852dbdb"
+    },
+    {
+      "path": "src/sf_duel/observations.py",
+      "baseline_git_blob": "5656ea60bda86458cf7a11c86391cd54cf2fb0d5",
+      "working_sha256": "5597051e55678a69e46386385db9b9f52500c902525397fe962a39cab0548c18"
+    },
+    {
+      "path": "src/sf_duel/protos/__init__.py",
+      "baseline_git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "working_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "src/sf_duel/protos/duel_pb2.py",
+      "baseline_git_blob": "f6c86f546bdfefc30f78aff2e6c6c5b14be247d5",
+      "working_sha256": "414e37f560fcf9056382fa3491e39db0be0305d90df2649e6ea1b4d2acef6f62"
+    },
+    {
+      "path": "src/sf_duel/protos/worldstate_pb2.py",
+      "baseline_git_blob": "933c4fb22c1e7bb3897e71643d46a5217ab03dc4",
+      "working_sha256": "aa4b2359c286b97472f708dd4a1fb8bb0e83451fe09e623224fd3b7f2bc1d8cd"
+    },
+    {
+      "path": "src/sf_duel/rules.py",
+      "baseline_git_blob": "b727fefecfa97fbefb1b7dc8c0c174f49fcfbd5d",
+      "working_sha256": "d4371288e39721c9d53ad87dc5b4a7e4b164c91432f64f530e5e125f2780c536"
+    },
+    {
+      "path": "src/sf_duel/selfplay/__init__.py",
+      "baseline_git_blob": "1c7651c385ba3a6f69046b846ee42311731dae46",
+      "working_sha256": "c1845a6ca261650bba80d3437205cc4edd4e061bc1441743e77221f32de080a5"
+    },
+    {
+      "path": "src/sf_duel/selfplay/config.py",
+      "baseline_git_blob": "a65e123ad88e8678b0ba1e6e94039f33634d18c3",
+      "working_sha256": "0aeb6b3a4d0f57ef6420a94a8a1dc615bb0615a814514437042065cec2fdde66"
+    },
+    {
+      "path": "src/sf_duel/selfplay/ppo.py",
+      "baseline_git_blob": "aef2450db165a5f35ec074c41d9befdc63c714c1",
+      "working_sha256": "42ba00dcb017acc01fbf0c623098621e9ba36a79ace0072b3320b24c9ea77497"
+    },
+    {
+      "path": "src/sf_duel/selfplay/quality.py",
+      "baseline_git_blob": "d4351158246c76f4174d09f7c1cf799b738526db",
+      "working_sha256": "c1aa29253ca4e2793e7ca2179998bc755043ce6f521fb9c944c4c0e74f79c892"
+    },
+    {
+      "path": "src/sf_duel/selfplay/rewards.py",
+      "baseline_git_blob": "038d0a265870f0bdda17bbcceeb0a6c33c6c2118",
+      "working_sha256": "49e31349f32bc1d92299c75b714cebe7768f42c9d5e4286ad881bb2b7be2c77a"
+    },
+    {
+      "path": "src/sf_duel/selfplay/rollouts.py",
+      "baseline_git_blob": "6cd3e22ebe7eb10f2784d52f55e5365f3c11d7e0",
+      "working_sha256": "d0b7d73155a8e16dcb207661381d2675aaa9acd6302fda78d62db63120d5d7e8"
+    },
+    {
+      "path": "src/sf_duel/server.py",
+      "baseline_git_blob": "9a602b26c5f49c7edcecd4a9bbbf92dabf8097d6",
+      "working_sha256": "f280c040357dbfcebe1a79ef4256d590c1035d25a9c47cc727bdfdb40fac90f6"
+    },
+    {
+      "path": "src/sf_duel/spec.py",
+      "baseline_git_blob": "9ac19b86023f4c5eb20924fc4beed6ea2960b1aa",
+      "working_sha256": "cf7017f07e1f050c6b93585633fd39eab05fe319c0c7246a8c09a6732bd66f06"
+    },
+    {
+      "path": "src/sf_duel/teacher.py",
+      "baseline_git_blob": "2553e320a095a1aa532e0577078236590640c056",
+      "working_sha256": "b1fe0192aa904d740b8641f10d148fa5c7dd0c7ada092033920ac271649be906"
+    },
+    {
+      "path": "src/sf_duel/telemetry.py",
+      "baseline_git_blob": "f08216c27f951aa9db820957f35ed930e21e934b",
+      "working_sha256": "a82159550d5f4ed696d6a253c85ac8b32449830b108dfe5c72e0804d210a541f"
+    },
+    {
+      "path": "src/sf_duel/timing_observations.py",
+      "baseline_git_blob": "a527d78c0cb9e0314e7ea328c267d4e3b2fdb519",
+      "working_sha256": "32f982fc86c6d77f6f5042a9cb5dbe4b4c643cf3f08182f2228d2a7f510d3b32"
+    }
+  ],
+  "allowed_changed_native_files": [
+    "gpu/src/demo_telemetry.rs",
+    "gpu/src/event_reward.rs",
+    "gpu/src/ggd_ppo.rs",
+    "gpu/src/gpu_tests.rs",
+    "gpu/src/imitation.rs",
+    "gpu/src/main.rs",
+    "gpu/src/teacher_eval.rs"
+  ],
+  "scope": "All native sources except reward/PPO/telemetry/evaluation plumbing/tests; all Python sf_duel policy/observations/environment sources. Includes physics, teachers, observations, arena reset and model."
+}

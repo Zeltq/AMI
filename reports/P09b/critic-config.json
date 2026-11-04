@@ -1,0 +1,25 @@
+{
+  "checkpoint": "/mnt/c/AMI/runs/p09/P09b/ZOg-d1/last.pt",
+  "datasets": [
+    "/mnt/c/AMI/runs/p09/dataset",
+    "/mnt/c/AMI/runs/p09/P09b/d1-data",
+    "/mnt/c/AMI/runs/p09/P09b/d2-data"
+  ],
+  "dataset_manifest_sha256": [
+    "19d772e7fc35f104aa3a1c689d6a690e02fff18aecd32010be25f0c4bc4b337c",
+    "d10d996ab01047807a83e32b06c25fed54cf3182849f7943aa33032d288ac4f7",
+    "aa3517cb1e0e8bff208781c85ad91c4b40e10c6a120cf1b327ae9c0351442d14"
+  ],
+  "epochs": 8,
+  "smoke_files": 0,
+  "lr": 0.0003,
+  "batch_frames": 8192,
+  "seed": 20261105,
+  "gamma": 0.99,
+  "mana_weight": 0.5,
+  "actor_sha256": "8056d77c1a59984a25443ffcc3dcb888fa0a993b0e177a17d8ee7ab171512979",
+  "feature_cache_dtype": "float16",
+  "device": "AMD Radeon RX 9070 XT",
+  "torch": "2.14.1+rocm7.2",
+  "hip": "7.2.53211"
+}
