@@ -5,5 +5,19 @@
     "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe train-ggd C:\\AMI-wt\\P09c\\reports\\P09c\\continue90\\rl-continue-001.json C:\\AMI\\runs\\p09\\P09c\\continue90\\rl-continue-001",
     "minutes": 58.29419329000036,
     "exit_code": 0
+  },
+  {
+    "stage": "eval-v10-20261103",
+    "kind": "evaluation",
+    "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:\\AMI\\runs\\p09\\P09c\\continue90\\rl-continue-001\\checkpoint-000470\\weights C:\\AMI\\runs\\p09\\P09c\\continue90\\eval-v10-20261103 --mode teacher --matches 64 --seconds 600 --seed 20261103 --sampling --teacher-version v10",
+    "minutes": 5.602664303333343,
+    "exit_code": 0
+  },
+  {
+    "stage": "eval-v10-20261104",
+    "kind": "evaluation",
+    "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:\\AMI\\runs\\p09\\P09c\\continue90\\rl-continue-001\\checkpoint-000470\\weights C:\\AMI\\runs\\p09\\P09c\\continue90\\eval-v10-20261104 --mode teacher --matches 64 --seconds 600 --seed 20261104 --sampling --teacher-version v10",
+    "minutes": 5.685105741667212,
+    "exit_code": 0
   }
 ]
