@@ -19,5 +19,19 @@
     "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:\\AMI\\runs\\p09\\P09c\\continue90\\rl-continue-001\\checkpoint-000470\\weights C:\\AMI\\runs\\p09\\P09c\\continue90\\eval-v10-20261104 --mode teacher --matches 64 --seconds 600 --seed 20261104 --sampling --teacher-version v10",
     "minutes": 5.685105741667212,
     "exit_code": 0
+  },
+  {
+    "stage": "eval-pilot-20261103",
+    "kind": "evaluation",
+    "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:\\AMI\\runs\\p09\\P09c\\continue90\\rl-continue-001\\checkpoint-000470\\weights C:\\AMI\\runs\\p09\\P09c\\continue90\\eval-pilot-20261103 --mode teacher --matches 64 --seconds 600 --seed 20261103 --sampling --teacher-version v10 --opponent-weights C:\\AMI\\runs\\p09\\P09c\\rl-pilot1-001\\checkpoint-000126\\weights",
+    "minutes": 4.683489221666241,
+    "exit_code": 0
+  },
+  {
+    "stage": "eval-pilot-20261104",
+    "kind": "evaluation",
+    "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:\\AMI\\runs\\p09\\P09c\\continue90\\rl-continue-001\\checkpoint-000470\\weights C:\\AMI\\runs\\p09\\P09c\\continue90\\eval-pilot-20261104 --mode teacher --matches 64 --seconds 600 --seed 20261104 --sampling --teacher-version v10 --opponent-weights C:\\AMI\\runs\\p09\\P09c\\rl-pilot1-001\\checkpoint-000126\\weights",
+    "minutes": 5.350037029999657,
+    "exit_code": 0
   }
 ]
