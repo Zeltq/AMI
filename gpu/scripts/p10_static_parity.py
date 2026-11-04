@@ -10,7 +10,7 @@ from sf_duel.native_data import records,NativeAdapter
 from sf_duel.observations import encode
 from sf_duel.combat_observations import CombatMemory
 from sf_duel.spec import UNIT_FIELDS
-from ggd_dataset import layout
+from ggd_dataset import layout,read_block,decode
 
 STATS=('health_max','mana_max','armor','attack_damage','attack_interval','attack_point','health_regen','mana_regen','move_speed','attack_range')
 TOWER_STATS=('health_max','armor','attack_damage','attack_interval','attack_point','health_regen','attack_range')
@@ -18,7 +18,24 @@ TOWER_STATS=('health_max','armor','attack_damage','attack_interval','attack_poin
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('cohort',type=Path);p.add_argument('initial',type=Path);p.add_argument('output',type=Path);a=p.parse_args()
-    raw=np.fromfile(a.initial,dtype='<f4').reshape(2,37324);groups,_=layout()
+    groups,_=layout();reference={}
+    if a.initial.is_dir():
+        for entry in json.loads((a.initial/'dataset.json').read_text())['files']:
+            header,compact,signals=read_block(a.initial/entry['file']);decoded=decode(header,compact,signals)
+            for actor_index,actor in enumerate(header['actors']):
+                if actor not in (0,1) or actor+2 in reference:continue
+                for step in range(header['horizon']):
+                    i=actor_index*header['horizon']+step
+                    if decoded['loss_valid'][i] and decoded['global_features'][i,0]>=0:
+                        reference[actor+2]={g:decoded[g][i].astype(np.float16) for g in ('heroes','towers')};break
+            if len(reference)==2:break
+    else:
+        raw=np.fromfile(a.initial,dtype='<f4').reshape(2,37324)
+        for team in (2,3):
+            reference[team]={}
+            for g in ('heroes','towers'):
+                offset,shape,_=groups[g]
+                reference[team][g]=raw[team-2,offset:offset+int(np.prod(shape))].reshape(shape).astype(np.float16)
     rows=[];coverage=[]
     for match in json.loads((a.cohort/'matches.json').read_text()):
         team=match['model_team'];run=Path(match['run']);supp={}
@@ -34,7 +51,7 @@ def main():
             if selected or r.decision.observed_dota_time<0:continue
             selected=True
             for group,names in [('heroes',STATS),('towers',TOWER_STATS)]:
-                offset,shape,_=groups[group];gpu=raw[team-2,offset:offset+int(np.prod(shape))].reshape(shape).astype(np.float16)
+                gpu=reference[team][group]
                 dota=arrays[group].astype(np.float16)
                 for slot in ([0] if group=='heroes' else range(4)):
                     for name in names:
@@ -42,7 +59,7 @@ def main():
                         rows.append(dict(team=team,group=group,slot=slot,field=name,known=known,
                                          dota=float(dota[slot,i]),gpu=float(gpu[slot,i]),equal=bool(known and dota[slot,i]==gpu[slot,i]),time=s['time']))
         coverage.append(dict(team=team,decisions=decisions,v4_rows=v4_rows,postzero_selected=selected))
-    result=dict(scope='First native postzero observation per side, FP16 static values. Other dynamic vector fields are not claimed equal.',
+    result=dict(reference=str(a.initial),scope='First native postzero observation per side, FP16 static values. Other dynamic vector fields are not claimed equal.',
                 coverage=coverage,groups={g:dict(equal=sum(r['equal'] for r in rows if r['group']==g),known=sum(r['known'] for r in rows if r['group']==g),total=sum(r['group']==g for r in rows)) for g in ('heroes','towers')},rows=rows)
     a.output.write_text(json.dumps(result,indent=2));print(json.dumps(result['groups']))
 

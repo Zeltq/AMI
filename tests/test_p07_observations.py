@@ -95,4 +95,17 @@ IsCastingAbility=function() return false end}
         result=adapter.snapshot(r,m,observation_profile='ggd-v4')
         self.assertEqual(result['self']['v4']['spell_level_1'],2)
 
+    def test_first_visible_enemy_uses_same_tick_reserved_supplement(self):
+        from test_native_data import fixture
+        from sf_duel.native_data import NativeAdapter
+        r,m=fixture()
+        for u in m.units:u.v4_json=json.dumps({'cast_0':1})
+        enemy=m.units.add(handle=4294967295,v4_json=json.dumps({'cast_2':1}),attack_interval=1.2)
+        s=NativeAdapter().snapshot(r,m,observation_profile='ggd-v4')
+        self.assertEqual(s['enemy']['v4'],{'cast_2':1})
+        self.assertAlmostEqual(s['enemy']['attack_interval'],1.2)
+        enemy.v4_json='{}';enemy.attack_interval=0
+        s=NativeAdapter().snapshot(r,m,observation_profile='ggd-v4')
+        self.assertEqual(s['enemy']['v4'],{})
+
 if __name__=='__main__':unittest.main()

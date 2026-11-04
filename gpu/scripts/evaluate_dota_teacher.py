@@ -152,7 +152,7 @@ def play(args, index, slot, active):
     content, _ = isolated_content(args.run / 'runtime' / f'{slot:02d}', source)
     ports = (12250+slot*2, 12251+slot*2)
     command = [str(args.collector), '--duel', '--run', str(run), '--bots', str(source),
-               '--log', str(run/'dota.log'), '--radiant', str(ports[0]), '--dire', str(ports[1]),
+               '--log', str(content/'console.log' if args.console_debug else run/'dota.log'), '--radiant', str(ports[0]), '--dire', str(ports[1]),
                '--period', '4', '--offset', '7', '--until', str(args.seconds), '--timeout', '1200',
                '--policy-address', '127.0.0.1:12360', '--policy-team', str(side)]
     started = time.monotonic()
@@ -164,12 +164,13 @@ def play(args, index, slot, active):
         try:
             with Game(run, 'P05', args.timescale, 7.5, bot_root=source, content_root=content,
                       game=content.parents[1], game_port=27155+slot*10, engine_threads=2,
-                      worldstate_ports=ports, worldstate_frames=1, hero_seed=args.seed+index) as game:
+                      worldstate_ports=ports, worldstate_frames=1, hero_seed=args.seed+index, console_debug=args.console_debug) as game:
                 active[slot]['dota_pid'] = game.pid
                 game.command('script_reload_code bots/play_model_start')
                 game.wait_log('SF_PLAY_EVENTS_READY', timeout=10)
                 (run/'ready').touch()
                 process.wait(timeout=1200)
+                if args.console_debug:shutil.copy2(content/'console.log',run/'condebug.log')
         finally:
             if process.poll() is None:
                 process.kill(); process.wait()
@@ -202,6 +203,7 @@ def main():
     p.add_argument('--inference-device', choices=['cpu'], default='cpu')
     p.add_argument('--sampling', action='store_true', required=True)
     p.add_argument('--resume', action='store_true')
+    p.add_argument('--console-debug', action='store_true', help='Transport through the same -condebug log used by Steam play')
     args = p.parse_args()
     if args.matches <= 0 or args.matches % 2: p.error('An even positive match count is required')
     if len(set(args.workers)) != len(args.workers) or any(not 0 <= s < 20 for s in args.workers): p.error('Invalid worker slots')

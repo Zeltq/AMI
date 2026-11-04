@@ -18,7 +18,7 @@ def duel_clients(log):
     return result
 
 class Game:
-    def __init__(self,run,match='probe',timescale=1.,hz=15,game=DEFAULT_GAME,game_mode=21,game_port=27155,diagnostic_bot_level=None,bot_root=None,recording=None,collect_teacher=False,content_root=None,engine_threads=None,worldstate_ports=None,worldstate_frames=2,worldstate_threaded=True,developer_mode=False,hero_seed=None):
+    def __init__(self,run,match='probe',timescale=1.,hz=15,game=DEFAULT_GAME,game_mode=21,game_port=27155,diagnostic_bot_level=None,bot_root=None,recording=None,collect_teacher=False,content_root=None,engine_threads=None,worldstate_ports=None,worldstate_frames=2,worldstate_threaded=True,developer_mode=False,hero_seed=None,console_debug=False):
         self.run=Path(run);self.match=match;self.timescale=timescale;self.hz=hz
         self.game=Path(game);self.process=None;self.pid=None;self.installed=False
         self.game_mode=game_mode;self.game_port=game_port
@@ -29,6 +29,7 @@ class Game:
         self.engine_threads=engine_threads
         self.developer_mode=developer_mode
         self.hero_seed=hero_seed
+        self.console_debug=console_debug
         self.worldstate_ports=worldstate_ports
         if worldstate_frames not in (1,2):raise ValueError('Native observation period must be 1 or 2 ticks')
         self.worldstate_frames=worldstate_frames
@@ -80,6 +81,11 @@ class Game:
                 args[1:1]=['-game',str(self.content_root)]
             if self.engine_threads is not None:args[1:1]=['-threads',str(self.engine_threads)]
             if self.developer_mode:args.append('-dev')
+            if self.console_debug:
+                if self.content_root==DEFAULT_GAME/'game/dota':raise ValueError('Console capture requires isolated content')
+                # isolated_content may have hardlinked the old Steam console log.
+                (self.content_root/'console.log').unlink(missing_ok=True)
+                args.append('-condebug')
             if self.worldstate_ports:
                 args+=['-botworldstatetosocket_radiant',str(self.worldstate_ports[0]),
                     '-botworldstatetosocket_dire',str(self.worldstate_ports[1]),

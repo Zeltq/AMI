@@ -1,0 +1,18 @@
+{
+  "python": {
+    "tests": 227,
+    "passed": true,
+    "skipped": 0,
+    "command": "$env:PYTHONPATH='src;scripts;tests;C:/AMI/tools/lua_test_runtime'; python -m unittest discover -s tests -v"
+  },
+  "go": {
+    "command": "go test ./...",
+    "cwd": "C:\\AMI-wt\\P10\\tools\\nativecollect",
+    "passed": true
+  },
+  "rust": "Not run: Rust source and simulator binary unchanged",
+  "export": {
+    "equal": 59,
+    "total": 59
+  }
+}

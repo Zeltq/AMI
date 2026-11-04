@@ -139,6 +139,12 @@ def play(a):
                         pending=pending[-4096:]
                     if collector and collector.poll() is not None:
                         if collector.returncode:print('Collector reported an error; inspect collector.log.',flush=True)
+                        # The scoreboard terminal can precede the server event log
+                        # by one tick. Drain it before computing the death summary.
+                        time.sleep(.15)
+                        if a.console_log.exists():
+                            with a.console_log.open('rb') as source:
+                                source.seek(position);output.write(source.read())
                         break
                     time.sleep(.01)
                 else:raise TimeoutError('No setup within 30 minutes, or duel exceeded 60 wall minutes')
