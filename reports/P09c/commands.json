@@ -142,5 +142,12 @@
     "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:\\AMI\\runs\\p09\\P09c\\rl-pilot1-001\\checkpoint-000126\\weights C:\\AMI\\runs\\p09\\P09c\\eval-pilot1-vs-v10-20261104 --mode teacher --matches 64 --seconds 600 --seed 20261104 --sampling --teacher-version v10",
     "minutes": 5.601910095000251,
     "exit_code": 0
+  },
+  {
+    "stage": "rl-main-001",
+    "kind": "training",
+    "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe train-ggd C:\\AMI-wt\\P09c\\reports\\P09c\\rl-main-001.json C:\\AMI\\runs\\p09\\P09c\\rl-main-001",
+    "minutes": 87.92926568333253,
+    "exit_code": 0
   }
 ]
