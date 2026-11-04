@@ -148,11 +148,20 @@ def loss_weights(labels,valid,config):
     return weights*valid
 
 
+def validate_zog_weights(config):
+    if config.get('model_name')=='ZOg':
+        if config.get('attack_weight',4.)!=4. or config.get('hero_attack_weight',4.)!=4.:
+            raise ValueError('ZOg requires ATTACK and hero ATTACK weights equal to 4')
+        if any(not 1.<=float(w)<=4. for w in config.get('action_weights',{}).values()):
+            raise ValueError('ZOg raze weights must be between 1 and 4')
+
+
 def main():
     p=argparse.ArgumentParser();p.add_argument('config');p.add_argument('output');p.add_argument('--max-updates',type=int);p.add_argument('--resume');p.add_argument('--initialize');p.add_argument('--updates',type=int);p.add_argument('--check-resume',action='store_true');p.add_argument('--zero-previous',action='store_true');a=p.parse_args()
     if a.max_updates is not None and a.max_updates<=0:raise ValueError('Positive smoke update limit required')
     config=json.loads(Path(a.config).read_text());allowed={'dataset','epochs','batch_sequences','learning_rate','seed','gradient_norm','attack_weight','evaluation','zero_previous','dagger','timing_honest','timing_oracle','action_weights','hero_attack_weight','model_name'}
     if set(config)-allowed:raise ValueError('Unknown IL configuration keys')
+    validate_zog_weights(config)
     config['zero_previous']=bool(a.zero_previous or config.get('zero_previous',False))
     evaluation=config.get('evaluation')
     if evaluation:

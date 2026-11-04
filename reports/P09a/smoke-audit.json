@@ -24,11 +24,16 @@
   ],
   "train_hero_attack_decisions": 801,
   "action_weights": {
+    "6": 4.0,
+    "7": 2.87,
+    "8": 4.0
+  },
+  "hero_attack_weight": 4.0,
+  "weight_rule": "raze weight min(4, max(1, 0.01*N/count)), rounded to .001; all ATTACK including hero fixed at 4; user correction before main training",
+  "metadata_manifest_sha256": "7d24155c992c10bbdaecc67b1e495623aecce96eb7b56ea104039424f03b7882",
+  "superseded_action_weights": {
     "6": 32.353,
     "7": 2.87,
     "8": 6.136
-  },
-  "hero_attack_weight": 4.0,
-  "weight_rule": "absolute weight base*max(1, 0.01*N/count), rounded to .001; base=4 for hero ATTACK, otherwise 1; counts from train only; denominator is weighted valid frames",
-  "metadata_manifest_sha256": "7d24155c992c10bbdaecc67b1e495623aecce96eb7b56ea104039424f03b7882"
+  }
 }

@@ -2,10 +2,33 @@ import sys,unittest
 from pathlib import Path
 import torch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'gpu/scripts'))
-from train_ggd import loss_weights,matching_actions
+from train_ggd import loss_weights,matching_actions,validate_zog_weights
+from p09_data import rare_action_weights
+from p09_results import summarize
 from sf_duel.model import Policy
 
 class P09Tests(unittest.TestCase):
+    def test_user_weight_cap_and_hero_fixed_four(self):
+        counts=[9749,0,0,0,0,0,1,40,210,0,0,1]
+        weights,hero=rare_action_weights(counts)
+        self.assertEqual(weights,{'6':4.,'7':2.5,'8':1.})
+        self.assertEqual(hero,4.)
+        config=dict(model_name='ZOg',attack_weight=4.,hero_attack_weight=hero,action_weights=weights)
+        validate_zog_weights(config)
+        for changed in (dict(config,hero_attack_weight=5.),dict(config,action_weights={'6':32.}),dict(config,action_weights={'7':float('nan')})):
+            with self.assertRaises(ValueError):validate_zog_weights(changed)
+
+    def test_opponent_casts_come_from_the_same_matches(self):
+        def hero(side,near):
+            row={k:0 for k in ('lh','deny','attack_cycles_completed','hero_kills','hero_attacks_released','attack_hero_commands','damage_from_hero','damage_from_creeps','damage_from_tower','deaths')}
+            row.update(side=side,controller='GGD',first_death_game_seconds=None,spell_completions=[near,near+1,near+2,0],raze_hero_hits_by_spell=[0,0,0],death_causes=[dict(count=0,own_t1_distance_sum=0,enemy_t1_distance_sum=0) for _ in range(5)])
+            return row
+        games=[dict(game=0,result=0,outcome_reason='LH600',lane_creeps_spawned=8,sides=[hero('radiant',2),hero('dire',7)]),dict(game=1,result=0,outcome_reason='LH600',lane_creeps_spawned=8,sides=[hero('radiant',11),hero('dire',5)])]
+        rows=summarize('ZOg-e1',[(20261103,g) for g in games],None)
+        self.assertEqual([(r['near_casts'],r['opponent_near_casts'],r['matches']) for r in rows],[(2,7,1),(5,11,1),(7,18,2)])
+        self.assertEqual(rows[-1]['opponent_mid_casts'],20)
+        self.assertEqual(rows[-1]['opponent_far_casts'],22)
+
     def test_joint_agreement_ignores_unused_heads(self):
         y=torch.tensor([[0,0,0,0,64,64],[3,0,0,1,64,64],[1,0,0,0,5,6],[10,0,6,2,64,64]])
         pred={k:y[:,i].clone() for i,k in enumerate(('action','buy','item','target','x','y'))}

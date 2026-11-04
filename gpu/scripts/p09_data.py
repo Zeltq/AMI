@@ -4,6 +4,11 @@ from pathlib import Path
 import numpy as np
 from ggd_dataset import read_block,decode
 
+def rare_action_weights(counts):
+    """P09 user correction: razes capped at 4, hero ATTACK fixed at 4."""
+    total=int(sum(counts[:11]))
+    return {str(k):min(4.,max(1.,round(.01*total/max(1,int(counts[k])),3))) for k in (6,7,8)},4.
+
 def read_telemetry(path):
     with gzip.open(path,'rb') as f:
         header=json.loads(f.read(struct.unpack('<I',f.read(4))[0]))
@@ -67,10 +72,9 @@ def finalize(root,output):
     (root/'reward-metadata.json').write_text(json.dumps(schema,indent=2))
     manifest['reward_metadata']={'file':'reward-metadata.json','sha256':hashlib.sha256((root/'reward-metadata.json').read_bytes()).hexdigest()}
     (root/'dataset.json').write_text(json.dumps(manifest,indent=2))
-    total=int(counts[:11].sum());weights={str(k):max(1.,round(.01*total/max(1,int(counts[k])),3)) for k in (6,7,8) if counts[k]/total<.01}
-    hero_weight=max(4.,round(4.*.01*total/max(1,int(counts[11])),3)) if counts[11]/total<.01 else 4.
+    total=int(counts[:11].sum());weights,hero_weight=rare_action_weights(counts)
     if len(games)>=1024:assert all(counts[k]>0 for k in (6,7,8,11)), 'Requested teacher actions absent'
-    report={'games':len(games),'valid_frames':valid_frames,'checked_values':checks,'final_actors':len(final_seen),'actors_with_valid_terminal_decision':len(terminal_seen),'positive_stack_states':state_counts,'train_decisions':total,'train_action_counts':counts[:11].tolist(),'train_hero_attack_decisions':int(counts[11]),'action_weights':weights,'hero_attack_weight':hero_weight,'weight_rule':'absolute weight base*max(1, 0.01*N/count), rounded to .001; base=4 for hero ATTACK, otherwise 1; counts from train only; denominator is weighted valid frames','metadata_manifest_sha256':hashlib.sha256((root/'reward-metadata.json').read_bytes()).hexdigest()}
+    report={'games':len(games),'valid_frames':valid_frames,'checked_values':checks,'final_actors':len(final_seen),'actors_with_valid_terminal_decision':len(terminal_seen),'positive_stack_states':state_counts,'train_decisions':total,'train_action_counts':counts[:11].tolist(),'train_hero_attack_decisions':int(counts[11]),'action_weights':weights,'hero_attack_weight':hero_weight,'weight_rule':'raze weight min(4, max(1, 0.01*N/count)), rounded to .001; all ATTACK including hero fixed at 4; counts from train only; denominator is weighted valid frames','metadata_manifest_sha256':hashlib.sha256((root/'reward-metadata.json').read_bytes()).hexdigest()}
     Path(output).write_text(json.dumps(report,indent=2));print(json.dumps(report))
 
 if __name__=='__main__':

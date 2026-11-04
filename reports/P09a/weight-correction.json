@@ -1,0 +1,25 @@
+{
+  "applies_to": "main ZOg training; collection continues unchanged",
+  "raze_max_weight": 4,
+  "hero_attack_weight": 4,
+  "smoke_counts_recalculation": {
+    "old": {
+      "6": 32.353,
+      "7": 2.87,
+      "8": 6.136
+    },
+    "new": {
+      "6": 4.0,
+      "7": 2.87,
+      "8": 4.0
+    }
+  },
+  "epoch_statistics": "own and opponent-v10 raze casts from the same selected matches, grouped by learner side and total",
+  "verification": {
+    "command": "$env:PYTHONPATH='src;tests'; C:/Python314/python.exe -m unittest test_p09 -v",
+    "passed": 5,
+    "total": 5,
+    "exit_code": 0
+  },
+  "earlier_training_smoke": "Historical 2-update implementation check used synthetic weights; its weights and checkpoints are not reused for ZOg."
+}
