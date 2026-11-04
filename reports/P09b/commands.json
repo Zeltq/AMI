@@ -508,5 +508,57 @@
     "artifact": "C:\\AMI\\runs\\p09\\P09b\\reward-ZOg-e3-20261104\\report.json",
     "exit_code": 0,
     "minutes": 4.510524058333249
+  },
+  {
+    "stage": "reward-ZOg-d1-20261103",
+    "kind": "evaluation",
+    "command": [
+      "C:\\AMI\\runs\\p09\\P09b\\rl-gpu.exe",
+      "evaluate-ggd",
+      "C:/AMI/runs/p07/dota-calibration-005/engine.json",
+      "C:\\AMI\\runs\\p09\\P09b\\ZOg-d1\\export\\weights",
+      "C:\\AMI\\runs\\p09\\P09b\\reward-ZOg-d1-20261103",
+      "--mode",
+      "teacher",
+      "--matches",
+      "64",
+      "--seconds",
+      "600",
+      "--seed",
+      "20261103",
+      "--sampling",
+      "--teacher-version",
+      "v10"
+    ],
+    "command_literal": "C:\\AMI\\runs\\p09\\P09b\\rl-gpu.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:\\AMI\\runs\\p09\\P09b\\ZOg-d1\\export\\weights C:\\AMI\\runs\\p09\\P09b\\reward-ZOg-d1-20261103 --mode teacher --matches 64 --seconds 600 --seed 20261103 --sampling --teacher-version v10",
+    "artifact": "C:\\AMI\\runs\\p09\\P09b\\reward-ZOg-d1-20261103\\report.json",
+    "exit_code": 0,
+    "minutes": 5.344786365000376
+  },
+  {
+    "stage": "reward-ZOg-d1-20261104",
+    "kind": "evaluation",
+    "command": [
+      "C:\\AMI\\runs\\p09\\P09b\\rl-gpu.exe",
+      "evaluate-ggd",
+      "C:/AMI/runs/p07/dota-calibration-005/engine.json",
+      "C:\\AMI\\runs\\p09\\P09b\\ZOg-d1\\export\\weights",
+      "C:\\AMI\\runs\\p09\\P09b\\reward-ZOg-d1-20261104",
+      "--mode",
+      "teacher",
+      "--matches",
+      "64",
+      "--seconds",
+      "600",
+      "--seed",
+      "20261104",
+      "--sampling",
+      "--teacher-version",
+      "v10"
+    ],
+    "command_literal": "C:\\AMI\\runs\\p09\\P09b\\rl-gpu.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:\\AMI\\runs\\p09\\P09b\\ZOg-d1\\export\\weights C:\\AMI\\runs\\p09\\P09b\\reward-ZOg-d1-20261104 --mode teacher --matches 64 --seconds 600 --seed 20261104 --sampling --teacher-version v10",
+    "artifact": "C:\\AMI\\runs\\p09\\P09b\\reward-ZOg-d1-20261104\\report.json",
+    "exit_code": 0,
+    "minutes": 5.344845623333822
   }
 ]
