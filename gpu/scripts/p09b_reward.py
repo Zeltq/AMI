@@ -65,5 +65,5 @@ def targets(root,out):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('mode',choices=['table','targets']);p.add_argument('source');p.add_argument('output');a=p.parse_args()
-    if a.mode=='table':Path(a.output).write_text(json.dumps(numeric_table(a.source),indent=2))
+    if a.mode=='table':Path(a.output).write_text(json.dumps(numeric_table(a.source),indent=2),newline='\n')
     else:targets(a.source,a.output)

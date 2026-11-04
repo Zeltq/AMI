@@ -47,5 +47,15 @@
     },
     "matches": 2,
     "scope": "all actors and padded frames; labels compare float32 bits; source/DAgger flags intentionally differ"
+  },
+  "python_full_after_reward": {
+    "passed": 209,
+    "command": "C:/Python314/python.exe -m unittest discover -s tests -v",
+    "log": "C:/AMI/runs/p09/P09b/python-full-2.log"
+  },
+  "release_build_rl": {
+    "exit_code": 0,
+    "command": "cargo build --release --locked --manifest-path C:/AMI-wt/P09b/gpu/Cargo.toml --target-dir C:/AMI/gpu/target",
+    "log": "C:/AMI/runs/p09/P09b/build-rl.stderr.log"
   }
 }

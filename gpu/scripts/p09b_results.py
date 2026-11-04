@@ -1,5 +1,5 @@
 """Small, reviewable P09b statistics for both players and training curves."""
-import argparse,csv,json,math
+import argparse,csv,json,math,re
 from pathlib import Path
 from p09b_run import ROOT,RUN,REPORT,read,save
 from p09_results import ratio
@@ -36,7 +36,7 @@ def csvwrite(path,rows):
     if not rows:return
     keys=list(dict.fromkeys(k for r in rows for k in r))
     with Path(path).open('w',encoding='utf-8',newline='') as f:
-        w=csv.DictWriter(f,fieldnames=keys);w.writeheader();w.writerows(rows)
+        w=csv.DictWriter(f,fieldnames=keys,lineterminator='\n');w.writeheader();w.writerows(rows)
 def lines(path):
     if not path.exists():return []
     result=[]
@@ -75,14 +75,14 @@ def curves():
     return updates,bins
 
 def main():
-    REPORT.mkdir(exist_ok=True);groups={}
+    REPORT.mkdir(exist_ok=True);groups={};completed={}
     registry=read(RUN/'evaluations.json') if (RUN/'evaluations.json').exists() else []
     for entry in registry:
         path=Path(entry['report'])
         if not path.exists():continue
         report=read(path)
         if not report.get('complete'):continue
-        groups.setdefault((entry['model'],entry['opponent']),[]).extend(report['per_match'])
+        completed[(entry['model'],entry['opponent'],report['seed'])]=report['per_match']
     for folder in sorted(RUN.glob('rl*')):
         for path in folder.glob('eval-*/report.json'):
             report=read(path)
@@ -90,7 +90,8 @@ def main():
             parts=path.parent.name.split('-');block=int(parts[1]);opponent=parts[2]
             progress=read(folder/f'checkpoint-{block:06}/progress.json');hour=round(progress['training_seconds']/3600)
             label=f'RL-{hour}h';other='v10' if opponent=='v10' else ('start' if hour==2 else f'RL-{hour-2}h')
-            groups.setdefault((label,other),[]).extend(report['per_match'])
+            completed[(label,other,report['seed'])]=report['per_match']
+    for (label,other,seed),games in completed.items():groups.setdefault((label,other),[]).extend(games)
     rows=[]
     for (name,opponent),games in groups.items():rows+=summaries(name,dict(per_match=games),opponent)
     csvwrite(REPORT/'metrics.csv',rows);save(REPORT/'metrics.json',rows)
@@ -104,6 +105,11 @@ def main():
     block=begin+'\n'+'\n'.join(table)+'\n\nПолная статистика обеих моделей, по сторонам и суммарно: [metrics.csv](P09b/metrics.csv). Кривые: [SVG](P09b/rl-curves.svg), [PPO CSV](P09b/rl-updates.csv), [по 100 матчей](P09b/rl-100-matches.csv).\n'+end
     if begin in text:text=text[:text.index(begin)]+block+text[text.index(end)+len(end):]
     else:text=text.replace('## Результаты','## Результаты\n\n'+block,1)
+    rounds=sum(any(r['model']==f'ZOg-d{k}' and r['matches']==128 for r in totals) for k in (1,2))
+    text=re.sub(r'\| DAgger \| .*? \|',f'| DAgger | {rounds}/2 раунда |',text)
+    if updates:
+        minutes=updates[-1]['training_minutes'];text=re.sub(r'\| RL \| .*? \|',f'| RL | {minutes:.3f}/480 минут обучения |',text)
+        text=re.sub(r'Работа продолжается:.*',f'Работа продолжается: RL, {minutes:.3f}/480 минут обучения.',text)
     assert len(text.splitlines())<=150
     path.write_text(text,encoding='utf-8',newline='\n')
     for p in REPORT.iterdir():

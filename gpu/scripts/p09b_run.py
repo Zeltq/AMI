@@ -22,6 +22,18 @@ def save(p,v):
             time.sleep(.1)
 def linux(p):
     s=str(p).replace('\\','/');return '/mnt/'+s[0].lower()+s[2:]
+def publish(reason):
+    """Only P09b reports are staged; every evaluation is published promptly."""
+    subprocess.run([sys.executable,str(ROOT/'gpu/scripts/p09b_results.py')],cwd=ROOT,check=True)
+    for path in REPORT.rglob('*'):
+        if path.is_file() and path.stat().st_size>=1_000_000:raise RuntimeError('Report file too large: '+str(path))
+    subprocess.run(['git','add','reports/P09b.md','reports/P09b'],cwd=ROOT,check=True)
+    staged=subprocess.check_output(['git','diff','--cached','--name-only'],cwd=ROOT,text=True).splitlines()
+    if any(p!='reports/P09b.md' and not p.startswith('reports/P09b/') for p in staged):raise RuntimeError('Unrelated staged files; defer automated publication')
+    subprocess.run(['git','diff','--cached','--stat'],cwd=ROOT,check=True)
+    if staged:subprocess.run(['git','commit','-m','[P09b] '+reason],cwd=ROOT,check=True)
+    subprocess.run(['git','push','-u','origin','agent/P09b-zog-rl'],cwd=ROOT,check=True)
+    save(RUN/'publication.json',dict(reason=reason,commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),updated_utc=datetime.now(timezone.utc).isoformat()))
 def status(row):
     value={**row,'controller_pid':os.getpid(),'updated_utc':datetime.now(timezone.utc).isoformat(),'worktree':str(ROOT),'artifacts':str(RUN)}
     save(RUN/'state.json',value)
@@ -41,7 +53,7 @@ def run(name,kind,command,marker=None,gpu=False):
         i=command.index('--')+1
         command=command[:i]+['timeout','--signal=TERM','--kill-after=10s',str(max(1,int((840-used)*60)-15))+'s']+command[i:]
     row=dict(stage=name,kind=kind,command=command,command_literal=subprocess.list2cmdline(command),gpu_budget=gpu,started_utc=datetime.now(timezone.utc).isoformat(),artifact=str(marker) if marker else None)
-    started=time.monotonic()
+    started=time.monotonic();last_publication=started;last_evaluation=None;publication_retry=0
     with (RUN/(name+'.stdout.log')).open('w',encoding='utf-8') as out,(RUN/(name+'.stderr.log')).open('w',encoding='utf-8') as err:
         child=subprocess.Popen(command,cwd=ROOT,stdout=out,stderr=err)
         row['pid']=child.pid;history.append(row);save(path,history)
@@ -52,6 +64,17 @@ def run(name,kind,command,marker=None,gpu=False):
                     try:progress=read(Path(marker).parent/'status.json')
                     except (OSError,ValueError):pass
                 status({**row,'background_work_remaining':True,'elapsed_minutes':minutes,'gpu_minutes':used+(minutes if gpu else 0),'progress':progress})
+                if kind=='training' and name.startswith('rl'):
+                    evaluation=Path(marker).parent/'evaluation-complete.json' if marker else RUN/'absent'
+                    stamp=evaluation.stat().st_mtime_ns if evaluation.exists() else None
+                    now=time.monotonic()
+                    if now>=publication_retry and (now-last_publication>=3600 or stamp!=last_evaluation):
+                        try:
+                            publish('publish scheduled evaluation' if stamp!=last_evaluation else 'publish hourly RL curves')
+                            last_publication=now;last_evaluation=stamp
+                        except Exception as exc:
+                            save(RUN/'publication-error.json',dict(error=str(exc),updated_utc=datetime.now(timezone.utc).isoformat()))
+                            publication_retry=now+300
                 if (RUN/'stop.json').exists() or (gpu and used+minutes>=840):
                     subprocess.run(['taskkill','/PID',str(child.pid),'/T','/F'],capture_output=True)
                     raise RuntimeError('Stop requested or GPU budget reached')
@@ -63,6 +86,7 @@ def run(name,kind,command,marker=None,gpu=False):
             save(REPORT/'budget.json',dict(used_minutes=sum(r.get('minutes',0) for r in history if r.get('gpu_budget')),limit_minutes=840))
             status({**row,'background_work_remaining':False})
     if child.returncode or (marker and not Path(marker).exists()):raise RuntimeError(f'{name}: exit={child.returncode}; marker={marker}')
+    if kind=='training' and name.startswith('rl'):publish('publish completed RL stage')
 
 def collect_config(games,weights,beta,round_number):
     return dict(collection=dict(engine=ENGINE,games=games,parallel_matches=min(games,128),seconds=600,seed=20261105,observation_profile='ggd-v4',teacher_version='v10',telemetry=True),weights=str(weights),beta=beta,round=round_number)

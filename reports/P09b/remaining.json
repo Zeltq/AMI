@@ -1,0 +1,33 @@
+{
+  "status": "DAgger running; RL implementation prepared but GPU unverified",
+  "active_controller": "C:/Python314/python.exe gpu/scripts/p09b_run.py dagger",
+  "controller_pid": 27512,
+  "heartbeat_id": "p09b-zog-dagger-8-rl",
+  "gpu_limit_minutes": 840,
+  "runner_state": "C:/AMI/runs/p09/P09b/state.json",
+  "remaining": [
+    "Finish d1/d2 collection, one mixed-data epoch each, 2x64 sampling evaluations; current controller does these automatically. Do not duplicate.",
+    "After GPU is free, run narrow Rust p09b_ tests, then full Rust suite; account GPU test time in p09b_run.run(... gpu=True). Release build completed and binary copied to C:/AMI/runs/p09/P09b/rl-gpu.exe; current DAgger binary remains separate.",
+    "GPU smoke offline critic on a small complete dataset before full run; check feature decode, source split, finite targets and unchanged actor. Full p09b_critic.py checkpoint output --datasets P09a d1-data d2-data; cache features frozen, 8 value epochs; validate EV separately pregame/post0 and choose validation MSE.",
+    "Run new reward evaluations for e3,d1,d2,P08 final and v10-v10 (two seeds x64); old DAgger executable evaluations lack reward. Reuse P09a other metrics and verify same-seed equality before replacing registry. Add reports to evaluations.json; p09b_results.py publishes both perspectives.",
+    "Choose RL start using W/D/L, farm/spawn, survival/early deaths, razes; document observed tradeoffs before critic training. Export best critic checkpoint with weights.py.",
+    "Smoke 10 training minutes with learning_rate=0, separate_critic_lr=true, reward_mode=potential-v1, teacher_version=v10,192 arenas,batch48,epochs2,desynchronize=true. Compare all actor tensors bitwise; verify reward components, terminal outcome and shaping_telescoping_residual, and native state.",
+    "Validate checkpoint restart with progress.json: identical anchor and schedule, model+optimizer restored, coefficient based on cumulative training seconds. GPU full tests and memory checks before main.",
+    "Online critic-only warmup: initialize from offline -c, critic lr3e-4,minimum20 maximum100 blocks, last5 post0 EV>0.3 or hard limit. Actor bitwise unchanged. Main starts from warmup weights, fresh PPO time0, skip_warmup=true.",
+    "p09b_run.run now publishes hourly and immediately after evaluation-complete.json for training stage names starting with rl, including final success. Check this on first smoke/controller run; publication exceptions are written and retried after5min without stopping training. Continue heartbeat every10min.",
+    "Finish orchestration: during RL publish reports/P09b curves and report, git diff --cached --stat then [P09b] commit/push hourly and immediately after evaluation-complete.json changes. Native heartbeat must verify actual process every10min. Never stop early for metrics; repair/restart checkpoint after failures within840min budget.",
+    "Audit report <=150lines and files<1MB, all numerator/denominator metrics and final two comparison tables, exact commands/durations for collection/train/eval only, final DONE/BLOCKED line; final push and heartbeat PAUSED."
+  ],
+  "known_limits": [
+    "Existing PPO batch_sequences=48 counts actor slots including masked opponent rows, as P08; audit intended effective learner minibatch in smoke and document/adjust only new mode if needed.",
+    "MC offline collapses absent invalid pregame terminal tail onto last valid decision; terminal convention explicitly recorded in targets.json.",
+    "Policy and optimizer resume is implemented; full arena state is not restored after a process crash. Scheduled evaluations occur inside the live process.",
+    "New GPU reward/critic/dual-checkpoint evaluation code has only cargo check and CPU arithmetic checks so far."
+  ],
+  "build_rl": {
+    "passed": true,
+    "binary": "C:/AMI/runs/p09/P09b/rl-gpu.exe",
+    "log": "C:/AMI/runs/p09/P09b/build-rl.stderr.log",
+    "gpu_tests_run": false
+  }
+}
