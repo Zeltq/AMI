@@ -37,6 +37,15 @@
       "passed": 7,
       "total": 7,
       "scope": "After long-budget planner correction"
+    },
+    {
+      "command": "cargo check --release --locked --manifest-path C:/AMI-wt/P09c/gpu/Cargo.toml --target-dir C:/AMI/runs/p09/P09c/target",
+      "compiler_completed": true,
+      "process_exited": true,
+      "success_log_line": "    Finished `release` profile [optimized + debuginfo] target(s) in 2m 24s",
+      "exit_code_captured": false,
+      "stderr_sha256": "33e4e12186ee0cbfd88477bcd83d23d51d1bbae40288bf46613963a485638655",
+      "scope": "One-line resumed throughput logging fix; current GPU run uses previously verified binary"
     }
   ],
   "clip_diagnostic": "Small legacy bool-to-float fixture also returned 0/1; historical >1 not reproduced. Explicit mask_fill and range invariant validated; PPO smoke pending."
