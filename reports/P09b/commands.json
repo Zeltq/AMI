@@ -822,5 +822,19 @@
     "artifact": "C:\\AMI\\runs\\p09\\P09b\\smoke-resume\\result.json",
     "exit_code": 0,
     "minutes": 8.180918928332781
+  },
+  {
+    "stage": "critic-warmup",
+    "kind": "training",
+    "command": [
+      "C:\\AMI\\runs\\p09\\P09b\\rl-gpu.exe",
+      "train-ggd",
+      "C:\\AMI-wt\\P09b\\reports\\P09b\\critic-warmup.json",
+      "C:\\AMI\\runs\\p09\\P09b\\critic-warmup"
+    ],
+    "command_literal": "C:\\AMI\\runs\\p09\\P09b\\rl-gpu.exe train-ggd C:\\AMI-wt\\P09b\\reports\\P09b\\critic-warmup.json C:\\AMI\\runs\\p09\\P09b\\critic-warmup",
+    "artifact": "C:\\AMI\\runs\\p09\\P09b\\critic-warmup\\result.json",
+    "exit_code": 0,
+    "minutes": 12.685734248333029
   }
 ]
