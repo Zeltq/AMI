@@ -1,0 +1,70 @@
+{
+  "parent_stage": "rev-main",
+  "source": "C:\\AMI\\runs\\p08\\rev-main\\eval-000323-argmax\\report.json",
+  "evaluation": {
+    "run": "rev-main",
+    "name": "eval-000323-argmax",
+    "complete": true,
+    "matches": 64,
+    "wall_seconds": 286.4224204,
+    "sides": [
+      {
+        "side": "radiant",
+        "matches": 32,
+        "lh": 429.0,
+        "deny": 260.0,
+        "deaths": 20.0,
+        "attack_cycles_completed": 2456.0,
+        "attack_cancellations": 12.0,
+        "death_matches": 20,
+        "pregame_death_matches": 0,
+        "early_deaths": 6,
+        "actions": [
+          75173.0,
+          27219.0,
+          0.0,
+          2935.0,
+          4535.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "side": "dire",
+        "matches": 32,
+        "lh": 462.0,
+        "deny": 325.0,
+        "deaths": 17.0,
+        "attack_cycles_completed": 2615.0,
+        "attack_cancellations": 14.0,
+        "death_matches": 17,
+        "pregame_death_matches": 0,
+        "early_deaths": 4,
+        "actions": [
+          85445.0,
+          19098.0,
+          0.0,
+          3191.0,
+          4393.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    ],
+    "farm": 1476.0,
+    "early_deaths": 10,
+    "death_matches": 37,
+    "trial_eligible": null,
+    "trial_selection_rule_version": 2,
+    "criterion": false
+  },
+  "budget_note": "Included in parent process wall time; do not add again"
+}
