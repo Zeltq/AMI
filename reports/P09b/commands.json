@@ -664,5 +664,53 @@
     "artifact": "C:\\AMI\\runs\\p09\\P09b\\reward-P08-final-20261104\\report.json",
     "exit_code": 0,
     "minutes": 5.178278816665989
+  },
+  {
+    "stage": "reward-v10-20261103",
+    "kind": "evaluation",
+    "command": [
+      "C:\\AMI\\runs\\p09\\P09b\\rl-gpu.exe",
+      "evaluate-teachers",
+      "C:/AMI/runs/p07/dota-calibration-005/engine.json",
+      "C:\\AMI\\runs\\p09\\P09b\\reward-v10-20261103",
+      "--matches",
+      "64",
+      "--seconds",
+      "600",
+      "--seed",
+      "20261103",
+      "--left",
+      "v10",
+      "--right",
+      "v10"
+    ],
+    "command_literal": "C:\\AMI\\runs\\p09\\P09b\\rl-gpu.exe evaluate-teachers C:/AMI/runs/p07/dota-calibration-005/engine.json C:\\AMI\\runs\\p09\\P09b\\reward-v10-20261103 --matches 64 --seconds 600 --seed 20261103 --left v10 --right v10",
+    "artifact": "C:\\AMI\\runs\\p09\\P09b\\reward-v10-20261103\\report.json",
+    "exit_code": 0,
+    "minutes": 5.011720865000583
+  },
+  {
+    "stage": "reward-v10-20261104",
+    "kind": "evaluation",
+    "command": [
+      "C:\\AMI\\runs\\p09\\P09b\\rl-gpu.exe",
+      "evaluate-teachers",
+      "C:/AMI/runs/p07/dota-calibration-005/engine.json",
+      "C:\\AMI\\runs\\p09\\P09b\\reward-v10-20261104",
+      "--matches",
+      "64",
+      "--seconds",
+      "600",
+      "--seed",
+      "20261104",
+      "--left",
+      "v10",
+      "--right",
+      "v10"
+    ],
+    "command_literal": "C:\\AMI\\runs\\p09\\P09b\\rl-gpu.exe evaluate-teachers C:/AMI/runs/p07/dota-calibration-005/engine.json C:\\AMI\\runs\\p09\\P09b\\reward-v10-20261104 --matches 64 --seconds 600 --seed 20261104 --left v10 --right v10",
+    "artifact": "C:\\AMI\\runs\\p09\\P09b\\reward-v10-20261104\\report.json",
+    "exit_code": 0,
+    "minutes": 5.011434223333102
   }
 ]
