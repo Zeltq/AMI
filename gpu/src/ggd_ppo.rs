@@ -22,6 +22,7 @@ pub struct Config {
     pub teacher_version:crate::teacher_v10::Version,pub reward_mode:String,pub mana_weight:f32,
     pub warmup_min_blocks:usize,pub separate_critic_lr:bool,pub resume_checkpoint:Option<String>,
     pub schedule_minutes:f64,pub stop_at_minutes:f64,
+    pub kl_decay_start_minutes:f64,pub begin_decay_on_resume:bool,
 }
 impl Default for Config {fn default()->Self{Self{
     engine:"C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json".into(),
@@ -30,8 +31,14 @@ impl Default for Config {fn default()->Self{Self{
     learning_rate:1e-5,critic_learning_rate:1e-4,warmup_blocks:32,entropy:0.005,
     kl_start:0.2,kl_end:0.05,stop_kl:0.02,checkpoint_minutes:10.,evaluate:false,evaluation_minutes:60.,
     initialize_weights:None,skip_warmup:false,critic_only:false,desynchronize:false,verify_phase_histogram:false,
-    teacher_version:crate::teacher_v10::Version::V9,reward_mode:"p08".into(),mana_weight:0.5,warmup_min_blocks:30,separate_critic_lr:false,resume_checkpoint:None,schedule_minutes:480.,stop_at_minutes:0.,
+    teacher_version:crate::teacher_v10::Version::V9,reward_mode:"p08".into(),mana_weight:0.5,warmup_min_blocks:30,separate_critic_lr:false,resume_checkpoint:None,schedule_minutes:480.,stop_at_minutes:0.,kl_decay_start_minutes:0.,begin_decay_on_resume:false,
 }}}
+
+fn anchor_coefficient(cfg:&Config,training_seconds:f64)->f32 {
+    let end=if cfg.reward_mode=="p08"{cfg.minutes}else{cfg.schedule_minutes};
+    let progress=((training_seconds/60.-cfg.kl_decay_start_minutes)/(end-cfg.kl_decay_start_minutes)).clamp(0.,1.);
+    cfg.kl_start+(cfg.kl_end-cfg.kl_start)*progress as f32
+}
 
 // Cumulative components: differencing these after the same four physics ticks
 // captures simultaneous events, pregame deaths and exactly one timeout result.
@@ -235,6 +242,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
     ensure!(cfg.matches>0&&cfg.matches%2==0&&cfg.batch_sequences>0&&cfg.epochs>0&&cfg.minutes>0.&&cfg.minutes<=840.,"invalid PPO limits");
     ensure!(["p08","potential-v1","event-v2"].contains(&cfg.reward_mode.as_str()),"unknown reward mode");
     ensure!(cfg.schedule_minutes>0.&&cfg.mana_weight==0.5,"invalid schedule or unvalidated mana weight");
+    ensure!(cfg.kl_decay_start_minutes>=0.&&cfg.kl_decay_start_minutes<cfg.schedule_minutes,"invalid KL decay interval");
     let state_reward=cfg.reward_mode!="p08";let event_reward=cfg.reward_mode=="event-v2";
     if cfg.teacher_version==crate::teacher_v10::Version::V10 {crate::teacher_v10::check_pin()?;}
     std::fs::create_dir_all(root)?;let lock=std::fs::OpenOptions::new().create(true).truncate(false).write(true).open(root.join("run.lock"))?;lock.try_lock()?;
@@ -250,10 +258,18 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
     crate::artifacts::atomic_json(&root.join("provenance.json"),&serde_json::json!({"initial_weights":cfg.initial_weights,"initial_manifest_sha256":crate::runtime::file_sha256(&Path::new(&cfg.initial_weights).join("manifest.json"))?,"executable_sha256":crate::runtime::file_sha256(&std::env::current_exe()?)?,"teacher_sha256":cfg.teacher_version.sha256(),"reward_mode":cfg.reward_mode,"profile":profile,"ppo_source_sha256":crate::runtime::bytes_sha256(include_bytes!("ggd_ppo.rs")),"arena_source_sha256":crate::runtime::bytes_sha256(include_bytes!("ggd_arenas.rs")),"initialize_weights":cfg.initialize_weights,"gamma":0.99,"gae_lambda":0.95,"clip":0.2,"reset_decisions":128,"seed":cfg.seed}))?;
     let mut optimizer:ModuleOptimizer=AdamConfig::new().with_epsilon(1e-8).init();
     let mut resume=serde_json::Value::Null;
+    let mut new_decay=false;
     if let Some(path)=&cfg.resume_checkpoint {
         let path=Path::new(path);resume=serde_json::from_slice(&std::fs::read(path.join("progress.json"))?)?;
         ensure!(resume["anchor_sha256"]==crate::runtime::file_sha256(&Path::new(&cfg.initial_weights).join("manifest.json"))?,"resume anchor changed");
-        ensure!(resume["reward_mode"]==cfg.reward_mode&&resume["schedule_minutes"]==cfg.schedule_minutes,"resume reward or schedule changed");
+        ensure!(resume["reward_mode"]==cfg.reward_mode,"resume reward changed");
+        let schedule_same=resume["schedule_minutes"]==cfg.schedule_minutes&&resume["kl_start"].as_f64().is_none_or(|x|(x-cfg.kl_start as f64).abs()<1e-7)&&resume["kl_end"].as_f64().is_none_or(|x|(x-cfg.kl_end as f64).abs()<1e-7)&&resume["kl_decay_start_minutes"].as_f64().unwrap_or(0.)==cfg.kl_decay_start_minutes;
+        if !schedule_same {
+            ensure!(cfg.reward_mode=="event-v2"&&cfg.begin_decay_on_resume,"resume schedule changed without explicit pilot-to-main transition");
+            let time=resume["training_seconds"].as_f64().unwrap();
+            ensure!((time/60.-cfg.kl_decay_start_minutes).abs()<1e-6,"decay must start at resumed training time");
+            ensure!(resume["kl_coefficient_next"].as_f64().is_some_and(|x|(x-cfg.kl_start as f64).abs()<1e-6),"anchor discontinuity at pilot-to-main transition");new_decay=true;
+        }
         policy=policy.try_load_record(burn::store::ModuleRecord::load(path.join("model.bpk"))?)?;
         optimizer=optimizer.load(path.join("optimizer.bpk"))?;
     }
@@ -264,6 +280,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
     let mut warmup=!cfg.skip_warmup;let mut warmup_state=CriticWarmup{minimum:cfg.warmup_min_blocks,..Default::default()};let mut total_decisions=0u64;let mut pregame_deaths=0u64;let mut prefix_pregame_deaths=0u64;let mut pregame_death_matches=0u64;let mut last_checkpoint=0.;let mut last_evaluation=0.;let mut last_path=None;let mut initialization=serde_json::Value::Null;let mut episodes_started=0usize;
     let mut previous_evaluation_weights=cfg.initial_weights.clone();
     if !resume.is_null(){last_checkpoint=training_seconds;last_evaluation=resume["last_evaluation"].as_f64().unwrap_or(0.);previous_evaluation_weights=resume["previous_evaluation_weights"].as_str().unwrap_or(&cfg.initial_weights).to_string();warmup=warmup&&!resume["warmup_complete"].as_bool().unwrap_or(false);batch=block as u32;}
+    if new_decay{last_evaluation=training_seconds;}
     let mut history=std::fs::OpenOptions::new().create_new(true).write(true).open(root.join("history.jsonl"))?;
     let mut episode_file=std::fs::OpenOptions::new().create_new(true).write(true).open(root.join("episodes.jsonl"))?;
     'training:loop {
@@ -316,7 +333,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
             let encoded=actor.encode(&next.decode());let (bh,_)=actor.memory.step(encoded.fused,Tensor::zeros([n,256],&d),Tensor::zeros([n,256],&d));
             let bootstrap=actor.value(bh)*(1.0f32-prior.clone().slice([0..n,9..10]).reshape([n]));
             d.sync()?;let collection=clock.elapsed().as_secs_f64();let update=Instant::now();
-            let coefficient=cfg.kl_start+(cfg.kl_end-cfg.kl_start)*(training_seconds/(if state_reward{cfg.schedule_minutes}else{cfg.minutes}*60.)).min(1.)as f32;
+            let coefficient=anchor_coefficient(&cfg,training_seconds);
             let mut learning=optimize(&mut policy,&mut optimizer,&cfg,experience.as_ref().unwrap(),bootstrap,warmup,coefficient,block,Tensor::stack(postgame,1))?;
             learning["rollout_entropy"]=serde_json::json!(scalar(rollout_entropy/valid_count.clone().clamp_min(1.)));
             learning["rollout_kl_m2"]=serde_json::json!(scalar(rollout_kl/valid_count.clone().clamp_min(1.)));
@@ -353,16 +370,16 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
             let eval=cfg.evaluate&&!user_stop&&(training_seconds-last_evaluation>=cfg.evaluation_minutes*60.||stop);
             if training_seconds-last_checkpoint>=cfg.checkpoint_minutes*60.||stop||eval{
                 let path=checkpoint(&policy,&optimizer,&manifest,root,block)?;last_checkpoint=training_seconds;last_path=Some(path.clone());
-                let progress=||serde_json::json!({"training_seconds":training_seconds,"block":block,"anchor_sha256":crate::runtime::file_sha256(&Path::new(&cfg.initial_weights).join("manifest.json")).unwrap(),"reward_mode":cfg.reward_mode,"schedule_minutes":cfg.schedule_minutes,"warmup_complete":!warmup});
+                let progress=||serde_json::json!({"training_seconds":training_seconds,"block":block,"anchor_sha256":crate::runtime::file_sha256(&Path::new(&cfg.initial_weights).join("manifest.json")).unwrap(),"reward_mode":cfg.reward_mode,"schedule_minutes":cfg.schedule_minutes,"kl_start":cfg.kl_start,"kl_end":cfg.kl_end,"kl_decay_start_minutes":cfg.kl_decay_start_minutes,"kl_coefficient_next":anchor_coefficient(&cfg,training_seconds),"warmup_complete":!warmup});
                 let mut saved=progress();saved["last_evaluation"]=last_evaluation.into();saved["previous_evaluation_weights"]=previous_evaluation_weights.clone().into();crate::artifacts::atomic_json(&path.join("progress.json"),&saved)?;
                 if eval&&state_reward {
                     for opponent in [false,true] {for seed in [20261103u32,20261104] {
                         let name=if opponent{"previous"}else{"v10"};let target=root.join(format!("eval-{block:06}-{name}-{seed}"));
                         crate::artifacts::atomic_json(&root.join("status.json"),&serde_json::json!({"stage":"evaluating","pid":std::process::id(),"block":block,"training_seconds":training_seconds,"opponent":name,"seed":seed,"report":target.join("report.json")}))?;
-                        let report=crate::imitation::evaluate_against(&engine,&path.join("weights"),&target,64,600.,"teacher",seed,false,false,false,false,cfg.teacher_version,if opponent{Some(Path::new(&previous_evaluation_weights))}else{None})?;
+                        let report=crate::imitation::evaluate_against(&engine,&path.join("weights"),&target,64,600.,"teacher",seed,false,false,false,false,cfg.teacher_version,if opponent{Some(Path::new(if event_reward{&cfg.initial_weights}else{&previous_evaluation_weights}))}else{None})?;
                         ensure!(report["complete"]==true,"incomplete scheduled evaluation");evaluation_seconds+=report["wall_seconds"].as_f64().unwrap_or(0.);
                     }}
-                    previous_evaluation_weights=path.join("weights").to_string_lossy().to_string();last_evaluation=training_seconds;
+                    if !event_reward{previous_evaluation_weights=path.join("weights").to_string_lossy().to_string();}last_evaluation=training_seconds;
                     let mut saved=progress();saved["last_evaluation"]=last_evaluation.into();saved["previous_evaluation_weights"]=previous_evaluation_weights.clone().into();crate::artifacts::atomic_json(&path.join("progress.json"),&saved)?;
                     crate::artifacts::atomic_json(&root.join("evaluation-complete.json"),&serde_json::json!({"block":block,"training_seconds":training_seconds,"checkpoint":path,"previous_evaluation_weights":previous_evaluation_weights}))?;
                 }
@@ -391,6 +408,15 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn p09c_anchor_holds_in_pilot_and_continues_after_resume(){
+        let mut cfg=Config::default();cfg.reward_mode="event-v2".into();cfg.kl_start=0.2;cfg.kl_end=0.2;cfg.schedule_minutes=40.;
+        assert_eq!(anchor_coefficient(&cfg,1200.),0.2);
+        cfg.kl_end=0.05;cfg.kl_decay_start_minutes=40.;cfg.schedule_minutes=160.;
+        for (minutes,want) in [(40.,0.2),(100.,0.125),(160.,0.05),(170.,0.05)]{assert!((anchor_coefficient(&cfg,minutes*60.)-want).abs()<1e-6);}
+        let loaded:Config=serde_json::from_str(&serde_json::to_string(&cfg).unwrap()).unwrap();
+        assert_eq!(anchor_coefficient(&cfg,6000.),anchor_coefficient(&loaded,6000.));
+    }
     #[test]
     fn p09c_clip_fraction_counts_binary_events(){
         let d=device();let r=Tensor::<1>::from_data(TensorData::new(vec![0.1f32,0.8,1.,1.2,2.,4.],[6]),&d);
