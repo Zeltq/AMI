@@ -273,6 +273,17 @@ def main():
                         raise RuntimeError(f'Unresolved existing match: {path}')
                     row['admission']='integer terminal tick, requested game horizon'
                     save(path,row);results.append(row)
+                completed={r['index'] for r in results}
+                for index in range(args.matches):
+                    incomplete=args.run/f'match-{index:02d}'
+                    if index in completed or not incomplete.exists():continue
+                    attempts=args.run/'attempts';attempts.mkdir(exist_ok=True)
+                    suffix=1
+                    while (attempts/f'match-{index:02d}-{suffix}').exists():suffix+=1
+                    destination=attempts/f'match-{index:02d}-{suffix}'
+                    if not incomplete.resolve().is_relative_to(args.run) or not destination.resolve().is_relative_to(args.run):
+                        raise RuntimeError('Incomplete attempt path escapes cohort')
+                    incomplete.rename(destination)
             status('warmup')
             cfg=replace(Config(),workers=len(args.workers),seed=args.seed)
             if args.resume and (args.run/'service').exists():

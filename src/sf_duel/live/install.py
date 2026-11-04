@@ -27,7 +27,7 @@ def isolated_content(root,bot_source,game=DEFAULT_GAME):
     mirror(game/'game',root/'game',{'dota','bin'})
     mirror(game/'game/bin',root/'game/bin',{'win64'})
     mirror(game/'game/bin/win64',root/'game/bin/win64',set())
-    mirror(source,content,{'scripts','cfg','replays','logs','screenshots','gameinfo.gi'})
+    mirror(source,content,{'scripts','cfg','replays','logs','screenshots','gameinfo.gi','console.log'})
     # With the executable under this root, normal relative paths resolve into
     # the private game. Keep an independent, unmodified gameinfo copy.
     shutil.copy2(source/'gameinfo.gi',content/'gameinfo.gi')

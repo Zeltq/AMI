@@ -27,6 +27,7 @@ class IsolatedContentTests(unittest.TestCase):
         (self.vscripts / 'bots').mkdir()
         (self.vscripts / 'bots.before-ami-teacher-v9-test').mkdir()
         (content / 'gameinfo.gi').write_text('test')
+        (content / 'console.log').write_text('original Steam log')
 
     @unittest.skipUnless(sys.platform == 'win32', 'Windows PowerShell junction regression')
     def test_single_pair_stays_a_pair_and_bot_backups_are_skipped(self):
@@ -38,6 +39,11 @@ class IsolatedContentTests(unittest.TestCase):
         self.assertFalse((content / 'scripts/vscripts/bots.before-ami-teacher-v9-test').exists())
         self.assertFalse((content / 'scripts/vscripts/bots').exists())
         self.assertEqual((runtime / 'agent.lua').read_text(), '-- test')
+        self.assertFalse((content/'console.log').exists())
+        (content/'console.log').write_text('private server log')
+        isolated_content(self.worker,self.bots,self.game)
+        self.assertEqual((content/'console.log').read_text(),'private server log')
+        self.assertEqual((self.game/'game/dota/console.log').read_text(),'original Steam log')
 
     def test_child_stderr_is_visible_in_exception(self):
         error = subprocess.CalledProcessError(1, ['powershell'], stderr='specific junction failure')
