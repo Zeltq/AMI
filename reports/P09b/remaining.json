@@ -1,16 +1,15 @@
 {
-  "status": "References and offline critic complete; zero-lr smoke running",
-  "active_controller": "C:/Python314/python.exe gpu/scripts/p09b_rl.py smoke",
-  "controller_pid": 22576,
+  "status": "Offline critic, zero-lr smoke and checkpoint resume complete; critic warmup running",
+  "active_controller": "C:/Python314/python.exe gpu/scripts/p09b_rl.py warmup",
+  "controller_pid": 26044,
   "heartbeat_id": "p09b-zog-dagger-8-rl",
   "gpu_limit_minutes": 840,
   "runner_state": "C:/AMI/runs/p09/P09b/state.json",
   "remaining": [
-    "Smoke controller22576: smoke-zero-lr nativePID18536, then two-block smoke-resume. Do not duplicate. Check actual processes and state.json. Require59/59 tensors unchanged, reward components/outcomes/telescoping and continuous KL on resume.",
-    "After smoke finishes run C:/Python314/python.exe gpu/scripts/p09b_rl.py warmup in hidden background. Critic-only20..100 blocks; last5 post0 EV>0.3 or maximum100. Check55 actor tensors unchanged; report whether EV criterion met.",
+    "Warmup controller26044 running in hidden background. Do not duplicate. Read real state/processes; critic-only20..100 blocks; last5 post0 EV>0.3 or maximum100. Check55 actor tensors unchanged; report whether EV criterion met. Smoke and resume passed; results committed.",
     "After warmup run C:/Python314/python.exe gpu/scripts/p09b_rl.py main in hidden background.480 training minutes excluding internal evaluations; checkpoints30min, evaluations120/240/360/480 versusv10 and previous version. Fixed PPO parameters in base_config. Resume newest complete checkpoint after failure; no extra PPO after480min.",
     "Parent controller publishes hourly and immediately after each evaluation-complete marker. Monitor real processes, stderr, training/validation and GPU budget every10min; update stale report sections as stages finish.",
-    "GPU budget used195.153min before smoke, limit840min. Includes all previous GPU jobs. Preserve480min PPO plus four evaluation pairs, smoke and online warmup; do not add speculative GPU runs.",
+    "GPU budget used221.19min after smoke/resume (exact ledger in budget.json), limit840min. Includes all previous GPU jobs. Preserve480min PPO plus four evaluation pairs, smoke and online warmup; do not add speculative GPU runs.",
     "Final audit: report<=150lines, artifacts<1MB, all requested statistics both sides and both perspectives, v10 and previous-version tables, exactcommands and durations onlycollection/train/eval, DONE or BLOCKED final line, push, pause heartbeat."
   ],
   "known_limits": [
