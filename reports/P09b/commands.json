@@ -794,5 +794,33 @@
     "command_literal": "wsl -d Ubuntu -- timeout --signal=TERM --kill-after=10s 38685s bash /mnt/c/AMI-wt/P09b/scripts/wsl_python.sh /mnt/c/AMI-wt/P09b/gpu/scripts/weights.py --checkpoint /mnt/c/AMI/runs/p09/P09b/critic/best.pt --output /mnt/c/AMI/runs/p09/P09b/critic/export",
     "artifact": "C:\\AMI\\runs\\p09\\P09b\\critic\\export\\weights\\manifest.json",
     "exit_code": 0
+  },
+  {
+    "stage": "smoke-zero-lr",
+    "kind": "training",
+    "command": [
+      "C:\\AMI\\runs\\p09\\P09b\\rl-gpu.exe",
+      "train-ggd",
+      "C:\\AMI-wt\\P09b\\reports\\P09b\\smoke-zero-lr.json",
+      "C:\\AMI\\runs\\p09\\P09b\\smoke-zero-lr"
+    ],
+    "command_literal": "C:\\AMI\\runs\\p09\\P09b\\rl-gpu.exe train-ggd C:\\AMI-wt\\P09b\\reports\\P09b\\smoke-zero-lr.json C:\\AMI\\runs\\p09\\P09b\\smoke-zero-lr",
+    "artifact": "C:\\AMI\\runs\\p09\\P09b\\smoke-zero-lr\\result.json",
+    "exit_code": 0,
+    "minutes": 17.856773554999382
+  },
+  {
+    "stage": "smoke-resume",
+    "kind": "training",
+    "command": [
+      "C:\\AMI\\runs\\p09\\P09b\\rl-gpu.exe",
+      "train-ggd",
+      "C:\\AMI-wt\\P09b\\reports\\P09b\\smoke-resume.json",
+      "C:\\AMI\\runs\\p09\\P09b\\smoke-resume"
+    ],
+    "command_literal": "C:\\AMI\\runs\\p09\\P09b\\rl-gpu.exe train-ggd C:\\AMI-wt\\P09b\\reports\\P09b\\smoke-resume.json C:\\AMI\\runs\\p09\\P09b\\smoke-resume",
+    "artifact": "C:\\AMI\\runs\\p09\\P09b\\smoke-resume\\result.json",
+    "exit_code": 0,
+    "minutes": 8.180918928332781
   }
 ]
