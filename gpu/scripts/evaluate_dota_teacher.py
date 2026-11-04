@@ -123,16 +123,17 @@ def admitted_result(run, side, seconds):
     return result
 
 
-def prepare_bots(source, model_team, engine, seed):
+def prepare_bots(source, model_team, engine, seed, profile='ggd-v2'):
     prepare(source)
     for name in ('scripted_teacher_v9.lua', 'scripted_teacher_v9_live.lua'):
         shutil.copy2(ROOT / 'bots' / name, source / name)
-    settings = dict(model_team=model_team, teacher_team=5-model_team, p03_seed=seed,
+    settings = dict(model_team=model_team, teacher_team=5-model_team, p03_seed=seed, observation_profile=profile,
                     teacher_combat=engine['combat'],
                     teacher_prototypes={i: engine['prototypes'][k][16] for i, k in enumerate((0, 2, 6, 7, 8))},
                     muzzle_forward=engine['hero'][24], muzzle_side=engine['hero'][25])
     (source / 'p05_settings.lua').write_text('return ' + literal(settings), encoding='utf-8')
     (source / 'p05_controller.lua').write_text(CALLBACK, encoding='utf-8')
+    shutil.copy2(ROOT/'bots/play_model_events.lua', source/'play_model_events.lua')
     callback = 'local controller=require("bots/p05_controller")\nfunction Think() controller.Think() end\n'
     (source / 'bot_generic.lua').write_text(callback)
     (source / 'item_purchase_generic.lua').write_text(callback.replace('function Think()', 'function ItemPurchaseThink()'))
@@ -145,9 +146,9 @@ def play(args, index, slot, active):
     side = 2 + index % 2
     engine = json.loads(args.engine.read_text())
     source = run / 'bots'
-    manifest = prepare_bots(source, side, engine, args.seed + index)
+    manifest = prepare_bots(source, side, engine, args.seed + index, args.profile)
     save(run / 'source-manifest.json', manifest)
-    content, _ = isolated_content(args.assets / 'workers' / f'{slot:02d}', source)
+    content, _ = isolated_content(args.run / 'runtime' / f'{slot:02d}', source)
     ports = (12250+slot*2, 12251+slot*2)
     command = [str(args.collector), '--duel', '--run', str(run), '--bots', str(source),
                '--log', str(run/'dota.log'), '--radiant', str(ports[0]), '--dire', str(ports[1]),
@@ -162,8 +163,10 @@ def play(args, index, slot, active):
         try:
             with Game(run, 'P05', args.timescale, 7.5, bot_root=source, content_root=content,
                       game=content.parents[1], game_port=27155+slot*10, engine_threads=2,
-                      worldstate_ports=ports, worldstate_frames=1, hero_seed=args.seed+index) as game:
+                      worldstate_ports=ports, worldstate_frames=1, hero_seed=args.seed+index, developer_mode=True) as game:
                 active[slot]['dota_pid'] = game.pid
+                game.command("script require('bots/play_model_events').start()")
+                game.wait_log('SF_PLAY_EVENTS_READY', timeout=10)
                 (run/'ready').touch()
                 process.wait(timeout=1200)
         finally:
@@ -204,8 +207,9 @@ def main():
     import torch
     from sf_duel.native_policy_server import policy_contract
     saved = torch.load(args.checkpoint, map_location='cpu', weights_only=False)
-    if policy_contract(saved) != (128, 'f16') or saved['gpu_pipeline']['observation_profile'] != 'ggd-v2':
-        raise ValueError('Requires ggd-v2 / f16 / reset-128 checkpoint')
+    args.profile = saved['gpu_pipeline']['observation_profile']
+    if policy_contract(saved) != (128, 'f16') or args.profile not in ('ggd-v2','ggd-v3','ggd-v4'):
+        raise ValueError('Requires ggd-v2/v3/v4 / f16 / reset-128 checkpoint')
     args.run = args.run.resolve()
     args.run.mkdir(parents=True, exist_ok=args.resume)
     identity = {k: str(v) if isinstance(v, Path) else v for k,v in vars(args).items()}
@@ -232,7 +236,7 @@ def main():
                       background_work_remaining=stage not in ('complete','failed'),
                       updated_utc=datetime.now(timezone.utc).isoformat())
         save(args.run/'status.json',record)
-        current=json.loads(pilot.read_text(encoding='utf-8'));current['P05']=record;save(pilot,current)
+        current=json.loads(pilot.read_text(encoding='utf-8'));current['P10' if args.profile=='ggd-v4' else 'P05']=record;save(pilot,current)
         save(args.run/'matches.json',sorted(results,key=lambda r:r['index']))
     # One supervisor across cohorts: never accidentally share service/worker slots.
     with (args.assets/'runs/p05/evaluation.lock').open('a+b') as lock:
