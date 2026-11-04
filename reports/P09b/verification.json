@@ -83,8 +83,8 @@
     "command": "git diff --exit-code origin/agent/P09a-zog-il -- gpu/src/teacher_v10.rs gpu/src/scripted_teacher.rs gpu/src/physics.rs gpu/src/enemy_observe.rs gpu/src/timing_observe.rs gpu/src/contract.rs"
   },
   "p09b_cpu_latest": {
-    "passed": 7,
-    "command": "C:/Python314/python.exe -m unittest test_p09b -v"
+    "passed": 8,
+    "command": "C:/Python314/python.exe -m unittest discover -s tests -p test_p09b.py -v"
   },
   "rust_test_build": {
     "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/gpu/target --no-run",

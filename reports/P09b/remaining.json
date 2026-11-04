@@ -1,30 +1,23 @@
 {
-  "status": "DAgger complete, d1 selected; GPU verification complete; passive-reward reference evaluations running",
-  "active_controller": "C:/Python314/python.exe gpu/scripts/p09b_rl.py references",
-  "controller_pid": 19312,
+  "status": "References and offline critic complete; zero-lr smoke running",
+  "active_controller": "C:/Python314/python.exe gpu/scripts/p09b_rl.py smoke",
+  "controller_pid": 22576,
   "heartbeat_id": "p09b-zog-dagger-8-rl",
   "gpu_limit_minutes": 840,
   "runner_state": "C:/AMI/runs/p09/P09b/state.json",
   "remaining": [
-    "DAgger finished. d1 selected from complete128-match evaluations; selection.json and report contain explicit tradeoffs. Preserve selection unless the new passive-reward benchmark materially changes trajectories; then investigate first.",
-    "GPU verification completed: targeted3/3, fullRust110/110; check-teacher and different-weights each2/2 complete, residuals<0.000089. verified-gpu.json seals source and binary. Current references controller running; no duplicate GPU work.",
-    "The critic stage runs an eight-shard GPU smoke with validation, then fits eight value epochs on all three datasets; targets-0/1/2 are already prepared. Uses atomic checkpoints/features and verifies nonvalue weights before/after export.",
-    "Run new reward evaluations for e3,d1,d2,P08 final and v10-v10 (two seeds x64); old DAgger executable evaluations lack reward. Reuse P09a other metrics and verify same-seed equality before replacing registry. Add reports to evaluations.json; p09b_results.py publishes both perspectives.",
-    "Choose RL start using W/D/L, farm/spawn, survival/early deaths, razes; document observed tradeoffs before critic training. Export best critic checkpoint with weights.py.",
-    "Smoke 10 training minutes with learning_rate=0, separate_critic_lr=true, reward_mode=potential-v1, teacher_version=v10,192 arenas,batch48,epochs2,desynchronize=true. Compare all actor tensors bitwise; verify reward components, terminal outcome and shaping_telescoping_residual, and native state.",
-    "The smoke stage runs ten lr0 training minutes and a two-block resume; asserts all tensors unchanged and continued KL schedule. Test native outcomes and gamma-corrected residuals before main.",
-    "Online critic-only warmup: initialize from offline -c, critic lr3e-4,minimum20 maximum100 blocks, last5 post0 EV>0.3 or hard limit. Actor bitwise unchanged. Main starts from warmup weights, fresh PPO time0, skip_warmup=true.",
-    "p09b_run.run now publishes hourly and immediately after evaluation-complete.json for training stage names starting with rl, including final success. Check this on first smoke/controller run; publication exceptions are written and retried after5min without stopping training. Continue heartbeat every10min.",
-    "Use p09b_rl.py main after warmup. It resumes latest valid checkpoint into a fresh attempt, restores model/optimizer/time, and refuses extra PPO once 480 minutes are reached. If only final evaluations remain after a crash, finish them separately. Final audit must include both required tables and all side/opponent metrics.",
-    "Audit report <=150lines and files<1MB, all numerator/denominator metrics and final two comparison tables, exact commands/durations for collection/train/eval only, final DONE/BLOCKED line; final push and heartbeat PAUSED."
+    "Smoke controller22576: smoke-zero-lr nativePID18536, then two-block smoke-resume. Do not duplicate. Check actual processes and state.json. Require59/59 tensors unchanged, reward components/outcomes/telescoping and continuous KL on resume.",
+    "After smoke finishes run C:/Python314/python.exe gpu/scripts/p09b_rl.py warmup in hidden background. Critic-only20..100 blocks; last5 post0 EV>0.3 or maximum100. Check55 actor tensors unchanged; report whether EV criterion met.",
+    "After warmup run C:/Python314/python.exe gpu/scripts/p09b_rl.py main in hidden background.480 training minutes excluding internal evaluations; checkpoints30min, evaluations120/240/360/480 versusv10 and previous version. Fixed PPO parameters in base_config. Resume newest complete checkpoint after failure; no extra PPO after480min.",
+    "Parent controller publishes hourly and immediately after each evaluation-complete marker. Monitor real processes, stderr, training/validation and GPU budget every10min; update stale report sections as stages finish.",
+    "GPU budget used195.153min before smoke, limit840min. Includes all previous GPU jobs. Preserve480min PPO plus four evaluation pairs, smoke and online warmup; do not add speculative GPU runs.",
+    "Final audit: report<=150lines, artifacts<1MB, all requested statistics both sides and both perspectives, v10 and previous-version tables, exactcommands and durations onlycollection/train/eval, DONE or BLOCKED final line, push, pause heartbeat."
   ],
   "known_limits": [
-    "PPO potential-v1 now uses 48 learner sequences; non-learner rows filtered before the optimizer; pure CPU Rust minibatch test passed1/1. P08 path unchanged.",
-    "Targets v2 use actual native terminal timestamps and all four-tick steps. All three target sets are prepared under C:/AMI/runs/p09/P09b/critic/targets-0, targets-1 and targets-2; fitting masks invalid frames and excludes test split. Full critic output must stay C:/AMI/runs/p09/P09b/critic to reuse them.",
-    "Policy and optimizer resume is implemented; full arena state is not restored after a process crash. Scheduled evaluations occur inside the live process.",
-    "Reward kernels, native terminal accounting and dual-checkpoint evaluation passed targeted/full tests and two2-match checks. Ten-minute lr0 PPO, restart and GPU critic fitting still pending.",
-    "Training curves omit frozen-prefix matches and smoke/critic-only runs; coverage is reported in rl-curve-coverage.json. Review complete-match counts after smoke.",
-    "Critic validation uses cached FP16 recurrent features; cache dtype is explicit in config/results. CPU checks measured initial value error below0.000115; full GPU fitting is pending."
+    "Policy/model/optimizer/time resume implemented; live arena state not restored after a process crash. Scheduled evaluations keep the live arenas.",
+    "Frozen-prefix incomplete matches and smoke/critic-only stages excluded from RL curves; coverage stored in rl-curve-coverage.json.",
+    "Offline critic uses FP16 cached frozen features; bestepoch8, validation post0 EV0.209718 and pregame EV-14.457254. Test split unused.55/55 exported actor tensors unchanged.",
+    "Natural evaluation parity512/512 matches includes all game fields and minute snapshots except three new reward fields; this is not proof of every intermediate simulator state."
   ],
   "build_rl": {
     "passed": true,
@@ -45,22 +38,12 @@
     "reward_and_curves_cpu": 3,
     "minibatch_rust_cpu": 1,
     "gpu_reward_tests": "3/3 targeted,110/110 fullRust,4/4 natural check matches",
-    "p09b_cpu": 7
+    "p09b_cpu": 8
   },
   "post_dagger_commands": [
-    "C:/Python314/python.exe gpu/scripts/p09b_run.py verify",
-    "C:/Python314/python.exe gpu/scripts/p09b_rl.py references",
-    "After references finish, run C:/Python314/python.exe gpu/scripts/p09b_passive_check.py; require8 completed series and512/512 equal match records. Selection.json already committed for ZOg-d1; then run critic.",
-    "C:/Python314/python.exe gpu/scripts/p09b_rl.py critic",
     "C:/Python314/python.exe gpu/scripts/p09b_rl.py smoke",
     "C:/Python314/python.exe gpu/scripts/p09b_rl.py warmup",
     "C:/Python314/python.exe gpu/scripts/p09b_rl.py main"
   ],
-  "selection_schema": {
-    "model": "ZOg-e3 or ZOg-d1 or ZOg-d2",
-    "checkpoint": "absolute .pt path",
-    "weights": "absolute Burn weights directory",
-    "reason_ru": "Evidence using wins, farm/spawn, survival and razes from 128 matches"
-  },
-  "notes_reward_sum": "Undiscounted shaping sum need not be zero: for zero endpoint potentials it equals(gamma-1)*sum intermediatePhi. e3 raw6733.298/128 despite outcome-940/128 is consistent with being behind; do not rank policies by raw episode reward. Corrected residuals and unchanged full trajectories are verified."
+  "notes_reward_sum": "Undiscounted shaping sum need not be zero: for zero endpoint potentials it equals(gamma-1)*sum intermediatePhi. e3 raw6733.298/128 despite outcome-940/128 is consistent with being behind; do not rank policies by raw episode reward. Corrected residuals and unchanged available per-match fields and minute snapshots are verified."
 }
