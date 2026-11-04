@@ -107,5 +107,12 @@
     "kind": "export",
     "command_literal": "wsl -d Ubuntu -- timeout --signal=TERM --kill-after=5s 12097s bash /mnt/c/AMI-wt/P09c/scripts/wsl_python.sh /mnt/c/AMI-wt/P09c/gpu/scripts/weights.py --checkpoint /mnt/c/AMI/runs/p09/P09c/critic/best.pt --output /mnt/c/AMI/runs/p09/P09c/critic/export",
     "exit_code": 0
+  },
+  {
+    "stage": "smoke-lr0-001",
+    "kind": "training",
+    "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe train-ggd C:\\AMI-wt\\P09c\\reports\\P09c\\smoke-lr0-001.json C:\\AMI\\runs\\p09\\P09c\\smoke-lr0-001",
+    "minutes": 5.1848084149998614,
+    "exit_code": 0
   }
 ]
