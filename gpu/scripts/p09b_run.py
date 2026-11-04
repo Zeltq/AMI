@@ -1,5 +1,5 @@
 """P09b sequential jobs with OS lock, restart records and total GPU budget."""
-import argparse,json,os,subprocess,sys,time
+import argparse,hashlib,json,os,subprocess,sys,time
 from datetime import datetime,timezone
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
@@ -11,6 +11,8 @@ INITIAL=Path('C:/AMI/runs/p09/ZOg/epoch-003.pt')
 WEIGHTS=Path('C:/AMI/runs/p09/ZOg/epoch-003/weights')
 
 def read(p):return json.loads(Path(p).read_text(encoding='utf-8-sig'))
+def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+def rust_sources():return {str(p.relative_to(ROOT)).replace('\\','/'):sha(p) for p in sorted((ROOT/'gpu/src').glob('*.rs'))}
 def save(p,v):
     p=Path(p);p.parent.mkdir(parents=True,exist_ok=True)
     tmp=p.with_name(p.name+f'.{os.getpid()}.tmp')
@@ -22,6 +24,48 @@ def save(p,v):
             time.sleep(.1)
 def linux(p):
     s=str(p).replace('\\','/');return '/mnt/'+s[0].lower()+s[2:]
+def pid_alive(pid):
+    if not pid:return False
+    import ctypes
+    from ctypes import wintypes
+    kernel=ctypes.WinDLL('kernel32',use_last_error=True)
+    kernel.OpenProcess.argtypes=[wintypes.DWORD,wintypes.BOOL,wintypes.DWORD];kernel.OpenProcess.restype=wintypes.HANDLE
+    kernel.GetExitCodeProcess.argtypes=[wintypes.HANDLE,ctypes.POINTER(wintypes.DWORD)]
+    kernel.CloseHandle.argtypes=[wintypes.HANDLE]
+    handle=kernel.OpenProcess(0x1000,False,int(pid))
+    if not handle:
+        if ctypes.get_last_error()==87:return False
+        raise OSError(ctypes.get_last_error(),'Cannot inspect previous child')
+    try:
+        code=wintypes.DWORD()
+        if not kernel.GetExitCodeProcess(handle,ctypes.byref(code)):raise ctypes.WinError(ctypes.get_last_error())
+        return code.value==259
+    finally:kernel.CloseHandle(handle)
+def recover_interrupted_jobs(now=None):
+    """Charge unknown process lifetimes conservatively before any new GPU job."""
+    path=RUN/'commands.json'
+    if not path.exists():return
+    history=read(path);pending=[r for r in history if r.get('exit_code') is None]
+    if any(pid_alive(r.get('pid')) for r in pending):raise RuntimeError('A previous recorded child is still alive')
+    now=now or datetime.now(timezone.utc)
+    for row in pending:
+        observed=(now-datetime.fromisoformat(row['started_utc'])).total_seconds()/60
+        row.update(exit_code='controller_interrupted',minutes=max(row.get('minutes',0),observed),recovery_note='Upper bound through first observation that the child is dead; may include idle time.',recovered_utc=now.isoformat())
+    if pending:save(path,history)
+def exclusive():
+    """One controller, including after a Windows/WSL launcher failure."""
+    RUN.mkdir(parents=True,exist_ok=True);REPORT.mkdir(parents=True,exist_ok=True)
+    import msvcrt
+    lock=(RUN/'controller.lock').open('a+b');lock.write(b'0');lock.flush();lock.seek(0);msvcrt.locking(lock.fileno(),msvcrt.LK_NBLCK,1)
+    query='Get-CimInstance Win32_Process | Where-Object { $_.Name -match "^(sf[-_]duel[-_]gpu.*|rl-gpu)\\.exe$" } | Select-Object ProcessId,CommandLine | ConvertTo-Json -Compress'
+    native=subprocess.run(['powershell','-NoProfile','-NonInteractive','-Command',query],capture_output=True,text=True,timeout=30,check=True)
+    found=json.loads(native.stdout) if native.stdout.strip() else [];found=found if isinstance(found,list) else [found]
+    busy=[r for r in found if not r.get('CommandLine') or 'c:/ami' in r['CommandLine'].replace('\\','/').lower()]
+    if busy:raise RuntimeError('Native simulator/test process remains alive: '+str([r['ProcessId'] for r in busy]))
+    linux_jobs=subprocess.run(['wsl','-d','Ubuntu','--','pgrep','-af','/mnt/c/AMI-wt/P09b/gpu/scripts/(train_ggd|p09b_critic)\\.py'],capture_output=True,text=True,timeout=30)
+    if linux_jobs.returncode not in (0,1):raise RuntimeError('Cannot check WSL child processes: '+linux_jobs.stderr)
+    if linux_jobs.returncode==0:raise RuntimeError('WSL trainer remains alive: '+linux_jobs.stdout.strip())
+    recover_interrupted_jobs();return lock
 def publish(reason):
     """Only P09b reports are staged; every evaluation is published promptly."""
     subprocess.run([sys.executable,str(ROOT/'gpu/scripts/p09b_results.py')],cwd=ROOT,check=True)
@@ -120,15 +164,14 @@ def dagger():
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('stage',choices=['build','dagger','verify']);a=p.parse_args()
-    RUN.mkdir(parents=True,exist_ok=True);REPORT.mkdir(parents=True,exist_ok=True)
-    import msvcrt
-    lock=(RUN/'controller.lock').open('a+b');lock.write(b'0');lock.flush();lock.seek(0);msvcrt.locking(lock.fileno(),msvcrt.LK_NBLCK,1)
+    lock=exclusive()
     os.environ['SF_DUEL_DATA_ROOT']='C:/AMI'
     if a.stage=='build':
         run('build-dagger','build',['cargo','build','--release','--locked','--manifest-path',ROOT/'gpu/Cargo.toml','--target-dir','C:/AMI/gpu/target'])
         import shutil
         shutil.copy2('C:/AMI/gpu/target/release/sf-duel-gpu.exe',EXE)
     elif a.stage=='verify':
+        sources=rust_sources()
         cargo=['cargo','test','--release','--locked','--manifest-path',ROOT/'gpu/Cargo.toml','--target-dir','C:/AMI/gpu/target']
         run('rust-p09b-tests','verification',cargo+['p09b_','--','--test-threads=1'],gpu=True)
         run('rust-full-tests','verification',cargo+['--','--test-threads=1'],gpu=True)
@@ -149,6 +192,8 @@ def main():
                 assert abs(sum(h['reward'] for h in game['sides']))<1e-4
             assert max(residual)<.02,(name,max(residual))
             save(REPORT/('check-'+name+'.json'),dict(matches=2,passed=True,max_shaping_telescoping_residual=max(residual),residual_tolerance=.02,command_literal=__import__('subprocess').list2cmdline(list(map(str,command))),minutes=report['wall_seconds']/60))
+        assert sources==rust_sources(),'Rust source changed during verification'
+        save(REPORT/'verified-gpu.json',dict(passed=True,executable_sha256=sha(binary),sources=sources,checks=['rust-p09b-tests','rust-full-tests','check-teacher','check-different-weights']))
         status(dict(stage='verification complete; selection and critic training pending',pid=None,background_work_remaining=True))
     else:dagger()
 

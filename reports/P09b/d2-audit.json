@@ -1,0 +1,34 @@
+{
+  "games": 256,
+  "valid_frames": 2108528,
+  "checked_values": 62494256,
+  "final_actors": 512,
+  "actors_with_valid_terminal_decision": 512,
+  "positive_stack_states": {
+    "own_raze_stacks": 392214,
+    "enemy_raze_stacks": 392214
+  },
+  "train_decisions": 1594262,
+  "train_action_counts": [
+    921438,
+    439213,
+    0,
+    60321,
+    160602,
+    0,
+    316,
+    4378,
+    2627,
+    0,
+    5367
+  ],
+  "train_hero_attack_decisions": 33956,
+  "action_weights": {
+    "6": 4.0,
+    "7": 3.642,
+    "8": 4.0
+  },
+  "hero_attack_weight": 4.0,
+  "weight_rule": "raze weight min(4, max(1, 0.01*N/count)), rounded to .001; all ATTACK including hero fixed at 4; counts from train only; denominator is weighted valid frames",
+  "metadata_manifest_sha256": "a182f4f2482a97cecfd6641058671089316d14abca0bf75c8f2f6dfec8864b3f"
+}

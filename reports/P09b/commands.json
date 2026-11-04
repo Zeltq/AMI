@@ -198,5 +198,32 @@
     "artifact": "C:\\AMI\\runs\\p09\\P09b\\d1-vs-v10-20261104\\report.json",
     "exit_code": 0,
     "minutes": 5.344681040000675
+  },
+  {
+    "stage": "d2-collect",
+    "kind": "collection",
+    "command": [
+      "C:\\AMI\\runs\\p09\\P09b\\sf-duel-gpu.exe",
+      "collect-dagger",
+      "C:\\AMI-wt\\P09b\\reports\\P09b\\d2-collect.json",
+      "C:\\AMI\\runs\\p09\\P09b\\d2-data"
+    ],
+    "command_literal": "C:\\AMI\\runs\\p09\\P09b\\sf-duel-gpu.exe collect-dagger C:\\AMI-wt\\P09b\\reports\\P09b\\d2-collect.json C:\\AMI\\runs\\p09\\P09b\\d2-data",
+    "artifact": "C:\\AMI\\runs\\p09\\P09b\\d2-data\\report.json",
+    "exit_code": 0,
+    "minutes": 14.68643697500035
+  },
+  {
+    "stage": "d2-audit",
+    "kind": "audit",
+    "command": [
+      "C:\\Python314\\python.exe",
+      "C:\\AMI-wt\\P09b\\gpu\\scripts\\p09_data.py",
+      "C:\\AMI\\runs\\p09\\P09b\\d2-data",
+      "C:\\AMI-wt\\P09b\\reports\\P09b\\d2-audit.json"
+    ],
+    "command_literal": "C:\\Python314\\python.exe C:\\AMI-wt\\P09b\\gpu\\scripts\\p09_data.py C:\\AMI\\runs\\p09\\P09b\\d2-data C:\\AMI-wt\\P09b\\reports\\P09b\\d2-audit.json",
+    "artifact": "C:\\AMI-wt\\P09b\\reports\\P09b\\d2-audit.json",
+    "exit_code": 0
   }
 ]

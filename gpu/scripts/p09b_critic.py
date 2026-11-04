@@ -11,8 +11,16 @@ from ggd_dataset import read_block,decode
 from dagger_data import eligible
 from p09b_reward import targets
 
+def replace(source,destination):
+    for attempt in range(30):
+        try:source.replace(destination);return
+        except PermissionError:
+            if attempt==29:raise
+            time.sleep(.05)
 def save(path,data):
-    path=Path(path);tmp=path.with_suffix('.tmp');tmp.write_text(json.dumps(data,indent=2));tmp.replace(path)
+    path=Path(path);tmp=path.with_suffix('.tmp');tmp.write_text(json.dumps(data,indent=2));replace(tmp,path)
+def save_checkpoint(path,data):
+    path=Path(path);tmp=path.with_suffix('.pending');torch.save(data,tmp);replace(tmp,path)
 def ev_stats(target,prediction):
     target=np.asarray(target,np.float64);prediction=np.asarray(prediction,np.float64);error=target-prediction
     return dict(n=len(target),y=float(target.sum()),yy=float((target*target).sum()),e=float(error.sum()),ee=float((error*error).sum()))
@@ -23,23 +31,26 @@ def actor_hash(model):
     return hashlib.sha256(b''.join(v.detach().cpu().numpy().tobytes() for k,v in model.state_dict().items() if not k.startswith('value_head.'))).hexdigest()
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('checkpoint');p.add_argument('output');p.add_argument('--datasets',nargs='+',required=True);p.add_argument('--epochs',type=int,default=8);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('checkpoint');p.add_argument('output');p.add_argument('--datasets',nargs='+',required=True);p.add_argument('--epochs',type=int,default=8);p.add_argument('--smoke-files',type=int,default=0);a=p.parse_args()
     torch.set_num_threads(2);torch.manual_seed(20261105);rng=np.random.default_rng(20261105)
     out=Path(a.output);out.mkdir(parents=True,exist_ok=True);start=time.monotonic()
     saved=torch.load(local_path(a.checkpoint),map_location='cpu',weights_only=False)
     assert saved['spec_version']==4
     policy=Policy(combat_inputs=True,timing_inputs=True,enemy_inputs=True).cuda();policy.load_state_dict(saved['state_dict']);policy.eval()
     for param in policy.parameters():param.requires_grad_(False)
-    before=actor_hash(policy);config=dict(checkpoint=str(a.checkpoint),datasets=a.datasets,epochs=a.epochs,lr=3e-4,batch_frames=8192,seed=20261105,gamma=.99,mana_weight=.5,actor_sha256=before)
+    before=actor_hash(policy);config=dict(checkpoint=str(a.checkpoint),datasets=a.datasets,dataset_manifest_sha256=[hashlib.sha256((local_path(p)/'dataset.json').read_bytes()).hexdigest() for p in a.datasets],epochs=a.epochs,smoke_files=a.smoke_files,lr=3e-4,batch_frames=8192,seed=20261105,gamma=.99,mana_weight=.5,actor_sha256=before,feature_cache_dtype='float16',device=torch.cuda.get_device_name(0),torch=torch.__version__,hip=torch.version.hip)
     if (out/'config.json').exists():assert json.loads((out/'config.json').read_text())==config
     save(out/'config.json',config)
     cache=[];frames=0
     for dataset_index,dataset in enumerate(a.datasets):
         root=local_path(dataset);target_dir=out/f'targets-{dataset_index}'
-        if not (target_dir/'targets.json').exists() or json.loads((target_dir/'targets.json').read_text()).get('version')!=2:targets(root,target_dir)
+        cached=json.loads((target_dir/'targets.json').read_text()) if (target_dir/'targets.json').exists() else {}
+        if cached.get('version')!=2 or cached.get('metadata_sha256')!=hashlib.sha256((root/'reward-metadata.json').read_bytes()).hexdigest():targets(root,target_dir)
         target_manifest=json.loads((target_dir/'targets.json').read_text());lookup={x['demonstration']:x for x in target_manifest['files']}
         manifest=json.loads((root/'dataset.json').read_text());folder=out/f'features-{dataset_index}';folder.mkdir(exist_ok=True)
-        for block,entry in enumerate(manifest['files']):
+        files=manifest['files']
+        if a.smoke_files:files=[files[i] for i in np.linspace(0,len(files)-1,min(a.smoke_files,len(files)),dtype=int)]
+        for block,entry in enumerate(files):
             cache_path=folder/(Path(entry['file']).name+'.npz');cache.append(cache_path)
             if cache_path.exists():continue
             h,o,s=read_block(root/entry['file'],entry['sha256'])
@@ -61,9 +72,10 @@ def main():
                 returns.append(all_returns[ix].reshape(-1)[valid]);post.append(all_post[ix].reshape(-1)[valid])
                 validation.append(np.repeat([h['actors'][i]//2%8==6 for i in ix],128)[valid])
             if not feats:cache.pop();continue
-            np.savez(cache_path,h=np.concatenate(feats),y=np.concatenate(returns),post=np.concatenate(post),validation=np.concatenate(validation))
+            temporary=cache_path.with_name(cache_path.name+'.pending.npz')
+            np.savez(temporary,h=np.concatenate(feats),y=np.concatenate(returns),post=np.concatenate(post),validation=np.concatenate(validation));replace(temporary,cache_path)
             frames+=sum(len(x) for x in returns)
-            save(out/'status.json',dict(stage='frozen feature cache',dataset=dataset_index,block=block+1,blocks=len(manifest['files']),new_frames=frames,minutes=(time.monotonic()-start)/60))
+            save(out/'status.json',dict(stage='frozen feature cache',dataset=dataset_index,block=block+1,blocks=len(files),new_frames=frames,minutes=(time.monotonic()-start)/60))
     for param in policy.value_head.parameters():param.requires_grad_(True)
     optimizer=torch.optim.Adam(policy.value_head.parameters(),lr=3e-4)
     history=[];best=float('inf');first_epoch=0
@@ -87,13 +99,14 @@ def main():
                 with torch.no_grad():pred=policy.value_head(torch.as_tensor(h[ix].astype(np.float32),device='cuda')).squeeze(-1).cpu().numpy()
                 for name,mask in [('all',np.ones(len(ix),bool)),('pregame',~post[ix]),('post0',post[ix])]:stats[name].append(ev_stats(y[ix][mask],pred[mask]))
         row=dict(epoch=epoch+1,train_frames=train_n,train_mse=train_loss/max(1,train_n),validation={k:summarize(v) for k,v in stats.items()});history.append(row)
+        assert row['validation']['all']['n']>0,'No held-out critic validation examples'
         checkpoint={**saved,'state_dict':policy.state_dict(),'config':{**saved['config'],'model_name':saved['config']['model_name']+'-c'},'critic_optimizer':optimizer.state_dict(),'critic_history':history,'critic_epoch':epoch+1}
-        torch.save(checkpoint,out/'last.pt')
-        if row['validation']['all']['mse']<best:best=row['validation']['all']['mse'];torch.save(checkpoint,out/'best.pt')
+        save_checkpoint(out/'last.pt',checkpoint)
+        if row['validation']['all']['mse']<best:best=row['validation']['all']['mse'];save_checkpoint(out/'best.pt',checkpoint)
         save(out/'status.json',dict(stage='value fitting',**row,minutes=(time.monotonic()-start)/60));print(json.dumps(row),flush=True)
     assert actor_hash(policy)==before
     best_checkpoint=torch.load(out/'best.pt',map_location='cpu',weights_only=False)
-    result=dict(history=history,selected_epoch=best_checkpoint['critic_epoch'],selected_validation=best_checkpoint['critic_history'][-1]['validation'],actor_sha256_before=before,actor_sha256_after=actor_hash(policy),actor_unchanged=True,selection='minimum validation MSE, all decisions; phase EV reported separately',checkpoint=str(out/'best.pt'),minutes=(time.monotonic()-start)/60)
+    result=dict(history=history,selected_epoch=best_checkpoint['critic_epoch'],selected_validation=best_checkpoint['critic_history'][-1]['validation'],actor_sha256_before=before,actor_sha256_after=actor_hash(policy),actor_unchanged=True,test_split_used=False,feature_cache_dtype='float16',selection='minimum validation MSE, all decisions; phase EV reported separately',checkpoint=str(out/'best.pt'),minutes=(time.monotonic()-start)/60)
     save(out/'result.json',result)
 
 if __name__=='__main__':main()

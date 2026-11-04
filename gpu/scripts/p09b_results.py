@@ -1,7 +1,7 @@
 """Small, reviewable P09b statistics for both players and training curves."""
 import argparse,csv,json,math,re
 from pathlib import Path
-from p09b_run import ROOT,RUN,REPORT,read,save
+from p09b_run import ROOT,RUN,REPORT,read,save,sha
 from p09_results import ratio
 
 def summaries(name,report,opponent_name='v10'):
@@ -93,7 +93,18 @@ def curves():
     return updates,bins
 
 def main():
-    REPORT.mkdir(exist_ok=True);groups={};completed={}
+    REPORT.mkdir(exist_ok=True);groups={};completed={};provenance={}
+    command_rows=read(RUN/'commands.json') if (RUN/'commands.json').exists() else []
+    commands={str(Path(r['artifact'])):r['command_literal'] for r in command_rows if r.get('artifact')}
+    def evidence(path,report):
+        config=read(path.parent/'config.json') if (path.parent/'config.json').exists() else {}
+        value=dict(source_report=str(path),config=config,evaluation_minutes=report['wall_seconds']/60)
+        if str(path) in commands:value['command_literal']=commands[str(path)]
+        if config.get('weights'):
+            manifest=Path(config['weights'])/'manifest.json'
+            if manifest.exists():value['weights_manifest_sha256']=sha(manifest)
+        if (path.parent/'opponent.json').exists():value['opponent']=read(path.parent/'opponent.json')
+        return value
     registry=read(RUN/'evaluations.json') if (RUN/'evaluations.json').exists() else []
     for entry in registry:
         path=Path(entry['report'])
@@ -101,6 +112,7 @@ def main():
         report=read(path)
         if not report.get('complete'):continue
         completed[(entry['model'],entry['opponent'],report['seed'])]=report['per_match']
+        provenance[(entry['model'],entry['opponent'],report['seed'])]=evidence(path,report)
     for folder in sorted(RUN.glob('rl*')):
         for path in folder.glob('eval-*/report.json'):
             report=read(path)
@@ -109,15 +121,30 @@ def main():
             progress=read(folder/f'checkpoint-{block:06}/progress.json');hour=round(progress['training_seconds']/3600)
             label=f'RL-{hour}h';other='v10' if opponent=='v10' else ('start' if hour==2 else f'RL-{hour-2}h')
             completed[(label,other,report['seed'])]=report['per_match']
-    for (label,other,seed),games in completed.items():groups.setdefault((label,other),[]).extend(games)
+            provenance[(label,other,report['seed'])]={**evidence(path,report),'invocation':'in-process evaluate_against from train-ggd; no separate shell command','training_minutes':progress['training_seconds']/60}
+    for (label,other,seed),games in completed.items():
+        groups.setdefault((label,other),[]).extend(games)
+        compact=[{**g,'sides':[{k:v for k,v in h.items() if k!='minute_snapshots'} for h in g['sides']]} for g in games]
+        metadata=dict(model=label,opponent=other,seed=seed,evidence=provenance[(label,other,seed)])
+        encoded=json.dumps(metadata,ensure_ascii=False)[:-1]+', "per_match": [\n'+',\n'.join(json.dumps(g,separators=(',',':'),ensure_ascii=False) for g in compact)+'\n]}\n'
+        (REPORT/f'{label}-vs-{other}-{seed}.json').write_text(encoded,encoding='utf-8',newline='\n')
     rows=[]
     for (name,opponent),games in groups.items():rows+=summaries(name,dict(per_match=games),opponent)
     csvwrite(REPORT/'metrics.csv',rows);save(REPORT/'metrics.json',rows)
     updates,bins=curves()
     totals=[r for r in rows if r['side']=='total' and r['perspective']==0]
-    table=['| Модель / соперник | W / D / L | LH / N | deny / N | farm / spawn | farm / циклы | Смерть / N | <120с / N | reward / N |','|---|---|---|---|---|---|---|---|---|']
-    for r in totals:
+    order=['ZOg-e3','ZOg-d1','ZOg-d2','RL-2h','RL-4h','RL-6h','RL-8h','P08-final','v10']
+    totals.sort(key=lambda r:order.index(r['model']) if r['model'] in order else len(order))
+    table=['Против v10:','', '| Модель / соперник | W / D / L | LH / N | deny / N | farm / spawn | farm / циклы | Смерть / N | <120с / N | reward / N |','|---|---|---|---|---|---|---|---|---|']
+    for r in [r for r in totals if r['matchup'].endswith(' vs v10')]:
         n=r['matches'];table.append('| '+' | '.join([r['matchup'],'; '.join(ratio(r[k],n) for k in ('wins','draws','losses')),ratio(r['lh'],n),ratio(r['deny'],n),ratio(r['lh']+r['deny'],r['lane_creeps_spawned']),ratio(r['lh']+r['deny'],r['attack_cycles_completed']),ratio(r['matches_with_death'],n),ratio(r['early_deaths'],n),ratio(r['reward_sum'],n) if r['reward_matches'] else 'не измерено'])+' |')
+    comparisons=[r for r in totals if not r['matchup'].endswith(' vs v10')]
+    if comparisons:
+        table+=['','Версия против предыдущей версии; W/D/L относится к новой. В парных столбцах новая / предыдущая:','', '| Переход | W / D / L | farm / spawn (обе) | Смерти / N (обе) | <120с / N (обе) | Попадания койлов / касты (обе) |','|---|---|---|---|---|---|']
+        for r in comparisons:
+            old=next(q for q in rows if q['matchup']==r['matchup'] and q['perspective']==1 and q['side']=='total');n=r['matches']
+            pair=[r,old]
+            table.append('| '+' | '.join([old['model']+' → '+r['model'],'; '.join(ratio(r[k],n) for k in ('wins','draws','losses')),'; '.join(ratio(q['lh']+q['deny'],q['lane_creeps_spawned']) for q in pair),'; '.join(ratio(q['matches_with_death'],n) for q in pair),'; '.join(ratio(q['early_deaths'],n) for q in pair),'; '.join(ratio(sum(q[s+'_hero_hits'] for s in ('near','mid','far')),sum(q[s+'_casts'] for s in ('near','mid','far'))) for q in pair)])+' |')
     path=ROOT/'reports/P09b.md';text=path.read_text(encoding='utf-8')
     begin='<!-- P09b live results -->';end='<!-- /P09b live results -->'
     block=begin+'\n'+'\n'.join(table)+'\n\nПолная статистика обеих моделей, по сторонам и суммарно: [metrics.csv](P09b/metrics.csv). Кривые: [SVG](P09b/rl-curves.svg), [PPO CSV](P09b/rl-updates.csv), [по 100 матчей](P09b/rl-100-matches.csv).\n'+end

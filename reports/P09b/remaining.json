@@ -1,5 +1,5 @@
 {
-  "status": "DAgger running; RL implementation prepared but GPU unverified",
+  "status": "d1 complete and evaluated; d2 training; post-DAgger controllers prepared, GPU verification pending",
   "active_controller": "C:/Python314/python.exe gpu/scripts/p09b_run.py dagger",
   "controller_pid": 27512,
   "heartbeat_id": "p09b-zog-dagger-8-rl",
@@ -8,22 +8,23 @@
   "remaining": [
     "Finish d1/d2 collection, one mixed-data epoch each, 2x64 sampling evaluations; current controller does these automatically. Do not duplicate.",
     "When the current DAgger controller has exited and both rounds finished, launch C:/Python314/python.exe gpu/scripts/p09b_run.py verify from this worktree. It takes the same OS lock, runs narrow GPU reward tests then full Rust suite with GPU accounting, rebuilds rl-gpu.exe, and checks v10 and two DIFFERENT checkpoints on 2 balanced complete matches each. Do not run concurrently with DAgger.",
-    "GPU smoke offline critic on a small complete dataset before full run; check feature decode, source split, finite targets and unchanged actor. Full p09b_critic.py checkpoint output --datasets P09a d1-data d2-data; cache features frozen, 8 value epochs; validate EV separately pregame/post0 and choose validation MSE.",
+    "The critic stage runs an eight-shard GPU smoke with validation, then fits eight value epochs on all three datasets; targets-0/1/2 are already prepared. Uses atomic checkpoints/features and verifies nonvalue weights before/after export.",
     "Run new reward evaluations for e3,d1,d2,P08 final and v10-v10 (two seeds x64); old DAgger executable evaluations lack reward. Reuse P09a other metrics and verify same-seed equality before replacing registry. Add reports to evaluations.json; p09b_results.py publishes both perspectives.",
     "Choose RL start using W/D/L, farm/spawn, survival/early deaths, razes; document observed tradeoffs before critic training. Export best critic checkpoint with weights.py.",
     "Smoke 10 training minutes with learning_rate=0, separate_critic_lr=true, reward_mode=potential-v1, teacher_version=v10,192 arenas,batch48,epochs2,desynchronize=true. Compare all actor tensors bitwise; verify reward components, terminal outcome and shaping_telescoping_residual, and native state.",
-    "Validate checkpoint restart with progress.json: identical anchor and schedule, model+optimizer restored, coefficient based on cumulative training seconds. GPU full tests and memory checks before main.",
+    "The smoke stage runs ten lr0 training minutes and a two-block resume; asserts all tensors unchanged and continued KL schedule. Test native outcomes and gamma-corrected residuals before main.",
     "Online critic-only warmup: initialize from offline -c, critic lr3e-4,minimum20 maximum100 blocks, last5 post0 EV>0.3 or hard limit. Actor bitwise unchanged. Main starts from warmup weights, fresh PPO time0, skip_warmup=true.",
     "p09b_run.run now publishes hourly and immediately after evaluation-complete.json for training stage names starting with rl, including final success. Check this on first smoke/controller run; publication exceptions are written and retried after5min without stopping training. Continue heartbeat every10min.",
-    "Finish orchestration: during RL publish reports/P09b curves and report, git diff --cached --stat then [P09b] commit/push hourly and immediately after evaluation-complete.json changes. Native heartbeat must verify actual process every10min. Never stop early for metrics; repair/restart checkpoint after failures within840min budget.",
+    "Use p09b_rl.py main after warmup. It resumes latest valid checkpoint into a fresh attempt, restores model/optimizer/time, and refuses extra PPO once 480 minutes are reached. If only final evaluations remain after a crash, finish them separately. Final audit must include both required tables and all side/opponent metrics.",
     "Audit report <=150lines and files<1MB, all numerator/denominator metrics and final two comparison tables, exact commands/durations for collection/train/eval only, final DONE/BLOCKED line; final push and heartbeat PAUSED."
   ],
   "known_limits": [
     "PPO potential-v1 now uses 48 learner sequences; non-learner rows filtered before the optimizer; pure CPU Rust minibatch test passed1/1. P08 path unchanged.",
-    "Offline targets v2 use actual native terminal timestamps and every four-tick step; invalid imitation frames are excluded only from fitting. Demo and d1 targets already prepared in C:/AMI/runs/p09/P09b/critic/targets-0 and targets-1; use output C:/AMI/runs/p09/P09b/critic for full pretraining to reuse them. Need targets-2 after d2 audit.",
+    "Targets v2 use actual native terminal timestamps and all four-tick steps. All three target sets are prepared under C:/AMI/runs/p09/P09b/critic/targets-0, targets-1 and targets-2; fitting masks invalid frames and excludes test split. Full critic output must stay C:/AMI/runs/p09/P09b/critic to reuse them.",
     "Policy and optimizer resume is implemented; full arena state is not restored after a process crash. Scheduled evaluations occur inside the live process.",
     "New GPU reward/critic/dual-checkpoint evaluation code has only cargo check and CPU arithmetic checks so far.",
-    "Training curves omit frozen-prefix matches and smoke/critic-only runs; coverage is reported in rl-curve-coverage.json. Review complete-match counts after smoke."
+    "Training curves omit frozen-prefix matches and smoke/critic-only runs; coverage is reported in rl-curve-coverage.json. Review complete-match counts after smoke.",
+    "Critic validation uses cached FP16 recurrent features; cache dtype is explicit in config/results. CPU checks measured initial value error below0.000115; full GPU fitting is pending."
   ],
   "build_rl": {
     "passed": true,
@@ -39,9 +40,25 @@
     "reports/P09b/critic-cpu-post0-check.json"
   ],
   "last_checks": {
-    "python_full": 210,
+    "python_full": 214,
     "reward_and_curves_cpu": 3,
     "minibatch_rust_cpu": 1,
-    "gpu_reward_tests": "pending verify stage"
+    "gpu_reward_tests": "pending verify stage",
+    "p09b_cpu": 7
+  },
+  "post_dagger_commands": [
+    "C:/Python314/python.exe gpu/scripts/p09b_run.py verify",
+    "C:/Python314/python.exe gpu/scripts/p09b_rl.py references",
+    "Write and commit reports/P09b/selection.json with model, checkpoint, weights, reason_ru after the complete comparison. Model must match checkpoint export metadata.",
+    "C:/Python314/python.exe gpu/scripts/p09b_rl.py critic",
+    "C:/Python314/python.exe gpu/scripts/p09b_rl.py smoke",
+    "C:/Python314/python.exe gpu/scripts/p09b_rl.py warmup",
+    "C:/Python314/python.exe gpu/scripts/p09b_rl.py main"
+  ],
+  "selection_schema": {
+    "model": "ZOg-e3 or ZOg-d1 or ZOg-d2",
+    "checkpoint": "absolute .pt path",
+    "weights": "absolute Burn weights directory",
+    "reason_ru": "Evidence using wins, farm/spawn, survival and razes from 128 matches"
   }
 }

@@ -70,9 +70,9 @@
     "log": "C:/AMI/runs/p09/P09b/reward-logging-check.log"
   },
   "python_full_latest": {
-    "passed": 210,
+    "passed": 214,
     "command": "C:/Python314/python.exe -m unittest discover -s tests -v",
-    "log": "C:/AMI/runs/p09/P09b/python-full-3.log"
+    "log": "C:/AMI/runs/p09/P09b/python-full-4.log"
   },
   "critic_cpu_integration_commands": [
     "C:/Python314/python.exe gpu/scripts/p09b_verify_critic.py C:/AMI/runs/p09/ZOg/epoch-003.pt C:/AMI/runs/p09/dataset C:/AMI/runs/p09/P09b/critic/targets-0 reports/P09b/critic-cpu-check.json",
@@ -81,5 +81,9 @@
   "protected_sources_unchanged": {
     "exit_code": 0,
     "command": "git diff --exit-code origin/agent/P09a-zog-il -- gpu/src/teacher_v10.rs gpu/src/scripted_teacher.rs gpu/src/physics.rs gpu/src/enemy_observe.rs gpu/src/timing_observe.rs gpu/src/contract.rs"
+  },
+  "p09b_cpu_latest": {
+    "passed": 7,
+    "command": "C:/Python314/python.exe -m unittest test_p09b -v"
   }
 }

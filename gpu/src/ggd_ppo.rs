@@ -1,5 +1,5 @@
-//! Recurrent GGD PPO against the fixed v9 teacher. Physics and observation
-//! construction are shared with evaluate-ggd; only the reward is replaced.
+//! Recurrent GGD PPO against a configured fixed teacher. Physics and observation
+//! construction are shared with evaluate-ggd; P08 and potential rewards coexist.
 use anyhow::{ensure, Result};
 use burn::{module::Module, optim::{AdamConfig, GradientsParams, ModuleOptimizer}, tensor::{Tensor, TensorData, Int, DType}};
 use cubecl::prelude::*;
