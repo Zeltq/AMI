@@ -1,0 +1,108 @@
+{
+  "family": "GGD",
+  "model_name": "ZOg-d1",
+  "complete": true,
+  "initialization": "fine-tune weights and AdamW state",
+  "device": "AMD Radeon RX 9070 XT",
+  "runtime": "PyTorch ROCm",
+  "updates": 1554,
+  "epochs": 1,
+  "wall_seconds": 1166.739419063,
+  "first_action_head_gradient_l1": 16.397314071655273,
+  "actor_delta": 0.4146679937839508,
+  "value_head_delta": 0.0,
+  "best_validation_nll": 1.0828190241419342,
+  "best_gameplay_score": null,
+  "mean_batch_seconds_after_first": 0.06524283658724833,
+  "batch_sequences": 8,
+  "sequence_length": 128,
+  "dataset_sha256": "f6257bb60129d0d8cf4470175353bd0107e116877d314dba228267bb77e520af",
+  "teacher_sha256": "858bc93841b4a77397574721fcc8e114e6efabb8a4d02d3d472eebefd27a95ae",
+  "checkpoint": "/mnt/c/AMI/runs/p09/P09b/ZOg-d1/last.pt",
+  "test_split_used": false,
+  "history": [
+    {
+      "epoch": 1,
+      "train": {
+        "nll": 1.3119265721204696,
+        "action_accuracy": 0.9155691755640402,
+        "action_correct": 1422724,
+        "joint_action_correct": 1193844,
+        "frames": 1553923,
+        "batches": 1554,
+        "attack_precision": {
+          "numerator": 46945,
+          "denominator": 82187
+        },
+        "attack_recall": {
+          "numerator": 46945,
+          "denominator": 64278
+        },
+        "conditional_attack_target_accuracy": {
+          "numerator": 62641,
+          "denominator": 64278
+        },
+        "attack_by_side": {
+          "radiant": {
+            "frames": 785435,
+            "tp": 22149,
+            "predicted": 40132,
+            "labels": 31164,
+            "action_correct": 718724,
+            "nll_sum": 1019908.1885101795,
+            "joint_action_correct": 605390
+          },
+          "dire": {
+            "frames": 768488,
+            "tp": 24796,
+            "predicted": 42055,
+            "labels": 33114,
+            "action_correct": 704000,
+            "nll_sum": 1018724.6881766319,
+            "joint_action_correct": 588454
+          }
+        }
+      },
+      "validation": {
+        "nll": 1.0828190241419342,
+        "action_accuracy": 0.9332073754685503,
+        "action_correct": 1076758,
+        "joint_action_correct": 916839,
+        "frames": 1153825,
+        "batches": 2978,
+        "attack_precision": {
+          "numerator": 34735,
+          "denominator": 61409
+        },
+        "attack_recall": {
+          "numerator": 34735,
+          "denominator": 44484
+        },
+        "conditional_attack_target_accuracy": {
+          "numerator": 43401,
+          "denominator": 44484
+        },
+        "attack_by_side": {
+          "radiant": {
+            "frames": 641213,
+            "tp": 18134,
+            "predicted": 32837,
+            "labels": 23866,
+            "action_correct": 596280,
+            "nll_sum": 723555.0002816916,
+            "joint_action_correct": 505504
+          },
+          "dire": {
+            "frames": 512612,
+            "tp": 16601,
+            "predicted": 28572,
+            "labels": 20618,
+            "action_correct": 480478,
+            "nll_sum": 525828.6591482162,
+            "joint_action_correct": 411335
+          }
+        }
+      }
+    }
+  ]
+}
