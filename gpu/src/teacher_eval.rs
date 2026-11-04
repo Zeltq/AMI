@@ -13,6 +13,7 @@ pub fn run(engine:&Path,root:&Path,matches:usize,seconds:f32,seed:u32,left:Versi
     let frozen=crate::artifacts::freeze_environment(engine,root,false)?;
     let d=device();let w=World::load(&frozen,matches,&d)?;let t=Teacher::new(&w);let controller=Controller::new(&w,left,right,swap);let rng=Sampler::new(matches,seed,&d);
     let metrics=crate::ggd_metrics::Metrics::new(&w);metrics.sample(&w,&t);
+    let mut potential=crate::potential_reward::Tracker::new(&w,&t,0.5);
     let trace=trace.then(||crate::trace::Trace::new(&w));
     let mut previous=observe::initial_previous(matches*2,&d);let started=Instant::now();let mut steps=0;
     let limit=((w.engine.pre_game_seconds+seconds)*7.5).ceil()as usize+2;
@@ -20,6 +21,7 @@ pub fn run(engine:&Path,root:&Path,matches:usize,seconds:f32,seed:u32,left:Versi
         let obs=w.observe(previous.clone());let actions=controller.actions(&t,&w,&obs);
         previous=obs.previous(actions.clone(),&w.bases,&w.state);metrics.commands(&w,&t,actions.clone(),&obs.refs);
         let (reward,done)=w.advance_teacher(actions.clone(),&obs.refs,&rng,&t,true);t.record(&w,seconds);metrics.sample(&w,&t);
+        let _=potential.step(&w,&t);
         if let Some(trace)=&trace {
             let signals=Tensor::cat(vec![actions.float(),Tensor::zeros([matches*2,2],&d),reward.unsqueeze_dim::<2>(1),done.unsqueeze_dim::<2>(1),obs.reset.unsqueeze_dim::<2>(1),Tensor::ones([matches*2,2],&d)],1);
             trace.record(&w,step%crate::experience::HORIZON,signals);
@@ -44,6 +46,7 @@ pub fn run(engine:&Path,root:&Path,matches:usize,seconds:f32,seed:u32,left:Versi
     }
     let audit=t.values();let mut games=metrics.games(&audit,w.engine.pre_game_seconds,0,None);
     crate::demo_telemetry::enrich(&w,&mut games)?;
+    potential.enrich(&mut games)?;
     let events=tensor::<1>(w.teacher_combat.clone()).into_data().try_to_vec::<f32>()?;
     let meta=tensor::<1>(w.meta.clone()).into_data().try_to_vec::<f32>()?;
     for (m,game) in games.iter_mut().enumerate(){

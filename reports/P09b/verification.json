@@ -11,5 +11,41 @@
   "release_build": {
     "command": "cargo build --release --locked --manifest-path C:/AMI-wt/P09b/gpu/Cargo.toml --target-dir C:/AMI/gpu/target",
     "exit_code": 0
+  },
+  "reward_cpu": {
+    "passed": 2,
+    "command": "C:/Python314/python.exe -m unittest test_p09b -v"
+  },
+  "rust_check": {
+    "exit_code": 0,
+    "command": "cargo check --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/gpu/target"
+  },
+  "dagger_beta1": {
+    "passed": true,
+    "blocks": 41,
+    "compared": {
+      "fp16_bits": [
+        100173824,
+        100173824
+      ],
+      "labels": [
+        125952,
+        125952
+      ],
+      "resets": [
+        20992,
+        20992
+      ],
+      "valid": [
+        20992,
+        20992
+      ],
+      "previous": [
+        629760,
+        629760
+      ]
+    },
+    "matches": 2,
+    "scope": "all actors and padded frames; labels compare float32 bits; source/DAgger flags intentionally differ"
   }
 }

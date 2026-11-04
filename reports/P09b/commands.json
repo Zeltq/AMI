@@ -15,5 +15,33 @@
     "command_literal": "cargo build --release --locked --manifest-path C:\\AMI-wt\\P09b\\gpu\\Cargo.toml --target-dir C:/AMI/gpu/target",
     "artifact": null,
     "exit_code": 0
+  },
+  {
+    "stage": "parity-teacher",
+    "kind": "collection",
+    "command": [
+      "C:\\AMI\\runs\\p09\\P09b\\sf-duel-gpu.exe",
+      "collect-teacher",
+      "C:\\AMI-wt\\P09b\\reports\\P09b\\parity-teacher.json",
+      "C:\\AMI\\runs\\p09\\P09b\\parity-teacher"
+    ],
+    "command_literal": "C:\\AMI\\runs\\p09\\P09b\\sf-duel-gpu.exe collect-teacher C:\\AMI-wt\\P09b\\reports\\P09b\\parity-teacher.json C:\\AMI\\runs\\p09\\P09b\\parity-teacher",
+    "artifact": "C:\\AMI\\runs\\p09\\P09b\\parity-teacher\\report.json",
+    "exit_code": 0,
+    "minutes": 3.677460274999612
+  },
+  {
+    "stage": "parity-dagger",
+    "kind": "collection",
+    "command": [
+      "C:\\AMI\\runs\\p09\\P09b\\sf-duel-gpu.exe",
+      "collect-dagger",
+      "C:\\AMI-wt\\P09b\\reports\\P09b\\parity-dagger.json",
+      "C:\\AMI\\runs\\p09\\P09b\\parity-dagger"
+    ],
+    "command_literal": "C:\\AMI\\runs\\p09\\P09b\\sf-duel-gpu.exe collect-dagger C:\\AMI-wt\\P09b\\reports\\P09b\\parity-dagger.json C:\\AMI\\runs\\p09\\P09b\\parity-dagger",
+    "artifact": "C:\\AMI\\runs\\p09\\P09b\\parity-dagger\\report.json",
+    "exit_code": 0,
+    "minutes": 4.844234918333435
   }
 ]
