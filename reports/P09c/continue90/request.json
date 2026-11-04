@@ -1,0 +1,17 @@
+{
+  "user_explicitly_requested_continuation": true,
+  "user_request": "Все сохраняется, продолжаем точно также обучать модель. Даю тебе еще 1,5 часа на обучение. После этого проведи 128 матчей против учителя и по 128 матчей против модели после пилота и против текущей модели. В отчете явно укажи, что я попросил тебя продолжить.",
+  "recorded_utc": "2026-11-04T21:15:58.137422+00:00",
+  "training_minutes": 90,
+  "start_training_minutes": 100.37083524666669,
+  "previous_gpu_minutes": 292.7725214716668,
+  "source_checkpoint": "C:\\AMI\\runs\\p09\\P09c\\rl-main-001\\checkpoint-000314",
+  "model_sha256": "30c1ec8d81549421449b26a5f2db74da6fbc3fc87d77ddb61af4e56393997c5a",
+  "optimizer_sha256": "5fd8b4ebcd993dd0fbde082d0f1491868dc8dc8042a4ee0cda4a6c81e2231e6f",
+  "pilot_manifest_sha256": "f2009da4dbaefe2ca7accdb4498b9003c941b6939071ecc7183c8ae2d04bbee6",
+  "current_manifest_sha256": "6d3115ba3f79df55e4a949b8ac437501b11dd8f1c341efabbb3e307aaad74496",
+  "anchor_manifest_sha256": "727aff1fdb27198669d752dc93011d96668fa88672643f679b1a9506df7e68fe",
+  "new_warmup": false,
+  "from_scratch": false,
+  "semantics": "Resume model+Adam, same event-v2 and hyperparameters, completed KL schedule stays at .05; evaluations separately after +90 native training minutes."
+}
