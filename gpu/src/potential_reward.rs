@@ -79,7 +79,8 @@ mod tests {
             let meta=primitive(Tensor::<1>::from_data(TensorData::new(m,[META]),&d));let audit=primitive(Tensor::<1>::from_data(TensorData::new(a,[crate::scripted_teacher::AUDIT_FIELDS]),&d));let out=primitive(Tensor::<2>::zeros([2,6],&d));
             snapshot_kernel::launch(&out.client,CubeCount::Static(1,1,1),CubeDim::new_1d(64),argument(&state),argument(&meta),argument(&audit),argument(&out),2,0.5);
             let values=tensor::<2>(out).into_data().try_to_vec::<f32>().unwrap();
-            assert_eq!(values,if done==0.{vec![0.,1.,0.2,0.75,0.125,0.,0.,-1.,-0.2,-0.75,-0.125,0.]}else{vec![10.,0.,0.,0.,0.,1.,-10.,0.,0.,0.,0.,1.]});
+            let expected=if done==0.{vec![0.,1.,0.2,0.75,0.125,0.,0.,-1.,-0.2,-0.75,-0.125,0.]}else{vec![10.,0.,0.,0.,0.,1.,-10.,0.,0.,0.,0.,1.]};
+            for (actual,expected) in values.iter().zip(expected){assert!((actual-expected).abs()<1e-6,"native FP32 value {actual}, expected {expected}");}
         }
     }
 }

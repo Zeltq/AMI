@@ -173,7 +173,7 @@ def main():
     elif a.stage=='verify':
         sources=rust_sources()
         cargo=['cargo','test','--release','--locked','--manifest-path',ROOT/'gpu/Cargo.toml','--target-dir','C:/AMI/gpu/target']
-        run('rust-p09b-tests','verification',cargo+['p09b_','--','--test-threads=1'],gpu=True)
+        run('rust-p09b-tests-2','verification',cargo+['p09b_','--','--test-threads=1'],gpu=True)
         run('rust-full-tests','verification',cargo+['--','--test-threads=1'],gpu=True)
         run('build-rl-verified','build',['cargo','build','--release','--locked','--manifest-path',ROOT/'gpu/Cargo.toml','--target-dir','C:/AMI/gpu/target'])
         import shutil
@@ -193,7 +193,7 @@ def main():
             assert max(residual)<.02,(name,max(residual))
             save(REPORT/('check-'+name+'.json'),dict(matches=2,passed=True,max_shaping_telescoping_residual=max(residual),residual_tolerance=.02,command_literal=__import__('subprocess').list2cmdline(list(map(str,command))),minutes=report['wall_seconds']/60))
         assert sources==rust_sources(),'Rust source changed during verification'
-        save(REPORT/'verified-gpu.json',dict(passed=True,executable_sha256=sha(binary),sources=sources,checks=['rust-p09b-tests','rust-full-tests','check-teacher','check-different-weights']))
+        save(REPORT/'verified-gpu.json',dict(passed=True,executable_sha256=sha(binary),sources=sources,checks=['rust-p09b-tests-2','rust-full-tests','check-teacher','check-different-weights']))
         status(dict(stage='verification complete; selection and critic training pending',pid=None,background_work_remaining=True))
     else:dagger()
 
