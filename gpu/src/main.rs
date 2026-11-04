@@ -39,6 +39,7 @@ mod teacher_v10;
 mod teacher_eval;
 mod combat_observe;
 mod imitation;
+mod demo_telemetry;
 mod ggd_metrics;
 mod ggd_diagnostic;
 #[cfg(test)]

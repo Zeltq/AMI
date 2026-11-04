@@ -1,0 +1,219 @@
+[
+  {
+    "stage": "smoke-collect",
+    "kind": "collection",
+    "command": [
+      "C:\\AMI\\runs\\p09\\sf-duel-gpu.exe",
+      "collect-teacher",
+      "C:\\AMI-wt\\P09a\\reports\\P09a\\collect-smoke.json",
+      "C:\\AMI\\runs\\p09\\smoke"
+    ],
+    "command_literal": "C:\\AMI\\runs\\p09\\sf-duel-gpu.exe collect-teacher C:\\AMI-wt\\P09a\\reports\\P09a\\collect-smoke.json C:\\AMI\\runs\\p09\\smoke",
+    "artifact": "C:\\AMI\\runs\\p09\\smoke\\report.json",
+    "gpu_budget": true,
+    "started_utc": "2026-11-04T02:01:54.611446+00:00",
+    "background_work_remaining": false,
+    "pid": 22616,
+    "exit_code": 0,
+    "minutes": 3.5117848333330284
+  },
+  {
+    "stage": "smoke-audit",
+    "kind": "audit",
+    "command": [
+      "C:\\Python314\\python.exe",
+      "C:\\AMI-wt\\P09a\\gpu\\scripts\\p09_data.py",
+      "C:\\AMI\\runs\\p09\\smoke",
+      "C:\\AMI-wt\\P09a\\reports\\P09a\\smoke-audit.json"
+    ],
+    "command_literal": "C:\\Python314\\python.exe C:\\AMI-wt\\P09a\\gpu\\scripts\\p09_data.py C:\\AMI\\runs\\p09\\smoke C:\\AMI-wt\\P09a\\reports\\P09a\\smoke-audit.json",
+    "artifact": "C:\\AMI-wt\\P09a\\reports\\P09a\\smoke-audit.json",
+    "gpu_budget": false,
+    "started_utc": "2026-11-04T02:05:25.331263+00:00",
+    "background_work_remaining": false,
+    "pid": 17672,
+    "exit_code": 1
+  },
+  {
+    "stage": "smoke2-collect",
+    "kind": "collection",
+    "command": [
+      "C:\\AMI\\runs\\p09\\sf-duel-gpu.exe",
+      "collect-teacher",
+      "C:\\AMI-wt\\P09a\\reports\\P09a\\collect-smoke.json",
+      "C:\\AMI\\runs\\p09\\smoke2"
+    ],
+    "command_literal": "C:\\AMI\\runs\\p09\\sf-duel-gpu.exe collect-teacher C:\\AMI-wt\\P09a\\reports\\P09a\\collect-smoke.json C:\\AMI\\runs\\p09\\smoke2",
+    "artifact": "C:\\AMI\\runs\\p09\\smoke2\\report.json",
+    "gpu_budget": true,
+    "started_utc": "2026-11-04T02:09:58.904825+00:00",
+    "background_work_remaining": false,
+    "pid": 24412,
+    "exit_code": 0,
+    "minutes": 3.35942788333341
+  },
+  {
+    "stage": "smoke2-audit",
+    "kind": "audit",
+    "command": [
+      "C:\\Python314\\python.exe",
+      "C:\\AMI-wt\\P09a\\gpu\\scripts\\p09_data.py",
+      "C:\\AMI\\runs\\p09\\smoke2",
+      "C:\\AMI-wt\\P09a\\reports\\P09a\\smoke-audit.json"
+    ],
+    "command_literal": "C:\\Python314\\python.exe C:\\AMI-wt\\P09a\\gpu\\scripts\\p09_data.py C:\\AMI\\runs\\p09\\smoke2 C:\\AMI-wt\\P09a\\reports\\P09a\\smoke-audit.json",
+    "artifact": "C:\\AMI-wt\\P09a\\reports\\P09a\\smoke-audit.json",
+    "gpu_budget": false,
+    "started_utc": "2026-11-04T02:13:20.483706+00:00",
+    "background_work_remaining": false,
+    "pid": 7808,
+    "exit_code": 1
+  },
+  {
+    "stage": "smoke3-collect",
+    "kind": "collection",
+    "command": [
+      "C:\\AMI\\runs\\p09\\sf-duel-gpu.exe",
+      "collect-teacher",
+      "C:\\AMI-wt\\P09a\\reports\\P09a\\collect-smoke.json",
+      "C:\\AMI\\runs\\p09\\smoke3"
+    ],
+    "command_literal": "C:\\AMI\\runs\\p09\\sf-duel-gpu.exe collect-teacher C:\\AMI-wt\\P09a\\reports\\P09a\\collect-smoke.json C:\\AMI\\runs\\p09\\smoke3",
+    "environment": {},
+    "artifact": "C:\\AMI\\runs\\p09\\smoke3\\report.json",
+    "gpu_budget": true,
+    "started_utc": "2026-11-04T02:15:58.919496+00:00",
+    "background_work_remaining": false,
+    "pid": 4948,
+    "exit_code": 0,
+    "minutes": 3.208353131666081
+  },
+  {
+    "stage": "smoke3-audit",
+    "kind": "audit",
+    "command": [
+      "C:\\Python314\\python.exe",
+      "C:\\AMI-wt\\P09a\\gpu\\scripts\\p09_data.py",
+      "C:\\AMI\\runs\\p09\\smoke3",
+      "C:\\AMI-wt\\P09a\\reports\\P09a\\smoke-audit.json"
+    ],
+    "command_literal": "C:\\Python314\\python.exe C:\\AMI-wt\\P09a\\gpu\\scripts\\p09_data.py C:\\AMI\\runs\\p09\\smoke3 C:\\AMI-wt\\P09a\\reports\\P09a\\smoke-audit.json",
+    "environment": {},
+    "artifact": "C:\\AMI-wt\\P09a\\reports\\P09a\\smoke-audit.json",
+    "gpu_budget": false,
+    "started_utc": "2026-11-04T02:19:11.451785+00:00",
+    "background_work_remaining": false,
+    "pid": 20508,
+    "exit_code": 1
+  },
+  {
+    "stage": "smoke4-collect",
+    "kind": "collection",
+    "command": [
+      "C:\\AMI\\runs\\p09\\sf-duel-gpu.exe",
+      "collect-teacher",
+      "C:\\AMI-wt\\P09a\\reports\\P09a\\collect-smoke.json",
+      "C:\\AMI\\runs\\p09\\smoke4"
+    ],
+    "command_literal": "C:\\AMI\\runs\\p09\\sf-duel-gpu.exe collect-teacher C:\\AMI-wt\\P09a\\reports\\P09a\\collect-smoke.json C:\\AMI\\runs\\p09\\smoke4",
+    "environment": {},
+    "artifact": "C:\\AMI\\runs\\p09\\smoke4\\report.json",
+    "gpu_budget": true,
+    "started_utc": "2026-11-04T02:22:35.784417+00:00",
+    "background_work_remaining": false,
+    "pid": 14536,
+    "exit_code": 0,
+    "minutes": 3.2011306150001473
+  },
+  {
+    "stage": "smoke4-audit",
+    "kind": "audit",
+    "command": [
+      "C:\\Python314\\python.exe",
+      "C:\\AMI-wt\\P09a\\gpu\\scripts\\p09_data.py",
+      "C:\\AMI\\runs\\p09\\smoke4",
+      "C:\\AMI-wt\\P09a\\reports\\P09a\\smoke-audit.json"
+    ],
+    "command_literal": "C:\\Python314\\python.exe C:\\AMI-wt\\P09a\\gpu\\scripts\\p09_data.py C:\\AMI\\runs\\p09\\smoke4 C:\\AMI-wt\\P09a\\reports\\P09a\\smoke-audit.json",
+    "environment": {},
+    "artifact": "C:\\AMI-wt\\P09a\\reports\\P09a\\smoke-audit.json",
+    "gpu_budget": false,
+    "started_utc": "2026-11-04T02:25:47.868015+00:00",
+    "background_work_remaining": false,
+    "pid": 20864,
+    "exit_code": 0
+  },
+  {
+    "stage": "p07-parity",
+    "kind": "audit",
+    "command": [
+      "C:\\Python314\\python.exe",
+      "C:\\AMI-wt\\P09a\\gpu\\scripts\\p09_parity.py",
+      "C:/AMI/runs/p07/collect-v4",
+      "C:\\AMI\\runs\\p09\\smoke4",
+      "C:\\AMI-wt\\P09a\\reports\\P09a\\p07-parity.json"
+    ],
+    "command_literal": "C:\\Python314\\python.exe C:\\AMI-wt\\P09a\\gpu\\scripts\\p09_parity.py C:/AMI/runs/p07/collect-v4 C:\\AMI\\runs\\p09\\smoke4 C:\\AMI-wt\\P09a\\reports\\P09a\\p07-parity.json",
+    "environment": {},
+    "artifact": "C:\\AMI-wt\\P09a\\reports\\P09a\\p07-parity.json",
+    "gpu_budget": false,
+    "started_utc": "2026-11-04T02:25:57.902390+00:00",
+    "background_work_remaining": false,
+    "pid": 14052,
+    "exit_code": 0
+  },
+  {
+    "stage": "rust-targeted",
+    "kind": "verification",
+    "command": [
+      "cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "C:\\AMI-wt\\P09a\\gpu\\Cargo.toml",
+      "--target-dir",
+      "C:/AMI/gpu/target",
+      "p09_",
+      "--",
+      "--nocapture"
+    ],
+    "command_literal": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P09a\\gpu\\Cargo.toml --target-dir C:/AMI/gpu/target p09_ -- --nocapture",
+    "environment": {
+      "SF_DUEL_DATA_ROOT": "C:/AMI"
+    },
+    "artifact": null,
+    "gpu_budget": true,
+    "started_utc": "2026-11-04T02:26:13.395814+00:00",
+    "background_work_remaining": false,
+    "pid": 29544,
+    "exit_code": 101
+  },
+  {
+    "stage": "rust-targeted-2",
+    "kind": "verification",
+    "command": [
+      "cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "C:\\AMI-wt\\P09a\\gpu\\Cargo.toml",
+      "--target-dir",
+      "C:/AMI/gpu/target",
+      "p09_",
+      "--",
+      "--nocapture"
+    ],
+    "command_literal": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P09a\\gpu\\Cargo.toml --target-dir C:/AMI/gpu/target p09_ -- --nocapture",
+    "environment": {
+      "SF_DUEL_DATA_ROOT": "C:/AMI"
+    },
+    "artifact": null,
+    "gpu_budget": true,
+    "started_utc": "2026-11-04T02:27:29.576468+00:00",
+    "background_work_remaining": false,
+    "pid": 15880,
+    "exit_code": 0
+  }
+]
