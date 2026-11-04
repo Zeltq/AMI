@@ -156,6 +156,9 @@ def play(args, index, slot, active):
     manifest = prepare_bots(source, side, engine, args.seed + index, args.profile)
     save(run / 'source-manifest.json', manifest)
     content, _ = isolated_content(args.run / 'runtime' / f'{slot:02d}', source)
+    # The collector tails from byte zero and starts before Game.__enter__.
+    # Remove the previous match's private log before it can read old ACKs.
+    if args.console_debug:(content/'console.log').unlink(missing_ok=True)
     ports = (12250+slot*2, 12251+slot*2)
     command = [str(args.collector), '--duel', '--run', str(run), '--bots', str(source),
                '--log', str(content/'console.log' if args.console_debug else run/'dota.log'), '--radiant', str(ports[0]), '--dire', str(ports[1]),
