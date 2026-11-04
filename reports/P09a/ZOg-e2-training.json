@@ -1,0 +1,1229 @@
+{
+  "epoch": 2,
+  "train": {
+    "nll": 1.342333141851704,
+    "action_accuracy": 0.9267183398760187,
+    "action_correct": 5602409,
+    "joint_action_correct": 4697824,
+    "frames": 6045428,
+    "batches": 6656,
+    "attack_precision": {
+      "numerator": 147777,
+      "denominator": 282708
+    },
+    "attack_recall": {
+      "numerator": 147777,
+      "denominator": 225004
+    },
+    "conditional_attack_target_accuracy": {
+      "numerator": 217791,
+      "denominator": 225004
+    },
+    "attack_by_side": {
+      "radiant": {
+        "frames": 3022714,
+        "tp": 69929,
+        "predicted": 135050,
+        "labels": 108332,
+        "action_correct": 2804093,
+        "nll_sum": 4080057.0541625023,
+        "joint_action_correct": 2360272
+      },
+      "dire": {
+        "frames": 3022714,
+        "tp": 77848,
+        "predicted": 147658,
+        "labels": 116672,
+        "action_correct": 2798316,
+        "nll_sum": 4034921.31078887,
+        "joint_action_correct": 2337552
+      }
+    }
+  },
+  "validation": {
+    "nll": 1.2062444459704293,
+    "action_accuracy": 0.9374458654889077,
+    "action_correct": 961092,
+    "joint_action_correct": 811155,
+    "frames": 1025224,
+    "batches": 2356,
+    "attack_precision": {
+      "numerator": 21988,
+      "denominator": 31274
+    },
+    "attack_recall": {
+      "numerator": 21988,
+      "denominator": 38857
+    },
+    "conditional_attack_target_accuracy": {
+      "numerator": 37741,
+      "denominator": 38857
+    },
+    "attack_by_side": {
+      "radiant": {
+        "frames": 512612,
+        "tp": 9960,
+        "predicted": 14431,
+        "labels": 18239,
+        "action_correct": 480979,
+        "nll_sum": 630891.781930685,
+        "joint_action_correct": 406551
+      },
+      "dire": {
+        "frames": 512612,
+        "tp": 12028,
+        "predicted": 16843,
+        "labels": 20618,
+        "action_correct": 480113,
+        "nll_sum": 605778.980793953,
+        "joint_action_correct": 404604
+      }
+    }
+  },
+  "gameplay": {
+    "teacher-20261103": {
+      "command": [
+        "/mnt/c/AMI/runs/p09/sf-duel-gpu.exe",
+        "evaluate-ggd",
+        "C:/AMI/runs/p07/dota-calibration-005/engine.json",
+        "C:/AMI/runs/p09/ZOg/epoch-002/weights",
+        "C:/AMI/runs/p09/ZOg/epoch-002/vs-teacher-20261103",
+        "--matches",
+        "64",
+        "--seconds",
+        "600",
+        "--mode",
+        "teacher",
+        "--seed",
+        "20261103",
+        "--sampling",
+        "--teacher-version",
+        "v10"
+      ],
+      "command_literal": "/mnt/c/AMI/runs/p09/sf-duel-gpu.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:/AMI/runs/p09/ZOg/epoch-002/weights C:/AMI/runs/p09/ZOg/epoch-002/vs-teacher-20261103 --matches 64 --seconds 600 --mode teacher --seed 20261103 --sampling --teacher-version v10",
+      "report": "/mnt/c/AMI/runs/p09/ZOg/epoch-002/vs-teacher-20261103/report.json",
+      "summary": {
+        "action_names": [
+          "continue",
+          "move",
+          "move_direct",
+          "attack",
+          "stop",
+          "hold",
+          "raze_near",
+          "raze_mid",
+          "raze_far",
+          "requiem",
+          "item"
+        ],
+        "all_lane_creeps": {
+          "denominator": 2214.0,
+          "numerator": 1591.0
+        },
+        "first_death_precision_seconds": 0.03333333333333333,
+        "games": 64,
+        "minute_snapshots": "latest observed state in each minute bin, plus pregame; early terminal games retain only reached bins",
+        "native_completed": 64,
+        "position_sampling_seconds": 0.13333333333333333,
+        "sides": [
+          {
+            "actions": [
+              30439.0,
+              9621.0,
+              0.0,
+              1263.0,
+              1885.0,
+              0.0,
+              23.0,
+              100.0,
+              82.0,
+              0.0,
+              9.0
+            ],
+            "alive_seconds": 5787.666801452637,
+            "attack_cancellations": 12.0,
+            "attack_cycles_completed": 520.0,
+            "buys": [
+              43323.0,
+              8.0,
+              0.0,
+              0.0,
+              27.0,
+              64.0,
+              0.0
+            ],
+            "commands_during_windup": 9.0,
+            "controller": "teacher",
+            "dead_seconds": 0.100006103515625,
+            "deaths": 1.0,
+            "deny": 162.0,
+            "first_death_game_seconds": {
+              "count": 1,
+              "denominator": 32,
+              "maximum": 111.76667022705078,
+              "mean": 111.76667022705078,
+              "median": 111.76667022705078,
+              "minimum": 111.76667022705078
+            },
+            "first_move_game_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": -89.63333892822266,
+              "mean": -89.63333892822266,
+              "median": -89.63333892822266,
+              "minimum": -89.63333892822266
+            },
+            "games": 32,
+            "health": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 758.0,
+              "mean": 515.3480024337769,
+              "median": 601.1708374023438,
+              "minimum": 0.0
+            },
+            "items": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              9.0,
+              0.0,
+              0.0
+            ],
+            "level": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 4.0,
+              "mean": 2.25,
+              "median": 2.0,
+              "minimum": 1.0
+            },
+            "lh": 176.0,
+            "longest_idle_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 79.33333587646484,
+              "mean": 78.40417265892029,
+              "median": 79.0666732788086,
+              "minimum": 63.06666564941406
+            },
+            "longest_movement_stall_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 0.1333465576171875,
+              "mean": 0.12917304039001465,
+              "median": 0.13333892822265625,
+              "minimum": 0.0
+            },
+            "mid_arrival_elapsed_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 25.199996948242188,
+              "mean": 25.199996948242188,
+              "median": 25.199996948242188,
+              "minimum": 25.199996948242188
+            },
+            "mid_arrival_game_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": -64.83333587646484,
+              "mean": -64.83333587646484,
+              "median": -64.83333587646484,
+              "minimum": -64.83333587646484
+            },
+            "net_worth": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 1926.6519775390625,
+              "mean": 1444.448097229004,
+              "median": 1420.608154296875,
+              "minimum": 1128.667236328125
+            },
+            "raze_creep_hits": 191.0,
+            "raze_hero_hits": 128.0,
+            "razes_hitting_any_target": 142.0,
+            "razes_hitting_hero": 128.0,
+            "side": "radiant",
+            "spell_completions": [
+              16.0,
+              70.0,
+              58.0,
+              0.0
+            ],
+            "stacked_raze_hero_hits": 41.0
+          },
+          {
+            "actions": [
+              48352.0,
+              17824.0,
+              0.0,
+              2526.0,
+              4266.0,
+              0.0,
+              23.0,
+              219.0,
+              144.0,
+              0.0,
+              46.0
+            ],
+            "alive_seconds": 9784.467025756836,
+            "attack_cancellations": 19.0,
+            "attack_cycles_completed": 1344.0,
+            "buys": [
+              73195.0,
+              62.0,
+              0.0,
+              0.0,
+              79.0,
+              64.0,
+              0.0
+            ],
+            "commands_during_windup": 24.0,
+            "controller": "teacher",
+            "dead_seconds": 0.2333526611328125,
+            "deaths": 3.0,
+            "deny": 438.0,
+            "first_death_game_seconds": {
+              "count": 3,
+              "denominator": 32,
+              "maximum": 184.4000244140625,
+              "mean": 141.9222412109375,
+              "median": 122.3333511352539,
+              "minimum": 119.0333480834961
+            },
+            "first_move_game_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": -89.63333892822266,
+              "mean": -89.63333892822266,
+              "median": -89.63333892822266,
+              "minimum": -89.63333892822266
+            },
+            "games": 32,
+            "health": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 1094.0,
+              "mean": 667.6134557723999,
+              "median": 692.0,
+              "minimum": 0.0
+            },
+            "items": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              43.0,
+              3.0,
+              0.0
+            ],
+            "level": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 8.0,
+              "mean": 4.25,
+              "median": 4.0,
+              "minimum": 1.0
+            },
+            "lh": 516.0,
+            "longest_idle_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 74.93333435058594,
+              "mean": 74.13957953453064,
+              "median": 74.79999542236328,
+              "minimum": 53.26667022705078
+            },
+            "longest_movement_stall_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 5.333343505859375,
+              "mean": 0.31667983531951904,
+              "median": 0.1333465576171875,
+              "minimum": 0.133331298828125
+            },
+            "mid_arrival_elapsed_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 25.73332977294922,
+              "mean": 25.73332977294922,
+              "median": 25.73332977294922,
+              "minimum": 25.73332977294922
+            },
+            "mid_arrival_game_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": -64.30000305175781,
+              "mean": -64.30000305175781,
+              "median": -64.30000305175781,
+              "minimum": -64.30000305175781
+            },
+            "net_worth": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 3767.465576171875,
+              "mean": 2018.437843322754,
+              "median": 1790.980712890625,
+              "minimum": 1082.0555419921875
+            },
+            "raze_creep_hits": 465.0,
+            "raze_hero_hits": 213.0,
+            "razes_hitting_any_target": 239.0,
+            "razes_hitting_hero": 213.0,
+            "side": "dire",
+            "spell_completions": [
+              19.0,
+              136.0,
+              91.0,
+              0.0
+            ],
+            "stacked_raze_hero_hits": 44.0
+          },
+          {
+            "actions": [
+              50267.0,
+              14859.0,
+              0.0,
+              3994.0,
+              3826.0,
+              0.0,
+              25.0,
+              195.0,
+              155.0,
+              0.0,
+              79.0
+            ],
+            "alive_seconds": 9770.700302124023,
+            "attack_cancellations": 106.0,
+            "attack_cycles_completed": 1196.0,
+            "buys": [
+              73207.0,
+              8.0,
+              0.0,
+              0.0,
+              120.0,
+              64.0,
+              1.0
+            ],
+            "commands_during_windup": 116.0,
+            "controller": "GGD",
+            "dead_seconds": 14.000080108642578,
+            "deaths": 29.0,
+            "deny": 111.0,
+            "first_death_game_seconds": {
+              "count": 29,
+              "denominator": 32,
+              "maximum": 519.3333740234375,
+              "mean": 221.51266518954574,
+              "median": 194.76669311523438,
+              "minimum": -52.93333053588867
+            },
+            "first_move_game_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": -88.5666732788086,
+              "mean": -89.57917261123657,
+              "median": -89.63333892822266,
+              "minimum": -89.76667022705078
+            },
+            "games": 32,
+            "health": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 582.0,
+              "mean": 56.43352127075195,
+              "median": 0.0,
+              "minimum": 0.0
+            },
+            "items": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              45.0,
+              34.0,
+              0.0
+            ],
+            "level": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 6.0,
+              "mean": 3.0625,
+              "median": 3.0,
+              "minimum": 1.0
+            },
+            "lh": 119.0,
+            "longest_idle_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 111.20000457763672,
+              "mean": 48.44166648387909,
+              "median": 47.06666564941406,
+              "minimum": 5.866668701171875
+            },
+            "longest_movement_stall_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 2.799999237060547,
+              "mean": 0.266678873449564,
+              "median": 0.1333465576171875,
+              "minimum": 0.133331298828125
+            },
+            "mid_arrival_elapsed_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 159.86666870117188,
+              "mean": 114.62916702032089,
+              "median": 117.73333740234375,
+              "minimum": 25.199996948242188
+            },
+            "mid_arrival_game_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 69.83333587646484,
+              "mean": 24.595834255218506,
+              "median": 27.70000457763672,
+              "minimum": -64.83333587646484
+            },
+            "net_worth": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 2034.214111328125,
+              "mean": 1249.4428062438965,
+              "median": 1198.1309814453125,
+              "minimum": 875.0555419921875
+            },
+            "raze_creep_hits": 158.0,
+            "raze_hero_hits": 66.0,
+            "razes_hitting_any_target": 92.0,
+            "razes_hitting_hero": 66.0,
+            "side": "radiant",
+            "spell_completions": [
+              23.0,
+              118.0,
+              106.0,
+              0.0
+            ],
+            "stacked_raze_hero_hits": 3.0
+          },
+          {
+            "actions": [
+              29599.0,
+              10683.0,
+              0.0,
+              1471.0,
+              1403.0,
+              0.0,
+              7.0,
+              105.0,
+              107.0,
+              0.0,
+              47.0
+            ],
+            "alive_seconds": 5785.433532714844,
+            "attack_cancellations": 37.0,
+            "attack_cycles_completed": 411.0,
+            "buys": [
+              43321.0,
+              0.0,
+              0.0,
+              0.0,
+              37.0,
+              64.0,
+              0.0
+            ],
+            "commands_during_windup": 42.0,
+            "controller": "GGD",
+            "dead_seconds": 2.3332748413085938,
+            "deaths": 31.0,
+            "deny": 42.0,
+            "first_death_game_seconds": {
+              "count": 31,
+              "denominator": 32,
+              "maximum": 210.36669921875,
+              "mean": 90.12474232335245,
+              "median": 78.50000762939453,
+              "minimum": 27.9666748046875
+            },
+            "first_move_game_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": -89.50000762939453,
+              "mean": -89.6833381652832,
+              "median": -89.63333892822266,
+              "minimum": -89.76667022705078
+            },
+            "games": 32,
+            "health": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 186.57217407226562,
+              "mean": 5.830380439758301,
+              "median": 0.0,
+              "minimum": 0.0
+            },
+            "items": [
+              0.0,
+              0.0,
+              0.0,
+              3.0,
+              0.0,
+              5.0,
+              39.0,
+              0.0
+            ],
+            "level": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 3.0,
+              "mean": 1.53125,
+              "median": 1.0,
+              "minimum": 1.0
+            },
+            "lh": 27.0,
+            "longest_idle_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 78.53333282470703,
+              "mean": 61.716668128967285,
+              "median": 67.86666870117188,
+              "minimum": 5.0666656494140625
+            },
+            "longest_movement_stall_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 0.2666664123535156,
+              "mean": 0.133337140083313,
+              "median": 0.133331298828125,
+              "minimum": 0.0
+            },
+            "mid_arrival_elapsed_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 27.59999656677246,
+              "mean": 25.879163026809692,
+              "median": 25.73332977294922,
+              "minimum": 25.59999656677246
+            },
+            "mid_arrival_game_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": -62.43333435058594,
+              "mean": -64.15416979789734,
+              "median": -64.30000305175781,
+              "minimum": -64.43333435058594
+            },
+            "net_worth": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 1339.33642578125,
+              "mean": 1031.331163406372,
+              "median": 1012.5031127929688,
+              "minimum": 850.7807006835938
+            },
+            "raze_creep_hits": 88.0,
+            "raze_hero_hits": 24.0,
+            "razes_hitting_any_target": 43.0,
+            "razes_hitting_hero": 24.0,
+            "side": "dire",
+            "spell_completions": [
+              5.0,
+              65.0,
+              68.0,
+              0.0
+            ],
+            "stacked_raze_hero_hits": 2.0
+          }
+        ],
+        "spell_names": [
+          "raze_near",
+          "raze_mid",
+          "raze_far",
+          "requiem"
+        ],
+        "time_origin": "Dota game seconds; negative values are pregame",
+        "within_attack_distance": {
+          "denominator": 2196.0,
+          "numerator": 1588.0
+        }
+      },
+      "wall_seconds": 258.1623157
+    },
+    "teacher-20261104": {
+      "command": [
+        "/mnt/c/AMI/runs/p09/sf-duel-gpu.exe",
+        "evaluate-ggd",
+        "C:/AMI/runs/p07/dota-calibration-005/engine.json",
+        "C:/AMI/runs/p09/ZOg/epoch-002/weights",
+        "C:/AMI/runs/p09/ZOg/epoch-002/vs-teacher-20261104",
+        "--matches",
+        "64",
+        "--seconds",
+        "600",
+        "--mode",
+        "teacher",
+        "--seed",
+        "20261104",
+        "--sampling",
+        "--teacher-version",
+        "v10"
+      ],
+      "command_literal": "/mnt/c/AMI/runs/p09/sf-duel-gpu.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:/AMI/runs/p09/ZOg/epoch-002/weights C:/AMI/runs/p09/ZOg/epoch-002/vs-teacher-20261104 --matches 64 --seconds 600 --mode teacher --seed 20261104 --sampling --teacher-version v10",
+      "report": "/mnt/c/AMI/runs/p09/ZOg/epoch-002/vs-teacher-20261104/report.json",
+      "summary": {
+        "action_names": [
+          "continue",
+          "move",
+          "move_direct",
+          "attack",
+          "stop",
+          "hold",
+          "raze_near",
+          "raze_mid",
+          "raze_far",
+          "requiem",
+          "item"
+        ],
+        "all_lane_creeps": {
+          "denominator": 2163.0,
+          "numerator": 1551.0
+        },
+        "first_death_precision_seconds": 0.03333333333333333,
+        "games": 64,
+        "minute_snapshots": "latest observed state in each minute bin, plus pregame; early terminal games retain only reached bins",
+        "native_completed": 64,
+        "position_sampling_seconds": 0.13333333333333333,
+        "sides": [
+          {
+            "actions": [
+              31623.0,
+              10172.0,
+              0.0,
+              1498.0,
+              1899.0,
+              0.0,
+              17.0,
+              120.0,
+              85.0,
+              0.0,
+              12.0
+            ],
+            "alive_seconds": 6054.666831970215,
+            "attack_cancellations": 13.0,
+            "attack_cycles_completed": 606.0,
+            "buys": [
+              45326.0,
+              8.0,
+              0.0,
+              0.0,
+              28.0,
+              64.0,
+              0.0
+            ],
+            "commands_during_windup": 10.0,
+            "controller": "teacher",
+            "dead_seconds": 0.0333404541015625,
+            "deaths": 1.0,
+            "deny": 171.0,
+            "first_death_game_seconds": {
+              "count": 1,
+              "denominator": 32,
+              "maximum": 104.10001373291016,
+              "mean": 104.10001373291016,
+              "median": 104.10001373291016,
+              "minimum": 104.10001373291016
+            },
+            "first_move_game_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": -89.63333892822266,
+              "mean": -89.63333892822266,
+              "median": -89.63333892822266,
+              "minimum": -89.63333892822266
+            },
+            "games": 32,
+            "health": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 726.96875,
+              "mean": 569.0020217895508,
+              "median": 626.0,
+              "minimum": 0.0
+            },
+            "items": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              12.0,
+              0.0,
+              0.0
+            ],
+            "level": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 4.0,
+              "mean": 2.4375,
+              "median": 2.0,
+              "minimum": 1.0
+            },
+            "lh": 195.0,
+            "longest_idle_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 79.33333587646484,
+              "mean": 78.40417265892029,
+              "median": 79.0666732788086,
+              "minimum": 63.06666564941406
+            },
+            "longest_movement_stall_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 0.1333465576171875,
+              "mean": 0.13334131240844727,
+              "median": 0.1333465576171875,
+              "minimum": 0.133331298828125
+            },
+            "mid_arrival_elapsed_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 25.199996948242188,
+              "mean": 25.199996948242188,
+              "median": 25.199996948242188,
+              "minimum": 25.199996948242188
+            },
+            "mid_arrival_game_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": -64.83333587646484,
+              "mean": -64.83333587646484,
+              "median": -64.83333587646484,
+              "minimum": -64.83333587646484
+            },
+            "net_worth": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 2029.5245361328125,
+              "mean": 1498.629783630371,
+              "median": 1478.99609375,
+              "minimum": 1128.667236328125
+            },
+            "raze_creep_hits": 208.0,
+            "raze_hero_hits": 138.0,
+            "razes_hitting_any_target": 148.0,
+            "razes_hitting_hero": 138.0,
+            "side": "radiant",
+            "spell_completions": [
+              14.0,
+              79.0,
+              59.0,
+              0.0
+            ],
+            "stacked_raze_hero_hits": 43.0
+          },
+          {
+            "actions": [
+              46887.0,
+              16600.0,
+              0.0,
+              2344.0,
+              3371.0,
+              0.0,
+              27.0,
+              215.0,
+              120.0,
+              0.0,
+              42.0
+            ],
+            "alive_seconds": 9278.500289916992,
+            "attack_cancellations": 29.0,
+            "attack_cycles_completed": 1280.0,
+            "buys": [
+              69420.0,
+              56.0,
+              0.0,
+              0.0,
+              66.0,
+              64.0,
+              0.0
+            ],
+            "commands_during_windup": 22.0,
+            "controller": "teacher",
+            "dead_seconds": 0.0333251953125,
+            "deaths": 1.0,
+            "deny": 420.0,
+            "first_death_game_seconds": {
+              "count": 1,
+              "denominator": 32,
+              "maximum": 121.16667938232422,
+              "mean": 121.16667938232422,
+              "median": 121.16667938232422,
+              "minimum": 121.16667938232422
+            },
+            "first_move_game_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": -89.63333892822266,
+              "mean": -89.63333892822266,
+              "median": -89.63333892822266,
+              "minimum": -89.63333892822266
+            },
+            "games": 32,
+            "health": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 1040.701416015625,
+              "mean": 627.6621694564819,
+              "median": 660.94287109375,
+              "minimum": 0.0
+            },
+            "items": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              39.0,
+              3.0,
+              0.0
+            ],
+            "level": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 8.0,
+              "mean": 4.15625,
+              "median": 4.0,
+              "minimum": 2.0
+            },
+            "lh": 491.0,
+            "longest_idle_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 74.93333435058594,
+              "mean": 74.80416226387024,
+              "median": 74.79999542236328,
+              "minimum": 74.79999542236328
+            },
+            "longest_movement_stall_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 4.5333404541015625,
+              "mean": 0.28438687324523926,
+              "median": 0.1333465576171875,
+              "minimum": 0.133331298828125
+            },
+            "mid_arrival_elapsed_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 25.73332977294922,
+              "mean": 25.73332977294922,
+              "median": 25.73332977294922,
+              "minimum": 25.73332977294922
+            },
+            "mid_arrival_game_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": -64.30000305175781,
+              "mean": -64.30000305175781,
+              "median": -64.30000305175781,
+              "minimum": -64.30000305175781
+            },
+            "net_worth": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 3397.9970703125,
+              "mean": 1988.2959022521973,
+              "median": 1832.532470703125,
+              "minimum": 1189.9937744140625
+            },
+            "raze_creep_hits": 438.0,
+            "raze_hero_hits": 207.0,
+            "razes_hitting_any_target": 223.0,
+            "razes_hitting_hero": 207.0,
+            "side": "dire",
+            "spell_completions": [
+              20.0,
+              136.0,
+              78.0,
+              0.0
+            ],
+            "stacked_raze_hero_hits": 37.0
+          },
+          {
+            "actions": [
+              47271.0,
+              14008.0,
+              0.0,
+              3930.0,
+              3970.0,
+              0.0,
+              20.0,
+              173.0,
+              157.0,
+              0.0,
+              77.0
+            ],
+            "alive_seconds": 9276.566940307617,
+            "attack_cancellations": 117.0,
+            "attack_cycles_completed": 1129.0,
+            "buys": [
+              69429.0,
+              4.0,
+              0.0,
+              0.0,
+              109.0,
+              64.0,
+              0.0
+            ],
+            "commands_during_windup": 117.0,
+            "controller": "GGD",
+            "dead_seconds": 1.9666748046875,
+            "deaths": 31.0,
+            "deny": 83.0,
+            "first_death_game_seconds": {
+              "count": 31,
+              "denominator": 32,
+              "maximum": 497.16668701171875,
+              "mean": 202.42690006379158,
+              "median": 179.83334350585938,
+              "minimum": 91.76667022705078
+            },
+            "first_move_game_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": -89.10000610351562,
+              "mean": -89.6083390712738,
+              "median": -89.63333892822266,
+              "minimum": -89.76667022705078
+            },
+            "games": 32,
+            "health": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 445.228271484375,
+              "mean": 13.913383483886719,
+              "median": 0.0,
+              "minimum": 0.0
+            },
+            "items": [
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              0.0,
+              39.0,
+              37.0,
+              0.0
+            ],
+            "level": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 6.0,
+              "mean": 3.09375,
+              "median": 3.0,
+              "minimum": 1.0
+            },
+            "lh": 107.0,
+            "longest_idle_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 88.93333435058594,
+              "mean": 65.13750195503235,
+              "median": 71.46666717529297,
+              "minimum": 7.4666748046875
+            },
+            "longest_movement_stall_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 10.933334350585938,
+              "mean": 0.4916743077337742,
+              "median": 0.1333465576171875,
+              "minimum": 0.133331298828125
+            },
+            "mid_arrival_elapsed_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 149.73333740234375,
+              "mean": 118.27916741371155,
+              "median": 116.93333435058594,
+              "minimum": 100.26667022705078
+            },
+            "mid_arrival_game_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 59.70000457763672,
+              "mean": 28.245834589004517,
+              "median": 26.900001525878906,
+              "minimum": 10.23333740234375
+            },
+            "net_worth": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 1957.635986328125,
+              "mean": 1213.0495948791504,
+              "median": 1158.7313232421875,
+              "minimum": 943.3966064453125
+            },
+            "raze_creep_hits": 153.0,
+            "raze_hero_hits": 58.0,
+            "razes_hitting_any_target": 86.0,
+            "razes_hitting_hero": 58.0,
+            "side": "radiant",
+            "spell_completions": [
+              17.0,
+              106.0,
+              105.0,
+              0.0
+            ],
+            "stacked_raze_hero_hits": 2.0
+          },
+          {
+            "actions": [
+              31236.0,
+              10990.0,
+              0.0,
+              1331.0,
+              1577.0,
+              0.0,
+              9.0,
+              115.0,
+              111.0,
+              0.0,
+              57.0
+            ],
+            "alive_seconds": 6052.566802978516,
+            "attack_cancellations": 44.0,
+            "attack_cycles_completed": 443.0,
+            "buys": [
+              45311.0,
+              0.0,
+              0.0,
+              0.0,
+              51.0,
+              64.0,
+              0.0
+            ],
+            "commands_during_windup": 48.0,
+            "controller": "GGD",
+            "dead_seconds": 2.1333694458007812,
+            "deaths": 31.0,
+            "deny": 46.0,
+            "first_death_game_seconds": {
+              "count": 31,
+              "denominator": 32,
+              "maximum": 241.433349609375,
+              "mean": 98.98280629804057,
+              "median": 77.70000457763672,
+              "minimum": 27.9666748046875
+            },
+            "first_move_game_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": -89.50000762939453,
+              "mean": -89.6833381652832,
+              "median": -89.63333892822266,
+              "minimum": -89.76667022705078
+            },
+            "games": 32,
+            "health": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 295.01666259765625,
+              "mean": 9.219270706176758,
+              "median": 0.0,
+              "minimum": 0.0
+            },
+            "items": [
+              0.0,
+              0.0,
+              0.0,
+              3.0,
+              0.0,
+              10.0,
+              44.0,
+              0.0
+            ],
+            "level": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 4.0,
+              "mean": 1.71875,
+              "median": 1.0,
+              "minimum": 1.0
+            },
+            "lh": 38.0,
+            "longest_idle_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 78.53333282470703,
+              "mean": 61.791668176651,
+              "median": 67.86666870117188,
+              "minimum": 7.1999969482421875
+            },
+            "longest_movement_stall_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 0.9333343505859375,
+              "mean": 0.15833938121795654,
+              "median": 0.13333892822265625,
+              "minimum": 0.0
+            },
+            "mid_arrival_elapsed_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 27.59999656677246,
+              "mean": 25.879163026809692,
+              "median": 25.73332977294922,
+              "minimum": 25.59999656677246
+            },
+            "mid_arrival_game_seconds": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": -62.43333435058594,
+              "mean": -64.15416979789734,
+              "median": -64.30000305175781,
+              "minimum": -64.43333435058594
+            },
+            "net_worth": {
+              "count": 32,
+              "denominator": 32,
+              "maximum": 1431.5594482421875,
+              "mean": 1046.4530696868896,
+              "median": 1033.1129150390625,
+              "minimum": 854.0599975585938
+            },
+            "raze_creep_hits": 91.0,
+            "raze_hero_hits": 30.0,
+            "razes_hitting_any_target": 51.0,
+            "razes_hitting_hero": 30.0,
+            "side": "dire",
+            "spell_completions": [
+              6.0,
+              72.0,
+              72.0,
+              0.0
+            ],
+            "stacked_raze_hero_hits": 1.0
+          }
+        ],
+        "spell_names": [
+          "raze_near",
+          "raze_mid",
+          "raze_far",
+          "requiem"
+        ],
+        "time_origin": "Dota game seconds; negative values are pregame",
+        "within_attack_distance": {
+          "denominator": 2153.0,
+          "numerator": 1549.0
+        }
+      },
+      "wall_seconds": 246.224137
+    }
+  }
+}
