@@ -1,8 +1,7 @@
 {
   "before_long_rl": [
-    "Planner source fixed and tested 7/7. Running all-001 now has validated main-plan.json for pilot1, exact checkpoint time and continuous anchor.",
-    "If pilot1 fails, delete/replace its plan before pilot2 evaluation finishes. Current controller has old Python code and will not validate candidate_model itself.",
-    "After actual evaluation pair finishes, check projected 12-minute pair cost and update provenance if needed; planned 60-minute final is also the hour evaluation."
+    "Completed: pilot1 healthy, both seed reports audited, live main config resumed exact checkpoint with continuous .2 anchor, 60-minute plan and both opponents enabled.",
+    "Actual pilot evaluation cost checked against projection; same shared hour/final budget branch. No pilot2."
   ],
   "final": [
     "Check both players and both seeds, reward components, policy equality, clip range, protected source hashes, budget, report <=150 lines, all evidence committed and pushed."
