@@ -1,0 +1,20 @@
+{
+  "engine": "C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json",
+  "initial_weights": "C:/AMI/runs/p02/experiment/train-round-2-attempt-1/export/weights",
+  "matches": 16,
+  "seed": 20261103,
+  "minutes": 200,
+  "max_blocks": 0,
+  "batch_sequences": 4,
+  "epochs": 2,
+  "learning_rate": 3e-06,
+  "critic_learning_rate": 0.0001,
+  "warmup_blocks": 64,
+  "entropy": 0.005,
+  "kl_start": 0.2,
+  "kl_end": 0.05,
+  "stop_kl": 0.02,
+  "checkpoint_minutes": 10,
+  "evaluate": true,
+  "evaluation_minutes": 60
+}

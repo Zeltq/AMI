@@ -1,0 +1,435 @@
+{
+  "model": "P08-main-final",
+  "selection": "sampling",
+  "seed": 20261103,
+  "trace_matches_analyzed": [
+    0,
+    1,
+    2
+  ],
+  "native_action_counter_checks": {
+    "passed": 6,
+    "total": 6
+  },
+  "source": "C:\\AMI\\runs\\p08\\rev-main\\eval-000323-sampling",
+  "source_sha256": {
+    "report.json": "a3271e29bfeaf9c6d25166823ab0ba59b79fa8ed96d6b6ecf7570c1e411e730f",
+    "trace.jsonl": "6b2ae592924effbea32eed58eeb71dd4dd7d0bac1674a2c718cd7c8c5ac229d4",
+    "trace-header.json": "395cd462fe3f15de63c4a687024a3594761a3017c6da6e46befae194bb91ffce"
+  },
+  "games": [
+    {
+      "game": 0,
+      "game_seconds": 600.0333862304688,
+      "lane_deaths": 157.0,
+      "sides": [
+        {
+          "controller": "GGD",
+          "side": "radiant",
+          "lh": 16.0,
+          "deny": 9.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "attack_cycles_completed": 128.0,
+          "attack_cancellations": 4.0,
+          "attack_enemy_creep_commands": 106.0,
+          "deny_commands": 77.0,
+          "attack_hero_commands": 0.0,
+          "attack_structure_commands": 1.0,
+          "commands_during_windup": 8.0,
+          "distance_travelled": 59060.4921875,
+          "longest_idle_seconds": 45.06666946411133,
+          "actions": [
+            3145.0,
+            1395.0,
+            0.0,
+            184.0,
+            399.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "postgame_decisions": 4500,
+          "postgame_actions": {
+            "0": 2756,
+            "1": 1172,
+            "3": 184,
+            "4": 388
+          },
+          "longest_postgame_action_runs": {
+            "0": 118,
+            "1": 67,
+            "3": 2,
+            "4": 3
+          },
+          "attack_followed_by_move_stop_within_4_decisions": {
+            "numerator": 12,
+            "denominator": 184
+          },
+          "enemy_t1_min_distance": 554.0951538085938
+        },
+        {
+          "controller": "teacher",
+          "side": "dire",
+          "lh": 45.0,
+          "deny": 51.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "attack_cycles_completed": 140.0,
+          "attack_cancellations": 0.0,
+          "attack_enemy_creep_commands": 74.0,
+          "deny_commands": 68.0,
+          "attack_hero_commands": 0.0,
+          "attack_structure_commands": 0.0,
+          "commands_during_windup": 1.0,
+          "distance_travelled": 33268.77734375,
+          "longest_idle_seconds": 67.86666870117188,
+          "actions": [
+            3833.0,
+            823.0,
+            0.0,
+            142.0,
+            324.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "postgame_decisions": 4500,
+          "postgame_actions": {
+            "0": 3448,
+            "1": 587,
+            "4": 322,
+            "3": 142,
+            "10": 1
+          },
+          "longest_postgame_action_runs": {
+            "0": 123,
+            "1": 20,
+            "4": 2,
+            "3": 1,
+            "10": 1
+          },
+          "attack_followed_by_move_stop_within_4_decisions": {
+            "numerator": 0,
+            "denominator": 142
+          },
+          "enemy_t1_min_distance": 1468.4073486328125
+        }
+      ]
+    },
+    {
+      "game": 1,
+      "game_seconds": 600.0333862304688,
+      "lane_deaths": 157.0,
+      "sides": [
+        {
+          "controller": "teacher",
+          "side": "radiant",
+          "lh": 37.0,
+          "deny": 32.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "attack_cycles_completed": 113.0,
+          "attack_cancellations": 1.0,
+          "attack_enemy_creep_commands": 65.0,
+          "deny_commands": 51.0,
+          "attack_hero_commands": 0.0,
+          "attack_structure_commands": 0.0,
+          "commands_during_windup": 1.0,
+          "distance_travelled": 47699.78125,
+          "longest_idle_seconds": 72.13333892822266,
+          "actions": [
+            3438.0,
+            1164.0,
+            0.0,
+            116.0,
+            402.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            3.0
+          ],
+          "postgame_decisions": 4500,
+          "postgame_actions": {
+            "0": 3018,
+            "1": 963,
+            "4": 400,
+            "3": 116,
+            "10": 3
+          },
+          "longest_postgame_action_runs": {
+            "0": 120,
+            "1": 48,
+            "4": 59,
+            "3": 1,
+            "10": 1
+          },
+          "attack_followed_by_move_stop_within_4_decisions": {
+            "numerator": 1,
+            "denominator": 116
+          },
+          "enemy_t1_min_distance": 876.1439208984375
+        },
+        {
+          "controller": "GGD",
+          "side": "dire",
+          "lh": 24.0,
+          "deny": 18.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "attack_cycles_completed": 139.0,
+          "attack_cancellations": 5.0,
+          "attack_enemy_creep_commands": 119.0,
+          "deny_commands": 85.0,
+          "attack_hero_commands": 0.0,
+          "attack_structure_commands": 1.0,
+          "commands_during_windup": 7.0,
+          "distance_travelled": 44692.85546875,
+          "longest_idle_seconds": 53.60000228881836,
+          "actions": [
+            3648.0,
+            917.0,
+            0.0,
+            205.0,
+            349.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            4.0
+          ],
+          "postgame_decisions": 4500,
+          "postgame_actions": {
+            "0": 3265,
+            "1": 681,
+            "10": 4,
+            "4": 345,
+            "3": 205
+          },
+          "longest_postgame_action_runs": {
+            "0": 120,
+            "1": 57,
+            "10": 1,
+            "4": 3,
+            "3": 2
+          },
+          "attack_followed_by_move_stop_within_4_decisions": {
+            "numerator": 14,
+            "denominator": 205
+          },
+          "enemy_t1_min_distance": 728.0651245117188
+        }
+      ]
+    },
+    {
+      "game": 2,
+      "game_seconds": 600.0333862304688,
+      "lane_deaths": 156.0,
+      "sides": [
+        {
+          "controller": "GGD",
+          "side": "radiant",
+          "lh": 11.0,
+          "deny": 7.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.93333435058594,
+          "attack_cycles_completed": 125.0,
+          "attack_cancellations": 6.0,
+          "attack_enemy_creep_commands": 117.0,
+          "deny_commands": 83.0,
+          "attack_hero_commands": 0.0,
+          "attack_structure_commands": 0.0,
+          "commands_during_windup": 4.0,
+          "distance_travelled": 67775.3671875,
+          "longest_idle_seconds": 73.06666564941406,
+          "actions": [
+            3136.0,
+            1354.0,
+            0.0,
+            200.0,
+            427.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            6.0
+          ],
+          "postgame_decisions": 4500,
+          "postgame_actions": {
+            "0": 2715,
+            "1": 1155,
+            "4": 424,
+            "3": 200,
+            "10": 6
+          },
+          "longest_postgame_action_runs": {
+            "0": 126,
+            "1": 142,
+            "4": 3,
+            "3": 2,
+            "10": 1
+          },
+          "attack_followed_by_move_stop_within_4_decisions": {
+            "numerator": 25,
+            "denominator": 200
+          },
+          "enemy_t1_min_distance": 344.03594970703125
+        },
+        {
+          "controller": "teacher",
+          "side": "dire",
+          "lh": 52.0,
+          "deny": 44.0,
+          "deaths": 0.0,
+          "first_death_game_seconds": null,
+          "mid_arrival_game_seconds": -57.400001525878906,
+          "attack_cycles_completed": 123.0,
+          "attack_cancellations": 1.0,
+          "attack_enemy_creep_commands": 70.0,
+          "deny_commands": 57.0,
+          "attack_hero_commands": 0.0,
+          "attack_structure_commands": 0.0,
+          "commands_during_windup": 1.0,
+          "distance_travelled": 34151.05859375,
+          "longest_idle_seconds": 68.00000762939453,
+          "actions": [
+            3886.0,
+            798.0,
+            0.0,
+            127.0,
+            312.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "postgame_decisions": 4500,
+          "postgame_actions": {
+            "0": 3501,
+            "1": 562,
+            "4": 310,
+            "3": 127
+          },
+          "longest_postgame_action_runs": {
+            "0": 124,
+            "1": 32,
+            "4": 2,
+            "3": 2
+          },
+          "attack_followed_by_move_stop_within_4_decisions": {
+            "numerator": 1,
+            "denominator": 127
+          },
+          "enemy_t1_min_distance": 787.8855590820312
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "GGD": {
+      "lh": 51.0,
+      "deny": 34.0,
+      "deaths": 0.0,
+      "attack_cycles_completed": 392.0,
+      "attack_cancellations": 15.0,
+      "attack_enemy_creep_commands": 342.0,
+      "deny_commands": 245.0,
+      "attack_hero_commands": 0.0,
+      "attack_structure_commands": 2.0,
+      "distance_travelled": 171528.71484375,
+      "matches": 3,
+      "lh_deny": 85.0,
+      "all_actions": [
+        9929.0,
+        3666.0,
+        0.0,
+        589.0,
+        1175.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        10.0
+      ],
+      "postgame_decisions": 13500,
+      "postgame_actions": {
+        "0": 8736,
+        "1": 3008,
+        "2": 0,
+        "3": 589,
+        "4": 1157,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 10
+      }
+    },
+    "teacher": {
+      "lh": 134.0,
+      "deny": 127.0,
+      "deaths": 0.0,
+      "attack_cycles_completed": 376.0,
+      "attack_cancellations": 2.0,
+      "attack_enemy_creep_commands": 209.0,
+      "deny_commands": 176.0,
+      "attack_hero_commands": 0.0,
+      "attack_structure_commands": 0.0,
+      "distance_travelled": 115119.6171875,
+      "matches": 3,
+      "lh_deny": 261.0,
+      "all_actions": [
+        11157.0,
+        2785.0,
+        0.0,
+        385.0,
+        1038.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        4.0
+      ],
+      "postgame_decisions": 13500,
+      "postgame_actions": {
+        "0": 9967,
+        "1": 2112,
+        "2": 0,
+        "3": 385,
+        "4": 1032,
+        "5": 0,
+        "6": 0,
+        "7": 0,
+        "8": 0,
+        "9": 0,
+        "10": 4
+      }
+    }
+  },
+  "limitations": [
+    "Attack cycles are cooldown transitions, not an impact or damage log.",
+    "Move/stop following an attack is not itself proof of cancellation; actual cancellations are separate counters.",
+    "Creep HP at intended impact is absent. Timing versus target selection cannot be causally separated.",
+    "The first three matches of the same 64-match sampling evaluation are analyzed; this is a small diagnostic subset."
+  ]
+}

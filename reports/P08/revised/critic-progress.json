@@ -1,0 +1,64 @@
+{
+  "stage": "rev-critic-2",
+  "partial": true,
+  "last": {
+    "batch": 2,
+    "block": 85,
+    "collection_seconds": 8.2643493,
+    "components_sum": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "decisions_per_second": 1844.380681479417,
+    "episodes": 384,
+    "episodes_started": 576,
+    "finished_in_batch": 0,
+    "learning": {
+      "buckets": [
+        16,
+        32,
+        16
+      ],
+      "clip_fraction": 0.0,
+      "early_stop": false,
+      "entropy": 0.0,
+      "ev_post0": null,
+      "ev_pregame": 0.360779345035553,
+      "explained_variance": 0.3607792854309082,
+      "kl_coefficient": 0.15763132274150848,
+      "kl_m2": 0.0,
+      "old_policy_kl": 0.0,
+      "optimizer_steps": 16,
+      "postgame_decisions": 0.0,
+      "pregame_decisions": 24576.0,
+      "reward_activity": 0.0,
+      "rollout_entropy": 0.0330255851149559,
+      "rollout_kl_m2": 0.0,
+      "valid_decisions": 24576,
+      "value_loss": 0.0034970638298545964,
+      "warmup": true,
+      "warmup_ev_last5": 0.1446100354194641,
+      "warmup_post_blocks": 74
+    },
+    "memory_pool": "Some(MemoryPoolUsage { number_allocs: 646, bytes_in_use: 5393239896, bytes_padding: 7016, bytes_reserved: 8840824672 })",
+    "optimization_seconds": 1.2433221,
+    "pregame_death_matches": 0,
+    "pregame_deaths": 0,
+    "total_decisions": 1892991,
+    "training_seconds": 1026.3559030999998
+  },
+  "last_pregame_ev": {
+    "block": 85,
+    "ev": 0.360779345035553,
+    "decisions": 24576.0
+  },
+  "errors": 0,
+  "note": "Process alive; policy frozen; mean postgame EV below 0.3"
+}

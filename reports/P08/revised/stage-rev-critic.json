@@ -1,0 +1,59 @@
+{
+  "stage": "rev-critic",
+  "argv": [
+    "C:\\AMI\\runs\\p08\\revised-gpu.exe",
+    "train-ggd",
+    "C:\\AMI-wt\\P08\\reports\\P08\\revised\\critic.json",
+    "C:\\AMI\\runs\\p08\\rev-critic"
+  ],
+  "command": "C:\\AMI\\runs\\p08\\revised-gpu.exe train-ggd C:\\AMI-wt\\P08\\reports\\P08\\revised\\critic.json C:\\AMI\\runs\\p08\\rev-critic",
+  "returncode": 101,
+  "timed_out": false,
+  "wall_seconds": 17.165292024612427,
+  "memory_samples": 8,
+  "sampled_peak_memory": {
+    "dedicated_bytes": 13446365184.0,
+    "shared_bytes": 300507136.0,
+    "committed_bytes": 13934567424.0,
+    "adapter_dedicated_bytes": 15431196672.0
+  },
+  "memory_measurement": "WDDM process/adapter counters sampled every 2 seconds plus query time; sampled peaks",
+  "result": null,
+  "history": [],
+  "provenance": {
+    "clip": 0.2,
+    "executable_sha256": "f6f15adfa14c14e7c33920e8e4aaff14c2a503a9fdefb3c944938f8189742310",
+    "gae_lambda": 0.95,
+    "gamma": 0.99,
+    "initial_manifest_sha256": "1dc130e759875f22492e6737d32503c1470fbfa96419a062be030f4a167177d0",
+    "initial_weights": "C:/AMI/runs/p02/experiment/train-round-2-attempt-1/export/weights",
+    "ppo_source_sha256": "41fc05da6edbceb3b8e2457ded88275dab138458d1cc1e3c81c1be1951e1ca19",
+    "profile": "ggd-v2",
+    "reset_decisions": 128,
+    "seed": 20261103,
+    "teacher_sha256": "55b7f4ff5baef7aea24e706aaaca3e83fa049adca0bd63cee4203c6c23e08312"
+  },
+  "config": {
+    "engine": "C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json",
+    "initial_weights": "C:/AMI/runs/p02/experiment/train-round-2-attempt-1/export/weights",
+    "matches": 192,
+    "seed": 20261103,
+    "minutes": 60.0,
+    "max_blocks": 0,
+    "batch_sequences": 48,
+    "epochs": 2,
+    "learning_rate": 1e-05,
+    "critic_learning_rate": 0.0003,
+    "warmup_blocks": 150,
+    "entropy": 0.005,
+    "kl_start": 0.2,
+    "kl_end": 0.05,
+    "stop_kl": 0.02,
+    "checkpoint_minutes": 5.0,
+    "evaluate": false,
+    "evaluation_minutes": 60.0,
+    "initialize_weights": null,
+    "skip_warmup": false,
+    "critic_only": true
+  }
+}

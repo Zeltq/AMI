@@ -1,0 +1,14 @@
+{
+  "critic": "rev-critic-2",
+  "critic_checkpoint": "C:\\AMI\\runs\\p08\\rev-critic-2\\checkpoint-000150",
+  "warmup_exit_reason": "150-block limit",
+  "warmup_ev_last5": 0.1479960322380066,
+  "warmup_post_blocks": 134,
+  "policy_trial_minutes": 20,
+  "learning_rates": [
+    1e-05,
+    3e-05
+  ],
+  "epochs": 2,
+  "selection": "early deaths <=1/32 and death matches <=4/32; maximize farm among eligible; stop if neither eligible"
+}

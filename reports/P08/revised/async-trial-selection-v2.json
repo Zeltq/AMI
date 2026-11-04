@@ -1,0 +1,220 @@
+{
+  "rule": {
+    "version": 2,
+    "changed_by": "user, after the first 32-match evaluation",
+    "previous": "early <=1/32, death matches <=4/32; maximize farm; stop if neither eligible",
+    "current": "early <=1/32, death matches <=6/32; maximize farm, but within 5% prefer fewer death matches",
+    "relative_gap": "(higher farm - lower farm) / higher farm; strictly less than 0.05",
+    "fallback": "if neither eligible, evaluate both on 64 additional matches, seed 20261104; death matches <=15/96",
+    "fallback_early_deaths": "reported separately; the user specified no new early-death threshold for the pooled 96 matches"
+  },
+  "complete": true,
+  "trials": [
+    {
+      "run": "p08",
+      "name": "rev-async-eval-1e5",
+      "complete": true,
+      "matches": 32,
+      "wall_seconds": 280.6132525,
+      "sides": [
+        {
+          "side": "radiant",
+          "matches": 16,
+          "lh": 290.0,
+          "deny": 168.0,
+          "deaths": 2.0,
+          "attack_cycles_completed": 1908.0,
+          "attack_cancellations": 117.0,
+          "death_matches": 2,
+          "pregame_death_matches": 0,
+          "early_deaths": 0,
+          "actions": [
+            46532.0,
+            21808.0,
+            0.0,
+            3034.0,
+            7077.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            105.0
+          ]
+        },
+        {
+          "side": "dire",
+          "matches": 16,
+          "lh": 237.0,
+          "deny": 200.0,
+          "deaths": 3.0,
+          "attack_cycles_completed": 1926.0,
+          "attack_cancellations": 76.0,
+          "death_matches": 3,
+          "pregame_death_matches": 0,
+          "early_deaths": 0,
+          "actions": [
+            49708.0,
+            16091.0,
+            0.0,
+            2905.0,
+            6093.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            58.0
+          ]
+        }
+      ],
+      "farm": 895.0,
+      "early_deaths": 0,
+      "death_matches": 5,
+      "trial_eligible": true,
+      "criterion": false,
+      "learning_rate": 1e-05,
+      "train_stage": "rev-async-trial-1e5",
+      "evaluation_stage": "rev-async-eval-1e5",
+      "weights": "C:\\AMI\\runs\\p08\\rev-async-trial-1e5\\checkpoint-000054\\weights"
+    },
+    {
+      "run": "p08",
+      "name": "rev-async-eval-3e5",
+      "complete": true,
+      "matches": 32,
+      "wall_seconds": 281.1869819,
+      "sides": [
+        {
+          "side": "radiant",
+          "matches": 16,
+          "lh": 254.0,
+          "deny": 158.0,
+          "deaths": 6.0,
+          "attack_cycles_completed": 1772.0,
+          "attack_cancellations": 64.0,
+          "death_matches": 6,
+          "pregame_death_matches": 0,
+          "early_deaths": 0,
+          "actions": [
+            47958.0,
+            16555.0,
+            0.0,
+            2824.0,
+            5485.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            41.0
+          ]
+        },
+        {
+          "side": "dire",
+          "matches": 16,
+          "lh": 321.0,
+          "deny": 217.0,
+          "deaths": 1.0,
+          "attack_cycles_completed": 2166.0,
+          "attack_cancellations": 54.0,
+          "death_matches": 1,
+          "pregame_death_matches": 0,
+          "early_deaths": 0,
+          "actions": [
+            56954.0,
+            13778.0,
+            0.0,
+            3205.0,
+            5865.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            27.0
+          ]
+        }
+      ],
+      "farm": 950.0,
+      "early_deaths": 0,
+      "death_matches": 7,
+      "trial_eligible": false,
+      "criterion": false,
+      "learning_rate": 3e-05,
+      "train_stage": "rev-async-trial-3e5",
+      "evaluation_stage": "rev-async-eval-3e5",
+      "weights": "C:\\AMI\\runs\\p08\\rev-async-trial-3e5\\checkpoint-000054\\weights"
+    }
+  ],
+  "selected": {
+    "run": "p08",
+    "name": "rev-async-eval-1e5",
+    "complete": true,
+    "matches": 32,
+    "wall_seconds": 280.6132525,
+    "sides": [
+      {
+        "side": "radiant",
+        "matches": 16,
+        "lh": 290.0,
+        "deny": 168.0,
+        "deaths": 2.0,
+        "attack_cycles_completed": 1908.0,
+        "attack_cancellations": 117.0,
+        "death_matches": 2,
+        "pregame_death_matches": 0,
+        "early_deaths": 0,
+        "actions": [
+          46532.0,
+          21808.0,
+          0.0,
+          3034.0,
+          7077.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          105.0
+        ]
+      },
+      {
+        "side": "dire",
+        "matches": 16,
+        "lh": 237.0,
+        "deny": 200.0,
+        "deaths": 3.0,
+        "attack_cycles_completed": 1926.0,
+        "attack_cancellations": 76.0,
+        "death_matches": 3,
+        "pregame_death_matches": 0,
+        "early_deaths": 0,
+        "actions": [
+          49708.0,
+          16091.0,
+          0.0,
+          2905.0,
+          6093.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          58.0
+        ]
+      }
+    ],
+    "farm": 895.0,
+    "early_deaths": 0,
+    "death_matches": 5,
+    "trial_eligible": true,
+    "criterion": false,
+    "learning_rate": 1e-05,
+    "train_stage": "rev-async-trial-1e5",
+    "evaluation_stage": "rev-async-eval-1e5",
+    "weights": "C:\\AMI\\runs\\p08\\rev-async-trial-1e5\\checkpoint-000054\\weights"
+  },
+  "needs_additional_64": false,
+  "stop_required": false
+}

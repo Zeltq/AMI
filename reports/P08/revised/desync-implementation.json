@@ -1,0 +1,18 @@
+{
+  "method": "Frozen-policy staggered activation on 128-decision boundaries, then independent terminal arena resets",
+  "activation_blocks": 40,
+  "rollout_recording_during_initialization": false,
+  "updates_during_initialization": 0,
+  "restart_delay_max_decisions": 127,
+  "terminal_tail_masked": true,
+  "targeted_tests": {
+    "passed": 9,
+    "total": 9
+  },
+  "integration_check": "completed: rev-desync-check six blocks, independent phase histogram6/6,59/59 tensors unchanged; desync-validation.json",
+  "full_rust": {
+    "passed": 104,
+    "total": 104,
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p08/target -- --test-threads=1"
+  }
+}

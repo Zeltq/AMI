@@ -1,0 +1,118 @@
+[
+  {
+    "run": "smoke",
+    "name": "eval-final-argmax",
+    "complete": true,
+    "matches": 64,
+    "wall_seconds": 276.0831214,
+    "sides": [
+      {
+        "side": "radiant",
+        "matches": 32,
+        "lh": 302.0,
+        "deny": 196.0,
+        "deaths": 27.0,
+        "attack_cycles_completed": 1628.0,
+        "attack_cancellations": 6.0,
+        "early_deaths": 11,
+        "actions": [
+          60320.0,
+          18685.0,
+          0.0,
+          1872.0,
+          3599.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "side": "dire",
+        "matches": 32,
+        "lh": 271.0,
+        "deny": 246.0,
+        "deaths": 26.0,
+        "attack_cycles_completed": 1686.0,
+        "attack_cancellations": 6.0,
+        "early_deaths": 1,
+        "actions": [
+          68323.0,
+          15469.0,
+          0.0,
+          1968.0,
+          3436.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    ],
+    "farm": 1015.0,
+    "early_deaths": 12,
+    "criterion": false
+  },
+  {
+    "run": "smoke",
+    "name": "eval-final-sampling",
+    "complete": true,
+    "matches": 64,
+    "wall_seconds": 824.5743052,
+    "sides": [
+      {
+        "side": "radiant",
+        "matches": 32,
+        "lh": 466.0,
+        "deny": 284.0,
+        "deaths": 11.0,
+        "attack_cycles_completed": 3201.0,
+        "attack_cancellations": 168.0,
+        "early_deaths": 2,
+        "actions": [
+          85249.0,
+          36699.0,
+          0.0,
+          4527.0,
+          14105.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          144.0
+        ]
+      },
+      {
+        "side": "dire",
+        "matches": 32,
+        "lh": 499.0,
+        "deny": 386.0,
+        "deaths": 6.0,
+        "attack_cycles_completed": 3406.0,
+        "attack_cancellations": 112.0,
+        "early_deaths": 0,
+        "actions": [
+          95586.0,
+          31521.0,
+          0.0,
+          4531.0,
+          13397.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          130.0
+        ]
+      }
+    ],
+    "farm": 1635.0,
+    "early_deaths": 2,
+    "criterion": false
+  }
+]

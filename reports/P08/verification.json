@@ -1,0 +1,51 @@
+{
+  "python": {
+    "command": "$env:PYTHONPATH='src;tests;C:/AMI/tools/lua_test_runtime'; C:/Python314/python.exe -m unittest discover -s tests -v",
+    "passed": 184,
+    "total": 184,
+    "exit_code": 0
+  },
+  "cargo_check": {
+    "command": "cargo check --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p08/target",
+    "exit_code": 0,
+    "scope": "initial implementation before final telemetry additions"
+  },
+  "rust_targeted": {
+    "command": "cargo test --release --locked --manifest-path C:/AMI-wt/P08/gpu/Cargo.toml --target-dir C:/AMI/runs/p08/target p08_ -- --nocapture --test-threads=1",
+    "passed": 3,
+    "total": 3,
+    "exit_code": 0
+  },
+  "zero_lr": {
+    "identical": 59,
+    "total": 59,
+    "passed": true
+  },
+  "warmup_freeze": {
+    "nonvalue_identical": 55,
+    "nonvalue_total": 55,
+    "value_tensors_changed": 4,
+    "passed": true
+  },
+  "v3_smoke": {
+    "blocks": 1,
+    "passed": true
+  },
+  "rust_full": {
+    "command": "cargo test --release --locked --manifest-path C:/AMI-wt/P08/gpu/Cargo.toml --target-dir C:/AMI/runs/p08/target -- --test-threads=1",
+    "passed": 99,
+    "total": 99,
+    "exit_code": 0
+  },
+  "critic_warmup_gate": {
+    "test": "p08_critic_warmup_requires_observed_reward_or_the_limit",
+    "passed": true,
+    "cases": 4
+  },
+  "pause_guard": {
+    "command": "C:/Python314/python.exe gpu/scripts/p08_run.py main",
+    "exit_code": 1,
+    "main_directory_created": false,
+    "passed": true
+  }
+}

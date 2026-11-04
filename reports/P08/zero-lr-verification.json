@@ -1,0 +1,92 @@
+{
+  "stage": "zero-lr",
+  "passed": true,
+  "identical": 59,
+  "total": 59,
+  "different": [],
+  "nonvalue_identical": 55,
+  "nonvalue_total": 55,
+  "training_seconds": 60.7186665,
+  "history": [
+    {
+      "batch": 0,
+      "block": 1,
+      "collection_seconds": 41.0200607,
+      "components_sum": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "episodes": 0,
+      "finished_in_batch": 0,
+      "learning": {
+        "buckets": [
+          16,
+          32,
+          16
+        ],
+        "clip_fraction": 0.0,
+        "early_stop": false,
+        "entropy": 0.0,
+        "explained_variance": -0.03667140007019043,
+        "kl_coefficient": 0.10000000149011612,
+        "kl_m2": 0.0,
+        "old_policy_kl": 0.0,
+        "optimizer_steps": 2,
+        "rollout_entropy": 0.0269805695861578,
+        "rollout_kl_m2": 0.0,
+        "valid_decisions": 256.0,
+        "value_loss": 0.0038317241705954075,
+        "warmup": true
+      },
+      "optimization_seconds": 5.1939232,
+      "training_seconds": 46.2139839
+    },
+    {
+      "batch": 0,
+      "block": 2,
+      "collection_seconds": 4.9797333,
+      "components_sum": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "episodes": 0,
+      "finished_in_batch": 0,
+      "learning": {
+        "buckets": [
+          16,
+          32,
+          16
+        ],
+        "clip_fraction": 0.0,
+        "early_stop": false,
+        "entropy": 0.18741711974143982,
+        "explained_variance": -0.4757298231124878,
+        "kl_coefficient": 0.09653395414352417,
+        "kl_m2": 0.0,
+        "old_policy_kl": 0.0,
+        "optimizer_steps": 2,
+        "rollout_entropy": 0.18741707503795624,
+        "rollout_kl_m2": 0.0,
+        "valid_decisions": 256.0,
+        "value_loss": 0.005996198859065771,
+        "warmup": false
+      },
+      "optimization_seconds": 9.5249493,
+      "training_seconds": 60.7186665
+    }
+  ]
+}

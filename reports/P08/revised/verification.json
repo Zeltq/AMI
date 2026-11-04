@@ -1,0 +1,27 @@
+{
+  "targeted_rust": {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p08/target p08_ -- --test-threads=1",
+    "passed": 5,
+    "total": 5
+  },
+  "python_compile": [
+    "gpu/scripts/p08_revised.py"
+  ],
+  "full_rust": {
+    "passed": 101,
+    "total": 101,
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p08/target -- --test-threads=1",
+    "environment": "SF_DUEL_DATA_ROOT=C:/AMI",
+    "evidence": "test result: ok. 101 passed; 0 failed"
+  },
+  "python_full": {
+    "passed": 186,
+    "total": 186,
+    "command": "$env:PYTHONPATH='src;tests;C:/AMI/tools/lua_test_runtime'; C:/Python314/python.exe -m unittest discover -s tests -v"
+  },
+  "current_rust_targeted": {
+    "passed": 6,
+    "total": 6,
+    "context": "six P08 tests executed successfully within the running full Rust suite"
+  }
+}
