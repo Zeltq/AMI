@@ -1,7 +1,7 @@
 {
   "updated_utc": "2026-11-04T09:56:04.352801+00:00",
   "command": "git push -u origin agent/P09b-zog-rl",
-  "pending_commit": "afd148a",
+  "pending_commit": "8bf873b",
   "errors": [
     "Permission denied (publickey)",
     "remote rejected: Internal Server Error",
@@ -11,5 +11,7 @@
   "next_action": "Retry during next heartbeat; existing hourly publisher also retries publication failures.",
   "resolved_utc": "2026-11-04T10:05:06.254873+00:00",
   "published_commit": "3e19ef9",
-  "resolution": "Successful push with per-command core.sshCommand pointing to system OpenSSH; no repository/global credential configuration changes."
+  "resolution": "Successful push with per-command core.sshCommand pointing to system OpenSSH; no repository/global credential configuration changes.",
+  "latest_failure_utc": "2026-11-04T10:35:59.770336+00:00",
+  "current_status": "Push publickey failure recurred with default Git SSH and explicit system OpenSSH; client choice alone did not resolve it. Cause unknown. PPO remains alive."
 }
