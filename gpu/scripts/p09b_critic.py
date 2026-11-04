@@ -39,6 +39,8 @@ def main():
     policy=Policy(combat_inputs=True,timing_inputs=True,enemy_inputs=True).cuda();policy.load_state_dict(saved['state_dict']);policy.eval()
     for param in policy.parameters():param.requires_grad_(False)
     before=actor_hash(policy);config=dict(checkpoint=str(a.checkpoint),datasets=a.datasets,dataset_manifest_sha256=[hashlib.sha256((local_path(p)/'dataset.json').read_bytes()).hexdigest() for p in a.datasets],reward_mode=a.reward_mode,epochs=a.epochs,smoke_files=a.smoke_files,lr=3e-4,batch_frames=8192,seed=20261105,gamma=.99,mana_weight=.5,actor_sha256=before,feature_cache_dtype='float16',device=torch.cuda.get_device_name(0),torch=torch.__version__,hip=torch.version.hip)
+    if (out/'cache-reuse.json').exists():
+        assert json.loads((out/'cache-reuse.json').read_text())['actor_sha256']==before,'Reused recurrent features belong to a different policy'
     if (out/'config.json').exists():assert json.loads((out/'config.json').read_text())==config
     save(out/'config.json',config)
     cache=[];frames=0
