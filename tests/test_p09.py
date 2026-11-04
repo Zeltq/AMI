@@ -4,10 +4,14 @@ import torch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'gpu/scripts'))
 from train_ggd import loss_weights,matching_actions,validate_zog_weights
 from p09_data import rare_action_weights
-from p09_results import summarize
+from p09_results import summarize,ratio
 from sf_duel.model import Policy
 
 class P09Tests(unittest.TestCase):
+    def test_report_keeps_large_integer_denominators_exact(self):
+        self.assertEqual(ratio(965262,1025224),'965262/1025224')
+        self.assertEqual(ratio(0.,0.),'0/0')
+
     def test_user_weight_cap_and_hero_fixed_four(self):
         counts=[9749,0,0,0,0,0,1,40,210,0,0,1]
         weights,hero=rare_action_weights(counts)

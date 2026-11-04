@@ -4,7 +4,9 @@ from pathlib import Path
 from p09_run import RUN,REPORT,ROOT,save
 
 def read(path):return json.loads(Path(path).read_text(encoding='utf-8'))
-def ratio(n,d):return f'{n:g}/{d:g}'
+def ratio(n,d):
+    number=lambda value:str(int(value)) if float(value).is_integer() else f'{value:.3f}'
+    return number(n)+'/'+number(d)
 def table(lines,columns,rows):
     lines+=['| '+' | '.join(columns)+' |','|'+'|'.join(['---']*len(columns))+'|']
     lines+=['| '+' | '.join(str(v) for v in row)+' |' for row in rows];lines+=['']
