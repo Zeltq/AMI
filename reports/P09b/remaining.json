@@ -6,7 +6,7 @@
   "gpu_limit_minutes": 840,
   "runner_state": "C:/AMI/runs/p09/P09b/state.json",
   "remaining": [
-    "Publication still pending through hourly curvesfc2fb34. SSH diagnostics: configured public key offered, server rejected it; known host key matched. Noninteractive HTTPS push found no saved credentials; gh CLI unavailable. No credentials/config changed. Continue retrying SSH on heartbeat; controller also retries5min. Last successful push10:05UTC throughd5fc1f6. Do not stop healthy PPO or request user input.",
+    "Publication recovered10:53UTC: system OpenSSH push delivered all commits through29590d3. SSH failure remains intermittent; do not assume client switch solved root cause. Controller17024 uses older loaded publisher; inspect actual git ahead/behind and publication failures, retry accumulated commits as needed. No credentials/config changed; HTTPS fallback unavailable. Do not restart healthy PPO.",
     "Main controller17024, native15124, rl-main-001 running. Do not duplicate.480 training minutes excluding internal evaluations; checkpoints30min, evaluations120/240/360/480 vs v10 and previous version. Frozen critic warmup completed20 blocks with last5EV0.546916 and55/55 actor tensors unchanged. Resume latest valid checkpoint after a failure using a new attempt; no extra PPO after480min.",
     "Parent controller publishes hourly and immediately after each evaluation-complete marker. Monitor real processes, stderr, training/validation and GPU budget every10min; update stale report sections as stages finish.",
     "GPU budget used233.87654min before main (exact ledger in budget.json), limit840min. Includes all previous GPU jobs. Preserve480min PPO plus four evaluation pairs and main initialization; do not add speculative GPU runs.",
