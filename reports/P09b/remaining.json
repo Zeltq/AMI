@@ -19,8 +19,8 @@
     "Audit report <=150lines and files<1MB, all numerator/denominator metrics and final two comparison tables, exact commands/durations for collection/train/eval only, final DONE/BLOCKED line; final push and heartbeat PAUSED."
   ],
   "known_limits": [
-    "Existing PPO batch_sequences=48 counts actor slots including masked opponent rows, as P08; audit intended effective learner minibatch in smoke and document/adjust only new mode if needed.",
-    "MC offline collapses absent invalid pregame terminal tail onto last valid decision; terminal convention explicitly recorded in targets.json.",
+    "PPO potential-v1 now uses 48 learner sequences; non-learner rows filtered before the optimizer; pure CPU Rust minibatch test passed1/1. P08 path unchanged.",
+    "Offline targets v2 use actual native terminal timestamps and every four-tick step; invalid imitation frames are excluded only from fitting. Demo and d1 targets already prepared in C:/AMI/runs/p09/P09b/critic/targets-0 and targets-1; use output C:/AMI/runs/p09/P09b/critic for full pretraining to reuse them. Need targets-2 after d2 audit.",
     "Policy and optimizer resume is implemented; full arena state is not restored after a process crash. Scheduled evaluations occur inside the live process.",
     "New GPU reward/critic/dual-checkpoint evaluation code has only cargo check and CPU arithmetic checks so far."
   ],
@@ -28,6 +28,13 @@
     "passed": true,
     "binary": "C:/AMI/runs/p09/P09b/rl-gpu.exe",
     "log": "C:/AMI/runs/p09/P09b/build-rl.stderr.log",
-    "gpu_tests_run": false
-  }
+    "gpu_tests_run": false,
+    "needs_rebuild": true,
+    "rebuild_log": "C:/AMI/runs/p09/P09b/build-rl-minibatch.stderr.log",
+    "rebuild_pid": 18532
+  },
+  "critic_cpu_checks": [
+    "reports/P09b/critic-cpu-check.json",
+    "reports/P09b/critic-cpu-post0-check.json"
+  ]
 }

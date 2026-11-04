@@ -1,5 +1,5 @@
 """Exact P09b reward arithmetic, numerical table and offline return targets."""
-import argparse,json,math
+import argparse,json,math,hashlib,os,time
 from pathlib import Path
 import numpy as np
 GAMMA=.99
@@ -37,31 +37,58 @@ def numeric_table(engine):
     return dict(gamma=GAMMA,mana_weight=MANA_WEIGHT,assumptions='Equal hero levels; initial stat item and no additional bracer, zero souls and zero raze stacks, first nonlethal hit, no simultaneous regen/other damage/level-up, old potential=0. Actual step adds (gamma-1)*old potential. Souls/stacks increase damage. Last hit means one enemy lane creep.',rows=rows)
 
 def targets(root,out):
-    """Reverse chronological MC returns across shard/block boundaries, split by actor."""
+    """MC return on every native decision-clock step; validity masks only the loss."""
     root=Path(root);out=Path(out);out.mkdir(parents=True,exist_ok=True)
-    manifest=json.loads((root/'reward-metadata.json').read_text());carry={};seen=set();counts={'train':0,'validation':0,'test':0};entries=[]
-    for entry in reversed(manifest['files']):
+    complete=out/'targets.json'
+    if complete.exists():complete.unlink()
+    manifest=json.loads((root/'reward-metadata.json').read_text());carry={};terminals={};actors_seen=set();counts={'train':0,'validation':0,'test':0};entries=[];started=time.monotonic()
+    def progress(stage,index):
+        status=dict(stage=stage,pid=os.getpid(),files=index,total_files=len(manifest['files']),frames=counts,elapsed_seconds=time.monotonic()-started)
+        tmp=out/'targets-status.tmp';tmp.write_text(json.dumps(status,indent=2),newline='\n');tmp.replace(out/'targets-status.json')
+    # A hero can be dead (invalid for imitation) while the pregame duel has not
+    # terminated. Its actual terminal state is still present in privileged data.
+    for index,entry in enumerate(manifest['files']):
+        with np.load(root/entry['file']) as z:
+            state=z['state'];actors=z['actors'];fields=z['fields'].tolist()
+        terminal_column=fields.index('terminal')
+        for i,actor in enumerate(actors):
+            actor=int(actor);actors_seen.add(actor)
+            if actor not in terminals:
+                steps=np.flatnonzero(state[i,:,1,terminal_column]>.5)
+                if len(steps):terminals[actor]=(index,int(steps[0]))
+        if index%16==0:progress('locating native terminals',index+1)
+    if actors_seen!=set(terminals):raise ValueError('Missing native terminal state for actors '+str(sorted(actors_seen-set(terminals))))
+    internal_invalid=0;terminal_invalid=0
+    for index in range(len(manifest['files'])-1,-1,-1):
+        entry=manifest['files'][index]
         with np.load(root/entry['file']) as z:
             state=z['state'].astype(np.float64);valid=z['valid'];actors=z['actors'];fields=z['fields'].tolist();outcome=z['match_outcome']
-        phi=potentials(state,fields);r=rewards(state,fields).sum(-1);fi={k:i for i,k in enumerate(fields)}
+        r=rewards(state,fields).sum(-1);fi={k:i for i,k in enumerate(fields)}
         ret=np.zeros(valid.shape,np.float32);last_count=0
         for i,actor in enumerate(actors):
-            actor=int(actor);indices=np.flatnonzero(valid[i])
-            if not len(indices):continue
-            if actor not in seen:
-                # Pregame death may have no valid frame at the later duel terminal.
-                # Collapse the no-decision tail onto its last valid transition.
-                t=indices[-1]
-                r[i,t]=10.*int(outcome[i,t])-float(phi[i,t,0].sum())
-                carry[actor]=0.;seen.add(actor);last_count+=1
-            for t in reversed(indices):
-                carry[actor]=float(r[i,t])+GAMMA*carry[actor];ret[i,t]=carry[actor]
+            actor=int(actor);terminal_file,terminal_step=terminals[actor]
+            if index>terminal_file:
+                assert not valid[i].any(),('valid decisions after terminal',actor,entry['file'])
+                continue
+            limit=terminal_step+1 if index==terminal_file else valid.shape[1]
+            assert not valid[i,limit:].any()
+            if index==terminal_file:
+                carry[actor]=0.;last_count+=1;terminal_invalid+=int(not valid[i,terminal_step])
+                assert int(state[i,terminal_step,1,fi['result']])==int(outcome[i,terminal_step])
+            for t in range(limit-1,-1,-1):
+                carry[actor]=float(r[i,t])+GAMMA*carry[actor]
+                if valid[i,t]:ret[i,t]=carry[actor]
+                else:internal_invalid+=1
             stage='validation' if actor//2%8==6 else 'test' if actor//2%8==7 else 'train'
-            counts[stage]+=len(indices)
-        target=out/entry['file'];np.savez_compressed(target,returns=ret,valid=valid,post0=state[:,:,0,fi['game_seconds']]>=0,actors=actors)
-        entries.append(dict(file=target.name,demonstration=entry['demonstration'],last_actor_transitions=last_count))
-    report=dict(dataset=str(root),gamma=GAMMA,mana_weight=MANA_WEIGHT,actors=len(seen),frames=counts,files=list(reversed(entries)),terminal_convention='last valid decision carries terminal outcome and Phi(next)=0; no invalid padding discount; MC over complete valid actor sequence')
-    (out/'targets.json').write_text(json.dumps(report,indent=2));return report
+            counts[stage]+=int(valid[i].sum())
+        target=out/entry['file'];temporary=target.with_name(target.name+'.tmp.npz')
+        np.savez_compressed(temporary,returns=ret,valid=valid,post0=state[:,:,0,fi['game_seconds']]>=0,actors=actors);temporary.replace(target)
+        entries.append(dict(file=target.name,demonstration=entry['demonstration'],native_terminal_actors=last_count))
+        if index%8==0:progress('return targets',len(entries))
+    report=dict(version=2,dataset=str(root),gamma=GAMMA,mana_weight=MANA_WEIGHT,actors=len(terminals),frames=counts,files=list(reversed(entries)),invalid_steps_before_or_at_terminal=internal_invalid,terminals_outside_imitation_mask=terminal_invalid,terminal_convention='actual first native terminal, Phi(next)=0; gamma at every four-tick decision step, including invalid imitation frames; invalid loss frames and post-terminal padding are not training examples')
+    report['metadata_sha256']=hashlib.sha256((root/'reward-metadata.json').read_bytes()).hexdigest()
+    complete.write_text(json.dumps(report,indent=2),newline='\n')
+    (out/'targets-status.json').write_text(json.dumps(dict(stage='complete',files=len(entries),frames=counts,pid=None),indent=2),newline='\n');return report
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('mode',choices=['table','targets']);p.add_argument('source');p.add_argument('output');a=p.parse_args()

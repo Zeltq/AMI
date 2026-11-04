@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "dataset": "C:\\AMI\\runs\\p09\\dataset",
+  "gamma": 0.99,
+  "mana_weight": 0.5,
+  "actors": 2048,
+  "frames": {
+    "train": 6045428,
+    "validation": 1025224,
+    "test": 1022120
+  },
+  "invalid_steps_before_or_at_terminal": 0,
+  "terminals_outside_imitation_mask": 0,
+  "terminal_convention": "actual first native terminal, Phi(next)=0; gamma at every four-tick decision step, including invalid imitation frames; invalid loss frames and post-terminal padding are not training examples",
+  "metadata_sha256": "936c8004edf628d5a84a2a458007dc8ef5327b3aa1868074499de3248d21e07c",
+  "command": "C:/Python314/python.exe gpu/scripts/p09b_reward.py targets C:/AMI/runs/p09/dataset C:/AMI/runs/p09/P09b/critic/targets-0"
+}

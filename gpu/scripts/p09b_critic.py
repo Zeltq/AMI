@@ -36,7 +36,7 @@ def main():
     cache=[];frames=0
     for dataset_index,dataset in enumerate(a.datasets):
         root=local_path(dataset);target_dir=out/f'targets-{dataset_index}'
-        if not (target_dir/'targets.json').exists():targets(root,target_dir)
+        if not (target_dir/'targets.json').exists() or json.loads((target_dir/'targets.json').read_text()).get('version')!=2:targets(root,target_dir)
         target_manifest=json.loads((target_dir/'targets.json').read_text());lookup={x['demonstration']:x for x in target_manifest['files']}
         manifest=json.loads((root/'dataset.json').read_text());folder=out/f'features-{dataset_index}';folder.mkdir(exist_ok=True)
         for block,entry in enumerate(manifest['files']):
@@ -92,7 +92,8 @@ def main():
         if row['validation']['all']['mse']<best:best=row['validation']['all']['mse'];torch.save(checkpoint,out/'best.pt')
         save(out/'status.json',dict(stage='value fitting',**row,minutes=(time.monotonic()-start)/60));print(json.dumps(row),flush=True)
     assert actor_hash(policy)==before
-    result=dict(history=history,actor_sha256_before=before,actor_sha256_after=actor_hash(policy),actor_unchanged=True,selection='minimum validation MSE, all decisions; phase EV reported separately',checkpoint=str(out/'best.pt'),minutes=(time.monotonic()-start)/60)
+    best_checkpoint=torch.load(out/'best.pt',map_location='cpu',weights_only=False)
+    result=dict(history=history,selected_epoch=best_checkpoint['critic_epoch'],selected_validation=best_checkpoint['critic_history'][-1]['validation'],actor_sha256_before=before,actor_sha256_after=actor_hash(policy),actor_unchanged=True,selection='minimum validation MSE, all decisions; phase EV reported separately',checkpoint=str(out/'best.pt'),minutes=(time.monotonic()-start)/60)
     save(out/'result.json',result)
 
 if __name__=='__main__':main()

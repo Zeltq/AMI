@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "device": "CPU",
+  "checkpoint": "C:/AMI/runs/p09/ZOg/epoch-003.pt",
+  "demonstration": "block-000000-shard-000.ggd.gz",
+  "actors": [
+    0,
+    1,
+    12,
+    13,
+    16,
+    17,
+    28,
+    29
+  ],
+  "frames": 1024,
+  "post0_frames": 0,
+  "pregame_frames": 1024,
+  "actor_sha256_before": "88c2ca7e54026fa8741eff6c5843260f647cc69eb6fa50eb756b54980262e753",
+  "actor_sha256_after": "88c2ca7e54026fa8741eff6c5843260f647cc69eb6fa50eb756b54980262e753",
+  "value_tensors_changed": 4,
+  "value_tensors": 4,
+  "fp16_cache_max_value_difference": 7.87973403930664e-05,
+  "target_min": -1.4348065525252266e-19,
+  "target_max": 1.4348065525252266e-19,
+  "loss": 0.169587641954422,
+  "scope": "one real recurrent block, both train and validation actor identities; one value update; not a full critic training or GPU compatibility check"
+}

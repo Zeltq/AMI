@@ -16,18 +16,22 @@ class RewardTests(unittest.TestCase):
         self.assertEqual(r[-1,0],-10)
         self.assertEqual(r[:-1,0].sum(),0)
 
-    def test_mc_returns_cross_blocks_and_collapse_missing_terminal_decision(self):
+    def test_mc_returns_cross_blocks_and_discount_invalid_steps_to_native_terminal(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);files=[]
             for block in range(2):
-                s=np.zeros((1,128,2,len(FIELDS)));v=np.zeros((1,128),bool);v[0,0]=True
-                s[0,0,0,0]=block;s[0,0,1,0]=block+1
-                s[0,0,:,10]=block
+                s=np.zeros((1,128,2,len(FIELDS)));v=np.zeros((1,128),bool);v[0,127 if block==0 else 0]=True
+                s[:,:,:,0]=1
+                s[0,:,:,10]=block
+                if block==1:
+                    s[0,2,1,8]=1;s[0,2,1,9]=1
+                    s[0,3:,:,8]=1;s[0,3:,:,9]=1
                 name=f'b{block}.npz';np.savez(root/name,state=s,valid=v,actors=[0],fields=FIELDS,match_outcome=np.ones((1,128),np.int8))
                 files.append(dict(file=name,demonstration=f'b{block}.ggd.gz'))
             (root/'reward-metadata.json').write_text(json.dumps(dict(files=files)))
             result=targets(root,root/'out');self.assertEqual(result['actors'],1)
-            with np.load(root/'out/b1.npz') as z:self.assertAlmostEqual(float(z['returns'][0,0]),9.5)
-            with np.load(root/'out/b0.npz') as z:self.assertAlmostEqual(float(z['returns'][0,0]),.495+.99*9.5,places=5)
+            self.assertEqual(result['terminals_outside_imitation_mask'],1)
+            with np.load(root/'out/b1.npz') as z:self.assertAlmostEqual(float(z['returns'][0,0]),-.5+.99**2*10,places=5)
+            with np.load(root/'out/b0.npz') as z:self.assertAlmostEqual(float(z['returns'][0,127]),-.5+.99**3*10,places=5)
 
 if __name__=='__main__':unittest.main()
