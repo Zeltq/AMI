@@ -5,7 +5,8 @@ from p09c_run import RUN,REPORT,WEIGHTS,read,save,sha,history,used,pid_alive
 from p09b_results import lines,summaries
 
 def main():
-    assert not pid_alive(13760) and not pid_alive(27244),'P09c controller/native process remains alive'
+    current=read(RUN/'state.json')
+    assert not pid_alive(current.get('controller_pid')) and not pid_alive(current.get('pid')),'P09c controller/native process remains alive'
     jobs=history();assert all(r.get('exit_code') is not None for r in jobs)
     assert all(r['exit_code']==0 for r in jobs if r.get('gpu_budget'))
     assert used()<=300
@@ -55,7 +56,24 @@ def main():
     subprocess.run(['git','diff','--exit-code',source['baseline'],'--']+[r['path'] for r in source['files']],check=True,capture_output=True)
     for p in REPORT.iterdir():
         if p.is_file():assert p.stat().st_size<1_000_000,p
-    summary=dict(passed=True,evaluation_matches=256,hero_perspectives=512,evaluation_series=checks,summary=full_rows,shared_hour_final=True,unique_final_checkpoints=1,checkpoint=str(checkpoint),checkpoint_tensor_files_unchanged=59,model_and_optimizer_unchanged_during_evaluation=True,training_seconds_during_all_evaluations=result['training_seconds'],evaluation_minutes=eval_seconds/60,all_ppo_blocks=314,clip_blocks_in_unit_interval=314,gpu_minutes=used(),gpu_limit_minutes=300,gpu_jobs_completed=sum(r.get('gpu_budget',False) for r in jobs),gpu_job_failures=0,training_restarts=0,protected_files_unchanged=source['files_unchanged'],historical_reference_reward='event-v2 not measured for historical P09b d1-v10 and v10-v10 reference series; no approximation substituted')
+    reference_checks=[]
+    excluded={'reward','reward_components','shaping_telescoping_residual','event_v2_components','event_v2_reward'}
+    def gameplay(value):
+        if isinstance(value,dict):return {k:gameplay(v) for k,v in value.items() if k not in excluded}
+        if isinstance(value,list):return [gameplay(v) for v in value]
+        return value
+    for model,old_name in [('ZOg-d1','reward-ZOg-d1'),('v10','reward-v10')]:
+        for seed in (20261103,20261104):
+            old=Path('C:/AMI/runs/p09/P09b')/f'{old_name}-{seed}/report.json';new=RUN/f'eval-{model}-vs-v10-{seed}/report.json'
+            a=read(old);b=read(new);assert b['complete'] and b['matches']==64 and b['seed']==seed
+            assert gameplay(a['per_match'])==gameplay(b['per_match']),'Historical gameplay differs: '+str(new)
+            for g in b['per_match']:
+                for side,h in enumerate(g['sides']):
+                    c=h['event_v2_components'];assert c[0]==10*g['result']*(1 if side==0 else -1)
+                    assert abs(c[1]-.5*h['lh'])<1e-3 and abs(c[2]-.2*h['deny'])<1e-3 and abs(sum(c)-h['event_v2_reward'])<1e-3
+            reference_checks.append(dict(model=model,seed=seed,gameplay_matches_equal=64,both_heroes=128,old_report_sha256=sha(old),new_report_sha256=sha(new),evaluation_minutes=b['wall_seconds']/60))
+    save(REPORT/'reference-parity.json',dict(passed=True,matches_equal=256,hero_perspectives_equal=512,checks=reference_checks,excluded_fields=sorted(excluded),scope='Every gameplay field, including minute snapshots, unchanged; only reward fields excluded.'))
+    summary=dict(passed=True,evaluation_matches=256,hero_perspectives=512,evaluation_series=checks,summary=full_rows,shared_hour_final=True,unique_final_checkpoints=1,checkpoint=str(checkpoint),checkpoint_tensor_files_unchanged=59,model_and_optimizer_unchanged_during_evaluation=True,training_seconds_during_all_evaluations=result['training_seconds'],evaluation_minutes=eval_seconds/60,all_ppo_blocks=314,clip_blocks_in_unit_interval=314,gpu_minutes=used(),gpu_limit_minutes=300,gpu_jobs_completed=sum(r.get('gpu_budget',False) for r in jobs),gpu_job_failures=0,training_restarts=0,protected_files_unchanged=source['files_unchanged'],reference_matches_with_exact_event_reward=256,reference_gameplay_unchanged=True)
     save(REPORT/'final-audit.json',summary)
     print(json.dumps({k:v for k,v in summary.items() if k not in ('summary','evaluation_series')},indent=2))
 
