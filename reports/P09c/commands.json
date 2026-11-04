@@ -70,5 +70,23 @@
     "kind": "audit",
     "command_literal": "C:\\Python314\\python.exe C:\\AMI-wt\\P09c\\gpu\\scripts\\p09c_data_parity.py C:\\AMI\\runs\\p09\\P09b\\d1-data C:\\AMI\\runs\\p09\\P09c\\d1-data C:\\AMI-wt\\P09c\\reports\\P09c\\d1-parity.json",
     "exit_code": 0
+  },
+  {
+    "stage": "d2-collect",
+    "kind": "collection",
+    "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe collect-dagger C:\\AMI-wt\\P09c\\reports\\P09c\\d2-collect.json C:\\AMI\\runs\\p09\\P09c\\d2-data",
+    "exit_code": 0
+  },
+  {
+    "stage": "d2-audit",
+    "kind": "audit",
+    "command_literal": "C:\\Python314\\python.exe C:\\AMI-wt\\P09c\\gpu\\scripts\\p09_data.py C:\\AMI\\runs\\p09\\P09c\\d2-data C:\\AMI-wt\\P09c\\reports\\P09c\\d2-audit.json",
+    "exit_code": 0
+  },
+  {
+    "stage": "d2-parity",
+    "kind": "audit",
+    "command_literal": "C:\\Python314\\python.exe C:\\AMI-wt\\P09c\\gpu\\scripts\\p09c_data_parity.py C:\\AMI\\runs\\p09\\P09b\\d2-data C:\\AMI\\runs\\p09\\P09c\\d2-data C:\\AMI-wt\\P09c\\reports\\P09c\\d2-parity.json",
+    "exit_code": 0
   }
 ]
