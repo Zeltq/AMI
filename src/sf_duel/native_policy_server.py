@@ -80,7 +80,7 @@ class Service:
        b['creep_ally']=torch.zeros((n,pc),device=device,dtype=torch.bool)
        if self.model.combat_inputs:
         from .spec import COMBAT_UNIT_FIELDS,COMBAT_PROJECTILE_FIELDS
-        b['creep_combat']=torch.zeros((n,pc,b['hero_combat'].shape[-1]),device=device);b['projectile_combat']=torch.zeros((n,pp,2*len(COMBAT_PROJECTILE_FIELDS)),device=device)
+        b['creep_combat']=torch.zeros((n,pc,b['creep_combat'].shape[-1]),device=device);b['projectile_combat']=torch.zeros((n,pp,2*len(COMBAT_PROJECTILE_FIELDS)),device=device)
        for key in ('attack_mask','tree_mask','tp_mask','self_mask'):b[key]=torch.zeros((n,7+pc+pt),device=device,dtype=torch.bool)
        b['self_mask'][:,0]=True
        for _ in range(2):self.model.decide(b,need_entropy=False)
