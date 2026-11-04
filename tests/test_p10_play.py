@@ -85,5 +85,17 @@ function SelectHero(pid,name) picks[#picks+1]={pid=pid,name=name} end
         self.assertEqual(result['first_death']['time'],100.05)
         self.assertEqual(result['sides']['3']['kills'],0)
 
+    def test_timeout_excludes_later_death_cast_and_score(self):
+        rows=[dict(kind='hero',team=t,time=600,lh=0,deny=0,kills=0,alive=True,x=0,y=0) for t in (2,3)]
+        rows.extend([dict(kind='death',team=2,killer_team=3,killer='npc_dota_hero_nevermore',time=600.02),
+                     dict(kind='cast',team=3,time=600.02,ability='nevermore_shadowraze1'),
+                     dict(kind='hero',team=3,time=600.02,lh=0,deny=0,kills=1,alive=True,x=0,y=0)])
+        with tempfile.TemporaryDirectory() as folder:
+            log=Path(folder)/'log';log.write_text(''.join('SF_PLAY_EVENT|'+json.dumps(r)+'\n' for r in rows))
+            result=summarize(log,2)
+        self.assertIsNone(result['first_death'])
+        self.assertEqual(result['sides']['3']['kills'],0)
+        self.assertEqual(result['sides']['3']['raze_casts'],0)
+
 
 if __name__=='__main__':unittest.main()

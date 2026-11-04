@@ -31,14 +31,15 @@ def events(path):
 def summarize(log,model_team,end=600):
     rows=list(events(log))
     all_rows=rows
-    deaths=[r for r in rows if r['kind']=='death' and r['time']<=end+1/30+.001]
+    death_slack=1/30+.001 if end<600 else .001
+    deaths=[r for r in rows if r['kind']=='death' and r['time']<=end+death_slack]
     first=min(deaths,key=lambda r:r['time']) if deaths else None
     if first:end=min(end,first['time'])
-    rows=[r for r in rows if r['time']<=end+1/30+.001]
+    rows=[r for r in rows if r['time']<=end+(1/30+.001 if first else .001)]
     sides={}
     for team in (2,3):
         samples=[r for r in rows if r['kind']=='hero' and r['team']==team]
-        score_samples=[r for r in all_rows if r['kind']=='hero' and r['team']==team and r['time']<=end+(.2 if first else 1/30+.001)]
+        score_samples=[r for r in all_rows if r['kind']=='hero' and r['team']==team and r['time']<=end+(.2 if first else .001)]
         scoreboard_kills=score_samples[-1].get('kills',0) if score_samples else 0
         direct_kills=sum(r['kind']=='death' and r.get('killer_team')==team and r.get('team')!=team and r.get('killer')=='npc_dota_hero_nevermore' for r in rows)
         spells=Counter(r.get('ability','') for r in rows if r['kind']=='cast' and r.get('team')==team)
