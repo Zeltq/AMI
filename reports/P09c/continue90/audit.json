@@ -1,0 +1,82 @@
+{
+  "passed": true,
+  "matches": 384,
+  "hero_perspectives": 768,
+  "series": [
+    {
+      "opponent": "v10",
+      "seed": 20261103,
+      "matches": 64,
+      "radiant": 32,
+      "dire": 32,
+      "sha256": "7f521999a8b8003c2afd8f4be1d2657830258374a96b0a2f7ae198f27f397d32",
+      "evaluation_minutes": 5.495552205
+    },
+    {
+      "opponent": "v10",
+      "seed": 20261104,
+      "matches": 64,
+      "radiant": 32,
+      "dire": 32,
+      "sha256": "ec5b00672e0b7ddda73c551a979d9944180383e5ad5fb5d7331fda3cca9532bb",
+      "evaluation_minutes": 5.65231264
+    },
+    {
+      "opponent": "pilot",
+      "seed": 20261103,
+      "matches": 64,
+      "radiant": 32,
+      "dire": 32,
+      "sha256": "13d0c22d44d2c710dcd04ddda405b8419bcfb2f28cf330f2c6976eda24a28907",
+      "evaluation_minutes": 4.614463798333333
+    },
+    {
+      "opponent": "pilot",
+      "seed": 20261104,
+      "matches": 64,
+      "radiant": 32,
+      "dire": 32,
+      "sha256": "930788dc6ed8a1f80e1c10df58b63f2470c64614dc598b682bc50c0be4093bdf",
+      "evaluation_minutes": 5.25816515
+    },
+    {
+      "opponent": "current",
+      "seed": 20261103,
+      "matches": 64,
+      "radiant": 32,
+      "dire": 32,
+      "sha256": "ec00e9b4ac83497bfd0061eb9669ab3c6993fd19fe61ebbc0cf1f37bd742529c",
+      "evaluation_minutes": 5.290813073333334
+    },
+    {
+      "opponent": "current",
+      "seed": 20261104,
+      "matches": 64,
+      "radiant": 32,
+      "dire": 32,
+      "sha256": "14ebc9e86636f30ec37be34c427c0015d4fc95cf9945cc57a91783b73d86fc3c",
+      "evaluation_minutes": 5.271448346666667
+    }
+  ],
+  "checkpoint": "C:\\AMI\\runs\\p09\\P09c\\continue90\\rl-continue-001\\checkpoint-000470",
+  "model_sha256": "49c9ed4f5f20a3d9c79ae9d3b6a89f2b42119b613d4539e64e2c7796c69470ff",
+  "optimizer_sha256": "0cdff36db1df6e3952f551ec6ccae25c358f768b5bcab9df47d8b9ca9a88e296",
+  "manifest_sha256": "ba311754cd906d4dfa883263b60581d9ae880d00a269a396d8fc4b47b55eb83d",
+  "new_training_minutes": 50.13410998666677,
+  "new_blocks": 156,
+  "clip_valid_blocks": 156,
+  "constant_anchor_coefficient": 0.05,
+  "warmup_blocks": 0,
+  "decisions": 3759222,
+  "decisions_per_second": 1249.7219959955971,
+  "source_model_and_adam_hashes_match_request": true,
+  "resumed_time_matches_source": true,
+  "weight_snapshot_scope": "Snapshot during second v10 evaluation, before pilot/current evaluations; compare again at final audit.",
+  "snapshot_files_unchanged": 189,
+  "finite_tensor_files": 177,
+  "protected_files_unchanged": 72,
+  "gpu_process_minutes": 90.31600620666674,
+  "prior_gpu_minutes": 292.7725214716668,
+  "gpu_job_failures": 0,
+  "old_controller_guard": "Expected stale 90-minute assertion after user-requested native stop; no native failure."
+}
