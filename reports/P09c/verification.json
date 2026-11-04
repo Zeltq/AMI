@@ -13,6 +13,25 @@
     {
       "command": "C:/Python314/python.exe -m py_compile gpu/scripts/p09c_rl.py gpu/scripts/p09c_results.py gpu/scripts/p09c_cache.py gpu/scripts/p09c_run.py",
       "exit_code": 0
+    },
+    {
+      "command": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P09c\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p09\\P09c\\target p09c_ -- --nocapture --test-threads=1",
+      "passed": 3,
+      "total": 3,
+      "exit_code": 0
+    },
+    {
+      "command": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P09c\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p09\\P09c\\target -- --test-threads=1",
+      "passed": 113,
+      "total": 113,
+      "exit_code": 0
+    },
+    {
+      "command": "C:\\Python314\\python.exe -m unittest discover -s tests -v",
+      "passed": 221,
+      "total": 221,
+      "exit_code": 0
     }
-  ]
+  ],
+  "clip_diagnostic": "Small legacy bool-to-float fixture also returned 0/1; historical >1 not reproduced. Explicit mask_fill and range invariant validated; PPO smoke pending."
 }

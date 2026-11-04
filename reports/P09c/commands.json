@@ -4,5 +4,29 @@
     "kind": "build",
     "command_literal": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P09c\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p09\\P09c\\target --no-run",
     "exit_code": 101
+  },
+  {
+    "stage": "rust-compile-2a60e96c4661",
+    "kind": "build",
+    "command_literal": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P09c\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p09\\P09c\\target --no-run",
+    "exit_code": 0
+  },
+  {
+    "stage": "rust-targeted-2a60e96c4661",
+    "kind": "verification",
+    "command_literal": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P09c\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p09\\P09c\\target p09c_ -- --nocapture --test-threads=1",
+    "exit_code": 0
+  },
+  {
+    "stage": "rust-full-2a60e96c4661",
+    "kind": "verification",
+    "command_literal": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P09c\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p09\\P09c\\target -- --test-threads=1",
+    "exit_code": 0
+  },
+  {
+    "stage": "python-full-2a60e96c4661",
+    "kind": "verification",
+    "command_literal": "C:\\Python314\\python.exe -m unittest discover -s tests -v",
+    "exit_code": 0
   }
 ]
