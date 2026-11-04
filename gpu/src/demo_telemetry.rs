@@ -45,7 +45,7 @@ impl Recorder {
     pub fn record(&self,w:&World,step:usize,phase:usize){record::launch(&w.state.client,CubeCount::Static(self.actors.div_ceil(64)as u32,1,1),CubeDim::new_1d(64),argument(&w.state),argument(&w.meta),argument(&w.experience),argument(&self.buffer),self.actors,step,phase,w.engine.pre_game_seconds);}
     pub fn flush(&self,root:&Path,block:usize,offset:usize,frames:usize)->Result<()>{
         let values=tensor::<3>(self.buffer.clone()).into_data().try_to_vec::<f32>()?;
-        let header=serde_json::to_vec(&serde_json::json!({"shape":[self.actors,128,2,FIELDS],"actors":(offset*2..offset*2+self.actors).collect::<Vec<_>>(),"frames":frames,"fields":NAMES,"phases":["before","after"],"reason_codes":{"0":"ongoing","1":"death","2":"T1","3":"LH600"}}))?;
+        let header=serde_json::to_vec(&serde_json::json!({"shape":[self.actors,128,2,FIELDS],"actors":(offset*2..offset*2+self.actors).collect::<Vec<_>>(),"frames":frames,"fields":NAMES.as_slice(),"phases":["before","after"],"reason_codes":{"0":"ongoing","1":"death","2":"T1","3":"LH600"}}))?;
         let mut out=flate2::write::GzEncoder::new(std::fs::File::create(root.join(format!("telemetry-{block:06}.f32.gz")))?,flate2::Compression::fast());
         out.write_all(&(header.len()as u32).to_le_bytes())?;out.write_all(&header)?;
         for value in values {out.write_all(&value.to_le_bytes())?;}out.finish()?;Ok(())
