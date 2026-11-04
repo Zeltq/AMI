@@ -1,0 +1,16 @@
+{
+  "checks": [
+    {
+      "command": "C:/Python314/python.exe -m unittest discover -s tests -p test_p09c_continue90.py -v",
+      "passed": 1,
+      "total": 1,
+      "scope": "Real checkpoint metadata, +5400 seconds target, same learning settings, completed KL schedule constant at .05"
+    },
+    {
+      "command": "C:/Python314/python.exe -m py_compile gpu/scripts/p09c_continue90.py",
+      "exit_code": 0
+    }
+  ],
+  "native_binary": "Previously verified P09c binary; no simulator or optimizer source changes in this continuation",
+  "resume_load": "Native process passed model/Adam/progress loading and entered desynchronization"
+}
