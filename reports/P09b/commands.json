@@ -366,5 +366,95 @@
     "command_literal": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P09b\\gpu\\Cargo.toml --target-dir C:/AMI/gpu/target p09b_ -- --test-threads=1",
     "artifact": null,
     "exit_code": 0
+  },
+  {
+    "stage": "rust-full-tests",
+    "kind": "verification",
+    "command": [
+      "cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "C:\\AMI-wt\\P09b\\gpu\\Cargo.toml",
+      "--target-dir",
+      "C:/AMI/gpu/target",
+      "--",
+      "--test-threads=1"
+    ],
+    "command_literal": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P09b\\gpu\\Cargo.toml --target-dir C:/AMI/gpu/target -- --test-threads=1",
+    "artifact": null,
+    "exit_code": 0
+  },
+  {
+    "stage": "build-rl-verified",
+    "kind": "build",
+    "command": [
+      "cargo",
+      "build",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "C:\\AMI-wt\\P09b\\gpu\\Cargo.toml",
+      "--target-dir",
+      "C:/AMI/gpu/target"
+    ],
+    "command_literal": "cargo build --release --locked --manifest-path C:\\AMI-wt\\P09b\\gpu\\Cargo.toml --target-dir C:/AMI/gpu/target",
+    "artifact": null,
+    "exit_code": 0
+  },
+  {
+    "stage": "check-teacher",
+    "kind": "evaluation",
+    "command": [
+      "C:\\AMI\\runs\\p09\\P09b\\rl-gpu.exe",
+      "evaluate-ggd",
+      "C:/AMI/runs/p07/dota-calibration-005/engine.json",
+      "C:\\AMI\\runs\\p09\\ZOg\\epoch-003\\weights",
+      "C:\\AMI\\runs\\p09\\P09b\\check-teacher",
+      "--mode",
+      "teacher",
+      "--matches",
+      "2",
+      "--seconds",
+      "600",
+      "--seed",
+      "20261107",
+      "--sampling",
+      "--teacher-version",
+      "v10"
+    ],
+    "command_literal": "C:\\AMI\\runs\\p09\\P09b\\rl-gpu.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:\\AMI\\runs\\p09\\ZOg\\epoch-003\\weights C:\\AMI\\runs\\p09\\P09b\\check-teacher --mode teacher --matches 2 --seconds 600 --seed 20261107 --sampling --teacher-version v10",
+    "artifact": "C:\\AMI\\runs\\p09\\P09b\\check-teacher\\report.json",
+    "exit_code": 0,
+    "minutes": 3.011773633333117
+  },
+  {
+    "stage": "check-different-weights",
+    "kind": "evaluation",
+    "command": [
+      "C:\\AMI\\runs\\p09\\P09b\\rl-gpu.exe",
+      "evaluate-ggd",
+      "C:/AMI/runs/p07/dota-calibration-005/engine.json",
+      "C:\\AMI\\runs\\p09\\ZOg\\epoch-003\\weights",
+      "C:\\AMI\\runs\\p09\\P09b\\check-different-weights",
+      "--mode",
+      "teacher",
+      "--matches",
+      "2",
+      "--seconds",
+      "600",
+      "--seed",
+      "20261107",
+      "--sampling",
+      "--teacher-version",
+      "v10",
+      "--opponent-weights",
+      "C:\\AMI\\runs\\p09\\ZOg\\epoch-002\\weights"
+    ],
+    "command_literal": "C:\\AMI\\runs\\p09\\P09b\\rl-gpu.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:\\AMI\\runs\\p09\\ZOg\\epoch-003\\weights C:\\AMI\\runs\\p09\\P09b\\check-different-weights --mode teacher --matches 2 --seconds 600 --seed 20261107 --sampling --teacher-version v10 --opponent-weights C:\\AMI\\runs\\p09\\ZOg\\epoch-002\\weights",
+    "artifact": "C:\\AMI\\runs\\p09\\P09b\\check-different-weights\\report.json",
+    "exit_code": 0,
+    "minutes": 2.0088361316661274
   }
 ]

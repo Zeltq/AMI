@@ -1,13 +1,13 @@
 {
-  "status": "DAgger2/2 complete, d1 selected in selection.json; verify controller retry3 PID17500 active",
-  "active_controller": "C:/Python314/python.exe gpu/scripts/p09b_run.py verify",
-  "controller_pid": 17500,
+  "status": "DAgger complete, d1 selected; GPU verification complete; passive-reward reference evaluations running",
+  "active_controller": "C:/Python314/python.exe gpu/scripts/p09b_rl.py references",
+  "controller_pid": 19312,
   "heartbeat_id": "p09b-zog-dagger-8-rl",
   "gpu_limit_minutes": 840,
   "runner_state": "C:/AMI/runs/p09/P09b/state.json",
   "remaining": [
     "DAgger finished. d1 selected from complete128-match evaluations; selection.json and report contain explicit tradeoffs. Preserve selection unless the new passive-reward benchmark materially changes trajectories; then investigate first.",
-    "When the current DAgger controller has exited and both rounds finished, launch C:/Python314/python.exe gpu/scripts/p09b_run.py verify from this worktree. It takes the same OS lock, runs narrow GPU reward tests then full Rust suite with GPU accounting, rebuilds rl-gpu.exe, and checks v10 and two DIFFERENT checkpoints on 2 balanced complete matches each. Do not run concurrently with DAgger.",
+    "GPU verification completed: targeted3/3, fullRust110/110; check-teacher and different-weights each2/2 complete, residuals<0.000089. verified-gpu.json seals source and binary. Current references controller running; no duplicate GPU work.",
     "The critic stage runs an eight-shard GPU smoke with validation, then fits eight value epochs on all three datasets; targets-0/1/2 are already prepared. Uses atomic checkpoints/features and verifies nonvalue weights before/after export.",
     "Run new reward evaluations for e3,d1,d2,P08 final and v10-v10 (two seeds x64); old DAgger executable evaluations lack reward. Reuse P09a other metrics and verify same-seed equality before replacing registry. Add reports to evaluations.json; p09b_results.py publishes both perspectives.",
     "Choose RL start using W/D/L, farm/spawn, survival/early deaths, razes; document observed tradeoffs before critic training. Export best critic checkpoint with weights.py.",
@@ -22,7 +22,7 @@
     "PPO potential-v1 now uses 48 learner sequences; non-learner rows filtered before the optimizer; pure CPU Rust minibatch test passed1/1. P08 path unchanged.",
     "Targets v2 use actual native terminal timestamps and all four-tick steps. All three target sets are prepared under C:/AMI/runs/p09/P09b/critic/targets-0, targets-1 and targets-2; fitting masks invalid frames and excludes test split. Full critic output must stay C:/AMI/runs/p09/P09b/critic to reuse them.",
     "Policy and optimizer resume is implemented; full arena state is not restored after a process crash. Scheduled evaluations occur inside the live process.",
-    "New GPU reward/critic/dual-checkpoint evaluation code has only cargo check and CPU arithmetic checks so far.",
+    "Reward kernels, native terminal accounting and dual-checkpoint evaluation passed targeted/full tests and two2-match checks. Ten-minute lr0 PPO, restart and GPU critic fitting still pending.",
     "Training curves omit frozen-prefix matches and smoke/critic-only runs; coverage is reported in rl-curve-coverage.json. Review complete-match counts after smoke.",
     "Critic validation uses cached FP16 recurrent features; cache dtype is explicit in config/results. CPU checks measured initial value error below0.000115; full GPU fitting is pending."
   ],
@@ -30,10 +30,11 @@
     "passed": true,
     "binary": "C:/AMI/runs/p09/P09b/rl-gpu.exe",
     "log": "C:/AMI/runs/p09/P09b/build-rl.stderr.log",
-    "gpu_tests_run": false,
-    "needs_rebuild": true,
+    "gpu_tests_run": true,
+    "needs_rebuild": false,
     "rebuild_log": "C:/AMI/runs/p09/P09b/build-rl-minibatch.stderr.log",
-    "reason": "Latest source adds correct reward logging and native snapshot tests. The verify stage rebuilds and recopies the executable after tests."
+    "reason": "Rebuilt after successful narrow/full GPU tests; seal in verified-gpu.json.",
+    "executable_sha256": "1edb6886a5d2cc3ba0b3de91b0176bc60446b3c3b83356aa42ab893434d10e9a"
   },
   "critic_cpu_checks": [
     "reports/P09b/critic-cpu-check.json",
@@ -43,7 +44,7 @@
     "python_full": 214,
     "reward_and_curves_cpu": 3,
     "minibatch_rust_cpu": 1,
-    "gpu_reward_tests": "pending verify stage",
+    "gpu_reward_tests": "3/3 targeted,110/110 fullRust,4/4 natural check matches",
     "p09b_cpu": 7
   },
   "post_dagger_commands": [

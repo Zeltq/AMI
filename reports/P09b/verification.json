@@ -91,5 +91,17 @@
     "exit_code": 0,
     "tests_executed": false,
     "log": "C:/AMI/runs/p09/P09b/test-build-final.log"
+  },
+  "rust_targeted_gpu": {
+    "passed": 3,
+    "failed": 0,
+    "command": "cargo test --release --locked --manifest-path C:/AMI-wt/P09b/gpu/Cargo.toml --target-dir C:/AMI/gpu/target p09b_ -- --test-threads=1",
+    "log": "C:/AMI/runs/p09/P09b/rust-p09b-tests-2.stdout.log"
+  },
+  "rust_full": {
+    "passed": 110,
+    "failed": 0,
+    "command": "cargo test --release --locked --manifest-path C:/AMI-wt/P09b/gpu/Cargo.toml --target-dir C:/AMI/gpu/target -- --test-threads=1",
+    "log": "C:/AMI/runs/p09/P09b/rust-full-tests.stdout.log"
   }
 }
