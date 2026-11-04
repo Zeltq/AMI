@@ -1,0 +1,21 @@
+{
+  "candidate_model": "pilot1",
+  "start_training_minutes": 40.21026507333333,
+  "end_training_minutes": 100.21026507333333,
+  "additional_training_minutes": 60.0,
+  "gpu_used_at_plan": 176.28243954000064,
+  "final_evaluation_reserve": 35,
+  "desynchronization_reserve": 8,
+  "overhead_reserve": 2,
+  "hour_evaluation_estimate": 26.400000000000002,
+  "anchor_start": 0.2,
+  "shared_hour_final": true,
+  "evaluation_pair_minutes": 12.0,
+  "planning_rule": "Reserve 35 final + 8 desynchronization + 2 overhead; estimate hour evaluation as 2.2x selected pilot v10 pair. If only about one hour fits, one evaluation at the 60-minute final checkpoint serves both labels; do not count it as two independent series.",
+  "gpu_used_before_pilot_evaluation": 164.28243954000064,
+  "projected_pilot_evaluation_minutes": 12.0,
+  "plan_budget_is_projection": true,
+  "pilot_checkpoint": "C:\\AMI\\runs\\p09\\P09c\\rl-pilot1-001\\checkpoint-000126",
+  "conditional_on_healthy_pilot": true,
+  "reason_ru": "После расходов на точную телеметрию, критик, smoke и пилот остаётся около часа обучения с оценками. Продолжить 60 минут; финальная и часовая оценки одного checkpoint используют одну серию 128v10+128ZOg-d1. Резерв35мин сохранён; повтор одинаковых seed не считается независимым свидетельством."
+}
