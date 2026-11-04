@@ -134,6 +134,7 @@ def prepare_bots(source, model_team, engine, seed, profile='ggd-v2'):
     (source / 'p05_settings.lua').write_text('return ' + literal(settings), encoding='utf-8')
     (source / 'p05_controller.lua').write_text(CALLBACK, encoding='utf-8')
     shutil.copy2(ROOT/'bots/play_model_events.lua', source/'play_model_events.lua')
+    (source/'play_model_start.lua').write_text("require('bots/play_model_events').start()\n")
     callback = 'local controller=require("bots/p05_controller")\nfunction Think() controller.Think() end\n'
     (source / 'bot_generic.lua').write_text(callback)
     (source / 'item_purchase_generic.lua').write_text(callback.replace('function Think()', 'function ItemPurchaseThink()'))
@@ -163,9 +164,9 @@ def play(args, index, slot, active):
         try:
             with Game(run, 'P05', args.timescale, 7.5, bot_root=source, content_root=content,
                       game=content.parents[1], game_port=27155+slot*10, engine_threads=2,
-                      worldstate_ports=ports, worldstate_frames=1, hero_seed=args.seed+index, developer_mode=True) as game:
+                      worldstate_ports=ports, worldstate_frames=1, hero_seed=args.seed+index) as game:
                 active[slot]['dota_pid'] = game.pid
-                game.command("script require('bots/play_model_events').start()")
+                game.command('script_reload_code bots/play_model_start')
                 game.wait_log('SF_PLAY_EVENTS_READY', timeout=10)
                 (run/'ready').touch()
                 process.wait(timeout=1200)
