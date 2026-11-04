@@ -1,0 +1,10 @@
+{
+  "before_long_rl": [
+    "Check actual remaining GPU budget after selected pilot evaluation. In p09c_rl.py main_training, if available is between 60 and 60+hour_evaluation_estimate, current planning can select >60 training minutes with evaluate=false; resolve before long run, preserve final 35-minute reserve and KL continuity.",
+    "Current all-001 controller loaded Python source at launch. Source edits alone do not change its planning. A validated C:/AMI/runs/p09/P09c/main-plan.json written during pilot evaluation is read by the running controller; use actual completed pilot training_seconds and correct selected-pilot evaluation estimate.",
+    "If pilot2 is selected, estimate evaluation cost from pilot2 only; do not sum both pilot evaluations."
+  ],
+  "final": [
+    "Check both players and both seeds, reward components, policy equality, clip range, protected source hashes, budget, report <=150 lines, all evidence committed and pushed."
+  ]
+}
