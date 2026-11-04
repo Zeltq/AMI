@@ -28,5 +28,11 @@
     "kind": "verification",
     "command_literal": "C:\\Python314\\python.exe -m unittest discover -s tests -v",
     "exit_code": 0
+  },
+  {
+    "stage": "build-2a60e96c4661",
+    "kind": "build",
+    "command_literal": "cargo build --release --locked --manifest-path C:\\AMI-wt\\P09c\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p09\\P09c\\target",
+    "exit_code": 0
   }
 ]
