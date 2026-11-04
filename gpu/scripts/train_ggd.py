@@ -63,6 +63,15 @@ def evaluate_epoch(model,checkpoint,out,epoch,config,metadata):
         print(json.dumps({'epoch':epoch,'mode':mode,'gameplay':report['summary']}),flush=True)
     return results
 
+def refresh_export_source(checkpoint,directory):
+    """Evaluation enriches history and rewrites the checkpoint after export."""
+    manifest=directory/'weights/manifest.json'
+    if manifest.exists():
+        data=json.loads(manifest.read_text())
+        data['source_sha256']=hashlib.sha256(checkpoint.read_bytes()).hexdigest()
+        manifest.write_text(json.dumps(data,indent=2))
+
+
 def gameplay_score(report):
     sides=[s for g in report['per_match'] for s in g['sides'] if s['controller']=='GGD']
     if not report['complete'] or not sides:raise ValueError('Completed learner evaluation required')
@@ -221,6 +230,7 @@ def main():
         torch.save(checkpoint,out/f'epoch-{epoch+1:03d}.pt')
         if evaluation:row['gameplay']=evaluate_epoch(model,out/f'epoch-{epoch+1:03d}.pt',out,epoch+1,evaluation,metadata)
         torch.save(checkpoint,out/f'epoch-{epoch+1:03d}.pt')
+        refresh_export_source(out/f'epoch-{epoch+1:03d}.pt',out/f'epoch-{epoch+1:03d}')
         torch.save(checkpoint,out/'last.pt')
         if selection_score(row)<best:best=selection_score(row);torch.save(checkpoint,out/'best.pt')
         (out/'history.json').write_text(json.dumps(history,indent=2))
