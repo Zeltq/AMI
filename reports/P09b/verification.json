@@ -57,5 +57,11 @@
     "exit_code": 0,
     "command": "cargo build --release --locked --manifest-path C:/AMI-wt/P09b/gpu/Cargo.toml --target-dir C:/AMI/gpu/target",
     "log": "C:/AMI/runs/p09/P09b/build-rl.stderr.log"
+  },
+  "minibatch_cpu_rust": {
+    "passed": 1,
+    "failed": 0,
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/gpu/target p09b_minibatch_uses_learner_sequences_and_preserves_legacy_order -- --exact ggd_ppo::tests::p09b_minibatch_uses_learner_sequences_and_preserves_legacy_order",
+    "log": "C:/AMI/runs/p09/P09b/minibatch-test-2.log"
   }
 }

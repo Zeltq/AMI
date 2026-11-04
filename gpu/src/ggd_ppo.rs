@@ -139,6 +139,11 @@ fn take_value_gradients(policy:&Policy,grads:&mut GradientsParams)->GradientsPar
     let mut take=Take{source:grads,target:GradientsParams::new()};policy.value_first.visit(&mut take);policy.value_second.visit(&mut take);take.target
 }
 
+fn sequence_order(shard_n:usize,offset:usize,active:Option<&[f32]>,rotation:usize)->Vec<i32>{
+    let mut ids:Vec<i32>=(0..shard_n).filter(|i|active.is_none_or(|a|a[offset+*i]>0.)).map(|i|i as i32).collect();
+    if !ids.is_empty(){let count=ids.len();ids.rotate_left(rotation%count);}ids
+}
+
 fn optimize(policy:&mut Policy,optimizer:&mut ModuleOptimizer,cfg:&Config,e:&Experience,bootstrap:Tensor<1>,warmup:bool,coefficient:f32,block:usize,postgame:Tensor<2>)->Result<serde_json::Value>{
     let d=device();let n=e.actors;let signals=e.signals();let (advantages,returns)=e.gae_discounted(bootstrap,0.99,0.95);
     let mask=signals.clone().slice([0..n,0..HORIZON,11..12]).reshape([n*HORIZON]);
@@ -150,16 +155,18 @@ fn optimize(policy:&mut Policy,optimizer:&mut ModuleOptimizer,cfg:&Config,e:&Exp
     let ev_post=explained_variance(ret.clone(),old_value.clone(),post_mask.clone());
     let ev_pre=explained_variance(ret,old_value,pre_mask.clone());
     let post_count=scalar(post_mask.sum());let pre_count=scalar(pre_mask.sum());
+    let active=if cfg.reward_mode=="potential-v1"{Some(signals.clone().slice([0..n,0..HORIZON,11..12]).sum_dim(1).reshape([n]).into_data().try_to_vec::<f32>()?)}else{None};
     let (pc,pt,pp)=e.buckets();let mut values=Vec::new();let mut stopped=false;let mut offset;
     for epoch in 0..cfg.epochs {
         offset=0;
         for shard in &e.observations {
             let shard_n=shard.meta.shape()[0];let width=shard.meta.shape()[2];
             // Deterministic cyclic sequence permutation, with full recurrent resets.
-            let ids:Vec<i32>=(0..shard_n).map(|i|((i+epoch+block)%shard_n)as i32).collect();
-            let order=Tensor::<1,Int>::from_data(TensorData::new(ids,[shard_n]),&d);
-            for start in (0..shard_n).step_by(cfg.batch_sequences){
-                let size=cfg.batch_sequences.min(shard_n-start);let local=order.clone().slice([start..start+size]);let ids=local.clone()+offset as i32;
+            let ids=sequence_order(shard_n,offset,active.as_deref(),epoch+block);let sequences=ids.len();
+            if sequences==0{offset+=shard_n;continue;}
+            let order=Tensor::<1,Int>::from_data(TensorData::new(ids,[sequences]),&d);
+            for start in (0..sequences).step_by(cfg.batch_sequences){
+                let size=cfg.batch_sequences.min(sequences-start);let local=order.clone().slice([start..start+size]);let ids=local.clone()+offset as i32;
                 let signal=signals.clone().select(0,ids.clone());let mask=signal.clone().slice([0..size,0..HORIZON,11..12]).reshape([size*HORIZON]);
                 if scalar(mask.clone().sum())==0. {continue;}
                 let input=tensor::<3>(shard.clone()).select(0,local).reshape([size*HORIZON,width]);
@@ -277,7 +284,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
             for step in 0..HORIZON {
                 let snapshot=if profile!="ggd-v2"{Some(teacher.command_snapshot())}else{None};
                 let (obs,scripted)=observation(&w,&teacher,&observer,&enemy,&controller,previous.clone(),&manifest);
-                if experience.is_none(){experience=Some(Experience::with_width(n,obs.packed.dims()[1],cfg.batch_sequences.max(32),&d));}
+                if experience.is_none(){experience=Some(Experience::with_width(n,obs.packed.dims()[1],cfg.batch_sequences.max(32)*if potential_reward{2}else{1},&d));}
                 let keep:Tensor<2>=1.0f32-obs.reset.clone().unsqueeze_dim::<2>(1);h=h*keep.clone();c=c*keep.clone();rh=rh*keep.clone();rc=rc*keep;
                 let b=obs.decode();let encoded=actor.encode(&b);(h,c)=actor.memory.step(encoded.fused,h,c);let heads=actor.heads(&b,h.clone(),encoded.keys,None,&sampler);
                 let enc=reference.encode(&b);(rh,rc)=reference.memory.step(enc.fused,rh,rc);let anchor=reference.heads(&b,rh.clone(),enc.keys,Some(heads.actions.clone()),&sampler);
@@ -379,6 +386,17 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn p09b_minibatch_uses_learner_sequences_and_preserves_legacy_order(){
+        let active:Vec<f32>=(0..384).map(|i|if i%2==0{128.}else{0.}).collect();
+        for offset in (0..384).step_by(96){
+            let order=sequence_order(96,offset,Some(&active),17);
+            assert_eq!(order.len(),48);assert!(order.iter().all(|i|*i%2==0));
+            let mut sorted=order;sorted.sort();assert_eq!(sorted,(0..96).step_by(2).collect::<Vec<i32>>());
+        }
+        assert_eq!(sequence_order(4,0,None,1),vec![1,2,3,0]);
+        assert!(sequence_order(4,0,Some(&[0.;4]),1).is_empty());
+    }
     #[test]
     fn p08_critic_warmup_requires_30_postgame_blocks_and_five_ev_values(){
         let mut gate=CriticWarmup::default();
