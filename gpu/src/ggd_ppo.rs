@@ -298,11 +298,12 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
                 let diff=heads.logp.clone()-anchor.logp.clone();rollout_kl=rollout_kl+(((-diff.clone()).exp()-1.+diff)*valid.clone()).sum();valid_count=valid_count+valid.clone().sum();
                 let _=w.advance_teacher(actions,&obs.refs,&rng,&teacher,true);teacher.record(&w,600.);metrics.sample(&w,&teacher);
                 let current=counts(&w,&teacher);let components=current.clone().slice([0..n,0..COMPONENTS])-prior.slice([0..n,0..COMPONENTS]);
+                let learning_components=if potential_reward{potential.step(&w,&teacher)}else{components.clone()};
                 let respawn_at=tensor::<1>(w.state.clone()).reshape([cfg.matches,UNITS,STRIDE]).slice([0..cfg.matches,0..2,RESPAWN_AT..RESPAWN_AT+1]).reshape([n]);
                 pregame_events=pregame_events+pregame_death_events(components.clone(),respawn_at,valid.clone(),w.engine.pre_game_seconds);
-                reward_activity=reward_activity+(components.clone().abs()*valid.clone().unsqueeze_dim::<2>(1)).sum();
+                reward_activity=reward_activity+(learning_components.clone().abs()*valid.clone().unsqueeze_dim::<2>(1)).sum();
                 totals=totals+components.clone()*valid.clone().unsqueeze_dim::<2>(1);
-                let reward=if potential_reward{potential.step(&w,&teacher).sum_dim(1)}else{components.sum_dim(1)};let done=current.clone().slice([0..n,9..10]);prior=current;
+                let reward=learning_components.sum_dim(1);let done=current.clone().slice([0..n,9..10]);prior=current;
                 let signals=Tensor::cat(vec![heads.actions.float(),heads.logp.unsqueeze_dim::<2>(1),heads.value.unsqueeze_dim::<2>(1),reward,done,obs.reset.clone().unsqueeze_dim::<2>(1),valid.unsqueeze_dim::<2>(1),anchor.logp.unsqueeze_dim::<2>(1)],1);
                 experience.as_ref().unwrap().store(step,&obs,signals);
             }
@@ -340,7 +341,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
                     let a=m*2+sides[m];let legacy=&components[a*COMPONENTS..(a+1)*COMPONENTS];let reward_values:Vec<f32>=if potential_reward{serde_json::from_value(games[m]["sides"][sides[m]]["reward_components"].clone())?}else{legacy.to_vec()};let values=&reward_values;writeln!(episode_file,"{}",serde_json::json!({"block":block,"training_seconds":training_seconds,"reward":values.iter().sum::<f32>(),"components":values,"arena":m,"initialization_prefix_decisions":prefix_decisions[m],"game":games[m]}))?;recorded[m]=true;episodes+=1;
                 }}episode_file.flush()?;
             }
-            let row=serde_json::json!({"block":block,"batch":batch,"training_seconds":training_seconds,"collection_seconds":collection,"optimization_seconds":optimization,"episodes":episodes,"episodes_started":episodes_started,"total_decisions":total_decisions,"decisions_per_second":total_decisions as f64/training_seconds,"pregame_deaths":pregame_deaths,"pregame_deaths_initial_prefix":prefix_pregame_deaths,"pregame_death_matches":pregame_death_matches,"memory_pool":format!("{:?}",d.memory_pool_usage()),"finished_in_batch":finished,"phase_decisions":phase_values,"phase_histogram_verified":cfg.verify_phase_histogram,"phase_names":["pregame","0-3min","3-6min","6-10min"],"components_sum":totals.clone().sum_dim(0).reshape([COMPONENTS]).into_data().try_to_vec::<f32>()?,"learning":learning});
+            let row=serde_json::json!({"block":block,"batch":batch,"training_seconds":training_seconds,"collection_seconds":collection,"optimization_seconds":optimization,"episodes":episodes,"episodes_started":episodes_started,"total_decisions":total_decisions,"decisions_per_second":total_decisions as f64/training_seconds,"pregame_deaths":pregame_deaths,"pregame_deaths_initial_prefix":prefix_pregame_deaths,"pregame_death_matches":pregame_death_matches,"memory_pool":format!("{:?}",d.memory_pool_usage()),"finished_in_batch":finished,"phase_decisions":phase_values,"phase_histogram_verified":cfg.verify_phase_histogram,"phase_names":["pregame","0-3min","3-6min","6-10min"],"components_sum":if potential_reward{(potential.totals.clone()*rows.clone().float().unsqueeze_dim::<2>(1)).sum_dim(0).reshape([5]).into_data().try_to_vec::<f32>()?}else{totals.clone().sum_dim(0).reshape([COMPONENTS]).into_data().try_to_vec::<f32>()?},"reward_component_names":if potential_reward{crate::potential_reward::NAMES.to_vec()}else{NAMES.to_vec()},"learning":learning});
             writeln!(history,"{}",row)?;history.flush()?;eprintln!("{}",row);
             crate::artifacts::atomic_json(&root.join("status.json"),&serde_json::json!({"stage":"training","pid":std::process::id(),"latest":row,"elapsed_seconds":started.elapsed().as_secs_f64()}))?;
             drop(experience);d.memory_cleanup();

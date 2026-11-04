@@ -63,5 +63,10 @@
     "failed": 0,
     "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/gpu/target p09b_minibatch_uses_learner_sequences_and_preserves_legacy_order -- --exact ggd_ppo::tests::p09b_minibatch_uses_learner_sequences_and_preserves_legacy_order",
     "log": "C:/AMI/runs/p09/P09b/minibatch-test-2.log"
+  },
+  "reward_logging_check": {
+    "command": "cargo check --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/gpu/target",
+    "exit_code": 0,
+    "log": "C:/AMI/runs/p09/P09b/reward-logging-check.log"
   }
 }
