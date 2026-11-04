@@ -36,4 +36,13 @@ class EventRewardTests(unittest.TestCase):
             r=targets(root,root/'out');self.assertEqual(r['version'],3);self.assertEqual(r['terminals_outside_imitation_mask'],1)
             with np.load(root/'out/b.npz') as z:self.assertAlmostEqual(float(z['returns'][0,0]),.5+.99**2*10,places=5)
 
+    def test_pilot_gate_checks_rate_and_early_deaths(self):
+        from p09c_rl import healthy
+        row=dict(lh=1120,deny=1,lane_creeps_spawned=10058,early_deaths=24,matches=128)
+        self.assertTrue(healthy(row))
+        self.assertFalse(healthy({**row,'deny':0}))
+        self.assertFalse(healthy({**row,'early_deaths':25}))
+        self.assertFalse(healthy({**row,'lane_creeps_spawned':11000}))
+        self.assertFalse(healthy({**row,'matches':64}))
+
 if __name__=='__main__':unittest.main()

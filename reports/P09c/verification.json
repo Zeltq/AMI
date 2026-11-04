@@ -1,0 +1,18 @@
+{
+  "checks": [
+    {
+      "command": "C:/Python314/python.exe -m unittest discover -s tests -p test_p09c.py -v",
+      "passed": 6,
+      "total": 6
+    },
+    {
+      "command": "C:/Python314/python.exe -m unittest discover -s tests -p test_p09b.py -v",
+      "passed": 8,
+      "total": 8
+    },
+    {
+      "command": "C:/Python314/python.exe -m py_compile gpu/scripts/p09c_rl.py gpu/scripts/p09c_results.py gpu/scripts/p09c_cache.py gpu/scripts/p09c_run.py",
+      "exit_code": 0
+    }
+  ]
+}
