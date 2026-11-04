@@ -1,0 +1,70 @@
+{
+  "parent_stage": "rev-main",
+  "source": "C:\\AMI\\runs\\p08\\rev-main\\eval-000323-sampling\\report.json",
+  "evaluation": {
+    "run": "rev-main",
+    "name": "eval-000323-sampling",
+    "complete": true,
+    "matches": 64,
+    "wall_seconds": 309.9726783,
+    "sides": [
+      {
+        "side": "radiant",
+        "matches": 32,
+        "lh": 602.0,
+        "deny": 325.0,
+        "deaths": 5.0,
+        "attack_cycles_completed": 3957.0,
+        "attack_cancellations": 130.0,
+        "death_matches": 5,
+        "pregame_death_matches": 0,
+        "early_deaths": 0,
+        "actions": [
+          98949.0,
+          37854.0,
+          0.0,
+          5874.0,
+          12031.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          120.0
+        ]
+      },
+      {
+        "side": "dire",
+        "matches": 32,
+        "lh": 680.0,
+        "deny": 528.0,
+        "deaths": 3.0,
+        "attack_cycles_completed": 4108.0,
+        "attack_cancellations": 119.0,
+        "death_matches": 3,
+        "pregame_death_matches": 0,
+        "early_deaths": 0,
+        "actions": [
+          105127.0,
+          29170.0,
+          0.0,
+          5866.0,
+          10903.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          85.0
+        ]
+      }
+    ],
+    "farm": 2135.0,
+    "early_deaths": 0,
+    "death_matches": 8,
+    "trial_eligible": null,
+    "trial_selection_rule_version": 2,
+    "criterion": true
+  },
+  "budget_note": "Included in parent process wall time; do not add again"
+}
