@@ -71,6 +71,24 @@ end
 '''
     (destination/'bot_generic.lua').write_text(callback)
     (destination/'item_purchase_generic.lua').write_text(callback.replace('function Think()', 'function ItemPurchaseThink()'))
+    (destination/'hero_selection.lua').write_text('''local settings=require('bots/settings')
+local selected={}
+function GetBotNames()
+ local names={};for i=1,5 do names[i]='SF_DUEL_'..GetTeam()..'_'..i end;return names
+end
+function Think()
+ local first=true
+ for _,pid in ipairs(GetTeamPlayers(GetTeam())) do
+  if IsPlayerBot(pid) then
+   local sf=GetTeam()==settings.model_team and first;first=false
+   if not selected[pid] then SelectHero(pid,sf and 'npc_dota_hero_nevermore' or 'npc_dota_hero_lina');selected[pid]=true end
+  end
+ end
+end
+function UpdateLaneAssignments()
+ local lanes={};for _,pid in ipairs(GetTeamPlayers(GetTeam())) do lanes[pid]=LANE_MID end;return lanes
+end
+''')
     # Reuse the lobby's names and first bot convention used by the cleanup script.
     for name in ('teacher_v9_duel_setup.lua','play_model_events.lua'):
         shutil.copy2(ROOT/'bots'/name,destination/name)
