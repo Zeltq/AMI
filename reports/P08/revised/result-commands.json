@@ -1,0 +1,185 @@
+{
+  "processes": [
+    {
+      "stage": "rev-async-eval-1e5",
+      "command": "C:\\AMI\\runs\\p08\\revised-gpu.exe evaluate-ggd C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json C:\\AMI\\runs\\p08\\rev-async-trial-1e5\\checkpoint-000054\\weights C:\\AMI\\runs\\p08\\rev-async-eval-1e5 --mode teacher --matches 32 --seconds 600 --seed 20261103 --sampling --trace",
+      "argv": [
+        "C:\\AMI\\runs\\p08\\revised-gpu.exe",
+        "evaluate-ggd",
+        "C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json",
+        "C:\\AMI\\runs\\p08\\rev-async-trial-1e5\\checkpoint-000054\\weights",
+        "C:\\AMI\\runs\\p08\\rev-async-eval-1e5",
+        "--mode",
+        "teacher",
+        "--matches",
+        "32",
+        "--seconds",
+        "600",
+        "--seed",
+        "20261103",
+        "--sampling",
+        "--trace"
+      ],
+      "returncode": 0
+    },
+    {
+      "stage": "rev-async-eval-3e5",
+      "command": "C:\\AMI\\runs\\p08\\revised-gpu.exe evaluate-ggd C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json C:\\AMI\\runs\\p08\\rev-async-trial-3e5\\checkpoint-000054\\weights C:\\AMI\\runs\\p08\\rev-async-eval-3e5 --mode teacher --matches 32 --seconds 600 --seed 20261103 --sampling --trace",
+      "argv": [
+        "C:\\AMI\\runs\\p08\\revised-gpu.exe",
+        "evaluate-ggd",
+        "C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json",
+        "C:\\AMI\\runs\\p08\\rev-async-trial-3e5\\checkpoint-000054\\weights",
+        "C:\\AMI\\runs\\p08\\rev-async-eval-3e5",
+        "--mode",
+        "teacher",
+        "--matches",
+        "32",
+        "--seconds",
+        "600",
+        "--seed",
+        "20261103",
+        "--sampling",
+        "--trace"
+      ],
+      "returncode": 0
+    },
+    {
+      "stage": "rev-async-trial-1e5",
+      "command": "C:\\AMI\\runs\\p08\\revised-gpu.exe train-ggd C:\\AMI-wt\\P08\\reports\\P08\\revised\\async-trial-1e5.json C:\\AMI\\runs\\p08\\rev-async-trial-1e5",
+      "argv": [
+        "C:\\AMI\\runs\\p08\\revised-gpu.exe",
+        "train-ggd",
+        "C:\\AMI-wt\\P08\\reports\\P08\\revised\\async-trial-1e5.json",
+        "C:\\AMI\\runs\\p08\\rev-async-trial-1e5"
+      ],
+      "returncode": 0
+    },
+    {
+      "stage": "rev-async-trial-3e5",
+      "command": "C:\\AMI\\runs\\p08\\revised-gpu.exe train-ggd C:\\AMI-wt\\P08\\reports\\P08\\revised\\async-trial-3e5.json C:\\AMI\\runs\\p08\\rev-async-trial-3e5",
+      "argv": [
+        "C:\\AMI\\runs\\p08\\revised-gpu.exe",
+        "train-ggd",
+        "C:\\AMI-wt\\P08\\reports\\P08\\revised\\async-trial-3e5.json",
+        "C:\\AMI\\runs\\p08\\rev-async-trial-3e5"
+      ],
+      "returncode": 0
+    },
+    {
+      "stage": "rev-cap128",
+      "command": "C:\\AMI\\runs\\p08\\revised-gpu.exe train-ggd C:\\AMI-wt\\P08\\reports\\P08\\revised\\cap128.json C:\\AMI\\runs\\p08\\rev-cap128",
+      "argv": [
+        "C:\\AMI\\runs\\p08\\revised-gpu.exe",
+        "train-ggd",
+        "C:\\AMI-wt\\P08\\reports\\P08\\revised\\cap128.json",
+        "C:\\AMI\\runs\\p08\\rev-cap128"
+      ],
+      "returncode": 0
+    },
+    {
+      "stage": "rev-cap192",
+      "command": "C:\\AMI\\runs\\p08\\revised-gpu.exe train-ggd C:\\AMI-wt\\P08\\reports\\P08\\revised\\cap192.json C:\\AMI\\runs\\p08\\rev-cap192",
+      "argv": [
+        "C:\\AMI\\runs\\p08\\revised-gpu.exe",
+        "train-ggd",
+        "C:\\AMI-wt\\P08\\reports\\P08\\revised\\cap192.json",
+        "C:\\AMI\\runs\\p08\\rev-cap192"
+      ],
+      "returncode": 0
+    },
+    {
+      "stage": "rev-cap64",
+      "command": "C:\\AMI\\runs\\p08\\revised-gpu.exe train-ggd C:\\AMI-wt\\P08\\reports\\P08\\revised\\cap64.json C:\\AMI\\runs\\p08\\rev-cap64",
+      "argv": [
+        "C:\\AMI\\runs\\p08\\revised-gpu.exe",
+        "train-ggd",
+        "C:\\AMI-wt\\P08\\reports\\P08\\revised\\cap64.json",
+        "C:\\AMI\\runs\\p08\\rev-cap64"
+      ],
+      "returncode": 0
+    },
+    {
+      "stage": "rev-critic-2",
+      "command": "C:\\AMI\\runs\\p08\\revised-gpu.exe train-ggd C:\\AMI-wt\\P08\\reports\\P08\\revised\\critic.json C:\\AMI\\runs\\p08\\rev-critic-2",
+      "argv": [
+        "C:\\AMI\\runs\\p08\\revised-gpu.exe",
+        "train-ggd",
+        "C:\\AMI-wt\\P08\\reports\\P08\\revised\\critic.json",
+        "C:\\AMI\\runs\\p08\\rev-critic-2"
+      ],
+      "returncode": 0
+    },
+    {
+      "stage": "rev-critic",
+      "command": "C:\\AMI\\runs\\p08\\revised-gpu.exe train-ggd C:\\AMI-wt\\P08\\reports\\P08\\revised\\critic.json C:\\AMI\\runs\\p08\\rev-critic",
+      "argv": [
+        "C:\\AMI\\runs\\p08\\revised-gpu.exe",
+        "train-ggd",
+        "C:\\AMI-wt\\P08\\reports\\P08\\revised\\critic.json",
+        "C:\\AMI\\runs\\p08\\rev-critic"
+      ],
+      "returncode": 101
+    },
+    {
+      "stage": "rev-desync-check",
+      "command": "C:\\AMI\\runs\\p08\\revised-gpu.exe train-ggd C:\\AMI-wt\\P08\\reports\\P08\\revised\\desync-check.json C:\\AMI\\runs\\p08\\rev-desync-check",
+      "argv": [
+        "C:\\AMI\\runs\\p08\\revised-gpu.exe",
+        "train-ggd",
+        "C:\\AMI-wt\\P08\\reports\\P08\\revised\\desync-check.json",
+        "C:\\AMI\\runs\\p08\\rev-desync-check"
+      ],
+      "returncode": 0
+    },
+    {
+      "stage": "rev-main",
+      "command": "C:\\AMI\\runs\\p08\\revised-gpu.exe train-ggd C:\\AMI-wt\\P08\\reports\\P08\\revised\\main.json C:\\AMI\\runs\\p08\\rev-main",
+      "argv": [
+        "C:\\AMI\\runs\\p08\\revised-gpu.exe",
+        "train-ggd",
+        "C:\\AMI-wt\\P08\\reports\\P08\\revised\\main.json",
+        "C:\\AMI\\runs\\p08\\rev-main"
+      ],
+      "returncode": 0
+    },
+    {
+      "stage": "rev-trial-1e5",
+      "command": "C:\\AMI\\runs\\p08\\revised-gpu.exe train-ggd C:\\AMI-wt\\P08\\reports\\P08\\revised\\trial-1e5.json C:\\AMI\\runs\\p08\\rev-trial-1e5",
+      "argv": [
+        "C:\\AMI\\runs\\p08\\revised-gpu.exe",
+        "train-ggd",
+        "C:\\AMI-wt\\P08\\reports\\P08\\revised\\trial-1e5.json",
+        "C:\\AMI\\runs\\p08\\rev-trial-1e5"
+      ],
+      "returncode": null
+    },
+    {
+      "stage": "rev-warmup-memory-check",
+      "command": "C:\\AMI\\runs\\p08\\revised-gpu.exe train-ggd C:\\AMI-wt\\P08\\reports\\P08\\revised\\warmup-memory-check.json C:\\AMI\\runs\\p08\\rev-warmup-memory-check",
+      "argv": [
+        "C:\\AMI\\runs\\p08\\revised-gpu.exe",
+        "train-ggd",
+        "C:\\AMI-wt\\P08\\reports\\P08\\revised\\warmup-memory-check.json",
+        "C:\\AMI\\runs\\p08\\rev-warmup-memory-check"
+      ],
+      "returncode": 0
+    }
+  ],
+  "embedded_main_evaluations": {
+    "parent_command": "C:\\AMI\\runs\\p08\\revised-gpu.exe train-ggd C:\\AMI-wt\\P08\\reports\\P08\\revised\\main.json C:\\AMI\\runs\\p08\\rev-main",
+    "config": "reports/P08/revised/main.json",
+    "matches": 64,
+    "modes": [
+      "sampling",
+      "argmax"
+    ],
+    "seed": 20261103,
+    "reports": [
+      "C:\\AMI\\runs\\p08\\rev-main\\eval-000161-argmax\\report.json",
+      "C:\\AMI\\runs\\p08\\rev-main\\eval-000161-sampling\\report.json",
+      "C:\\AMI\\runs\\p08\\rev-main\\eval-000323-argmax\\report.json",
+      "C:\\AMI\\runs\\p08\\rev-main\\eval-000323-sampling\\report.json"
+    ]
+  }
+}
