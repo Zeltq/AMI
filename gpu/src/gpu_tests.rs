@@ -39,7 +39,12 @@ fn p09_death_sources_distances_and_reward_snapshots(){
     let start=4+u32::from_le_bytes(bytes[..4].try_into().unwrap())as usize;let data:Vec<_>=bytes[start..].chunks_exact(4).map(|v|f32::from_le_bytes(v.try_into().unwrap())).collect();
     assert_eq!(&data[1..3],&[13.,7.]);assert_eq!(&data[5..7],&[3.,29.]);assert_eq!(&data[8..10],&[11.,2.]);
     let xp=tensor::<1>(w.experience.clone()).into_data().try_to_vec::<f32>().unwrap();assert_eq!(data[7],29.+xp[0]+xp[1]);
-    assert_eq!(&data[..26],&data[26..52]);assert_eq!(tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap(),state);
+    let fields=crate::demo_telemetry::FIELDS;
+    assert_eq!(&data[..fields],&data[fields..2*fields]);
+    for side in 0..2 {let p=side*STRIDE;let at=26+side*4;
+        assert_eq!(&data[at..at+4],&[state[p+UNIT_HEALTH],state[p+UNIT_HEALTH_MAX],state[p+UNIT_MANA],state[p+UNIT_MANA_MAX]]);
+    }
+    assert_eq!(tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap(),state);
     assert_eq!(w.observe(initial_previous(2,&d)).packed.into_data().try_to_vec::<f32>().unwrap(),before);
     let mut expired=state.clone();expired[STACK_END]=0.;
     w.state=primitive(Tensor::<1>::from_data(TensorData::new(expired,[UNITS*STRIDE]),&d));recorder.record(&w,0,0);recorder.flush(&directory,1,0,1).unwrap();

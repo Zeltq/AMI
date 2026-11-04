@@ -4,7 +4,7 @@ from pathlib import Path
 from p09b_run import ROOT,RUN,REPORT,read,save,sha
 from p09_results import ratio
 
-def summaries(name,report,opponent_name='v10'):
+def summaries(name,report,opponent_name='v10',reward_mode='potential-v1'):
     rows=[]
     for perspective,label in ((0,name),(1,opponent_name)):
         for side in ('radiant','dire','total'):
@@ -25,9 +25,11 @@ def summaries(name,report,opponent_name='v10'):
                 r[spell+'_hero_hits']=sum(h['raze_hero_hits_by_spell'][i] for g,h,s in games)
             for i,cause in enumerate(('hero_attack','raze','creeps','tower','requiem')):
                 for key in ('count','own_t1_distance_sum','enemy_t1_distance_sum'):r[cause+'_'+key]=sum(h['death_causes'][i][key] for g,h,s in games)
-            have=all('reward' in h for g,h,s in games)
-            r['reward_matches']=len(games) if have else 0;r['reward_sum']=sum(h['reward'] for g,h,s in games) if have else None
-            for i,key in enumerate(('outcome','lh','deny','hp','mana')):r['reward_'+key]=sum(h['reward_components'][i] for g,h,s in games) if have else None
+            reward_key='event_v2_reward' if reward_mode=='event-v2' else 'reward';component_key='event_v2_components' if reward_mode=='event-v2' else 'reward_components'
+            have=all(reward_key in h for g,h,s in games)
+            r['reward_matches']=len(games) if have else 0;r['reward_sum']=sum(h[reward_key] for g,h,s in games) if have else None
+            names=('outcome','lh','deny','own_hp','enemy_hp','mana') if reward_mode=='event-v2' else ('outcome','lh','deny','hp','mana')
+            for i,key in enumerate(names):r['reward_'+key]=sum(h[component_key][i] for g,h,s in games) if have else None
             r['max_shaping_residual']=max((abs(v) for g,h,s in games for v in h.get('shaping_telescoping_residual',[])),default=None)
             rows.append(r)
     return rows
