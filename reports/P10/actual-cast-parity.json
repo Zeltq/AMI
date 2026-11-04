@@ -1,0 +1,68 @@
+{
+  "groups": [
+    {
+      "spell": 1,
+      "dota_cast_frames": 17,
+      "simulator_cast_frames": 16,
+      "compared_frames": 16,
+      "fields": 352,
+      "max_abs_error": 1.3887882232666016e-05,
+      "known_mismatches": 0,
+      "fp16_equal_values": 352,
+      "fp16_compared_values": 352,
+      "max_fp16_abs_error": 0.0,
+      "duration_difference_seconds": 0.03333333333333333
+    },
+    {
+      "spell": 2,
+      "dota_cast_frames": 17,
+      "simulator_cast_frames": 16,
+      "compared_frames": 16,
+      "fields": 352,
+      "max_abs_error": 1.3887882232666016e-05,
+      "known_mismatches": 0,
+      "fp16_equal_values": 352,
+      "fp16_compared_values": 352,
+      "max_fp16_abs_error": 0.0,
+      "duration_difference_seconds": 0.03333333333333333
+    },
+    {
+      "spell": 3,
+      "dota_cast_frames": 17,
+      "simulator_cast_frames": 16,
+      "compared_frames": 16,
+      "fields": 352,
+      "max_abs_error": 1.3887882232666016e-05,
+      "known_mismatches": 0,
+      "fp16_equal_values": 352,
+      "fp16_compared_values": 352,
+      "max_fp16_abs_error": 0.0,
+      "duration_difference_seconds": 0.03333333333333333
+    },
+    {
+      "spell": 4,
+      "dota_cast_frames": 51,
+      "simulator_cast_frames": 50,
+      "compared_frames": 50,
+      "fields": 1100,
+      "max_abs_error": 4.589557647705078e-06,
+      "known_mismatches": 0,
+      "fp16_equal_values": 1100,
+      "fp16_compared_values": 1100,
+      "max_fp16_abs_error": 0.0,
+      "duration_difference_seconds": 0.03333333333333333
+    }
+  ],
+  "max_abs_cast_field_error": 1.3887882232666016e-05,
+  "known_mismatches": 0,
+  "debuff": {
+    "compared_frames": 55,
+    "max_stack_error": 0.0,
+    "max_remaining_seconds_error": 7.748603820800781e-06
+  },
+  "time_tolerance_seconds": 0.033433333333333336,
+  "value_tolerance": 0.0001,
+  "fp16_tolerance": 0.0005,
+  "passed": true,
+  "scope": "Actual casts in Dota and production physics; align observed onset and first debuff effect, allow one simulation tick at the cast boundary"
+}

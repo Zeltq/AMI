@@ -54,8 +54,9 @@ def dota():
     frozen=OUT/'probes'/'spells-006';frozen.mkdir(parents=True,exist_ok=True)
     for name in ('p03_events.lua','p03_controller.lua'):shutil.copy2(RUN/'spells-006/bots'/name,frozen/name)
 
-def actual_parity():
-    gpu=json.loads((OUT/'gpu-parity.json').read_text(encoding='utf-8'));ticks=list(records(RUN/'spells-006/dota.log','SF_P07_API|'))
+def actual_parity(log_path=None):
+    log_path=log_path or RUN/'spells-006/dota.log'
+    gpu=json.loads((OUT/'gpu-parity.json').read_text(encoding='utf-8'));ticks=list(records(log_path,'SF_P07_API|'))
     columns=[f'{hero}_{known}{field}' for hero in ('self','enemy') for known in ('','known_') for field in FIELDS]
     traces=OUT/'simulator-cast-traces.csv'
     if 'actual_casts' in gpu:
@@ -91,7 +92,7 @@ def actual_parity():
                            max_fp16_abs_error=float(np.abs(d16.astype(np.float32)-s16.astype(np.float32)).max()),
                            duration_difference_seconds=abs(len(d)-len(s))/30))
     # First Radiant raze hits a previously unstacked Dire; align the first effect frame.
-    start=next(c['game_time'] for c in records(RUN/'spells-006/dota.log','SF_P07_CAST|') if c['team']==2 and c['spell']==1)
+    start=next(c['game_time'] for c in records(log_path,'SF_P07_CAST|') if c['team']==2 and c['spell']==1)
     d=[r[1] for r in dota if start<r[0]<start+3 and r[1][14]>0]
     s=[np.asarray(r['values'][:32]) for r in cases[0]['samples'] if r['values'][14]>0]
     n=min(len(d),len(s));assert n>0
