@@ -57,7 +57,7 @@ def run(name,kind,command,marker=None,gpu=False):
     if gpu and command[0]=='wsl':
         i=command.index('--')+1;command=command[:i]+['timeout','--signal=TERM','--kill-after=5s',str(max(1,int((LIMIT-spent)*60)-10))+'s']+command[i:]
     row=dict(stage=name,kind=kind,command=command,command_literal=subprocess.list2cmdline(command),gpu_budget=gpu,started_utc=datetime.now(timezone.utc).isoformat(),artifact=str(marker) if marker else None)
-    start=time.monotonic();last_publish=start
+    start=time.monotonic();last_publish=start;last_evaluation=None
     with (RUN/(name+'.stdout.log')).open('w',encoding='utf-8') as out,(RUN/(name+'.stderr.log')).open('w',encoding='utf-8') as err:
         child=subprocess.Popen(command,cwd=ROOT,stdout=out,stderr=err);row['pid']=child.pid;rows.append(row);save(RUN/'commands.json',rows)
         while child.poll() is None:
@@ -69,10 +69,12 @@ def run(name,kind,command,marker=None,gpu=False):
             status({**row,'background_work_remaining':True,'gpu_minutes':spent+(elapsed if gpu else 0),'progress':progress})
             if gpu and spent+elapsed>=LIMIT:
                 subprocess.run(['taskkill','/PID',str(child.pid),'/T','/F'],capture_output=True);child.wait();break
-            if kind=='training' and time.monotonic()-last_publish>=3500:
+            evaluation=Path(marker).parent/'evaluation-complete.json' if marker else RUN/'absent'
+            stamp=evaluation.stat().st_mtime_ns if evaluation.exists() else None
+            if kind=='training' and (time.monotonic()-last_publish>=3500 or stamp!=last_evaluation):
                 try:publish('publish training curves')
                 except Exception as exc:save(RUN/'publication-error.json',{'error':str(exc)})
-                last_publish=time.monotonic()
+                last_publish=time.monotonic();last_evaluation=stamp
             time.sleep(5)
     row.update(exit_code=child.returncode,minutes=(time.monotonic()-start)/60);save(RUN/'commands.json',rows)
     save(REPORT/'commands.json',[{k:v for k,v in r.items() if k in ('stage','kind','command_literal','exit_code') or (k=='minutes' and r['kind'] in ('training','evaluation'))} for r in rows])
