@@ -88,5 +88,24 @@
     "kind": "audit",
     "command_literal": "C:\\Python314\\python.exe C:\\AMI-wt\\P09c\\gpu\\scripts\\p09c_data_parity.py C:\\AMI\\runs\\p09\\P09b\\d2-data C:\\AMI\\runs\\p09\\P09c\\d2-data C:\\AMI-wt\\P09c\\reports\\P09c\\d2-parity.json",
     "exit_code": 0
+  },
+  {
+    "stage": "event-targets-and-feature-cache",
+    "kind": "audit",
+    "command_literal": "C:\\Python314\\python.exe C:\\AMI-wt\\P09c\\gpu\\scripts\\p09c_cache.py C:\\AMI\\runs\\p09\\P09c\\critic",
+    "exit_code": 0
+  },
+  {
+    "stage": "critic-fit-001",
+    "kind": "training",
+    "command_literal": "wsl -d Ubuntu -- timeout --signal=TERM --kill-after=5s 12979s bash /mnt/c/AMI-wt/P09c/scripts/wsl_python.sh /mnt/c/AMI-wt/P09c/gpu/scripts/p09b_critic.py /mnt/c/AMI/runs/p09/P09b/ZOg-d1/last.pt /mnt/c/AMI/runs/p09/P09c/critic --datasets /mnt/c/AMI/runs/p09/P09c/demo-data /mnt/c/AMI/runs/p09/P09c/d1-data /mnt/c/AMI/runs/p09/P09c/d2-data --epochs 8 --reward-mode event-v2",
+    "minutes": 14.69781689333322,
+    "exit_code": 0
+  },
+  {
+    "stage": "critic-export",
+    "kind": "export",
+    "command_literal": "wsl -d Ubuntu -- timeout --signal=TERM --kill-after=5s 12097s bash /mnt/c/AMI-wt/P09c/scripts/wsl_python.sh /mnt/c/AMI-wt/P09c/gpu/scripts/weights.py --checkpoint /mnt/c/AMI/runs/p09/P09c/critic/best.pt --output /mnt/c/AMI/runs/p09/P09c/critic/export",
+    "exit_code": 0
   }
 ]

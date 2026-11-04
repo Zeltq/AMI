@@ -1,0 +1,17 @@
+{
+  "version": 3,
+  "dataset": "C:\\AMI\\runs\\p09\\P09c\\d1-data",
+  "gamma": 0.99,
+  "mana_weight": 0.5,
+  "actors": 512,
+  "frames": {
+    "train": 1564502,
+    "validation": 257202,
+    "test": 247812
+  },
+  "invalid_steps_before_or_at_terminal": 0,
+  "terminals_outside_imitation_mask": 0,
+  "terminal_convention": "first native terminal, outcome once; gamma every decision step including invalid imitation frames; losses of raw current resources / pre-step maximum, growth zero; no terminal zeroing of resources",
+  "metadata_sha256": "79f3f611a4a4da15a04baba8f43af43c4b103a6671e402ae1c9b9b908bb8e05b",
+  "reward_mode": "event-v2"
+}

@@ -1,0 +1,86 @@
+{
+  "actor_sha256": "8056d77c1a59984a25443ffcc3dcb888fa0a993b0e177a17d8ee7ab171512979",
+  "source_config_sha256": "a7989faaabf64116cfa751f54084c73a5a86a3ca3d14646c619839f7ec04b814",
+  "source": "C:\\AMI\\runs\\p09\\P09b\\critic",
+  "datasets": [
+    {
+      "dataset": "demo",
+      "files": 2624,
+      "frames": 7070652,
+      "parity": {
+        "passed": true,
+        "files_equal": 2624,
+        "files_total": 2624,
+        "valid_frames_equal": 8092772,
+        "matches_equal": 1024,
+        "old_fields_equal": 26,
+        "new_exact_fields": [
+          "own_hp",
+          "own_hp_max",
+          "own_mana",
+          "own_mana_max",
+          "enemy_hp",
+          "enemy_hp_max",
+          "enemy_mana",
+          "enemy_mana_max"
+        ],
+        "old": "C:\\AMI\\runs\\p09\\dataset",
+        "new": "C:\\AMI\\runs\\p09\\P09c\\demo-data"
+      },
+      "targets_sha256": "ca47fe4bc58abfa22c6ed5f8366ae7f50f7a8abac213dd993dacec998a53a865"
+    },
+    {
+      "dataset": "d1",
+      "files": 656,
+      "frames": 910852,
+      "parity": {
+        "passed": true,
+        "files_equal": 656,
+        "files_total": 656,
+        "valid_frames_equal": 2069516,
+        "matches_equal": 256,
+        "old_fields_equal": 26,
+        "new_exact_fields": [
+          "own_hp",
+          "own_hp_max",
+          "own_mana",
+          "own_mana_max",
+          "enemy_hp",
+          "enemy_hp_max",
+          "enemy_mana",
+          "enemy_mana_max"
+        ],
+        "old": "C:\\AMI\\runs\\p09\\P09b\\d1-data",
+        "new": "C:\\AMI\\runs\\p09\\P09c\\d1-data"
+      },
+      "targets_sha256": "d4d2df1f5f1f0e75ce74666d175b364c9acd5d19db1c343c97bed59736383b11"
+    },
+    {
+      "dataset": "d2",
+      "files": 656,
+      "frames": 924371,
+      "parity": {
+        "passed": true,
+        "files_equal": 656,
+        "files_total": 656,
+        "valid_frames_equal": 2108528,
+        "matches_equal": 256,
+        "old_fields_equal": 26,
+        "new_exact_fields": [
+          "own_hp",
+          "own_hp_max",
+          "own_mana",
+          "own_mana_max",
+          "enemy_hp",
+          "enemy_hp_max",
+          "enemy_mana",
+          "enemy_mana_max"
+        ],
+        "old": "C:\\AMI\\runs\\p09\\P09b\\d2-data",
+        "new": "C:\\AMI\\runs\\p09\\P09c\\d2-data"
+      },
+      "targets_sha256": "706436d6039243a0ac84bde499fd53dd2b2a8e9eb0fd72105529004ddce42e1e"
+    }
+  ],
+  "reason": "Identical observations/signals/actor; cached frozen recurrent features reused byte-for-byte, all MC targets replaced. Value head is retrained."
+}
