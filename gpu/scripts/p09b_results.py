@@ -48,6 +48,8 @@ def curves():
     updates=[];episodes=[]
     for folder in sorted(RUN.glob('rl*')):
         if not folder.is_dir():continue
+        config=read(folder/'config.json') if (folder/'config.json').exists() else {}
+        if config.get('critic_only') or config.get('learning_rate')==0:continue
         for r in lines(folder/'history.jsonl'):
             if r['learning'].get('warmup'):continue
             updates.append(dict(run=folder.name,block=r['block'],training_minutes=r['training_seconds']/60,**{k:r['learning'].get(k) for k in ('value_loss','ev_post0','rollout_kl_m2','entropy','clip_fraction','kl_coefficient','valid_decisions')}))
@@ -55,6 +57,9 @@ def curves():
     # Restarted optimizer history may replay blocks since its last checkpoint.
     by_time={round(r['training_minutes'],6):r for r in updates};updates=sorted(by_time.values(),key=lambda r:r['training_minutes'])
     csvwrite(REPORT/'rl-updates.csv',updates)
+    prefix_count=sum(r.get('initialization_prefix_decisions',0)>0 for r in episodes)
+    save(REPORT/'rl-curve-coverage.json',dict(completed_episodes=len(episodes),excluded_frozen_prefix_episodes=prefix_count,complete_reward_episodes=len(episodes)-prefix_count,reason='Potential reward tracking starts after frozen arena desynchronization; curves require the complete match reward. Raw episodes retain prefix counts.'))
+    episodes=[r for r in episodes if not r.get('initialization_prefix_decisions',0)]
     bins=[]
     for start in range(0,len(episodes),100):
         batch=episodes[start:start+100];n=len(batch);games=[r['game'] for r in batch];heroes=[next(h for h in g['sides'] if h['controller']=='GGD') for g in games]
@@ -64,13 +69,26 @@ def curves():
     csvwrite(REPORT/'rl-100-matches.csv',bins)
     if updates:
         panels=[('KL к старту','rollout_kl_m2'),('Entropy','entropy'),('Value loss','value_loss'),('EV после 0:00','ev_post0'),('Clip fraction','clip_fraction')]
-        svg=['<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1050"><rect width="100%" height="100%" fill="white"/>']
+        svg=['<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1870"><rect width="100%" height="100%" fill="white"/>']
         for j,(title,key) in enumerate(panels):
             values=[(r['training_minutes'],r[key]) for r in updates if r.get(key) is not None and math.isfinite(r[key])]
             if not values:continue
             low=min(y for x,y in values);high=max(y for x,y in values);span=max(high-low,1e-8);top=30+j*205
             pts=' '.join(f'{60+x/480*900:.2f},{top+155-(y-low)/span*130:.2f}' for x,y in values)
             svg.append(f'<text x="60" y="{top}" font-size="17">{title}; min={low:.4g}, max={high:.4g}</text><path d="M60 {top+155} H960" stroke="#ccc"/><polyline points="{pts}" fill="none" stroke="#2266aa" stroke-width="1.5"/>')
+        episode_panels=[('Награда / матч',['reward_sum'],'matches'),('Компоненты / матч',['reward_outcome','reward_lh','reward_deny','reward_hp','reward_mana'],'matches'),('LH+deny / появившиеся крипы',['farm'],'spawn'),('Матчи со смертью / матчи',['death_matches'],'matches')]
+        colors=['#2266aa','#dd7711','#228833','#aa3377','#7766bb']
+        for j,(title,keys,denominator) in enumerate(episode_panels,5):
+            series={k:[(r['training_minutes'],r[k]/r[denominator]) for r in bins if r[denominator]>0] for k in keys}
+            all_values=[v for values in series.values() for x,v in values]
+            if not all_values:continue
+            low=min(all_values);high=max(all_values);span=max(high-low,1e-8);top=30+j*205
+            svg.append(f'<text x="60" y="{top}" font-size="17">{title}; min={low:.4g}, max={high:.4g}; группы до 100 матчей</text>')
+            for color,(key,values) in zip(colors,series.items()):
+                pts=' '.join(f'{60+x/480*900:.2f},{top+155-(y-low)/span*130:.2f}' for x,y in values)
+                svg.append(f'<polyline points="{pts}" fill="none" stroke="{color}" stroke-width="1.5"/>')
+            if len(keys)>1:
+                for k,(color,key) in enumerate(zip(colors,keys)):svg.append(f'<text x="{60+k*170}" y="{top+180}" fill="{color}" font-size="13">{key}</text>')
         svg.append('</svg>');(REPORT/'rl-curves.svg').write_text('\n'.join(svg),encoding='utf-8')
     return updates,bins
 

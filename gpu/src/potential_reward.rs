@@ -63,5 +63,23 @@ mod tests {
         let b=Tensor::from_data(TensorData::new(vec![10f32,0.,0.,0.,0.,1.,-10.,0.,0.,0.,0.,1.],[2,6]),&d);
         assert_eq!(components(a,b.clone()).into_data().try_to_vec::<f32>().unwrap(),vec![10.,-2.,-1.,0.5,-0.2,-10.,2.,1.,-0.5,0.2]);
         assert!(components(b.clone(),b).into_data().try_to_vec::<f32>().unwrap().iter().all(|v|*v==0.));
+        let a=Tensor::from_data(TensorData::new(vec![0f32,1.,0.,0.,0.,0.],[1,6]),&d);
+        let b=Tensor::from_data(TensorData::new(vec![0f32,2.,0.,0.,0.,0.],[1,6]),&d);
+        let values=components(a,b).into_data().try_to_vec::<f32>().unwrap();assert!((values[1]-0.98).abs()<1e-6);
+    }
+    #[test]
+    fn p09b_native_snapshot_coefficients_and_terminal_zero_potential(){
+        let d=crate::runtime::device();let mut s=vec![0f32;UNITS*STRIDE];
+        s[UNIT_LAST_HITS]=3.;s[STRIDE+UNIT_LAST_HITS]=1.;s[UNIT_DENIES]=2.;s[STRIDE+UNIT_DENIES]=1.;
+        for side in 0..2{s[side*STRIDE+UNIT_HEALTH_MAX]=100.;s[side*STRIDE+UNIT_MANA_MAX]=100.;}
+        s[UNIT_HEALTH]=50.;s[STRIDE+UNIT_HEALTH]=25.;s[UNIT_MANA]=25.;
+        let state=primitive(Tensor::<1>::from_data(TensorData::new(s,[UNITS*STRIDE]),&d));
+        for done in [0f32,1.] {
+            let mut m=vec![0f32;META];m[17]=1.;let mut a=vec![0f32;crate::scripted_teacher::AUDIT_FIELDS];a[0]=done;
+            let meta=primitive(Tensor::<1>::from_data(TensorData::new(m,[META]),&d));let audit=primitive(Tensor::<1>::from_data(TensorData::new(a,[crate::scripted_teacher::AUDIT_FIELDS]),&d));let out=primitive(Tensor::<2>::zeros([2,6],&d));
+            snapshot_kernel::launch(&out.client,CubeCount::Static(1,1,1),CubeDim::new_1d(64),argument(&state),argument(&meta),argument(&audit),argument(&out),2,0.5);
+            let values=tensor::<2>(out).into_data().try_to_vec::<f32>().unwrap();
+            assert_eq!(values,if done==0.{vec![0.,1.,0.2,0.75,0.125,0.,0.,-1.,-0.2,-0.75,-0.125,0.]}else{vec![10.,0.,0.,0.,0.,1.,-10.,0.,0.,0.,0.,1.]});
+        }
     }
 }

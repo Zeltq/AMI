@@ -43,5 +43,59 @@
     "artifact": "C:\\AMI\\runs\\p09\\P09b\\parity-dagger\\report.json",
     "exit_code": 0,
     "minutes": 4.844234918333435
+  },
+  {
+    "stage": "d1-collect",
+    "kind": "collection",
+    "command": [
+      "C:\\AMI\\runs\\p09\\P09b\\sf-duel-gpu.exe",
+      "collect-dagger",
+      "C:\\AMI-wt\\P09b\\reports\\P09b\\d1-collect.json",
+      "C:\\AMI\\runs\\p09\\P09b\\d1-data"
+    ],
+    "command_literal": "C:\\AMI\\runs\\p09\\P09b\\sf-duel-gpu.exe collect-dagger C:\\AMI-wt\\P09b\\reports\\P09b\\d1-collect.json C:\\AMI\\runs\\p09\\P09b\\d1-data",
+    "artifact": "C:\\AMI\\runs\\p09\\P09b\\d1-data\\report.json",
+    "exit_code": 0,
+    "minutes": 14.521192186666303
+  },
+  {
+    "stage": "d1-audit",
+    "kind": "audit",
+    "command": [
+      "C:\\Python314\\python.exe",
+      "C:\\AMI-wt\\P09b\\gpu\\scripts\\p09_data.py",
+      "C:\\AMI\\runs\\p09\\P09b\\d1-data",
+      "C:\\AMI-wt\\P09b\\reports\\P09b\\d1-audit.json"
+    ],
+    "command_literal": "C:\\Python314\\python.exe C:\\AMI-wt\\P09b\\gpu\\scripts\\p09_data.py C:\\AMI\\runs\\p09\\P09b\\d1-data C:\\AMI-wt\\P09b\\reports\\P09b\\d1-audit.json",
+    "artifact": "C:\\AMI-wt\\P09b\\reports\\P09b\\d1-audit.json",
+    "exit_code": 0
+  },
+  {
+    "stage": "d1-train-smoke",
+    "kind": "training",
+    "command": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "timeout",
+      "--signal=TERM",
+      "--kill-after=10s",
+      "49002s",
+      "bash",
+      "/mnt/c/AMI-wt/P09b/scripts/wsl_python.sh",
+      "/mnt/c/AMI-wt/P09b/gpu/scripts/train_ggd.py",
+      "/mnt/c/AMI-wt/P09b/reports/P09b/d1-train.json",
+      "/mnt/c/AMI/runs/p09/P09b/d1-train-smoke",
+      "--initialize",
+      "/mnt/c/AMI/runs/p09/ZOg/epoch-003.pt",
+      "--max-updates",
+      "2"
+    ],
+    "command_literal": "wsl -d Ubuntu -- timeout --signal=TERM --kill-after=10s 49002s bash /mnt/c/AMI-wt/P09b/scripts/wsl_python.sh /mnt/c/AMI-wt/P09b/gpu/scripts/train_ggd.py /mnt/c/AMI-wt/P09b/reports/P09b/d1-train.json /mnt/c/AMI/runs/p09/P09b/d1-train-smoke --initialize /mnt/c/AMI/runs/p09/ZOg/epoch-003.pt --max-updates 2",
+    "artifact": "C:\\AMI\\runs\\p09\\P09b\\d1-train-smoke\\result.json",
+    "exit_code": 0,
+    "minutes": 0.3337930733337998
   }
 ]
