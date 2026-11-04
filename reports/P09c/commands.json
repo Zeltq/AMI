@@ -163,5 +163,19 @@
     "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:\\AMI\\runs\\p09\\P09b\\ZOg-d1\\export\\weights C:\\AMI\\runs\\p09\\P09c\\eval-ZOg-d1-vs-v10-20261104 --mode teacher --matches 64 --seconds 600 --seed 20261104 --sampling --teacher-version v10",
     "minutes": 5.35142827333281,
     "exit_code": 0
+  },
+  {
+    "stage": "eval-v10-vs-v10-20261103",
+    "kind": "evaluation",
+    "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe evaluate-teachers C:/AMI/runs/p07/dota-calibration-005/engine.json C:\\AMI\\runs\\p09\\P09c\\eval-v10-vs-v10-20261103 --matches 64 --seconds 600 --seed 20261103 --left v10 --right v10",
+    "minutes": 5.102076613333581,
+    "exit_code": 0
+  },
+  {
+    "stage": "eval-v10-vs-v10-20261104",
+    "kind": "evaluation",
+    "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe evaluate-teachers C:/AMI/runs/p07/dota-calibration-005/engine.json C:\\AMI\\runs\\p09\\P09c\\eval-v10-vs-v10-20261104 --matches 64 --seconds 600 --seed 20261104 --left v10 --right v10",
+    "minutes": 5.018239848333178,
+    "exit_code": 0
   }
 ]
