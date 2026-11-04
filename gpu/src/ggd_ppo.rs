@@ -345,8 +345,9 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
             writeln!(history,"{}",row)?;history.flush()?;eprintln!("{}",row);
             crate::artifacts::atomic_json(&root.join("status.json"),&serde_json::json!({"stage":"training","pid":std::process::id(),"latest":row,"elapsed_seconds":started.elapsed().as_secs_f64()}))?;
             drop(experience);d.memory_cleanup();
-            let stop=(cfg.critic_only&&!warmup)||training_seconds>=cfg.minutes*60.||(cfg.stop_at_minutes>0.&&training_seconds>=cfg.stop_at_minutes*60.)||(cfg.max_blocks>0&&block>=cfg.max_blocks)||root.join("stop.json").exists();
-            let eval=cfg.evaluate&&(training_seconds-last_evaluation>=cfg.evaluation_minutes*60.||stop);
+            let user_stop=root.join("stop.json").exists();
+            let stop=(cfg.critic_only&&!warmup)||training_seconds>=cfg.minutes*60.||(cfg.stop_at_minutes>0.&&training_seconds>=cfg.stop_at_minutes*60.)||(cfg.max_blocks>0&&block>=cfg.max_blocks)||user_stop;
+            let eval=cfg.evaluate&&!user_stop&&(training_seconds-last_evaluation>=cfg.evaluation_minutes*60.||stop);
             if training_seconds-last_checkpoint>=cfg.checkpoint_minutes*60.||stop||eval{
                 let path=checkpoint(&policy,&optimizer,&manifest,root,block)?;last_checkpoint=training_seconds;last_path=Some(path.clone());
                 let progress=||serde_json::json!({"training_seconds":training_seconds,"block":block,"anchor_sha256":crate::runtime::file_sha256(&Path::new(&cfg.initial_weights).join("manifest.json")).unwrap(),"reward_mode":cfg.reward_mode,"schedule_minutes":cfg.schedule_minutes,"warmup_complete":!warmup});
