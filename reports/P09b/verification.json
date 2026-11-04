@@ -1,0 +1,15 @@
+{
+  "python_targeted": {
+    "command": "C:/Python314/python.exe -m unittest test_dagger test_p09 -v",
+    "passed": 12
+  },
+  "python_full": {
+    "command": "C:/Python314/python.exe -m unittest discover -s tests -v",
+    "log": "C:/AMI/runs/p09/P09b/python-full.log",
+    "passed": 207
+  },
+  "release_build": {
+    "command": "cargo build --release --locked --manifest-path C:/AMI-wt/P09b/gpu/Cargo.toml --target-dir C:/AMI/gpu/target",
+    "exit_code": 0
+  }
+}

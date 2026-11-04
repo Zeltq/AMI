@@ -1,0 +1,19 @@
+[
+  {
+    "stage": "build-dagger",
+    "kind": "build",
+    "command": [
+      "cargo",
+      "build",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "C:\\AMI-wt\\P09b\\gpu\\Cargo.toml",
+      "--target-dir",
+      "C:/AMI/gpu/target"
+    ],
+    "command_literal": "cargo build --release --locked --manifest-path C:\\AMI-wt\\P09b\\gpu\\Cargo.toml --target-dir C:/AMI/gpu/target",
+    "artifact": null,
+    "exit_code": 0
+  }
+]

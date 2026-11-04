@@ -90,7 +90,6 @@ pub fn collect_dagger(config:DaggerConfig,root:&Path)->Result<serde_json::Value>
 }
 fn collect_impl(config:CollectConfig,root:&Path,dagger:Option<DaggerConfig>)->Result<serde_json::Value>{
     let v4=config.observation_profile=="ggd-v4";let v3=v4||config.observation_profile=="ggd-v3";ensure!(v3||config.observation_profile=="ggd-v2","unknown observation profile");
-    ensure!(!v3||dagger.is_none(),"ggd-v3 DAgger is outside this diagnostic experiment");
     ensure!(config.games>0&&config.parallel_matches>0&&config.seconds>0.&&config.seconds<=600.,"positive games/parallel count and 0 < seconds <= 600 required");
     std::fs::create_dir_all(root)?;ensure!(!root.join("config.json").exists(),"choose a fresh dataset directory");
     let lock=std::fs::OpenOptions::new().create(true).truncate(false).write(true).open(root.join("dataset.lock"))?;lock.try_lock()?;
@@ -100,7 +99,7 @@ fn collect_impl(config:CollectConfig,root:&Path,dagger:Option<DaggerConfig>)->Re
     let mut writer=DemoWriter::new(root);
     let policy=if let Some(cfg)=dagger.as_ref(){
         writer.source=format!("dagger-round-{}",cfg.round);crate::artifacts::atomic_json(&root.join("dagger.json"),cfg)?;
-        let model=crate::bridge::import(Path::new(&cfg.weights),&d)?.valid();ensure!(model.is_ggd(),"GGD weights required");Some(model)
+        let model=crate::bridge::import(Path::new(&cfg.weights),&d)?.valid();ensure!(model.is_ggd() && model.is_ggd_v4()==v4 && model.is_ggd_v3()==(v3&&!v4),"DAgger checkpoint/profile mismatch");Some(model)
     }else{None};
     let mut learner_frames=0usize;let mut disagreements=0usize;let mut teacher_executed=0usize;
     let mut block=0usize;let mut game_metrics=vec![];let mut partial=false;let mut completed=0usize;

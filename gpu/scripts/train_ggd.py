@@ -181,7 +181,8 @@ def main():
     if a.resume and a.initialize:raise ValueError('Choose resume or initialize')
     initialized=torch.load(resolved(a.initialize),map_location='cpu',weights_only=False) if a.initialize else None
     if initialized:
-        if initialized.get('spec_version')!=2 or initialized['config'].get('zero_previous',False):raise ValueError('DAgger initialization requires GGD with previous')
+        expected=4 if enemy else 3 if timing else 2
+        if initialized.get('spec_version')!=expected or initialized['config'].get('observation_profile')!=manifest['observation_profile'] or initialized['config'].get('zero_previous',False):raise ValueError('DAgger initialization requires matching GGD profile with previous')
         for key in ('batch_sequences','learning_rate','gradient_norm','attack_weight'):
             if initialized['config'].get(key)!=config.get(key):raise ValueError('Initialization configuration differs: '+key)
     if a.updates is not None and a.updates<=0:raise ValueError('Positive update budget required')
