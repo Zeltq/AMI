@@ -34,5 +34,11 @@
     "kind": "build",
     "command_literal": "cargo build --release --locked --manifest-path C:\\AMI-wt\\P09c\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p09\\P09c\\target",
     "exit_code": 0
+  },
+  {
+    "stage": "demo-collect",
+    "kind": "collection",
+    "command_literal": "C:\\AMI\\runs\\p09\\P09c\\sf-duel-gpu.exe collect-teacher C:\\AMI-wt\\P09c\\reports\\P09c\\demo-collect.json C:\\AMI\\runs\\p09\\P09c\\demo-data",
+    "exit_code": 0
   }
 ]
