@@ -5,6 +5,7 @@ from p09c_run import ROOT,RUN,REPORT,ENGINE,INITIAL,WEIGHTS,EXE,WSL,read,save,sh
 from p09b_rl import weights_equal
 from p09b_results import lines,summaries
 from p09c_reward import NAMES
+from p09c_plan import make_plan
 
 def note(text):
     path=ROOT/'reports/P09c.md';s=path.read_text(encoding='utf-8');s=s.replace('## Наблюдения','## Наблюдения\n\n- '+text,1);assert len(s.splitlines())<=150;path.write_text(s,encoding='utf-8',newline='\n')
@@ -129,16 +130,13 @@ def pilots():
 
 def main_training(pilot):
     planpath=RUN/'main-plan.json'
-    if planpath.exists():plan=read(planpath)
+    if planpath.exists():
+        plan=read(planpath)
+        assert plan.get('candidate_model',pilot['summary']['model'])==pilot['summary']['model'],'Long plan belongs to a different pilot'
     else:
-        start=pilot['result']['training_seconds']/60
-        eval_minutes=sum(r['minutes'] for r in history() if r['kind']=='evaluation' and r['stage'].startswith('eval-pilot'))
-        # Reserve final 35 min, desynchronization 8 min, and an hour evaluation
-        # only if it can be reached. Estimate two opponents from pilot throughput.
-        available=300-used()-35-8-2
-        hour_eval=2*eval_minutes if available>=60+2*eval_minutes else 0
-        duration=max(.1,available-hour_eval)
-        plan=dict(start_training_minutes=start,end_training_minutes=start+duration,additional_training_minutes=duration,gpu_used_at_plan=used(),final_evaluation_reserve=35,desynchronization_reserve=8,overhead_reserve=2,hour_evaluation_estimate=hour_eval,anchor_start=pilot['anchor'])
+        model=pilot['summary']['model']
+        eval_minutes=sum(r['minutes'] for r in history() if r['kind']=='evaluation' and r['stage'].startswith(f'eval-{model}-vs-v10-'))
+        plan=make_plan(used(),pilot['result']['training_seconds'],pilot['anchor'],eval_minutes,model)
         save(planpath,plan);save(REPORT/'main-plan.json',plan)
     cfg=base();cfg.update(minutes=plan['end_training_minutes'],schedule_minutes=plan['end_training_minutes'],kl_decay_start_minutes=plan['start_training_minutes'],begin_decay_on_resume=True,kl_start=pilot['anchor'],kl_end=.05,learning_rate=pilot['actor_lr'],resume_checkpoint=pilot['result']['latest'],initialize_weights=None,evaluate=bool(plan['hour_evaluation_estimate']),evaluation_minutes=60)
     result,folder=native('rl-main',cfg);save(REPORT/'main-result.json',result)

@@ -56,6 +56,8 @@ def evaluations():
             label='RL-final' if progress['training_seconds']/60>=plan.get('end_training_minutes',float('inf')) else 'RL-1h'
             other='v10' if '-v10-' in path.parent.name else 'ZOg-d1'
             registry.append(dict(model=label,opponent=other,report=str(path)))
+            if label=='RL-final' and plan.get('shared_hour_final'):
+                registry.append(dict(model='RL-1h',opponent=other,report=str(path)))
     unique={(r['model'],r['opponent'],str(r['report'])):r for r in registry}
     for entry in unique.values():
         path=Path(entry['report']);r=read(path)
@@ -98,6 +100,8 @@ def main():
         old=next(q for q in rows if q['matchup']==r['matchup'] and q['side']=='total' and q['perspective']==1);n=r['matches']
         table.append('| '+' | '.join([r['model'],'; '.join(ratio(r[k],n) for k in ('wins','draws','losses')),'; '.join(ratio(q['lh']+q['deny'],q['lane_creeps_spawned']) for q in (r,old)),'; '.join(ratio(q['matches_with_death'],n) for q in (r,old)),'; '.join(ratio(q['early_deaths'],n) for q in (r,old))])+' |')
     table+=['','Полная статистика обоих участников, R/D/сумма: [metrics.csv](P09c/metrics.csv); отдельные матчи и provenance — JSON в P09c. Кривые: CSV `rl-updates`, `rl-100-matches` и SVG по этапам.','',f'GPU: {used():.3f}/300 минут (консервативное время GPU-процессов).']
+    if (RUN/'main-plan.json').exists() and read(RUN/'main-plan.json').get('shared_hour_final'):
+        table+=['','План длинной фазы — 60 минут: часовая и финальная строки относятся к одной серии на одном checkpoint, а не к двум независимым оценкам. Причина — остаток GPU-бюджета и резерв 35 минут.']
     begin='<!-- P09c results -->';end='<!-- /P09c results -->';block=begin+'\n'+'\n'.join(table)+'\n'+end
     path=ROOT/'reports/P09c.md';text=path.read_text(encoding='utf-8')
     if begin in text:text=text[:text.index(begin)]+block+text[text.index(end)+len(end):]

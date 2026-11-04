@@ -45,4 +45,16 @@ class EventRewardTests(unittest.TestCase):
         self.assertFalse(healthy({**row,'lane_creeps_spawned':11000}))
         self.assertFalse(healthy({**row,'matches':64}))
 
+    def test_long_budget_never_silently_skips_hour_evaluation(self):
+        from p09c_plan import make_plan
+        for spent in (130,150,174,190,220,250):
+            p=make_plan(spent,2403,.2,11,'pilot1')
+            if p['additional_training_minutes']>=60:self.assertGreater(p['hour_evaluation_estimate'],0)
+            self.assertEqual(p['final_evaluation_reserve'],35)
+            self.assertAlmostEqual(p['end_training_minutes']-p['start_training_minutes'],p['additional_training_minutes'])
+        shared=make_plan(174,2403,.2,11,'pilot1');self.assertEqual(shared['additional_training_minutes'],60);self.assertTrue(shared['shared_hour_final'])
+        short=make_plan(220,2403,.5,11,'pilot2');self.assertLess(short['additional_training_minutes'],60);self.assertEqual(short['hour_evaluation_estimate'],0)
+        long=make_plan(130,2403,.2,11,'pilot1');self.assertFalse(long['shared_hour_final']);self.assertGreater(long['additional_training_minutes'],60)
+        with self.assertRaises(ValueError):make_plan(260,2403,.2,11,'pilot1')
+
 if __name__=='__main__':unittest.main()
