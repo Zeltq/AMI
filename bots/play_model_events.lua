@@ -9,7 +9,7 @@ function M.start()
   if u and not u:IsNull() then return u end
  end
  local function emit(kind,row)
-  row.kind=kind;row.time=GameRules:GetDOTATime(false,false)
+  row.kind=kind;row.time=GameRules:GetDOTATime(false,true)
   print('SF_PLAY_EVENT|'..json.encode(row))
  end
  ListenToGameEvent('dota_player_used_ability',function(e)
