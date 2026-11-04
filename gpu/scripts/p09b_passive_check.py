@@ -1,4 +1,4 @@
-"""Verify that passive reward logging preserves the original evaluation trajectories."""
+"""Verify that passive reward logging preserves the recorded evaluation metrics."""
 from copy import deepcopy
 from pathlib import Path
 from p09b_run import RUN,REPORT,read,save

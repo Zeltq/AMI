@@ -1,8 +1,8 @@
 {
   "scope": "all per-match fields and minute snapshots, excluding only three added reward fields; no training or evaluation launched",
-  "completed_series": 3,
-  "equal_match_records": 192,
-  "matches": 192,
+  "completed_series": 6,
+  "equal_match_records": 384,
+  "matches": 384,
   "series": [
     {
       "model": "ZOg-e3",
@@ -33,6 +33,36 @@
       "max_paired_reward_roundoff": 6.103515625e-05,
       "source_report": "C:\\AMI\\runs\\p09\\P09b\\d1-vs-v10-20261103\\report.json",
       "reward_report": "C:\\AMI\\runs\\p09\\P09b\\reward-ZOg-d1-20261103\\report.json"
+    },
+    {
+      "model": "ZOg-d1",
+      "seed": 20261104,
+      "equal_match_records": 64,
+      "matches": 64,
+      "max_shaping_residual": 0.0005016326904296875,
+      "max_paired_reward_roundoff": 6.103515625e-05,
+      "source_report": "C:\\AMI\\runs\\p09\\P09b\\d1-vs-v10-20261104\\report.json",
+      "reward_report": "C:\\AMI\\runs\\p09\\P09b\\reward-ZOg-d1-20261104\\report.json"
+    },
+    {
+      "model": "ZOg-d2",
+      "seed": 20261103,
+      "equal_match_records": 64,
+      "matches": 64,
+      "max_shaping_residual": 0.000751495361328125,
+      "max_paired_reward_roundoff": 6.103515625e-05,
+      "source_report": "C:\\AMI\\runs\\p09\\P09b\\d2-vs-v10-20261103\\report.json",
+      "reward_report": "C:\\AMI\\runs\\p09\\P09b\\reward-ZOg-d2-20261103\\report.json"
+    },
+    {
+      "model": "ZOg-d2",
+      "seed": 20261104,
+      "equal_match_records": 64,
+      "matches": 64,
+      "max_shaping_residual": 0.000804901123046875,
+      "max_paired_reward_roundoff": 6.103515625e-05,
+      "source_report": "C:\\AMI\\runs\\p09\\P09b\\d2-vs-v10-20261104\\report.json",
+      "reward_report": "C:\\AMI\\runs\\p09\\P09b\\reward-ZOg-d2-20261104\\report.json"
     }
   ]
 }
