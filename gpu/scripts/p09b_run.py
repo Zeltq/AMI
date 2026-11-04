@@ -62,7 +62,7 @@ def exclusive():
     found=json.loads(native.stdout) if native.stdout.strip() else [];found=found if isinstance(found,list) else [found]
     busy=[r for r in found if not r.get('CommandLine') or 'c:/ami' in r['CommandLine'].replace('\\','/').lower()]
     if busy:raise RuntimeError('Native simulator/test process remains alive: '+str([r['ProcessId'] for r in busy]))
-    linux_jobs=subprocess.run(['wsl','-d','Ubuntu','--','pgrep','-af','/mnt/c/AMI-wt/P09b/gpu/scripts/(train_ggd|p09b_critic)\\.py'],capture_output=True,text=True,timeout=30)
+    linux_jobs=subprocess.run(['wsl','-d','Ubuntu','--exec','pgrep','-af','/mnt/c/AMI-wt/P09b/gpu/scripts/(train_ggd|p09b_critic)\\.py'],capture_output=True,text=True,timeout=30)
     if linux_jobs.returncode not in (0,1):raise RuntimeError('Cannot check WSL child processes: '+linux_jobs.stderr)
     if linux_jobs.returncode==0:raise RuntimeError('WSL trainer remains alive: '+linux_jobs.stdout.strip())
     recover_interrupted_jobs();return lock
