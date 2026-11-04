@@ -200,8 +200,10 @@ fn optimize(policy:&mut Policy,optimizer:&mut ModuleOptimizer,cfg:&Config,e:&Exp
                 // Keep rho in the gradient: detaching it would change the objective.
                 let diff=heads.logp-reference;let anchor=ratio.clone()*((-diff.clone()).exp()-1.+diff);
                 let vl=(heads.value-target).square();let entropy=heads.entropy;
-                let clip=ratio.clone().lower_elem(0.8).bool_or(ratio.greater_elem(1.2)).float();
+                let clipped=ratio.clone().lower_elem(0.8).bool_or(ratio.greater_elem(1.2));
+                let clip=Tensor::<1>::zeros([size*HORIZON],&d).mask_fill(clipped,1.);
                 let row=[scalar(weighted(vl.clone(),mask.clone())),scalar(weighted(anchor.clone(),mask.clone())),scalar(weighted(entropy.clone(),mask.clone())),scalar(weighted(clip,mask.clone())),old_kl];
+                ensure!((0.0..=1.0).contains(&row[3]),"clip fraction outside [0,1]: {}",row[3]);
                 let loss=weighted(actor+vl*0.5-entropy*cfg.entropy+anchor*coefficient,mask);
                 ensure!(scalar(loss.clone()).is_finite(),"nonfinite GGD PPO objective");
                 let mut grads=GradientsParams::from_grads(loss.backward(),policy);crate::gradients::clip(policy,&mut grads,0.5);
@@ -388,6 +390,18 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn p09c_clip_fraction_counts_binary_events(){
+        let d=device();let r=Tensor::<1>::from_data(TensorData::new(vec![0.1f32,0.8,1.,1.2,2.,4.],[6]),&d);
+        let condition=r.clone().lower_elem(0.8).bool_or(r.greater_elem(1.2));
+        let legacy=condition.clone().float().into_data().try_to_vec::<f32>().unwrap();
+        let clip=Tensor::<1>::zeros([6],&d).mask_fill(condition,1.);
+        assert_eq!(clip.clone().into_data().try_to_vec::<f32>().unwrap(),vec![1.,0.,0.,0.,1.,1.]);
+        let mask=Tensor::<1>::from_data(TensorData::new(vec![1f32,1.,1.,1.,1.,0.],[6]),&d);
+        assert!((scalar(weighted(clip,mask))-0.4).abs()<1e-6);
+        eprintln!("P09c legacy bool-to-float diagnostic: {legacy:?}");
+    }
+
     #[test]
     fn p09b_minibatch_uses_learner_sequences_and_preserves_legacy_order(){
         let active:Vec<f32>=(0..384).map(|i|if i%2==0{128.}else{0.}).collect();
