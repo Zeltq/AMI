@@ -5,6 +5,15 @@ sys.path.insert(0,str(ROOT/'gpu/scripts'))
 from p09c_continue90 import make_config
 
 class ContinuationTests(unittest.TestCase):
+    def test_reduced_limit_is_fifty_total_minutes_with_same_hyperparameters(self):
+        base=json.loads((ROOT/'reports/P09c/rl-main-001.json').read_text())
+        progress=json.loads((ROOT/'reports/P09c/final-checkpoint-audit.json').read_text())['progress']
+        original=make_config(base,progress,'checkpoint-000314',90)
+        amended=make_config(base,progress,'checkpoint-000314',50)
+        self.assertAlmostEqual(amended['minutes']*60-progress['training_seconds'],3000,places=8)
+        self.assertEqual({k:v for k,v in original.items() if k!='minutes'},{k:v for k,v in amended.items() if k!='minutes'})
+        self.assertFalse(amended['evaluate'])
+
     def test_real_checkpoint_metadata_keeps_schedule_and_all_learning_settings(self):
         base=json.loads((ROOT/'reports/P09c/rl-main-001.json').read_text())
         progress=json.loads((ROOT/'reports/P09c/final-checkpoint-audit.json').read_text())['progress']

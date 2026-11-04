@@ -1,0 +1,12 @@
+{
+  "user_request": "Ограничиваемся обучением в 50 минут, а потом тестовыми матчами (против учителя, против предыдущих моделей) и пушем в ветку.",
+  "recorded_utc": "2026-11-04T21:55:16.533791+00:00",
+  "original_training_minutes": 90,
+  "training_minutes": 50,
+  "start_training_seconds": 6022.250114800001,
+  "target_training_seconds": 9022.250114800001,
+  "native_run": "C:\\AMI\\runs\\p09\\P09c\\continue90\\rl-continue-001",
+  "native_pid": 9020,
+  "old_controller_pid": 20216,
+  "semantics": "50 total additional PPO minutes in this continuation, not 50 more from the change; three evaluations of 128 matches retained; stop at complete PPO block and preserve checkpoint/Adam."
+}
