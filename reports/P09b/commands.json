@@ -836,5 +836,19 @@
     "artifact": "C:\\AMI\\runs\\p09\\P09b\\critic-warmup\\result.json",
     "exit_code": 0,
     "minutes": 12.685734248333029
+  },
+  {
+    "stage": "rl-main-001",
+    "kind": "training",
+    "command": [
+      "C:\\AMI\\runs\\p09\\P09b\\rl-gpu.exe",
+      "train-ggd",
+      "C:\\AMI-wt\\P09b\\reports\\P09b\\rl-main-001.json",
+      "C:\\AMI\\runs\\p09\\P09b\\rl-main-001"
+    ],
+    "command_literal": "C:\\AMI\\runs\\p09\\P09b\\rl-gpu.exe train-ggd C:\\AMI-wt\\P09b\\reports\\P09b\\rl-main-001.json C:\\AMI\\runs\\p09\\P09b\\rl-main-001",
+    "artifact": "C:\\AMI\\runs\\p09\\P09b\\rl-main-001\\result.json",
+    "exit_code": 1,
+    "minutes": 238.91694651833288
   }
 ]

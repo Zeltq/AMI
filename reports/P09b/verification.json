@@ -103,5 +103,11 @@
     "failed": 0,
     "command": "cargo test --release --locked --manifest-path C:/AMI-wt/P09b/gpu/Cargo.toml --target-dir C:/AMI/gpu/target -- --test-threads=1",
     "log": "C:/AMI/runs/p09/P09b/rust-full-tests.stdout.log"
+  },
+  "user_stop_cargo_check": {
+    "command": "cargo check --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/gpu/target",
+    "exit_code": 0,
+    "gpu_executed": false,
+    "note": "Final stop-path source edit only compile-checked; running binary used guarded evaluation exit after checkpoint."
   }
 }

@@ -1,55 +1,22 @@
 {
-  "status": "All prerequisites passed;480-minute PPO running",
-  "active_controller": "C:/Python314/python.exe gpu/scripts/p09b_rl.py main",
-  "controller_pid": 17024,
+  "status": "DONE P09b: user cancelled further RL and evaluations; final checkpoint saved",
+  "remaining": [],
   "heartbeat_id": "p09b-zog-dagger-8-rl",
-  "gpu_limit_minutes": 840,
-  "runner_state": "C:/AMI/runs/p09/P09b/state.json",
-  "remaining": [
-    "Publication healthy at first scheduled evaluation: automatic publisher pushed2388b5b at12:06UTC. Previous intermittent SSH failures remain documented; check actual publication age and git ahead/behind. Do not restart healthy PPO. Two-hour evaluation256/256 completed and audited; next previous-version opponent is checkpoint-000359.",
-    "Main controller17024, native15124, rl-main-001 running. Do not duplicate.480 training minutes excluding internal evaluations; checkpoints30min, evaluations120/240/360/480 vs v10 and previous version. Frozen critic warmup completed20 blocks with last5EV0.546916 and55/55 actor tensors unchanged. Resume latest valid checkpoint after a failure using a new attempt; no extra PPO after480min.",
-    "Parent controller publishes hourly and immediately after each evaluation-complete marker. Monitor real processes, stderr, training/validation and GPU budget every10min; update stale report sections as stages finish.",
-    "GPU budget used233.87654min before main (exact ledger in budget.json), limit840min. Includes all previous GPU jobs. Preserve480min PPO plus four evaluation pairs and main initialization; do not add speculative GPU runs.",
-    "Final audit: report<=150lines, artifacts<1MB, all requested statistics both sides and both perspectives, v10 and previous-version tables, exactcommands and durations onlycollection/train/eval, DONE or BLOCKED final line, push, pause heartbeat."
+  "heartbeat_status": "PAUSED",
+  "resume_authorized": false,
+  "final_training_minutes": 205.0615077816668,
+  "final_checkpoint": "C:\\AMI\\runs\\p09\\P09b\\rl-main-001\\checkpoint-000604",
+  "last_completed_evaluation_hours": 2,
+  "not_run_by_user_request": [
+    "4h evaluation",
+    "6h evaluation",
+    "8h evaluation",
+    "remaining PPO to480 minutes"
   ],
   "known_limits": [
-    "Policy/model/optimizer/time resume implemented; live arena state not restored after a process crash. Scheduled evaluations keep the live arenas.",
-    "Frozen-prefix incomplete matches and smoke/critic-only stages excluded from RL curves; coverage stored in rl-curve-coverage.json.",
-    "Offline critic uses FP16 cached frozen features; bestepoch8, validation post0 EV0.209718 and pregame EV-14.457254. Test split unused.55/55 exported actor tensors unchanged.",
-    "Natural evaluation parity512/512 matches includes all game fields and minute snapshots except three new reward fields; this is not proof of every intermediate simulator state."
-  ],
-  "build_rl": {
-    "passed": true,
-    "binary": "C:/AMI/runs/p09/P09b/rl-gpu.exe",
-    "log": "C:/AMI/runs/p09/P09b/build-rl.stderr.log",
-    "gpu_tests_run": true,
-    "needs_rebuild": false,
-    "rebuild_log": "C:/AMI/runs/p09/P09b/build-rl-minibatch.stderr.log",
-    "reason": "Rebuilt after successful narrow/full GPU tests; seal in verified-gpu.json.",
-    "executable_sha256": "1edb6886a5d2cc3ba0b3de91b0176bc60446b3c3b83356aa42ab893434d10e9a"
-  },
-  "critic_cpu_checks": [
-    "reports/P09b/critic-cpu-check.json",
-    "reports/P09b/critic-cpu-post0-check.json"
-  ],
-  "last_checks": {
-    "python_full": 214,
-    "reward_and_curves_cpu": 3,
-    "minibatch_rust_cpu": 1,
-    "gpu_reward_tests": "3/3 targeted,110/110 fullRust,4/4 natural check matches",
-    "p09b_cpu": 8
-  },
-  "post_dagger_commands": [
-    "C:/Python314/python.exe gpu/scripts/p09b_rl.py smoke",
-    "C:/Python314/python.exe gpu/scripts/p09b_rl.py warmup",
-    "C:/Python314/python.exe gpu/scripts/p09b_rl.py main"
-  ],
-  "notes_reward_sum": "Undiscounted shaping sum need not be zero: for zero endpoint potentials it equals(gamma-1)*sum intermediatePhi. e3 raw6733.298/128 despite outcome-940/128 is consistent with being behind; do not rank policies by raw episode reward. Corrected residuals and unchanged available per-match fields and minute snapshots are verified.",
-  "last_completed_evaluation": {
-    "hours": 2,
-    "checkpoint": "C:/AMI/runs/p09/P09b/rl-main-001/checkpoint-000359",
-    "v10_matches": 128,
-    "previous_matches": 128,
-    "minutes_excluded_from_training": 23.462835395
-  }
+    "clip_fraction >1 allegation was not confirmed; exponent e-05 explains cited values",
+    "User-stop source fix was compile-checked only; no GPU rerun",
+    "Native final result.json absent after intentional pre-evaluation guard; stop-result.json is an explicit audited summary",
+    "Arena state is not serialized in checkpoints; model/optimizer/progress are saved"
+  ]
 }
