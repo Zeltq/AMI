@@ -11,6 +11,20 @@ from play_vs_model import summarize
 
 
 class PlayTests(unittest.TestCase):
+    def test_status_replace_retries_a_transient_windows_reader(self):
+        from unittest.mock import patch
+        sys.path.insert(0,str(ROOT/'gpu/scripts'))
+        from evaluate_dota_teacher import save
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'status.json';original=Path.replace;calls=[]
+            def replace(source,target):
+                calls.append(target)
+                if len(calls)==1:raise PermissionError('temporary reader')
+                return original(source,target)
+            with patch.object(Path,'replace',replace):save(path,{'stage':'running'})
+            self.assertEqual(json.loads(path.read_text()),{'stage':'running'})
+            self.assertEqual(len(calls),2)
+
     def test_lobby_selects_only_own_bots_and_one_opposing_sf(self):
         from lupa.lua51 import LuaRuntime
         for human in (2,3):

@@ -73,7 +73,13 @@ return M
 def save(path, value):
     temporary = path.with_name(path.name + f'.{os.getpid()}.pending')
     temporary.write_text(json.dumps(value, ensure_ascii=False, indent=2), encoding='utf-8')
-    temporary.replace(path)
+    for attempt in range(20):
+        try:
+            temporary.replace(path)
+            return
+        except PermissionError:
+            if attempt==19:raise
+            time.sleep(.05)
 
 
 def digest(path):
@@ -239,7 +245,15 @@ def main():
                       background_work_remaining=stage not in ('complete','failed'),
                       updated_utc=datetime.now(timezone.utc).isoformat())
         save(args.run/'status.json',record)
-        current=json.loads(pilot.read_text(encoding='utf-8'));current['P10' if args.profile=='ggd-v4' else 'P05']=record;save(pilot,current)
+        # The shared heartbeat index can be briefly locked by another monitor.
+        # The authoritative cohort status above must not stop matches for that.
+        for attempt in range(20):
+            try:
+                current=json.loads(pilot.read_text(encoding='utf-8'));current['P10' if args.profile=='ggd-v4' else 'P05']=record;save(pilot,current)
+                break
+            except PermissionError:
+                time.sleep(.05)
+        else:print('Shared pilot index busy; cohort status retained',flush=True)
         save(args.run/'matches.json',sorted(results,key=lambda r:r['index']))
     # One supervisor across cohorts: never accidentally share service/worker slots.
     with (args.assets/'runs/p05/evaluation.lock').open('a+b') as lock:

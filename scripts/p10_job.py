@@ -29,12 +29,12 @@ def main():
                        exit_code=child.returncode, updated_utc=datetime.datetime.now(datetime.timezone.utc).isoformat())
             path.write_text(json.dumps(row, indent=2))
             pilot = Path('C:/AMI/runs/pilot-status.json')
-            current = json.loads(pilot.read_text(encoding='utf-8'))
-            current.setdefault('P10_jobs', {})[a.name] = row
             tmp = pilot.with_name(pilot.name+f'.p10-{os.getpid()}.pending')
-            tmp.write_text(json.dumps(current, indent=2), encoding='utf-8')
             for attempt in range(20):
                 try:
+                    current = json.loads(pilot.read_text(encoding='utf-8'))
+                    current.setdefault('P10_jobs', {})[a.name] = row
+                    tmp.write_text(json.dumps(current, indent=2), encoding='utf-8')
                     tmp.replace(pilot)
                     break
                 except PermissionError:
