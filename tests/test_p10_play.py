@@ -64,7 +64,7 @@ function SelectHero(pid,name) picks[#picks+1]={pid=pid,name=name} end
         rows=[dict(kind='hero',team=t,time=300,lh=t,deny=1,alive=True,x=0,y=0) for t in (2,3)]
         rows += [dict(kind='cast',team=3,time=301,ability='nevermore_shadowraze1'),
                  dict(kind='hurt',team=3,time=301,target='npc_dota_hero_nevermore',ability='nevermore_shadowraze1'),
-                 dict(kind='death',team=2,killer_team=3,time=302),
+                 dict(kind='death',team=2,killer_team=3,killer='npc_dota_hero_nevermore',time=302),
                  dict(kind='cast',team=3,time=400,ability='nevermore_shadowraze2')]
         with tempfile.TemporaryDirectory() as folder:
             log=Path(folder)/'log';log.write_text(''.join('SF_PLAY_EVENT|'+json.dumps(r)+'\n' for r in rows))
@@ -74,6 +74,16 @@ function SelectHero(pid,name) picks[#picks+1]={pid=pid,name=name} end
         self.assertEqual(s['sides']['3']['raze_hero_hits'],1)
         self.assertIsNone(s['sides']['3']['at_seconds']['600'])
         self.assertEqual(s['sides']['3']['at_seconds']['300']['lh'],3)
+
+    def test_tower_death_is_not_a_hero_kill_or_first_blood(self):
+        rows=[dict(kind='hero',team=t,time=100,lh=0,deny=0,kills=0,alive=True,x=0,y=0) for t in (2,3)]
+        rows.append(dict(kind='death',team=2,killer_team=3,killer='npc_dota_badguys_tower1_mid',time=100.05))
+        with tempfile.TemporaryDirectory() as folder:
+            log=Path(folder)/'log';log.write_text(''.join('SF_PLAY_EVENT|'+json.dumps(r)+'\n' for r in rows))
+            result=summarize(log,2)
+        self.assertIsNone(result['first_blood'])
+        self.assertEqual(result['first_death']['time'],100.05)
+        self.assertEqual(result['sides']['3']['kills'],0)
 
 
 if __name__=='__main__':unittest.main()

@@ -58,7 +58,7 @@ def dota(cohort):
                 rejects[r.execution.reason]+=1
         own=m['result']['sides'][str(team)]
         games.append(dict(index=m['index'],team=team,time=end,outcome='draw' if winner is None else 'win' if winner==team else 'loss',reason=m['result']['reason'],
-            lh=own['last_hits'],deny=own['denies'],deaths=s['deaths'],kills=s['kills'],first_death=telemetry['first_blood']['time'] if s['deaths'] and telemetry['first_blood'] else None,
+            lh=own['last_hits'],deny=own['denies'],deaths=s['deaths'],kills=s['kills'],first_death=telemetry['first_death']['time'] if s['deaths'] and telemetry['first_death'] else None,
             mid_game_time=s['mid_game_time'],raze_casts=s['raze_casts'],raze_hit_events=s['raze_hit_events'],raze_hero_hits=s['raze_hero_hits'],
             hero_attack_commands=hero_attacks,rejected=sum(rejects.values()),rejected_reasons=dict(rejects),decisions=len(decisions),actions=dict(counts),
             transport=own,telemetry=telemetry,source=str(run)))

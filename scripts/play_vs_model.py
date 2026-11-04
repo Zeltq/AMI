@@ -30,6 +30,7 @@ def events(path):
 
 def summarize(log,model_team,end=600):
     rows=list(events(log))
+    all_rows=rows
     deaths=[r for r in rows if r['kind']=='death' and r['time']<=end+1/30+.001]
     first=min(deaths,key=lambda r:r['time']) if deaths else None
     if first:end=min(end,first['time'])
@@ -37,6 +38,9 @@ def summarize(log,model_team,end=600):
     sides={}
     for team in (2,3):
         samples=[r for r in rows if r['kind']=='hero' and r['team']==team]
+        score_samples=[r for r in all_rows if r['kind']=='hero' and r['team']==team and r['time']<=end+(.2 if first else 1/30+.001)]
+        scoreboard_kills=score_samples[-1].get('kills',0) if score_samples else 0
+        direct_kills=sum(r['kind']=='death' and r.get('killer_team')==team and r.get('team')!=team and r.get('killer')=='npc_dota_hero_nevermore' for r in rows)
         spells=Counter(r.get('ability','') for r in rows if r['kind']=='cast' and r.get('team')==team)
         hurts=[r for r in rows if r['kind']=='hurt' and r.get('team')==team]
         hits=[r for r in hurts if r.get('ability','').startswith('nevermore_shadowraze')]
@@ -47,22 +51,26 @@ def summarize(log,model_team,end=600):
             marks[str(mark)]={k:sample[k] for k in ('time','lh','deny')} if end>=mark-1/30 and sample and abs(sample['time']-mark)<=.15 else None
         sides[str(team)]=dict(last=samples[-1] if samples else None,at_seconds=marks,
             deaths=sum(r['kind']=='death' and r.get('team')==team for r in rows),
-            kills=sum(r['kind']=='death' and r.get('killer_team')==team for r in rows),casts=dict(spells),
+            kills=max(scoreboard_kills,direct_kills),casts=dict(spells),
             raze_casts=sum(v for k,v in spells.items() if k.startswith('nevermore_shadowraze')),
             raze_hit_events=len(hits),raze_hero_hits=sum(r['target']=='npc_dota_hero_nevermore' for r in hits),
             hero_attack_hits=sum(r['target']=='npc_dota_hero_nevermore' and not r.get('ability') for r in hurts),mid_game_time=mid,
             telemetry_samples=len(samples))
-    return dict(model_team=model_team,first_blood=first,end=end,sides=sides,
+    credited=next((team for team in (2,3) if sides[str(team)]['kills']>0),None)
+    blood=dict(first,credited_team=credited) if first and credited is not None else None
+    return dict(model_team=model_team,first_death=first,first_blood=blood,end=end,sides=sides,
                 hit_definition='entity_hurt events, one event per damaged target; hero hits separately',
                 missing_marks='null means duel ended early or no sample within 0.15 seconds')
 
 
 def print_summary(result):
     names={2:'Radiant',3:'Dire'}
-    death=result['first_blood']
+    death=result['first_death']
     if death:
         loser=death['team'];winner=5-loser
         print(f"Первая смерть: {names[loser]}, {death['time']:.2f} с. Победитель дуэли: {names[winner]}.",flush=True)
+        blood=result['first_blood']
+        print(f"First blood: {names[blood['credited_team']]}, {blood['time']:.2f} с." if blood else 'First blood герою не засчитан.',flush=True)
     else:
         print('Первая смерть не зарегистрирована; итог и полнота записи — в summary.json.',flush=True)
     for team in (2,3):
