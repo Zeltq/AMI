@@ -1,0 +1,32 @@
+{
+  "dataset": "C:\\AMI\\runs\\p09\\dataset",
+  "model_name": "ZOg",
+  "epochs": 3,
+  "batch_sequences": 8,
+  "learning_rate": 0.0001,
+  "seed": 20261102,
+  "gradient_norm": 1.0,
+  "attack_weight": 4.0,
+  "timing_honest": true,
+  "timing_oracle": false,
+  "action_weights": {
+    "6": 4.0,
+    "7": 2.93,
+    "8": 4.0
+  },
+  "hero_attack_weight": 4.0,
+  "evaluation": {
+    "executable": "C:\\AMI\\runs\\p09\\sf-duel-gpu.exe",
+    "engine": "C:/AMI/runs/p07/dota-calibration-005/engine.json",
+    "matches": 64,
+    "seconds": 600,
+    "seeds": [
+      20261103,
+      20261104
+    ],
+    "modes": [
+      "teacher"
+    ],
+    "teacher_version": "v10"
+  }
+}

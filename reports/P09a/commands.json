@@ -392,5 +392,42 @@
     "background_work_remaining": false,
     "pid": 18892,
     "exit_code": 0
+  },
+  {
+    "stage": "main-collect",
+    "kind": "collection",
+    "command": [
+      "C:\\AMI\\runs\\p09\\sf-duel-gpu.exe",
+      "collect-teacher",
+      "C:\\AMI-wt\\P09a\\reports\\P09a\\collect.json",
+      "C:\\AMI\\runs\\p09\\dataset"
+    ],
+    "command_literal": "C:\\AMI\\runs\\p09\\sf-duel-gpu.exe collect-teacher C:\\AMI-wt\\P09a\\reports\\P09a\\collect.json C:\\AMI\\runs\\p09\\dataset",
+    "environment": {},
+    "artifact": "C:\\AMI\\runs\\p09\\dataset\\report.json",
+    "gpu_budget": true,
+    "started_utc": "2026-11-04T02:35:12.155917+00:00",
+    "background_work_remaining": false,
+    "pid": 23208,
+    "exit_code": 0,
+    "minutes": 49.71707309666672
+  },
+  {
+    "stage": "main-audit",
+    "kind": "audit",
+    "command": [
+      "C:\\Python314\\python.exe",
+      "C:\\AMI-wt\\P09a\\gpu\\scripts\\p09_data.py",
+      "C:\\AMI\\runs\\p09\\dataset",
+      "C:\\AMI-wt\\P09a\\reports\\P09a\\dataset-audit.json"
+    ],
+    "command_literal": "C:\\Python314\\python.exe C:\\AMI-wt\\P09a\\gpu\\scripts\\p09_data.py C:\\AMI\\runs\\p09\\dataset C:\\AMI-wt\\P09a\\reports\\P09a\\dataset-audit.json",
+    "environment": {},
+    "artifact": "C:\\AMI-wt\\P09a\\reports\\P09a\\dataset-audit.json",
+    "gpu_budget": false,
+    "started_utc": "2026-11-04T03:24:55.206223+00:00",
+    "background_work_remaining": false,
+    "pid": 17236,
+    "exit_code": 0
   }
 ]
