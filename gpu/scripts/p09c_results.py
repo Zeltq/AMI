@@ -89,12 +89,15 @@ def main():
     totals=[r for r in rows if r['side']=='total' and r['perspective']==0]
     table=['Против v10 (W/D/L и смерти — матчи; награда — event-v2):','','| Модель | W / D / L | LH / N | deny / N | farm / spawn | farm / циклы | Смерти / N | <120с / N | reward / N |','|---|---|---|---|---|---|---|---|---|']
     order=['ZOg-d1','pilot1','pilot2','RL-1h','RL-final','v10']
-    vs=sorted([r for r in totals if r['matchup'].endswith(' vs v10')],key=lambda r:order.index(r['model']) if r['model'] in order else 99)
-    for r in vs:
-        n=r['matches'];table.append('| '+' | '.join([r['model'],'; '.join(ratio(r[k],n) for k in ('wins','draws','losses')),ratio(r['lh'],n),ratio(r['deny'],n),ratio(r['lh']+r['deny'],r['lane_creeps_spawned']),ratio(r['lh']+r['deny'],r['attack_cycles_completed']),ratio(r['matches_with_death'],n),ratio(r['early_deaths'],n),ratio(r['reward_sum'],n)])+' |')
+    totals.sort(key=lambda r:order.index(r['model']) if r['model'] in order else 99)
+    vs=[r for r in totals if r['matchup'].endswith(' vs v10')]
     # Historical reference remains explicitly labelled until exact reward is evaluated.
     for model,wdl,lh,deny,spawn,cycles,deaths,early in [('ZOg-d1', (24,0,104),775,626,10058,7253,96,12),('v10',(65,1,62),3651,2132,15820,9907,36,0)]:
-        if not any(r['model']==model for r in vs):table.append(f'| {model} (P09b) | {wdl[0]}/128; {wdl[1]}/128; {wdl[2]}/128 | {lh}/128 | {deny}/128 | {lh+deny}/{spawn} | {lh+deny}/{cycles} | {deaths}/128 | {early}/128 | не измерено |')
+        if not any(r['model']==model for r in vs):vs.append(dict(model=model,historical=True,matches=128,wins=wdl[0],draws=wdl[1],losses=wdl[2],lh=lh,deny=deny,lane_creeps_spawned=spawn,attack_cycles_completed=cycles,matches_with_death=deaths,early_deaths=early,reward_sum=None))
+    vs.sort(key=lambda r:order.index(r['model']) if r['model'] in order else 99)
+    for r in vs:
+        n=r['matches'];label=r['model']+(' (P09b)' if r.get('historical') else '')
+        table.append('| '+' | '.join([label,'; '.join(ratio(r[k],n) for k in ('wins','draws','losses')),ratio(r['lh'],n),ratio(r['deny'],n),ratio(r['lh']+r['deny'],r['lane_creeps_spawned']),ratio(r['lh']+r['deny'],r['attack_cycles_completed']),ratio(r['matches_with_death'],n),ratio(r['early_deaths'],n),ratio(r['reward_sum'],n) if r['reward_sum'] is not None else 'не измерено'])+' |')
     table+=['','Против исходной ZOg-d1; парные значения — RL / ZOg-d1:','','| Модель | W / D / L | farm / spawn, обе | Смерти / N, обе | <120с / N, обе |','|---|---|---|---|---|']
     for r in totals:
         if not r['matchup'].endswith(' vs ZOg-d1'):continue
