@@ -104,4 +104,19 @@ class RewardTests(unittest.TestCase):
             critic.save_checkpoint(path,{'value':torch.tensor(2)})
             self.assertEqual(torch.load(path,weights_only=True)['value'].item(),2)
 
+    def test_native_verification_cache_is_bound_to_source_and_executable(self):
+        import p09b_run as runner
+        import os
+        def fake_job(name,kind,command,marker=None,gpu=False):
+            if marker:
+                hero=dict(reward=0,reward_components=[0]*5,shaping_telescoping_residual=[0]*4)
+                runner.save(marker,dict(complete=True,wall_seconds=0,per_match=[dict(result=0,sides=[hero,hero])]*2))
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);reports=root/'reports';reports.mkdir()
+            with patch.object(runner,'RUN',root),patch.object(runner,'REPORT',reports),patch.object(runner,'exclusive'),patch.object(runner,'status'),patch.object(runner,'rust_sources',return_value={'native.rs':'v1'}) as sources,patch.object(runner,'run',side_effect=fake_job) as jobs,patch('shutil.copy2',side_effect=lambda src,dst:Path(dst).write_bytes(b'fixture executable')),patch.object(sys,'argv',['p09b_run.py','verify']),patch.dict(os.environ):
+                runner.main();first=[c.args[0] for c in jobs.call_args_list];self.assertEqual(len(first),5)
+                jobs.reset_mock();runner.main();jobs.assert_not_called()
+                sources.return_value={'native.rs':'v2'};runner.main();second=[c.args[0] for c in jobs.call_args_list]
+                self.assertEqual(len(second),5);self.assertTrue(set(first).isdisjoint(second))
+
 if __name__=='__main__':unittest.main()

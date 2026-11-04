@@ -172,16 +172,23 @@ def main():
         shutil.copy2('C:/AMI/gpu/target/release/sf-duel-gpu.exe',EXE)
     elif a.stage=='verify':
         sources=rust_sources()
+        binary=RUN/'rl-gpu.exe';seal_path=REPORT/'verified-gpu.json'
+        if seal_path.exists() and binary.exists():
+            seal=read(seal_path)
+            if seal.get('passed') and seal.get('sources')==sources and seal.get('executable_sha256')==sha(binary):
+                status(dict(stage='identical native source and executable already verified',pid=None,background_work_remaining=True));return
+        tag=hashlib.sha256(json.dumps(sources,sort_keys=True).encode()).hexdigest()[:12]
+        narrow='rust-p09b-tests-'+tag;full='rust-full-tests-'+tag;build='build-rl-verified-'+tag
         cargo=['cargo','test','--release','--locked','--manifest-path',ROOT/'gpu/Cargo.toml','--target-dir','C:/AMI/gpu/target']
-        run('rust-p09b-tests-2','verification',cargo+['p09b_','--','--test-threads=1'],gpu=True)
-        run('rust-full-tests','verification',cargo+['--','--test-threads=1'],gpu=True)
-        run('build-rl-verified','build',['cargo','build','--release','--locked','--manifest-path',ROOT/'gpu/Cargo.toml','--target-dir','C:/AMI/gpu/target'])
+        run(narrow,'verification',cargo+['p09b_','--','--test-threads=1'],gpu=True)
+        run(full,'verification',cargo+['--','--test-threads=1'],gpu=True)
+        run(build,'build',['cargo','build','--release','--locked','--manifest-path',ROOT/'gpu/Cargo.toml','--target-dir','C:/AMI/gpu/target'])
         import shutil
-        binary=RUN/'rl-gpu.exe';shutil.copy2('C:/AMI/gpu/target/release/sf-duel-gpu.exe',binary)
+        shutil.copy2('C:/AMI/gpu/target/release/sf-duel-gpu.exe',binary)
         for name,opponent in [('teacher',None),('different-weights',Path('C:/AMI/runs/p09/ZOg/epoch-002/weights'))]:
-            target=RUN/('check-'+name);command=[binary,'evaluate-ggd',ENGINE,WEIGHTS,target,'--mode','teacher','--matches','2','--seconds','600','--seed','20261107','--sampling','--teacher-version','v10']
+            stage='check-'+name+'-'+tag;target=RUN/stage;command=[binary,'evaluate-ggd',ENGINE,WEIGHTS,target,'--mode','teacher','--matches','2','--seconds','600','--seed','20261107','--sampling','--teacher-version','v10']
             if opponent:command+=['--opponent-weights',opponent]
-            run('check-'+name,'evaluation',command,target/'report.json',True)
+            run(stage,'evaluation',command,target/'report.json',True)
             report=read(target/'report.json');assert report['complete'] and len(report['per_match'])==2
             residual=[]
             for game in report['per_match']:
@@ -193,7 +200,7 @@ def main():
             assert max(residual)<.02,(name,max(residual))
             save(REPORT/('check-'+name+'.json'),dict(matches=2,passed=True,max_shaping_telescoping_residual=max(residual),residual_tolerance=.02,command_literal=__import__('subprocess').list2cmdline(list(map(str,command))),minutes=report['wall_seconds']/60))
         assert sources==rust_sources(),'Rust source changed during verification'
-        save(REPORT/'verified-gpu.json',dict(passed=True,executable_sha256=sha(binary),sources=sources,checks=['rust-p09b-tests-2','rust-full-tests','check-teacher','check-different-weights']))
+        save(REPORT/'verified-gpu.json',dict(passed=True,executable_sha256=sha(binary),sources=sources,checks=[narrow,full,build,'check-teacher-'+tag,'check-different-weights-'+tag]))
         status(dict(stage='verification complete; selection and critic training pending',pid=None,background_work_remaining=True))
     else:dagger()
 
