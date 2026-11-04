@@ -1,0 +1,322 @@
+{
+  "passed": true,
+  "checkpoint": "C:\\AMI\\runs\\p09\\P09c\\rl-main-001\\checkpoint-000314",
+  "block": 314,
+  "tensors_finite": 59,
+  "tensors_total": 59,
+  "manifest_sha256": "6d3115ba3f79df55e4a949b8ac437501b11dd8f1c341efabbb3e307aaad74496",
+  "model_sha256": "30c1ec8d81549421449b26a5f2db74da6fbc3fc87d77ddb61af4e56393997c5a",
+  "optimizer_sha256": "5fd8b4ebcd993dd0fbde082d0f1491868dc8dc8042a4ee0cda4a6c81e2231e6f",
+  "progress": {
+    "anchor_sha256": "727aff1fdb27198669d752dc93011d96668fa88672643f679b1a9506df7e68fe",
+    "block": 314,
+    "kl_coefficient_next": 0.04999999701976776,
+    "kl_decay_start_minutes": 40.21026507333333,
+    "kl_end": 0.05000000074505806,
+    "kl_start": 0.20000000298023224,
+    "last_evaluation": 2412.6159044,
+    "previous_evaluation_weights": "C:\\AMI\\runs\\p09\\P09b\\ZOg-d1\\export\\weights",
+    "reward_mode": "event-v2",
+    "schedule_minutes": 100.21026507333332,
+    "training_seconds": 6022.250114800001,
+    "warmup_complete": true
+  },
+  "executable_sha256": "140dd1d58c0f84a94171c1ad015d9adbb07aded49e538274356dfeb8b2ff3bcf",
+  "tensors": [
+    {
+      "name": "action_embed.weight",
+      "values": 176,
+      "sha256": "df7c60688a7bb3718018991355ad2af8a0a1003d97aaaccd3f03859b64cc34a9"
+    },
+    {
+      "name": "action_head.bias",
+      "values": 11,
+      "sha256": "d5bd438121125959f803854b360180da3f89f0a03c0884dad21f896ec5e2b00e"
+    },
+    {
+      "name": "action_head.weight",
+      "values": 2816,
+      "sha256": "ccfa48f265b75ed5e340deb94434888500b8a038bcd042ce3cee648935b5c640"
+    },
+    {
+      "name": "base_key",
+      "values": 64,
+      "sha256": "9d70bbc27ff5bbc987246e2f9cd7378dee5a4ca1cb9f22907f9899a93062805f"
+    },
+    {
+      "name": "buy_head.bias",
+      "values": 7,
+      "sha256": "001a0b5c6e0008f63f5a2f98837f71108f112ca667bc3f18f288a75fa5a26934"
+    },
+    {
+      "name": "buy_head.weight",
+      "values": 1792,
+      "sha256": "c652cffe2dacdf5b0679cadf7233dcdcd3e538e165d2fb9e75a1aca175890233"
+    },
+    {
+      "name": "combine.bias",
+      "values": 256,
+      "sha256": "086f03472f8c2ebc73ebbcb99a0f4b60268b20195342ee064b2f136f960620ba"
+    },
+    {
+      "name": "combine.weight",
+      "values": 418816,
+      "sha256": "0499d2225a6345ca2a51da22484c6bc45091d79754221b568b8b4779b6921834"
+    },
+    {
+      "name": "hero.first.bias",
+      "values": 128,
+      "sha256": "c1ef815c0331a5f67e6b19cb575307546929bf4906b00121f843cf4df2575cfa"
+    },
+    {
+      "name": "hero.first.weight",
+      "values": 22016,
+      "sha256": "7fe23f7fc93eac21c2dae0d70ebadd55a999cfe3f0c4a7157b1cacdf21e9b9dd"
+    },
+    {
+      "name": "hero.second.bias",
+      "values": 128,
+      "sha256": "0bfda867b78172fa5c7938fd38fb3eeba57d0c674c583ee3ff885e6c23beca4b"
+    },
+    {
+      "name": "hero.second.weight",
+      "values": 16384,
+      "sha256": "91bb985ff08bd4888ffcffa6125c0e884ade85c3c0e3a385a4afe1be94710b03"
+    },
+    {
+      "name": "hero_key.bias",
+      "values": 64,
+      "sha256": "3f7ef65bb9601b8c7aaf54dd2e3ea18fa6ac190e4a709db0e52bdf03e61230c9"
+    },
+    {
+      "name": "hero_key.weight",
+      "values": 8192,
+      "sha256": "0b8d84868055e46b31a35e5b4540f3bf0914ecbb3ea899f219ecdcc09f88c0a6"
+    },
+    {
+      "name": "item.first.bias",
+      "values": 32,
+      "sha256": "303dca83541920d75f933642851d37bd409efb9011139d8b8ac6df40a9a0f1a2"
+    },
+    {
+      "name": "item.first.weight",
+      "values": 512,
+      "sha256": "c7bc7d9f27ecd127a6df35b65f1e9269d76b1732d927aa4654afff636846ee4d"
+    },
+    {
+      "name": "item.second.bias",
+      "values": 32,
+      "sha256": "91313201441eec5dd0f5844b96fb357fcdfe2e50eef7146fbcd4b9e6c9ce89d2"
+    },
+    {
+      "name": "item.second.weight",
+      "values": 1024,
+      "sha256": "702e7b811cc4debde11effe12dc7c41d8265c6b44c3511bc01592ce07c0ab73f"
+    },
+    {
+      "name": "item_embed.weight",
+      "values": 128,
+      "sha256": "276b7367ec30a36a5c44835b315cc69e7c0044d32a94079b4071719fe9616fe8"
+    },
+    {
+      "name": "item_head.bias",
+      "values": 8,
+      "sha256": "d8f31fd75237a5dd9c545669c46eba83ba8747eb7108cd5d02b0c66dd9097470"
+    },
+    {
+      "name": "item_head.weight",
+      "values": 2176,
+      "sha256": "c13c0e53cda58e0964e4ae5b37847f91dc9e84a488c632e15c13ff2bf42ab223"
+    },
+    {
+      "name": "memory.hidden.bias",
+      "values": 1024,
+      "sha256": "28f12657a0a59db18982be857428b958706ad966a130bbd846f0d4ab33ed0063"
+    },
+    {
+      "name": "memory.hidden.weight",
+      "values": 262144,
+      "sha256": "947d6a6cc378412f718db5078f84993c512184b74b3495fe247553975f2feb63"
+    },
+    {
+      "name": "memory.input.bias",
+      "values": 1024,
+      "sha256": "4e8f8ffcef0b053fdf3c7939b28c7a879380c3986a96af0dd33ed1eb7bafbcb3"
+    },
+    {
+      "name": "memory.input.weight",
+      "values": 262144,
+      "sha256": "6d7f6e17027dbb08d00a6fd737da1b0a78a455161eee10aae53275096961a609"
+    },
+    {
+      "name": "projectile.first.bias",
+      "values": 32,
+      "sha256": "0ddbe6ab7e566c8fdbc8f6fce7ffdca2172d91f8f65fb19185d147c3bac61933"
+    },
+    {
+      "name": "projectile.first.weight",
+      "values": 896,
+      "sha256": "b9e051192bafc1802a6aa43ac5e5ee63eb9491e741fb2cf954799e8f53e9ebec"
+    },
+    {
+      "name": "projectile.second.bias",
+      "values": 32,
+      "sha256": "ba0eb25ad316d4d7a628093b9e0c0ba1e261fc15e96358050083ff4dcc018228"
+    },
+    {
+      "name": "projectile.second.weight",
+      "values": 1024,
+      "sha256": "0ccd3e0507081fcbf232b6d0bf91de78fed9fe2def003a8032b95fce36793b2a"
+    },
+    {
+      "name": "query.bias",
+      "values": 64,
+      "sha256": "c3a4d7d9afa892c42e87d43511669163bbc394203b2314f930a2d99942789a5e"
+    },
+    {
+      "name": "query.weight",
+      "values": 18432,
+      "sha256": "214ace5a2d072878effc1699e879a9c65a5222a3805831c7ddf7c8cdbc1bebed"
+    },
+    {
+      "name": "skill.first.bias",
+      "values": 32,
+      "sha256": "3f89fa9fcf07ec4a3ab9e7b114faee00454f54b374557cd0ec6e203c4c51b250"
+    },
+    {
+      "name": "skill.first.weight",
+      "values": 384,
+      "sha256": "41e8f0be468da87676407a362afe3b0383d85cb8481d956f772030603a59cc56"
+    },
+    {
+      "name": "skill.second.bias",
+      "values": 32,
+      "sha256": "162868dfe789e97465f49c976e45eb31747bf3e2240d2fd04f69a0d82d1d473d"
+    },
+    {
+      "name": "skill.second.weight",
+      "values": 1024,
+      "sha256": "111cc0b61c88b8dca9e01ad5322218e9cbda168d85a7829d6394288371429230"
+    },
+    {
+      "name": "terrain_first.bias",
+      "values": 16,
+      "sha256": "64e20329ba85f23f191c20f0e25563d6647ad8873e635bde56c1e260b8f7dd8f"
+    },
+    {
+      "name": "terrain_first.weight",
+      "values": 576,
+      "sha256": "171d0b3615d27dfb945e374edcc6fe54e197c9224a7dd18cac9a91071f4acab2"
+    },
+    {
+      "name": "terrain_linear.bias",
+      "values": 64,
+      "sha256": "304ab0c4dae8c3ba039bea534b37e1d2737a6ffc2cb96a903efb429db414b71e"
+    },
+    {
+      "name": "terrain_linear.weight",
+      "values": 4096,
+      "sha256": "3168737bc0e143180f886baa314ded4f9c1d179447ebca801832714b94ac1902"
+    },
+    {
+      "name": "terrain_second.bias",
+      "values": 16,
+      "sha256": "8de2bb4ff7de58629eb8149393b63754d20ec06e079e98aceb1374100ae39b34"
+    },
+    {
+      "name": "terrain_second.weight",
+      "values": 2304,
+      "sha256": "c64ee806814803d5d4387e9ff92eddf58fc41a04bd1d97fd5ca99ebcc00a093f"
+    },
+    {
+      "name": "tree.first.bias",
+      "values": 32,
+      "sha256": "ad10342c6c6a713dcbeae14a124ad18d3800d699e2bff6db79b736565c6a4fd9"
+    },
+    {
+      "name": "tree.first.weight",
+      "values": 256,
+      "sha256": "c62bd8a4d8bfcc08a597fde4022b4e3e8125c339c79976a57a18ebf190cef455"
+    },
+    {
+      "name": "tree.second.bias",
+      "values": 32,
+      "sha256": "1db5102ab7a1028dc9b6bcd0afc03b692f6798b3a657f530c32672767a32f928"
+    },
+    {
+      "name": "tree.second.weight",
+      "values": 1024,
+      "sha256": "8b922e55da7019027fcf063ede063199b7bb16cb32a71626aa9083dfc8d553ac"
+    },
+    {
+      "name": "tree_key.bias",
+      "values": 64,
+      "sha256": "bc8c02f2ec178ce0425e9e27535175880737579b7143c2d015721f13e285024b"
+    },
+    {
+      "name": "tree_key.weight",
+      "values": 2048,
+      "sha256": "08be6557df93e12735aee12972fa7c50e93fba8ee3a91e5619fd00c6f1e16dfe"
+    },
+    {
+      "name": "unit.first.bias",
+      "values": 64,
+      "sha256": "5c5bae4db3cd864aff800b3871574a51be12e87424e3e8680fc983a73859155f"
+    },
+    {
+      "name": "unit.first.weight",
+      "values": 8960,
+      "sha256": "c67b56685e28bf7c7163e6e6acdb3011673101a454fa906a678eb471f3c1c769"
+    },
+    {
+      "name": "unit.second.bias",
+      "values": 64,
+      "sha256": "eb2ceff0db85723f6ca1c3dd769e4d4c2a31e514678aec8f8ccb2359d5d76b17"
+    },
+    {
+      "name": "unit.second.weight",
+      "values": 4096,
+      "sha256": "4b75f8edcb7cf91414575c418fc46e20082f525a05249632a3cff89a7d984c7c"
+    },
+    {
+      "name": "value_first.bias",
+      "values": 128,
+      "sha256": "c0d5e8d1d0554cadc6814255297fb70023143bf514a5ddd32fc65ac7129cceeb"
+    },
+    {
+      "name": "value_first.weight",
+      "values": 32768,
+      "sha256": "6a3b55e9a7e03b8756e617f4639b549ecbc766b048c2f9d5caf43b597c2efc9a"
+    },
+    {
+      "name": "value_second.bias",
+      "values": 1,
+      "sha256": "6df4addc24d45edbac51f9c4c36ce9a38089b84746f60b363612b2c6028affed"
+    },
+    {
+      "name": "value_second.weight",
+      "values": 128,
+      "sha256": "8a7a2224cf62abc52ecaeb48df55b99abb9450bcb481d0dc050fbec569bc135c"
+    },
+    {
+      "name": "x_head.bias",
+      "values": 129,
+      "sha256": "227403c12113263ecfe8710b613b03bfdf95f6027e967ee51111afaf889ff671"
+    },
+    {
+      "name": "x_head.weight",
+      "values": 37152,
+      "sha256": "ebaede1e20f7a1d23d41a721a9cf80667f50e703e5d7816ea94350e1cc503ab9"
+    },
+    {
+      "name": "y_head.bias",
+      "values": 129,
+      "sha256": "41bdfe05a1cd76cfdc9db47300ebe0e19f2a10254377848a4b9a8e10117a497e"
+    },
+    {
+      "name": "y_head.weight",
+      "values": 37152,
+      "sha256": "5933713b8f5579fa549704b48fb79b1640c3c36a33d3d433f4389b20a5752922"
+    }
+  ]
+}
