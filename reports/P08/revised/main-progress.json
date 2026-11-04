@@ -1,61 +1,61 @@
 {
-  "observed_unix": 1793754225.530016,
+  "observed_unix": 1793754842.6402297,
   "controller_pid": 21192,
   "child_pid": 23624,
-  "blocks": 292,
+  "blocks": 319,
   "latest": {
     "batch": 0,
-    "block": 292,
-    "collection_seconds": 13.596792,
+    "block": 319,
+    "collection_seconds": 13.6355687,
     "components_sum": [
-      1731.0,
-      615.0,
-      -1845.0,
-      -786.25,
+      1551.0,
+      524.5,
+      -1572.0,
+      -687.0,
       -10.0,
       0.0,
       0.0,
       0.0,
-      -30.0
+      -10.0
     ],
-    "decisions_per_second": 1075.5733446018376,
-    "episodes": 1489,
-    "episodes_started": 1674,
-    "finished_in_batch": 7,
+    "decisions_per_second": 1076.1682003749747,
+    "episodes": 1634,
+    "episodes_started": 1823,
+    "finished_in_batch": 3,
     "learning": {
       "buckets": [
         16,
         32,
         16
       ],
-      "clip_fraction": 0.0027315261868352536,
+      "clip_fraction": 0.001919740348967025,
       "early_stop": false,
-      "entropy": 0.10550551163032651,
-      "ev_post0": 0.17150741815567017,
-      "ev_pregame": 0.5264060497283936,
-      "explained_variance": 0.20635157823562622,
-      "kl_coefficient": 0.06472016870975494,
-      "kl_m2": 0.023011232318822294,
-      "old_policy_kl": 0.0003347075203237182,
+      "entropy": 0.10426431056112051,
+      "ev_post0": 0.20200425386428833,
+      "ev_pregame": 0.4658355116844177,
+      "explained_variance": 0.24630868434906006,
+      "kl_coefficient": 0.05227351188659668,
+      "kl_m2": 0.019484624615870416,
+      "old_policy_kl": 0.00032096263066705433,
       "optimizer_steps": 16,
-      "postgame_decisions": 20395.0,
-      "pregame_decisions": 3388.0,
-      "reward_activity": 293.25,
-      "rollout_entropy": 0.10490361601114273,
-      "rollout_kl_m2": 0.022644439712166786,
-      "valid_decisions": 23783,
-      "value_loss": 0.09956801356747746,
+      "postgame_decisions": 20317.0,
+      "pregame_decisions": 3883.0,
+      "reward_activity": 285.0,
+      "rollout_entropy": 0.10514064878225327,
+      "rollout_kl_m2": 0.01852799393236637,
+      "valid_decisions": 24200,
+      "value_loss": 0.06605012924410403,
       "warmup": false,
       "warmup_ev_last5": null,
       "warmup_post_blocks": 0
     },
-    "memory_pool": "Some(MemoryPoolUsage { number_allocs: 866, bytes_in_use: 5411024592, bytes_padding: 4688, bytes_reserved: 8850807264 })",
-    "optimization_seconds": 8.6322586,
+    "memory_pool": "Some(MemoryPoolUsage { number_allocs: 866, bytes_in_use: 5411024592, bytes_padding: 4688, bytes_reserved: 8850807616 })",
+    "optimization_seconds": 8.7745417,
     "phase_decisions": [
-      3388.0,
-      5144.0,
-      6316.0,
-      8935.0
+      3883.0,
+      6633.0,
+      6608.0,
+      7076.0
     ],
     "phase_histogram_verified": true,
     "phase_names": [
@@ -67,44 +67,44 @@
     "pregame_death_matches": 0,
     "pregame_deaths": 0,
     "pregame_deaths_initial_prefix": 0,
-    "total_decisions": 7008071,
-    "training_seconds": 6515.660726599999
+    "total_decisions": 7655087,
+    "training_seconds": 7113.281174199999
   },
   "diagnostics": {
     "ev_post0": {
       "min": 0.07061338424682617,
       "max": 0.2936888337135315,
-      "last5_mean": 0.21249572038650513
+      "last5_mean": 0.20380674600601195
     },
     "ev_pregame": {
       "min": -0.4009767770767212,
       "max": 0.8549972176551819,
-      "last5_mean": 0.4090937256813049
+      "last5_mean": 0.3120173692703247
     },
     "value_loss": {
       "min": 0.0528611303307116,
-      "max": 0.2145150676369667,
-      "last5_mean": 0.09685643184930086
+      "max": 0.24836231069639325,
+      "last5_mean": 0.0897501353174448
     },
     "rollout_kl_m2": {
       "min": 0.005670909304171801,
-      "max": 0.02499588020145893,
-      "last5_mean": 0.019578666985034944
+      "max": 0.028504814952611923,
+      "last5_mean": 0.019585786014795305
     },
     "clip_fraction": {
       "min": 6.103515261202119e-05,
       "max": 0.010259612627123715,
-      "last5_mean": 0.002877927957160864
+      "last5_mean": 0.0032701133604859933
     }
   },
-  "mixed_phase_blocks": 292,
+  "mixed_phase_blocks": 319,
   "early_stop_blocks": 0,
   "training_episode_totals": {
-    "matches": 1489,
-    "death_matches": 287,
-    "early_death_matches": 28,
-    "farm": 43415.0,
-    "reward": -16699.75,
+    "matches": 1634,
+    "death_matches": 317,
+    "early_death_matches": 32,
+    "farm": 47853.0,
+    "reward": -17996.0,
     "note": "Training episodes with changing policy; first episodes include frozen initialization prefix"
   },
   "completed_stage_budget": {
@@ -113,6 +113,6 @@
     "remaining_seconds": 11315.00197713852,
     "reserved_test_seconds": 300
   },
-  "active_main_wall_seconds": 7622.701822519302,
-  "used_including_active_seconds": 17907.699845380783
+  "active_main_wall_seconds": 8239.811518907547,
+  "used_including_active_seconds": 18524.809541769027
 }
