@@ -13,9 +13,10 @@ def curves():
         cfg=read(folder/'config.json')
         if cfg.get('critic_only') or cfg.get('learning_rate')==0:continue
         chain='pilot2' if 'pilot2' in folder.name else 'pilot1' if 'pilot1' in folder.name else 'main'
+        resumed=read(Path(cfg['resume_checkpoint'])/'progress.json')['training_seconds'] if cfg.get('resume_checkpoint') else 0.
         for r in lines(folder/'history.jsonl'):
             if r['learning'].get('warmup'):continue
-            updates.append(dict(run=folder.name,chain=chain,block=r['block'],training_minutes=r['training_seconds']/60,**{k:r['learning'].get(k) for k in ('value_loss','ev_post0','rollout_kl_m2','entropy','clip_fraction','kl_coefficient','valid_decisions')}))
+            updates.append(dict(run=folder.name,chain=chain,block=r['block'],training_minutes=r['training_seconds']/60,new_decisions=r['total_decisions'],new_training_seconds=r['training_seconds']-resumed,decisions_per_second=r['total_decisions']/max(1e-9,r['training_seconds']-resumed),**{k:r['learning'].get(k) for k in ('value_loss','ev_post0','rollout_kl_m2','entropy','clip_fraction','kl_coefficient','valid_decisions')}))
         episodes=lines(folder/'episodes.jsonl');complete=[r for r in episodes if not r.get('initialization_prefix_decisions',0)]
         coverage.append(dict(run=folder.name,completed=len(episodes),complete_reward=len(complete),excluded_frozen_prefix=len(episodes)-len(complete)))
         for start in range(0,len(complete),100):
