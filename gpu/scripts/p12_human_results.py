@@ -104,7 +104,7 @@ def audit(session,label):
             scope='Human-side Go teacher commands are never executed and are excluded. Events after terminal death excluded.'))
     if config.get('checkpoint_sha256'):assert config['checkpoint_sha256']==result['checkpoint_sha256']
     with (OUT/f'{label}-decisions.csv').open('w',newline='',encoding='utf-8') as f:
-        writer=csv.DictWriter(f,fieldnames=list(decisions[0]));writer.writeheader();writer.writerows(decisions)
+        writer=csv.DictWriter(f,fieldnames=list(decisions[0]),lineterminator='\n');writer.writeheader();writer.writerows(decisions)
     (OUT/f'{label}.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
     for suffix in ('.json','-decisions.csv'):assert (OUT/f'{label}{suffix}').stat().st_size<1_000_000
     return result
