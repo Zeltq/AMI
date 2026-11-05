@@ -1,0 +1,17 @@
+{
+  "python": {
+    "tests": 243,
+    "passed": true,
+    "command": "$env:PYTHONPATH='src;scripts;tests;C:/AMI/tools/lua_test_runtime'; python -m unittest discover -s tests -v *> C:/AMI/runs/p12/python-full.log"
+  },
+  "targeted": {
+    "tests": 14,
+    "passed": true
+  },
+  "initial_targeted": {
+    "tests": 14,
+    "passed": 10,
+    "errors": 4,
+    "reason": "lupa absent from default PYTHONPATH"
+  }
+}

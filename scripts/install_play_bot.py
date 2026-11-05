@@ -14,7 +14,8 @@ from sf_duel.live.bridge import literal
 from prepare_native_teacher import prepare
 from install_teacher_lobby import no_dota
 
-ARTIFACTS = Path('C:/AMI/runs/p10')
+LEGACY_ARTIFACTS = Path('C:/AMI/runs/p10')
+ARTIFACTS = Path('C:/AMI/runs/p12')
 DEFAULT_BOTS = DEFAULT_GAME/'game/dota/scripts/vscripts/bots'
 
 
@@ -104,17 +105,31 @@ return M
 '''.replace('HUMAN_TEAM',str(human_team)))
 
 
-def install(target=DEFAULT_BOTS, artifacts=ARTIFACTS, human_team=2):
+def install(target=DEFAULT_BOTS, artifacts=ARTIFACTS, human_team=2, previous_installation=None):
     target=Path(target);artifacts=Path(artifacts)
     record=artifacts/'installation.json'
     if record.exists() and json.loads(record.read_text())['installed']:
         raise RuntimeError('Already installed; restore before installing again')
+    previous=None
+    if previous_installation is None and target.resolve()==DEFAULT_BOTS.resolve():
+        legacy=LEGACY_ARTIFACTS/'installation.json'
+        if legacy.exists() and json.loads(legacy.read_text())['installed']:
+            previous_installation=legacy
+    if previous_installation is not None:
+        previous=json.loads(Path(previous_installation).read_text())
+        if not previous['installed'] or str(target.resolve())!=previous['resolved'] or target.is_junction()!=previous['junction']:
+            raise RuntimeError('Previous installation does not identify this active bots entry')
+        if inventory(Path(previous['backup']))!=previous['before']:
+            raise RuntimeError('Original backup changed; refusing upgrade')
     prepared=artifacts/('play-bots-'+datetime.now().strftime('%Y%m%d-%H%M%S-%f'))
     bundle(prepared,human_team)
     backup, before=backup_contents(target,artifacts)
     saved=dict(installed=True,path=str(target),resolved=str(target.resolve()),junction=target.is_junction(),
                backup=str(backup),before=before,human_team=human_team,model_team=5-human_team,
                prepared=str(prepared),installed_files=inventory(prepared))
+    if previous is not None:
+        saved.update(backup=previous['backup'],before=previous['before'],
+                     pre_upgrade_backup=str(backup),previous_installation=str(previous_installation))
     record.write_text(json.dumps(saved,indent=2))  # Recovery exists before the first mutation.
     print(f'Backup verified: {backup}',flush=True)
     print(f'Restore: python scripts/install_play_bot.py --restore --artifacts "{artifacts}"',flush=True)
@@ -155,9 +170,10 @@ def main():
     p.add_argument('--restore',action='store_true')
     p.add_argument('--bots',type=Path,default=DEFAULT_BOTS)
     p.add_argument('--artifacts',type=Path,default=ARTIFACTS)
+    p.add_argument('--previous-installation',type=Path,help='Preserve the original backup from this active installation')
     p.add_argument('--human-team',type=int,choices=(2,3),default=2)
     a=p.parse_args();no_dota()
-    result=restore(a.artifacts) if a.restore else install(a.bots,a.artifacts,a.human_team)
+    result=restore(a.artifacts) if a.restore else install(a.bots,a.artifacts,a.human_team,a.previous_installation)
     print(json.dumps({k:result[k] for k in ('installed','path','backup','human_team','model_team')},indent=2))
 
 

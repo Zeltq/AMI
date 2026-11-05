@@ -201,6 +201,7 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--checkpoint', required=True, type=Path)
     p.add_argument('--run', required=True, type=Path)
+    p.add_argument('--status-key',default=None,help='Key in shared pilot-status.json')
     p.add_argument('--assets', type=Path, default=Path('C:/AMI'))
     p.add_argument('--collector', type=Path, default=Path('C:/AMI/runs/p05/nativecollect.exe'))
     p.add_argument('--engine', type=Path, default=Path('C:/AMI/runs/gpu/ggd0-il-20261102-202637/dataset/environment/engine.json'))
@@ -252,7 +253,7 @@ def main():
         # The authoritative cohort status above must not stop matches for that.
         for attempt in range(20):
             try:
-                current=json.loads(pilot.read_text(encoding='utf-8'));current['P10' if args.profile=='ggd-v4' else 'P05']=record;save(pilot,current)
+                current=json.loads(pilot.read_text(encoding='utf-8'));current[args.status_key or ('P10' if args.profile=='ggd-v4' else 'P05')]=record;save(pilot,current)
                 break
             except PermissionError:
                 time.sleep(.05)

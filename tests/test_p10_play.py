@@ -138,6 +138,36 @@ function SelectHero(pid,name) picks[#picks+1]={pid=pid,name=name} end
             self.assertEqual(before,inventory(target))
             self.assertTrue((target/'empty').is_dir())
 
+    def test_upgrade_preserves_original_backup_for_restore(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);target=root/'bots';target.mkdir()
+            (target/'original').write_bytes(bytes(range(256)))
+            (target/'empty').mkdir();before=inventory(target)
+            old=install(target,root/'p10',2)
+            (target/'native_commands_3.lua').write_text('live P10 commands')
+            current=inventory(target)
+            new=install(target,root/'p12',2,root/'p10/installation.json')
+            self.assertEqual(new['backup'],old['backup'])
+            self.assertEqual(inventory(Path(new['pre_upgrade_backup'])),current)
+            restore(root/'p12')
+            self.assertEqual(inventory(target),before)
+
+    def test_upgrade_rejects_corrupt_original_before_mutation(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);target=root/'bots';target.mkdir()
+            (target/'original').write_text('original')
+            old=install(target,root/'p10',2);current=inventory(target)
+            (Path(old['backup'])/'original').write_text('corrupt')
+            with self.assertRaisesRegex(RuntimeError,'Original backup changed'):
+                install(target,root/'p12',2,root/'p10/installation.json')
+            self.assertEqual(inventory(target),current)
+
+    def test_model_names_and_export_paths(self):
+        from play_vs_model import resolve_model
+        self.assertEqual(resolve_model('000644'),Path('C:/AMI/runs/p12/ZOg-000644.pt'))
+        self.assertEqual(resolve_model('000470'),Path('C:/AMI/runs/p10/ZOg-000470.pt'))
+        self.assertEqual(resolve_model('C:/custom/export.pt'),Path('C:/custom/export.pt'))
+
     def test_first_death_censors_future_casts_and_unreached_marks(self):
         rows=[dict(kind='hero',team=t,time=300,lh=t,deny=1,alive=True,x=0,y=0) for t in (2,3)]
         rows += [dict(kind='cast',team=3,time=301,ability='nevermore_shadowraze1'),

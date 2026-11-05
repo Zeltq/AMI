@@ -2,6 +2,7 @@
 import argparse
 from collections import Counter
 from datetime import datetime, timezone
+import hashlib
 import json
 import os
 import re
@@ -13,7 +14,7 @@ import time
 ROOT=Path(__file__).resolve().parents[1]
 sys.path[:0]=[str(ROOT/'src'),str(ROOT/'scripts')]
 from selfplay_cycle import Config, policy_service
-from install_play_bot import ARTIFACTS, backup_contents
+from install_play_bot import ARTIFACTS, LEGACY_ARTIFACTS, backup_contents
 from sf_duel.live.game import DEFAULT_GAME
 
 LAUNCH_OPTIONS='-console -condebug -insecure -botworldstatetosocket_radiant 12250 -botworldstatetosocket_dire 12251 -botworldstatetosocket_frames 1 -botworldstatesocket_threaded'
@@ -126,10 +127,17 @@ def print_summary(result):
         print(f"{names[team]}: смертей {side['deaths']}, койлов {side['raze_casts']}, попаданий по герою {side['raze_hero_hits']}.",flush=True)
 
 
+def resolve_model(value):
+    return {'000644': ARTIFACTS/'ZOg-000644.pt',
+            '000470': LEGACY_ARTIFACTS/'ZOg-000470.pt'}.get(value,Path(value))
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--checkpoint',type=Path,default=ARTIFACTS/'ZOg-000470.pt')
-    p.add_argument('--collector',type=Path,default=ARTIFACTS/'nativecollect.exe')
+    models=p.add_mutually_exclusive_group()
+    models.add_argument('--model',default='000644',help='000644 (default), 000470, or a CPU export path')
+    models.add_argument('--checkpoint',type=Path,help='CPU export path (legacy option)')
+    p.add_argument('--collector',type=Path,default=LEGACY_ARTIFACTS/'nativecollect.exe')
     p.add_argument('--artifacts',type=Path,default=ARTIFACTS)
     p.add_argument('--console-log',type=Path,default=DEFAULT_GAME/'game/dota/console.log')
     p.add_argument('--seed',type=int,default=20261105)
@@ -140,6 +148,8 @@ def main():
         result=summarize(a.summarize/'dota.log',cfg['model_team'])
         (a.summarize/'summary.json').write_text(json.dumps(result,indent=2))
         print_summary(result);return
+    a.checkpoint=a.checkpoint or resolve_model(a.model)
+    if not a.checkpoint.is_file():p.error(f'CPU export does not exist: {a.checkpoint}')
     import msvcrt
     with Path('C:/AMI/runs/p05/evaluation.lock').open('a+b') as lock:
         lock.write(b'1');lock.flush();lock.seek(0)
@@ -158,6 +168,7 @@ def play(a):
     print('Restore original bots: python scripts/install_play_bot.py --restore',flush=True)
     for team in (2,3):(bots/f'native_commands_{team}.lua').write_text('return {}\n')
     config=dict(model_team=installed['model_team'],human_team=installed['human_team'],checkpoint=str(a.checkpoint),
+                checkpoint_sha256=hashlib.sha256(a.checkpoint.read_bytes()).hexdigest(),
                 seed=a.seed,launch_options=LAUNCH_OPTIONS,backup=str(backup),started_utc=datetime.now(timezone.utc).isoformat())
     (session/'session.json').write_text(json.dumps(config,indent=2))
     log=session/'dota.log';log.touch()
