@@ -104,6 +104,7 @@ def refresh():
     plan=read(RUN/'plan.json') if (RUN/'plan.json').exists() else {};done=read(RUN/'completion.json') if (RUN/'completion.json').exists() else {}
     out=['# P11 — смешанный self-play ZOg','','## Результаты','',f'Стадия: {done.get("stage","работа продолжается")}. Sampling; окружение005, ggd-v4, event-v2; seed20261103/20261104, по64 матча (32 за сторону) на seed.']
     totals=[r for r in rows if r['side']=='total' and r['perspective']==0]
+    totals.sort(key=lambda r:1e9 if r['model']=='final' else 0 if r['model'].startswith('000470') else float(r['model'].removesuffix('h')))
     for other in ('v10','v9'):
         out+=['',f'Против {other}:','','| Модель | W / D / L | LH / N | deny / N | farm / spawn | farm / циклы | Смерти / N | <120с / N | reward / N |','|---|---|---|---|---|---|---|---|---|']
         # Historical baseline is explicit; never relabel it as a P11 measurement.
@@ -133,6 +134,7 @@ def refresh():
     out.append('- `[P11] fix: honor deadline stops after scheduled evaluations`: stop во время оценки запрещает следующий PPO-блок; финал переиспользует завершённую серию только при совпадении checkpoint/соперника/seed/sampling, а неудачная оценка сохраняется и повторяется в новом каталоге.')
     out.append('- `[P11] fix: reserve measured desynchronization time before PPO`: план учитывает измеренное время рассинхронизации+2мин; контроллер подключён к уже работающему прогреву, без перезапуска симулятора и потери обновлений.')
     out.append('- `[P11] fix: exclude native log files from training audit`: glob train-* включал train-001.log; аудит теперь выбирает только прогоны с config.json. Обучение не прерывалось.')
+    out.append('- `[P11] fix: keep evaluation tables in training order`: таблицы упорядочены000470→2h→4h→final независимо от порядка появления файлов оценок.')
     if (REPORT/'warmup-result.json').exists():
         warm=read(REPORT/'warmup-result.json');out.append(f'- Прогрев: {warm["result"]["blocks"]} блоков; EVpost0 last5={warm["result"]["warmup_ev_last5"]}; вне value head неизменны {warm["unchanged_policy_tensors"]}/55.')
     out+=['','## Команды, которыми получены результаты','','Из C:/AMI-wt/P11; дословные дочерние команды, exit-коды и минуты только обучения/оценок: [commands.json](P11/commands.json). Встроенные оценки вызывают evaluate_against; параметры/веса/seed/SHA — [evaluations.json](P11/evaluations.json).','```text','C:/Python314/python.exe gpu/scripts/p11_run.py verify','C:/Python314/python.exe gpu/scripts/p11_run.py all','C:/Python314/python.exe gpu/scripts/p11_run.py launch','C:/Python314/python.exe gpu/scripts/p11_run.py adopt-warmup','python gpu/scripts/p11_report.py','```','Контроллер all заменён на launch до smoke/обучения для загрузки исправления дедлайна; завершённые проверки сохранены, потеря train-обновлений0.']
