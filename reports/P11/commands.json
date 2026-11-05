@@ -45,6 +45,23 @@
     "command_literal": "cargo build --release --locked --manifest-path C:\\AMI-wt\\P11\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p11\\target",
     "artifact": null,
     "log": "C:\\AMI\\runs\\p11\\final-build.log",
+    "exit_code": null,
+    "supervisor_note": "Controller intentionally restarted before training to load deadline fixes; build finished in log, exit code not captured. launch-build verifies the same source again."
+  },
+  {
+    "stage": "launch-build",
+    "kind": "build",
+    "command_literal": "cargo build --release --locked --manifest-path C:\\AMI-wt\\P11\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p11\\target",
+    "artifact": null,
+    "log": "C:\\AMI\\runs\\p11\\launch-build.log",
+    "exit_code": 0
+  },
+  {
+    "stage": "smoke",
+    "kind": "training",
+    "command_literal": "C:\\AMI\\runs\\p11\\sf-duel-gpu.exe train-ggd C:\\AMI-wt\\P11\\reports\\P11\\smoke.json C:\\AMI\\runs\\p11\\smoke",
+    "artifact": "C:\\AMI\\runs\\p11\\smoke\\result.json",
+    "log": "C:\\AMI\\runs\\p11\\smoke.log",
     "exit_code": null
   }
 ]

@@ -1,1 +1,74 @@
-[]
+[
+  {
+    "model": "000470-P09c",
+    "opponent": "v10",
+    "report": "C:/AMI/runs/p09/P09c/continue90/eval-v10-20261103/report.json",
+    "historical": true,
+    "seed": 20261103,
+    "config": {
+      "argmax": false,
+      "engine": "C:/AMI/runs/p07/dota-calibration-005/engine.json",
+      "family": "GGD",
+      "matches": 64,
+      "mode": "teacher",
+      "record_teacher": false,
+      "seconds": 600.0,
+      "seed": 20261103,
+      "teacher_sha256": "858bc93841b4a77397574721fcc8e114e6efabb8a4d02d3d472eebefd27a95ae",
+      "teacher_version": "v10",
+      "trace": false,
+      "weights": "C:\\AMI\\runs\\p09\\P09c\\continue90\\rl-continue-001\\checkpoint-000470\\weights",
+      "zero_previous": false
+    },
+    "minutes": 5.495552205,
+    "weights_sha256": "ba311754cd906d4dfa883263b60581d9ae880d00a269a396d8fc4b47b55eb83d"
+  },
+  {
+    "model": "000470-P09c",
+    "opponent": "v10",
+    "report": "C:/AMI/runs/p09/P09c/continue90/eval-v10-20261104/report.json",
+    "historical": true,
+    "seed": 20261104,
+    "config": {
+      "argmax": false,
+      "engine": "C:/AMI/runs/p07/dota-calibration-005/engine.json",
+      "family": "GGD",
+      "matches": 64,
+      "mode": "teacher",
+      "record_teacher": false,
+      "seconds": 600.0,
+      "seed": 20261104,
+      "teacher_sha256": "858bc93841b4a77397574721fcc8e114e6efabb8a4d02d3d472eebefd27a95ae",
+      "teacher_version": "v10",
+      "trace": false,
+      "weights": "C:\\AMI\\runs\\p09\\P09c\\continue90\\rl-continue-001\\checkpoint-000470\\weights",
+      "zero_previous": false
+    },
+    "minutes": 5.65231264,
+    "weights_sha256": "ba311754cd906d4dfa883263b60581d9ae880d00a269a396d8fc4b47b55eb83d"
+  },
+  {
+    "model": "000470-P10",
+    "opponent": "v9",
+    "report": "C:/AMI/runs/p10/sim-v9/report.json",
+    "historical": true,
+    "seed": 20261105,
+    "config": {
+      "argmax": false,
+      "engine": "C:/AMI/runs/p07/dota-calibration-005/engine.json",
+      "family": "GGD",
+      "matches": 64,
+      "mode": "teacher",
+      "record_teacher": false,
+      "seconds": 600.0,
+      "seed": 20261105,
+      "teacher_sha256": "55b7f4ff5baef7aea24e706aaaca3e83fa049adca0bd63cee4203c6c23e08312",
+      "teacher_version": "v9",
+      "trace": false,
+      "weights": "C:/AMI/runs/p09/P09c/continue90/rl-continue-001/checkpoint-000470/weights",
+      "zero_previous": false
+    },
+    "minutes": 5.702629548333333,
+    "weights_sha256": "ba311754cd906d4dfa883263b60581d9ae880d00a269a396d8fc4b47b55eb83d"
+  }
+]

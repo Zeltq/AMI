@@ -1,5 +1,5 @@
 {
-  "executable_sha256": "314451ca2e618bf4a9d573053566680630c9e9a5efbdd9b753726a1a3f8b90e1",
+  "executable_sha256": "c07ab507cfe82968d51fe5603e03d267ade210d932766d3217e1360e71a7c4eb",
   "commands": [
     {
       "stage": "rust-targeted",
@@ -29,6 +29,47 @@
       "artifact": null,
       "log": "C:\\AMI\\runs\\p11\\build.log",
       "started_utc": "2026-11-05T02:02:21.019601+00:00",
+      "exit_code": 0
+    },
+    {
+      "stage": "final-rust-targeted",
+      "kind": "verification",
+      "command_literal": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P11\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p11\\target p11_ -- --nocapture --test-threads=1",
+      "pid": 13692,
+      "artifact": null,
+      "log": "C:\\AMI\\runs\\p11\\final-rust-targeted.log",
+      "started_utc": "2026-11-05T02:04:43.582386+00:00",
+      "exit_code": 0
+    },
+    {
+      "stage": "final-rust-full",
+      "kind": "verification",
+      "command_literal": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P11\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p11\\target -- --test-threads=1",
+      "pid": 8632,
+      "artifact": null,
+      "log": "C:\\AMI\\runs\\p11\\final-rust-full.log",
+      "started_utc": "2026-11-05T02:07:13.811609+00:00",
+      "exit_code": 0
+    },
+    {
+      "stage": "final-build",
+      "kind": "build",
+      "command_literal": "cargo build --release --locked --manifest-path C:\\AMI-wt\\P11\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p11\\target",
+      "pid": 27480,
+      "artifact": null,
+      "log": "C:\\AMI\\runs\\p11\\final-build.log",
+      "started_utc": "2026-11-05T02:11:44.134982+00:00",
+      "exit_code": null,
+      "supervisor_note": "Controller intentionally restarted before training to load deadline fixes; build finished in log, exit code not captured. launch-build verifies the same source again."
+    },
+    {
+      "stage": "launch-build",
+      "kind": "build",
+      "command_literal": "cargo build --release --locked --manifest-path C:\\AMI-wt\\P11\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p11\\target",
+      "pid": 26592,
+      "artifact": null,
+      "log": "C:\\AMI\\runs\\p11\\launch-build.log",
+      "started_utc": "2026-11-05T02:13:04.742590+00:00",
       "exit_code": 0
     }
   ]
