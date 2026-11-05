@@ -80,10 +80,15 @@ def summarize(log,model_team,end=600):
     first=min(deaths,key=lambda r:r['time']) if deaths else None
     if first:end=min(end,first['time'])
     rows=[r for r in rows if r['time']<=end+(1/30+.001 if first else .001)]
+    # Allow delayed scoreboard credit for the terminal death, but never borrow
+    # a kill from another death after the duel's event boundary.
+    later_death=min((r['time'] for r in all_rows if r['kind']=='death'
+                     and r['time']>end+(1/30+.001 if first else .001)),default=float('inf'))
     sides={}
     for team in (2,3):
         samples=[r for r in rows if r['kind']=='hero' and r['team']==team]
-        score_samples=[r for r in all_rows if r['kind']=='hero' and r['team']==team and r['time']<=end+(.2 if first else .001)]
+        score_samples=[r for r in all_rows if r['kind']=='hero' and r['team']==team
+                       and r['time']<=end+(.2 if first else .001) and r['time']<later_death]
         scoreboard_kills=score_samples[-1].get('kills',0) if score_samples else 0
         direct_kills=sum(r['kind']=='death' and r.get('killer_team')==team and r.get('team')!=team and r.get('killer')=='npc_dota_hero_nevermore' for r in rows)
         spells=Counter(r.get('ability','') for r in rows if r['kind']=='cast' and r.get('team')==team)

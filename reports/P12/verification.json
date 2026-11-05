@@ -1,12 +1,13 @@
 {
   "python": {
-    "tests": 243,
+    "tests": 244,
     "passed": true,
-    "command": "$env:PYTHONPATH='src;scripts;tests;C:/AMI/tools/lua_test_runtime'; python -m unittest discover -s tests -v *> C:/AMI/runs/p12/python-full.log"
+    "command": "$env:PYTHONPATH='src;scripts;tests;C:/AMI/tools/lua_test_runtime'; python -m unittest discover -s tests -v *> C:/AMI/runs/p12/python-full-final.log"
   },
   "targeted": {
-    "tests": 14,
-    "passed": true
+    "tests": 15,
+    "passed": true,
+    "command": "python -m unittest discover -s tests -p test_p10_play.py -v *> C:/AMI/runs/p12/python-terminal-fix.log"
   },
   "initial_targeted": {
     "tests": 14,

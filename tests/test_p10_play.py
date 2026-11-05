@@ -205,5 +205,17 @@ function SelectHero(pid,name) picks[#picks+1]={pid=pid,name=name} end
         self.assertEqual(result['sides']['3']['kills'],0)
         self.assertEqual(result['sides']['3']['raze_casts'],0)
 
+    def test_delayed_projectile_kill_after_terminal_tower_death_is_excluded(self):
+        rows=[dict(kind='hero',team=t,time=79.23,lh=0,deny=0,kills=0,alive=True,x=0,y=0) for t in (2,3)]
+        rows.extend([dict(kind='death',team=2,killer_team=3,killer='npc_dota_badguys_tower1_mid',time=79.233),
+                     dict(kind='death',team=3,killer_team=2,killer='npc_dota_hero_nevermore',time=79.333),
+                     dict(kind='hero',team=2,time=79.433,lh=0,deny=0,kills=1,alive=False,x=0,y=0)])
+        with tempfile.TemporaryDirectory() as folder:
+            log=Path(folder)/'log';log.write_text(''.join('SF_PLAY_EVENT|'+json.dumps(r)+'\n' for r in rows))
+            result=summarize(log,2,79.266)
+        self.assertIsNone(result['first_blood'])
+        self.assertEqual(result['sides']['2']['kills'],0)
+        self.assertEqual(result['sides']['3']['deaths'],0)
+
 
 if __name__=='__main__':unittest.main()
