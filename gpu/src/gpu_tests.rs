@@ -5,6 +5,338 @@ static GPU:Mutex<()>=Mutex::new(());
 use cubecl::frontend::CompilationArg;
 
 #[test]
+fn p15_first_pregame_death_terminates_chio_without_changing_legacy_rule(){
+    let _g=GPU.lock().unwrap();
+    for chio in [false,true] {
+        let mut w=arena();w.engine.chio_direct=chio;w.engine.decision_ticks=if chio{6}else{4};let d=w.device.clone();
+        let mut s=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();s[UNIT_HEALTH]=1.;s[DAMAGE]=100.;s[CREDIT]=6.;s[CREDIT_TEAM]=1.;
+        w.state=primitive(Tensor::<1>::from_data(TensorData::new(s,[UNITS*STRIDE]),&d));let mut meta=vec![0f32;META];meta[0]=-30.;
+        w.meta=primitive(Tensor::<1>::from_data(TensorData::new(meta,[META]),&d));let rng=Sampler::new(1,23,&d);
+        let _=w.step_ticks_with_waves(&rng,1,false);let meta=tensor::<1>(w.meta.clone()).into_data().try_to_vec::<f32>().unwrap();
+        assert_eq!(meta[0],-29.);assert_eq!(meta[2],if chio{1.}else{0.});assert_eq!(meta[17],if chio{-1.}else{0.});
+    }
+}
+
+#[test]
+fn p15_reward_events_capture_simultaneous_purchase_use_and_flask_damage(){
+    use crate::{chio_reward as r,chio_events as e,chio_actions as c};
+    let _g=GPU.lock().unwrap();let mut w=arena();w.engine.chio_direct=true;w.engine.decision_ticks=6;let d=w.device.clone();let rng=Sampler::new(1,21,&d);
+    let mut s=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();s[ITEM_START+4]=1.;s[UNIT_GOLD]=1000.;s[UNIT_MANA]=100.;
+    w.state=primitive(Tensor::<1>::from_data(TensorData::new(s,[UNITS*STRIDE]),&d));
+    let before=r::snapshot(&w);let obs=w.observe(initial_previous(2,&d));let mask=c::observe(&w,&obs);
+    let _=c::enqueue(&w,&obs,&mask,Tensor::<2,Int>::from_data([[11,0,0,0],[1,0,0,0]],&d),Tensor::<1>::from_data([3f32,0.],&d));
+    let _=w.step_ticks_with_waves(&rng,8,false);let after=r::snapshot(&w);
+    let events=tensor::<1>(w.chio_events.clone()).into_data().try_to_vec::<f32>().unwrap();
+    assert_eq!(events[e::MANGO],1.);assert_eq!(events[e::PURCHASES+4],1.);assert_eq!(events[e::SPENT],w.engine.items[4][0]);
+    assert!((events[e::GOLD]-8./30.*100./60.).abs()<1e-6);
+    let snapshot=tensor::<2>(after.clone()).into_data().try_to_vec::<f32>().unwrap();assert_eq!(snapshot[17],1.);
+    let reward=r::transition(&before,&after,false,&d);let parts=reward.components.into_data().try_to_vec::<f32>().unwrap();
+    assert!((parts[1]-0.006*events[e::GOLD]).abs()<1e-6);assert!((parts[10]+0.1).abs()<1e-6);
+    // A real ordinary hero projectile interrupts Flask. Preserve native stats.
+    let mut s=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();s[UNIT_HEALTH]=300.;s[FLASK_END]=w.engine.pre_game_seconds+8./30.+8.;
+    w.state=primitive(Tensor::<1>::from_data(TensorData::new(s.clone(),[UNITS*STRIDE]),&d));
+    let mut shots=vec![0f32;SHOTS*SHOT_FIELDS];shots[0]=1.;shots[1]=s[UNIT_X];shots[2]=s[UNIT_Y];shots[3]=0.;shots[4]=s[GENERATION];shots[5]=1200.;shots[6]=100.;shots[7]=1.;shots[8]=1.;
+    w.shots=primitive(Tensor::<1>::from_data(TensorData::new(shots,[SHOTS*SHOT_FIELDS]),&d));
+    let before=r::snapshot(&w);let _=w.step_ticks_with_waves(&rng,1,false);let after=r::snapshot(&w);
+    let snap=tensor::<2>(after.clone()).into_data().try_to_vec::<f32>().unwrap();assert_eq!(snap[25],1.);assert_eq!(snap[19],0.);assert!(snap[28]>snap[30]);assert!((snap[31]-8.).abs()<1e-4);
+    let reward=r::transition(&before,&after,true,&d);let parts=reward.components.clone().into_data().try_to_vec::<f32>().unwrap();assert!(parts[12]<0. && parts[12]>=-0.400001);
+    let path=data_root().join("runs/p15/reward-unit");std::fs::create_dir_all(&path).unwrap();
+    let mut recorder=r::Recorder::new(&w,true);recorder.store(&before,&after,&reward,Tensor::ones([2],&d),0);recorder.flush(&path,0,0,1).unwrap();
+}
+
+fn chio_arena()->World {
+    let mut w=arena();w.engine.chio_direct=true;w.engine.decision_ticks=6;let d=w.device.clone();
+    let mut s=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();
+    s[UNIT_LEVEL]=7.;s[UNIT_MANA]=2000.;s[UNIT_MANA_MAX]=2000.;
+    for item in [4,5,6] {s[ITEM_START+item]=1.;s[ITEM_READY+item]=0.;}
+    for (u,team,kind,hp,maxhp,x,y) in [(6,1.,2.,100.,100.,0.,0.),(7,0.,2.,50.,100.,0.,100.),(4,1.,1.,1000.,1000.,300.,0.)] {
+        let p=u*STRIDE;s[p+ACTIVE]=1.;s[p+TEAM]=team;s[p+KIND]=kind;s[p+UNIT_HEALTH]=hp;s[p+UNIT_HEALTH_MAX]=maxhp;
+        s[p+UNIT_X]=x;s[p+UNIT_Y]=y;s[p+GENERATION]=3.;s[p+TARGET]=-1.;s[p+LANE_POSITION]=-1.;s[p+ATTACK_READY]=10000.;
+    }
+    w.state=primitive(Tensor::<1>::from_data(TensorData::new(s,[UNITS*STRIDE]),&d));
+    w.tree_count=3;w.trees=primitive(Tensor::<1>::from_data([-150f32,0.,0.,-190.,0.,0.,-100.,0.,0.],&d));
+    w.tree_alive=primitive(Tensor::<1>::ones([3],&d));w
+}
+
+#[test]
+fn p15_teacher_translation_handles_thresholds_targets_items_and_pending_orders(){
+    use crate::{chio_actions as ca,chio_teacher::Translator};
+    let _g=GPU.lock().unwrap();let mut w=chio_arena();let d=w.device.clone();let translator=Translator::new(&w);
+    let translate=|w:&World,raw:[i32;6]| {
+        let obs=w.observe(initial_previous(2,&d));let mask=ca::observe(w,&obs);
+        translator.labels(w,&obs,&mask,Tensor::<2,Int>::from_data([raw,[0,0,0,0,64,64]],&d)).into_data().try_to_vec::<i32>().unwrap()[..4].to_vec()
+    };
+    for (raw,expected) in [
+        ([1,0,0,0,68,64],[1,0,0,0]),([1,0,0,0,69,64],[0,0,0,0]),([1,0,0,0,64,69],[0,9,0,0]),
+        ([3,0,0,2,64,64],[2,0,0,0]),([3,0,0,3,64,64],[3,0,0,1]),([3,0,0,1,64,64],[4,0,0,0]),
+        ([3,0,0,260,64,64],[5,0,0,0]),([3,0,0,261,64,64],[1,0,0,0]),
+        ([10,0,5,0,64,64],[10,0,0,0]),([10,0,4,0,64,64],[11,0,0,0]),([10,0,6,0,64,64],[12,0,0,0]),
+        ([10,0,3,0,64,64],[1,0,0,0]),([10,0,7,0,64,64],[1,0,0,0]),([5,0,0,0,64,64],[1,0,0,0]),
+        ([0,0,0,0,64,64],[1,0,0,0])
+    ] {assert_eq!(translate(&w,raw),expected,"raw {raw:?}");}
+    let mut queue=vec![0f32;COMMAND_WORDS];queue[0]=6.;queue[1]=3.;queue[4]=6.;queue[7]=1.;queue[8]=3.;
+    w.commands=primitive(Tensor::<1>::from_data(TensorData::new(queue.clone(),[COMMAND_WORDS]),&d));
+    assert_eq!(translate(&w,[0,0,0,0,64,64]),vec![2,0,0,0]);
+    queue[8]=2.;w.commands=primitive(Tensor::<1>::from_data(TensorData::new(queue,[COMMAND_WORDS]),&d));
+    assert_eq!(translate(&w,[0,0,0,0,64,64]),vec![1,0,0,0]);
+    w.commands=primitive(Tensor::<1>::zeros([COMMAND_WORDS],&d));
+    let mut s=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();s[CAST]=2.;s[CAST_END]=1000.;
+    w.state=primitive(Tensor::<1>::from_data(TensorData::new(s,[UNITS*STRIDE]),&d));
+    assert_eq!(translate(&w,[0,0,0,0,64,64]),vec![7,0,0,0]);assert_eq!(translate(&w,[4,0,0,0,64,64]),vec![1,0,0,0]);
+}
+
+#[test]
+fn p15_teacher_memory_reconciles_the_actual_direct_command_and_script_purchase(){
+    use crate::{chio_actions as ca,chio_teacher::Translator};
+    let _g=GPU.lock().unwrap();let w=chio_arena();let d=w.device.clone();let teacher=crate::scripted_teacher::Teacher::new(&w);
+    let obs=w.observe(initial_previous(2,&d));let mask=ca::observe(&w,&obs);let before=teacher.command_snapshot();
+    let raw=Tensor::<2,Int>::from_data([[1,4,0,0,100,64],[0,0,0,0,64,64]],&d);
+    let label=Translator::new(&w).labels(&w,&obs,&mask,raw.clone());let executed=ca::enqueue(&w,&obs,&mask,label,Tensor::zeros([2],&d));
+    teacher.reconcile_commands(&w,&obs,before,raw,executed);
+    let memory=tensor::<1>(teacher.memory.clone()).into_data().try_to_vec::<f32>().unwrap();assert_eq!(memory[12],2.);
+    let queue=tensor::<1>(w.commands.clone()).into_data().try_to_vec::<f32>().unwrap();assert_eq!(queue[1],2.);assert_eq!(queue[2],0.);
+}
+
+fn chio_observation(w:&World,history:&crate::chio_observe::Observer,previous:Tensor<2,Int>)->crate::observe::Observed {
+    let base=w.observe(initial_previous(2,&w.device));let t=crate::scripted_teacher::Teacher::new(w);
+    let combat=crate::combat_observe::CombatObserver::new(w);let enemy=crate::enemy_observe::Observer::new(w);
+    let v4=enemy.extend(w,crate::timing_observe::extend(w,combat.enrich(w,&base),&t,true,false));
+    let masks=crate::chio_actions::observe(w,&base);history.extend(w,&base,v4,previous,&masks)
+}
+
+#[test]
+fn p15_hp_history_is_causal_idempotent_and_uses_twelve_decisions(){
+    use crate::chio_observe as c;
+    let _g=GPU.lock().unwrap();let mut w=chio_arena();let d=w.device.clone();let history=c::Observer::new(&w);
+    let mut s=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();s[UNIT_HEALTH_MAX]=1000.;
+    for step in 0..14 {
+        s[UNIT_HEALTH]=500.+step as f32*10.;w.state=primitive(Tensor::<1>::from_data(TensorData::new(s.clone(),[UNITS*STRIDE]),&d));
+        let mut meta=vec![0f32;META];meta[0]=(step*6)as f32;meta[6]=step as f32;w.meta=primitive(Tensor::<1>::from_data(TensorData::new(meta,[META]),&d));
+        let obs=chio_observation(&w,&history,c::initial_previous(2,&d));let data=obs.packed.clone().into_data().try_to_vec::<f32>().unwrap();
+        for lag in 0..12 {
+            let known=lag<=step;assert_eq!(data[c::HERO_OFFSET+c::HERO_FIELDS+lag],if known{1.}else{0.});
+            let expected=if known{(500.+(step-lag)as f32*10.)/1000.}else{0.};assert!((data[c::HERO_OFFSET+lag]-expected).abs()<1e-6);
+        }
+        let again=chio_observation(&w,&history,c::initial_previous(2,&d)).packed.into_data().try_to_vec::<f32>().unwrap();
+        assert_eq!(&data[c::HERO_OFFSET..c::WIDTH],&again[c::HERO_OFFSET..c::WIDTH]);
+    }
+}
+
+#[test]
+fn p15_hp_history_hides_fog_and_resets_reused_unit_generations(){
+    use crate::chio_observe as c;
+    let _g=GPU.lock().unwrap();let mut w=chio_arena();let d=w.device.clone();let history=c::Observer::new(&w);
+    let mut s=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();s[STRIDE+UNIT_HEALTH_MAX]=1000.;s[STRIDE+UNIT_HEALTH]=800.;
+    for step in 0..5 {
+        s[STRIDE+UNIT_X]=if step==0 || step==4 {200.}else{6000.};s[STRIDE+UNIT_Y]=if step==0 || step==4 {0.}else{6000.};
+        if step>0 {s[STRIDE+UNIT_HEALTH]=if step==4{500.}else{123.+step as f32};}
+        if step==4 {s[6*STRIDE+GENERATION]+=1.;s[6*STRIDE+UNIT_HEALTH]=40.;}
+        w.state=primitive(Tensor::<1>::from_data(TensorData::new(s.clone(),[UNITS*STRIDE]),&d));
+        let mut meta=vec![0f32;META];meta[6]=step as f32;meta[0]=(step*6)as f32;w.meta=primitive(Tensor::<1>::from_data(TensorData::new(meta,[META]),&d));
+        let data=chio_observation(&w,&history,c::initial_previous(2,&d)).packed.into_data().try_to_vec::<f32>().unwrap();
+        let at=c::HERO_OFFSET+2*c::HERO_FIELDS;
+        if step>0 && step<4 {assert_eq!(data[at],0.);assert_eq!(data[at+c::HERO_FIELDS],0.);}
+        if step==4 {
+            assert_eq!(data[at],0.5);assert!((data[at+4]-0.8).abs()<1e-6);
+            assert_eq!(&data[at+c::HERO_FIELDS..at+c::HERO_FIELDS+5],&[1.,0.,0.,0.,1.]);
+            let creep=c::CREEP_OFFSET;assert!((data[creep]-0.4).abs()<1e-6);
+            assert!(data[creep+c::UNIT_FIELDS+1..creep+c::UNIT_FIELDS+12].iter().all(|v|*v==0.));
+        }
+    }
+}
+
+#[test]
+fn p15_geometry_previous_cast_and_six_item_inputs_follow_contract(){
+    use crate::chio_observe as c;
+    let _g=GPU.lock().unwrap();let mut w=chio_arena();let d=w.device.clone();let history=c::Observer::new(&w);
+    let mut s=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();s[UNIT_X]=0.;s[UNIT_Y]=0.;s[FACING]=0.;
+    s[STRIDE+UNIT_X]=450.;s[STRIDE+UNIT_Y]=0.;s[STRIDE+FACING]=std::f32::consts::PI;
+    s[CAST]=3.;s[CAST_END]=1000.;s[UNIT_MANA]=0.;
+    w.state=primitive(Tensor::<1>::from_data(TensorData::new(s,[UNITS*STRIDE]),&d));
+    let mut meta=vec![0f32;META];meta[6]=1.;w.meta=primitive(Tensor::<1>::from_data(TensorData::new(meta,[META]),&d));
+    let previous=Tensor::<2,Int>::from_data([[0,9,0,0],[4,0,0,0]],&d);
+    let obs=chio_observation(&w,&history,previous);let data=obs.packed.clone().into_data().try_to_vec::<f32>().unwrap();
+    let enemy=c::HERO_OFFSET+2*c::HERO_FIELDS;
+    assert_eq!(&data[enemy+12..enemy+15],&[1.,1.,1.]);assert_eq!(data[enemy+15],1.);assert_eq!(data[enemy+16],0.);
+    assert_eq!(&data[c::HERO_OFFSET+17..c::HERO_OFFSET+20],&[1.,1.,1.]);
+    assert_eq!(&data[c::HERO_OFFSET+20..c::HERO_OFFSET+25],&[1.,0.,0.,1.,0.]);
+    assert_eq!(data[c::PREVIOUS_OFFSET],1.);assert_eq!(data[c::PREVIOUS_OFFSET+13+9],1.);assert_eq!(data[c::PREVIOUS_OFFSET+49],1.);
+    let (b,_)=c::decode(&obs,crate::observe::CREEPS,crate::observe::TREES,crate::observe::PROJECTILES);
+    assert_eq!(b.items.dims(),[2,6,16]);assert_eq!(b.enemy_items.dims(),[2,6,16]);assert_eq!(b.previous.dims(),[2,c::PREVIOUS]);
+    let before=b.items.into_data().try_to_vec::<f32>().unwrap();
+    let mut changed=data;for actor in 0..2 {for item in [3,7] {for f in 0..16 {changed[actor*c::WIDTH+crate::observe::ITEM_OFFSET+item*16+f]=1234.;}}}
+    let obs=crate::observe::Observed{packed:Tensor::<2>::from_data(TensorData::new(changed,[2,c::WIDTH]),&d),refs:obs.refs,reset:obs.reset};
+    let (b,_)=c::decode(&obs,crate::observe::CREEPS,crate::observe::TREES,crate::observe::PROJECTILES);
+    assert_eq!(b.items.into_data().try_to_vec::<f32>().unwrap(),before);
+}
+
+#[test]
+fn p15_common_economy_thresholds_level_transition_and_delivery_counts(){
+    let _g=GPU.lock().unwrap();let mut w=chio_arena();let d=w.device.clone();
+    let original=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();
+    // level, missing HP, Flask, Tango charges, Mango, mana, max mana, buy
+    let cases=[
+        (4.,0.,0.,0.,0.,500.,500.,4.),(4.,300.,1.,0.,0.,500.,500.,1.),
+        (4.,301.,1.,0.,0.,500.,500.,4.),(4.,12.,0.,1.,0.,500.,500.,1.),
+        (4.,13.,0.,1.,0.,500.,500.,4.),(4.,701.,2.,0.,0.,500.,500.,1.),
+        (5.,701.,2.,0.,0.,500.,500.,4.),(5.,900.,3.,0.,0.,500.,500.,1.),
+        (4.,0.,1.,0.,2.,140.,500.,1.),(4.,0.,1.,0.,2.,139.,500.,3.),
+        (4.,0.,0.,3.,0.,250.,250.,1.),(4.,0.,1.,0.,0.,449.,500.,1.),
+        (5.,0.,1.,0.,0.,449.,500.,3.),(4.,0.,1.,0.,3.,0.,500.,1.),
+        (5.,0.,1.,0.,3.,0.,500.,3.),(4.,100.,0.,3.,0.,500.,500.,1.),
+    ];
+    for (i,(level,missing,flask,tango,mango,mana,max_mana,expected)) in cases.into_iter().enumerate() {
+        let mut s=original.clone();s[UNIT_LEVEL]=level;s[UNIT_HEALTH_MAX]=1000.;s[UNIT_HEALTH]=1000.-missing;
+        s[UNIT_MANA_MAX]=max_mana;s[UNIT_MANA]=mana;s[UNIT_GOLD]=10000.;s[ITEM_START+4]=mango;s[ITEM_START+5]=flask;s[ITEM_START+6]=tango;
+        // Owned quantities must work in all four storage locations.
+        let location=[ITEM_START,BACKPACK_START,STASH_START,COURIER_START][i%4];
+        if location!=ITEM_START {for item in [4,5,6] {s[location+item]=s[ITEM_START+item];s[ITEM_START+item]=0.;}}
+        w.state=primitive(Tensor::<1>::from_data(TensorData::new(s,[UNITS*STRIDE]),&d));
+        let economy=crate::chio_economy::Economy::new(&w);let obs=w.observe(initial_previous(2,&d));
+        assert_eq!(economy.choose(&w,&obs).into_data().try_to_vec::<f32>().unwrap()[0],expected,"case {i}");
+    }
+}
+
+#[test]
+fn p15_common_economy_pregame_once_pending_purchase_and_remaining_heal(){
+    let _g=GPU.lock().unwrap();let mut w=chio_arena();let d=w.device.clone();
+    let mut s=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();s[UNIT_GOLD]=10000.;
+    for item in [4,5,6] {s[ITEM_START+item]=0.;}
+    let mut meta=vec![0f32;META];meta[0]=-30.;
+    w.meta=primitive(Tensor::<1>::from_data(TensorData::new(meta.clone(),[META]),&d));
+    w.state=primitive(Tensor::<1>::from_data(TensorData::new(s.clone(),[UNITS*STRIDE]),&d));
+    let economy=crate::chio_economy::Economy::new(&w);
+    let buy=|w:&World| {let obs=w.observe(initial_previous(2,&d));economy.choose(w,&obs).into_data().try_to_vec::<f32>().unwrap()[0]};
+    assert_eq!(buy(&w),5.);
+    let mut q=vec![0f32;COMMAND_WORDS];q[2]=5.;q[7]=1.;w.commands=primitive(Tensor::<1>::from_data(TensorData::new(q,[COMMAND_WORDS]),&d));
+    assert_eq!(buy(&w),0.);
+    w.commands=primitive(Tensor::<1>::zeros([COMMAND_WORDS],&d));s[STASH_START+6]=3.;
+    w.state=primitive(Tensor::<1>::from_data(TensorData::new(s.clone(),[UNITS*STRIDE]),&d));let _=buy(&w);
+    s[STASH_START+6]=0.;w.state=primitive(Tensor::<1>::from_data(TensorData::new(s.clone(),[UNITS*STRIDE]),&d));assert_eq!(buy(&w),4.);
+    meta[1]=1.;w.meta=primitive(Tensor::<1>::from_data(TensorData::new(meta,[META]),&d));assert_eq!(buy(&w),5.);
+    // Ongoing healing reduces the need for a second Flask.
+    s[ITEM_START+5]=1.;s[UNIT_HEALTH_MAX]=1000.;s[UNIT_HEALTH]=500.;s[FLASK_END]=w.engine.pre_game_seconds+8.;
+    w.meta=primitive(Tensor::<1>::zeros([META],&d));w.state=primitive(Tensor::<1>::from_data(TensorData::new(s.clone(),[UNITS*STRIDE]),&d));assert_eq!(buy(&w),1.);
+    s[FLASK_END]=0.;w.state=primitive(Tensor::<1>::from_data(TensorData::new(s,[UNITS*STRIDE]),&d));assert_eq!(buy(&w),4.);
+}
+
+#[test]
+fn p15_all_thirteen_actions_map_to_the_delayed_executor(){
+    use crate::chio_actions as c;
+    let _g=GPU.lock().unwrap();let mut w=chio_arena();let n=2;
+    for kind in 0..13 {
+        w.commands=primitive(Tensor::<1>::zeros([COMMAND_WORDS],&w.device));
+        let obs=w.observe(initial_previous(n,&w.device));let masks=c::observe(&w,&obs);
+        let mask=masks.types.clone().int().into_data().try_to_vec::<i32>().unwrap();assert!(mask[kind]!=0,"type {kind} unexpectedly unavailable");
+        let chosen=Tensor::<2,Int>::from_data([[kind as i32,9,0,1],[1,0,0,0]],&w.device);
+        let _=c::enqueue(&w,&obs,&masks,chosen,Tensor::zeros([n],&w.device));
+        let q=tensor::<1>(w.commands.clone()).into_data().try_to_vec::<f32>().unwrap();
+        let expected=if kind==0{2.}else if kind==1{4.}else if kind<=5{3.}else if kind<=9{kind as f32}else{10.};
+        assert_eq!(q[0],6.);assert_eq!(q[1],expected);assert_eq!(q[7],1.);assert_eq!(q[2],0.);
+        if kind==0 {assert!((q[5]+200.).abs()<0.001);assert!((q[6]-2000.).abs()<0.001);}
+        if kind==2 {assert_eq!(q[4],6.);assert_eq!(q[8],3.);}
+        if kind==3 {assert_eq!(q[4],7.);assert_eq!(q[8],3.);}
+        if kind==4 {assert_eq!(q[4],1.);}
+        if kind==5 {assert_eq!(q[4],4.);}
+        if kind==10 {assert_eq!(q[3],5.);assert_eq!(q[4],0.);}
+        if kind==11 {assert_eq!(q[3],4.);assert_eq!(q[4],0.);}
+        if kind==12 {assert_eq!(q[3],6.);assert_eq!(q[4],(UNITS+1)as f32);}
+    }
+    assert_eq!(tensor::<1>(w.meta.clone()).into_data().try_to_vec::<f32>().unwrap()[7],0.);
+}
+
+#[test]
+fn p15_masks_cover_deny_visibility_items_cast_and_pending_continuation(){
+    use crate::chio_actions as c;
+    let _g=GPU.lock().unwrap();let mut w=chio_arena();let d=w.device.clone();
+    let get=|w:&World| {let obs=w.observe(initial_previous(2,&w.device));c::observe(w,&obs).types.int().into_data().try_to_vec::<i32>().unwrap().into_iter().map(|v|v!=0).collect::<Vec<_>>()};
+    let mut s=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();
+    s[7*STRIDE+UNIT_HEALTH]=50.01;s[FLASK_END]=1000.;s[ITEM_READY+4]=1000.;s[ITEM_START+6]=0.;
+    s[STRIDE+ACTIVE]=0.;s[4*STRIDE+ACTIVE]=0.;s[6*STRIDE+ACTIVE]=0.;
+    w.state=primitive(Tensor::<1>::from_data(TensorData::new(s.clone(),[UNITS*STRIDE]),&d));
+    let mask=get(&w);for kind in [2,3,4,5,10,11,12] {assert!(!mask[kind],"type {kind} mask leaked");}
+    for spell in 1..=4 {
+        s[CAST]=spell as f32;s[CAST_END]=1000.;s[UNIT_MANA]=0.;s[COOLDOWNS+spell-1]=1000.;
+        w.state=primitive(Tensor::<1>::from_data(TensorData::new(s.clone(),[UNITS*STRIDE]),&d));
+        let mask=get(&w);let enabled:Vec<_>=mask[..13].iter().enumerate().filter_map(|(i,&v)|v.then_some(i)).collect();
+        assert_eq!(enabled,vec![1,5+spell]);
+    }
+    // A first cast in flight closes the mask before the simulator starts it.
+    s[CAST]=0.;s[CAST_END]=0.;s[UNIT_MANA]=2000.;for spell in 0..4{s[COOLDOWNS+spell]=0.;}
+    w.state=primitive(Tensor::<1>::from_data(TensorData::new(s.clone(),[UNITS*STRIDE]),&d));
+    let mut q=vec![0f32;COMMAND_WORDS];q[0]=6.;q[1]=6.;q[7]=1.;
+    w.commands=primitive(Tensor::<1>::from_data(TensorData::new(q,[COMMAND_WORDS]),&d));
+    let mask=get(&w);assert_eq!(mask[..13].iter().filter(|&&v|v).count(),2);assert!(mask[1]&&mask[6]);
+    // After completion an already queued continuation must not keep all heads closed.
+    s[COOLDOWNS]=1000.;w.state=primitive(Tensor::<1>::from_data(TensorData::new(s,[UNITS*STRIDE]),&d));
+    let mask=get(&w);assert!(mask[0]);assert!(!mask[6]);
+}
+
+#[test]
+fn p15_repeated_attack_orders_preserve_windup_for_all_four_target_types(){
+    use crate::chio_actions as c;
+    let _g=GPU.lock().unwrap();
+    for kind in 2..=5 {
+        let mut w=chio_arena();let d=w.device.clone();let rng=Sampler::new(1,17,&d);
+        let target=match kind{2=>6,3=>7,4=>1,_=>4};
+        let mut s=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();
+        if target>=2 {s[target*STRIDE+UNIT_HEALTH]=10000.;s[target*STRIDE+UNIT_HEALTH_MAX]=20000.;}
+        let initial_hp=s[target*STRIDE+UNIT_HEALTH];
+        s[target*STRIDE+UNIT_X]=100.;s[target*STRIDE+UNIT_Y]=0.;s[target*STRIDE+UNIT_HEALTH_REGEN]=0.;
+        // Exclude interference while retaining the selected actor and target.
+        for u in 1..UNITS {if u!=target{s[u*STRIDE+ACTIVE]=0.;}}
+        s[target*STRIDE+UNIT_ATTACK_DAMAGE]=0.;s[target*STRIDE+UNIT_MOVE_SPEED]=0.;s[target*STRIDE+ATTACK_READY]=10000.;
+        w.state=primitive(Tensor::<1>::from_data(TensorData::new(s,[UNITS*STRIDE]),&d));
+        let mut released=false;
+        for step in 0..8 {
+            let obs=w.observe(initial_previous(2,&d));let mask=c::observe(&w,&obs);
+            let allowed=mask.types.clone().int().into_data().try_to_vec::<i32>().unwrap();
+            assert!(allowed[kind as usize]>0,"attack type {kind} invalid at step {step}: {allowed:?}");
+            // One creep row remains after excluding unrelated entities.
+            let a=Tensor::<2,Int>::from_data([[kind,0,0,0],[1,0,0,0]],&d);
+            let _=c::enqueue(&w,&obs,&mask,a,Tensor::zeros([2],&d));let _=w.step_ticks_with_waves(&rng,6,false);
+            let state=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();released|=state[target*STRIDE+UNIT_HEALTH]<initial_hp-1.;
+        }
+        assert!(released,"type {kind} never released an attack under six-tick repetition");
+        assert_eq!(tensor::<1>(w.meta.clone()).into_data().try_to_vec::<f32>().unwrap()[7],0.,"attack type {kind}");
+    }
+}
+
+#[test]
+fn p15_decision_clock_queue_and_recurrent_reset_are_profile_scoped(){
+    let _g=GPU.lock().unwrap();
+    for ticks in [4usize,6] {
+        let mut w=arena();w.engine.chio_direct=ticks==6;w.engine.decision_ticks=ticks;
+        let profile=if ticks==6{"chio-v1"}else{"ggd-v4"};assert!(w.validate_profile(profile).is_ok());
+        assert!(w.validate_profile(if ticks==6{"ggd-v4"}else{"chio-v1"}).is_err());
+        assert_eq!(w.decision_hz(),if ticks==6{5.}else{7.5});
+        let rng=Sampler::new(1,20261103,&w.device);let obs=w.observe(initial_previous(2,&w.device));
+        let actions=Tensor::<2,Int>::from_data([[1,0,0,0,127,64],[0,0,0,0,64,64]],&w.device);
+        let _=w.advance(actions,&obs.refs,&rng);
+        let meta=tensor::<1>(w.meta.clone()).into_data().try_to_vec::<f32>().unwrap();assert_eq!(meta[0],ticks as f32);assert_eq!(meta[6],1.);
+        let queue=tensor::<1>(w.commands.clone()).into_data().try_to_vec::<f32>().unwrap();assert_eq!(queue[0],6.);assert_eq!(queue[7],1.);
+        assert_eq!(tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap()[UNIT_X],-200.);
+        let _=w.step_ticks_with_waves(&rng,7-ticks,false);
+        assert_eq!(tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap()[ORDER],0.);
+        let _=w.step_ticks_with_waves(&rng,1,false);
+        assert_eq!(tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap()[ORDER],1.);
+        let mut meta=vec![0f32;META];meta[0]=(127*ticks)as f32;meta[6]=127.;
+        w.meta=primitive(Tensor::<1>::from_data(TensorData::new(meta,[META]),&w.device));
+        assert_eq!(w.observe(initial_previous(2,&w.device)).reset.into_data().try_to_vec::<f32>().unwrap(),vec![0.,0.]);
+        let obs=w.observe(initial_previous(2,&w.device));let t=crate::scripted_teacher::Teacher::new(&w);
+        let actions=Tensor::<2,Int>::from_data([[4,0,0,0,64,64];2],&w.device);
+        let _=w.advance_teacher(actions,&obs.refs,&rng,&t,false);
+        assert_eq!(w.observe(initial_previous(2,&w.device)).reset.into_data().try_to_vec::<f32>().unwrap(),vec![1.,1.]);
+        let meta=tensor::<1>(w.meta.clone()).into_data().try_to_vec::<f32>().unwrap();assert_eq!(meta[0],(128*ticks)as f32);
+        let mut s=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();s[UNIT_HEALTH]=0.;
+        w.state=primitive(Tensor::<1>::from_data(TensorData::new(s,[UNITS*STRIDE]),&w.device));
+        let mut meta=meta;meta[6]=129.;w.meta=primitive(Tensor::<1>::from_data(TensorData::new(meta,[META]),&w.device));
+        assert_eq!(w.observe(initial_previous(2,&w.device)).reset.into_data().try_to_vec::<f32>().unwrap(),vec![1.,0.]);
+        assert_eq!(crate::trace::Trace::new(&w).header(&w,0)["decision_ticks"],ticks);
+    }
+}
+
+#[test]
 fn p15_directional_move_stops_at_bodies_without_sliding(){
     let _g=GPU.lock().unwrap();
     for kind in [0.,2.] {

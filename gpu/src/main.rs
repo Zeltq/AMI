@@ -23,6 +23,27 @@ mod artifacts;
 mod trace;
 mod fidelity;
 mod chio_fidelity;
+#[allow(dead_code)]
+mod chio_actions;
+#[allow(dead_code)]
+mod chio_economy;
+#[allow(dead_code)]
+mod chio_observe;
+#[allow(dead_code)]
+mod chio_model;
+#[allow(dead_code)]
+mod chio_bridge;
+#[allow(dead_code)]
+mod chio_events;
+#[allow(dead_code)]
+mod chio_reward;
+#[allow(dead_code)]
+mod chio_teacher;
+#[allow(dead_code)]
+mod chio_metrics;
+mod chio_collect;
+mod chio_runtime;
+mod chio_eval;
 mod aggro_fidelity;
 mod requiem_fidelity;
 mod navigation;
@@ -73,6 +94,8 @@ mod cli_tests {
 
 #[derive(Subcommand)]
 enum Command {
+    EvaluateChio {config:PathBuf,output:PathBuf},
+    CheckChioParity {weights:PathBuf,fixture:PathBuf,output:PathBuf},
     CheckChioMovement {engine:PathBuf,reference:PathBuf,output:PathBuf},
     CollectTeacher {config:PathBuf,output:PathBuf},
     CollectDagger {config:PathBuf,output:PathBuf},
@@ -153,7 +176,9 @@ fn main()->anyhow::Result<()> {
             if report["passed"]!=true {println!("{}",serde_json::to_string_pretty(&report)?);anyhow::bail!("Dota Requiem differential validation failed");}report
         },
         Command::BuildNavigation{engine}=>navigation::build(&engine)?,
+        Command::EvaluateChio{config,output}=>chio_eval::run(serde_json::from_slice(&std::fs::read(config)?)?,&output)?,
         Command::CheckChioMovement{engine,reference,output}=>chio_fidelity::check(&engine,&reference,&output)?,
+        Command::CheckChioParity{weights,fixture,output}=>chio_bridge::parity(&weights,&fixture,&output)?,
         Command::CheckTiming{engine,fixture,output}=>timing_observe::check(&engine,&fixture,&output)?,
         Command::CheckPublicSpells{engine,fixture,output}=>enemy_observe::check(&engine,&fixture,&output)?,
         Command::Import{bundle,output}=>{

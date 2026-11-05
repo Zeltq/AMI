@@ -38,7 +38,7 @@ pub struct Trace{buffer:CubeTensor,actors:usize,file:BufWriter<std::fs::File>}
 impl Trace{
     pub fn new(w:&World,root:&Path)->Result<Self>{
         let columns=["game_tick","x","y","health","active","order","dest_x","dest_y","order_target","last_damage_source","last_damage_team","deaths","own_t1_x","own_t1_y","enemy_t1_x","enemy_t1_y","own_t1_distance","enemy_t1_distance","reset","action","buy","item","target","action_x","action_y","logit_0","logit_1","logit_2","logit_3","logit_4","logit_5","logit_6","logit_7","logit_8","logit_9","logit_10","p_0","p_1","p_2","p_3","p_4","p_5","p_6","p_7","p_8","p_9","p_10","finished","source_kind","source_tier"];
-        crate::artifacts::atomic_json(&root.join("trace-header.json"),&serde_json::json!({"columns":columns.to_vec(),"actors":w.matches*2,"decision_ticks":4,"tick_hz":30,"action_layout":["action","buy","item","target","x","y"],"damage_source":"last hit CREDIT; inspect only with health loss; not a per-hit event log"}))?;
+        crate::artifacts::atomic_json(&root.join("trace-header.json"),&serde_json::json!({"columns":columns.to_vec(),"actors":w.matches*2,"decision_ticks":w.engine.decision_ticks,"tick_hz":30,"action_layout":["action","buy","item","target","x","y"],"damage_source":"last hit CREDIT; inspect only with health loss; not a per-hit event log"}))?;
         Ok(Self{buffer:primitive(Tensor::<3>::zeros([HORIZON,w.matches*2,WIDTH],&w.device)),actors:w.matches*2,file:BufWriter::new(std::fs::File::create(root.join("trace.jsonl"))?)})
     }
     pub fn record(&self,w:&World,t:&crate::scripted_teacher::Teacher,step:usize,actions:Tensor<2,Int>,logits:Tensor<2>,mask:Tensor<2,Bool>,reset:Tensor<1>){

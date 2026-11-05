@@ -239,7 +239,7 @@ fn move_direct_chio(state:&mut [f32],grid:&mut [u32],geometry:&[f32],tree_map:&[
 }
 
 #[cube]
-fn hit(state:&mut [f32],telemetry:&mut [f32],#[comptime] audit_enabled:bool,hero:&[f32],combat:&[f32],base:usize,source:usize,target:usize,amount:f32,magical:bool,time:f32,source_kind:f32,source_team:f32,spell:usize){
+fn hit(state:&mut [f32],telemetry:&mut [f32],#[comptime] audit_enabled:bool,events:&mut [f32],#[comptime] chio:bool,hero:&[f32],combat:&[f32],base:usize,source:usize,target:usize,amount:f32,magical:bool,time:f32,source_kind:f32,source_team:f32,spell:usize){
     let q=base+target*STRIDE;
     if state[q+ACTIVE]>0.0f32 && state[q+UNIT_HEALTH]>state[q+DAMAGE] {
         let armor=effective_armor(state,hero,base,q,time);
@@ -261,6 +261,7 @@ fn hit(state:&mut [f32],telemetry:&mut [f32],#[comptime] audit_enabled:bool,hero
         // melee21 -> SF12, ranged23 -> SF9, SF49 -> melee44 (both sides).
         if !invulnerable {
             let dealt=(amount*multiplier*(1.0f32-reduction)).ceil();
+            if chio && target<2 && (source<2 || source_kind==1.0f32) {crate::chio_events::flask_break(state,events,base/(UNITS*STRIDE),target,dealt,time,source_kind);}
             if audit_enabled {crate::teacher_combat::damage(telemetry,base/(UNITS*STRIDE),target,source_kind,dealt.min(state[q+UNIT_HEALTH]-state[q+DAMAGE]),time,spell);}
             state[q+DAMAGE]+=dealt;
         }
@@ -459,7 +460,7 @@ fn enqueue(actions:&[f32],refs:&[f32],commands:&mut [f32],state:&[f32],meta:&[f3
 
 #[cube(launch)]
 fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f32],commands:&mut [f32],
-    teacher_memory:&[f32],teacher_forecasts:&[f32],teacher_audit:&mut [f32],telemetry:&mut [f32],
+    teacher_memory:&[f32],teacher_forecasts:&[f32],teacher_audit:&mut [f32],telemetry:&mut [f32],events:&mut [f32],
     rewards:&mut [f32],terminals:&mut [f32],tree_alive:&mut [f32],rng:&mut [u32],grid:&mut [u32],
     proto:&[f32],spells:&[f32],items:&[f32],hero:&[f32],animation:&[f32],combat:&[f32],experience:&[f32],geometry:&[f32],fow_blockers:&[f32],static_vision:&[u32],navigation:&[u32],trees:&[f32],tree_map:&[f32],bases:&[f32],spawns:&[f32],lane:&[f32],fountains:&[f32],extra_vision:&[f32],
     matches:usize,tree_count:usize,vision_count:usize,pregame:f32,ticks_per_call:usize,radiant_lane_points:usize,dire_lane_points:usize,#[comptime] spawn_waves:bool,#[comptime] audit_enabled:bool,#[comptime] uphill_miss:bool,#[comptime] chio_direct:bool){
@@ -568,7 +569,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                     let p=base+u*STRIDE;let a=m*2+u;
                     // Passive gold continues through death; unlike kill/creep
                     // gold it is reliable and is protected from death loss.
-                    if game_time>=0.0f32 {let gold=100.0f32/60.0f32*dt;state[p+UNIT_GOLD]+=gold;state[p+RELIABLE_GOLD]+=gold;}
+                    if game_time>=0.0f32 {let gold=100.0f32/60.0f32*dt;state[p+UNIT_GOLD]+=gold;state[p+RELIABLE_GOLD]+=gold;if chio_direct || audit_enabled {events[a*crate::chio_events::FIELDS+crate::chio_events::GOLD]+=gold;}}
                     for slot in 0..4 {
                         let k=(a*4+slot)*COMMAND_FIELDS;
                         if commands[k+7]>0.0f32 && commands[k]+1.0f32<=meta[mb] {
@@ -582,6 +583,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                 // the real executor; changing orders still cancels it.
                                 let same_attack=action==3 && state[p+ORDER]==3.0f32 && state[p+TARGET]==target as f32 && state[p+TARGET_GENERATION]==commands[k+8];
                                 if !same_attack {if audit_enabled && state[p+WINDUP]>time {crate::ggd_metrics::cancel(teacher_audit,m,u);}state[p+WINDUP]=0.0f32;}
+                                if (chio_direct || audit_enabled) && state[p+CAST_END]>time {events[a*crate::chio_events::FIELDS+crate::chio_events::CANCELS]+=1.0f32;}
                                 state[p+CAST_END]=0.0f32;state[p+CAST]=0.0f32;state[p+TP_END]=0.0f32;
                                 state[p+TANGO_TARGET]=0.0f32;
                                 state[p+HOLD]=0.0f32;
@@ -652,7 +654,9 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                             if valid {state[p+TP_END]=time+items[item*ITEM_RULE_FIELDS+18];state[p+TP_X]=tx;state[p+TP_Y]=ty;state[p+ORDER]=0.0f32;used=true;}
                                         }
                                     }
-                                    if used {state[p+ITEM_START+item]-=1.0f32;state[p+ITEM_READY+item]=time+items[item*ITEM_RULE_FIELDS+2];state[p+UNIT_MANA]-=items[item*ITEM_RULE_FIELDS+16];if item==3 {state[p+FREE_SCROLL]=0.0f32;}}
+                                    if used {
+                                        if (chio_direct || audit_enabled) && item>=4 && item<=6 {let field=if item==5{crate::chio_events::FLASK}else if item==4{crate::chio_events::MANGO}else{crate::chio_events::TANGO};events[a*crate::chio_events::FIELDS+field]+=1.0f32;}
+                                        state[p+ITEM_START+item]-=1.0f32;state[p+ITEM_READY+item]=time+items[item*ITEM_RULE_FIELDS+2];state[p+UNIT_MANA]-=items[item*ITEM_RULE_FIELDS+16];if item==3 {state[p+FREE_SCROLL]=0.0f32;}}
                                 }
                             }
                             if buy>0 {
@@ -664,6 +668,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                     let cost=items[which*ITEM_RULE_FIELDS];let unreliable=state[p+UNIT_GOLD]-state[p+RELIABLE_GOLD];
                                     state[p+RELIABLE_GOLD]=f32::max(0.0f32,state[p+RELIABLE_GOLD]-f32::max(0.0f32,cost-unreliable));
                                     state[p+UNIT_GOLD]-=cost;state[p+STASH_START+which]+=items[which*ITEM_RULE_FIELDS+1];
+                                    if chio_direct || audit_enabled {events[a*crate::chio_events::FIELDS+crate::chio_events::SPENT]+=cost;events[a*crate::chio_events::FIELDS+crate::chio_events::PURCHASES+which]+=1.0f32;}
                                     if stock>=0.0f32 {
                                         state[p+STOCK_START+which]+=1.0f32;
                                         if state[p+RESTOCK_START+which]==0.0f32 {state[p+RESTOCK_START+which]=time+items[which*ITEM_RULE_FIELDS+8];}
@@ -783,7 +788,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                         if audit_enabled {if v<2 {telemetry_heroes+=1.0f32;if stacks>0.0f32 {telemetry_stacks+=1.0f32;}}else if v<CREEP_END {telemetry_creeps+=1.0f32;}}
                                         let talent=if state[p+UNIT_LEVEL]>=10.0f32 {hero[21]}else{0.0f32};
                                         let alive_before=state[q+UNIT_HEALTH]>state[q+DAMAGE];
-                                        let amount=spells[k]+stacks*(spells[k+6]+talent)+state[p+UNIT_SOULS]*2.0f32;hit(state,telemetry,audit_enabled,hero,combat,base,u,v,amount,true,time,0.0f32,side,spell+1);
+                                        let amount=spells[k]+stacks*(spells[k+6]+talent)+state[p+UNIT_SOULS]*2.0f32;hit(state,telemetry,audit_enabled,events,chio_direct || audit_enabled,hero,combat,base,u,v,amount,true,time,0.0f32,side,spell+1);
                                         if audit_enabled && v>=6 && v<CREEP_END && alive_before && state[q+UNIT_HEALTH]<=state[q+DAMAGE] {telemetry[(m*2+u)*crate::teacher_combat::FIELDS+crate::teacher_combat::RAZE_KILLS]+=1.0f32;}
                                         if v<2 {meta[mb+11]=meta[mb];meta[mb+12]+=1.0f32;}
                                         state[q+UNIT_RAZE_STACKS]=stacks+1.0f32;state[q+STACK_END]=time+spells[k+7];
@@ -815,7 +820,8 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                 let t=state[p+TANGO_TARGET] as usize-1;let x=trees[t*3];let y=trees[t*3+1];
                                 let dx=x-state[p+UNIT_X];let dy=y-state[p+UNIT_Y];
                                 if tree_alive[m*tree_count+t]==0.0f32 || state[p+ITEM_START+6]==0.0f32 {state[p+ORDER]=0.0f32;state[p+TANGO_TARGET]=0.0f32;}
-                                else if dx*dx+dy*dy<=165.0f32*165.0f32 {tree_alive[m*tree_count+t]=0.0f32;state[p+TANGO_END]=time+items[6*ITEM_RULE_FIELDS+5];state[p+ITEM_START+6]-=1.0f32;state[p+ORDER]=0.0f32;state[p+TANGO_TARGET]=0.0f32;}
+                                else if dx*dx+dy*dy<=165.0f32*165.0f32 {tree_alive[m*tree_count+t]=0.0f32;state[p+TANGO_END]=time+items[6*ITEM_RULE_FIELDS+5];state[p+ITEM_START+6]-=1.0f32;state[p+ORDER]=0.0f32;state[p+TANGO_TARGET]=0.0f32;
+                                    if chio_direct || audit_enabled {events[(m*2+u)*crate::chio_events::FIELDS+crate::chio_events::TANGO]+=1.0f32;}}
                                 else {move_unit(state,grid,geometry,navigation,tree_map,trees,tree_alive,m,tree_count,p,x,y,dt,hero[6],true);}
                             }
                             else if state[p+KIND]>=2.0f32 && state[p+AGGRO_RECOVER]>time {let x=state[p+DEST_X];let y=state[p+DEST_Y];move_unit(state,grid,geometry,navigation,tree_map,trees,tree_alive,m,tree_count,p,x,y,dt,hero[6],true);}
@@ -885,7 +891,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                 if audit_enabled && u<2 && target<2 {telemetry[(m*2+u)*crate::teacher_combat::FIELDS+crate::teacher_combat::HERO_ATTACKS]+=1.0f32;}
                                 let damage=state[p+UNIT_ATTACK_DAMAGE]+(random(rng,m)*2.0f32-1.0f32)*variance;
                                 if state[p+UNIT_PROJECTILE_SPEED]>0.0f32 {launch_shot(state,shots,meta,hero,animation,rng,base,m,u,target,damage,time);}
-                                else {let kind=state[p+KIND];hit(state,telemetry,audit_enabled,hero,combat,base,u,target,damage,false,time,kind,side,0);}
+                                else {let kind=state[p+KIND];hit(state,telemetry,audit_enabled,events,chio_direct || audit_enabled,hero,combat,base,u,target,damage,false,time,kind,side,0);}
                                 if state[q+TEAM]!=side {state[p+REVEAL_END]=time+2.0f32;}
                             }
                             let base_interval=if u<2 {1.6f32} else if state[p+KIND]==4.0f32 {proto[8*UNIT_COUNT+UNIT_ATTACK_INTERVAL]} else if state[p+KIND]==1.0f32 {0.9f32} else {1.0f32};
@@ -930,7 +936,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                     // Only eligible ranged impacts consume an extra RNG draw.
                                     if geometry[cell(state[source+UNIT_X],state[source+UNIT_Y])]>geometry[cell(state[q+UNIT_X],state[q+UNIT_Y])] {missed=random(rng,m)<0.25f32;}
                                 }
-                                if !missed {hit(state,telemetry,audit_enabled,hero,combat,base,shots[k+7] as usize,target,shots[k+6],false,time,shots[k+9],shots[k+8],0);}
+                                if !missed {hit(state,telemetry,audit_enabled,events,chio_direct || audit_enabled,hero,combat,base,shots[k+7] as usize,target,shots[k+6],false,time,shots[k+9],shots[k+8],0);}
                                 shots[k]=0.0f32;
                                 if target<2 && !missed {meta[mb+10]=meta[mb];meta[mb+13]+=1.0f32;}
                             }
@@ -946,7 +952,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                 let along=(dx*shots[k+9]+dy*shots[k+10]).clamp(0.0f32,step);
                                 let ex=dx-shots[k+9]*along;let ey=dy-shots[k+10]*along;
                                 if ex*ex+ey*ey<=width*width {
-                                    hit(state,telemetry,audit_enabled,hero,combat,base,shots[k+7] as usize,v,shots[k+6],true,time,0.0f32,shots[k+8],4);shot_hits[word]=shot_hits[word]|bit;
+                                    hit(state,telemetry,audit_enabled,events,chio_direct || audit_enabled,hero,combat,base,shots[k+7] as usize,v,shots[k+6],true,time,0.0f32,shots[k+8],4);shot_hits[word]=shot_hits[word]|bit;
                                     let was_feared=state[q+FEAR_END]>time;
                                     state[q+FEAR_END]=time+f32::min(hero[20],f32::max(0.0f32,state[q+FEAR_END]-time)+hero[19]);
                                     let mut fixed_goal=false;if hero.len()>41 {fixed_goal=hero[41]>0.0f32;}
@@ -957,6 +963,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                         let mut radius=hero[39];if hero[40]==0.0f32 {radius+=length;}
                                         state[q+FEAR_X]+=dx/length*radius;state[q+FEAR_Y]+=dy/length*radius;
                                     }}
+                                    if (chio_direct || audit_enabled) && v<2 && state[q+CAST_END]>time {events[(m*2+v)*crate::chio_events::FIELDS+crate::chio_events::CANCELS]+=1.0f32;}
                                     state[q+WINDUP]=0.0f32;state[q+CAST_END]=0.0f32;state[q+CAST]=0.0f32;state[q+TP_END]=0.0f32;
                                     // Installed build6969: BotAPI MR unchanged and
                                     // paired100-magic probes deal73 before/during
@@ -990,6 +997,8 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                 // Later hero bounties remain an explicit approximation;
                                 // the mode remembers the first death and ends at0.
                                 state[q+UNIT_GOLD]+=if first {if hero_kill {326.0f32}else{202.0f32}}else{133.0f32};
+                                if chio_direct || audit_enabled {events[(m*2+enemy)*crate::chio_events::FIELDS+crate::chio_events::GOLD]+=if first {if hero_kill {326.0f32}else{202.0f32}}else{133.0f32};
+                                    if hero_kill {events[(m*2+enemy)*crate::chio_events::FIELDS+crate::chio_events::KILLS]+=1.0f32;}}
                                 if state[q+ACTIVE]>0.0f32 && state[q+UNIT_HEALTH]>state[q+DAMAGE] {
                                     let mut total_xp=state[p+XP];for l in 1..30 {if (l as f32)<state[p+UNIT_LEVEL] {total_xp+=experience[l-1];}}
                                     if distance(state,p,q)<1500.0f32 {add_xp(state,proto,hero,items,experience,q,enemy,(100.0f32+total_xp*0.13f32).floor());}
@@ -1004,6 +1013,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                 state[p+UNIT_GOLD]-=loss;
                                 state[p+UNIT_SOULS]=(state[p+UNIT_SOULS]*0.7f32).ceil();
                                 state[p+ORDER]=0.0f32;state[p+TARGET]=-1.0f32;state[p+WINDUP_TARGET]=-1.0f32;
+                                if (chio_direct || audit_enabled) && state[p+CAST_END]>time {events[(m*2+u)*crate::chio_events::FIELDS+crate::chio_events::CANCELS]+=1.0f32;}
                                 state[p+WINDUP]=0.0f32;state[p+ATTACK_READY]=0.0f32;state[p+CAST_END]=0.0f32;state[p+CAST]=0.0f32;state[p+TP_END]=0.0f32;
                                 state[p+FEAR_END]=0.0f32;state[p+STACK_END]=0.0f32;state[p+UNIT_RAZE_STACKS]=0.0f32;state[p+MRES_END]=0.0f32;
                                 state[p+FLASK_END]=0.0f32;state[p+CLARITY_END]=0.0f32;state[p+TANGO_END]=0.0f32;state[p+TANGO_TARGET]=0.0f32;
@@ -1017,7 +1027,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                 if state[p+CREDIT]>=0.0f32 && source<2 {
                                     let q=base+source*STRIDE;
                                     if state[q+TEAM]==state[p+TEAM] {state[q+UNIT_DENIES]+=1.0f32;}
-                                    else {state[q+UNIT_LAST_HITS]+=1.0f32;state[q+UNIT_GOLD]+=state[p+BOUNTY];}
+                                    else {state[q+UNIT_LAST_HITS]+=1.0f32;state[q+UNIT_GOLD]+=state[p+BOUNTY];if chio_direct || audit_enabled {events[(m*2+source)*crate::chio_events::FIELDS+crate::chio_events::GOLD]+=state[p+BOUNTY];}}
                                     state[q+UNIT_SOULS]=f32::min(hero[12],state[q+UNIT_SOULS]+1.0f32);
                                     level_stats(state,proto,hero,items,q,source);
                                 }
@@ -1038,7 +1048,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                 // respawn. A recovered hero must still lose when time reaches0.
                 let loss_a=state[base+DEATHS]>0.0f32 || state[base+UNIT_HEALTH]<=0.0f32 || state[base+2*STRIDE+UNIT_HEALTH]<=0.0f32;
                 let loss_b=state[base+STRIDE+DEATHS]>0.0f32 || state[base+STRIDE+UNIT_HEALTH]<=0.0f32 || state[base+4*STRIDE+UNIT_HEALTH]<=0.0f32;
-                if game_time>=0.0f32 && (loss_a || loss_b || game_time>=600.0f32) {
+                if (game_time>=0.0f32 || chio_direct) && (loss_a || loss_b || game_time>=600.0f32) {
                     if loss_a && !loss_b {result=-1.0f32;}if loss_b && !loss_a {result=1.0f32;}
                     if !loss_a && !loss_b {
                         let delta=state[base+UNIT_LAST_HITS]-state[base+STRIDE+UNIT_LAST_HITS];
@@ -1070,9 +1080,9 @@ impl World {
         let actions=primitive(actions.float().without_autodiff());
         enqueue::launch(&self.state.client,CubeCount::Static((self.matches*2).div_ceil(64) as u32,1,1),CubeDim::new_1d(64),
             argument(&actions),argument(refs),argument(&self.commands),argument(&self.state),argument(&self.meta),argument(&self.bases),self.matches*2,targets,self.tree_count);
-        self.step_ticks(rng,4)
+        self.step_ticks(rng,self.engine.decision_ticks)
     }
-    /// A one-tick launch is used only by differential validation. Training always batches four ticks.
+    /// A one-tick launch is used by differential validation; decisions use the environment clock.
     pub fn step_ticks(&self,rng:&crate::sampling::Sampler,ticks:usize)->(Tensor<1>,Tensor<1>){
         self.step_ticks_with_waves(rng,ticks,true)
     }
@@ -1085,12 +1095,12 @@ impl World {
         let targets=refs.meta.shape()[1];let actions=primitive(actions.float().without_autodiff());
         enqueue::launch(&self.state.client,CubeCount::Static((self.matches*2).div_ceil(64)as u32,1,1),CubeDim::new_1d(64),
             argument(&actions),argument(refs),argument(&self.commands),argument(&self.state),argument(&self.meta),argument(&self.bases),self.matches*2,targets,self.tree_count);
-        self.step_ticks_audit(rng,4,spawn_waves,Some(teacher))
+        self.step_ticks_audit(rng,self.engine.decision_ticks,spawn_waves,Some(teacher))
     }
-    fn step_ticks_audit(&self,rng:&crate::sampling::Sampler,ticks:usize,spawn_waves:bool,teacher:Option<&crate::scripted_teacher::Teacher>)->(Tensor<1>,Tensor<1>){
+    pub(crate) fn step_ticks_audit(&self,rng:&crate::sampling::Sampler,ticks:usize,spawn_waves:bool,teacher:Option<&crate::scripted_teacher::Teacher>)->(Tensor<1>,Tensor<1>){
         simulate::launch(&self.state.client,CubeCount::Static(self.matches.div_ceil(32) as u32,1,1),CubeDim::new_1d(32),
             argument(&self.state),argument(&self.shots),argument(&self.shot_hits),argument(&self.meta),argument(&self.commands),
-            argument(teacher.map_or(&self.meta,|t|&t.memory)),argument(teacher.map_or(&self.meta,|t|&t.forecasts)),argument(teacher.map_or(&self.rewards,|t|&t.audit)),argument(&self.teacher_combat),argument(&self.rewards),argument(&self.terminals),
+            argument(teacher.map_or(&self.meta,|t|&t.memory)),argument(teacher.map_or(&self.meta,|t|&t.forecasts)),argument(teacher.map_or(&self.rewards,|t|&t.audit)),argument(&self.teacher_combat),argument(&self.chio_events),argument(&self.rewards),argument(&self.terminals),
             argument(&self.tree_alive),unsafe{BufferArg::from_raw_parts(rng.state.clone(),1)},argument(&self.collision_grid),argument(&self.prototypes),argument(&self.spells),
             argument(&self.items),argument(&self.hero),argument(&self.sf_projectile_animation),argument(&self.combat),argument(&self.experience),argument(self.movement_geometry.as_ref().unwrap_or(&self.geometry)),argument(&self.fow_blockers),argument(&self.static_vision),argument(&self.navigation),argument(&self.trees),argument(&self.tree_map),argument(&self.bases),argument(&self.spawns),argument(&self.lane),argument(&self.fountains),argument(&self.extra_vision),
             self.matches,self.tree_count,self.engine.extra_vision.len(),self.engine.pre_game_seconds,ticks,self.lane_lengths[0],self.lane_lengths[1],spawn_waves,teacher.is_some(),self.engine.uphill_miss,self.engine.chio_direct);

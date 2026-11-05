@@ -14,12 +14,16 @@ def layout(version=2):
     add('terrain',(4,8,8));add('global_features',(2*len(GLOBAL_FIELDS),));add('previous',(len(Act)+4+len(ITEMS)+len(BUYS),))
     for name,n in [('hero_valid',2),('creep_valid',creeps),('creep_ally',creeps),('tree_valid',trees),('projectile_valid',shots),('action_mask',len(Act)),('buy_mask',len(BUYS)),('item_mask',len(ITEMS)),('attack_mask',targets),('tree_mask',targets),('tp_mask',targets),('self_mask',targets)]:add(name,(n,),True)
     for name,n,fields in [('hero_combat',2,COMBAT_UNIT_FIELDS),('creep_combat',creeps,COMBAT_UNIT_FIELDS),('tower_combat',4,COMBAT_UNIT_FIELDS),('projectile_combat',shots,COMBAT_PROJECTILE_FIELDS)]:add(name,(n,2*len(fields)))
-    if version in (3,4):
+    if version in (3,4,5):
         from sf_duel.timing_observations import TIMING_FIELDS
         for name,n in [('hero_timing',2),('creep_timing',creeps),('tower_timing',4)]:add(name,(n,2*len(TIMING_FIELDS)))
-    if version == 4:
+    if version in (4,5):
         from sf_duel.enemy_observations import FIELDS
         add('hero_enemy',(2,2*len(FIELDS)))
+    if version==5:
+        add('hero_chio',(2,50));add('creep_chio',(creeps,34));add('tower_chio',(4,34))
+        add('chio_previous',(55,));add('chio_action_mask',(13,),True)
+        add('enemy_target_mask',(creeps,),True);add('ally_target_mask',(creeps,),True)
     return groups,at
 
 def read_block(path,checksum=None):
@@ -32,7 +36,7 @@ def read_block(path,checksum=None):
         header=json.loads(f.read(size));n=len(header['actors']);width=len(header['columns']);horizon=header['horizon'];signals=header['signal_fields']
         if header.get('format_version',2) not in (2,3):raise ValueError('Unsupported GGD storage version')
         header.setdefault('source','teacher-demo')
-        if header['version'] not in (GGD_SPEC_VERSION,3,4) or horizon!=128 or signals!=13:raise ValueError('Wrong GGD contract')
+        if header['version'] not in (GGD_SPEC_VERSION,3,4,5) or horizon!=128 or signals!=13:raise ValueError('Wrong GGD contract')
         raw=f.read(n*horizon*width*2);obs=np.frombuffer(raw,dtype='<f2').reshape(n,horizon,width)
         raw=f.read(n*horizon*signals*4);sig=np.frombuffer(raw,dtype='<f4').reshape(n,horizon,signals)
         if f.read(1):raise ValueError('Unexpected block tail')
@@ -44,16 +48,22 @@ def decode(header,compact,signals):
     arrays={}
     for name,(offset,shape,boolean) in groups.items():
         indices=np.arange(offset,offset+int(np.prod(shape))).reshape(shape)
-        if name in ('creeps','creep_valid','creep_ally','creep_combat','creep_timing'):indices=indices[:pc]
+        if name in ('creeps','creep_valid','creep_ally','creep_combat','creep_timing','creep_chio','enemy_target_mask','ally_target_mask'):indices=indices[:pc]
         elif name in ('trees','tree_valid'):indices=indices[:pt]
         elif name in ('projectiles','projectile_valid','projectile_combat'):indices=indices[:pp]
         elif name in ('attack_mask','tree_mask','tp_mask','self_mask'):indices=np.concatenate((indices[:2+pc],indices[258:262+pt],indices[-1:]))
         a=flat[:,[inverse[int(i)] for i in indices.reshape(-1)]].reshape(n*t,*indices.shape)
         arrays[name]=a.astype(bool) if boolean else a.astype(np.float32)
-    if header.get('version',2) in (3,4):
+    if header.get('version',2) in (3,4,5):
         for group in ('hero','creep','tower'):
             arrays[group+'_combat']=np.concatenate((arrays[group+'_combat'],arrays.pop(group+'_timing')),-1)
-    if header.get('version',2)==4:arrays['hero_combat']=np.concatenate((arrays['hero_combat'],arrays.pop('hero_enemy')),-1)
+    if header.get('version',2) in (4,5):arrays['hero_combat']=np.concatenate((arrays['hero_combat'],arrays.pop('hero_enemy')),-1)
+    if header.get('version',2)==5:
+        for group in ('hero','creep','tower'):arrays[group+'_combat']=np.concatenate((arrays[group+'_combat'],arrays.pop(group+'_chio')),-1)
+        for name in ('items','enemy_items'):arrays[name]=arrays[name][:,[0,1,2,5,4,6]]
+        arrays['previous']=arrays.pop('chio_previous');arrays['action_mask']=arrays.pop('chio_action_mask')
+        arrays['labels']=signals[:,:,:4].reshape(n*t,4).astype(np.int64);arrays['loss_valid']=signals[:,:,11].reshape(-1)>.5
+        return arrays
     labels=signals[:,:,:6].reshape(n*t,6).astype(np.int64);targets=labels[:,3].copy()
     labels[:,3]-=(targets>=258)*(256-pc)+(targets==518)*(256-pt)
     arrays['labels']=labels;arrays['loss_valid']=signals[:,:,11].reshape(-1)>.5

@@ -69,7 +69,16 @@ pub fn import(root:&Path,d:&Device)->Result<Policy>{
     Ok(model)
 }
 
-pub fn export(model:&Policy,root:&Path)->Result<()> {
+pub(crate) fn import_module<M:Module>(model:M,root:&Path)->Result<M>{
+    let bundle=Bundle::open(root)?;let mut importer=Importer{bundle:&bundle,path:vec![],error:None,count:0};
+    let model=model.map(&mut importer);
+    if let Some(e)=importer.error{return Err(e)}
+    ensure!(importer.count==bundle.tensors.len(),"unused tensors in import");Ok(model)
+}
+
+pub fn export(model:&Policy,root:&Path)->Result<()> {export_module(model,root)}
+
+pub(crate) fn export_module<M:Module>(model:&M,root:&Path)->Result<()> {
     use burn::module::{ModuleVisitor,Param};
     struct Exporter {root:PathBuf,path:Vec<String>,entries:BTreeMap<String,Entry>,error:Option<anyhow::Error>}
     impl ModuleVisitor for Exporter {

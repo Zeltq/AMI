@@ -27,6 +27,8 @@ CASES = [
     dict(name='wave', x=80, y=-816, facing=0, direction=0),
     dict(name='enemy', x=80, y=-816, facing=0, direction=0),
 ]
+CAST_CASES = [dict(name=f'cast{spell}_{mode}',x=80,y=-816,facing=0,direction=0,spell=spell,mode=mode)
+              for spell in range(1,5) for mode in ('once','repeat','cancel')]
 
 
 def save(path, value):
@@ -47,7 +49,8 @@ def main():
     parser.add_argument('--run', required=True, type=Path)
     parser.add_argument('--repeats', type=int, default=20)
     parser.add_argument('--timescale', type=float, default=4)
-    parser.add_argument('--cases', nargs='+', choices=[c['name'] for c in CASES])
+    parser.add_argument('--suite',choices=('movement','casts'),default='movement')
+    parser.add_argument('--cases', nargs='+', choices=[c['name'] for c in CASES+CAST_CASES])
     parser.add_argument('--distance', type=float, default=2000)
     parser.add_argument('--clear-before-move', action='store_true', help='diagnostic contrast only')
     parser.add_argument('--port', type=int, default=27919)
@@ -68,9 +71,13 @@ def main():
         'local actor=require("bots/bot_generic")\nfunction AbilityUsageThink() Think() end\n'
         'function AbilityLevelUpThink() end\nfunction CourierUsageThink() end\n'
         'function ItemUsageThink() end\nfunction BuybackUsageThink() end\n')
-    cases = [dict(case, repeat=i) for case in CASES if not args.cases or case['name'] in args.cases for i in range(args.repeats)]
+    cases = [dict(case, repeat=i) for case in (CASES if args.suite=='movement' else CAST_CASES) if not args.cases or case['name'] in args.cases for i in range(args.repeats)]
+    if not cases:parser.error('no selected cases in suite')
+    if args.suite=='casts':
+        shutil.copy2(ROOT/'gpu/bots/p15_cast_actor.lua',bots/'bot_generic.lua')
+        shutil.copy2(ROOT/'gpu/bots/p15_cast_server.lua',bots/'p15_server.lua')
     config = dict(cases=cases, case_ticks=180, first_decision=30, decision_ticks=6, offset_ticks=6,
-                  distance=args.distance, clear_before_move=args.clear_before_move, server_direction=args.server_direction)
+                  distance=args.distance, clear_before_move=args.clear_before_move, server_direction=args.server_direction,suite=args.suite)
     (bots / 'p15_config.lua').write_text('return ' + literal(config) + '\n')
     (bots / 'p15_clock.lua').write_text('return {}\n')
     started = time.monotonic()

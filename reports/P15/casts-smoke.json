@@ -1,0 +1,180 @@
+{
+  "cases": [
+    {
+      "case": 1,
+      "spell": 1,
+      "mode": "once",
+      "repeat": 0,
+      "first_fire": 55,
+      "first_phase": 38,
+      "last_phase": 54,
+      "samples": 180,
+      "orders": 1,
+      "latency_ok": true,
+      "complete_ticks": true
+    },
+    {
+      "case": 2,
+      "spell": 1,
+      "mode": "repeat",
+      "repeat": 0,
+      "first_fire": 55,
+      "first_phase": 38,
+      "last_phase": 54,
+      "samples": 180,
+      "orders": 21,
+      "latency_ok": true,
+      "complete_ticks": true
+    },
+    {
+      "case": 3,
+      "spell": 1,
+      "mode": "cancel",
+      "repeat": 0,
+      "first_fire": null,
+      "first_phase": 38,
+      "last_phase": 43,
+      "samples": 180,
+      "orders": 2,
+      "latency_ok": true,
+      "complete_ticks": true
+    },
+    {
+      "case": 4,
+      "spell": 2,
+      "mode": "once",
+      "repeat": 0,
+      "first_fire": 55,
+      "first_phase": 38,
+      "last_phase": 54,
+      "samples": 180,
+      "orders": 1,
+      "latency_ok": true,
+      "complete_ticks": true
+    },
+    {
+      "case": 5,
+      "spell": 2,
+      "mode": "repeat",
+      "repeat": 0,
+      "first_fire": 55,
+      "first_phase": 38,
+      "last_phase": 54,
+      "samples": 180,
+      "orders": 21,
+      "latency_ok": true,
+      "complete_ticks": true
+    },
+    {
+      "case": 6,
+      "spell": 2,
+      "mode": "cancel",
+      "repeat": 0,
+      "first_fire": null,
+      "first_phase": 38,
+      "last_phase": 43,
+      "samples": 180,
+      "orders": 2,
+      "latency_ok": true,
+      "complete_ticks": true
+    },
+    {
+      "case": 7,
+      "spell": 3,
+      "mode": "once",
+      "repeat": 0,
+      "first_fire": 55,
+      "first_phase": 38,
+      "last_phase": 54,
+      "samples": 180,
+      "orders": 1,
+      "latency_ok": true,
+      "complete_ticks": true
+    },
+    {
+      "case": 8,
+      "spell": 3,
+      "mode": "repeat",
+      "repeat": 0,
+      "first_fire": 55,
+      "first_phase": 38,
+      "last_phase": 54,
+      "samples": 180,
+      "orders": 21,
+      "latency_ok": true,
+      "complete_ticks": true
+    },
+    {
+      "case": 9,
+      "spell": 3,
+      "mode": "cancel",
+      "repeat": 0,
+      "first_fire": null,
+      "first_phase": 38,
+      "last_phase": 43,
+      "samples": 180,
+      "orders": 2,
+      "latency_ok": true,
+      "complete_ticks": true
+    },
+    {
+      "case": 10,
+      "spell": 4,
+      "mode": "once",
+      "repeat": 0,
+      "first_fire": 89,
+      "first_phase": 38,
+      "last_phase": 88,
+      "samples": 180,
+      "orders": 1,
+      "latency_ok": true,
+      "complete_ticks": true
+    },
+    {
+      "case": 11,
+      "spell": 4,
+      "mode": "repeat",
+      "repeat": 0,
+      "first_fire": 89,
+      "first_phase": 38,
+      "last_phase": 88,
+      "samples": 180,
+      "orders": 21,
+      "latency_ok": true,
+      "complete_ticks": true
+    },
+    {
+      "case": 12,
+      "spell": 4,
+      "mode": "cancel",
+      "repeat": 0,
+      "first_fire": null,
+      "first_phase": 38,
+      "last_phase": 43,
+      "samples": 180,
+      "orders": 2,
+      "latency_ok": true,
+      "complete_ticks": true
+    }
+  ],
+  "repeat_matches_control": {
+    "numerator": 4,
+    "denominator": 4
+  },
+  "stop_cancels": {
+    "numerator": 4,
+    "denominator": 4
+  },
+  "complete_capture": {
+    "numerator": 12,
+    "denominator": 12
+  },
+  "passed": true,
+  "elapsed_minutes": 0.6552183583320584,
+  "source_sha256": {
+    "bot_generic.lua": "01b5dc9078913628b8e9dea675659c34ec25fe52018d58db60aeaf194e9fe126",
+    "p15_server.lua": "d652290b7b90347899191cd7e64a90b50f7feb09fe70ea19347bfd1174a66804",
+    "p15_config.lua": "854dc2ab17e1716d14d3cc3e7c1701543882506c8517732ba448e93090012631"
+  },
+  "capture_sha256": "bdc5df36f8cdff1d1ea31763faf4ff97c208193f4e48797f28157a9ee6940c91"
+}

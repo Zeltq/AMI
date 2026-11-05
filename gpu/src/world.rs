@@ -98,7 +98,7 @@ pub struct Engine {
 
 pub struct World {
     pub state:CubeTensor,pub shots:CubeTensor,pub shot_hits:CubeTensor,pub meta:CubeTensor,pub tree_alive:CubeTensor,
-    pub teacher_combat:CubeTensor,
+    pub teacher_combat:CubeTensor,pub chio_events:CubeTensor,
     pub commands:CubeTensor,pub rewards:CubeTensor,pub terminals:CubeTensor,
     pub collision_grid:CubeTensor,pub extra_vision:CubeTensor,pub fow_blockers:CubeTensor,pub static_vision:CubeTensor,
     pub sf_projectile_animation:CubeTensor,
@@ -132,6 +132,13 @@ fn tree_map(trees:&[Position])->Vec<f32>{
 }
 
 impl World {
+    pub fn decision_hz(&self)->f32 {30.0/self.engine.decision_ticks as f32}
+    pub fn validate_profile(&self,profile:&str)->Result<()> {
+        ensure!(["ggd-v2","ggd-v3","ggd-v4","chio-v1"].contains(&profile),"unsupported profile {profile}");
+        ensure!((profile=="chio-v1")==self.engine.chio_direct,"profile/environment mismatch: {profile} requires {} decision ticks",if profile=="chio-v1"{6}else{4});
+        ensure!(self.engine.decision_ticks==if profile=="chio-v1"{6}else{4} && self.engine.offset_ticks==6,"profile clock mismatch");
+        Ok(())
+    }
     pub fn load(path:&Path,matches:usize,d:&Device)->Result<Self>{
         let engine:Engine=serde_json::from_slice(&std::fs::read(path)?)?;
         ensure!(matches>0 && matches<=10000,"invalid match count");
@@ -203,7 +210,7 @@ impl World {
         let mut world=Self {
             state:zeros(matches*UNITS*STRIDE),shots:zeros(matches*SHOTS*SHOT_FIELDS),shot_hits:zeros(matches*SHOTS*8),meta:zeros(matches*META),
             tree_alive:primitive(Tensor::<1>::ones([matches*tree_count],d)),commands:zeros(matches*COMMAND_WORDS),
-            teacher_combat:zeros(matches*2*crate::teacher_combat::FIELDS),
+            teacher_combat:zeros(matches*2*crate::teacher_combat::FIELDS),chio_events:zeros(matches*2*crate::chio_events::FIELDS),
             rewards:zeros(matches*2),terminals:zeros(matches*2),
             collision_grid:zeros(matches*COLLISION_WORDS),extra_vision,fow_blockers,static_vision,sf_projectile_animation,
             prototypes:data(engine.prototypes.iter().flatten().copied().collect(),d),

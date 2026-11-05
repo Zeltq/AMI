@@ -1,0 +1,448 @@
+{
+  "passed": true,
+  "seed": 20261103,
+  "seconds": 15,
+  "results": [
+    {
+      "kind": "demonstrations",
+      "profile": "ggd-v2",
+      "environment": "003",
+      "equal": 6,
+      "total": 6,
+      "baseline_hashes": [
+        "3759bb1f4693cc691df02d5fc75f6ce752030acdbd3d37f53b7cd69fe05fa8e8",
+        "b848d76b11b81b91468051a626f432b7491fd46f38337889a00ae2601f111cd9",
+        "76dd4953aa8383d9f7dd643df596265bb4f416be00238ebe42264d00312e522f",
+        "512c84f3c9a8adeb54b99b60d541ab22922ec863101917e6f2ba1ace520ba0fe",
+        "0614fb9aad08f3e260aa16f8f7db60fc0955f0362a894fdd49a822b900eaee96",
+        "e3b18ccde5baf29414d3318b5211cb059044d8117c068ad42b3537731ccecfd5"
+      ],
+      "candidate_hashes": [
+        "3759bb1f4693cc691df02d5fc75f6ce752030acdbd3d37f53b7cd69fe05fa8e8",
+        "b848d76b11b81b91468051a626f432b7491fd46f38337889a00ae2601f111cd9",
+        "76dd4953aa8383d9f7dd643df596265bb4f416be00238ebe42264d00312e522f",
+        "512c84f3c9a8adeb54b99b60d541ab22922ec863101917e6f2ba1ace520ba0fe",
+        "0614fb9aad08f3e260aa16f8f7db60fc0955f0362a894fdd49a822b900eaee96",
+        "e3b18ccde5baf29414d3318b5211cb059044d8117c068ad42b3537731ccecfd5"
+      ]
+    },
+    {
+      "kind": "demonstrations",
+      "profile": "ggd-v3",
+      "environment": "004",
+      "equal": 7,
+      "total": 7,
+      "baseline_hashes": [
+        "0d7dab0100dc4fb5f2bf359cee2092265803d150940901acfef2aed649149d13",
+        "1f66e17769864cd02046c43b975e519d197e1d764ca136b820420b29003639aa",
+        "d8371d5b5fd7464148f2de0163516f2fea9eaa216b6dfc7aba92e730260ce8f0",
+        "40be73a379462464260a281ff0eb811820577ec56b079365a3da1ea1e39b0465",
+        "8bac74db0349e89b139fe616e54d80ac457d78193883b1c12e766373634a8c6c",
+        "952eaddd19e9a120c51ce40ec170162538e7ba2362e29cd330f92033aa2f5190",
+        "569bb0ab8dcccee4ba842ca93651e55820fedf9fb5e97c5b57cf43d3178eea09"
+      ],
+      "candidate_hashes": [
+        "0d7dab0100dc4fb5f2bf359cee2092265803d150940901acfef2aed649149d13",
+        "1f66e17769864cd02046c43b975e519d197e1d764ca136b820420b29003639aa",
+        "d8371d5b5fd7464148f2de0163516f2fea9eaa216b6dfc7aba92e730260ce8f0",
+        "40be73a379462464260a281ff0eb811820577ec56b079365a3da1ea1e39b0465",
+        "8bac74db0349e89b139fe616e54d80ac457d78193883b1c12e766373634a8c6c",
+        "952eaddd19e9a120c51ce40ec170162538e7ba2362e29cd330f92033aa2f5190",
+        "569bb0ab8dcccee4ba842ca93651e55820fedf9fb5e97c5b57cf43d3178eea09"
+      ]
+    },
+    {
+      "kind": "demonstrations",
+      "profile": "ggd-v4",
+      "environment": "005",
+      "equal": 7,
+      "total": 7,
+      "baseline_hashes": [
+        "2caefef6a139decf31fbb5b8942fb030d08f6b673d1878eb0ed58e55159f3464",
+        "d3ee635357358db524d8c81d22d7be682946dcdca19c92ce163088834ba9311c",
+        "a25aaa5b6e96664113920437fa9e5cec4becae5c5cf33851a39d61ba7fe2a6c3",
+        "cea84491ec850a445af416ba7f7a7ad5b9edeedefcf728ff9720e260cbaed597",
+        "b33481f856c33391a1f591ac9caa31d5039b33eb889b12d1eb714b258b7b96be",
+        "6eb18501b23470fe079efad6bd34bae7864d604c8b504838ba55df64a282d114",
+        "12107a99f6624fa48175b4271464fd7041ab47d7df478684b2f1684a3dff71fa"
+      ],
+      "candidate_hashes": [
+        "2caefef6a139decf31fbb5b8942fb030d08f6b673d1878eb0ed58e55159f3464",
+        "d3ee635357358db524d8c81d22d7be682946dcdca19c92ce163088834ba9311c",
+        "a25aaa5b6e96664113920437fa9e5cec4becae5c5cf33851a39d61ba7fe2a6c3",
+        "cea84491ec850a445af416ba7f7a7ad5b9edeedefcf728ff9720e260cbaed597",
+        "b33481f856c33391a1f591ac9caa31d5039b33eb889b12d1eb714b258b7b96be",
+        "6eb18501b23470fe079efad6bd34bae7864d604c8b504838ba55df64a282d114",
+        "12107a99f6624fa48175b4271464fd7041ab47d7df478684b2f1684a3dff71fa"
+      ]
+    },
+    {
+      "kind": "model_evaluation",
+      "model": "GGD0",
+      "environment": "003",
+      "equal": 2,
+      "total": 2,
+      "per_match_equal": true
+    },
+    {
+      "kind": "model_evaluation",
+      "model": "M2",
+      "environment": "003",
+      "equal": 2,
+      "total": 2,
+      "per_match_equal": true
+    },
+    {
+      "kind": "model_evaluation",
+      "model": "ZOg",
+      "environment": "005",
+      "equal": 2,
+      "total": 2,
+      "per_match_equal": true
+    },
+    {
+      "kind": "model_evaluation",
+      "model": "000470",
+      "environment": "005",
+      "equal": 2,
+      "total": 2,
+      "per_match_equal": true
+    },
+    {
+      "kind": "model_evaluation",
+      "model": "000644",
+      "environment": "005",
+      "equal": 2,
+      "total": 2,
+      "per_match_equal": true
+    }
+  ],
+  "commands": [
+    {
+      "command": "C:/AMI/runs/p15/baseline-clock.exe collect-teacher C:\\AMI\\runs\\p15\\legacy-clock\\ggd-v2.json C:\\AMI\\runs\\p15\\legacy-clock\\ggd-v2-baseline",
+      "argv": [
+        "C:/AMI/runs/p15/baseline-clock.exe",
+        "collect-teacher",
+        "C:\\AMI\\runs\\p15\\legacy-clock\\ggd-v2.json",
+        "C:\\AMI\\runs\\p15\\legacy-clock\\ggd-v2-baseline"
+      ],
+      "cwd": "C:\\AMI-wt\\P15",
+      "stage": "ggd-v2-baseline",
+      "pid": 14868,
+      "exit_code": 0,
+      "elapsed_minutes": 0.7050907850013269
+    },
+    {
+      "command": "C:/AMI/runs/p15/candidate-clock.exe collect-teacher C:\\AMI\\runs\\p15\\legacy-clock\\ggd-v2.json C:\\AMI\\runs\\p15\\legacy-clock\\ggd-v2-candidate",
+      "argv": [
+        "C:/AMI/runs/p15/candidate-clock.exe",
+        "collect-teacher",
+        "C:\\AMI\\runs\\p15\\legacy-clock\\ggd-v2.json",
+        "C:\\AMI\\runs\\p15\\legacy-clock\\ggd-v2-candidate"
+      ],
+      "cwd": "C:\\AMI-wt\\P15",
+      "stage": "ggd-v2-candidate",
+      "pid": 4180,
+      "exit_code": 0,
+      "elapsed_minutes": 0.7001903300018361
+    },
+    {
+      "command": "C:/AMI/runs/p15/baseline-clock.exe collect-teacher C:\\AMI\\runs\\p15\\legacy-clock\\ggd-v3.json C:\\AMI\\runs\\p15\\legacy-clock\\ggd-v3-baseline",
+      "argv": [
+        "C:/AMI/runs/p15/baseline-clock.exe",
+        "collect-teacher",
+        "C:\\AMI\\runs\\p15\\legacy-clock\\ggd-v3.json",
+        "C:\\AMI\\runs\\p15\\legacy-clock\\ggd-v3-baseline"
+      ],
+      "cwd": "C:\\AMI-wt\\P15",
+      "stage": "ggd-v3-baseline",
+      "pid": 25016,
+      "exit_code": 0,
+      "elapsed_minutes": 0.3764900499993625
+    },
+    {
+      "command": "C:/AMI/runs/p15/candidate-clock.exe collect-teacher C:\\AMI\\runs\\p15\\legacy-clock\\ggd-v3.json C:\\AMI\\runs\\p15\\legacy-clock\\ggd-v3-candidate",
+      "argv": [
+        "C:/AMI/runs/p15/candidate-clock.exe",
+        "collect-teacher",
+        "C:\\AMI\\runs\\p15\\legacy-clock\\ggd-v3.json",
+        "C:\\AMI\\runs\\p15\\legacy-clock\\ggd-v3-candidate"
+      ],
+      "cwd": "C:\\AMI-wt\\P15",
+      "stage": "ggd-v3-candidate",
+      "pid": 3760,
+      "exit_code": 0,
+      "elapsed_minutes": 0.3802194150009503
+    },
+    {
+      "command": "C:/AMI/runs/p15/baseline-clock.exe collect-teacher C:\\AMI\\runs\\p15\\legacy-clock\\ggd-v4.json C:\\AMI\\runs\\p15\\legacy-clock\\ggd-v4-baseline",
+      "argv": [
+        "C:/AMI/runs/p15/baseline-clock.exe",
+        "collect-teacher",
+        "C:\\AMI\\runs\\p15\\legacy-clock\\ggd-v4.json",
+        "C:\\AMI\\runs\\p15\\legacy-clock\\ggd-v4-baseline"
+      ],
+      "cwd": "C:\\AMI-wt\\P15",
+      "stage": "ggd-v4-baseline",
+      "pid": 15140,
+      "exit_code": 0,
+      "elapsed_minutes": 0.5634507983340882
+    },
+    {
+      "command": "C:/AMI/runs/p15/candidate-clock.exe collect-teacher C:\\AMI\\runs\\p15\\legacy-clock\\ggd-v4.json C:\\AMI\\runs\\p15\\legacy-clock\\ggd-v4-candidate",
+      "argv": [
+        "C:/AMI/runs/p15/candidate-clock.exe",
+        "collect-teacher",
+        "C:\\AMI\\runs\\p15\\legacy-clock\\ggd-v4.json",
+        "C:\\AMI\\runs\\p15\\legacy-clock\\ggd-v4-candidate"
+      ],
+      "cwd": "C:\\AMI-wt\\P15",
+      "stage": "ggd-v4-candidate",
+      "pid": 32228,
+      "exit_code": 0,
+      "elapsed_minutes": 0.541122903333356
+    },
+    {
+      "command": "C:/AMI/runs/p15/baseline-clock.exe evaluate-ggd C:/AMI/runs/gpu/dota-calibration-003/engine.json C:/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003/weights C:\\AMI\\runs\\p15\\legacy-clock\\GGD0-baseline --matches 2 --seconds 15 --seed 20261103 --sampling --teacher-version v9",
+      "argv": [
+        "C:/AMI/runs/p15/baseline-clock.exe",
+        "evaluate-ggd",
+        "C:/AMI/runs/gpu/dota-calibration-003/engine.json",
+        "C:/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003/weights",
+        "C:\\AMI\\runs\\p15\\legacy-clock\\GGD0-baseline",
+        "--matches",
+        "2",
+        "--seconds",
+        "15",
+        "--seed",
+        "20261103",
+        "--sampling",
+        "--teacher-version",
+        "v9"
+      ],
+      "cwd": "C:\\AMI-wt\\P15",
+      "stage": "GGD0-baseline",
+      "pid": 8000,
+      "exit_code": 0,
+      "elapsed_minutes": 0.531734094999653
+    },
+    {
+      "command": "C:/AMI/runs/p15/candidate-clock.exe evaluate-ggd C:/AMI/runs/gpu/dota-calibration-003/engine.json C:/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003/weights C:\\AMI\\runs\\p15\\legacy-clock\\GGD0-candidate --matches 2 --seconds 15 --seed 20261103 --sampling --teacher-version v9",
+      "argv": [
+        "C:/AMI/runs/p15/candidate-clock.exe",
+        "evaluate-ggd",
+        "C:/AMI/runs/gpu/dota-calibration-003/engine.json",
+        "C:/AMI/runs/gpu/ggd0-il-20261102-202637/GGD0-resumed/epoch-003/weights",
+        "C:\\AMI\\runs\\p15\\legacy-clock\\GGD0-candidate",
+        "--matches",
+        "2",
+        "--seconds",
+        "15",
+        "--seed",
+        "20261103",
+        "--sampling",
+        "--teacher-version",
+        "v9"
+      ],
+      "cwd": "C:\\AMI-wt\\P15",
+      "stage": "GGD0-candidate",
+      "pid": 28400,
+      "exit_code": 0,
+      "elapsed_minutes": 0.5378966933329745
+    },
+    {
+      "command": "C:/AMI/runs/p15/baseline-clock.exe evaluate-ggd C:/AMI/runs/gpu/dota-calibration-003/engine.json C:/AMI/runs/p02/experiment/train-round-2-attempt-1/export/weights C:\\AMI\\runs\\p15\\legacy-clock\\M2-baseline --matches 2 --seconds 15 --seed 20261103 --sampling --teacher-version v9",
+      "argv": [
+        "C:/AMI/runs/p15/baseline-clock.exe",
+        "evaluate-ggd",
+        "C:/AMI/runs/gpu/dota-calibration-003/engine.json",
+        "C:/AMI/runs/p02/experiment/train-round-2-attempt-1/export/weights",
+        "C:\\AMI\\runs\\p15\\legacy-clock\\M2-baseline",
+        "--matches",
+        "2",
+        "--seconds",
+        "15",
+        "--seed",
+        "20261103",
+        "--sampling",
+        "--teacher-version",
+        "v9"
+      ],
+      "cwd": "C:\\AMI-wt\\P15",
+      "stage": "M2-baseline",
+      "pid": 24276,
+      "exit_code": 0,
+      "elapsed_minutes": 0.4685363966661195
+    },
+    {
+      "command": "C:/AMI/runs/p15/candidate-clock.exe evaluate-ggd C:/AMI/runs/gpu/dota-calibration-003/engine.json C:/AMI/runs/p02/experiment/train-round-2-attempt-1/export/weights C:\\AMI\\runs\\p15\\legacy-clock\\M2-candidate --matches 2 --seconds 15 --seed 20261103 --sampling --teacher-version v9",
+      "argv": [
+        "C:/AMI/runs/p15/candidate-clock.exe",
+        "evaluate-ggd",
+        "C:/AMI/runs/gpu/dota-calibration-003/engine.json",
+        "C:/AMI/runs/p02/experiment/train-round-2-attempt-1/export/weights",
+        "C:\\AMI\\runs\\p15\\legacy-clock\\M2-candidate",
+        "--matches",
+        "2",
+        "--seconds",
+        "15",
+        "--seed",
+        "20261103",
+        "--sampling",
+        "--teacher-version",
+        "v9"
+      ],
+      "cwd": "C:\\AMI-wt\\P15",
+      "stage": "M2-candidate",
+      "pid": 34724,
+      "exit_code": 0,
+      "elapsed_minutes": 0.47029207333301504
+    },
+    {
+      "command": "C:/AMI/runs/p15/baseline-clock.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:/AMI/runs/p09/ZOg/epoch-003/weights C:\\AMI\\runs\\p15\\legacy-clock\\ZOg-baseline --matches 2 --seconds 15 --seed 20261103 --sampling --teacher-version v10",
+      "argv": [
+        "C:/AMI/runs/p15/baseline-clock.exe",
+        "evaluate-ggd",
+        "C:/AMI/runs/p07/dota-calibration-005/engine.json",
+        "C:/AMI/runs/p09/ZOg/epoch-003/weights",
+        "C:\\AMI\\runs\\p15\\legacy-clock\\ZOg-baseline",
+        "--matches",
+        "2",
+        "--seconds",
+        "15",
+        "--seed",
+        "20261103",
+        "--sampling",
+        "--teacher-version",
+        "v10"
+      ],
+      "cwd": "C:\\AMI-wt\\P15",
+      "stage": "ZOg-baseline",
+      "pid": 8212,
+      "exit_code": 0,
+      "elapsed_minutes": 0.5030591883327967
+    },
+    {
+      "command": "C:/AMI/runs/p15/candidate-clock.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:/AMI/runs/p09/ZOg/epoch-003/weights C:\\AMI\\runs\\p15\\legacy-clock\\ZOg-candidate --matches 2 --seconds 15 --seed 20261103 --sampling --teacher-version v10",
+      "argv": [
+        "C:/AMI/runs/p15/candidate-clock.exe",
+        "evaluate-ggd",
+        "C:/AMI/runs/p07/dota-calibration-005/engine.json",
+        "C:/AMI/runs/p09/ZOg/epoch-003/weights",
+        "C:\\AMI\\runs\\p15\\legacy-clock\\ZOg-candidate",
+        "--matches",
+        "2",
+        "--seconds",
+        "15",
+        "--seed",
+        "20261103",
+        "--sampling",
+        "--teacher-version",
+        "v10"
+      ],
+      "cwd": "C:\\AMI-wt\\P15",
+      "stage": "ZOg-candidate",
+      "pid": 24296,
+      "exit_code": 0,
+      "elapsed_minutes": 0.5003514733340125
+    },
+    {
+      "command": "C:/AMI/runs/p15/baseline-clock.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:/AMI/runs/p09/P09c/continue90/rl-continue-001/checkpoint-000470/weights C:\\AMI\\runs\\p15\\legacy-clock\\000470-baseline --matches 2 --seconds 15 --seed 20261103 --sampling --teacher-version v10",
+      "argv": [
+        "C:/AMI/runs/p15/baseline-clock.exe",
+        "evaluate-ggd",
+        "C:/AMI/runs/p07/dota-calibration-005/engine.json",
+        "C:/AMI/runs/p09/P09c/continue90/rl-continue-001/checkpoint-000470/weights",
+        "C:\\AMI\\runs\\p15\\legacy-clock\\000470-baseline",
+        "--matches",
+        "2",
+        "--seconds",
+        "15",
+        "--seed",
+        "20261103",
+        "--sampling",
+        "--teacher-version",
+        "v10"
+      ],
+      "cwd": "C:\\AMI-wt\\P15",
+      "stage": "000470-baseline",
+      "pid": 14544,
+      "exit_code": 0,
+      "elapsed_minutes": 0.5003008350012048
+    },
+    {
+      "command": "C:/AMI/runs/p15/candidate-clock.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:/AMI/runs/p09/P09c/continue90/rl-continue-001/checkpoint-000470/weights C:\\AMI\\runs\\p15\\legacy-clock\\000470-candidate --matches 2 --seconds 15 --seed 20261103 --sampling --teacher-version v10",
+      "argv": [
+        "C:/AMI/runs/p15/candidate-clock.exe",
+        "evaluate-ggd",
+        "C:/AMI/runs/p07/dota-calibration-005/engine.json",
+        "C:/AMI/runs/p09/P09c/continue90/rl-continue-001/checkpoint-000470/weights",
+        "C:\\AMI\\runs\\p15\\legacy-clock\\000470-candidate",
+        "--matches",
+        "2",
+        "--seconds",
+        "15",
+        "--seed",
+        "20261103",
+        "--sampling",
+        "--teacher-version",
+        "v10"
+      ],
+      "cwd": "C:\\AMI-wt\\P15",
+      "stage": "000470-candidate",
+      "pid": 27628,
+      "exit_code": 0,
+      "elapsed_minutes": 0.49780282833380624
+    },
+    {
+      "command": "C:/AMI/runs/p15/baseline-clock.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:/AMI/runs/p11/train-001/checkpoint-000644/weights C:\\AMI\\runs\\p15\\legacy-clock\\000644-baseline --matches 2 --seconds 15 --seed 20261103 --sampling --teacher-version v10",
+      "argv": [
+        "C:/AMI/runs/p15/baseline-clock.exe",
+        "evaluate-ggd",
+        "C:/AMI/runs/p07/dota-calibration-005/engine.json",
+        "C:/AMI/runs/p11/train-001/checkpoint-000644/weights",
+        "C:\\AMI\\runs\\p15\\legacy-clock\\000644-baseline",
+        "--matches",
+        "2",
+        "--seconds",
+        "15",
+        "--seed",
+        "20261103",
+        "--sampling",
+        "--teacher-version",
+        "v10"
+      ],
+      "cwd": "C:\\AMI-wt\\P15",
+      "stage": "000644-baseline",
+      "pid": 532,
+      "exit_code": 0,
+      "elapsed_minutes": 0.5134361583332065
+    },
+    {
+      "command": "C:/AMI/runs/p15/candidate-clock.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:/AMI/runs/p11/train-001/checkpoint-000644/weights C:\\AMI\\runs\\p15\\legacy-clock\\000644-candidate --matches 2 --seconds 15 --seed 20261103 --sampling --teacher-version v10",
+      "argv": [
+        "C:/AMI/runs/p15/candidate-clock.exe",
+        "evaluate-ggd",
+        "C:/AMI/runs/p07/dota-calibration-005/engine.json",
+        "C:/AMI/runs/p11/train-001/checkpoint-000644/weights",
+        "C:\\AMI\\runs\\p15\\legacy-clock\\000644-candidate",
+        "--matches",
+        "2",
+        "--seconds",
+        "15",
+        "--seed",
+        "20261103",
+        "--sampling",
+        "--teacher-version",
+        "v10"
+      ],
+      "cwd": "C:\\AMI-wt\\P15",
+      "stage": "000644-candidate",
+      "pid": 13864,
+      "exit_code": 0,
+      "elapsed_minutes": 0.5157617433326475
+    }
+  ],
+  "baseline_sha256": "315a2e4b0775be90c8a208087006100f825d671948086cd76c2e8f81419946e6",
+  "candidate_sha256": "9cf3d09c2e7821f75bc8915b7f14d10aa0b340ec7a05ccdcb9622f5a4f8eb488"
+}

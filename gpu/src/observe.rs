@@ -395,7 +395,8 @@ impl World {
         let counter=metadata.clone().slice([0..self.matches,6..7]);
         let period=if let Some(origin)=origin {
             let ticks=metadata.slice([0..self.matches,0..1])-(origin*30.).round();
-            let group=(ticks.clone()/512.).floor();let prior=((ticks-4.)/512.).floor();
+            let interval=(128*self.engine.decision_ticks)as f32;
+            let group=(ticks.clone()/interval).floor();let prior=((ticks-self.engine.decision_ticks as f32)/interval).floor();
             (group.not_equal(prior).float()+counter.clone().equal_elem(0).float()).clamp(0.,1.)
         }else{counter.clone().remainder_scalar(128).equal_elem(0).float()};
         let actors=tensor::<1>(self.state.clone()).reshape([self.matches,UNITS,STRIDE]).slice([0..self.matches,0..2,0..STRIDE]).reshape([self.matches*2,STRIDE]);

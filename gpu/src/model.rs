@@ -21,10 +21,10 @@ pub struct Observation {
 #[derive(Module, Debug)]
 pub struct Mlp { pub first: Linear, pub second: Linear }
 impl Mlp {
-    fn new(i: usize, h: usize, o: usize, d: &Device) -> Self {
+    pub(crate) fn new(i: usize, h: usize, o: usize, d: &Device) -> Self {
         Self { first: LinearConfig::new(i,h).init(d), second: LinearConfig::new(h,o).init(d) }
     }
-    fn forward<const D: usize>(&self, x: Tensor<D>) -> Tensor<D> {
+    pub(crate) fn forward<const D: usize>(&self, x: Tensor<D>) -> Tensor<D> {
         activation::relu(self.second.forward(activation::relu(self.first.forward(x))))
     }
 }
@@ -34,7 +34,7 @@ impl Mlp {
 #[derive(Module, Debug)]
 pub struct Memory { pub input: Linear, pub hidden: Linear }
 impl Memory {
-    fn new(d: &Device) -> Self {
+    pub(crate) fn new(d: &Device) -> Self {
         Self { input: LinearConfig::new(256,1024).init(d), hidden: LinearConfig::new(256,1024).init(d) }
     }
     pub fn step(&self, x: Tensor<2>, h: Tensor<2>, c: Tensor<2>) -> (Tensor<2>,Tensor<2>) {

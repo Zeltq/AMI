@@ -37,7 +37,7 @@ pub fn reset_teacher_cache(t:&crate::scripted_teacher::Teacher,selected:&[bool],
 pub fn reset(w:&World,t:&crate::scripted_teacher::Teacher,metrics:&crate::ggd_metrics::Metrics,selected:&[bool])->Tensor<1,Bool>{
     assert_eq!(selected.len(),w.matches);let mask=primitive(Tensor::<1>::from_data(TensorData::new(selected.iter().map(|x|if *x{1f32}else{0.}).collect::<Vec<_>>(),[w.matches]),&w.device));
     reset_state::launch(&w.state.client,CubeCount::Static(w.matches.div_ceil(32)as u32,1,1),CubeDim::new_1d(32),argument(&w.state),argument(&w.meta),argument(&w.prototypes),argument(&mask),w.matches,w.engine.pre_game_seconds);
-    for data in [&w.shots,&w.shot_hits,&w.commands,&w.teacher_combat,&w.collision_grid,&w.rewards,&w.terminals,&t.memory,&t.forecasts,&t.audit,&metrics.buffer]{fill(data,&mask,w.matches,0.);}
+    for data in [&w.shots,&w.shot_hits,&w.commands,&w.teacher_combat,&w.chio_events,&w.collision_grid,&w.rewards,&w.terminals,&t.memory,&t.forecasts,&t.audit,&metrics.buffer]{fill(data,&mask,w.matches,0.);}
     fill(&w.tree_alive,&mask,w.matches,1.);
     metrics.sample(w,t);
     tensor::<1>(mask).greater_elem(0.).unsqueeze_dim::<2>(1).expand([w.matches,2]).reshape([w.matches*2])

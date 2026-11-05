@@ -116,3 +116,9 @@ pub fn summary(games:&[serde_json::Value])->serde_json::Value{
     }}
     serde_json::json!({"games":games.len(),"native_completed":games.iter().filter(|g|g["native_terminal"]==true).count(),"all_lane_creeps":{"numerator":sum("credited"),"denominator":sum("lane_deaths")},"within_attack_distance":{"numerator":sum("accessible_credited"),"denominator":sum("accessible_deaths")},"sides":sides,"action_names":["continue","move","move_direct","attack","stop","hold","raze_near","raze_mid","raze_far","requiem","item"],"spell_names":["raze_near","raze_mid","raze_far","requiem"],"time_origin":"Dota game seconds; negative values are pregame","position_sampling_seconds":4.0/30.0,"first_death_precision_seconds":1.0/30.0,"minute_snapshots":"latest observed state in each minute bin, plus pregame; early terminal games retain only reached bins"})
 }
+
+pub fn summary_with_clock(games:&[serde_json::Value],decision_ticks:usize)->serde_json::Value{
+    let mut result=summary(games);
+    result["position_sampling_seconds"]=serde_json::json!(decision_ticks as f64/30.0);
+    result
+}

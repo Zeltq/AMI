@@ -15,7 +15,7 @@ impl Trace {
             argument(&w.state),argument(&w.shots),argument(&w.meta),argument(&w.tree_alive),argument(&signals),argument(&self.buffer),step,self.matches,self.width,w.tree_count);
     }
     pub fn header(&self,w:&World,cycle:u64)->serde_json::Value {
-        serde_json::json!({"format":2,"cycle":cycle,"frames":HORIZON,"matches":self.matches,"width":self.width,"decision_ticks":4,
+        serde_json::json!({"format":2,"cycle":cycle,"frames":HORIZON,"matches":self.matches,"width":self.width,"decision_ticks":w.engine.decision_ticks,
             "tick_hz":30,"unit_capacity":UNITS,"unit_fields":UNIT_FIELDS,"projectile_capacity":SHOTS,"projectile_fields":PROJECTILE_FIELDS,
             "tree_count":w.tree_count,"signal_fields":crate::experience::SIGNALS,"calibration":w.engine.calibration,"game_build":w.engine.build})
     }

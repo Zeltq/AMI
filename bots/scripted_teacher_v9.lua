@@ -1,8 +1,8 @@
 -- CPU port of gpu/src/scripted_teacher.rs v9. No Dota calls in this module.
--- Source SHA256: 55b7f4ff5baef7aea24e706aaaca3e83fa049adca0bd63cee4203c6c23e08312
+-- Source SHA256: f40649b7bbb9842f5c0f706ce22941edf57e6d5aaa27e6ff53e49497bf6aaf8e
 -- The live adapter supplies observed/inferred attack phases, not engine internals.
 local M={version="gpu-teacher-v9-lua-1",
- source_sha256="55b7f4ff5baef7aea24e706aaaca3e83fa049adca0bd63cee4203c6c23e08312"}
+ source_sha256="f40649b7bbb9842f5c0f706ce22941edf57e6d5aaa27e6ff53e49497bf6aaf8e"}
 local pi=math.pi
 local atan2=math.atan2 or function(y,x) return math.atan(y,x) end
 local function clamp(x,a,b) return math.max(a,math.min(b,x)) end

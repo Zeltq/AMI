@@ -74,7 +74,7 @@ fn observation(w:&World,teacher:&crate::scripted_teacher::Teacher,observer:&crat
 /// Stagger initial activation on recurrent boundaries, then independently reset
 /// terminal arenas at boundaries. Only native simulation steps create the states.
 fn disperse(w:&World,t:&crate::scripted_teacher::Teacher,o:&crate::combat_observe::CombatObserver,enemy:&crate::enemy_observe::Observer,controller:&crate::teacher_v10::Controller,metrics:&crate::ggd_metrics::Metrics,rng:&Sampler,sampler:&Sampler,actor:&Policy,manifest:&serde_json::Value,root:&Path,seed:u32,sides:&mut [usize],pool:&mut Option<crate::ggd_pool::Pool>)->Result<(Tensor<2>,serde_json::Value)>{
-    let d=&w.device;let n=w.matches*2;let blocks=((w.engine.pre_game_seconds+600.)*7.5/HORIZON as f32).floor()as usize;
+    let d=&w.device;let n=w.matches*2;let blocks=((w.engine.pre_game_seconds+600.)*w.decision_hz()/HORIZON as f32).floor()as usize;
     let delays=crate::ggd_arenas::delays(w.matches,blocks,seed);let mut active=vec![false;w.matches];let started=Instant::now();
     let mut previous=crate::observe::initial_previous(n,d);let mut decisions=Tensor::<1>::zeros([1],d);let mut completed=0;
     crate::ggd_arenas::hold_all(t,w.matches);
@@ -295,7 +295,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
     let mut history=std::fs::OpenOptions::new().create_new(true).write(true).open(root.join("history.jsonl"))?;
     let mut episode_file=std::fs::OpenOptions::new().create_new(true).write(true).open(root.join("episodes.jsonl"))?;
     'training:loop {
-        let w=World::load(&engine,cfg.matches,&d)?;let teacher=crate::scripted_teacher::Teacher::new(&w);let observer=crate::combat_observe::CombatObserver::new(&w);let enemy=crate::enemy_observe::Observer::new(&w);let controller=crate::teacher_v10::Controller::new(&w,cfg.teacher_version,cfg.teacher_version,false);
+        let w=World::load(&engine,cfg.matches,&d)?;w.validate_profile(profile)?;let teacher=crate::scripted_teacher::Teacher::new(&w);let observer=crate::combat_observe::CombatObserver::new(&w);let enemy=crate::enemy_observe::Observer::new(&w);let controller=crate::teacher_v10::Controller::new(&w,cfg.teacher_version,cfg.teacher_version,false);
         let mut pool=if pool_paths.is_empty(){None}else{Some(crate::ggd_pool::Pool::new(&w,&teacher,pool_paths.clone(),cfg.seed.wrapping_add(batch*1009+31))?)};
         let rng=Sampler::new(cfg.matches,cfg.seed.wrapping_add(batch*1009),&d);let sampler=Sampler::new(n,cfg.seed.wrapping_add(batch*1009+1),&d);
         let metrics=crate::ggd_metrics::Metrics::new(&w);metrics.sample(&w,&teacher);
@@ -307,7 +307,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
         let mut events=event_reward.then(||crate::event_reward::Tracker::new(&w,&teacher));
         let mut prior=counts(&w,&teacher);let mut totals=prior.clone().slice([0..n,0..COMPONENTS])*rows.clone().float().unsqueeze_dim::<2>(1);
         if cfg.desynchronize {let initial_deaths=scalar(-totals.clone().slice([0..n,4..5]).reshape([n]).sum()/10.)as u64;pregame_deaths+=initial_deaths;prefix_pregame_deaths+=initial_deaths;}
-        let limit=((w.engine.pre_game_seconds+600.)*7.5).ceil()as usize+2;
+        let limit=((w.engine.pre_game_seconds+600.)*w.decision_hz()).ceil()as usize+2;
         for _chunk in 0..if cfg.desynchronize{usize::MAX}else{limit.div_ceil(HORIZON)} {
             let clock=Instant::now();
             if let Some(p)=&mut pool{p.begin_block(&w,&sides);}

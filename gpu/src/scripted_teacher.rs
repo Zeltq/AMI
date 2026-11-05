@@ -313,7 +313,7 @@ impl Teacher {
     }
     pub fn record(&self,w:&World,deadline:f32){
         progress::launch(&w.state.client,CubeCount::Static(w.matches.div_ceil(32)as u32,1,1),CubeDim::new_1d(32),
-            argument(&w.state),argument(&w.meta),argument(&self.memory),argument(&self.audit),w.matches,w.engine.pre_game_seconds,deadline);
+            argument(&w.state),argument(&w.meta),argument(&self.memory),argument(&self.audit),w.matches,w.engine.pre_game_seconds,deadline,w.engine.decision_ticks as f32/30.);
     }
     pub fn values(&self)->Vec<f32>{tensor::<1>(self.audit.clone()).into_data().try_to_vec::<f32>().unwrap()}
 }
@@ -358,7 +358,7 @@ pub fn death(state:&mut [f32],shots:&mut [f32],meta:&mut [f32],memory:&[f32],for
 }
 
 #[cube(launch)]
-fn progress(state:&[f32],meta:&[f32],memory:&[f32],audit:&mut [f32],matches:usize,pregame:f32,deadline:f32){
+fn progress(state:&[f32],meta:&[f32],memory:&[f32],audit:&mut [f32],matches:usize,pregame:f32,deadline:f32,decision_seconds:f32){
     let m=ABSOLUTE_POS;if m<matches {let r=m*AUDIT_FIELDS;let base=m*UNITS*STRIDE;let elapsed=meta[m*META]/30.0f32+pregame;
         if audit[r]==0.0f32 {
             for h in 0..2 {let p=base+h*STRIDE;let mem=(m*2+h)*MEMORY_FIELDS;let x=state[p+UNIT_X];let y=state[p+UNIT_Y];
@@ -366,7 +366,7 @@ fn progress(state:&[f32],meta:&[f32],memory:&[f32],audit:&mut [f32],matches:usiz
                 if audit[r+20+h]==0.0f32 && state[p+ACTIVE]>0.0f32 && x*x+y*y<4000000.0f32 && (x-y).abs()<1200.0f32 {audit[r+20+h]=elapsed+1.0f32;}
                 if audit[r+22+h]==0.0f32 && (state[p+ORDER]==1.0f32 || state[p+ORDER]==2.0f32) {audit[r+22+h]=elapsed+1.0f32;}
                 let dx=x-audit[r+28+h*2];let dy=y-audit[r+29+h*2];let gx=state[p+DEST_X]-x;let gy=state[p+DEST_Y]-y;
-                if state[p+ACTIVE]>0.0f32 && (state[p+ORDER]==1.0f32 || state[p+ORDER]==2.0f32) && gx*gx+gy*gy>1024.0f32 && dx*dx+dy*dy<1.0f32 {audit[r+26+h]+=4.0f32/30.0f32;}else{audit[r+26+h]=0.0f32;}
+                if state[p+ACTIVE]>0.0f32 && (state[p+ORDER]==1.0f32 || state[p+ORDER]==2.0f32) && gx*gx+gy*gy>1024.0f32 && dx*dx+dy*dy<1.0f32 {audit[r+26+h]+=decision_seconds;}else{audit[r+26+h]=0.0f32;}
                 audit[r+24+h]=audit[r+24+h].max(audit[r+26+h]);audit[r+28+h*2]=x;audit[r+29+h*2]=y;
                 audit[r+33+h]=state[p+DEATHS];audit[r+35+h]=memory[mem+9];audit[r+37+h]=memory[mem+13];
             }
@@ -401,7 +401,7 @@ pub fn run(engine:&Path,root:&Path,matches:usize,seconds:f32,seed:u32,wall_secon
     let frozen=crate::artifacts::freeze_environment(engine,root,false)?;
     let d=crate::runtime::device();let w=World::load(&frozen,matches,&d)?;let teacher=Teacher::new(&w);let rng=Sampler::new(matches,seed,&d);
     let started=Instant::now();let mut steps=0usize;let mut previous=observe::initial_previous(matches*2,&d);
-    let limit=((w.engine.pre_game_seconds+seconds)*7.5).ceil()as usize+2;
+    let limit=((w.engine.pre_game_seconds+seconds)*w.decision_hz()).ceil()as usize+2;
     let trace_buffer=if trace{Some(primitive(Tensor::<2>::zeros([limit,TRACE_WORDS],&d)))}else{None};
     for step in 0..limit {
         let obs=w.observe(previous.clone());let actions=teacher.actions(&w,&obs);
@@ -427,6 +427,7 @@ pub fn run(engine:&Path,root:&Path,matches:usize,seconds:f32,seed:u32,wall_secon
         crate::artifacts::atomic_json(&root.join("trace-layout.json"),&serde_json::json!({"steps":steps,"width":TRACE_WORDS,"meta":META,"units":TRACE_UNITS,"stride":STRIDE,"shots":SHOTS,"shot_fields":SHOT_FIELDS,"memory_fields":MEMORY_FIELDS,"forecast_fields":FORECAST_FIELDS,"order":["meta","state","shots","memory","forecasts","actions"],"phase":"after decision before enqueue"}))?;
     }
     let mut report=report(&values,matches,steps,wall,&w.fingerprint,w.engine.sf_projectile_animation.is_some());
+    report["clock"]["decision_ticks"]=serde_json::json!(w.engine.decision_ticks);
     report["total_wall_seconds_including_setup_and_trace_export"]=serde_json::json!(process_started.elapsed().as_secs_f64());
     crate::artifacts::atomic_json(&root.join("report.json"),&report)?;
     let examples:Vec<_>=values.chunks_exact(AUDIT_FIELDS).enumerate().flat_map(|(m,v)|{

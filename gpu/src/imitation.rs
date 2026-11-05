@@ -15,15 +15,16 @@ const MAGIC:&[u8;8]=b"GGDDEMO2";
 #[serde(default,deny_unknown_fields)]
 pub struct CollectConfig {
     pub telemetry:bool,pub teacher_version:crate::teacher_v10::Version,pub engine:String,pub games:usize,pub parallel_matches:usize,pub seconds:f32,pub seed:u32,pub max_blocks:Option<usize>,pub observation_profile:String,
+    #[serde(skip_serializing_if="Option::is_none")]pub zero_sum:Option<bool>,
 }
-impl Default for CollectConfig {fn default()->Self{Self{telemetry:false,teacher_version:crate::teacher_v10::Version::V9,engine:"runs/gpu/dota-calibration-003/engine.json".into(),games:1024,parallel_matches:100,seconds:600.,seed:20261102,max_blocks:None,observation_profile:"ggd-v2".into()}}}
+impl Default for CollectConfig {fn default()->Self{Self{telemetry:false,teacher_version:crate::teacher_v10::Version::V9,engine:"runs/gpu/dota-calibration-003/engine.json".into(),games:1024,parallel_matches:100,seconds:600.,seed:20261102,max_blocks:None,observation_profile:"ggd-v2".into(),zero_sum:None}}}
 /// Both sides of a game always share one split: 75% / 12.5% / 12.5%.
 pub fn split(game:usize)->&'static str {match game%8 {6=>"validation",7=>"test",_=>"train"}}
 
 #[derive(Clone,Serialize,Deserialize)]
 struct Header {format_version:usize,source:String,version:usize,actors:Vec<usize>,columns:Vec<i32>,buckets:[usize;3],horizon:usize,signal_fields:usize,observation_dtype:String}
 #[derive(Clone,Serialize,Deserialize)]
-struct Entry {file:String,sha256:String,bytes:u64,valid_frames:usize,attacks:usize,actors:Vec<usize>}
+pub(crate) struct Entry {pub file:String,pub sha256:String,pub bytes:u64,pub valid_frames:usize,pub attacks:usize,pub actors:Vec<usize>}
 #[derive(Serialize,Deserialize)]
 struct Dataset {family:String,observation_profile:String,teacher_sha256:String,source_sha256:String,config:CollectConfig,partial:bool,
     completed_matches:usize,elapsed_seconds:f64,files:Vec<Entry>,game_metrics:Vec<serde_json::Value>}
@@ -42,9 +43,9 @@ pub fn columns(pc:usize,pt:usize,pp:usize)->Vec<i32>{
 }
 
 struct Snapshot {name:String,header:Header,observations:CubeTensor,signals:CubeTensor}
-struct DemoWriter {source:String,sender:SyncSender<Snapshot>,worker:JoinHandle<Result<Vec<Entry>>>}
+pub(crate) struct DemoWriter {pub source:String,sender:SyncSender<Snapshot>,worker:JoinHandle<Result<Vec<Entry>>>}
 impl DemoWriter {
-    fn new(root:&Path)->Self {
+    pub(crate) fn new(root:&Path)->Self {
         let (sender,receiver)=sync_channel::<Snapshot>(2);let root=root.to_path_buf();
         let worker=std::thread::spawn(move||->Result<Vec<Entry>>{let mut entries=vec![];
             while let Ok(job)=receiver.recv(){
@@ -52,7 +53,7 @@ impl DemoWriter {
                 let values:Vec<f32>=sig.chunks_exact(4).map(|b|f32::from_le_bytes(b.try_into().unwrap())).collect();
                 let valid_frames=values.chunks_exact(SIGNALS).filter(|v|v[11]>0.5).count();
                 if valid_frames==0{continue;}
-                let attacks=values.chunks_exact(SIGNALS).filter(|v|v[11]>0.5&&v[0]==3.).count();
+                let attacks=values.chunks_exact(SIGNALS).filter(|v|v[11]>0.5&&(v[0]==3.||(job.header.version==5&&v[0]==2.))).count();
                 let file=root.join(&job.name);let temporary=file.with_extension("pending");
                 let mut zip=flate2::write::GzEncoder::new(std::fs::File::create(&temporary)?,flate2::Compression::fast());
                 let header=serde_json::to_vec(&job.header)?;zip.write_all(MAGIC)?;zip.write_all(&(header.len()as u32).to_le_bytes())?;zip.write_all(&header)?;
@@ -61,18 +62,18 @@ impl DemoWriter {
             }Ok(entries)
         });Self{source:"teacher-demo".into(),sender,worker}
     }
-    fn store(&self,experience:&Experience,game_offset:usize,block:usize)->Result<()> {
-        let (pc,pt,pp)=experience.buckets();let mut cols=columns(pc,pt,pp);let width=experience.observations[0].meta.shape()[2];let v4=width==crate::enemy_observe::WIDTH;let v3=width>=crate::timing_observe::WIDTH;
-        if v3 {cols.extend(crate::timing_observe::columns(pc));}if v4 {cols.extend(crate::enemy_observe::columns());}let d=device();
+    pub(crate) fn store(&self,experience:&Experience,game_offset:usize,block:usize)->Result<()> {
+        let (pc,pt,pp)=experience.buckets();let mut cols=columns(pc,pt,pp);let width=experience.observations[0].meta.shape()[2];let chio=width==crate::chio_observe::WIDTH;let v4=chio||width==crate::enemy_observe::WIDTH;let v3=width>=crate::timing_observe::WIDTH;
+        if v3 {cols.extend(crate::timing_observe::columns(pc));}if v4 {cols.extend(crate::enemy_observe::columns());}if chio {cols.extend(crate::chio_observe::columns(pc));}let d=device();
         let indices=Tensor::<1,Int>::from_data(TensorData::new(cols.clone(),[cols.len()]),&d);let mut actor_offset=0;
         for (index,shard) in experience.observations.iter().enumerate(){let n=shard.meta.shape()[0];
             let observations=primitive(tensor::<3>(shard.clone()).select(2,indices.clone()));
             let signals=primitive(experience.signals().slice([actor_offset..actor_offset+n,0..HORIZON,0..SIGNALS])+0.0f32);
-            let header=Header{format_version:3,source:self.source.clone(),version:if v4{4}else if v3{3}else{GGD_SPEC_VERSION},actors:(actor_offset..actor_offset+n).map(|a|game_offset*2+a).collect(),columns:cols.clone(),buckets:[pc,pt,pp],horizon:HORIZON,signal_fields:SIGNALS,observation_dtype:"f16_le".into()};
+            let header=Header{format_version:3,source:self.source.clone(),version:if chio{5}else if v4{4}else if v3{3}else{GGD_SPEC_VERSION},actors:(actor_offset..actor_offset+n).map(|a|game_offset*2+a).collect(),columns:cols.clone(),buckets:[pc,pt,pp],horizon:HORIZON,signal_fields:SIGNALS,observation_dtype:"f16_le".into()};
             self.sender.send(Snapshot{name:format!("block-{block:06}-shard-{index:03}.ggd.gz"),header,observations,signals})?;actor_offset+=n;
         }Ok(())
     }
-    fn finish(self)->Result<Vec<Entry>>{drop(self.sender);self.worker.join().map_err(|_|anyhow::anyhow!("demonstration writer panicked"))?}
+    pub(crate) fn finish(self)->Result<Vec<Entry>>{drop(self.sender);self.worker.join().map_err(|_|anyhow::anyhow!("demonstration writer panicked"))?}
 }
 
 #[cube(launch)]
@@ -89,6 +90,8 @@ pub fn collect_dagger(config:DaggerConfig,root:&Path)->Result<serde_json::Value>
     collect_impl(config.collection.clone(),root,Some(config))
 }
 fn collect_impl(config:CollectConfig,root:&Path,dagger:Option<DaggerConfig>)->Result<serde_json::Value>{
+    if config.observation_profile=="chio-v1" {return crate::chio_collect::collect(config,root,dagger);}
+    ensure!(config.zero_sum.is_none(),"zero_sum is a CHiO collection option");
     let v4=config.observation_profile=="ggd-v4";let v3=v4||config.observation_profile=="ggd-v3";ensure!(v3||config.observation_profile=="ggd-v2","unknown observation profile");
     ensure!(config.games>0&&config.parallel_matches>0&&config.seconds>0.&&config.seconds<=600.,"positive games/parallel count and 0 < seconds <= 600 required");
     std::fs::create_dir_all(root)?;ensure!(!root.join("config.json").exists(),"choose a fresh dataset directory");
@@ -105,7 +108,7 @@ fn collect_impl(config:CollectConfig,root:&Path,dagger:Option<DaggerConfig>)->Re
     let mut block=0usize;let mut game_metrics=vec![];let mut partial=false;let mut completed=0usize;
     'cohorts:for offset in (0..config.games).step_by(config.parallel_matches){
         if config.max_blocks.is_some_and(|limit|block>=limit){partial=true;break;}
-        let games=config.parallel_matches.min(config.games-offset);let n=games*2;let w=World::load(&engine,games,&d)?;
+        let games=config.parallel_matches.min(config.games-offset);let n=games*2;let w=World::load(&engine,games,&d)?;w.validate_profile(&config.observation_profile)?;
         let teacher=crate::scripted_teacher::Teacher::new(&w);let metrics=crate::ggd_metrics::Metrics::new(&w);metrics.sample(&w,&teacher);let observer=crate::combat_observe::CombatObserver::new(&w);let rng=Sampler::new(games,config.seed.wrapping_add(offset as u32*7919),&d);
         let controller=crate::teacher_v10::Controller::new(&w,config.teacher_version,config.teacher_version,false);
         let telemetry=config.telemetry.then(||crate::demo_telemetry::Recorder::new(&w));
@@ -115,7 +118,7 @@ fn collect_impl(config:CollectConfig,root:&Path,dagger:Option<DaggerConfig>)->Re
         let mut h=Tensor::<2>::zeros([n,256],&d);let mut c=h.clone();
         let enemy_observer=crate::enemy_observe::Observer::new(&w);
         let mut experience=if v4{crate::enemy_observe::experience(n,&d)}else if v3{Experience::new_ggd_v3(n,&d)}else{Experience::new_ggd(n,&d)};let mut previous=observe::initial_previous(n,&d);let mask=primitive(Tensor::<1>::zeros([n],&d));let mut stored=0usize;
-        let limit=((w.engine.pre_game_seconds+config.seconds)*7.5).ceil()as usize+2;
+        let limit=((w.engine.pre_game_seconds+config.seconds)*w.decision_hz()).ceil()as usize+2;
         for step in 0..limit {
             if step%HORIZON==0&&step>0 {experience.signals=primitive(Tensor::<3>::zeros([n,HORIZON,SIGNALS],&d));}
             let obs=w.observe(previous.clone());let mut extended=observer.enrich(&w,&obs);extended.packed=extended.packed.cast(DType::F16);
@@ -157,7 +160,7 @@ fn collect_impl(config:CollectConfig,root:&Path,dagger:Option<DaggerConfig>)->Re
                 if done==games {
                     let mut cohort=metrics.games(&values,w.engine.pre_game_seconds,offset,None);crate::demo_telemetry::enrich(&w,&mut cohort)?;
                     for mut game in cohort{completed+=usize::from(game["native_terminal"]==true);game["split"]=serde_json::json!(split(game["game"].as_u64().unwrap()as usize));game_metrics.push(game);}
-                    crate::artifacts::atomic_json(&root.join("teacher-summary.json"),&crate::ggd_metrics::summary(&game_metrics))?;
+                    crate::artifacts::atomic_json(&root.join("teacher-summary.json"),&crate::ggd_metrics::summary_with_clock(&game_metrics,w.engine.decision_ticks))?;
                     crate::artifacts::atomic_json(&root.join("game-metrics.json"),&game_metrics)?;break;
                 }
                 if config.max_blocks.is_some_and(|limit|block>=limit)||root.join("stop.json").exists(){partial=true;break 'cohorts;}
@@ -171,7 +174,7 @@ fn collect_impl(config:CollectConfig,root:&Path,dagger:Option<DaggerConfig>)->Re
     let elapsed=started.elapsed().as_secs_f64();
     let dataset=Dataset{family:"GGD".into(),observation_profile:config.observation_profile.clone(),teacher_sha256:teacher_sha,source_sha256:if v4{crate::runtime::bytes_sha256(concat!(include_str!("enemy_observe.rs"),include_str!("timing_observe.rs"),include_str!("combat_observe.rs"),include_str!("contract.rs")).as_bytes())}else if v3{crate::runtime::bytes_sha256(concat!(include_str!("timing_observe.rs"),include_str!("combat_observe.rs"),include_str!("contract.rs")).as_bytes())}else{crate::runtime::bytes_sha256(concat!(include_str!("combat_observe.rs"),include_str!("../src/contract.rs")).as_bytes())},config:config.clone(),partial,completed_matches:completed,elapsed_seconds:elapsed,files,game_metrics};
     crate::artifacts::atomic_json(&root.join("dataset.json"),&dataset)?;
-    crate::artifacts::atomic_json(&root.join("teacher-summary.json"),&crate::ggd_metrics::summary(&dataset.game_metrics))?;
+    crate::artifacts::atomic_json(&root.join("teacher-summary.json"),&crate::ggd_metrics::summary_with_clock(&dataset.game_metrics,if config.observation_profile=="chio-v1"{6}else{4}))?;
     let report=serde_json::json!({"family":"GGD","dataset":root,"games_requested":config.games,"games_recorded":dataset.game_metrics.len(),"native_completed":completed,"partial":partial,"blocks":block,"valid_decisions":frames,"learner_decisions":learner_frames,"disagreements":disagreements,"teacher_executed":teacher_executed,"dagger":dagger,"format_version":3,"signal_fields_extra":{"6":"teacher_executed","7":"learner_label_disagreement_all_six_fields","8":"learner_actor"},"attack_decisions":attacks,"compressed_bytes":bytes,"wall_seconds":elapsed,"decisions_per_second":frames as f64/elapsed,"train_games":(0..config.games).filter(|g|split(*g)=="train").count(),"validation_games":(0..config.games).filter(|g|split(*g)=="validation").count(),"test_games":(0..config.games).filter(|g|split(*g)=="test").count(),"cpu_boundary":"compact FP16 snapshots every 128 decisions; bounded writer, no dropped samples"});
     crate::artifacts::atomic_json(&root.join("report.json"),&report)?;Ok(report)
 }
@@ -202,9 +205,14 @@ pub fn evaluate_against(engine:&Path,weights:&Path,root:&Path,matches:usize,seco
     ensure!(!record_teacher||mode=="teacher","teacher recording requires --mode teacher");
     std::fs::create_dir_all(root)?;ensure!(!root.join("config.json").exists(),"choose a fresh evaluation directory");
     let manifest:serde_json::Value=serde_json::from_slice(&std::fs::read(weights.join("manifest.json"))?)?;
+    if manifest["observation_profile"]=="chio-v1" {
+        ensure!(!record_teacher && !zero_previous,"CHiO recording uses collect-teacher/collect-dagger; zero_previous is not a CHiO mode");
+        return crate::chio_eval::run(crate::chio_eval::Config{engine:engine.to_string_lossy().into_owned(),matches,seconds,seed,left:teacher_version,right:teacher_version,
+            weights:Some(weights.to_string_lossy().into_owned()),opponent_weights:opponent_weights.map(|p|p.to_string_lossy().into_owned()),mirror:mode=="mirror",sampling:!argmax,trace,..Default::default()},root);
+    }
     let zero_previous=zero_previous||manifest["zero_previous"].as_bool().unwrap_or(false);
     crate::artifacts::atomic_json(&root.join("config.json"),&serde_json::json!({"family":"GGD","weights":weights,"engine":engine,"matches":matches,"seconds":seconds,"mode":mode,"seed":seed,"argmax":argmax,"zero_previous":zero_previous,"trace":trace,"record_teacher":record_teacher,"teacher_version":teacher_version,"teacher_sha256":teacher_version.sha256()}))?;
-    let d=device();let w=World::load(engine,matches,&d)?;let policy=crate::bridge::import(weights,&d)?.valid();ensure!(policy.is_ggd(),"GGD weights required");
+    let d=device();let w=World::load(engine,matches,&d)?;w.validate_profile(manifest["observation_profile"].as_str().unwrap_or("ggd-v2"))?;let policy=crate::bridge::import(weights,&d)?.valid();ensure!(policy.is_ggd(),"GGD weights required");
     ensure!(opponent_weights.is_none()||(!record_teacher&&mode=="teacher"),"opponent weights require ordinary teacher mode");
     let opponent=opponent_weights.map(|p|crate::bridge::import(p,&d).map(|m|m.valid())).transpose()?;
     if let Some(other)=&opponent {ensure!(other.is_ggd_v4()==policy.is_ggd_v4()&&other.is_ggd_v3()==policy.is_ggd_v3(),"opponent profile mismatch");}
@@ -227,7 +235,7 @@ pub fn evaluate_against(engine:&Path,weights:&Path,root:&Path,matches:usize,seco
     let writer=if record_teacher{std::fs::create_dir_all(&recording)?;Some(DemoWriter::new(&recording))}else{None};
     let mut experience=if record_teacher{Some(Experience::new_ggd(matches*2,&d))}else{None};
     let mask=primitive(Tensor::<1>::zeros([matches*2],&d));let mut steps=0;
-    let limit=((w.engine.pre_game_seconds+seconds)*7.5).ceil()as usize+2;
+    let limit=((w.engine.pre_game_seconds+seconds)*w.decision_hz()).ceil()as usize+2;
     for step in 0..limit {
         if let Some(e)=experience.as_mut(){if step%HORIZON==0&&step>0{e.signals=primitive(Tensor::<3>::zeros([matches*2,HORIZON,SIGNALS],&d));}}
         if step%HORIZON==0 {h=Tensor::zeros([matches*2,256],&d);c=h.clone();oh=h.clone();oc=h.clone();}
@@ -266,6 +274,6 @@ pub fn evaluate_against(engine:&Path,weights:&Path,root:&Path,matches:usize,seco
     potential.enrich(&mut games)?;events.enrich(&mut games)?;
     if opponent.is_some(){for g in &mut games{let selected=g["game"].as_u64().unwrap()as usize%2;g["sides"][selected]["controller"]=serde_json::json!("GGD");g["sides"][1-selected]["controller"]=serde_json::json!("previous");}}
     ensure!(games.iter().all(|g|g["simulation_error"]==0.),"GPU simulation error");
-    let report=serde_json::json!({"family":"GGD","matches":matches,"mode":mode,"seed":seed,"complete":values.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).all(|v|v[0]>0.),"wall_seconds":started.elapsed().as_secs_f64(),"native_completed":values.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).filter(|v|v[2]>0.).count(),"estimate":"closed-loop simulator evaluation; not real Dota transfer","summary":crate::ggd_metrics::summary(&games),"per_match":games});
+    let report=serde_json::json!({"family":"GGD","matches":matches,"mode":mode,"seed":seed,"complete":values.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).all(|v|v[0]>0.),"wall_seconds":started.elapsed().as_secs_f64(),"native_completed":values.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).filter(|v|v[2]>0.).count(),"estimate":"closed-loop simulator evaluation; not real Dota transfer","summary":crate::ggd_metrics::summary_with_clock(&games,w.engine.decision_ticks),"per_match":games});
     crate::artifacts::atomic_json(&root.join("report.json"),&report)?;Ok(report)
 }

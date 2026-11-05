@@ -5,6 +5,12 @@ use std::{path::Path,time::Instant};
 use crate::{world::*,observe,runtime::{device,tensor},sampling::Sampler,scripted_teacher::{Teacher,AUDIT_FIELDS},teacher_v10::{Controller,Version},teacher_combat as combat};
 
 pub fn run(engine:&Path,root:&Path,matches:usize,seconds:f32,seed:u32,left:Version,right:Version,swap:bool,trace:bool)->Result<serde_json::Value>{
+    run_impl(engine,root,matches,seconds,seed,left,right,swap,trace,false)
+}
+pub fn run_with_chio_metrics(engine:&Path,root:&Path,matches:usize,seconds:f32,seed:u32,left:Version,right:Version,swap:bool,trace:bool)->Result<serde_json::Value>{
+    run_impl(engine,root,matches,seconds,seed,left,right,swap,trace,true)
+}
+fn run_impl(engine:&Path,root:&Path,matches:usize,seconds:f32,seed:u32,left:Version,right:Version,swap:bool,trace:bool,details:bool)->Result<serde_json::Value>{
     ensure!(matches>0 && seconds>0. && seconds<=600.,"positive matches and seconds <=600 required");
     ensure!(!swap || matches%2==0,"alternating sides requires even matches");
     if left==Version::V10 || right==Version::V10 {crate::teacher_v10::check_pin()?;}
@@ -13,15 +19,18 @@ pub fn run(engine:&Path,root:&Path,matches:usize,seconds:f32,seed:u32,left:Versi
     let frozen=crate::artifacts::freeze_environment(engine,root,false)?;
     let d=device();let w=World::load(&frozen,matches,&d)?;let t=Teacher::new(&w);let controller=Controller::new(&w,left,right,swap);let rng=Sampler::new(matches,seed,&d);
     let metrics=crate::ggd_metrics::Metrics::new(&w);metrics.sample(&w,&t);
+    let extra=details.then(||crate::chio_metrics::Metrics::new(&w));
     let mut potential=crate::potential_reward::Tracker::new(&w,&t,0.5);
     let mut events=crate::event_reward::Tracker::new(&w,&t);
     let trace=trace.then(||crate::trace::Trace::new(&w));
     let mut previous=observe::initial_previous(matches*2,&d);let started=Instant::now();let mut steps=0;
-    let limit=((w.engine.pre_game_seconds+seconds)*7.5).ceil()as usize+2;
+    let limit=((w.engine.pre_game_seconds+seconds)*w.decision_hz()).ceil()as usize+2;
     for step in 0..limit {
         let obs=w.observe(previous.clone());let actions=controller.actions(&t,&w,&obs);
         previous=obs.previous(actions.clone(),&w.bases,&w.state);metrics.commands(&w,&t,actions.clone(),&obs.refs);
+        let before=details.then(||crate::chio_reward::snapshot(&w));let valid=details.then(||crate::chio_collect::eligibility(&w,&t));
         let (reward,done)=w.advance_teacher(actions.clone(),&obs.refs,&rng,&t,true);t.record(&w,seconds);metrics.sample(&w,&t);
+        if let (Some(extra),Some(before),Some(valid))=(&extra,before,valid) {let after=crate::chio_reward::snapshot(&w);let reward=crate::chio_reward::transition(&before,&after,true,&d);extra.sample(&w,&after,&reward,valid);}
         let _=potential.step(&w,&t);let _=events.step(&w,&t);
         if let Some(trace)=&trace {
             let signals=Tensor::cat(vec![actions.float(),Tensor::zeros([matches*2,2],&d),reward.unsqueeze_dim::<2>(1),done.unsqueeze_dim::<2>(1),obs.reset.unsqueeze_dim::<2>(1),Tensor::ones([matches*2,2],&d)],1);
@@ -47,6 +56,7 @@ pub fn run(engine:&Path,root:&Path,matches:usize,seconds:f32,seed:u32,left:Versi
     }
     let audit=t.values();let mut games=metrics.games(&audit,w.engine.pre_game_seconds,0,None);
     crate::demo_telemetry::enrich(&w,&mut games)?;
+    if let Some(extra)=&extra {extra.enrich(&mut games)?;}
     potential.enrich(&mut games)?;events.enrich(&mut games)?;
     let events=tensor::<1>(w.teacher_combat.clone()).into_data().try_to_vec::<f32>()?;
     let meta=tensor::<1>(w.meta.clone()).into_data().try_to_vec::<f32>()?;
