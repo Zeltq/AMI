@@ -25,26 +25,30 @@ python scripts/install_play_bot.py --human-team 2
 `2` означает: вы Radiant, ZOg Dire. Для обратной стороны сначала восстановите
 папку командой из раздела 6, затем установите с `--human-team 3`.
 
-Установщик копирует всё прежнее содержимое в `C:\AMI\runs\p10\bots-backup-<время>`,
+Установщик копирует всё текущее содержимое в `C:\AMI\runs\p12\bots-backup-<время>`,
 проверяет SHA-256 каждого файла и только затем устанавливает скрипты. Сам каталог
 или junction `game\dota\scripts\vscripts\bots` сохраняется. Путь резервной копии
-и состояние установки записаны в `C:\AMI\runs\p10\installation.json`.
+и состояние установки записаны в `C:\AMI\runs\p12\installation.json`.
 
 Локальные зависимости: Windows Python с PyTorch/NumPy/protobuf, уже экспортированный
-`C:\AMI\runs\p10\ZOg-000470.pt` и `C:\AMI\runs\p10\nativecollect.exe`.
+`C:\AMI\runs\p12\ZOg-000644.pt` и существующий `C:\AMI\runs\p10\nativecollect.exe`.
 Если эти артефакты отсутствуют, из корня worktree:
 
 ```powershell
-python gpu/scripts/export_policy.py C:/AMI/runs/p09/P09c/continue90/rl-continue-001/checkpoint-000470/weights C:/AMI/runs/p10/ZOg-000470.pt
+New-Item -ItemType Directory -Force C:/AMI/runs/p12
+python gpu/scripts/export_policy.py C:/AMI/runs/p11/train-001/checkpoint-000644/weights C:/AMI/runs/p12/ZOg-000644.pt
 Push-Location tools/nativecollect
-go build -o C:/AMI/runs/p10/nativecollect.exe .
+go build -o C:/AMI/runs/p12/nativecollect.exe .
 Pop-Location
 ```
+
+При собственной сборке передавайте `--collector C:/AMI/runs/p12/nativecollect.exe`.
 
 ## 2. Параметры Steam
 
 Steam → Библиотека → Dota 2 → Свойства → Общие → Параметры запуска.
-Сохраните свою прежнюю строку отдельно и добавьте к ней:
+После P10 параметры уже настроены, менять их не требуется. Для первой настройки
+сохраните прежнюю строку отдельно и добавьте к ней:
 
 ```text
 -console -condebug -insecure -botworldstatetosocket_radiant 12250 -botworldstatetosocket_dire 12251 -botworldstatetosocket_frames 1 -botworldstatesocket_threaded
