@@ -102,7 +102,7 @@ def refresh():
                 if not any(Path(r['weights'])==Path(p) for r in pool):pool.append(dict(weights=p,training_minutes=read(Path(p).parent/'progress.json')['training_seconds']/60,manifest_sha256=sha(Path(p)/'manifest.json')))
     save(REPORT/'pool.json',pool)
     plan=read(RUN/'plan.json') if (RUN/'plan.json').exists() else {};done=read(RUN/'completion.json') if (RUN/'completion.json').exists() else {}
-    out=['# P11 — смешанный self-play ZOg','','## Результаты','',f'Стадия: {done.get("stage","работа продолжается")}. Sampling; окружение005, ggd-v4, event-v2; seed20261103/20261104, по64 матча (32 за сторону) на seed.']
+    out=['# P11 — смешанный self-play ZOg','','## Результаты','',f'Стадия: {"завершено" if done.get("stage")=="complete" else "работа продолжается"}. Sampling; окружение 005, ggd-v4, event-v2; seed 20261103/20261104, по 64 матча (32 за сторону) на seed.']
     totals=[r for r in rows if r['side']=='total' and r['perspective']==0]
     totals.sort(key=lambda r:1e9 if r['model']=='final' else 0 if r['model'].startswith('000470') else float(r['model'].removesuffix('h')))
     training=read(RUN/'training-result.json') if (RUN/'training-result.json').exists() else {}
@@ -120,6 +120,8 @@ def refresh():
     for r in totals:
         if r['matchup'].endswith((' vs v10',' vs v9')):continue
         n=r['matches'];out.append(f'| {r["matchup"]} | '+ ';'.join(f'{r[k]}/{n}' for k in ('wins','draws','losses'))+f' | {r["matches_with_death"]}/{n} | {r["lh"]+r["deny"]}/{r["lane_creeps_spawned"]} |')
+    if (REPORT/'final-reference.json').exists():
+        reference=read(REPORT/'final-reference.json');out+=['',f'Версия 2.35h сохранена на {reference["reference_training_seconds"]/60:.3f} мин PPO; отставание от финала — {reference["age_minutes"]:.3f} мин. [Точные пути](P11/final-reference.json).']
     out+=['','Обучающие матчи по часам, только полная награда:','','| Час | latest W/N | older W/N | v10 W/N | v9 W/N |','|---|---|---|---|---|']
     for hour in sorted(set(r['hour'] for r in hours)):
         cells=[]
@@ -146,13 +148,15 @@ def refresh():
     if (REPORT/'warmup-result.json').exists():
         warm=read(REPORT/'warmup-result.json');out.append(f'- Прогрев: {warm["result"]["blocks"]} блоков; EVpost0 last5={warm["result"]["warmup_ev_last5"]}; вне value head неизменны {warm["unchanged_policy_tensors"]}/55.')
     if (REPORT/'final-audit.json').exists():
-        audit=read(REPORT/'final-audit.json');out.append(f'- Итоговая сверка: {audit["new_evaluation_matches"]} новых матчей, {audit["series_128"]} серий по128, баланс сторон/sampling/seed проверены; ошибок симуляции0. Конечны {audit["finite_tensor_files"]} файлов тензоров, сохранены {audit["pool_snapshots"]} снимков пула; [аудит](P11/final-audit.json). Rust115/115; Python240/240 и4/4 целевых; последние правки отчёта проверены генерацией.')
+        audit=read(REPORT/'final-audit.json');out.append(f'- Итоговая сверка: {audit["new_evaluation_matches"]} новых матчей, {audit["series_128"]} серий по 128, баланс сторон/sampling/seed проверены; ошибок симуляции 0. Все значения в {audit["finite_tensor_files"]} файлах тензоров конечны, сохранены {audit["pool_snapshots"]} снимков пула; [аудит](P11/final-audit.json). Rust 115/115; Python 240/240 и 4/4 целевых; последние правки отчёта проверены генерацией.')
     out+=['','## Команды, которыми получены результаты','','Из C:/AMI-wt/P11; дословные дочерние команды, exit-коды и минуты только обучения/оценок: [commands.json](P11/commands.json). Встроенные оценки вызывают evaluate_against; параметры/веса/seed/SHA — [evaluations.json](P11/evaluations.json).','```text','C:/Python314/python.exe gpu/scripts/p11_run.py verify','C:/Python314/python.exe gpu/scripts/p11_run.py all','C:/Python314/python.exe gpu/scripts/p11_run.py launch','C:/Python314/python.exe gpu/scripts/p11_run.py adopt-warmup','python gpu/scripts/p11_report.py','```','Контроллер all заменён на launch до smoke/обучения для загрузки исправления дедлайна; завершённые проверки сохранены, потеря train-обновлений0.']
+    out.append('')
     for kind in ('training','evaluation'):
         selected=[r for r in commands if r['kind']==kind];out.append(f'- {kind}: внешние процессы {sum(r.get("minutes",0) for r in selected):.3f} мин; {sum(r.get("exit_code")==0 for r in selected)}/{len(selected)} завершились с exit0. Встроенные оценки учитываются отдельно в JSON серий.')
     if training:out.append(f'- Чистый PPO: {training["training_seconds"]/60:.3f} мин; встроенные оценки: {training["evaluation_seconds"]/60:.3f} мин; начальная рассинхронизация: {training["desynchronization"]["seconds"]/60:.3f} мин. Время training-процессов выше включает эти этапы и служебные операции.')
     if (REPORT/'final-audit.json').exists():out.append('- Итоговая проверка: `python gpu/scripts/p11_audit.py final`; команды тестов и проверенные версии: [Python](P11/python-verification.json), [Rust/бинарник](P11/verification.json).')
     out+=['','## Что не получилось или не проверено','', '- Первая сборка завершилась с ошибками API Burn; исправления отдельным fix-коммитом. Выполненные проверки и SHA бинарника — verification.json; незапущенные проверки не считаются пройденными.', '- Checkpoint сохраняет модель/Adam/время/пул, но не состояние арен; после сбоя новая рассинхронизация. Назначения случайны, доли фактических матчей отличаются от вероятностей; длительность матчей зависит от соперника.', '- Проверка на двух фиксированных seed симулятора; перенос в Dota и независимые повторения обучения не проверены. Историческая строка v9 до новой контрольной серии использует другой seed.']
+    out.append('- Хеши checkpoint зафиксированы уже после начала соответствующих оценок; предшествовавший интервал отдельно не проверен. Границы проверки указаны в evaluation-freeze-*.json.')
     if done.get('notes'):out+=['- '+v for v in done['notes']]
     out+=['','## Пути к локальным артефактам','', '- `C:/AMI/runs/p11/`: sf-duel-gpu.exe, smoke/, warmup-*/, train-*/, eval-*/, state.json, commands.json; исходный checkpoint `C:/AMI/runs/p09/P09c/continue90/rl-continue-001/checkpoint-000470`.', '- Все снимки пула с путями и SHA: [pool.json](P11/pool.json). Финальный checkpoint: '+str(done.get('checkpoint',training.get('latest','ещё не выбран')))+'.','', 'DONE P11' if done.get('stage')=='complete' else 'BLOCKED P11: выполнение продолжается']
     assert len(out)<=150,len(out)

@@ -21,5 +21,14 @@
     "gpu/scripts/p11_report.py": "adee533815f320e2cd973462b84ba9856c465a3b66fc6af213fcd4330bade302",
     "gpu/scripts/p11_audit.py": "b33d60bd1c84a9bd3d089b177e889be2319855372b5616d2814efff34a9779d3",
     "tests/test_p11.py": "bc4bcce8dcc9b285ab6144e78e7c6adbd067e6d673fd1ee995c61005bf37ef74"
-  }
+  },
+  "packet_audit_command": "python gpu/scripts/p11_audit.py final",
+  "packet_audit_passed": true,
+  "packet_audit_source_sha256": "da7e49fd475dfccb4f7ad0e87a86d9e875ea3f4df06f30c57f2dd52f01acf503",
+  "report_generation_command": "python gpu/scripts/p11_report.py",
+  "report_generation_source_sha256": "d5e4abd7192110759cd293f5c36b2396c01882da18d6f53cddaec55f0f562309",
+  "report_sha256": "5b14cbf2e8339f0ace3a8c96ee1493319c4270c44ccba3a99591301b99d15f43",
+  "report_lines": 104,
+  "packet_audit_results": "reports/P11/final-audit.json",
+  "packet_verified_utc": "2026-11-05T09:00:12.513317+00:00"
 }

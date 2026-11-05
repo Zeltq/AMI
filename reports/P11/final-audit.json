@@ -1,0 +1,45 @@
+{
+  "checked_utc": "2026-11-05T08:54:20.212256+00:00",
+  "new_evaluation_matches": 1408,
+  "series_128": 11,
+  "baseline_v9_matches": 128,
+  "balanced_sides": true,
+  "sampling": true,
+  "simulation_errors": 0,
+  "pool_snapshots": 7,
+  "finite_tensor_files": 472,
+  "immutable_checkpoints": [
+    {
+      "checkpoint": "C:\\AMI\\runs\\p11\\train-001\\checkpoint-000324",
+      "files": 62,
+      "scope": "Hash capture after the first evaluation seed had already started; not proof for the preceding evaluation interval. progress.json excluded because evaluation metadata is updated."
+    },
+    {
+      "checkpoint": "C:\\AMI\\runs\\p11\\train-001\\checkpoint-000603",
+      "files": 62,
+      "scope": "Hash capture after the first evaluation seed completed; not proof for the preceding evaluation interval. progress.json excluded because evaluation metadata is updated."
+    },
+    {
+      "checkpoint": "C:\\AMI\\runs\\p11\\train-001\\checkpoint-000644",
+      "files": 62,
+      "scope": "Capture after the first final-evaluation seed started; not proof for its earlier interval. progress.json excluded."
+    }
+  ],
+  "native_jobs_completed": 13,
+  "native_job_failures": 0,
+  "checkpoint": "C:\\AMI\\runs\\p11\\train-001\\checkpoint-000644",
+  "final_reference_age_minutes": 119.85736249833307,
+  "protected": {
+    "protected_files": 228,
+    "unchanged": 228,
+    "changed": [],
+    "training": [
+      {
+        "run": "train-001",
+        "blocks": 644,
+        "clip_and_anchor_checks": 644
+      }
+    ],
+    "scope": "Original weights, Adam, critic, teachers, physics and observation sources; PPO clipping and continuous anchor schedule. Evaluation reward and outcomes checked by p11_report."
+  }
+}
