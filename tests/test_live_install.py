@@ -51,6 +51,18 @@ class IsolatedContentTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, 'specific junction failure'):
                 isolated_content(self.worker, self.bots, self.game)
 
+    def test_runtime_exists_before_strict_resolution(self):
+        original=Path.resolve;seen=[]
+        def resolve(path,*args,**kwargs):
+            if path==self.worker:
+                seen.append(path)
+                self.assertTrue(path.is_dir())
+                self.assertTrue(kwargs.get('strict'))
+            return original(path,*args,**kwargs)
+        with patch.object(Path,'resolve',resolve),patch('sf_duel.live.install.subprocess.run'):
+            isolated_content(self.worker,self.bots,self.game)
+        self.assertEqual(seen,[self.worker])
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -8,7 +8,10 @@ from .game import DEFAULT_GAME
 
 
 def isolated_content(root,bot_source,game=DEFAULT_GAME):
-    root=Path(root).resolve();game=Path(game).resolve()
+    # Resolve only after creation: concurrent creation of missing parents on
+    # Windows can otherwise leave a \\?\ prefix that Source 2 cannot launch from.
+    root=Path(root).absolute();root.mkdir(parents=True,exist_ok=True)
+    root=root.resolve(strict=True);game=Path(game).resolve()
     source=game/'game/dota';content=root/'game/dota';runtime=root/'teacher_bots'
     content.mkdir(parents=True,exist_ok=True)
     links=[]
