@@ -1,0 +1,31 @@
+{
+  "recorded_utc": "2026-11-05T02:58:00Z",
+  "kind": "Subjective forecast requested by the user, recorded before scheduled P11 evaluation; not measured results or confidence intervals",
+  "observed": {
+    "main_ppo_blocks": 4,
+    "main_ppo_minutes": 1.44991488,
+    "decisions_per_second": 1110.7663552405688,
+    "last_old_policy_kl": 0.0005467185146699194,
+    "stop_kl": 0.02,
+    "last_rollout_kl_to_000470": 0.00732038076967001,
+    "last_clip_fraction": 0.0029991282735863933,
+    "warmup_blocks": 20,
+    "warmup_last5_ev_post0": 0.43679424524307253,
+    "smoke_unchanged_tensors": [59, 59],
+    "warmup_unchanged_policy_tensors": [55, 55],
+    "native_simulation_failures": 0
+  },
+  "expected_final_wins": {
+    "v10": {"point": 65, "rough_range": [55, 80], "matches": 128, "historical_wins": [55, 128]},
+    "v9": {"point": 55, "rough_range": [40, 70], "matches": 128, "historical_wins": [21, 64]},
+    "000470": {"point": 85, "rough_range": [70, 100], "matches": 128}
+  },
+  "expected_finish_moscow": "12:10–12:25 on 2026-11-05, conditional on observed process/evaluation rates and no substantial recovery delays",
+  "risks": [
+    "Only four PPO blocks observed; there is no measured P11 improvement yet",
+    "Completed training matches initially favor short games; do not infer v9 strength from early completed winners",
+    "Self-play may improve fighting more than farming, leaving LH600 losses against v9",
+    "A 128-match sample can fluctuate by roughly ten wins without a large underlying strength change",
+    "Regression remains possible; the rough ranges are subjective forecasts rather than statistical guarantees"
+  ]
+}
