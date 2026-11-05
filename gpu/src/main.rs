@@ -13,6 +13,7 @@ mod checks;
 mod experience;
 mod learner;
 mod ggd_ppo;
+mod ggd_pool;
 mod potential_reward;
 mod event_reward;
 mod ggd_arenas;
