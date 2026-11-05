@@ -13,6 +13,38 @@
     "command_literal": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P11\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p11\\target -- --test-threads=1",
     "artifact": null,
     "log": "C:\\AMI\\runs\\p11\\rust-full.log",
+    "exit_code": 0
+  },
+  {
+    "stage": "build",
+    "kind": "build",
+    "command_literal": "cargo build --release --locked --manifest-path C:\\AMI-wt\\P11\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p11\\target",
+    "artifact": null,
+    "log": "C:\\AMI\\runs\\p11\\build.log",
+    "exit_code": 0
+  },
+  {
+    "stage": "final-rust-targeted",
+    "kind": "verification",
+    "command_literal": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P11\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p11\\target p11_ -- --nocapture --test-threads=1",
+    "artifact": null,
+    "log": "C:\\AMI\\runs\\p11\\final-rust-targeted.log",
+    "exit_code": 0
+  },
+  {
+    "stage": "final-rust-full",
+    "kind": "verification",
+    "command_literal": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P11\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p11\\target -- --test-threads=1",
+    "artifact": null,
+    "log": "C:\\AMI\\runs\\p11\\final-rust-full.log",
+    "exit_code": 0
+  },
+  {
+    "stage": "final-build",
+    "kind": "build",
+    "command_literal": "cargo build --release --locked --manifest-path C:\\AMI-wt\\P11\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p11\\target",
+    "artifact": null,
+    "log": "C:\\AMI\\runs\\p11\\final-build.log",
     "exit_code": null
   }
 ]

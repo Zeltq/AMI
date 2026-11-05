@@ -415,7 +415,9 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
                     evaluation_seconds+=report["wall_seconds"].as_f64().unwrap_or(0.);
                 }last_evaluation=training_seconds;}
             }
-            if stop{break 'training;}
+            // A wall-clock stop can arrive while the synchronous evaluation runs.
+            // Do not collect another PPO block after that evaluation completes.
+            if stop||root.join("stop.json").exists(){break 'training;}
             if cfg.desynchronize {
                 let done:Vec<_>=audit.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).map(|x|x[0]>0.).collect();
                 if done.iter().any(|x|*x){

@@ -53,11 +53,11 @@ def publish(message):
     subprocess.run(['git','-c','core.sshCommand=C:/Windows/System32/OpenSSH/ssh.exe -o BatchMode=yes -o ConnectTimeout=15','push','-u','origin','agent/P11-selfplay'],cwd=ROOT,check=True,timeout=120)
 def base_config():
     return dict(engine=ENGINE,initial_weights=str(START/'weights'),bootstrap_checkpoint=str(START),matches=192,seed=20261105,minutes=10,max_blocks=0,batch_sequences=48,epochs=2,learning_rate=3e-5,critic_learning_rate=3e-4,warmup_blocks=60,warmup_min_blocks=20,entropy=.005,kl_start=.03,kl_end=.01,stop_kl=.02,checkpoint_minutes=10,evaluate=False,evaluation_minutes=120,skip_warmup=True,critic_only=False,desynchronize=True,verify_phase_histogram=True,teacher_version='v10',reward_mode='event-v2',mana_weight=.5,separate_critic_lr=True,resume_checkpoint=None,schedule_minutes=240,stop_at_minutes=0,kl_decay_start_minutes=0,begin_decay_on_resume=False,opponent_pool=POOL,snapshot_minutes=60)
-def verify():
+def verify(prefix=''):
     cmd=['cargo','test','--release','--locked','--manifest-path',ROOT/'gpu/Cargo.toml','--target-dir',TARGET]
-    run('rust-targeted','verification',cmd+['p11_','--','--nocapture','--test-threads=1'])
-    run('rust-full','verification',cmd+['--','--test-threads=1'])
-    run('build','build',['cargo','build','--release','--locked','--manifest-path',ROOT/'gpu/Cargo.toml','--target-dir',TARGET])
+    run(prefix+'rust-targeted','verification',cmd+['p11_','--','--nocapture','--test-threads=1'])
+    run(prefix+'rust-full','verification',cmd+['--','--test-threads=1'])
+    run(prefix+'build','build',['cargo','build','--release','--locked','--manifest-path',ROOT/'gpu/Cargo.toml','--target-dir',TARGET])
     import shutil
     shutil.copy2(TARGET/'release/sf-duel-gpu.exe',EXE)
     save(REPORT/'verification.json',dict(executable_sha256=sha(EXE),commands=[r for r in history() if r['kind'] in ('verification','build')]))
@@ -123,7 +123,7 @@ def train(warm):
             try:
                 publish('publish scheduled evaluation' if new else 'publish hourly training curves')
                 publications['reports']=reports;publications['last_minutes']=elapsed;save(state_path,publications)
-            except (OSError,ValueError,subprocess.SubprocessError) as exc:
+            except Exception as exc:
                 save(RUN/'publication-error.json',dict(error=str(exc),utc=now.isoformat()))
     while True:
         available=checkpoints()
@@ -145,10 +145,24 @@ def evaluate(model,label,other,opponent=None):
     registry_path=RUN/'evaluations.json';registry=read(registry_path) if registry_path.exists() else []
     for seed in (20261103,20261104):
         name=f'eval-{label}-vs-{other}-{seed}';folder=RUN/name
+        # A scheduled series can coincide with the final checkpoint. Reuse only
+        # identical weights, opponent, sampling and seed, and preserve provenance.
+        for candidate in sorted(RUN.glob('train-*/eval-*/report.json')):
+            r=read(candidate);cfg=read(candidate.parent/'config.json')
+            op=read(candidate.parent/'opponent.json')['weights'] if (candidate.parent/'opponent.json').exists() else None
+            same_op=(Path(op)==Path(opponent)/'weights') if op and opponent else (op is None and opponent is None and cfg['teacher_version']==('v9' if other=='v9' else 'v10'))
+            if r.get('complete') and r['seed']==seed and r['matches']==64 and not cfg['argmax'] and Path(cfg['weights'])==Path(model)/'weights' and same_op:
+                folder=candidate.parent;break
         if not (folder/'report.json').exists():
             cmd=[EXE,'evaluate-ggd',ENGINE,Path(model)/'weights',folder,'--mode','teacher','--matches',64,'--seconds',600,'--seed',seed,'--sampling','--teacher-version','v9' if other=='v9' else 'v10']
             if opponent:cmd+=['--opponent-weights',Path(opponent)/'weights']
-            run(name,'evaluation',cmd,folder/'report.json')
+            while True:
+                if (folder/'config.json').exists():
+                    folder=RUN/(name+f'-attempt-{len(list(RUN.glob(name+"*"))):03}');cmd[4]=folder
+                try:run(folder.name,'evaluation',cmd,folder/'report.json');break
+                except RuntimeError:
+                    publish('fix: retain failed evaluation and retry a fresh directory')
+                    if datetime.now(timezone.utc)>=datetime(2026,11,5,9,25,tzinfo=timezone.utc):raise
         entry=dict(model=label,opponent=other,report=str(folder/'report.json'))
         if entry not in registry:registry.append(entry);save(registry_path,registry)
     publish('publish '+label+' evaluation vs '+other)
@@ -180,6 +194,8 @@ def main():
             if mode=='verify':verify()
             elif mode=='smoke':smoke()
             elif mode=='overnight':overnight()
+            elif mode=='all':
+                verify('final-');smoke();overnight()
             else:raise ValueError(mode)
             status(stage=mode+' complete',pid=None,background_work_remaining=False)
         except Exception as e:status(stage=mode+' failed',pid=None,error=str(e),background_work_remaining=True);raise

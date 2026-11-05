@@ -127,6 +127,7 @@ def refresh():
     if (REPORT/'smoke-result.json').exists():
         smoke=read(REPORT/'smoke-result.json');out.append(f'- Smoke: 59/59 тензоров неизменны при lr0; завершённые матчи по типам: {smoke["completed_by_type"]}.')
     out.append('- `[P11] fix: clear routed teacher caches on arena reset`: отдельные memory/forecasts v9 очищаются вместе с reset арены; паритет проверяет также независимый reset одной арены.')
+    out.append('- `[P11] fix: honor deadline stops after scheduled evaluations`: stop во время оценки запрещает следующий PPO-блок; финал переиспользует завершённую серию только при совпадении checkpoint/соперника/seed/sampling, а неудачная оценка сохраняется и повторяется в новом каталоге.')
     if (REPORT/'warmup-result.json').exists():
         warm=read(REPORT/'warmup-result.json');out.append(f'- Прогрев: {warm["result"]["blocks"]} блоков; EVpost0 last5={warm["result"]["warmup_ev_last5"]}; вне value head неизменны {warm["unchanged_policy_tensors"]}/55.')
     out+=['','## Команды, которыми получены результаты','','Из C:/AMI-wt/P11; дословные дочерние команды, exit-коды и минуты только обучения/оценок: [commands.json](P11/commands.json). Встроенные оценки вызывают evaluate_against; параметры/веса/seed/SHA — [evaluations.json](P11/evaluations.json).','```text','C:/Python314/python.exe gpu/scripts/p11_run.py verify','C:/Python314/python.exe gpu/scripts/p11_run.py smoke','C:/Python314/python.exe gpu/scripts/p11_run.py overnight','C:/Python314/python.exe gpu/scripts/p11_report.py','```']
