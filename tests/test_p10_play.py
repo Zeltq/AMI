@@ -7,10 +7,69 @@ import unittest
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
 from install_play_bot import install,restore,inventory,bundle
-from play_vs_model import summarize
+from play_vs_model import summarize,ConsoleTail
 
 
 class PlayTests(unittest.TestCase):
+    def lobby_runtime(self):
+        from lupa.lua51 import LuaRuntime
+        lua=LuaRuntime(unpack_returned_tuples=True)
+        lua.execute('''players={};removed={};disconnected={}
+for i=0,9 do players[i]={team=i<5 and 2 or 3,fake=i~=0,name=(i==0 or i==5) and 'npc_dota_hero_nevermore' or 'npc_dota_hero_lina'} end
+players[12]={team=0,fake=false}
+PlayerResource={IsValidPlayerID=function(_,pid) return players[pid]~=nil end,
+ GetTeam=function(_,pid) return players[pid].team end,
+ IsFakeClient=function(_,pid) return players[pid].fake end,
+ GetPlayerName=function() error('Bot names are unavailable') end,
+ GetSelectedHeroEntity=function(_,pid)
+  local p=players[pid];if not p.name then return nil end
+  return {IsNull=function()return false end,GetUnitName=function()return p.name end}
+ end}
+GameRules={ResetPlayer=function(_,pid)removed[#removed+1]=pid end}
+function DisconnectClient(pid)disconnected[#disconnected+1]=pid end
+''')
+        return lua,lua.execute((ROOT/'bots/play_model_lobby.lua').read_text())
+
+    def test_lobby_cleanup_does_not_require_bot_names(self):
+        lua,controller=self.lobby_runtime();result=controller.run(2)
+        self.assertEqual(result.removed,8)
+        self.assertEqual(set(lua.globals().removed.values()),{1,2,3,4,6,7,8,9})
+        self.assertEqual(set(lua.globals().disconnected.values()),{1,2,3,4,6,7,8,9})
+
+    def test_invalid_composition_fails_before_any_removal(self):
+        for edit in ("players[0].name='npc_dota_hero_lina'", "players[6].name='npc_dota_hero_nevermore'"):
+            lua,controller=self.lobby_runtime();lua.execute(edit)
+            with self.assertRaises(Exception):controller.run(2)
+            self.assertEqual(len(lua.globals().removed),0)
+
+    def test_setup_entry_prints_original_error_without_engine_error_handler(self):
+        from lupa.lua51 import LuaRuntime
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder)/'bots';bundle(root,2)
+            lua=LuaRuntime(unpack_returned_tuples=True)
+            lua.execute('''messages={};function print(s)messages[#messages+1]=s end
+package.preload['bots/play_model_lobby']=function()return {run=function()error('test composition error')end}end
+''')
+            lua.execute((root/'play_model_setup.lua').read_text())
+            self.assertIn('SF_PLAY_SETUP_ERROR|',lua.globals().messages[1])
+            self.assertIn('test composition error',lua.globals().messages[1])
+
+    def test_console_rotation_follows_announced_match_and_skips_old_ready(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder)/'console.log';old=Path(folder)/'console.100.log';new=Path(folder)/'console.200.log'
+            root.write_text("Tearing off console log, will continue using suffix '.100'\n")
+            old.write_text('SF_PLAY_DUEL_READY|2\n');tail=ConsoleTail(root)
+            self.assertEqual(tail.read(),b'')
+            with root.open('a') as f:f.write("Tearing off console log, will continue using suffix '")
+            tail.read()
+            with root.open('a') as f:f.write(".200'\n")
+            new.write_text('SF_PLAY_DUEL_READY|2\n')
+            self.assertIn(b'SF_PLAY_DUEL_READY|2',tail.read())
+            self.assertEqual(tail.read(),b'')
+            root.write_bytes(b'new client\n')
+            self.assertEqual(tail.read(),b'new client\n')
+            self.assertIsNone(tail.active)
+
     def test_status_replace_retries_a_transient_windows_reader(self):
         from unittest.mock import patch
         sys.path.insert(0,str(ROOT/'gpu/scripts'))

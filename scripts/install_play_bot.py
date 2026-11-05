@@ -89,17 +89,17 @@ function UpdateLaneAssignments()
  local lanes={};for _,pid in ipairs(GetTeamPlayers(GetTeam())) do lanes[pid]=LANE_MID end;return lanes
 end
 ''')
-    # Reuse the lobby's names and first bot convention used by the cleanup script.
-    for name in ('teacher_v9_duel_setup.lua','play_model_events.lua'):
+    for name in ('play_model_lobby.lua','play_model_events.lua'):
         shutil.copy2(ROOT/'bots'/name,destination/name)
     (destination/'play_model_setup.lua').write_text('''local M={}
 function M.run(human_team)
- local result=require('bots/teacher_v9_duel_setup').run(human_team)
+ local result=require('bots/play_model_lobby').run(human_team)
  require('bots/play_model_events').start()
  print('SF_PLAY_DUEL_READY|'..human_team)
  return result
 end
-M.run(HUMAN_TEAM)
+local ok,why=pcall(function() M.run(HUMAN_TEAM) end)
+if not ok then print('SF_PLAY_SETUP_ERROR|'..tostring(why)) end
 return M
 '''.replace('HUMAN_TEAM',str(human_team)))
 

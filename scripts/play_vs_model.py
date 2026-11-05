@@ -4,6 +4,7 @@ from collections import Counter
 from datetime import datetime, timezone
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import sys
@@ -16,6 +17,39 @@ from install_play_bot import ARTIFACTS, backup_contents
 from sf_duel.live.game import DEFAULT_GAME
 
 LAUNCH_OPTIONS='-console -condebug -insecure -botworldstatetosocket_radiant 12250 -botworldstatetosocket_dire 12251 -botworldstatetosocket_frames 1 -botworldstatesocket_threaded'
+
+
+class ConsoleTail:
+    """Follow Steam's announced match log without replaying earlier matches."""
+    def __init__(self,path):
+        self.root=Path(path);self.active=None;self.position=0;self.pending=''
+        self.root_position=self.root.stat().st_size if self.root.exists() else 0
+        if self.root.exists():
+            with self.root.open('rb') as source:
+                source.seek(max(0,self.root_position-65536));self.pending=source.read().decode('utf-8',errors='replace')
+            self.rotation()
+            if self.active and self.active.exists():self.position=self.active.stat().st_size
+
+    def rotation(self):
+        matches=re.findall(r"Tearing off console log, will continue using suffix '(\.[0-9]+)'",self.pending)
+        if matches:
+            path=self.root.with_name(self.root.stem+matches[-1]+self.root.suffix)
+            if path!=self.active:self.active=path;self.position=0
+        self.pending=self.pending[-4096:]
+
+    def read(self):
+        data=b''
+        if self.root.exists():
+            if self.root.stat().st_size<self.root_position:
+                self.root_position=0;self.active=None;self.position=0;self.pending=''
+            with self.root.open('rb') as source:
+                source.seek(self.root_position);data=source.read();self.root_position=source.tell()
+            self.pending+=data.decode('utf-8',errors='replace');self.rotation()
+        if self.active and self.active.exists():
+            if self.active.stat().st_size<self.position:self.position=0
+            with self.active.open('rb') as source:
+                source.seek(self.position);data+=source.read();self.position=source.tell()
+        return data
 
 
 def events(path):
@@ -118,7 +152,7 @@ def play(a):
                 seed=a.seed,launch_options=LAUNCH_OPTIONS,backup=str(backup),started_utc=datetime.now(timezone.utc).isoformat())
     (session/'session.json').write_text(json.dumps(config,indent=2))
     log=session/'dota.log';log.touch()
-    position=a.console_log.stat().st_size if a.console_log.exists() else 0
+    console=ConsoleTail(a.console_log)
     collector=None
     try:
         with policy_service(a.checkpoint,session,Config(workers=1,seed=a.seed),[],record=False,
@@ -132,10 +166,8 @@ def play(a):
             deadline=time.monotonic()+1800;ready=False;pending=''
             with log.open('ab',buffering=0) as output, (session/'collector.log').open('wb') as clog:
                 while time.monotonic()<deadline:
-                    if a.console_log.exists():
-                        if a.console_log.stat().st_size<position:position=0
-                        with a.console_log.open('rb') as source:
-                            source.seek(position);data=source.read();position=source.tell()
+                    data=console.read()
+                    if data:
                         output.write(data);pending+=data.decode('utf-8',errors='replace')
                         if not ready and 'SF_PLAY_DUEL_READY|'+str(config['human_team']) in pending:
                             ready=True;(session/'ready').touch()
@@ -151,9 +183,7 @@ def play(a):
                         # The scoreboard terminal can precede the server event log
                         # by one tick. Drain it before computing the death summary.
                         time.sleep(.15)
-                        if a.console_log.exists():
-                            with a.console_log.open('rb') as source:
-                                source.seek(position);output.write(source.read())
+                        output.write(console.read())
                         break
                     time.sleep(.01)
                 else:raise TimeoutError('No setup within 30 minutes, or duel exceeded 60 wall minutes')

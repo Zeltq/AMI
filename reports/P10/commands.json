@@ -122,6 +122,39 @@
   },
   {
     "stage": "complete",
+    "pid": 31940,
+    "child_pid": 32012,
+    "command": "C:/Python314/python.exe -m unittest discover -s tests -v",
+    "cwd": "C:\\AMI-wt\\P10",
+    "artifact": "C:\\AMI\\runs\\p10",
+    "minutes": 0.25041996166692115,
+    "exit_code": 0,
+    "updated_utc": "2026-11-05T00:16:57.578444+00:00"
+  },
+  {
+    "stage": "complete",
+    "pid": 19784,
+    "child_pid": 31596,
+    "command": "C:/Python314/python.exe gpu/scripts/p10_setup_probe.py C:/AMI/runs/p10/setup-debug1",
+    "cwd": "C:\\AMI-wt\\P10",
+    "artifact": "C:\\AMI\\runs\\p10",
+    "minutes": 1.0017290516669164,
+    "exit_code": 0,
+    "updated_utc": "2026-11-05T00:14:33.438518+00:00"
+  },
+  {
+    "stage": "complete",
+    "pid": 11776,
+    "child_pid": 16696,
+    "command": "C:/Python314/python.exe gpu/scripts/p10_setup_probe.py C:/AMI/runs/p10/setup-fixed1 --fixed",
+    "cwd": "C:\\AMI-wt\\P10",
+    "artifact": "C:\\AMI\\runs\\p10",
+    "minutes": 0.9179107599998436,
+    "exit_code": 0,
+    "updated_utc": "2026-11-05T00:16:51.770084+00:00"
+  },
+  {
+    "stage": "complete",
     "pid": 26712,
     "child_pid": 31604,
     "command": "C:/AMI/runs/p09/P09c/sf-duel-gpu.exe collect-teacher reports/P10/static-capture-config.json C:/AMI/runs/p10/sim-static",
