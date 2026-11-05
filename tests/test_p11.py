@@ -1,7 +1,7 @@
-import sys,unittest
+import os,subprocess,sys,unittest
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'gpu/scripts'))
-from p11_run import training_budget
+from p11_run import training_budget,wait_existing
 from p11_report import episode_summary
 
 class P11Tests(unittest.TestCase):
@@ -11,6 +11,15 @@ class P11Tests(unittest.TestCase):
             self.assertLessEqual(t+36*(t//120)+5,remaining)
             self.assertGreater(t+1+36*((t+1)//120)+5,remaining)
         self.assertEqual(training_budget(375),298)
+        self.assertEqual(training_budget(375,10),288)
+
+    @unittest.skipUnless(os.name=='nt','Windows process adoption')
+    def test_adoption_preserves_existing_child_and_exit_code(self):
+        child=subprocess.Popen([sys.executable,'-c','import time;time.sleep(.3);raise SystemExit(7)'],creationflags=subprocess.CREATE_NO_WINDOW)
+        seen=[]
+        self.assertEqual(wait_existing(child.pid,lambda:seen.append(child.pid)),7)
+        self.assertEqual(child.wait(),7)
+        self.assertEqual(set(seen),{child.pid})
 
     def test_training_statistics_use_learner_side_and_pooled_denominators(self):
         def episode(side,result,farm,spawn,death):

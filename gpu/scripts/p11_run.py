@@ -80,8 +80,8 @@ def smoke():
 def checkpoints(prefix='train-'):
     return sorted([(read(p)['training_seconds'],p.parent) for p in RUN.glob(prefix+'*/checkpoint-*/progress.json') if all((p.parent/f).exists() for f in ('model.bpk','optimizer.bpk','weights/manifest.json'))],key=lambda x:x[0])
 
-def training_budget(remaining):
-    return max(t for t in range(1,int(remaining)) if t+36*int(t//120)+5<=remaining)
+def training_budget(remaining,startup=0):
+    return max(t for t in range(1,int(remaining)) if startup+t+36*int(t//120)+5<=remaining)
 
 def warmup():
     completed=RUN/'warmup-result.json'
@@ -96,13 +96,49 @@ def warmup():
         except RuntimeError:
             publish('fix: retain failed warmup evidence and resume checkpoint')
             if datetime.now(timezone.utc)>=datetime(2026,11,5,8,0,tzinfo=timezone.utc):raise
+    return finish_warmup(result)
+
+def finish_warmup(result):
     weights=Path(result['latest'])/'weights'
     manifest=read(START/'weights/manifest.json')
     policy=[START/'weights'/v['file'] for k,v in manifest['tensors'].items() if not k.startswith(('value_first','value_second'))]
     unchanged=sum(sha(p)==sha(weights/p.name) for p in policy)
     assert len(policy)==55 and unchanged==55,(len(policy),unchanged)
-    save(completed,result);save(REPORT/'warmup-result.json',dict(result=result,unchanged_policy_tensors=unchanged))
+    save(RUN/'warmup-result.json',result);save(REPORT/'warmup-result.json',dict(result=result,unchanged_policy_tensors=unchanged))
     publish('publish mixed pool critic warmup');return result
+
+def wait_existing(pid,on_tick):
+    """Attach to an existing owned process; never starts a replacement child."""
+    import ctypes
+    from ctypes import wintypes
+    kernel=ctypes.WinDLL('kernel32',use_last_error=True)
+    kernel.OpenProcess.argtypes=[wintypes.DWORD,wintypes.BOOL,wintypes.DWORD];kernel.OpenProcess.restype=wintypes.HANDLE
+    kernel.WaitForSingleObject.argtypes=[wintypes.HANDLE,wintypes.DWORD];kernel.WaitForSingleObject.restype=wintypes.DWORD
+    kernel.GetExitCodeProcess.argtypes=[wintypes.HANDLE,ctypes.POINTER(wintypes.DWORD)]
+    kernel.CloseHandle.argtypes=[wintypes.HANDLE]
+    handle=kernel.OpenProcess(0x100000|0x1000,False,pid)
+    if not handle:raise ctypes.WinError(ctypes.get_last_error())
+    try:
+        while True:
+            on_tick();state=kernel.WaitForSingleObject(handle,10000)
+            if state==0:break
+            if state!=258:raise ctypes.WinError(ctypes.get_last_error())
+        code=wintypes.DWORD()
+        if not kernel.GetExitCodeProcess(handle,ctypes.byref(code)):raise ctypes.WinError(ctypes.get_last_error())
+        return code.value
+    finally:kernel.CloseHandle(handle)
+
+def adopt_warmup():
+    prior=read(RUN/'state.json');assert prior['stage'].startswith('warmup-'),prior['stage']
+    folder=RUN/prior['stage'];pid=prior['pid']
+    def tick():status(stage=prior['stage'],pid=pid,command=prior['command'],log=prior['log'],native=read(folder/'status.json'),background_work_remaining=True,adopted_existing_process=True)
+    code=wait_existing(pid,tick)
+    rows=history();row=next(r for r in rows if r['pid']==pid)
+    row.update(exit_code=code,minutes=(datetime.now(timezone.utc)-datetime.fromisoformat(row['started_utc'])).total_seconds()/60,adopted_existing_process=True)
+    save(RUN/'commands.json',rows)
+    if code:raise RuntimeError(f'Adopted warmup failed: {code}')
+    finish_warmup(read(folder/'result.json'))
+    overnight()
 
 def train(warm):
     plan_path=RUN/'plan.json';cutoff=datetime(2026,11,5,8,38,tzinfo=timezone.utc)
@@ -110,8 +146,9 @@ def train(warm):
     else:
         remaining=(cutoff-datetime.now(timezone.utc)).total_seconds()/60
         # Reserve 36 minutes for every intervening three-opponent evaluation.
-        target=training_budget(remaining)
-        plan=dict(training_minutes=target,matches=192,training_stop_utc=cutoff.isoformat(),deadline_utc='2026-11-05T09:30:00+00:00',evaluation_reserve_minutes=36,reason='Fixed clock budget before PPO; no metric-based early stopping')
+        startup=max(warm['desynchronization']['seconds'],read(REPORT/'smoke-result.json')['result']['desynchronization']['seconds'])/60+2
+        target=training_budget(remaining,startup)
+        plan=dict(training_minutes=target,matches=192,training_stop_utc=cutoff.isoformat(),deadline_utc='2026-11-05T09:30:00+00:00',evaluation_reserve_minutes=36,startup_reserve_minutes=startup,reason='Fixed clock budget before PPO; measured arena desynchronization plus2min, evaluations and5min margin; no metric-based early stopping')
         save(plan_path,plan);save(REPORT/'plan.json',plan)
     cfg=base_config();cfg.update(bootstrap_checkpoint=warm['latest'],minutes=plan['training_minutes'],schedule_minutes=plan['training_minutes'],evaluate=True)
     state_path=RUN/'publications.json';publications=read(state_path) if state_path.exists() else dict(reports=[],last_minutes=0)
@@ -200,6 +237,7 @@ def main():
                 verify('final-');smoke();overnight()
             elif mode=='launch':
                 verify('launch-',tests=False);smoke();overnight()
+            elif mode=='adopt-warmup':adopt_warmup()
             else:raise ValueError(mode)
             status(stage=mode+' complete',pid=None,background_work_remaining=False)
         except Exception as e:status(stage=mode+' failed',pid=None,error=str(e),background_work_remaining=True);raise
