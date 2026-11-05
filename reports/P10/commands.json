@@ -22,15 +22,15 @@
     "updated_utc": "2026-11-04T23:50:48.563753+00:00"
   },
   {
-    "stage": "running",
+    "stage": "complete",
     "pid": 34084,
     "child_pid": 34684,
     "command": "C:/Python314/python.exe gpu/scripts/evaluate_dota_teacher.py --checkpoint C:/AMI/runs/p10/ZOg-000470.pt --run C:/AMI/runs/p10/native-eight --collector C:/AMI/runs/p10/nativecollect.exe --engine C:/AMI/runs/p07/dota-calibration-005/engine.json --matches 8 --workers 16 17 18 19 --seconds 600 --seed 20261105 --sampling --console-debug --resume",
     "cwd": "C:\\AMI-wt\\P10",
     "artifact": "C:\\AMI\\runs\\p10",
-    "minutes": 1.8366281449998496,
-    "exit_code": null,
-    "updated_utc": "2026-11-04T23:53:50.718082+00:00"
+    "minutes": 12.85536499666632,
+    "exit_code": 0,
+    "updated_utc": "2026-11-05T00:04:51.842292+00:00"
   },
   {
     "stage": "failed",
@@ -108,6 +108,17 @@
     "minutes": 0.25066409499947134,
     "exit_code": 0,
     "updated_utc": "2026-11-04T23:35:58.965620+00:00"
+  },
+  {
+    "stage": "complete",
+    "pid": 31152,
+    "child_pid": 14500,
+    "command": "C:/Python314/python.exe -m unittest discover -s tests -v",
+    "cwd": "C:\\AMI-wt\\P10",
+    "artifact": "C:\\AMI\\runs\\p10",
+    "minutes": 0.2505714400002034,
+    "exit_code": 0,
+    "updated_utc": "2026-11-05T00:00:34.598912+00:00"
   },
   {
     "stage": "complete",

@@ -43,7 +43,8 @@ def main():
                 protected_sources=protected,engine_sha256=sha(Path('C:/AMI/runs/p07/dota-calibration-005/engine.json')),
                 collector_sha256=sha(RUN/'nativecollect.exe'),simulator_sha256=sha(Path('C:/AMI/runs/p09/P09c/sf-duel-gpu.exe')))
     (OUT/'provenance.json').write_text(json.dumps(record,indent=2))
-    log=(RUN/('python-final.log' if (RUN/'python-final.log').exists() else 'python-full.log')).read_text(errors='replace')
+    test_log=next(RUN/name for name in ('python-release.log','python-final.log','python-full.log') if (RUN/name).exists())
+    log=test_log.read_text(errors='replace')
     tests=int(re.search(r'Ran (\d+) tests',log)[1]);assert '\nOK\n' in log
     verification=dict(python=dict(tests=tests,passed=True,skipped=len(re.findall(r' \.\.\. skipped',log)),
         command="$env:PYTHONPATH='src;scripts;tests;C:/AMI/tools/lua_test_runtime'; python -m unittest discover -s tests -v"),
