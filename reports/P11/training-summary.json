@@ -1,0 +1,58 @@
+{
+  "blocks": 644,
+  "episodes": 7838,
+  "episodes_started": 8008,
+  "total_decisions": 15324837,
+  "latest": "C:\\AMI\\runs\\p11\\train-001\\checkpoint-000644",
+  "training_seconds": 15668.92706519998,
+  "evaluation_seconds": 2948.8752207,
+  "resumed_training_seconds": 0.0,
+  "training_minutes": 261.1487844199997,
+  "periodic_evaluation_minutes": 49.147920345,
+  "training_finished_by_utc": "2026-11-05T08:10:44.138514+00:00",
+  "final_progress": {
+    "anchor_sha256": "ba311754cd906d4dfa883263b60581d9ae880d00a269a396d8fc4b47b55eb83d",
+    "block": 644,
+    "kl_coefficient_next": 0.009999999776482582,
+    "kl_decay_start_minutes": 0.0,
+    "kl_end": 0.009999999776482582,
+    "kl_start": 0.029999999329447746,
+    "last_evaluation": 14428.52244859998,
+    "last_snapshot": 14428.52244859998,
+    "pool_paths": [
+      "C:/AMI/runs/p09/P09c/rl-pilot1-001/checkpoint-000126/weights",
+      "C:/AMI/runs/p09/P09c/rl-main-001/checkpoint-000314/weights",
+      "C:\\AMI\\runs\\p09\\P09c\\continue90\\rl-continue-001\\checkpoint-000470\\weights",
+      "C:\\AMI\\runs\\p11\\train-001\\checkpoint-000167\\weights",
+      "C:\\AMI\\runs\\p11\\train-001\\checkpoint-000324\\weights",
+      "C:\\AMI\\runs\\p11\\train-001\\checkpoint-000470\\weights",
+      "C:\\AMI\\runs\\p11\\train-001\\checkpoint-000603\\weights"
+    ],
+    "previous_evaluation_weights": "C:\\AMI\\runs\\p11\\train-001\\checkpoint-000603\\weights",
+    "reward_mode": "event-v2",
+    "schedule_minutes": 261.0,
+    "training_seconds": 15668.92706519998,
+    "warmup_complete": true,
+    "warmup_seen": 0
+  },
+  "reference": {
+    "final": "C:\\AMI\\runs\\p11\\train-001\\checkpoint-000644",
+    "reference": "C:\\AMI\\runs\\p11\\train-001\\checkpoint-000375",
+    "final_training_seconds": 15668.92706519998,
+    "reference_training_seconds": 8477.485315299995,
+    "age_minutes": 119.85736249833307
+  },
+  "audit": {
+    "protected_files": 228,
+    "unchanged": 228,
+    "changed": [],
+    "training": [
+      {
+        "run": "train-001",
+        "blocks": 644,
+        "clip_and_anchor_checks": 644
+      }
+    ],
+    "scope": "Original weights, Adam, critic, teachers, physics and observation sources; PPO clipping and continuous anchor schedule. Evaluation reward and outcomes checked by p11_report."
+  }
+}
