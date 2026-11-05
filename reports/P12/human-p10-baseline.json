@@ -1,0 +1,413 @@
+{
+  "label": "human-p10-baseline",
+  "session": "C:\\AMI\\runs\\p10\\human\\20261105-032741-652789",
+  "config": {
+    "model_team": 3,
+    "human_team": 2,
+    "checkpoint": "C:\\AMI\\runs\\p10\\ZOg-000470.pt",
+    "seed": 20261105,
+    "launch_options": "-console -condebug -insecure -botworldstatetosocket_radiant 12250 -botworldstatetosocket_dire 12251 -botworldstatetosocket_frames 1 -botworldstatesocket_threaded",
+    "backup": "C:\\AMI\\runs\\p10\\bots-backup-20261105-032741-654717",
+    "started_utc": "2026-11-05T00:27:41.670954+00:00"
+  },
+  "summary": {
+    "model_team": 3,
+    "first_death": {
+      "kind": "death",
+      "team": 3,
+      "time": 82.233345031738,
+      "killer_team": 2,
+      "killer": "npc_dota_hero_nevermore"
+    },
+    "first_blood": {
+      "kind": "death",
+      "team": 3,
+      "time": 82.233345031738,
+      "killer_team": 2,
+      "killer": "npc_dota_hero_nevermore",
+      "credited_team": 2
+    },
+    "end": 82.233345031738,
+    "sides": {
+      "2": {
+        "last": {
+          "kind": "hero",
+          "lh": 6,
+          "deny": 3,
+          "deaths": 0,
+          "kills": 0,
+          "health": 419,
+          "alive": true,
+          "team": 2,
+          "time": 82.233345031738,
+          "y": -122.34052276611,
+          "x": -534.94049072266,
+          "player": 0
+        },
+        "at_seconds": {
+          "300": null,
+          "600": null
+        },
+        "deaths": 0,
+        "kills": 1,
+        "casts": {
+          "nevermore_shadowraze1": 2,
+          "nevermore_shadowraze3": 1,
+          "nevermore_shadowraze2": 1
+        },
+        "raze_casts": 4,
+        "raze_hit_events": 6,
+        "raze_hero_hits": 3,
+        "hero_attack_hits": 8,
+        "mid_game_time": -43.466659545898,
+        "telemetry_samples": 1550
+      },
+      "3": {
+        "last": {
+          "kind": "hero",
+          "lh": 1,
+          "deny": 1,
+          "deaths": 0,
+          "kills": 0,
+          "health": 10,
+          "alive": true,
+          "team": 3,
+          "time": 82.233345031738,
+          "y": 409.62268066406,
+          "x": 243.0188293457,
+          "player": 5
+        },
+        "at_seconds": {
+          "300": null,
+          "600": null
+        },
+        "deaths": 1,
+        "kills": 0,
+        "casts": {
+          "nevermore_shadowraze3": 2,
+          "nevermore_shadowraze2": 2,
+          "courier_take_stash_and_transfer_items": 1
+        },
+        "raze_casts": 4,
+        "raze_hit_events": 4,
+        "raze_hero_hits": 0,
+        "hero_attack_hits": 2,
+        "mid_game_time": -46.866661071777,
+        "telemetry_samples": 1550
+      }
+    },
+    "hit_definition": "entity_hurt events, one event per damaged target; hero hits separately",
+    "missing_marks": "null means duel ended early or no sample within 0.15 seconds"
+  },
+  "native_outcome": {
+    "reason": "death",
+    "time": 82.266670227051,
+    "winner": 2
+  },
+  "deaths": [
+    {
+      "kind": "death",
+      "team": 3,
+      "time": 82.233345031738,
+      "killer_team": 2,
+      "killer": "npc_dota_hero_nevermore",
+      "cause": "hero_attack",
+      "ability": ""
+    }
+  ],
+  "transport": {
+    "total": 1160,
+    "checked": 1159,
+    "terminal_censored": 1,
+    "acknowledged": 1159,
+    "rejected": 4,
+    "reasons": {
+      "purchase_failed": 1,
+      "target_unavailable": 3
+    },
+    "late": 0,
+    "missing": 0
+  },
+  "actions": {
+    "CONTINUE": 577,
+    "MOVE": 517,
+    "STOP": 33,
+    "RAZE_FAR": 2,
+    "RAZE_MID": 2,
+    "ATTACK": 28
+  },
+  "attack_targets": {
+    "enemy_creep": 9,
+    "hero": 14,
+    "deny": 5
+  },
+  "casts": [
+    {
+      "time": 18.666664123535,
+      "ability": "nevermore_shadowraze3",
+      "hit_events": 1,
+      "hero_hits": 0
+    },
+    {
+      "time": 28.533332824707,
+      "ability": "nevermore_shadowraze2",
+      "hit_events": 0,
+      "hero_hits": 0
+    },
+    {
+      "time": 30.133338928223,
+      "ability": "nevermore_shadowraze3",
+      "hit_events": 3,
+      "hero_hits": 0
+    },
+    {
+      "time": 39.466667175293,
+      "ability": "nevermore_shadowraze2",
+      "hit_events": 0,
+      "hero_hits": 0
+    }
+  ],
+  "hero_damage_events": [
+    {
+      "kind": "hurt",
+      "time": -29.233329772949,
+      "target_team": 3,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 31,
+      "attacker": 1268,
+      "victim": 1473,
+      "team": 2,
+      "ability": ""
+    },
+    {
+      "kind": "hurt",
+      "time": 60.599998474121,
+      "target_team": 2,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 33,
+      "attacker": 1473,
+      "victim": 1268,
+      "team": 3,
+      "ability": ""
+    },
+    {
+      "kind": "hurt",
+      "time": 60.93334197998,
+      "target_team": 3,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 73,
+      "attacker": 1268,
+      "victim": 1473,
+      "team": 2,
+      "ability": "nevermore_shadowraze3"
+    },
+    {
+      "kind": "hurt",
+      "time": 66.033332824707,
+      "target_team": 3,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 46,
+      "attacker": 1268,
+      "victim": 1473,
+      "team": 2,
+      "ability": ""
+    },
+    {
+      "kind": "hurt",
+      "time": 66.333335876465,
+      "target_team": 3,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 100,
+      "attacker": 1268,
+      "victim": 1473,
+      "team": 2,
+      "ability": "nevermore_shadowraze2"
+    },
+    {
+      "kind": "hurt",
+      "time": 67.333335876465,
+      "target_team": 3,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 49,
+      "attacker": 1268,
+      "victim": 1473,
+      "team": 2,
+      "ability": ""
+    },
+    {
+      "kind": "hurt",
+      "time": 68.266670227051,
+      "target_team": 3,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 125,
+      "attacker": 1268,
+      "victim": 1473,
+      "team": 2,
+      "ability": "nevermore_shadowraze1"
+    },
+    {
+      "kind": "hurt",
+      "time": 69.000007629395,
+      "target_team": 3,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 46,
+      "attacker": 1268,
+      "victim": 1473,
+      "team": 2,
+      "ability": ""
+    },
+    {
+      "kind": "hurt",
+      "time": 70.166664123535,
+      "target_team": 3,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 47,
+      "attacker": 1268,
+      "victim": 1473,
+      "team": 2,
+      "ability": ""
+    },
+    {
+      "kind": "hurt",
+      "time": 74.966667175293,
+      "target_team": 3,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 48,
+      "attacker": 1268,
+      "victim": 1473,
+      "team": 2,
+      "ability": ""
+    },
+    {
+      "kind": "hurt",
+      "time": 77.533332824707,
+      "target_team": 3,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 44,
+      "attacker": 1268,
+      "victim": 1473,
+      "team": 2,
+      "ability": ""
+    },
+    {
+      "kind": "hurt",
+      "time": 80.500007629395,
+      "target_team": 2,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 41,
+      "attacker": 1473,
+      "victim": 1268,
+      "team": 3,
+      "ability": ""
+    },
+    {
+      "kind": "hurt",
+      "time": 82.233345031738,
+      "target_team": 3,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 10,
+      "attacker": 1268,
+      "victim": 1473,
+      "team": 2,
+      "ability": ""
+    }
+  ],
+  "hero_damage_by_team": {
+    "2": {
+      "damage": 619,
+      "events": 11,
+      "attack_damage": 321
+    },
+    "3": {
+      "damage": 74,
+      "events": 2,
+      "attack_damage": 74
+    }
+  },
+  "low_health": {
+    "threshold_fraction": 0.25,
+    "decisions": 98,
+    "actions": {
+      "MOVE": 85,
+      "STOP": 3,
+      "ATTACK": 8,
+      "CONTINUE": 2
+    },
+    "move_commands": 85,
+    "move_goals_closer_to_own_t1": 63,
+    "accepted_retreat_commands": 63,
+    "segments": [
+      {
+        "start": 69.03333282470703,
+        "end": 81.96666717529297,
+        "own_t1_start": 1134.439994124233,
+        "own_t1_end": 444.40165126672224,
+        "hp_start": 131,
+        "hp_end": 9
+      }
+    ]
+  },
+  "enemy_t1": {
+    "min_distance": 1348.5649707127454,
+    "zones": {
+      "700": {
+        "samples": 0,
+        "checked": 615,
+        "entries": 0,
+        "entry_seconds": []
+      },
+      "900": {
+        "samples": 0,
+        "checked": 615,
+        "entries": 0,
+        "entry_seconds": []
+      }
+    }
+  },
+  "verification": {
+    "saved_summary_equal": true,
+    "final_farm_matches_native": true,
+    "model_requests_accounted": true
+  },
+  "service": {
+    "requests": 1160,
+    "batches": {
+      "1": 1160
+    },
+    "episodes": {
+      "C:\\AMI\\runs\\p10\\human\\20261105-032741-652789:3": {
+        "team": 3,
+        "first_mid_time": -46.83332824707031,
+        "creep_projectiles": 4,
+        "raze_casts": 4,
+        "last_hits": 1,
+        "denies": 1,
+        "decisions": 1160,
+        "last_time": 82.0999984741211
+      }
+    },
+    "errors": [],
+    "checkpoint": "C:\\AMI\\runs\\p10\\ZOg-000470.pt",
+    "training_started": false,
+    "seed": 20261105,
+    "device": "cpu",
+    "memory_reset_origin_seconds": null,
+    "latest_inference_ms": 6.166100036352873,
+    "batch_wait_ms": 2.0,
+    "telemetry_write_ms": 1.4449000009335577
+  },
+  "checkpoint_sha256": "03130bb511852dbea25f3533234de9ecd475fcbe9888584a9d1daa9c00cc22a7",
+  "source_sha256": {
+    "session.json": "7dc18124a8faf4c7f85b1dc3d94f658b716ed3648240a0e4c7dd7891a5e9d962",
+    "summary.json": "73ae1df171bd4542c6dd69b50219f6bc03b8077a43e4e872b62cd98c55038366",
+    "duel-result.json": "2bd2f585b928cf87900a911651f9f5e13e595472349d3d6e290546dbb7799589",
+    "dota.log": "bcef2757a525c1a0bd321e8f8c5b151d2d8cfc541a7586a737bbe7a5db10c3ae",
+    "native-decisions.pb.gz": "0e7dafdc7dbaa484513c576cf0090662fe3ce1c86ad239124f15e22f626df644"
+  },
+  "definitions": {
+    "retreat": "HP<25%, MOVE goal closer to own T1; intention not observable; observed segment distances reported separately.",
+    "tower_entry": "Alive post-0:00 decision samples at 4/30s: entering center-distance <=700; <=900 sensitivity also reported. Geometric proximity, not proof of tower aggro.",
+    "death": "Killer from entity_killed; ability matched to same-team hero damage within one tick when available.",
+    "scope": "Human-side Go teacher commands are never executed and are excluded. Events after terminal death excluded."
+  }
+}

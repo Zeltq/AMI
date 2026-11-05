@@ -10,10 +10,12 @@ import time
 
 def main():
     p = argparse.ArgumentParser()
+    p.add_argument('--artifacts',type=Path,default=Path('C:/AMI/runs/p10'))
+    p.add_argument('--status-key',default='P10_jobs')
     p.add_argument('name')
     p.add_argument('command', nargs=argparse.REMAINDER)
     a = p.parse_args()
-    root = Path('C:/AMI/runs/p10')
+    root = a.artifacts
     root.mkdir(parents=True, exist_ok=True)
     path = root / (a.name + '-job.json')
     if path.exists():
@@ -33,7 +35,7 @@ def main():
             for attempt in range(20):
                 try:
                     current = json.loads(pilot.read_text(encoding='utf-8'))
-                    current.setdefault('P10_jobs', {})[a.name] = row
+                    current.setdefault(a.status_key, {})[a.name] = row
                     tmp.write_text(json.dumps(current, indent=2), encoding='utf-8')
                     tmp.replace(pilot)
                     break
