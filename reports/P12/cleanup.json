@@ -1,0 +1,6 @@
+{
+  "command": "Get-CimInstance Win32_Process | Where-Object { $_.Name -match 'dota2|nativecollect' -or ($_.Name -match 'python' -and $_.CommandLine -match 'native_policy_server|evaluate_dota_teacher|play_vs_model') } | Select-Object ProcessId,Name,CommandLine | ConvertTo-Json -Depth 3",
+  "processes": [],
+  "remaining_count": 0,
+  "heartbeat": "p12: PAUSED"
+}

@@ -1,0 +1,526 @@
+{
+  "games": [
+    {
+      "index": 0,
+      "team": 2,
+      "time": 79.266662597656,
+      "outcome": "loss",
+      "reason": "death",
+      "lh": 2,
+      "deny": 1,
+      "deaths": 1,
+      "kills": 0,
+      "first_death": 79.233337402344,
+      "mid_game_time": -63.233337402344,
+      "raze_casts": 4,
+      "raze_hit_events": 3,
+      "raze_hero_hits": 2,
+      "hero_attack_commands": 32,
+      "rejected": 3,
+      "rejected_reasons": {
+        "purchase_failed": 1,
+        "spell_unavailable": 1,
+        "target_unavailable": 1
+      },
+      "decisions": 1256,
+      "actions": {
+        "0": 781,
+        "1": 364,
+        "4": 44,
+        "8": 3,
+        "7": 3,
+        "3": 59,
+        "10": 2
+      },
+      "transport": {
+        "acknowledged": 1256,
+        "decisions": 1258,
+        "denies": 1,
+        "last_hits": 2,
+        "late_executions": 0,
+        "level": 2,
+        "max_lateness_ticks": 0,
+        "missed_deadlines": 0,
+        "missed_ticks": [],
+        "rejected": 3,
+        "unacknowledged": 0,
+        "checked_before_terminal": 1256,
+        "terminal_censored_commands": 2
+      },
+      "telemetry": {
+        "model_team": 2,
+        "first_death": {
+          "killer": "npc_dota_badguys_tower1_mid",
+          "kind": "death",
+          "time": 79.233337402344,
+          "team": 2,
+          "killer_team": 3
+        },
+        "first_blood": null,
+        "end": 79.233337402344,
+        "sides": {
+          "2": {
+            "last": {
+              "x": 232.44245910645,
+              "y": 592.77551269531,
+              "time": 79.233337402344,
+              "lh": 2,
+              "deny": 1,
+              "deaths": 0,
+              "kills": 0,
+              "health": 8,
+              "player": 0,
+              "team": 2,
+              "kind": "hero",
+              "alive": true
+            },
+            "at_seconds": {
+              "300": null,
+              "600": null
+            },
+            "deaths": 1,
+            "kills": 0,
+            "casts": {
+              "nevermore_shadowraze3": 2,
+              "nevermore_shadowraze2": 2,
+              "courier_take_stash_and_transfer_items": 1
+            },
+            "raze_casts": 4,
+            "raze_hit_events": 3,
+            "raze_hero_hits": 2,
+            "hero_attack_hits": 15,
+            "mid_game_time": -63.233337402344,
+            "telemetry_samples": 1678
+          },
+          "3": {
+            "last": {
+              "x": 736.27270507813,
+              "y": 859.22302246094,
+              "time": 79.233337402344,
+              "lh": 0,
+              "deny": 1,
+              "deaths": 0,
+              "kills": 0,
+              "health": 12,
+              "player": 5,
+              "team": 3,
+              "kind": "hero",
+              "alive": true
+            },
+            "at_seconds": {
+              "300": null,
+              "600": null
+            },
+            "deaths": 0,
+            "kills": 0,
+            "casts": {
+              "courier_take_stash_and_transfer_items": 1
+            },
+            "raze_casts": 0,
+            "raze_hit_events": 0,
+            "raze_hero_hits": 0,
+            "hero_attack_hits": 0,
+            "mid_game_time": -64.133331298828,
+            "telemetry_samples": 1678
+          }
+        },
+        "hit_definition": "entity_hurt events, one event per damaged target; hero hits separately",
+        "missing_marks": "null means duel ended early or no sample within 0.15 seconds"
+      },
+      "source": "C:\\AMI\\runs\\p12\\native-smoke\\match-00",
+      "source_sha256": {
+        "dota.log": "0ac13d42285ea71e931b537fecb65c5d8dca7d7f5e24af7469ecc3f0bef60b84",
+        "native-decisions.pb.gz": "157a29660709a92370393949eb066f2d9b0295c105f81bba5d90fa7910ede043",
+        "duel-result.json": "9c9e2024e01012fa29c72ccf291b862b3131401e74c6aacd36b7682291c1bce7",
+        "match.json": "9d79dde55b368ec1c4d2ad9e931a95129ba43f7bfb509fffa7c7204e2ac584fd"
+      }
+    },
+    {
+      "index": 1,
+      "team": 3,
+      "time": 136.60000610352,
+      "outcome": "win",
+      "reason": "death",
+      "lh": 3,
+      "deny": 1,
+      "deaths": 0,
+      "kills": 1,
+      "first_death": null,
+      "mid_game_time": -62.933334350586,
+      "raze_casts": 6,
+      "raze_hit_events": 9,
+      "raze_hero_hits": 3,
+      "hero_attack_commands": 95,
+      "rejected": 8,
+      "rejected_reasons": {
+        "purchase_failed": 1,
+        "target_unavailable": 7
+      },
+      "decisions": 1686,
+      "actions": {
+        "1": 430,
+        "4": 151,
+        "0": 940,
+        "10": 4,
+        "3": 153,
+        "8": 6,
+        "7": 2
+      },
+      "transport": {
+        "acknowledged": 1686,
+        "decisions": 1688,
+        "denies": 1,
+        "last_hits": 3,
+        "late_executions": 0,
+        "level": 3,
+        "max_lateness_ticks": 0,
+        "missed_deadlines": 0,
+        "missed_ticks": [],
+        "rejected": 8,
+        "unacknowledged": 0,
+        "checked_before_terminal": 1686,
+        "terminal_censored_commands": 2
+      },
+      "telemetry": {
+        "model_team": 3,
+        "first_death": {
+          "killer_team": 3,
+          "killer": "npc_dota_hero_nevermore",
+          "kind": "death",
+          "time": 136.60000610352,
+          "team": 2
+        },
+        "first_blood": {
+          "killer_team": 3,
+          "killer": "npc_dota_hero_nevermore",
+          "kind": "death",
+          "time": 136.60000610352,
+          "team": 2,
+          "credited_team": 3
+        },
+        "end": 136.60000610352,
+        "sides": {
+          "2": {
+            "last": {
+              "lh": 1,
+              "deny": 2,
+              "deaths": 1,
+              "kills": 0,
+              "health": 0,
+              "player": 0,
+              "team": 2,
+              "kind": "hero",
+              "y": -1630.8322753906,
+              "time": 136.63333129883,
+              "x": -1768.8857421875,
+              "alive": false
+            },
+            "at_seconds": {
+              "300": null,
+              "600": null
+            },
+            "deaths": 1,
+            "kills": 0,
+            "casts": {
+              "courier_take_stash_and_transfer_items": 2,
+              "item_flask": 2
+            },
+            "raze_casts": 0,
+            "raze_hit_events": 0,
+            "raze_hero_hits": 0,
+            "hero_attack_hits": 0,
+            "mid_game_time": -64.833335876465,
+            "telemetry_samples": 2252
+          },
+          "3": {
+            "last": {
+              "lh": 3,
+              "deny": 1,
+              "deaths": 0,
+              "kills": 1,
+              "health": 79,
+              "player": 5,
+              "team": 3,
+              "kind": "hero",
+              "y": -1368.3383789063,
+              "time": 136.63333129883,
+              "x": -1268.9426269531,
+              "alive": true
+            },
+            "at_seconds": {
+              "300": null,
+              "600": null
+            },
+            "deaths": 0,
+            "kills": 1,
+            "casts": {
+              "nevermore_shadowraze3": 4,
+              "nevermore_shadowraze2": 2,
+              "courier_take_stash_and_transfer_items": 1
+            },
+            "raze_casts": 6,
+            "raze_hit_events": 9,
+            "raze_hero_hits": 3,
+            "hero_attack_hits": 25,
+            "mid_game_time": -62.933334350586,
+            "telemetry_samples": 2252
+          }
+        },
+        "hit_definition": "entity_hurt events, one event per damaged target; hero hits separately",
+        "missing_marks": "null means duel ended early or no sample within 0.15 seconds"
+      },
+      "source": "C:\\AMI\\runs\\p12\\native-smoke\\match-01",
+      "source_sha256": {
+        "dota.log": "a516e3b0bb2155372bb5bd026b92ac7fa6c795f4891d5345ed11097605fadaaf",
+        "native-decisions.pb.gz": "94921feb73fcaa4c7a6e32949d16874d8c87c1e1f8b87a3502e2d42c03f5b242",
+        "duel-result.json": "9bf80a7c6db763806a59c5036b54af8d13d399ecdc7563d9d47063fc2de37cea",
+        "match.json": "bf0aeaf33ca870bc8cbb33ecf24ec8a40922ff654789331b00e893f5a67c941e"
+      }
+    }
+  ],
+  "summary": {
+    "2": {
+      "matches": 1,
+      "wins": 0,
+      "losses": 1,
+      "draws": 0,
+      "reasons": {
+        "death": 1
+      },
+      "rejected_reasons": {
+        "purchase_failed": 1,
+        "spell_unavailable": 1,
+        "target_unavailable": 1
+      },
+      "lh": {
+        "numerator": 2,
+        "denominator": 1,
+        "measured": 1
+      },
+      "deny": {
+        "numerator": 1,
+        "denominator": 1,
+        "measured": 1
+      },
+      "deaths": {
+        "numerator": 1,
+        "denominator": 1,
+        "measured": 1
+      },
+      "kills": {
+        "numerator": 0,
+        "denominator": 1,
+        "measured": 1
+      },
+      "raze_casts": {
+        "numerator": 4,
+        "denominator": 1,
+        "measured": 1
+      },
+      "raze_hit_events": {
+        "numerator": 3,
+        "denominator": 1,
+        "measured": 1
+      },
+      "raze_hero_hits": {
+        "numerator": 2,
+        "denominator": 1,
+        "measured": 1
+      },
+      "hero_attack_commands": {
+        "numerator": 32,
+        "denominator": 1,
+        "measured": 1
+      },
+      "rejected": {
+        "numerator": 3,
+        "denominator": 1,
+        "measured": 1
+      },
+      "decisions": {
+        "numerator": 1256,
+        "denominator": 1,
+        "measured": 1
+      },
+      "time": {
+        "sum": 79.266662597656,
+        "observed": 1,
+        "matches": 1
+      },
+      "first_death": {
+        "sum": 79.233337402344,
+        "observed": 1,
+        "matches": 1
+      },
+      "mid_game_time": {
+        "sum": -63.233337402344,
+        "observed": 1,
+        "matches": 1
+      }
+    },
+    "3": {
+      "matches": 1,
+      "wins": 1,
+      "losses": 0,
+      "draws": 0,
+      "reasons": {
+        "death": 1
+      },
+      "rejected_reasons": {
+        "purchase_failed": 1,
+        "target_unavailable": 7
+      },
+      "lh": {
+        "numerator": 3,
+        "denominator": 1,
+        "measured": 1
+      },
+      "deny": {
+        "numerator": 1,
+        "denominator": 1,
+        "measured": 1
+      },
+      "deaths": {
+        "numerator": 0,
+        "denominator": 1,
+        "measured": 1
+      },
+      "kills": {
+        "numerator": 1,
+        "denominator": 1,
+        "measured": 1
+      },
+      "raze_casts": {
+        "numerator": 6,
+        "denominator": 1,
+        "measured": 1
+      },
+      "raze_hit_events": {
+        "numerator": 9,
+        "denominator": 1,
+        "measured": 1
+      },
+      "raze_hero_hits": {
+        "numerator": 3,
+        "denominator": 1,
+        "measured": 1
+      },
+      "hero_attack_commands": {
+        "numerator": 95,
+        "denominator": 1,
+        "measured": 1
+      },
+      "rejected": {
+        "numerator": 8,
+        "denominator": 1,
+        "measured": 1
+      },
+      "decisions": {
+        "numerator": 1686,
+        "denominator": 1,
+        "measured": 1
+      },
+      "time": {
+        "sum": 136.60000610352,
+        "observed": 1,
+        "matches": 1
+      },
+      "first_death": {
+        "sum": 0,
+        "observed": 0,
+        "matches": 1
+      },
+      "mid_game_time": {
+        "sum": -62.933334350586,
+        "observed": 1,
+        "matches": 1
+      }
+    }
+  },
+  "source": "C:\\AMI\\runs\\p12\\native-smoke",
+  "gate_passed": true,
+  "config": {
+    "checkpoint": "C:\\AMI\\runs\\p12\\ZOg-000644.pt",
+    "run": "C:\\AMI\\runs\\p12\\native-smoke",
+    "status_key": "P12",
+    "assets": "C:\\AMI",
+    "collector": "C:\\AMI\\runs\\p10\\nativecollect.exe",
+    "engine": "C:\\AMI\\runs\\p07\\dota-calibration-005\\engine.json",
+    "matches": 2,
+    "workers": [
+      18,
+      19
+    ],
+    "seconds": 600.0,
+    "timescale": 1,
+    "seed": 20261105,
+    "inference_device": "cpu",
+    "sampling": true,
+    "resume": false,
+    "console_debug": true,
+    "profile": "ggd-v4",
+    "checkpoint_sha256": "486126628b4dba259495340f96e79c278950f03eb729356d157b19de75e817e7",
+    "collector_sha256": "9dcf983e3241b01f212a1cc63269c05449dbcf4c8048ab549b63a417cdfa258a",
+    "teacher_sha256": "08088377f495d23deb4e1ff985d3edc0a6663bebf85b6473eade34cc590276b0",
+    "previous": "issued command",
+    "recurrent_reset": "128 decisions and death",
+    "opponent": "Lua teacher-v9; Go opponent commands are unexecuted diagnostics"
+  },
+  "status": {
+    "stage": "complete",
+    "pid": 30980,
+    "command": "C:\\Python314\\python.exe gpu/scripts/evaluate_dota_teacher.py --checkpoint C:/AMI/runs/p12/ZOg-000644.pt --run C:/AMI/runs/p12/native-smoke --collector C:/AMI/runs/p10/nativecollect.exe --engine C:/AMI/runs/p07/dota-calibration-005/engine.json --matches 2 --workers 18 19 --seconds 600 --seed 20261105 --sampling --console-debug --status-key P12",
+    "cwd": "C:\\AMI-wt\\P12",
+    "run": "C:\\AMI\\runs\\p12\\native-smoke",
+    "completed": 2,
+    "requested": 2,
+    "wall_minutes": 4.811829350000092,
+    "matches_per_hour": 24.938540162739375,
+    "errors": 0,
+    "retries": 0,
+    "error": null,
+    "jobs": [],
+    "background_work_remaining": false,
+    "updated_utc": "2026-11-05T12:37:31.618878+00:00"
+  },
+  "service": {
+    "requests": 2946,
+    "batches": {
+      "1": 726,
+      "2": 1110
+    },
+    "episodes": {
+      "C:\\AMI\\runs\\p12\\native-smoke\\match-00:2": {
+        "team": 2,
+        "first_mid_time": -63.166664123535156,
+        "creep_projectiles": 12,
+        "raze_casts": 4,
+        "last_hits": 2,
+        "denies": 1,
+        "decisions": 1258,
+        "last_time": 79.19999694824219
+      },
+      "C:\\AMI\\runs\\p12\\native-smoke\\match-01:3": {
+        "team": 3,
+        "first_mid_time": -62.900001525878906,
+        "creep_projectiles": 23,
+        "raze_casts": 5,
+        "last_hits": 3,
+        "denies": 1,
+        "decisions": 1688,
+        "last_time": 136.5333251953125
+      }
+    },
+    "errors": [],
+    "checkpoint": "C:\\AMI\\runs\\p12\\ZOg-000644.pt",
+    "training_started": false,
+    "seed": 20261105,
+    "device": "cpu",
+    "memory_reset_origin_seconds": null,
+    "latest_inference_ms": 4.313400015234947,
+    "batch_wait_ms": 2.0,
+    "telemetry_write_ms": 1.7390000284649432
+  },
+  "transport_scope": "Only model commands; Go commands for the Lua teacher side are not executed.",
+  "terminal_scope": "First death ends duel; later projectile kills excluded. Pending terminal commands excluded from ACK denominator."
+}
