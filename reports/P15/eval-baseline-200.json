@@ -1,0 +1,126 @@
+{
+  "source": "C:\\AMI\\runs\\p15\\eval-baseline-200\\report.json",
+  "complete": true,
+  "matches": {
+    "numerator": 200,
+    "denominator": 200
+  },
+  "seed": 20261103,
+  "duration_game_seconds": {
+    "numerator": 87212.4063873291,
+    "denominator": 200
+  },
+  "wall_minutes": 5.718524266666666,
+  "controllers": {
+    "v10": {
+      "actors": 400,
+      "lh": {
+        "numerator": 11384.0,
+        "denominator": 400
+      },
+      "deny": {
+        "numerator": 6648.0,
+        "denominator": 400
+      },
+      "deaths": {
+        "numerator": 113.0,
+        "denominator": 400
+      },
+      "hero_attacks_released": {
+        "numerator": 5251.0,
+        "denominator": 400
+      },
+      "attack_hero_commands": {
+        "numerator": 31105.0,
+        "denominator": 400
+      },
+      "raze_hero_hits": {
+        "numerator": 4626.0,
+        "denominator": 400
+      },
+      "cancelled_casts": {
+        "numerator": 102.0,
+        "denominator": 400
+      },
+      "gold_received": {
+        "numerator": 815859.9342041016,
+        "denominator": 400
+      },
+      "gold_spent": {
+        "numerator": 591490.0,
+        "denominator": 400
+      },
+      "lh_deny_per_spawned_creep": {
+        "numerator": 18032.0,
+        "denominator": 49784.0
+      },
+      "mid_arrivals": {
+        "numerator": 400,
+        "denominator": 400
+      },
+      "mid_arrival_elapsed_seconds": {
+        "numerator": 10186.665344238281,
+        "denominator": 400
+      },
+      "stuck_fraction": {
+        "numerator": 1442.0,
+        "denominator": 1578468.0
+      },
+      "stuck_before_mid": {
+        "numerator": 0.0,
+        "denominator": 76000.0
+      },
+      "stuck_after_mid": {
+        "numerator": 1442.0,
+        "denominator": 1502468.0
+      },
+      "purchases": {
+        "boots": 350.0,
+        "bracer": 258.0,
+        "clarity": 0.0,
+        "flask": 2502.0,
+        "mango": 0.0,
+        "tango": 400.0,
+        "tp": 0.0,
+        "wraith_band": 0.0
+      },
+      "consumable_uses": {
+        "flask": 2266.0,
+        "mango": 0.0,
+        "tango": 4.0
+      },
+      "reward_components": {
+        "0": 0.0,
+        "1": 0.0,
+        "2": 0.0,
+        "3": 2.104043960571289e-05,
+        "4": -2.773292362689972e-05
+      },
+      "spell_completions": [
+        152.0,
+        3413.0,
+        1836.0,
+        0.0
+      ],
+      "outcomes": {
+        "win": 196,
+        "loss": 196,
+        "draw": 8
+      },
+      "outcome_reasons": {
+        "win:death": 113,
+        "loss:death": 113,
+        "loss:LH600": 83,
+        "win:LH600": 83,
+        "draw:LH600": 8
+      },
+      "death_causes": {
+        "hero_attack": 38.0,
+        "raze": 6.0,
+        "creeps": 68.0,
+        "tower": 1.0,
+        "requiem": 0.0
+      }
+    }
+  }
+}
