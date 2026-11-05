@@ -159,7 +159,11 @@ def validate_zog_weights(config):
 def main():
     p=argparse.ArgumentParser();p.add_argument('config');p.add_argument('output');p.add_argument('--max-updates',type=int);p.add_argument('--resume');p.add_argument('--initialize');p.add_argument('--updates',type=int);p.add_argument('--check-resume',action='store_true');p.add_argument('--zero-previous',action='store_true');a=p.parse_args()
     if a.max_updates is not None and a.max_updates<=0:raise ValueError('Positive smoke update limit required')
-    config=json.loads(Path(a.config).read_text());allowed={'dataset','epochs','batch_sequences','learning_rate','seed','gradient_norm','attack_weight','evaluation','zero_previous','dagger','timing_honest','timing_oracle','action_weights','hero_attack_weight','model_name'}
+    config=json.loads(Path(a.config).read_text())
+    if config.get('observation_profile')=='chio-v1':
+        from train_chio import run
+        run(**vars(a));return
+    allowed={'dataset','epochs','batch_sequences','learning_rate','seed','gradient_norm','attack_weight','evaluation','zero_previous','dagger','timing_honest','timing_oracle','action_weights','hero_attack_weight','model_name'}
     if set(config)-allowed:raise ValueError('Unknown IL configuration keys')
     validate_zog_weights(config)
     config['zero_previous']=bool(a.zero_previous or config.get('zero_previous',False))

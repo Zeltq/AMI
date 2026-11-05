@@ -60,6 +60,7 @@ def decode(header,compact,signals):
     if header.get('version',2) in (4,5):arrays['hero_combat']=np.concatenate((arrays['hero_combat'],arrays.pop('hero_enemy')),-1)
     if header.get('version',2)==5:
         for group in ('hero','creep','tower'):arrays[group+'_combat']=np.concatenate((arrays[group+'_combat'],arrays.pop(group+'_chio')),-1)
+        for name in ('heroes','creeps','towers'):arrays[name][:,:,[38,38+len(UNIT_FIELDS)]]=0
         for name in ('items','enemy_items'):arrays[name]=arrays[name][:,[0,1,2,5,4,6]]
         arrays['previous']=arrays.pop('chio_previous');arrays['action_mask']=arrays.pop('chio_action_mask')
         arrays['labels']=signals[:,:,:4].reshape(n*t,4).astype(np.int64);arrays['loss_valid']=signals[:,:,11].reshape(-1)>.5

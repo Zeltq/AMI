@@ -43,6 +43,7 @@ mod chio_teacher;
 mod chio_metrics;
 mod chio_collect;
 mod chio_runtime;
+mod chio_train;
 mod chio_eval;
 mod aggro_fidelity;
 mod requiem_fidelity;
@@ -144,7 +145,7 @@ fn main()->anyhow::Result<()> {
     let result=match Cli::parse().command {
         Command::CollectTeacher{config,output}=>imitation::collect(serde_json::from_slice(&std::fs::read(config)?)?,&output)?,
         Command::CollectDagger{config,output}=>imitation::collect_dagger(serde_json::from_slice(&std::fs::read(config)?)?,&output)?,
-        Command::TrainGgd{config,output}=>ggd_ppo::run(serde_json::from_slice(&std::fs::read(config)?)?,&output)?,
+        Command::TrainGgd{config,output}=>{let value:serde_json::Value=serde_json::from_slice(&std::fs::read(config)?)?;if value["observation_profile"]=="chio-v1"{chio_train::run(serde_json::from_value(value)?,&output)?}else{ggd_ppo::run(serde_json::from_value(value)?,&output)?}},
         Command::TrainIl{config,output,max_updates}=>imitation::train(&config,&output,max_updates)?,
         Command::EvaluateGgd{engine,weights,output,matches,seconds,mode,seed,trace,record_teacher,argmax,sampling,zero_previous,teacher_version,opponent_weights}=>imitation::evaluate_against(&engine,&weights,&output,matches,seconds,&mode,seed,trace,record_teacher,argmax||!sampling,zero_previous,teacher_version,opponent_weights.as_deref())?,
         Command::EvaluateTeachers{engine,output,matches,seconds,seed,left,right,swap,trace}=>teacher_eval::run(&engine,&output,matches,seconds,seed,left,right,swap,trace)?,

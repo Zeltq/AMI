@@ -118,6 +118,11 @@ pub fn decode(obs:&Observed,pc:usize,pt:usize,pp:usize)->(crate::model::Observat
     b.hero_combat=Tensor::cat(vec![b.hero_combat,cut(HERO_OFFSET,4*HERO_FIELDS).reshape([n,2,2*HERO_FIELDS])],2);
     b.creep_combat=Tensor::cat(vec![b.creep_combat,cut(CREEP_OFFSET,pc*2*UNIT_FIELDS).reshape([n,pc,2*UNIT_FIELDS])],2);
     b.tower_combat=Tensor::cat(vec![b.tower_combat,cut(TOWER_OFFSET,8*UNIT_FIELDS).reshape([n,4,2*UNIT_FIELDS])],2);
+    // The shared packed storage reserves legacy unit columns, but Clarity
+    // and its known flag carry no information into a CHiO encoder.
+    for (count,units) in [(2,&mut b.heroes),(pc,&mut b.creeps),(4,&mut b.towers)] {
+        for field in [38,38+UNIT_COUNT] {*units=units.clone().slice_assign([0..n,0..count,field..field+1],Tensor::zeros([n,count,1],&packed.device()));}
+    }
     let ids=Tensor::<1,Int>::from_data(ITEM_IDS,&packed.device());b.items=b.items.select(1,ids.clone());b.enemy_items=b.enemy_items.select(1,ids);
     b.previous=cut(PREVIOUS_OFFSET,PREVIOUS);
     let types=cut(MASK_OFFSET,13);let enemy=cut(MASK_OFFSET+13,pc);let ally=cut(MASK_OFFSET+13+observe::CREEPS,pc);

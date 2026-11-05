@@ -21,6 +21,7 @@ def batch(model,n=128,seed=20261103):
     for name,size in [('hero_valid',2),('creep_valid',pc),('creep_ally',pc),('tree_valid',pt),('projectile_valid',pp),
                       ('action_mask',13),('buy_mask',7),('item_mask',8),('attack_mask',2+pc+4+pt+1),('tree_mask',2+pc+4+pt+1),
                       ('tp_mask',2+pc+4+pt+1),('self_mask',2+pc+4+pt+1)]:b[name]=torch.ones((n,size),dtype=torch.bool)
+    for name in ('heroes','creeps','towers'):b[name][:,:,[38,86]]=0
     b['creep_ally'][:,1::2]=False;b['creep_valid'][:,-2:]=False
     b['enemy_target_mask']=b['creep_valid']&~b['creep_ally'];b['ally_target_mask']=b['creep_valid']&b['creep_ally']
     labels=torch.zeros((n,4),dtype=torch.long)

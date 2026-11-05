@@ -1,0 +1,92 @@
+{
+  "activation_delay_blocks": [
+    0,
+    0
+  ],
+  "blocks": 1,
+  "checkpoint": "C:/AMI/runs/p15/selfplay-smoke-001\\checkpoint-000001",
+  "completed_episodes": 0,
+  "component_names": [
+    "experience",
+    "gold_received",
+    "mana",
+    "health",
+    "last_hits",
+    "denies",
+    "kills",
+    "deaths",
+    "own_t1",
+    "flask",
+    "mango",
+    "tango",
+    "flask_break",
+    "outcome"
+  ],
+  "enemy_components_are_subtracted": true,
+  "family": "CHiO",
+  "gae_lambda": 0.949999988079071,
+  "gamma": 0.996999979019165,
+  "opponent_pool": [
+    "C:/AMI/runs/p15/parity-001/weights",
+    "C:/AMI/runs/p15/selfplay-smoke-001\\checkpoint-000001\\weights"
+  ],
+  "optimizer_steps": 1,
+  "phase_counts": [
+    256.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "reward_components": [
+    0.0,
+    0.0,
+    -0.7872871160507202,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    -0.5,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.6589860320091248,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.5,
+    0.0,
+    0.0
+  ],
+  "wall_seconds": 176.0746912,
+  "zero_sum": true,
+  "status": {
+    "stage": "complete",
+    "pid": 34348,
+    "cwd": "C:\\AMI-wt\\P15",
+    "command": "C:/AMI/runs/p15/training-002.exe train-ggd reports/P15/configs/self-play-smoke.json C:/AMI/runs/p15/selfplay-smoke-001",
+    "argv": [
+      "C:/AMI/runs/p15/training-002.exe",
+      "train-ggd",
+      "reports/P15/configs/self-play-smoke.json",
+      "C:/AMI/runs/p15/selfplay-smoke-001"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p15\\jobs\\selfplay-smoke-001\\stdout.log",
+      "C:\\AMI\\runs\\p15\\jobs\\selfplay-smoke-001\\stderr.log"
+    ],
+    "elapsed_minutes": 3.122492874999686,
+    "child_pid": 23104,
+    "exit_code": 0
+  }
+}

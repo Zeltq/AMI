@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "mode": "imitation",
+  "updates": 50,
+  "finite_updates": 50,
+  "validation_loss": 1.1237409366313633,
+  "validation_frames": 6902,
+  "wall_seconds": 8.699372799999999,
+  "checkpoint": "/mnt/c/AMI/runs/p15/imitation-smoke-001/checkpoint.pt",
+  "weights": "/mnt/c/AMI/runs/p15/imitation-smoke-001/weights",
+  "parameters": 1074274,
+  "status": {
+    "stage": "complete",
+    "pid": 16020,
+    "cwd": "C:\\AMI-wt\\P15",
+    "command": "C:/AMI/runs/p15/training-002.exe train-il reports/P15/configs/imitation-smoke.json C:/AMI/runs/p15/imitation-smoke-001 --max-updates 50",
+    "argv": [
+      "C:/AMI/runs/p15/training-002.exe",
+      "train-il",
+      "reports/P15/configs/imitation-smoke.json",
+      "C:/AMI/runs/p15/imitation-smoke-001",
+      "--max-updates",
+      "50"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p15\\jobs\\imitation-smoke-001\\stdout.log",
+      "C:\\AMI\\runs\\p15\\jobs\\imitation-smoke-001\\stderr.log"
+    ],
+    "elapsed_minutes": 0.425006018334534,
+    "child_pid": 31296,
+    "exit_code": 0
+  }
+}

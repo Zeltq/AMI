@@ -1,0 +1,18 @@
+{
+  "observation_profile": "chio-v1",
+  "engine": "C:/AMI/runs/p15/dota-calibration-005-chio/engine.json",
+  "decision_ticks": 6,
+  "offset_ticks": 6,
+  "gamma": 0.997,
+  "gae_lambda": 0.95,
+  "reward_mode": "lastorder-fb-v1",
+  "zero_sum": true,
+  "dataset": "C:/AMI/runs/p15/night/teacher-1024",
+  "epochs": 5,
+  "batch_sequences": 8,
+  "learning_rate": 0.0001,
+  "gradient_norm": 1.0,
+  "seed": 20261103,
+  "device": "cuda",
+  "mode": "imitation"
+}

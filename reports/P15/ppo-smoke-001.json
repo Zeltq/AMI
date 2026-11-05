@@ -1,0 +1,128 @@
+{
+  "activation_delay_blocks": [
+    0,
+    0
+  ],
+  "blocks": 1,
+  "checkpoint": "C:/AMI/runs/p15/ppo-smoke-001\\checkpoint-000001",
+  "completed_episodes": 0,
+  "component_names": [
+    "experience",
+    "gold_received",
+    "mana",
+    "health",
+    "last_hits",
+    "denies",
+    "kills",
+    "deaths",
+    "own_t1",
+    "flask",
+    "mango",
+    "tango",
+    "flask_break",
+    "outcome"
+  ],
+  "enemy_components_are_subtracted": true,
+  "family": "CHiO",
+  "gae_lambda": 0.949999988079071,
+  "gamma": 0.996999979019165,
+  "opponent_pool": [],
+  "optimizer_steps": 1,
+  "phase_counts": [
+    256.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "reward_components": [
+    0.0,
+    0.0,
+    -0.7872871160507202,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    -0.5,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "wall_seconds": 51.2170929,
+  "zero_sum": true,
+  "block": {
+    "block": 1,
+    "completed_episodes": 0,
+    "phase_counts": [
+      256.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "reward_components": [
+      0.0,
+      0.0,
+      -0.7872871160507202,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      -0.5,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "update": {
+      "buckets": [
+        16,
+        32,
+        16
+      ],
+      "early_stop_kl": false,
+      "minibatches": [
+        {
+          "entropy": 0.9921534061431885,
+          "gradient_norm": 0.159292533993721,
+          "loss": 0.00021001137793064117,
+          "old_policy_kl": 0.0,
+          "value_loss": 0.010341796092689037
+        }
+      ],
+      "optimizer_steps": 1
+    },
+    "wall_seconds": 51.1022774
+  }
+}
