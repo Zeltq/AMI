@@ -28,12 +28,19 @@ class ConsoleTail:
             with self.root.open('rb') as source:
                 source.seek(max(0,self.root_position-65536));self.pending=source.read().decode('utf-8',errors='replace')
             self.rotation()
-            if self.active and self.active.exists():self.position=self.active.stat().st_size
+            visited={self.root}
+            while self.active and self.active.exists() and self.active not in visited:
+                visited.add(self.active);previous=self.active
+                self.position=self.active.stat().st_size
+                with self.active.open('rb') as source:
+                    source.seek(max(0,self.position-65536));self.pending=source.read().decode('utf-8',errors='replace')
+                self.rotation()
+                if self.active==previous:break
 
     def rotation(self):
-        matches=re.findall(r"Tearing off console log, will continue using suffix '(\.[0-9]+)'",self.pending)
+        matches=re.findall(r"Tearing off console log, will continue using suffix '(\.[0-9]+|)'",self.pending)
         if matches:
-            path=self.root.with_name(self.root.stem+matches[-1]+self.root.suffix)
+            path=self.root.with_name(self.root.stem+matches[-1]+self.root.suffix) if matches[-1] else None
             if path!=self.active:self.active=path;self.position=0
         self.pending=self.pending[-4096:]
 
@@ -48,7 +55,9 @@ class ConsoleTail:
         if self.active and self.active.exists():
             if self.active.stat().st_size<self.position:self.position=0
             with self.active.open('rb') as source:
-                source.seek(self.position);data+=source.read();self.position=source.tell()
+                source.seek(self.position);chunk=source.read();self.position=source.tell()
+            data+=chunk
+            self.pending+=chunk.decode('utf-8',errors='replace');self.rotation()
         return data
 
 

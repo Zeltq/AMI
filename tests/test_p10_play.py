@@ -70,6 +70,25 @@ package.preload['bots/play_model_lobby']=function()return {run=function()error('
             self.assertEqual(tail.read(),b'new client\n')
             self.assertIsNone(tail.active)
 
+    def test_console_rotation_can_be_announced_inside_previous_match(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder)/'console.log';first=Path(folder)/'console.100.log';second=Path(folder)/'console.200.log'
+            root.write_text("Tearing off console log, will continue using suffix '.100'\n")
+            first.touch();tail=ConsoleTail(root)
+            first.write_text("Tearing off console log, will continue using suffix '.200'\n")
+            second.write_text('SF_PLAY_DUEL_READY|2\n')
+            tail.read()
+            self.assertIn(b'SF_PLAY_DUEL_READY|2',tail.read())
+            self.assertEqual(tail.active,second)
+            self.assertEqual(tail.read(),b'')
+            restarted=ConsoleTail(root)
+            self.assertEqual(restarted.active,second)
+            self.assertEqual(restarted.read(),b'')
+            with second.open('a') as f:f.write("Tearing off console log, will continue using suffix ''\n")
+            tail.read()
+            self.assertIsNone(tail.active)
+            self.assertIsNone(ConsoleTail(root).active)
+
     def test_status_replace_retries_a_transient_windows_reader(self):
         from unittest.mock import patch
         sys.path.insert(0,str(ROOT/'gpu/scripts'))

@@ -1,0 +1,60 @@
+{
+  "snapshot_utc": "2026-11-05T00:31:04.198775+00:00",
+  "session": "C:\\AMI\\runs\\p10\\human\\20261105-032741-652789",
+  "in_progress": true,
+  "model_team": 3,
+  "model_checkpoint": "C:\\AMI\\runs\\p10\\ZOg-000470.pt",
+  "device": "cpu",
+  "training_started": false,
+  "requests": 735,
+  "inference_errors": [],
+  "acknowledged": 748,
+  "accepted": 747,
+  "first_position": {
+    "kind": "hero",
+    "lh": 0,
+    "deny": 0,
+    "deaths": 0,
+    "kills": 0,
+    "health": 582,
+    "alive": true,
+    "team": 3,
+    "time": -72.666664123535,
+    "y": 6649.99609375,
+    "x": 6900,
+    "player": 5
+  },
+  "mid_arrival": {
+    "kind": "hero",
+    "lh": 0,
+    "deny": 0,
+    "deaths": 0,
+    "kills": 0,
+    "health": 582,
+    "alive": true,
+    "team": 3,
+    "time": -46.866661071777,
+    "y": 1344.8388671875,
+    "x": 1462.3361816406,
+    "player": 5
+  },
+  "latest_position": {
+    "kind": "hero",
+    "lh": 0,
+    "deny": 0,
+    "deaths": 0,
+    "kills": 0,
+    "health": 582,
+    "alive": true,
+    "team": 3,
+    "time": 27.333335876465,
+    "y": 44.150722503662,
+    "x": 21.866373062134,
+    "player": 5
+  },
+  "targeted_tests": {
+    "command": "python -m unittest test_p10_play -v",
+    "passed": 11,
+    "total": 11
+  }
+}
