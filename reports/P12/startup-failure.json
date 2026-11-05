@@ -1,0 +1,16 @@
+{
+  "failed_index": 2,
+  "initial_isolation": {
+    "assets": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\dota 2 beta\\game\\dota",
+    "content": "\\\\?\\C:\\AMI\\runs\\p12\\native-eight\\runtime\\18\\game\\dota",
+    "bots": "\\\\?\\C:\\AMI\\runs\\p12\\native-eight\\runtime\\18\\teacher_bots",
+    "asset_copy": "NTFS hardlinks and junctions; private scripts/cfg/replays/logs"
+  },
+  "gameinfo_exists": true,
+  "gameinfo_bytes": 8382,
+  "gameinfo_sha256": "74ba91d2153d8c360614afe764945a55c5bb996c266260385ef8c4c501417ab1",
+  "startup_log": "WARNING: Path suffix '\\\\' cannot be prefixed with '\\\\?\\C:\\AMI\\runs\\p12\\native-eight\\runtime\\18\\game\\bin\\win64'\nWARNING: Path suffix '\\\\' cannot be prefixed with '\\\\?\\C:\\AMI\\runs\\p12\\native-eight\\runtime\\18\\game\\bin\\win64'\nWARNING: Path suffix '\\\\' cannot be prefixed with '\\\\?\\C:\\AMI\\runs\\p12\\native-eight\\runtime\\18\\game\\bin\\win64'\n\nConsole initialized.\nFATAL ERROR: Application unable to load gameinfo.gi file from directory \"dota\"\nCan't read 'dota\\gameinfo.gi'\n",
+  "observed": "Only failed runtime path has extended Windows prefix; gameinfo file exists.",
+  "hypothesis": "Source 2 cannot resolve relative gameinfo from the extended path.",
+  "fix": "Create runtime directory before strict resolve; commit 3e1421f; test_live_install 3/3."
+}

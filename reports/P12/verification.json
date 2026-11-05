@@ -1,8 +1,8 @@
 {
   "python": {
-    "tests": 244,
+    "tests": 245,
     "passed": true,
-    "command": "$env:PYTHONPATH='src;scripts;tests;C:/AMI/tools/lua_test_runtime'; python -m unittest discover -s tests -v *> C:/AMI/runs/p12/python-full-final.log"
+    "command": "$env:PYTHONPATH='src;scripts;tests;C:/AMI/tools/lua_test_runtime'; python -m unittest discover -s tests -v *> C:/AMI/runs/p12/python-part-b.log"
   },
   "targeted": {
     "tests": 15,
@@ -14,5 +14,10 @@
     "passed": 10,
     "errors": 4,
     "reason": "lupa absent from default PYTHONPATH"
+  },
+  "runtime_fix": {
+    "tests": 3,
+    "passed": true,
+    "command": "python -m unittest discover -s tests -p test_live_install.py -v *> C:/AMI/runs/p12/python-runtime-fix.log"
   }
 }
