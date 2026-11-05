@@ -1,8 +1,8 @@
 //! CHiO teacher/DAgger collection through the same labels, masks and executor.
 use anyhow::{Result,ensure};
-use burn::{module::Module,tensor::{Tensor,TensorData,Int,DType}};
+use burn::{module::Module,tensor::{Tensor,TensorData,Int}};
 use std::{path::Path,time::Instant};
-use crate::{world::*,contract::*,observe,chio_observe as co,chio_actions as ca,chio_reward as reward,
+use crate::{world::*,contract::*,observe,chio_observe as co,chio_reward as reward,
     runtime::{device,tensor,primitive},imitation::{CollectConfig,DaggerConfig,DemoWriter},experience::{Experience,HORIZON,SIGNALS},sampling::Sampler};
 
 pub fn eligibility(w:&World,t:&crate::scripted_teacher::Teacher)->Tensor<1>{
@@ -67,7 +67,7 @@ pub fn collect(cfg:CollectConfig,root:&Path,dagger:Option<DaggerConfig>)->Result
     let files=writer.finish()?;let frames=files.iter().map(|e|e.valid_frames).sum::<usize>();let completed=games.iter().filter(|g|g["native_terminal"]==true).count();
     let dataset=serde_json::json!({"family":"CHiO","observation_profile":"chio-v1","teacher_sha256":cfg.teacher_version.sha256(),"source_sha256":crate::runtime::bytes_sha256(include_bytes!("chio_observe.rs")),
         "config":cfg,"partial":partial,"completed_matches":completed,"elapsed_seconds":started.elapsed().as_secs_f64(),"files":files,"game_metrics":games,
-        "decision_ticks":6,"offset_ticks":6,"reward_mode":"lastorder-fb-v1","zero_sum":zero_sum,"gamma":reward::GAMMA,"gae_lambda":reward::LAMBDA,"reward_record_format":"chio-reward-v1"});
+        "decision_ticks":6,"offset_ticks":6,"reward_mode":"lastorder-fb-v1","zero_sum":zero_sum,"gamma":reward::GAMMA,"gae_lambda":reward::LAMBDA,"reward_record_format":"chio-reward-v2"});
     crate::artifacts::atomic_json(&root.join("dataset.json"),&dataset)?;crate::artifacts::atomic_json(&root.join("game-metrics.json"),&games)?;
     let result=serde_json::json!({"family":"CHiO","games_requested":cfg.games,"games_recorded":games.len(),"native_completed":completed,"valid_decisions":frames,"blocks":block,"partial":partial,"wall_seconds":started.elapsed().as_secs_f64()});
     crate::artifacts::atomic_json(&root.join("report.json"),&result)?;Ok(result)

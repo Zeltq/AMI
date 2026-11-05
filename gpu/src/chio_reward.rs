@@ -7,18 +7,18 @@ use anyhow::Result;
 use std::{path::Path,io::Write};
 
 pub const GAMMA:f32=0.997;pub const LAMBDA:f32=0.95;
-pub const SNAP:usize=84;pub const COMPONENTS:usize=14;
+pub const SNAP:usize=85;pub const COMPONENTS:usize=14;
 pub const RECORD:usize=2*SNAP+2*COMPONENTS+2;
 pub const NAMES:[&str;COMPONENTS]=["experience","gold_received","mana","health","last_hits","denies","kills","deaths","own_t1","flask","mango","tango","flask_break","outcome"];
 pub fn fields()->Vec<String>{
     let mut names:Vec<_>=["game_seconds","gold_received","gold_current","xp_total","hp","hp_max","mana","mana_max","own_t1_hp","own_t1_max","enemy_t1_hp","enemy_t1_max",
         "last_hits","denies","kills","deaths","flask_used","mango_used","tango_used","flask_remaining_seconds","cast_skill","terminal","result","reason","gold_spent","flask_break_count","cast_cancellations","cast_active"].into_iter().map(str::to_string).collect();
     for slot in 0..8 {for field in ["hp_before","hp_max","hp_after","remaining_seconds","episode_seconds","source_kind"] {names.push(format!("flask_break_{slot}_{field}"));}}
-    for item in 0..8 {names.push(format!("purchases_{item}"));}names
+    for item in 0..8 {names.push(format!("purchases_{item}"));}names.push("flask_heal_per_second".into());names
 }
 
 #[cube(launch)]
-fn snapshot_kernel(state:&[f32],meta:&[f32],events:&[f32],xp:&[f32],out:&mut [f32],actors:usize,pregame:f32){
+fn snapshot_kernel(state:&[f32],meta:&[f32],events:&[f32],xp:&[f32],out:&mut [f32],actors:usize,pregame:f32,flask_rate:f32){
     let a=ABSOLUTE_POS;if a<actors {
         let m=a/2;let side=a%2;let base=m*UNITS*STRIDE;let p=base+side*STRIDE;let r=a*SNAP;let e=a*event::FIELDS;
         let time=(meta[m*META]+pregame*30.0f32)/30.0f32;
@@ -33,14 +33,14 @@ fn snapshot_kernel(state:&[f32],meta:&[f32],events:&[f32],xp:&[f32],out:&mut [f3
         out[r+21]=meta[m*META+2];out[r+22]=meta[m*META+17]*if side==0 {1.0f32}else{-1.0f32};out[r+23]=crate::demo_telemetry::reason(state,meta,m);
         out[r+24]=events[e+event::SPENT];out[r+25]=events[e+event::BREAKS];out[r+26]=events[e+event::CANCELS];out[r+27]=if state[p+CAST_END]>time {1.0f32}else{0.0f32};
         for i in 0..48 {out[r+28+i]=events[e+event::BREAK_OFFSET+i];}
-        for i in 0..8 {out[r+76+i]=events[e+event::PURCHASES+i];}
+        for i in 0..8 {out[r+76+i]=events[e+event::PURCHASES+i];}out[r+84]=flask_rate;
     }
 }
 
 pub fn snapshot(w:&World)->CubeTensor {
     let n=w.matches*2;let out=primitive(Tensor::<2>::zeros([n,SNAP],&w.device));
     snapshot_kernel::launch(&w.state.client,CubeCount::Static(n.div_ceil(64)as u32,1,1),CubeDim::new_1d(64),
-        argument(&w.state),argument(&w.meta),argument(&w.chio_events),argument(&w.experience),argument(&out),n,w.engine.pre_game_seconds);out
+        argument(&w.state),argument(&w.meta),argument(&w.chio_events),argument(&w.experience),argument(&out),n,w.engine.pre_game_seconds,w.engine.items[5][4]);out
 }
 
 #[cube]
@@ -66,7 +66,7 @@ fn component(before:&[f32],after:&[f32],a:usize,c:usize)->f32 {
         let first=before[r+25]as usize;let end=after[r+25]as usize;
         for offset in 0..event::BREAK_SLOTS {if first+offset<end {
             let at=r+28+((first+offset)%event::BREAK_SLOTS)*event::BREAK_FIELDS;
-            let projected=fraction(after[at]+50.0f32*after[at+3],after[at+1]);
+            let projected=fraction(after[at]+after[r+84]*after[at+3],after[at+1]);
             value+=(health(fraction(after[at+2],after[at+1]))-health(projected)).max(-0.4f32);
         }}
     }
@@ -110,7 +110,7 @@ impl Recorder {
     }
     pub fn flush(&mut self,root:&Path,block:usize,offset:usize,frames:usize)->Result<()> {
         let values=tensor::<3>(self.buffer.clone()).into_data().try_to_vec::<f32>()?;
-        let header=serde_json::to_vec(&serde_json::json!({"format":"chio-reward-v1","shape":[self.actors,128,RECORD],"actors":(offset*2..offset*2+self.actors).collect::<Vec<_>>(),
+        let header=serde_json::to_vec(&serde_json::json!({"format":"chio-reward-v2","shape":[self.actors,128,RECORD],"actors":(offset*2..offset*2+self.actors).collect::<Vec<_>>(),
             "frames":frames,"snapshot_fields":fields(),"components":NAMES,"zero_sum":self.zero_sum,"gamma":GAMMA,"gae_lambda":LAMBDA,
             "layout":"before snapshot, after snapshot, own components, subtracted enemy components, total, valid; opposite hero is adjacent actor id xor 1"}))?;
         let mut out=flate2::write::GzEncoder::new(std::fs::File::create(root.join(format!("chio-reward-{block:06}.f32.gz")))?,flate2::Compression::fast());

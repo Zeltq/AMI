@@ -4,7 +4,7 @@ import json
 import struct
 import numpy as np
 
-SNAP=84
+SNAP=85
 COMPONENTS=('experience','gold_received','mana','health','last_hits','denies','kills','deaths','own_t1','flask','mango','tango','flask_break','outcome')
 GAMMA=.997
 GAE_LAMBDA=.95
@@ -18,7 +18,7 @@ def tower(h):return h+1-(1-h)**3
 def components(before,after,zero_sum=True):
     before=np.asarray(before,dtype=np.float64);after=np.asarray(after,dtype=np.float64)
     if before.shape!=after.shape or before.ndim!=2 or before.shape[1]!=SNAP or len(before)%2:
-        raise ValueError('paired actor snapshots [N,84] required')
+        raise ValueError('paired actor snapshots [N,85] required')
     r=np.zeros((len(before),14),np.float64)
     r[:,0]=.002*(after[:,3]-before[:,3]);r[:,1]=.006*np.maximum(after[:,1]-before[:,1],0)
     r[:,2]=.5*(fraction(after[:,6],after[:,7])-fraction(before[:,6],before[:,7]))
@@ -32,7 +32,7 @@ def components(before,after,zero_sum=True):
         if end-first not in range(9):raise ValueError('Flask break ring overflow or episode boundary inside transition')
         for event in range(first,end):
             hp,maximum,hp_after,remaining=after[actor,28+(event%8)*6:32+(event%8)*6]
-            r[actor,12]+=max(float(health(fraction(hp_after,maximum))-health(fraction(hp+50*remaining,maximum))),-.4)
+            r[actor,12]+=max(float(health(fraction(hp_after,maximum))-health(fraction(hp+after[actor,84]*remaining,maximum))),-.4)
     decay=np.where(after[:,0]>=360,.6,1.)
     for component in set(range(13))-{6,7}:r[:,component]*=decay
     r[:,13]=np.where((before[:,21]<=0)&(after[:,21]>0),5*after[:,22],0)
@@ -47,7 +47,7 @@ def read_record(path):
         size=struct.unpack('<I',stream.read(4))[0]
         if not 0<size<1_000_000:raise ValueError('bad reward header')
         header=json.loads(stream.read(size))
-        if header['format']!='chio-reward-v1':raise ValueError('wrong reward contract')
+        if header['format']!='chio-reward-v2':raise ValueError('wrong reward contract')
         data=np.frombuffer(stream.read(),dtype='<f4').reshape(header['shape'])
     return header,data
 

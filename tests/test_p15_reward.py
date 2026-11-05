@@ -4,7 +4,7 @@ from sf_duel.chio_reward import components,health,tower,SNAP
 
 
 def baseline():
-    a=np.zeros((2,SNAP));a[:,4]=600;a[:,5]=1000;a[:,6]=200;a[:,7]=500;a[:,8:12]=1000
+    a=np.zeros((2,SNAP));a[:,4]=600;a[:,5]=1000;a[:,6]=200;a[:,7]=500;a[:,8:12]=1000;a[:,84]=30
     return a
 
 
@@ -47,10 +47,13 @@ class RewardContract(unittest.TestCase):
                 self.assertEqual(components(before,after,False)[0][0,13],5*result)
                 self.assertEqual(components(after,after,False)[0][0,13],0)
 
-    def test_flask_break_replays_every_event_with_50_hp_per_second_and_floor(self):
+    def test_flask_break_replays_every_event_with_environment_heal_rate_and_floor(self):
         before=baseline();after=before.copy();after[0,25]=1;after[0,28:34]=[400,1000,350,2,100,0]
-        expected=health(.35)-health(.5)
+        expected=health(.35)-health(.46)
         self.assertAlmostEqual(components(before,after,False)[0][0,12],expected)
+        after[0,84]=20
+        self.assertAlmostEqual(components(before,after,False)[0][0,12],health(.35)-health(.44))
+        after[0,84]=30
         after[0,31]=8;self.assertEqual(components(before,after,False)[0][0,12],-.4)
         before[0,25]=8;after[0,25]=10;after[0,34:40]=[200,500,100,8,101,1]
         self.assertAlmostEqual(components(before,after,False)[0][0,12],-.8)
