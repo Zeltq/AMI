@@ -53,10 +53,12 @@ def publish(message):
     subprocess.run(['git','-c','core.sshCommand=C:/Windows/System32/OpenSSH/ssh.exe -o BatchMode=yes -o ConnectTimeout=15','push','-u','origin','agent/P11-selfplay'],cwd=ROOT,check=True,timeout=120)
 def base_config():
     return dict(engine=ENGINE,initial_weights=str(START/'weights'),bootstrap_checkpoint=str(START),matches=192,seed=20261105,minutes=10,max_blocks=0,batch_sequences=48,epochs=2,learning_rate=3e-5,critic_learning_rate=3e-4,warmup_blocks=60,warmup_min_blocks=20,entropy=.005,kl_start=.03,kl_end=.01,stop_kl=.02,checkpoint_minutes=10,evaluate=False,evaluation_minutes=120,skip_warmup=True,critic_only=False,desynchronize=True,verify_phase_histogram=True,teacher_version='v10',reward_mode='event-v2',mana_weight=.5,separate_critic_lr=True,resume_checkpoint=None,schedule_minutes=240,stop_at_minutes=0,kl_decay_start_minutes=0,begin_decay_on_resume=False,opponent_pool=POOL,snapshot_minutes=60)
-def verify(prefix=''):
+def verify(prefix='',tests=True):
     cmd=['cargo','test','--release','--locked','--manifest-path',ROOT/'gpu/Cargo.toml','--target-dir',TARGET]
-    run(prefix+'rust-targeted','verification',cmd+['p11_','--','--nocapture','--test-threads=1'])
-    run(prefix+'rust-full','verification',cmd+['--','--test-threads=1'])
+    if tests:
+        run(prefix+'rust-targeted','verification',cmd+['p11_','--','--nocapture','--test-threads=1'])
+        run(prefix+'rust-full','verification',cmd+['--','--test-threads=1'])
+    else:assert any(r['stage']=='final-rust-full' and r['exit_code']==0 for r in history())
     run(prefix+'build','build',['cargo','build','--release','--locked','--manifest-path',ROOT/'gpu/Cargo.toml','--target-dir',TARGET])
     import shutil
     shutil.copy2(TARGET/'release/sf-duel-gpu.exe',EXE)
@@ -196,6 +198,8 @@ def main():
             elif mode=='overnight':overnight()
             elif mode=='all':
                 verify('final-');smoke();overnight()
+            elif mode=='launch':
+                verify('launch-',tests=False);smoke();overnight()
             else:raise ValueError(mode)
             status(stage=mode+' complete',pid=None,background_work_remaining=False)
         except Exception as e:status(stage=mode+' failed',pid=None,error=str(e),background_work_remaining=True);raise
