@@ -1,0 +1,5874 @@
+{
+  "quality": {
+    "cases": 180,
+    "frames": 32400,
+    "orders": 3780,
+    "structurally_valid_cases": 180,
+    "latency_ticks": {
+      "7": 3780
+    }
+  },
+  "totals": {
+    "open": {
+      "cases": 20,
+      "stopped": 0,
+      "mean_speed": 305.00041863198345,
+      "sim_cases": 20,
+      "paired_samples": 2740,
+      "max_error": 343.75117518757304,
+      "mean_error": 173.99520462778733
+    },
+    "turn90": {
+      "cases": 20,
+      "stopped": 0,
+      "mean_speed": 304.99994163041686,
+      "sim_cases": 20,
+      "paired_samples": 2740,
+      "max_error": 343.7506459434804,
+      "mean_error": 173.99451617276213
+    },
+    "turn180": {
+      "cases": 20,
+      "stopped": 0,
+      "mean_speed": 300.7036523968503,
+      "sim_cases": 20,
+      "paired_samples": 2740,
+      "max_error": 339.35084081829234,
+      "mean_error": 162.2976139550595
+    },
+    "tree": {
+      "cases": 20,
+      "stopped": 20,
+      "mean_speed": 0.0,
+      "sim_cases": 20,
+      "paired_samples": 2740,
+      "max_error": 725.7705722100801,
+      "mean_error": 519.9676765157787
+    },
+    "edge": {
+      "cases": 20,
+      "stopped": 0,
+      "mean_speed": 305.0005416356754,
+      "sim_cases": 20,
+      "paired_samples": 2740,
+      "max_error": 223.5278247437206,
+      "mean_error": 107.74817793472795
+    },
+    "slope": {
+      "cases": 20,
+      "stopped": 0,
+      "mean_speed": 303.74877615132704,
+      "sim_cases": 20,
+      "paired_samples": 2740,
+      "max_error": 1043.8970887814978,
+      "mean_error": 426.3204645027092
+    },
+    "ally": {
+      "cases": 20,
+      "stopped": 0,
+      "mean_speed": 304.52986239003064,
+      "sim_cases": 20,
+      "paired_samples": 2740,
+      "max_error": 319.26586095840463,
+      "mean_error": 144.51277186966985
+    },
+    "wave": {
+      "cases": 20,
+      "stopped": 0,
+      "mean_speed": 298.8760717300132,
+      "sim_cases": 20,
+      "paired_samples": 2740,
+      "max_error": 1063.235458262517,
+      "mean_error": 180.16612956627338
+    },
+    "enemy": {
+      "cases": 20,
+      "stopped": 0,
+      "mean_speed": 303.27558531027944,
+      "sim_cases": 20,
+      "paired_samples": 2740,
+      "max_error": 312.2621710227982,
+      "mean_error": 136.5138545237964
+    }
+  },
+  "cases": [
+    {
+      "case": 1,
+      "name": "open",
+      "repeat": 0,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3016357422,
+        -1254.0163574219
+      ],
+      "mean_speed": 305.0002034924824,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 2,
+      "name": "open",
+      "repeat": 1,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3015136719,
+        -1254.0162353516
+      ],
+      "mean_speed": 305.00017022962345,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 3,
+      "name": "open",
+      "repeat": 2,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3015136719,
+        -1254.0162353516
+      ],
+      "mean_speed": 305.0006682284654,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 4,
+      "name": "open",
+      "repeat": 3,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3016357422,
+        -1254.0163574219
+      ],
+      "mean_speed": 305.0006925739838,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 5,
+      "name": "open",
+      "repeat": 4,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3015136719,
+        -1254.0162353516
+      ],
+      "mean_speed": 305.0006682284654,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 6,
+      "name": "open",
+      "repeat": 5,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3015136719,
+        -1254.0162353516
+      ],
+      "mean_speed": 305.0006682284654,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 7,
+      "name": "open",
+      "repeat": 6,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3015136719,
+        -1254.0162353516
+      ],
+      "mean_speed": 305.0006682284654,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 8,
+      "name": "open",
+      "repeat": 7,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3015136719,
+        -1254.0162353516
+      ],
+      "mean_speed": 305.0006682284654,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 9,
+      "name": "open",
+      "repeat": 8,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3016357422,
+        -1254.0163574219
+      ],
+      "mean_speed": 305.0006925739839,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 10,
+      "name": "open",
+      "repeat": 9,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3015136719,
+        -1254.0162353516
+      ],
+      "mean_speed": 305.0006683856528,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 11,
+      "name": "open",
+      "repeat": 10,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3026123047,
+        -1254.013671875
+      ],
+      "mean_speed": 305.00028360549135,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 12,
+      "name": "open",
+      "repeat": 11,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3026123047,
+        -1254.013671875
+      ],
+      "mean_speed": 305.00028360549135,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 13,
+      "name": "open",
+      "repeat": 12,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3026123047,
+        -1254.013671875
+      ],
+      "mean_speed": 305.00028360549135,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 14,
+      "name": "open",
+      "repeat": 13,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3024902344,
+        -1254.0135498047
+      ],
+      "mean_speed": 305.0002504893059,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 15,
+      "name": "open",
+      "repeat": 14,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3024902344,
+        -1254.0135498047
+      ],
+      "mean_speed": 305.0002504893059,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 16,
+      "name": "open",
+      "repeat": 15,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3024902344,
+        -1254.0135498047
+      ],
+      "mean_speed": 305.0002504893059,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 17,
+      "name": "open",
+      "repeat": 16,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3024902344,
+        -1254.0135498047
+      ],
+      "mean_speed": 305.0002504893059,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 18,
+      "name": "open",
+      "repeat": 17,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3024902344,
+        -1254.0135498047
+      ],
+      "mean_speed": 305.0002504893059,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 19,
+      "name": "open",
+      "repeat": 18,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3024902344,
+        -1254.0135498047
+      ],
+      "mean_speed": 305.0002504893059,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 20,
+      "name": "open",
+      "repeat": 19,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3024902344,
+        -1254.0135498047
+      ],
+      "mean_speed": 305.0002504893059,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 21,
+      "name": "turn90",
+      "repeat": 0,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.41509499435233e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3026123047,
+        -1254.013671875
+      ],
+      "mean_speed": 305.0002750848588,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 22,
+      "name": "turn90",
+      "repeat": 1,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.41509499435233e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3026123047,
+        -1254.013671875
+      ],
+      "mean_speed": 305.0002750848588,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 23,
+      "name": "turn90",
+      "repeat": 2,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.41509499435233e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3026123047,
+        -1254.013671875
+      ],
+      "mean_speed": 305.0002750848588,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 24,
+      "name": "turn90",
+      "repeat": 3,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.41509499435233e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3026123047,
+        -1254.013671875
+      ],
+      "mean_speed": 305.00027508486187,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 25,
+      "name": "turn90",
+      "repeat": 4,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.41509499435233e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3026123047,
+        -1254.013671875
+      ],
+      "mean_speed": 305.00027508486187,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 26,
+      "name": "turn90",
+      "repeat": 5,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.41509499435233e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3026123047,
+        -1254.013671875
+      ],
+      "mean_speed": 305.00027508486187,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 27,
+      "name": "turn90",
+      "repeat": 6,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.41509499435233e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.2979736328,
+        -1254.0123291016
+      ],
+      "mean_speed": 304.99917389860036,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 28,
+      "name": "turn90",
+      "repeat": 7,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.41509499435233e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.2979736328,
+        -1254.0123291016
+      ],
+      "mean_speed": 304.99917389860036,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 29,
+      "name": "turn90",
+      "repeat": 8,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.41509499435233e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.2979736328,
+        -1254.0123291016
+      ],
+      "mean_speed": 304.99917389860036,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 30,
+      "name": "turn90",
+      "repeat": 9,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.41509499435233e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.2979736328,
+        -1254.0123291016
+      ],
+      "mean_speed": 304.99917389860036,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 31,
+      "name": "turn90",
+      "repeat": 10,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.41509499435233e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.2979736328,
+        -1254.0123291016
+      ],
+      "mean_speed": 304.99917389860036,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 32,
+      "name": "turn90",
+      "repeat": 11,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.41509499435233e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3018798828,
+        -1254.0147705078
+      ],
+      "mean_speed": 304.9991242444271,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 33,
+      "name": "turn90",
+      "repeat": 12,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.41509499435233e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3068847656,
+        -1254.0151367188
+      ],
+      "mean_speed": 305.0002735452306,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 34,
+      "name": "turn90",
+      "repeat": 13,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.41509499435233e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3068847656,
+        -1254.0151367188
+      ],
+      "mean_speed": 305.0002735452306,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 35,
+      "name": "turn90",
+      "repeat": 14,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.41509499435233e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3068847656,
+        -1254.0151367188
+      ],
+      "mean_speed": 305.0002735452306,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 36,
+      "name": "turn90",
+      "repeat": 15,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.41509499435233e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3068847656,
+        -1254.0151367188
+      ],
+      "mean_speed": 305.0002735452306,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 37,
+      "name": "turn90",
+      "repeat": 16,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.41509499435233e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3068847656,
+        -1254.0151367188
+      ],
+      "mean_speed": 305.0002735452306,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 38,
+      "name": "turn90",
+      "repeat": 17,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.41509499435233e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3068847656,
+        -1254.0151367188
+      ],
+      "mean_speed": 305.0002735451979,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 39,
+      "name": "turn90",
+      "repeat": 18,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.41509499435233e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3068847656,
+        -1254.0151367188
+      ],
+      "mean_speed": 305.0002735451979,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 40,
+      "name": "turn90",
+      "repeat": 19,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.41509499435233e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3068847656,
+        -1254.0151367188
+      ],
+      "mean_speed": 305.0002735451979,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 41,
+      "name": "turn180",
+      "repeat": 0,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 5.008959988117567e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.2800292969,
+        -1241.3903808594
+      ],
+      "mean_speed": 300.7036573875317,
+      "longest_slow_ticks": 2,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 42,
+      "name": "turn180",
+      "repeat": 1,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 5.008959988117567e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.2800292969,
+        -1241.3903808594
+      ],
+      "mean_speed": 300.7036573875317,
+      "longest_slow_ticks": 2,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 43,
+      "name": "turn180",
+      "repeat": 2,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 5.008959988117567e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.2800292969,
+        -1241.3903808594
+      ],
+      "mean_speed": 300.7036573875317,
+      "longest_slow_ticks": 2,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 44,
+      "name": "turn180",
+      "repeat": 3,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 5.008959988117567e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.2800292969,
+        -1241.3903808594
+      ],
+      "mean_speed": 300.7036573875317,
+      "longest_slow_ticks": 2,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 45,
+      "name": "turn180",
+      "repeat": 4,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 5.008959988117567e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.2800292969,
+        -1241.3903808594
+      ],
+      "mean_speed": 300.70365727810065,
+      "longest_slow_ticks": 2,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 46,
+      "name": "turn180",
+      "repeat": 5,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 5.008959988117567e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.2800292969,
+        -1241.3903808594
+      ],
+      "mean_speed": 300.70365727810065,
+      "longest_slow_ticks": 2,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 47,
+      "name": "turn180",
+      "repeat": 6,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 5.008959988117567e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.2800292969,
+        -1241.3903808594
+      ],
+      "mean_speed": 300.70365727810065,
+      "longest_slow_ticks": 2,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 48,
+      "name": "turn180",
+      "repeat": 7,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 5.008959988117567e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.2800292969,
+        -1241.3903808594
+      ],
+      "mean_speed": 300.70365727810065,
+      "longest_slow_ticks": 2,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 49,
+      "name": "turn180",
+      "repeat": 8,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 5.008959988117567e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.2800292969,
+        -1241.3903808594
+      ],
+      "mean_speed": 300.70365727810065,
+      "longest_slow_ticks": 2,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 50,
+      "name": "turn180",
+      "repeat": 9,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 5.008959988117567e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.2800292969,
+        -1241.3903808594
+      ],
+      "mean_speed": 300.70365727810065,
+      "longest_slow_ticks": 2,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 51,
+      "name": "turn180",
+      "repeat": 10,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 5.008959988117567e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.2800292969,
+        -1241.3905029297
+      ],
+      "mean_speed": 300.70365727810065,
+      "longest_slow_ticks": 2,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 52,
+      "name": "turn180",
+      "repeat": 11,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 5.008959988117567e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.2800292969,
+        -1241.3905029297
+      ],
+      "mean_speed": 300.7036574652437,
+      "longest_slow_ticks": 2,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 53,
+      "name": "turn180",
+      "repeat": 12,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 5.008959988117567e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.2800292969,
+        -1241.3905029297
+      ],
+      "mean_speed": 300.7036574652437,
+      "longest_slow_ticks": 2,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 54,
+      "name": "turn180",
+      "repeat": 13,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 5.008959988117567e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.2800292969,
+        -1241.3905029297
+      ],
+      "mean_speed": 300.7036574652437,
+      "longest_slow_ticks": 2,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 55,
+      "name": "turn180",
+      "repeat": 14,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 5.008959988117567e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.2800292969,
+        -1241.3905029297
+      ],
+      "mean_speed": 300.7036574652437,
+      "longest_slow_ticks": 2,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 56,
+      "name": "turn180",
+      "repeat": 15,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 5.008959988117567e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.2800292969,
+        -1241.3905029297
+      ],
+      "mean_speed": 300.7036574652437,
+      "longest_slow_ticks": 2,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 57,
+      "name": "turn180",
+      "repeat": 16,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 5.008959988117567e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.2800292969,
+        -1241.3905029297
+      ],
+      "mean_speed": 300.7036574652437,
+      "longest_slow_ticks": 2,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 58,
+      "name": "turn180",
+      "repeat": 17,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 5.008959988117567e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.2799072266,
+        -1241.3905029297
+      ],
+      "mean_speed": 300.70362421623787,
+      "longest_slow_ticks": 2,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 59,
+      "name": "turn180",
+      "repeat": 18,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 5.008959988117567e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.2799072266,
+        -1241.3905029297
+      ],
+      "mean_speed": 300.70362421623787,
+      "longest_slow_ticks": 2,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 60,
+      "name": "turn180",
+      "repeat": 19,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 5.008959988117567e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.2799072266,
+        -1241.3905029297
+      ],
+      "mean_speed": 300.70362421623787,
+      "longest_slow_ticks": 2,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 61,
+      "name": "tree",
+      "repeat": 0,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.4150949659306207e-06,
+      "first": [
+        -192,
+        -1392
+      ],
+      "last": [
+        -192,
+        -1392
+      ],
+      "mean_speed": 0.0,
+      "longest_slow_ticks": 142,
+      "stopped_over_one_second": true
+    },
+    {
+      "case": 62,
+      "name": "tree",
+      "repeat": 1,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.4150949659306207e-06,
+      "first": [
+        -192,
+        -1392
+      ],
+      "last": [
+        -192,
+        -1392
+      ],
+      "mean_speed": 0.0,
+      "longest_slow_ticks": 142,
+      "stopped_over_one_second": true
+    },
+    {
+      "case": 63,
+      "name": "tree",
+      "repeat": 2,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.4150949659306207e-06,
+      "first": [
+        -192,
+        -1392
+      ],
+      "last": [
+        -192,
+        -1392
+      ],
+      "mean_speed": 0.0,
+      "longest_slow_ticks": 142,
+      "stopped_over_one_second": true
+    },
+    {
+      "case": 64,
+      "name": "tree",
+      "repeat": 3,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.4150949659306207e-06,
+      "first": [
+        -192,
+        -1392
+      ],
+      "last": [
+        -192,
+        -1392
+      ],
+      "mean_speed": 0.0,
+      "longest_slow_ticks": 142,
+      "stopped_over_one_second": true
+    },
+    {
+      "case": 65,
+      "name": "tree",
+      "repeat": 4,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.4150949659306207e-06,
+      "first": [
+        -192,
+        -1392
+      ],
+      "last": [
+        -192,
+        -1392
+      ],
+      "mean_speed": 0.0,
+      "longest_slow_ticks": 142,
+      "stopped_over_one_second": true
+    },
+    {
+      "case": 66,
+      "name": "tree",
+      "repeat": 5,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.4150949659306207e-06,
+      "first": [
+        -192,
+        -1392
+      ],
+      "last": [
+        -192,
+        -1392
+      ],
+      "mean_speed": 0.0,
+      "longest_slow_ticks": 142,
+      "stopped_over_one_second": true
+    },
+    {
+      "case": 67,
+      "name": "tree",
+      "repeat": 6,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.4150949659306207e-06,
+      "first": [
+        -192,
+        -1392
+      ],
+      "last": [
+        -192,
+        -1392
+      ],
+      "mean_speed": 0.0,
+      "longest_slow_ticks": 142,
+      "stopped_over_one_second": true
+    },
+    {
+      "case": 68,
+      "name": "tree",
+      "repeat": 7,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.4150949659306207e-06,
+      "first": [
+        -192,
+        -1392
+      ],
+      "last": [
+        -192,
+        -1392
+      ],
+      "mean_speed": 0.0,
+      "longest_slow_ticks": 142,
+      "stopped_over_one_second": true
+    },
+    {
+      "case": 69,
+      "name": "tree",
+      "repeat": 8,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.4150949659306207e-06,
+      "first": [
+        -192,
+        -1392
+      ],
+      "last": [
+        -192,
+        -1392
+      ],
+      "mean_speed": 0.0,
+      "longest_slow_ticks": 142,
+      "stopped_over_one_second": true
+    },
+    {
+      "case": 70,
+      "name": "tree",
+      "repeat": 9,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.4150949659306207e-06,
+      "first": [
+        -192,
+        -1392
+      ],
+      "last": [
+        -192,
+        -1392
+      ],
+      "mean_speed": 0.0,
+      "longest_slow_ticks": 142,
+      "stopped_over_one_second": true
+    },
+    {
+      "case": 71,
+      "name": "tree",
+      "repeat": 10,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.4150949659306207e-06,
+      "first": [
+        -192,
+        -1392
+      ],
+      "last": [
+        -192,
+        -1392
+      ],
+      "mean_speed": 0.0,
+      "longest_slow_ticks": 142,
+      "stopped_over_one_second": true
+    },
+    {
+      "case": 72,
+      "name": "tree",
+      "repeat": 11,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.4150949659306207e-06,
+      "first": [
+        -192,
+        -1392
+      ],
+      "last": [
+        -192,
+        -1392
+      ],
+      "mean_speed": 0.0,
+      "longest_slow_ticks": 142,
+      "stopped_over_one_second": true
+    },
+    {
+      "case": 73,
+      "name": "tree",
+      "repeat": 12,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.4150949659306207e-06,
+      "first": [
+        -192,
+        -1392
+      ],
+      "last": [
+        -192,
+        -1392
+      ],
+      "mean_speed": 0.0,
+      "longest_slow_ticks": 142,
+      "stopped_over_one_second": true
+    },
+    {
+      "case": 74,
+      "name": "tree",
+      "repeat": 13,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.4150949659306207e-06,
+      "first": [
+        -192,
+        -1392
+      ],
+      "last": [
+        -192,
+        -1392
+      ],
+      "mean_speed": 0.0,
+      "longest_slow_ticks": 142,
+      "stopped_over_one_second": true
+    },
+    {
+      "case": 75,
+      "name": "tree",
+      "repeat": 14,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.4150949659306207e-06,
+      "first": [
+        -192,
+        -1392
+      ],
+      "last": [
+        -192,
+        -1392
+      ],
+      "mean_speed": 0.0,
+      "longest_slow_ticks": 142,
+      "stopped_over_one_second": true
+    },
+    {
+      "case": 76,
+      "name": "tree",
+      "repeat": 15,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.4150949659306207e-06,
+      "first": [
+        -192,
+        -1392
+      ],
+      "last": [
+        -192,
+        -1392
+      ],
+      "mean_speed": 0.0,
+      "longest_slow_ticks": 142,
+      "stopped_over_one_second": true
+    },
+    {
+      "case": 77,
+      "name": "tree",
+      "repeat": 16,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.4150949659306207e-06,
+      "first": [
+        -192,
+        -1392
+      ],
+      "last": [
+        -192,
+        -1392
+      ],
+      "mean_speed": 0.0,
+      "longest_slow_ticks": 142,
+      "stopped_over_one_second": true
+    },
+    {
+      "case": 78,
+      "name": "tree",
+      "repeat": 17,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.4150949659306207e-06,
+      "first": [
+        -192,
+        -1392
+      ],
+      "last": [
+        -192,
+        -1392
+      ],
+      "mean_speed": 0.0,
+      "longest_slow_ticks": 142,
+      "stopped_over_one_second": true
+    },
+    {
+      "case": 79,
+      "name": "tree",
+      "repeat": 18,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.4150949659306207e-06,
+      "first": [
+        -192,
+        -1392
+      ],
+      "last": [
+        -192,
+        -1392
+      ],
+      "mean_speed": 0.0,
+      "longest_slow_ticks": 142,
+      "stopped_over_one_second": true
+    },
+    {
+      "case": 80,
+      "name": "tree",
+      "repeat": 19,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.4150949659306207e-06,
+      "first": [
+        -192,
+        -1392
+      ],
+      "last": [
+        -192,
+        -1392
+      ],
+      "mean_speed": 0.0,
+      "longest_slow_ticks": 142,
+      "stopped_over_one_second": true
+    },
+    {
+      "case": 81,
+      "name": "edge",
+      "repeat": 0,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -1040
+      ],
+      "last": [
+        1430.2598876953,
+        -1324.5267333984
+      ],
+      "mean_speed": 305.0005397708341,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 82,
+      "name": "edge",
+      "repeat": 1,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -1040
+      ],
+      "last": [
+        1430.2598876953,
+        -1324.5267333984
+      ],
+      "mean_speed": 305.0005397708341,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 83,
+      "name": "edge",
+      "repeat": 2,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -1040
+      ],
+      "last": [
+        1430.2598876953,
+        -1324.5267333984
+      ],
+      "mean_speed": 305.0005397708341,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 84,
+      "name": "edge",
+      "repeat": 3,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -1040
+      ],
+      "last": [
+        1430.2598876953,
+        -1324.5267333984
+      ],
+      "mean_speed": 305.0005397708341,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 85,
+      "name": "edge",
+      "repeat": 4,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -1040
+      ],
+      "last": [
+        1430.2598876953,
+        -1324.5267333984
+      ],
+      "mean_speed": 305.0005397708341,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 86,
+      "name": "edge",
+      "repeat": 5,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -1040
+      ],
+      "last": [
+        1430.2598876953,
+        -1324.5267333984
+      ],
+      "mean_speed": 305.0005397708341,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 87,
+      "name": "edge",
+      "repeat": 6,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -1040
+      ],
+      "last": [
+        1430.2598876953,
+        -1324.5267333984
+      ],
+      "mean_speed": 305.00053977082763,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 88,
+      "name": "edge",
+      "repeat": 7,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -1040
+      ],
+      "last": [
+        1430.2598876953,
+        -1324.5267333984
+      ],
+      "mean_speed": 305.00053977082763,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 89,
+      "name": "edge",
+      "repeat": 8,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -1040
+      ],
+      "last": [
+        1430.2598876953,
+        -1324.5267333984
+      ],
+      "mean_speed": 305.00053977082763,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 90,
+      "name": "edge",
+      "repeat": 9,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -1040
+      ],
+      "last": [
+        1430.2598876953,
+        -1324.5267333984
+      ],
+      "mean_speed": 305.00053977082763,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 91,
+      "name": "edge",
+      "repeat": 10,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -1040
+      ],
+      "last": [
+        1430.2598876953,
+        -1324.5267333984
+      ],
+      "mean_speed": 305.00053977082763,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 92,
+      "name": "edge",
+      "repeat": 11,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -1040
+      ],
+      "last": [
+        1430.2598876953,
+        -1324.5267333984
+      ],
+      "mean_speed": 305.00053977082763,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 93,
+      "name": "edge",
+      "repeat": 12,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -1040
+      ],
+      "last": [
+        1430.2598876953,
+        -1324.5267333984
+      ],
+      "mean_speed": 305.00053977082763,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 94,
+      "name": "edge",
+      "repeat": 13,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -1040
+      ],
+      "last": [
+        1430.2598876953,
+        -1324.5267333984
+      ],
+      "mean_speed": 305.00053977082763,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 95,
+      "name": "edge",
+      "repeat": 14,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -1040
+      ],
+      "last": [
+        1430.2598876953,
+        -1324.5267333984
+      ],
+      "mean_speed": 305.00053977082763,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 96,
+      "name": "edge",
+      "repeat": 15,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -1040
+      ],
+      "last": [
+        1430.2598876953,
+        -1324.5267333984
+      ],
+      "mean_speed": 305.00053977082763,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 97,
+      "name": "edge",
+      "repeat": 16,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -1040
+      ],
+      "last": [
+        1430.2598876953,
+        -1324.5267333984
+      ],
+      "mean_speed": 305.00053977082763,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 98,
+      "name": "edge",
+      "repeat": 17,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -1040
+      ],
+      "last": [
+        1430.2598876953,
+        -1324.5267333984
+      ],
+      "mean_speed": 305.00053977082763,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 99,
+      "name": "edge",
+      "repeat": 18,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -1040
+      ],
+      "last": [
+        1430.2598876953,
+        -1324.5267333984
+      ],
+      "mean_speed": 305.00053977082763,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 100,
+      "name": "edge",
+      "repeat": 19,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -1040
+      ],
+      "last": [
+        1430.2603759766,
+        -1324.5246582031
+      ],
+      "mean_speed": 305.00057706774453,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 101,
+      "name": "slope",
+      "repeat": 0,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        -816,
+        -816
+      ],
+      "last": [
+        530.8203125,
+        -862.74768066406
+      ],
+      "mean_speed": 303.74719926864765,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 102,
+      "name": "slope",
+      "repeat": 1,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        -816,
+        -816
+      ],
+      "last": [
+        530.8203125,
+        -862.74768066406
+      ],
+      "mean_speed": 303.74719926864765,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 103,
+      "name": "slope",
+      "repeat": 2,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        -816,
+        -816
+      ],
+      "last": [
+        530.8203125,
+        -862.74768066406
+      ],
+      "mean_speed": 303.74719926864765,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 104,
+      "name": "slope",
+      "repeat": 3,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        -816,
+        -816
+      ],
+      "last": [
+        530.8203125,
+        -862.74768066406
+      ],
+      "mean_speed": 303.74719926864765,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 105,
+      "name": "slope",
+      "repeat": 4,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        -816,
+        -816
+      ],
+      "last": [
+        530.8203125,
+        -862.74768066406
+      ],
+      "mean_speed": 303.74719926864765,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 106,
+      "name": "slope",
+      "repeat": 5,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        -816,
+        -816
+      ],
+      "last": [
+        530.8203125,
+        -862.74768066406
+      ],
+      "mean_speed": 303.74719926864765,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 107,
+      "name": "slope",
+      "repeat": 6,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        -816,
+        -816
+      ],
+      "last": [
+        530.8203125,
+        -862.74768066406
+      ],
+      "mean_speed": 303.74719926864765,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 108,
+      "name": "slope",
+      "repeat": 7,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        -816,
+        -816
+      ],
+      "last": [
+        530.8203125,
+        -862.74768066406
+      ],
+      "mean_speed": 303.74719926864765,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 109,
+      "name": "slope",
+      "repeat": 8,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        -816,
+        -816
+      ],
+      "last": [
+        530.8203125,
+        -862.74768066406
+      ],
+      "mean_speed": 303.74719926864765,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 110,
+      "name": "slope",
+      "repeat": 9,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        -816,
+        -816
+      ],
+      "last": [
+        530.8203125,
+        -862.74768066406
+      ],
+      "mean_speed": 303.74719926864765,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 111,
+      "name": "slope",
+      "repeat": 10,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        -816,
+        -816
+      ],
+      "last": [
+        530.8203125,
+        -862.74768066406
+      ],
+      "mean_speed": 303.74719926864765,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 112,
+      "name": "slope",
+      "repeat": 11,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        -816,
+        -816
+      ],
+      "last": [
+        530.8203125,
+        -862.74768066406
+      ],
+      "mean_speed": 303.74719926864765,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 113,
+      "name": "slope",
+      "repeat": 12,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        -816,
+        -816
+      ],
+      "last": [
+        530.8203125,
+        -862.74768066406
+      ],
+      "mean_speed": 303.7511414753462,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 114,
+      "name": "slope",
+      "repeat": 13,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        -816,
+        -816
+      ],
+      "last": [
+        530.8203125,
+        -862.74768066406
+      ],
+      "mean_speed": 303.7511414753462,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 115,
+      "name": "slope",
+      "repeat": 14,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        -816,
+        -816
+      ],
+      "last": [
+        530.8203125,
+        -862.74768066406
+      ],
+      "mean_speed": 303.7511414753462,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 116,
+      "name": "slope",
+      "repeat": 15,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        -816,
+        -816
+      ],
+      "last": [
+        530.8203125,
+        -862.74768066406
+      ],
+      "mean_speed": 303.7511414753462,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 117,
+      "name": "slope",
+      "repeat": 16,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        -816,
+        -816
+      ],
+      "last": [
+        530.8203125,
+        -862.74768066406
+      ],
+      "mean_speed": 303.7511414753462,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 118,
+      "name": "slope",
+      "repeat": 17,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        -816,
+        -816
+      ],
+      "last": [
+        530.8203125,
+        -862.74768066406
+      ],
+      "mean_speed": 303.7511414753462,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 119,
+      "name": "slope",
+      "repeat": 18,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        -816,
+        -816
+      ],
+      "last": [
+        530.8203125,
+        -862.74768066406
+      ],
+      "mean_speed": 303.7511414753462,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 120,
+      "name": "slope",
+      "repeat": 19,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        -816,
+        -816
+      ],
+      "last": [
+        530.8203125,
+        -862.74768066406
+      ],
+      "mean_speed": 303.7511414753462,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 121,
+      "name": "ally",
+      "repeat": 0,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.1174316406,
+        -1236.8034667969
+      ],
+      "mean_speed": 304.52986239002973,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 122,
+      "name": "ally",
+      "repeat": 1,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.1174316406,
+        -1236.8034667969
+      ],
+      "mean_speed": 304.52986239002973,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 123,
+      "name": "ally",
+      "repeat": 2,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.1174316406,
+        -1236.8034667969
+      ],
+      "mean_speed": 304.52986239002973,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 124,
+      "name": "ally",
+      "repeat": 3,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.1174316406,
+        -1236.8034667969
+      ],
+      "mean_speed": 304.52986239002973,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 125,
+      "name": "ally",
+      "repeat": 4,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.1174316406,
+        -1236.8034667969
+      ],
+      "mean_speed": 304.52986239002973,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 126,
+      "name": "ally",
+      "repeat": 5,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.1174316406,
+        -1236.8034667969
+      ],
+      "mean_speed": 304.52986239002973,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 127,
+      "name": "ally",
+      "repeat": 6,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.1174316406,
+        -1236.8034667969
+      ],
+      "mean_speed": 304.52986239002973,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 128,
+      "name": "ally",
+      "repeat": 7,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.1174316406,
+        -1236.8034667969
+      ],
+      "mean_speed": 304.52986239002973,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 129,
+      "name": "ally",
+      "repeat": 8,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.1174316406,
+        -1236.8034667969
+      ],
+      "mean_speed": 304.52986239002973,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 130,
+      "name": "ally",
+      "repeat": 9,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.1174316406,
+        -1236.8034667969
+      ],
+      "mean_speed": 304.52986239002973,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 131,
+      "name": "ally",
+      "repeat": 10,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.1174316406,
+        -1236.8034667969
+      ],
+      "mean_speed": 304.52986239002973,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 132,
+      "name": "ally",
+      "repeat": 11,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.1174316406,
+        -1236.8034667969
+      ],
+      "mean_speed": 304.52986239002973,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 133,
+      "name": "ally",
+      "repeat": 12,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.1174316406,
+        -1236.8034667969
+      ],
+      "mean_speed": 304.52986239002973,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 134,
+      "name": "ally",
+      "repeat": 13,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.1174316406,
+        -1236.8034667969
+      ],
+      "mean_speed": 304.52986239002973,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 135,
+      "name": "ally",
+      "repeat": 14,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.1174316406,
+        -1236.8034667969
+      ],
+      "mean_speed": 304.52986239002973,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 136,
+      "name": "ally",
+      "repeat": 15,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.1174316406,
+        -1236.8034667969
+      ],
+      "mean_speed": 304.52986239002973,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 137,
+      "name": "ally",
+      "repeat": 16,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.1174316406,
+        -1236.8034667969
+      ],
+      "mean_speed": 304.52986239002973,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 138,
+      "name": "ally",
+      "repeat": 17,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.1174316406,
+        -1236.8034667969
+      ],
+      "mean_speed": 304.52986239002973,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 139,
+      "name": "ally",
+      "repeat": 18,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.1174316406,
+        -1236.8034667969
+      ],
+      "mean_speed": 304.52986239002973,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 140,
+      "name": "ally",
+      "repeat": 19,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.1174316406,
+        -1236.8034667969
+      ],
+      "mean_speed": 304.52986239004827,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 141,
+      "name": "wave",
+      "repeat": 0,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1298.9261474609,
+        -1233.8498535156
+      ],
+      "mean_speed": 296.9333313124592,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 142,
+      "name": "wave",
+      "repeat": 1,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1298.9261474609,
+        -1233.8498535156
+      ],
+      "mean_speed": 296.9333313124592,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 143,
+      "name": "wave",
+      "repeat": 2,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1298.9261474609,
+        -1233.8498535156
+      ],
+      "mean_speed": 296.9333313124592,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 144,
+      "name": "wave",
+      "repeat": 3,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1298.9261474609,
+        -1233.8498535156
+      ],
+      "mean_speed": 296.9333313124592,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 145,
+      "name": "wave",
+      "repeat": 4,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1319.8521728516,
+        -1238.0615234375
+      ],
+      "mean_speed": 301.58975442932604,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 146,
+      "name": "wave",
+      "repeat": 5,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1298.9261474609,
+        -1233.8498535156
+      ],
+      "mean_speed": 296.9333313124592,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 147,
+      "name": "wave",
+      "repeat": 6,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1298.9261474609,
+        -1233.8498535156
+      ],
+      "mean_speed": 296.9333313124592,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 148,
+      "name": "wave",
+      "repeat": 7,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1298.9261474609,
+        -1233.8498535156
+      ],
+      "mean_speed": 296.9333313124592,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 149,
+      "name": "wave",
+      "repeat": 8,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1319.8521728516,
+        -1238.0615234375
+      ],
+      "mean_speed": 301.58975442932604,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 150,
+      "name": "wave",
+      "repeat": 9,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1357.3885498047,
+        -1209.6060791016
+      ],
+      "mean_speed": 303.9786482311478,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 151,
+      "name": "wave",
+      "repeat": 10,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1298.9261474609,
+        -1233.8498535156
+      ],
+      "mean_speed": 296.9333313124592,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 152,
+      "name": "wave",
+      "repeat": 11,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1310.6441650391,
+        -1234.6108398438
+      ],
+      "mean_speed": 298.4192643391307,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 153,
+      "name": "wave",
+      "repeat": 12,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1298.9261474609,
+        -1233.8498535156
+      ],
+      "mean_speed": 296.9333313124592,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 154,
+      "name": "wave",
+      "repeat": 13,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1319.8522949219,
+        -1238.0615234375
+      ],
+      "mean_speed": 301.58977872953596,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 155,
+      "name": "wave",
+      "repeat": 14,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1298.9261474609,
+        -1233.8498535156
+      ],
+      "mean_speed": 296.9333313124592,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 156,
+      "name": "wave",
+      "repeat": 15,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1298.9261474609,
+        -1233.8498535156
+      ],
+      "mean_speed": 296.9333313124592,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 157,
+      "name": "wave",
+      "repeat": 16,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1319.8522949219,
+        -1238.0615234375
+      ],
+      "mean_speed": 301.58977872953596,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 158,
+      "name": "wave",
+      "repeat": 17,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1357.3885498047,
+        -1209.6060791016
+      ],
+      "mean_speed": 303.9786482311505,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 159,
+      "name": "wave",
+      "repeat": 18,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1319.8522949219,
+        -1238.0615234375
+      ],
+      "mean_speed": 301.58977872953596,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 160,
+      "name": "wave",
+      "repeat": 19,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1298.9260253906,
+        -1233.8499755859
+      ],
+      "mean_speed": 296.92938431452365,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 161,
+      "name": "enemy",
+      "repeat": 0,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1346.6739501953,
+        -1218.6608886719
+      ],
+      "mean_speed": 303.27558531027944,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 162,
+      "name": "enemy",
+      "repeat": 1,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1346.6739501953,
+        -1218.6608886719
+      ],
+      "mean_speed": 303.27558531027944,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 163,
+      "name": "enemy",
+      "repeat": 2,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1346.6739501953,
+        -1218.6608886719
+      ],
+      "mean_speed": 303.27558531027944,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 164,
+      "name": "enemy",
+      "repeat": 3,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1346.6739501953,
+        -1218.6608886719
+      ],
+      "mean_speed": 303.27558531027944,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 165,
+      "name": "enemy",
+      "repeat": 4,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1346.6739501953,
+        -1218.6608886719
+      ],
+      "mean_speed": 303.27558531027944,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 166,
+      "name": "enemy",
+      "repeat": 5,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1346.6739501953,
+        -1218.6608886719
+      ],
+      "mean_speed": 303.27558531027944,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 167,
+      "name": "enemy",
+      "repeat": 6,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1346.6739501953,
+        -1218.6608886719
+      ],
+      "mean_speed": 303.27558531027944,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 168,
+      "name": "enemy",
+      "repeat": 7,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1346.6739501953,
+        -1218.6608886719
+      ],
+      "mean_speed": 303.27558531027944,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 169,
+      "name": "enemy",
+      "repeat": 8,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1346.6739501953,
+        -1218.6608886719
+      ],
+      "mean_speed": 303.27558531027944,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 170,
+      "name": "enemy",
+      "repeat": 9,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1346.6739501953,
+        -1218.6608886719
+      ],
+      "mean_speed": 303.27558531027944,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 171,
+      "name": "enemy",
+      "repeat": 10,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1346.6739501953,
+        -1218.6608886719
+      ],
+      "mean_speed": 303.27558531027944,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 172,
+      "name": "enemy",
+      "repeat": 11,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1346.6739501953,
+        -1218.6608886719
+      ],
+      "mean_speed": 303.27558531027944,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 173,
+      "name": "enemy",
+      "repeat": 12,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1346.6739501953,
+        -1218.6608886719
+      ],
+      "mean_speed": 303.27558531027944,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 174,
+      "name": "enemy",
+      "repeat": 13,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1346.6739501953,
+        -1218.6608886719
+      ],
+      "mean_speed": 303.27558531027944,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 175,
+      "name": "enemy",
+      "repeat": 14,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1346.6739501953,
+        -1218.6608886719
+      ],
+      "mean_speed": 303.27558531027944,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 176,
+      "name": "enemy",
+      "repeat": 15,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1346.6739501953,
+        -1218.6608886719
+      ],
+      "mean_speed": 303.27558531027944,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 177,
+      "name": "enemy",
+      "repeat": 16,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1346.6739501953,
+        -1218.6608886719
+      ],
+      "mean_speed": 303.27558531027944,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 178,
+      "name": "enemy",
+      "repeat": 17,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1346.6739501953,
+        -1218.6608886719
+      ],
+      "mean_speed": 303.27558531027944,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 179,
+      "name": "enemy",
+      "repeat": 18,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1346.6739501953,
+        -1218.6608886719
+      ],
+      "mean_speed": 303.27558531027944,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 180,
+      "name": "enemy",
+      "repeat": 19,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1346.6739501953,
+        -1218.6608886719
+      ],
+      "mean_speed": 303.27558531027944,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    }
+  ],
+  "config": {
+    "cases": [
+      {
+        "name": "open",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 0
+      },
+      {
+        "name": "open",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 1
+      },
+      {
+        "name": "open",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 2
+      },
+      {
+        "name": "open",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 3
+      },
+      {
+        "name": "open",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 4
+      },
+      {
+        "name": "open",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 5
+      },
+      {
+        "name": "open",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 6
+      },
+      {
+        "name": "open",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 7
+      },
+      {
+        "name": "open",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 8
+      },
+      {
+        "name": "open",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 9
+      },
+      {
+        "name": "open",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 10
+      },
+      {
+        "name": "open",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 11
+      },
+      {
+        "name": "open",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 12
+      },
+      {
+        "name": "open",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 13
+      },
+      {
+        "name": "open",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 14
+      },
+      {
+        "name": "open",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 15
+      },
+      {
+        "name": "open",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 16
+      },
+      {
+        "name": "open",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 17
+      },
+      {
+        "name": "open",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 18
+      },
+      {
+        "name": "open",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 19
+      },
+      {
+        "name": "turn90",
+        "x": 80,
+        "y": -816,
+        "facing": 90,
+        "direction": 0,
+        "repeat": 0
+      },
+      {
+        "name": "turn90",
+        "x": 80,
+        "y": -816,
+        "facing": 90,
+        "direction": 0,
+        "repeat": 1
+      },
+      {
+        "name": "turn90",
+        "x": 80,
+        "y": -816,
+        "facing": 90,
+        "direction": 0,
+        "repeat": 2
+      },
+      {
+        "name": "turn90",
+        "x": 80,
+        "y": -816,
+        "facing": 90,
+        "direction": 0,
+        "repeat": 3
+      },
+      {
+        "name": "turn90",
+        "x": 80,
+        "y": -816,
+        "facing": 90,
+        "direction": 0,
+        "repeat": 4
+      },
+      {
+        "name": "turn90",
+        "x": 80,
+        "y": -816,
+        "facing": 90,
+        "direction": 0,
+        "repeat": 5
+      },
+      {
+        "name": "turn90",
+        "x": 80,
+        "y": -816,
+        "facing": 90,
+        "direction": 0,
+        "repeat": 6
+      },
+      {
+        "name": "turn90",
+        "x": 80,
+        "y": -816,
+        "facing": 90,
+        "direction": 0,
+        "repeat": 7
+      },
+      {
+        "name": "turn90",
+        "x": 80,
+        "y": -816,
+        "facing": 90,
+        "direction": 0,
+        "repeat": 8
+      },
+      {
+        "name": "turn90",
+        "x": 80,
+        "y": -816,
+        "facing": 90,
+        "direction": 0,
+        "repeat": 9
+      },
+      {
+        "name": "turn90",
+        "x": 80,
+        "y": -816,
+        "facing": 90,
+        "direction": 0,
+        "repeat": 10
+      },
+      {
+        "name": "turn90",
+        "x": 80,
+        "y": -816,
+        "facing": 90,
+        "direction": 0,
+        "repeat": 11
+      },
+      {
+        "name": "turn90",
+        "x": 80,
+        "y": -816,
+        "facing": 90,
+        "direction": 0,
+        "repeat": 12
+      },
+      {
+        "name": "turn90",
+        "x": 80,
+        "y": -816,
+        "facing": 90,
+        "direction": 0,
+        "repeat": 13
+      },
+      {
+        "name": "turn90",
+        "x": 80,
+        "y": -816,
+        "facing": 90,
+        "direction": 0,
+        "repeat": 14
+      },
+      {
+        "name": "turn90",
+        "x": 80,
+        "y": -816,
+        "facing": 90,
+        "direction": 0,
+        "repeat": 15
+      },
+      {
+        "name": "turn90",
+        "x": 80,
+        "y": -816,
+        "facing": 90,
+        "direction": 0,
+        "repeat": 16
+      },
+      {
+        "name": "turn90",
+        "x": 80,
+        "y": -816,
+        "facing": 90,
+        "direction": 0,
+        "repeat": 17
+      },
+      {
+        "name": "turn90",
+        "x": 80,
+        "y": -816,
+        "facing": 90,
+        "direction": 0,
+        "repeat": 18
+      },
+      {
+        "name": "turn90",
+        "x": 80,
+        "y": -816,
+        "facing": 90,
+        "direction": 0,
+        "repeat": 19
+      },
+      {
+        "name": "turn180",
+        "x": 80,
+        "y": -816,
+        "facing": 180,
+        "direction": 0,
+        "repeat": 0
+      },
+      {
+        "name": "turn180",
+        "x": 80,
+        "y": -816,
+        "facing": 180,
+        "direction": 0,
+        "repeat": 1
+      },
+      {
+        "name": "turn180",
+        "x": 80,
+        "y": -816,
+        "facing": 180,
+        "direction": 0,
+        "repeat": 2
+      },
+      {
+        "name": "turn180",
+        "x": 80,
+        "y": -816,
+        "facing": 180,
+        "direction": 0,
+        "repeat": 3
+      },
+      {
+        "name": "turn180",
+        "x": 80,
+        "y": -816,
+        "facing": 180,
+        "direction": 0,
+        "repeat": 4
+      },
+      {
+        "name": "turn180",
+        "x": 80,
+        "y": -816,
+        "facing": 180,
+        "direction": 0,
+        "repeat": 5
+      },
+      {
+        "name": "turn180",
+        "x": 80,
+        "y": -816,
+        "facing": 180,
+        "direction": 0,
+        "repeat": 6
+      },
+      {
+        "name": "turn180",
+        "x": 80,
+        "y": -816,
+        "facing": 180,
+        "direction": 0,
+        "repeat": 7
+      },
+      {
+        "name": "turn180",
+        "x": 80,
+        "y": -816,
+        "facing": 180,
+        "direction": 0,
+        "repeat": 8
+      },
+      {
+        "name": "turn180",
+        "x": 80,
+        "y": -816,
+        "facing": 180,
+        "direction": 0,
+        "repeat": 9
+      },
+      {
+        "name": "turn180",
+        "x": 80,
+        "y": -816,
+        "facing": 180,
+        "direction": 0,
+        "repeat": 10
+      },
+      {
+        "name": "turn180",
+        "x": 80,
+        "y": -816,
+        "facing": 180,
+        "direction": 0,
+        "repeat": 11
+      },
+      {
+        "name": "turn180",
+        "x": 80,
+        "y": -816,
+        "facing": 180,
+        "direction": 0,
+        "repeat": 12
+      },
+      {
+        "name": "turn180",
+        "x": 80,
+        "y": -816,
+        "facing": 180,
+        "direction": 0,
+        "repeat": 13
+      },
+      {
+        "name": "turn180",
+        "x": 80,
+        "y": -816,
+        "facing": 180,
+        "direction": 0,
+        "repeat": 14
+      },
+      {
+        "name": "turn180",
+        "x": 80,
+        "y": -816,
+        "facing": 180,
+        "direction": 0,
+        "repeat": 15
+      },
+      {
+        "name": "turn180",
+        "x": 80,
+        "y": -816,
+        "facing": 180,
+        "direction": 0,
+        "repeat": 16
+      },
+      {
+        "name": "turn180",
+        "x": 80,
+        "y": -816,
+        "facing": 180,
+        "direction": 0,
+        "repeat": 17
+      },
+      {
+        "name": "turn180",
+        "x": 80,
+        "y": -816,
+        "facing": 180,
+        "direction": 0,
+        "repeat": 18
+      },
+      {
+        "name": "turn180",
+        "x": 80,
+        "y": -816,
+        "facing": 180,
+        "direction": 0,
+        "repeat": 19
+      },
+      {
+        "name": "tree",
+        "x": -192,
+        "y": -1392,
+        "facing": 270,
+        "direction": 27,
+        "repeat": 0
+      },
+      {
+        "name": "tree",
+        "x": -192,
+        "y": -1392,
+        "facing": 270,
+        "direction": 27,
+        "repeat": 1
+      },
+      {
+        "name": "tree",
+        "x": -192,
+        "y": -1392,
+        "facing": 270,
+        "direction": 27,
+        "repeat": 2
+      },
+      {
+        "name": "tree",
+        "x": -192,
+        "y": -1392,
+        "facing": 270,
+        "direction": 27,
+        "repeat": 3
+      },
+      {
+        "name": "tree",
+        "x": -192,
+        "y": -1392,
+        "facing": 270,
+        "direction": 27,
+        "repeat": 4
+      },
+      {
+        "name": "tree",
+        "x": -192,
+        "y": -1392,
+        "facing": 270,
+        "direction": 27,
+        "repeat": 5
+      },
+      {
+        "name": "tree",
+        "x": -192,
+        "y": -1392,
+        "facing": 270,
+        "direction": 27,
+        "repeat": 6
+      },
+      {
+        "name": "tree",
+        "x": -192,
+        "y": -1392,
+        "facing": 270,
+        "direction": 27,
+        "repeat": 7
+      },
+      {
+        "name": "tree",
+        "x": -192,
+        "y": -1392,
+        "facing": 270,
+        "direction": 27,
+        "repeat": 8
+      },
+      {
+        "name": "tree",
+        "x": -192,
+        "y": -1392,
+        "facing": 270,
+        "direction": 27,
+        "repeat": 9
+      },
+      {
+        "name": "tree",
+        "x": -192,
+        "y": -1392,
+        "facing": 270,
+        "direction": 27,
+        "repeat": 10
+      },
+      {
+        "name": "tree",
+        "x": -192,
+        "y": -1392,
+        "facing": 270,
+        "direction": 27,
+        "repeat": 11
+      },
+      {
+        "name": "tree",
+        "x": -192,
+        "y": -1392,
+        "facing": 270,
+        "direction": 27,
+        "repeat": 12
+      },
+      {
+        "name": "tree",
+        "x": -192,
+        "y": -1392,
+        "facing": 270,
+        "direction": 27,
+        "repeat": 13
+      },
+      {
+        "name": "tree",
+        "x": -192,
+        "y": -1392,
+        "facing": 270,
+        "direction": 27,
+        "repeat": 14
+      },
+      {
+        "name": "tree",
+        "x": -192,
+        "y": -1392,
+        "facing": 270,
+        "direction": 27,
+        "repeat": 15
+      },
+      {
+        "name": "tree",
+        "x": -192,
+        "y": -1392,
+        "facing": 270,
+        "direction": 27,
+        "repeat": 16
+      },
+      {
+        "name": "tree",
+        "x": -192,
+        "y": -1392,
+        "facing": 270,
+        "direction": 27,
+        "repeat": 17
+      },
+      {
+        "name": "tree",
+        "x": -192,
+        "y": -1392,
+        "facing": 270,
+        "direction": 27,
+        "repeat": 18
+      },
+      {
+        "name": "tree",
+        "x": -192,
+        "y": -1392,
+        "facing": 270,
+        "direction": 27,
+        "repeat": 19
+      },
+      {
+        "name": "edge",
+        "x": 80,
+        "y": -1040,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 0
+      },
+      {
+        "name": "edge",
+        "x": 80,
+        "y": -1040,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 1
+      },
+      {
+        "name": "edge",
+        "x": 80,
+        "y": -1040,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 2
+      },
+      {
+        "name": "edge",
+        "x": 80,
+        "y": -1040,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 3
+      },
+      {
+        "name": "edge",
+        "x": 80,
+        "y": -1040,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 4
+      },
+      {
+        "name": "edge",
+        "x": 80,
+        "y": -1040,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 5
+      },
+      {
+        "name": "edge",
+        "x": 80,
+        "y": -1040,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 6
+      },
+      {
+        "name": "edge",
+        "x": 80,
+        "y": -1040,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 7
+      },
+      {
+        "name": "edge",
+        "x": 80,
+        "y": -1040,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 8
+      },
+      {
+        "name": "edge",
+        "x": 80,
+        "y": -1040,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 9
+      },
+      {
+        "name": "edge",
+        "x": 80,
+        "y": -1040,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 10
+      },
+      {
+        "name": "edge",
+        "x": 80,
+        "y": -1040,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 11
+      },
+      {
+        "name": "edge",
+        "x": 80,
+        "y": -1040,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 12
+      },
+      {
+        "name": "edge",
+        "x": 80,
+        "y": -1040,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 13
+      },
+      {
+        "name": "edge",
+        "x": 80,
+        "y": -1040,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 14
+      },
+      {
+        "name": "edge",
+        "x": 80,
+        "y": -1040,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 15
+      },
+      {
+        "name": "edge",
+        "x": 80,
+        "y": -1040,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 16
+      },
+      {
+        "name": "edge",
+        "x": 80,
+        "y": -1040,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 17
+      },
+      {
+        "name": "edge",
+        "x": 80,
+        "y": -1040,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 18
+      },
+      {
+        "name": "edge",
+        "x": 80,
+        "y": -1040,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 19
+      },
+      {
+        "name": "slope",
+        "x": -816,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 0
+      },
+      {
+        "name": "slope",
+        "x": -816,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 1
+      },
+      {
+        "name": "slope",
+        "x": -816,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 2
+      },
+      {
+        "name": "slope",
+        "x": -816,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 3
+      },
+      {
+        "name": "slope",
+        "x": -816,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 4
+      },
+      {
+        "name": "slope",
+        "x": -816,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 5
+      },
+      {
+        "name": "slope",
+        "x": -816,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 6
+      },
+      {
+        "name": "slope",
+        "x": -816,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 7
+      },
+      {
+        "name": "slope",
+        "x": -816,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 8
+      },
+      {
+        "name": "slope",
+        "x": -816,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 9
+      },
+      {
+        "name": "slope",
+        "x": -816,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 10
+      },
+      {
+        "name": "slope",
+        "x": -816,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 11
+      },
+      {
+        "name": "slope",
+        "x": -816,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 12
+      },
+      {
+        "name": "slope",
+        "x": -816,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 13
+      },
+      {
+        "name": "slope",
+        "x": -816,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 14
+      },
+      {
+        "name": "slope",
+        "x": -816,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 15
+      },
+      {
+        "name": "slope",
+        "x": -816,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 16
+      },
+      {
+        "name": "slope",
+        "x": -816,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 17
+      },
+      {
+        "name": "slope",
+        "x": -816,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 18
+      },
+      {
+        "name": "slope",
+        "x": -816,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 19
+      },
+      {
+        "name": "ally",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 0
+      },
+      {
+        "name": "ally",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 1
+      },
+      {
+        "name": "ally",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 2
+      },
+      {
+        "name": "ally",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 3
+      },
+      {
+        "name": "ally",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 4
+      },
+      {
+        "name": "ally",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 5
+      },
+      {
+        "name": "ally",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 6
+      },
+      {
+        "name": "ally",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 7
+      },
+      {
+        "name": "ally",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 8
+      },
+      {
+        "name": "ally",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 9
+      },
+      {
+        "name": "ally",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 10
+      },
+      {
+        "name": "ally",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 11
+      },
+      {
+        "name": "ally",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 12
+      },
+      {
+        "name": "ally",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 13
+      },
+      {
+        "name": "ally",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 14
+      },
+      {
+        "name": "ally",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 15
+      },
+      {
+        "name": "ally",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 16
+      },
+      {
+        "name": "ally",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 17
+      },
+      {
+        "name": "ally",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 18
+      },
+      {
+        "name": "ally",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 19
+      },
+      {
+        "name": "wave",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 0
+      },
+      {
+        "name": "wave",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 1
+      },
+      {
+        "name": "wave",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 2
+      },
+      {
+        "name": "wave",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 3
+      },
+      {
+        "name": "wave",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 4
+      },
+      {
+        "name": "wave",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 5
+      },
+      {
+        "name": "wave",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 6
+      },
+      {
+        "name": "wave",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 7
+      },
+      {
+        "name": "wave",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 8
+      },
+      {
+        "name": "wave",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 9
+      },
+      {
+        "name": "wave",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 10
+      },
+      {
+        "name": "wave",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 11
+      },
+      {
+        "name": "wave",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 12
+      },
+      {
+        "name": "wave",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 13
+      },
+      {
+        "name": "wave",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 14
+      },
+      {
+        "name": "wave",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 15
+      },
+      {
+        "name": "wave",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 16
+      },
+      {
+        "name": "wave",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 17
+      },
+      {
+        "name": "wave",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 18
+      },
+      {
+        "name": "wave",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 19
+      },
+      {
+        "name": "enemy",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 0
+      },
+      {
+        "name": "enemy",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 1
+      },
+      {
+        "name": "enemy",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 2
+      },
+      {
+        "name": "enemy",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 3
+      },
+      {
+        "name": "enemy",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 4
+      },
+      {
+        "name": "enemy",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 5
+      },
+      {
+        "name": "enemy",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 6
+      },
+      {
+        "name": "enemy",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 7
+      },
+      {
+        "name": "enemy",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 8
+      },
+      {
+        "name": "enemy",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 9
+      },
+      {
+        "name": "enemy",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 10
+      },
+      {
+        "name": "enemy",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 11
+      },
+      {
+        "name": "enemy",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 12
+      },
+      {
+        "name": "enemy",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 13
+      },
+      {
+        "name": "enemy",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 14
+      },
+      {
+        "name": "enemy",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 15
+      },
+      {
+        "name": "enemy",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 16
+      },
+      {
+        "name": "enemy",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 17
+      },
+      {
+        "name": "enemy",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 18
+      },
+      {
+        "name": "enemy",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 19
+      }
+    ],
+    "case_ticks": 180,
+    "first_decision": 30,
+    "decision_ticks": 6,
+    "offset_ticks": 6
+  },
+  "elapsed_minutes": 4.9197522016669,
+  "source_sha256": {
+    "bot_generic.lua": "48c4d49a8bb43a22eea8add77ba0f139670c95c264910220ccf9e4c773d67561",
+    "p15_server.lua": "2acd18f1abdceed788db5ac49e09b47a75caf87f166e7d27d0bb949ae5bbbc3b",
+    "p15_config.lua": "492819215cb06d9360c9418ab588a16ee068e6d1b3b095cf5ba75ce4a07597af"
+  },
+  "capture_sha256": "4d849dc326217712c948c10b2e64433b4b554eea2ed58f8dad073c17e0913d8d",
+  "capture": "C:\\AMI\\runs\\p15\\direct-020\\capture.json",
+  "simulation": "C:\\AMI\\runs\\p15\\direct-020\\simulator.json",
+  "simulation_sha256": "f618a509394a84bb90d87f98dc9f4f6d8402d97c87eacce8916c9ab81aaff389"
+}

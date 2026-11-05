@@ -1,0 +1,364 @@
+{
+  "quality": {
+    "cases": 9,
+    "frames": 1620,
+    "orders": 189,
+    "valid_cases": 9,
+    "latency_ticks": {
+      "7": 189
+    }
+  },
+  "totals": {
+    "open": {
+      "cases": 1,
+      "stopped": 0,
+      "mean_speed": 305.00050983885296
+    },
+    "turn90": {
+      "cases": 1,
+      "stopped": 0,
+      "mean_speed": 305.0001330433609
+    },
+    "turn180": {
+      "cases": 1,
+      "stopped": 0,
+      "mean_speed": 300.7036904314408
+    },
+    "tree": {
+      "cases": 1,
+      "stopped": 1,
+      "mean_speed": 0.0
+    },
+    "edge": {
+      "cases": 1,
+      "stopped": 0,
+      "mean_speed": 305.00025172497595
+    },
+    "slope": {
+      "cases": 1,
+      "stopped": 0,
+      "mean_speed": 303.74733268070185
+    },
+    "ally": {
+      "cases": 1,
+      "stopped": 0,
+      "mean_speed": 304.52879303264774
+    },
+    "wave": {
+      "cases": 1,
+      "stopped": 0,
+      "mean_speed": 298.1205260201593
+    },
+    "enemy": {
+      "cases": 1,
+      "stopped": 0,
+      "mean_speed": 303.28149883671557
+    }
+  },
+  "cases": [
+    {
+      "case": 1,
+      "name": "open",
+      "repeat": 0,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3018798828,
+        -1254.0163574219
+      ],
+      "mean_speed": 305.00050983885296,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 2,
+      "name": "turn90",
+      "repeat": 0,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.41509499435233e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1383.3015136719,
+        -1254.0162353516
+      ],
+      "mean_speed": 305.0001330433609,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 3,
+      "name": "turn180",
+      "repeat": 0,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 5.008959988117567e-06,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.2763671875,
+        -1241.3872070313
+      ],
+      "mean_speed": 300.7036904314408,
+      "longest_slow_ticks": 2,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 4,
+      "name": "tree",
+      "repeat": 0,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 3.4150949659306207e-06,
+      "first": [
+        -192,
+        -1392
+      ],
+      "last": [
+        -192,
+        -1392
+      ],
+      "mean_speed": 0.0,
+      "longest_slow_ticks": 142,
+      "stopped_over_one_second": true
+    },
+    {
+      "case": 5,
+      "name": "edge",
+      "repeat": 0,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -1040
+      ],
+      "last": [
+        1430.2443847656,
+        -1324.5244140625
+      ],
+      "mean_speed": 305.00025172497595,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 6,
+      "name": "slope",
+      "repeat": 0,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        -816,
+        -816
+      ],
+      "last": [
+        530.80706787109,
+        -862.74664306641
+      ],
+      "mean_speed": 303.74733268070185,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 7,
+      "name": "ally",
+      "repeat": 0,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1363.1168212891,
+        -1236.8021240234
+      ],
+      "mean_speed": 304.52879303264774,
+      "longest_slow_ticks": 0,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 8,
+      "name": "wave",
+      "repeat": 0,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1309.2176513672,
+        -1233.9996337891
+      ],
+      "mean_speed": 298.1205260201593,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    },
+    {
+      "case": 9,
+      "name": "enemy",
+      "repeat": 0,
+      "frames": 180,
+      "expected_frames": 180,
+      "orders": 21,
+      "expected_orders": 21,
+      "exact_ticks": true,
+      "cadence_ok": true,
+      "latency_ok": true,
+      "initial_facing_error": 0,
+      "first": [
+        80,
+        -816
+      ],
+      "last": [
+        1346.6862792969,
+        -1218.6710205078
+      ],
+      "mean_speed": 303.28149883671557,
+      "longest_slow_ticks": 1,
+      "stopped_over_one_second": false
+    }
+  ],
+  "config": {
+    "cases": [
+      {
+        "name": "open",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 0
+      },
+      {
+        "name": "turn90",
+        "x": 80,
+        "y": -816,
+        "facing": 90,
+        "direction": 0,
+        "repeat": 0
+      },
+      {
+        "name": "turn180",
+        "x": 80,
+        "y": -816,
+        "facing": 180,
+        "direction": 0,
+        "repeat": 0
+      },
+      {
+        "name": "tree",
+        "x": -192,
+        "y": -1392,
+        "facing": 270,
+        "direction": 27,
+        "repeat": 0
+      },
+      {
+        "name": "edge",
+        "x": 80,
+        "y": -1040,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 0
+      },
+      {
+        "name": "slope",
+        "x": -816,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 0
+      },
+      {
+        "name": "ally",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 0
+      },
+      {
+        "name": "wave",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 0
+      },
+      {
+        "name": "enemy",
+        "x": 80,
+        "y": -816,
+        "facing": 0,
+        "direction": 0,
+        "repeat": 0
+      }
+    ],
+    "case_ticks": 180,
+    "first_decision": 30,
+    "decision_ticks": 6,
+    "offset_ticks": 6
+  },
+  "elapsed_minutes": 0.5985090699997575,
+  "source_sha256": {
+    "bot_generic.lua": "48c4d49a8bb43a22eea8add77ba0f139670c95c264910220ccf9e4c773d67561",
+    "p15_server.lua": "2acd18f1abdceed788db5ac49e09b47a75caf87f166e7d27d0bb949ae5bbbc3b",
+    "p15_config.lua": "40b28dc816a59bbc50e478395e5c7348334abbef1b8c5aedafa5cf6b91008ef1"
+  },
+  "capture_sha256": "d4c8289f52717f006ed8488d365b9b2a9fc06e76a3ee0baa153e6574ec694fa0",
+  "capture": "C:\\AMI\\runs\\p15\\direct-smoke-002\\capture.json"
+}
