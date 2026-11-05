@@ -285,5 +285,28 @@
     },
     "minutes": 3.8063226266666663,
     "weights_sha256": "dda00dfc21820c6df2e586862a2bc22d0db9453165b2e7332d4b3ef7600c7b42"
+  },
+  {
+    "model": "4h",
+    "opponent": "v9",
+    "report": "C:\\AMI\\runs\\p11\\train-001\\eval-000603-v9-20261104\\report.json",
+    "seed": 20261104,
+    "config": {
+      "argmax": false,
+      "engine": "C:\\AMI\\runs\\p11\\train-001\\environment\\engine.json",
+      "family": "GGD",
+      "matches": 64,
+      "mode": "teacher",
+      "record_teacher": false,
+      "seconds": 600.0,
+      "seed": 20261104,
+      "teacher_sha256": "55b7f4ff5baef7aea24e706aaaca3e83fa049adca0bd63cee4203c6c23e08312",
+      "teacher_version": "v9",
+      "trace": false,
+      "weights": "C:\\AMI\\runs\\p11\\train-001\\checkpoint-000603\\weights",
+      "zero_previous": false
+    },
+    "minutes": 3.49578882,
+    "weights_sha256": "dda00dfc21820c6df2e586862a2bc22d0db9453165b2e7332d4b3ef7600c7b42"
   }
 ]
