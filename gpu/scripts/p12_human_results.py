@@ -29,8 +29,10 @@ def audit(session,label):
     assert not stats['errors'] and raw.get('outcome') is not None
     terminal=summary['end']
     data=[r for r in events(session/'dota.log') if r['time']<=terminal+.001]
-    decisions=[];acks={};total=0
+    decisions=[];acks={};total=0;raze_costs=set()
     for r in records(session/'native-decisions.pb.gz'):
+        if r.HasField('model_supplement') and r.model_supplement.team==team:
+            raze_costs.update(s.mana_cost for s in r.model_supplement.skills if s.name.startswith('nevermore_shadowraze'))
         if r.HasField('execution') and r.execution.team==team:
             e=r.execution;acks[e.sequence]=dict(tick=e.tick,accepted=e.accepted,reason=e.reason)
         if not r.HasField('decision') or r.decision.team!=team:continue
@@ -83,11 +85,13 @@ def audit(session,label):
         hits=[x for x in data if x['kind']=='hurt' and x['team']==team and x.get('ability')==r['ability'] and abs(x['time']-r['time'])<.001]
         casts.append(dict(time=r['time'],ability=r['ability'],hit_events=len(hits),hero_hits=sum(x['target']=='npc_dota_hero_nevermore' for x in hits)))
     rejects=Counter(d['reject_reason'] for d in decisions if not d['accepted'])
+    later_mana=[d['mana'] for d in decisions if casts and d['time']>casts[-1]['time']]
     result=dict(label=label,session=str(session),config=config,summary=summary,native_outcome=raw['outcome'],deaths=deaths,
         transport=dict(total=total,checked=len(decisions),terminal_censored=total-len(decisions),acknowledged=len(decisions),
                        rejected=sum(rejects.values()),reasons=dict(rejects),late=0,missing=0),
         actions=dict(Counter(d['action'] for d in decisions)),attack_targets=dict(Counter(d['target_kind'] for d in decisions if d['action']=='ATTACK')),
-        casts=casts,hero_damage_events=damages,
+        casts=casts,hero_damage_events=damages,observed_raze_mana_costs=sorted(raze_costs),
+        mana_after_last_raze=dict(min=min(later_mana),max=max(later_mana)) if later_mana else None,
         hero_damage_by_team={str(t):dict(damage=sum(d['damage'] for d in damages if d['team']==t),
             events=sum(d['team']==t for d in damages),attack_damage=sum(d['damage'] for d in damages if d['team']==t and not d['ability'])) for t in (2,3)},
         low_health=dict(threshold_fraction=.25,decisions=len(low),actions=dict(Counter(d['action'] for d in low)),

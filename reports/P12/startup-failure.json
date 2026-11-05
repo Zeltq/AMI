@@ -12,5 +12,14 @@
   "startup_log": "WARNING: Path suffix '\\\\' cannot be prefixed with '\\\\?\\C:\\AMI\\runs\\p12\\native-eight\\runtime\\18\\game\\bin\\win64'\nWARNING: Path suffix '\\\\' cannot be prefixed with '\\\\?\\C:\\AMI\\runs\\p12\\native-eight\\runtime\\18\\game\\bin\\win64'\nWARNING: Path suffix '\\\\' cannot be prefixed with '\\\\?\\C:\\AMI\\runs\\p12\\native-eight\\runtime\\18\\game\\bin\\win64'\n\nConsole initialized.\nFATAL ERROR: Application unable to load gameinfo.gi file from directory \"dota\"\nCan't read 'dota\\gameinfo.gi'\n",
   "observed": "Only failed runtime path has extended Windows prefix; gameinfo file exists.",
   "hypothesis": "Source 2 cannot resolve relative gameinfo from the extended path.",
-  "fix": "Create runtime directory before strict resolve; commit 3e1421f; test_live_install 3/3."
+  "fix": "Create runtime directory before strict resolve; commit 3e1421f; test_live_install 3/3.",
+  "cleanup_error": "Bot junction changed during run; refusing to remove it",
+  "recovery": {
+    "link": "C:\\AMI\\runs\\p12\\native-eight\\runtime\\18\\game\\dota\\scripts\\vscripts\\bots",
+    "target": "C:\\AMI\\runs\\p12\\native-eight\\match-02\\bots",
+    "target_entries": 27,
+    "action": "Remove verified junction entry only; preserve target files",
+    "target_unchanged": true,
+    "junction_removed": true
+  }
 }

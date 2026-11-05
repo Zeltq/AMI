@@ -1,0 +1,24 @@
+{
+  "command": "Get-CimInstance Win32_Process | Where-Object { $_.Name -match 'dota2|nativecollect|sf-duel-gpu' -or ($_.Name -match 'python' -and $_.CommandLine -match 'native_policy_server|evaluate_dota_teacher|play_vs_model|p10_job') } | Select-Object ProcessId,Name,CommandLine | ConvertTo-Json -Depth 3",
+  "owned_processes": [],
+  "remaining_owned_count": 0,
+  "user_graphical_clients_preserved": [
+    {
+      "ProcessId": 14992,
+      "Name": "dota2.exe",
+      "CommandLine": "\"C:\\Program Files (x86)\\Steam\\steamapps\\common\\dota 2 beta\\game\\bin\\win64\\dota2.exe\" -steam +voice_fadeouttime 0 -prewarm_panorama +r_legacy_vsync 1 -console -condebug -insecure -botworldstatetosocket_radiant 12250 -botworldstatetosocket_dire 12251 -botworldstatetosocket_frames 1 -botworldstatesocket_threaded"
+    }
+  ],
+  "installation": {
+    "installed": true,
+    "human_team": 2,
+    "model_team": 3,
+    "original_backup": "C:\\AMI\\runs\\p10\\bots-backup-20261105-030504-145172",
+    "original_entries_verified": 32,
+    "changed_runtime_buffers": [
+      "native_commands_3.lua",
+      "native_commands_2.lua"
+    ]
+  },
+  "heartbeat": "p12: PAUSED"
+}

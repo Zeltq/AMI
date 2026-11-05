@@ -3,6 +3,7 @@ import hashlib
 import json
 from pathlib import Path
 import sys
+import subprocess
 import numpy as np
 import torch
 ROOT=Path(__file__).resolve().parents[2]
@@ -31,6 +32,17 @@ def main():
                 manifest_sha256=sha(source/'manifest.json'),equal_tensors=len(rows),total_tensors=len(rows),
                 tensors=rows,pipeline=saved['gpu_pipeline'],config=saved['config'])
     (OUT/'provenance.json').write_text(json.dumps(result,indent=2)+'\n')
+    base='origin/agent/P11-selfplay';protected=[]
+    for name in ('gpu/src/physics.rs','gpu/src/world.rs','gpu/src/scripted_teacher.rs','gpu/src/teacher_v10.rs',
+                 'bots/scripted_teacher_v9.lua','bots/scripted_teacher_v9_live.lua'):
+        old=subprocess.check_output(['git','show',base+':'+name],cwd=ROOT);path=ROOT/name
+        assert old.replace(b'\r\n',b'\n')==path.read_bytes().replace(b'\r\n',b'\n'),name
+        protected.append(dict(path=name,sha256=sha(path),unchanged=True))
+    engine_sha=sha(Path('C:/AMI/runs/p07/dota-calibration-005/engine.json'))
+    assert engine_sha==json.loads((ROOT/'reports/P10/provenance.json').read_text())['engine_sha256']
+    (OUT/'protected-sources.json').write_text(json.dumps(dict(
+        base_commit=subprocess.check_output(['git','rev-parse',base],cwd=ROOT,text=True).strip(),
+        sources=protected,engine_sha256=engine_sha,engine_matches_p10=True),indent=2)+'\n',newline='\n')
     original=json.loads(Path('C:/AMI/runs/p10/installation.json').read_text())
     assert inventory(Path(original['backup']))==original['before']
     current=inventory(Path(original['path']))
