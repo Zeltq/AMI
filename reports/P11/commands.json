@@ -101,5 +101,23 @@
     "log": "C:\\AMI\\runs\\p11\\eval-final-vs-v10-20261104.log",
     "exit_code": 0,
     "minutes": 5.510831384999134
+  },
+  {
+    "stage": "eval-final-vs-v9-20261103",
+    "kind": "evaluation",
+    "command_literal": "C:\\AMI\\runs\\p11\\sf-duel-gpu.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:\\AMI\\runs\\p11\\train-001\\checkpoint-000644\\weights C:\\AMI\\runs\\p11\\eval-final-vs-v9-20261103 --mode teacher --matches 64 --seconds 600 --seed 20261103 --sampling --teacher-version v9",
+    "artifact": "C:\\AMI\\runs\\p11\\eval-final-vs-v9-20261103\\report.json",
+    "log": "C:\\AMI\\runs\\p11\\eval-final-vs-v9-20261103.log",
+    "exit_code": 0,
+    "minutes": 4.176525738333779
+  },
+  {
+    "stage": "eval-final-vs-v9-20261104",
+    "kind": "evaluation",
+    "command_literal": "C:\\AMI\\runs\\p11\\sf-duel-gpu.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:\\AMI\\runs\\p11\\train-001\\checkpoint-000644\\weights C:\\AMI\\runs\\p11\\eval-final-vs-v9-20261104 --mode teacher --matches 64 --seconds 600 --seed 20261104 --sampling --teacher-version v9",
+    "artifact": "C:\\AMI\\runs\\p11\\eval-final-vs-v9-20261104\\report.json",
+    "log": "C:\\AMI\\runs\\p11\\eval-final-vs-v9-20261104.log",
+    "exit_code": 0,
+    "minutes": 4.343141703333822
   }
 ]
