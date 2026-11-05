@@ -22,6 +22,7 @@ mod gradients;
 mod artifacts;
 mod trace;
 mod fidelity;
+mod chio_fidelity;
 mod aggro_fidelity;
 mod requiem_fidelity;
 mod navigation;
@@ -72,6 +73,7 @@ mod cli_tests {
 
 #[derive(Subcommand)]
 enum Command {
+    CheckChioMovement {engine:PathBuf,reference:PathBuf,output:PathBuf},
     CollectTeacher {config:PathBuf,output:PathBuf},
     CollectDagger {config:PathBuf,output:PathBuf},
     TrainGgd {config:PathBuf,output:PathBuf},
@@ -151,6 +153,7 @@ fn main()->anyhow::Result<()> {
             if report["passed"]!=true {println!("{}",serde_json::to_string_pretty(&report)?);anyhow::bail!("Dota Requiem differential validation failed");}report
         },
         Command::BuildNavigation{engine}=>navigation::build(&engine)?,
+        Command::CheckChioMovement{engine,reference,output}=>chio_fidelity::check(&engine,&reference,&output)?,
         Command::CheckTiming{engine,fixture,output}=>timing_observe::check(&engine,&fixture,&output)?,
         Command::CheckPublicSpells{engine,fixture,output}=>enemy_observe::check(&engine,&fixture,&output)?,
         Command::Import{bundle,output}=>{

@@ -211,6 +211,33 @@ fn move_unit(state:&mut [f32],grid:&mut [u32],geometry:&[f32],navigation:&[u32],
     }
 }
 
+/// Native directional orders retain their heading when blocked. This routine is
+/// used only for hero MOVE_DIRECT with the CHiO environment flag.
+#[cube]
+fn move_direct_chio(state:&mut [f32],grid:&mut [u32],geometry:&[f32],tree_map:&[f32],trees:&[f32],tree_alive:&mut [f32],m:usize,tree_count:usize,p:usize,x:f32,y:f32,dt:f32,turn:f32){
+    let dx=x-state[p+UNIT_X];let dy=y-state[p+UNIT_Y];let length=(dx*dx+dy*dy).sqrt();
+    if length>1.0f32 {
+        let desired=dy.atan2(dx);let delta=wrap_angle(desired-state[p+FACING]);
+        let yaw=turn*0.4712389f32;
+        state[p+FACING]=wrap_angle(state[p+FACING]+delta.clamp(-yaw,yaw));state[p+ATTACK_AIM]=state[p+FACING];
+        // Directional orders start translation within ten degrees of the goal;
+        // unlike normal walking they wait through most of a 90/180-degree turn.
+        if delta.abs()<0.174533f32 {
+            let step=length.min(state[p+UNIT_MOVE_SPEED]*dt);
+            let nx=state[p+UNIT_X]+dx/length*step;let ny=state[p+UNIT_Y]+dy/length*step;
+            let mut clear=geometry[cell(nx,ny)+1]>0.5f32;
+            // The installed grid is centre walkability; directional collision
+            // tests the SF hull, including corners along cliff boundaries.
+            for sample in 0..8 {let angle=sample as f32*0.7853982f32;
+                if geometry[cell(nx+24.0f32*angle.cos(),ny+24.0f32*angle.sin())+1]<0.5f32 {clear=false;}
+            }
+            if clear && !tree_blocked(tree_map,trees,tree_alive,m*tree_count,nx,ny,88.0f32) && !body_blocked(state,grid,m,p,nx,ny) {
+                state[p+UNIT_X]=nx;state[p+UNIT_Y]=ny;state[p+UNIT_Z]=ground_z(geometry[cell(nx,ny)]);
+            }
+        }
+    }
+}
+
 #[cube]
 fn hit(state:&mut [f32],telemetry:&mut [f32],#[comptime] audit_enabled:bool,hero:&[f32],combat:&[f32],base:usize,source:usize,target:usize,amount:f32,magical:bool,time:f32,source_kind:f32,source_team:f32,spell:usize){
     let q=base+target*STRIDE;
@@ -435,7 +462,7 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
     teacher_memory:&[f32],teacher_forecasts:&[f32],teacher_audit:&mut [f32],telemetry:&mut [f32],
     rewards:&mut [f32],terminals:&mut [f32],tree_alive:&mut [f32],rng:&mut [u32],grid:&mut [u32],
     proto:&[f32],spells:&[f32],items:&[f32],hero:&[f32],animation:&[f32],combat:&[f32],experience:&[f32],geometry:&[f32],fow_blockers:&[f32],static_vision:&[u32],navigation:&[u32],trees:&[f32],tree_map:&[f32],bases:&[f32],spawns:&[f32],lane:&[f32],fountains:&[f32],extra_vision:&[f32],
-    matches:usize,tree_count:usize,vision_count:usize,pregame:f32,ticks_per_call:usize,radiant_lane_points:usize,dire_lane_points:usize,#[comptime] spawn_waves:bool,#[comptime] audit_enabled:bool,#[comptime] uphill_miss:bool){
+    matches:usize,tree_count:usize,vision_count:usize,pregame:f32,ticks_per_call:usize,radiant_lane_points:usize,dire_lane_points:usize,#[comptime] spawn_waves:bool,#[comptime] audit_enabled:bool,#[comptime] uphill_miss:bool,#[comptime] chio_direct:bool){
     let m=ABSOLUTE_POS;
     if m<matches && (!audit_enabled || teacher_audit[m*crate::scripted_teacher::AUDIT_FIELDS]==0.0f32) {
         let base=m*UNITS*STRIDE;let mb=m*META;
@@ -731,7 +758,8 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                         let aimed_cast=u<2 && state[p+CAST_END]>0.0f32 && !moving_cast && state[p+TARGET]>=0.0f32 && prior_target<UNITS && state[base+prior_target*STRIDE+ACTIVE]>0.0f32 && state[base+prior_target*STRIDE+UNIT_HEALTH]>0.0f32 && state[base+prior_target*STRIDE+GENERATION]==state[p+TARGET_GENERATION];
                         if moving_cast {
                             let x=state[p+DEST_X];let y=state[p+DEST_Y];let pathfind=state[p+ORDER]==1.0f32;
-                            move_unit(state,grid,geometry,navigation,tree_map,trees,tree_alive,m,tree_count,p,x,y,0.0f32,hero[6],pathfind);
+                            if chio_direct && state[p+ORDER]==2.0f32 {move_direct_chio(state,grid,geometry,tree_map,trees,tree_alive,m,tree_count,p,x,y,0.0f32,hero[6]);}
+                            else {move_unit(state,grid,geometry,navigation,tree_map,trees,tree_alive,m,tree_count,p,x,y,0.0f32,hero[6],pathfind);}
                         }
                         if aimed_cast {
                             let q=base+prior_target*STRIDE;let desired=(state[q+UNIT_Y]-state[p+UNIT_Y]).atan2(state[q+UNIT_X]-state[p+UNIT_X]);
@@ -791,7 +819,9 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
                                 else {move_unit(state,grid,geometry,navigation,tree_map,trees,tree_alive,m,tree_count,p,x,y,dt,hero[6],true);}
                             }
                             else if state[p+KIND]>=2.0f32 && state[p+AGGRO_RECOVER]>time {let x=state[p+DEST_X];let y=state[p+DEST_Y];move_unit(state,grid,geometry,navigation,tree_map,trees,tree_alive,m,tree_count,p,x,y,dt,hero[6],true);}
-                            else if u<2 && (state[p+ORDER]==1.0f32 || state[p+ORDER]==2.0f32) {let x=state[p+DEST_X];let y=state[p+DEST_Y];let pathfind=state[p+ORDER]==1.0f32;move_unit(state,grid,geometry,navigation,tree_map,trees,tree_alive,m,tree_count,p,x,y,dt,hero[6],pathfind);}
+                            else if u<2 && (state[p+ORDER]==1.0f32 || state[p+ORDER]==2.0f32) {let x=state[p+DEST_X];let y=state[p+DEST_Y];let pathfind=state[p+ORDER]==1.0f32;
+                                if chio_direct && state[p+ORDER]==2.0f32 {move_direct_chio(state,grid,geometry,tree_map,trees,tree_alive,m,tree_count,p,x,y,dt,hero[6]);}
+                                else {move_unit(state,grid,geometry,navigation,tree_map,trees,tree_alive,m,tree_count,p,x,y,dt,hero[6],pathfind);}}
                             else if state[p+TARGET]>=0.0f32 && target<UNITS && state[base+target*STRIDE+ACTIVE]>0.0f32 && state[base+target*STRIDE+GENERATION]==state[p+TARGET_GENERATION] {
                                 let q=base+target*STRIDE;let dist=distance(state,p,q);
                                 let unseen_building=state[q+KIND]==1.0f32 && state[q+TEAM]!=side && !visible(state,geometry,fow_blockers,static_vision,tree_map,trees,tree_alive,extra_vision,vision_count,m,tree_count,base,side,q,game_time,time);
@@ -1027,6 +1057,14 @@ fn simulate(state:&mut [f32],shots:&mut [f32],shot_hits:&mut [u32],meta:&mut [f3
 }
 
 impl World {
+    /// Diagnostic movement-only replay with measured collider trajectories.
+    /// Uses the production movement routine; unrelated combat is excluded.
+    pub(crate) fn direct_fixture_step(&self,x:f32,y:f32){
+        direct_fixture::launch(&self.state.client,CubeCount::Static(1,1,1),CubeDim::new_1d(1),
+            argument(&self.state),argument(&self.collision_grid),argument(self.movement_geometry.as_ref().unwrap_or(&self.geometry)),
+            argument(&self.navigation),argument(&self.tree_map),argument(&self.trees),argument(&self.tree_alive),
+            self.tree_count,x,y,self.engine.hero[6],self.engine.chio_direct);
+    }
     pub fn advance(&self,actions:Tensor<2,Int>,refs:&CubeTensor,rng:&crate::sampling::Sampler)->(Tensor<1>,Tensor<1>){
         let targets=refs.meta.shape()[1];
         let actions=primitive(actions.float().without_autodiff());
@@ -1055,10 +1093,19 @@ impl World {
             argument(teacher.map_or(&self.meta,|t|&t.memory)),argument(teacher.map_or(&self.meta,|t|&t.forecasts)),argument(teacher.map_or(&self.rewards,|t|&t.audit)),argument(&self.teacher_combat),argument(&self.rewards),argument(&self.terminals),
             argument(&self.tree_alive),unsafe{BufferArg::from_raw_parts(rng.state.clone(),1)},argument(&self.collision_grid),argument(&self.prototypes),argument(&self.spells),
             argument(&self.items),argument(&self.hero),argument(&self.sf_projectile_animation),argument(&self.combat),argument(&self.experience),argument(self.movement_geometry.as_ref().unwrap_or(&self.geometry)),argument(&self.fow_blockers),argument(&self.static_vision),argument(&self.navigation),argument(&self.trees),argument(&self.tree_map),argument(&self.bases),argument(&self.spawns),argument(&self.lane),argument(&self.fountains),argument(&self.extra_vision),
-            self.matches,self.tree_count,self.engine.extra_vision.len(),self.engine.pre_game_seconds,ticks,self.lane_lengths[0],self.lane_lengths[1],spawn_waves,teacher.is_some(),self.engine.uphill_miss);
+            self.matches,self.tree_count,self.engine.extra_vision.len(),self.engine.pre_game_seconds,ticks,self.lane_lengths[0],self.lane_lengths[1],spawn_waves,teacher.is_some(),self.engine.uphill_miss,self.engine.chio_direct);
         // Addition allocates independent storage: the next step mutates the
         // simulator's buffers, whereas rollout data must remain immutable.
         (tensor::<1>(self.rewards.clone())+0.0f32,tensor::<1>(self.terminals.clone())+0.0f32)
+    }
+}
+
+#[cube(launch)]
+fn direct_fixture(state:&mut [f32],grid:&mut [u32],geometry:&[f32],navigation:&[u32],tree_map:&[f32],trees:&[f32],tree_alive:&mut [f32],tree_count:usize,x:f32,y:f32,turn:f32,#[comptime] chio_direct:bool){
+    if ABSOLUTE_POS==0 {
+        build_collision_grid(state,grid,0,0);
+        if chio_direct {move_direct_chio(state,grid,geometry,tree_map,trees,tree_alive,0,tree_count,0,x,y,1.0f32/30.0f32,turn);}
+        else {move_unit(state,grid,geometry,navigation,tree_map,trees,tree_alive,0,tree_count,0,x,y,1.0f32/30.0f32,turn,false);}
     }
 }
 

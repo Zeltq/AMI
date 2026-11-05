@@ -92,6 +92,8 @@ pub struct Engine {
     #[serde(default)]pub movement_geometry:String,
     /// Environment 005: measured 25% ranged uphill miss, checked at impact.
     #[serde(default)]pub uphill_miss:bool,
+    /// CHiO: directional movement (native MOVE_TO_DIRECTION), six-tick clock.
+    #[serde(default)]pub chio_direct:bool,
 }
 
 pub struct World {
@@ -133,7 +135,7 @@ impl World {
     pub fn load(path:&Path,matches:usize,d:&Device)->Result<Self>{
         let engine:Engine=serde_json::from_slice(&std::fs::read(path)?)?;
         ensure!(matches>0 && matches<=10000,"invalid match count");
-        ensure!(engine.decision_ticks==4 && engine.offset_ticks==6,"unsupported decision clock");
+        ensure!(engine.decision_ticks==if engine.chio_direct{6}else{4} && engine.offset_ticks==6,"unsupported decision clock");
         ensure!(engine.prototypes.len()==29 && engine.prototypes.iter().all(|x|x.len()==UNIT_COUNT),"invalid prototypes; regenerate engine.json");
         ensure!(engine.extra_vision.len()<=64 && engine.extra_vision.iter().all(|v|[v.x,v.y,v.team,v.day,v.night].iter().all(|x|x.is_finite()) && (v.team==0. || v.team==1.) && v.day>=0. && v.night>=0.),"invalid static vision sources");
         ensure!(engine.items.len()==8 && engine.items.iter().all(|x|x.len()==ITEM_RULE_FIELDS),"invalid item tables; regenerate engine.json");

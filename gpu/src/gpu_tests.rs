@@ -4,6 +4,70 @@ use std::sync::Mutex;
 static GPU:Mutex<()>=Mutex::new(());
 use cubecl::frontend::CompilationArg;
 
+#[test]
+fn p15_directional_move_stops_at_bodies_without_sliding(){
+    let _g=GPU.lock().unwrap();
+    for kind in [0.,2.] {
+        let mut w=arena();w.engine.chio_direct=true;
+        let mut s=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();
+        s[UNIT_X]=0.;s[FACING]=0.;s[STRIDE+UNIT_X]=90.;s[STRIDE+KIND]=kind;
+        w.state=primitive(Tensor::<1>::from_data(TensorData::new(s,[UNITS*STRIDE]),&w.device));
+        for _ in 0..90 {w.direct_fixture_step(2000.,0.);}
+        let end=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();
+        assert_eq!(end[UNIT_Y],0.);assert_eq!(end[FACING],0.);
+        assert!(end[UNIT_X]>0. && end[UNIT_X]<60.,"passed through body: {}",end[UNIT_X]);
+        let x=end[UNIT_X];w.direct_fixture_step(2000.,0.);
+        assert_eq!(tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap()[UNIT_X],x);
+    }
+}
+
+#[test]
+fn p15_directional_move_does_not_recover_out_of_blocked_cells(){
+    let _g=GPU.lock().unwrap();let mut w=arena();w.engine.chio_direct=true;
+    let mut s=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();s[UNIT_X]=0.;s[FACING]=0.;
+    w.state=primitive(Tensor::<1>::from_data(TensorData::new(s,[UNITS*STRIDE]),&w.device));
+    w.geometry=primitive(Tensor::<1>::zeros([512*512*2],&w.device));
+    for _ in 0..30 {w.direct_fixture_step(2000.,0.);}
+    let end=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();
+    assert_eq!((end[UNIT_X],end[UNIT_Y]),(0.,0.));
+}
+
+#[test]
+fn p15_directional_turns_match_native_ticks_within_one_step(){
+    let _g=GPU.lock().unwrap();
+    let reference:serde_json::Value=serde_json::from_str(include_str!("../../tests/fixtures/chio-directional-turns.json")).unwrap();
+    for case in reference["cases"].as_array().unwrap() {
+        let mut w=arena();w.engine.chio_direct=true;
+        let frames=case["frames"].as_array().unwrap();let start=&frames[0];
+        let mut s=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();
+        s[UNIT_X]=start[1].as_f64().unwrap()as f32;s[UNIT_Y]=start[2].as_f64().unwrap()as f32;
+        s[FACING]=start[3].as_f64().unwrap()as f32*std::f32::consts::PI/180.;s[STRIDE+ACTIVE]=0.;s[UNIT_MOVE_SPEED]=305.;
+        w.state=primitive(Tensor::<1>::from_data(TensorData::new(s,[UNITS*STRIDE]),&w.device));
+        for f in frames.iter().skip(1) {
+            w.direct_fixture_step(2080.,-816.);
+            let s=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();
+            let error=((s[UNIT_X]as f64-f[1].as_f64().unwrap()).powi(2)+(s[UNIT_Y]as f64-f[2].as_f64().unwrap()).powi(2)).sqrt();
+            assert!(error<=10.2,"{} tick {} error {error}",case["name"],f[0]);
+        }
+    }
+}
+
+#[test]
+fn p15_flag_preserves_normal_walk_and_other_state_bitwise(){
+    let _g=GPU.lock().unwrap();let a=arena();let mut b=arena();b.engine.chio_direct=true;
+    let mut s=tensor::<1>(a.state.clone()).into_data().try_to_vec::<f32>().unwrap();
+    s[ORDER]=1.;s[DEST_X]=1200.;s[DEST_Y]=300.;
+    // Place an enemy in the path so this also exercises normal path/body avoidance.
+    let mut a=a;
+    a.state=primitive(Tensor::<1>::from_data(TensorData::new(s.clone(),[UNITS*STRIDE]),&a.device));
+    b.state=primitive(Tensor::<1>::from_data(TensorData::new(s,[UNITS*STRIDE]),&b.device));
+    let ra=Sampler::new(1,20261103,&a.device);let rb=Sampler::new(1,20261103,&b.device);
+    for _ in 0..20 {let _=a.step_ticks_with_waves(&ra,4,false);let _=b.step_ticks_with_waves(&rb,4,false);}
+    for (left,right) in [(a.state,b.state),(a.meta,b.meta),(a.shots,b.shots),(a.rewards,b.rewards)] {
+        assert_eq!(tensor::<1>(left).into_data().try_to_vec::<f32>().unwrap(),tensor::<1>(right).into_data().try_to_vec::<f32>().unwrap());
+    }
+}
+
 #[cubecl::prelude::cube(launch)]
 fn p09_events(state:&mut [f32],out:&mut [f32],kind:f32,spell:usize){
     crate::teacher_combat::damage(out,0,0,kind,17.0f32,5.0f32,spell);

@@ -1,0 +1,365 @@
+[
+  {
+    "stage": "complete",
+    "pid": 24460,
+    "command": "C:\\Python314\\python.exe gpu/scripts/p15_probe.py --run C:/AMI/runs/p15/direct-020 --repeats 20",
+    "cwd": "C:\\AMI-wt\\P15",
+    "run": "C:\\AMI\\runs\\p15\\direct-020",
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p15\\direct-020\\dota.log"
+    ],
+    "elapsed_minutes": 4.925846891665909,
+    "dota_pid": 27392,
+    "cases_started": 180,
+    "cases_total": 180,
+    "samples": 32400,
+    "orders": 3780,
+    "errors": 0,
+    "retries": 0,
+    "cases_per_minute": 36.70075803478402
+  },
+  {
+    "stage": "complete",
+    "pid": 23748,
+    "command": "C:\\Python314\\python.exe gpu/scripts/p15_probe.py --run C:/AMI/runs/p15/direct-clear --repeats 1 --cases open --port 27918 --clear-before-move",
+    "cwd": "C:\\AMI-wt\\P15",
+    "run": "C:\\AMI\\runs\\p15\\direct-clear",
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p15\\direct-clear\\dota.log"
+    ],
+    "elapsed_minutes": 0.38494201333184414,
+    "dota_pid": 20580,
+    "cases_started": 1,
+    "cases_total": 1,
+    "samples": 180,
+    "orders": 21,
+    "errors": 0,
+    "retries": 0,
+    "cases_per_minute": 2.700649199612973
+  },
+  {
+    "stage": "failed",
+    "pid": 23436,
+    "command": "C:\\Python314\\python.exe gpu/scripts/p15_probe.py --run C:/AMI/runs/p15/direct-filter --repeats 1 --cases open --port 27918",
+    "cwd": "C:\\AMI-wt\\P15",
+    "run": "C:\\AMI\\runs\\p15\\direct-filter",
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p15\\direct-filter\\dota.log"
+    ],
+    "elapsed_minutes": 0.33217635500089576,
+    "dota_pid": 27828,
+    "cases_started": 0,
+    "cases_total": 1,
+    "samples": 0,
+    "orders": 0,
+    "errors": 0,
+    "retries": 0,
+    "cases_per_minute": 0.0,
+    "error": "SF_P15_ERROR|...r\\runtime\\game\\dota\\scripts\\vscripts\\bots\\p15_server.lua:8: attempt to index a nil value"
+  },
+  {
+    "stage": "failed",
+    "pid": 12532,
+    "command": "C:\\Python314\\python.exe gpu/scripts/p15_probe.py --run C:/AMI/runs/p15/direct-filter-002 --repeats 1 --cases open --port 27918",
+    "cwd": "C:\\AMI-wt\\P15",
+    "run": "C:\\AMI\\runs\\p15\\direct-filter-002",
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p15\\direct-filter-002\\dota.log"
+    ],
+    "elapsed_minutes": 0.3397111366677564,
+    "dota_pid": 22408,
+    "cases_started": 0,
+    "cases_total": 1,
+    "samples": 0,
+    "orders": 0,
+    "errors": 0,
+    "retries": 0,
+    "cases_per_minute": 0.0,
+    "error": "SF_P15_ERROR|...2\\runtime\\game\\dota\\scripts\\vscripts\\bots\\p15_server.lua:8: attempt to index a nil value"
+  },
+  {
+    "stage": "complete",
+    "pid": 4824,
+    "command": "C:\\Python314\\python.exe gpu/scripts/p15_probe.py --run C:/AMI/runs/p15/direct-smoke-001 --repeats 1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "run": "C:\\AMI\\runs\\p15\\direct-smoke-001",
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p15\\direct-smoke-001\\dota.log"
+    ],
+    "elapsed_minutes": 0.5873822383330359,
+    "dota_pid": 1440,
+    "cases_started": 9,
+    "cases_total": 9,
+    "samples": 1620,
+    "orders": 189,
+    "errors": 0,
+    "retries": 0,
+    "cases_per_minute": 15.761946044562979
+  },
+  {
+    "stage": "complete",
+    "pid": 29952,
+    "command": "C:\\Python314\\python.exe gpu/scripts/p15_probe.py --run C:/AMI/runs/p15/direct-smoke-002 --repeats 1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "run": "C:\\AMI\\runs\\p15\\direct-smoke-002",
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p15\\direct-smoke-002\\dota.log"
+    ],
+    "elapsed_minutes": 0.5989428116668326,
+    "dota_pid": 6912,
+    "cases_started": 9,
+    "cases_total": 9,
+    "samples": 1620,
+    "orders": 189,
+    "errors": 0,
+    "retries": 0,
+    "cases_per_minute": 15.56106119345045
+  },
+  {
+    "stage": "complete",
+    "pid": 31960,
+    "command": "C:\\Python314\\python.exe gpu/scripts/p15_probe.py --run C:/AMI/runs/p15/direction-020 --repeats 20 --server-direction",
+    "cwd": "C:\\AMI-wt\\P15",
+    "run": "C:\\AMI\\runs\\p15\\direction-020",
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p15\\direction-020\\dota.log"
+    ],
+    "elapsed_minutes": 4.860325899999589,
+    "dota_pid": 26748,
+    "cases_started": 180,
+    "cases_total": 180,
+    "samples": 32400,
+    "orders": 3780,
+    "errors": 0,
+    "retries": 0,
+    "cases_per_minute": 37.19936711477602
+  },
+  {
+    "stage": "complete",
+    "pid": 23100,
+    "command": "C:\\Python314\\python.exe gpu/scripts/p15_probe.py --run C:/AMI/runs/p15/direction-contrast --repeats 1 --cases open tree ally wave enemy --server-direction",
+    "cwd": "C:\\AMI-wt\\P15",
+    "run": "C:\\AMI\\runs\\p15\\direction-contrast",
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p15\\direction-contrast\\dota.log"
+    ],
+    "elapsed_minutes": 0.4756049500002215,
+    "dota_pid": 32160,
+    "cases_started": 5,
+    "cases_total": 5,
+    "samples": 900,
+    "orders": 105,
+    "errors": 0,
+    "retries": 0,
+    "cases_per_minute": 10.83704618663941
+  },
+  {
+    "stage": "complete",
+    "pid": 3660,
+    "command": "C:\\Python314\\python.exe gpu/scripts/p15_probe.py --run C:/AMI/runs/p15/direction-slope-020 --repeats 20 --cases slope --server-direction",
+    "cwd": "C:\\AMI-wt\\P15",
+    "run": "C:\\AMI\\runs\\p15\\direction-slope-020",
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p15\\direction-slope-020\\dota.log"
+    ],
+    "elapsed_minutes": 0.8641203266665495,
+    "dota_pid": 27652,
+    "cases_started": 20,
+    "cases_total": 20,
+    "samples": 3600,
+    "orders": 420,
+    "errors": 0,
+    "retries": 0,
+    "cases_per_minute": 23.571511778861716
+  },
+  {
+    "stage": "complete",
+    "pid": 31888,
+    "command": "C:\\Python314\\python.exe gpu/scripts/p15_probe.py --run C:/AMI/runs/p15/direction-slope-smoke --repeats 1 --cases slope --server-direction",
+    "cwd": "C:\\AMI-wt\\P15",
+    "run": "C:\\AMI\\runs\\p15\\direction-slope-smoke",
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p15\\direction-slope-smoke\\dota.log"
+    ],
+    "elapsed_minutes": 0.3969264299996818,
+    "dota_pid": 10604,
+    "cases_started": 1,
+    "cases_total": 1,
+    "samples": 180,
+    "orders": 21,
+    "errors": 0,
+    "retries": 0,
+    "cases_per_minute": 2.6321246861085426
+  },
+  {
+    "stage": "complete",
+    "pid": 20364,
+    "cwd": "C:\\AMI-wt\\P15",
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target",
+    "argv": [
+      "cargo",
+      "build",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "gpu/Cargo.toml",
+      "--target-dir",
+      "C:/AMI/runs/p15/target"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p15\\jobs\\build-movement-v2\\stdout.log",
+      "C:\\AMI\\runs\\p15\\jobs\\build-movement-v2\\stderr.log"
+    ],
+    "elapsed_minutes": 1.3366161949990782,
+    "child_pid": 20660,
+    "exit_code": 0
+  },
+  {
+    "stage": "complete",
+    "pid": 15520,
+    "cwd": "C:\\AMI-wt\\P15",
+    "command": "C:/AMI/runs/p15/target/release/sf-duel-gpu.exe check-chio-movement C:/AMI/runs/p15/dota-calibration-005-chio/engine.json C:/AMI/runs/p15/direction-contrast/capture.json C:/AMI/runs/p15/direction-contrast/simulator.json",
+    "argv": [
+      "C:/AMI/runs/p15/target/release/sf-duel-gpu.exe",
+      "check-chio-movement",
+      "C:/AMI/runs/p15/dota-calibration-005-chio/engine.json",
+      "C:/AMI/runs/p15/direction-contrast/capture.json",
+      "C:/AMI/runs/p15/direction-contrast/simulator.json"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p15\\jobs\\movement-contrast-sim\\stdout.log",
+      "C:\\AMI\\runs\\p15\\jobs\\movement-contrast-sim\\stderr.log"
+    ],
+    "elapsed_minutes": 0.09099155833440212,
+    "child_pid": 29040,
+    "exit_code": 0
+  },
+  {
+    "stage": "complete",
+    "pid": 944,
+    "cwd": "C:\\AMI-wt\\P15",
+    "command": "C:/AMI/runs/p15/target/release/sf-duel-gpu.exe check-chio-movement C:/AMI/runs/p15/dota-calibration-005-chio/engine.json C:/AMI/runs/p15/direction-020/capture.json C:/AMI/runs/p15/direction-020/simulator.json",
+    "argv": [
+      "C:/AMI/runs/p15/target/release/sf-duel-gpu.exe",
+      "check-chio-movement",
+      "C:/AMI/runs/p15/dota-calibration-005-chio/engine.json",
+      "C:/AMI/runs/p15/direction-020/capture.json",
+      "C:/AMI/runs/p15/direction-020/simulator.json"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p15\\jobs\\movement-direction-sim\\stdout.log",
+      "C:\\AMI\\runs\\p15\\jobs\\movement-direction-sim\\stderr.log"
+    ],
+    "elapsed_minutes": 0.25765792666740406,
+    "child_pid": 16184,
+    "exit_code": 0
+  },
+  {
+    "stage": "complete",
+    "pid": 22064,
+    "cwd": "C:\\AMI-wt\\P15",
+    "command": "C:/AMI/runs/p15/target/release/sf-duel-gpu.exe check-chio-movement C:/AMI/runs/p15/dota-calibration-005-chio/engine.json C:/AMI/runs/p15/direction-020/capture.json C:/AMI/runs/p15/direction-020/simulator-v2.json",
+    "argv": [
+      "C:/AMI/runs/p15/target/release/sf-duel-gpu.exe",
+      "check-chio-movement",
+      "C:/AMI/runs/p15/dota-calibration-005-chio/engine.json",
+      "C:/AMI/runs/p15/direction-020/capture.json",
+      "C:/AMI/runs/p15/direction-020/simulator-v2.json"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p15\\jobs\\movement-direction-sim-v2\\stdout.log",
+      "C:\\AMI\\runs\\p15\\jobs\\movement-direction-sim-v2\\stderr.log"
+    ],
+    "elapsed_minutes": 0.2579275600010684,
+    "child_pid": 19784,
+    "exit_code": 0
+  },
+  {
+    "stage": "complete",
+    "pid": 34520,
+    "cwd": "C:\\AMI-wt\\P15",
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target -- --test-threads=1",
+    "argv": [
+      "cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "gpu/Cargo.toml",
+      "--target-dir",
+      "C:/AMI/runs/p15/target",
+      "--",
+      "--test-threads=1"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p15\\jobs\\movement-rust-full\\stdout.log",
+      "C:\\AMI\\runs\\p15\\jobs\\movement-rust-full\\stderr.log"
+    ],
+    "elapsed_minutes": 4.426250738332358,
+    "child_pid": 3512,
+    "exit_code": 0
+  },
+  {
+    "stage": "complete",
+    "pid": 32492,
+    "cwd": "C:\\AMI-wt\\P15",
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_ -- --test-threads=1",
+    "argv": [
+      "cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "gpu/Cargo.toml",
+      "--target-dir",
+      "C:/AMI/runs/p15/target",
+      "p15_",
+      "--",
+      "--test-threads=1"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p15\\jobs\\movement-rust-v2\\stdout.log",
+      "C:\\AMI\\runs\\p15\\jobs\\movement-rust-v2\\stderr.log"
+    ],
+    "elapsed_minutes": 1.4193890566685392,
+    "child_pid": 33536,
+    "exit_code": 0
+  },
+  {
+    "stage": "complete",
+    "pid": 19104,
+    "cwd": "C:\\AMI-wt\\P15",
+    "command": "C:/AMI/runs/p15/target/release/sf-duel-gpu.exe check-chio-movement C:/AMI/runs/p15/dota-calibration-005-chio/engine.json C:/AMI/runs/p15/direction-slope-020/capture.json C:/AMI/runs/p15/direction-slope-020/simulator-v2.json",
+    "argv": [
+      "C:/AMI/runs/p15/target/release/sf-duel-gpu.exe",
+      "check-chio-movement",
+      "C:/AMI/runs/p15/dota-calibration-005-chio/engine.json",
+      "C:/AMI/runs/p15/direction-slope-020/capture.json",
+      "C:/AMI/runs/p15/direction-slope-020/simulator-v2.json"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p15\\jobs\\movement-slope-sim-v2\\stdout.log",
+      "C:\\AMI\\runs\\p15\\jobs\\movement-slope-sim-v2\\stderr.log"
+    ],
+    "elapsed_minutes": 0.09050436333442728,
+    "child_pid": 7940,
+    "exit_code": 0
+  }
+]

@@ -52,6 +52,10 @@ def summarize(capture, simulation=None):
             totals[name].update(sim_cases=len(cases), paired_samples=len(samples),
                                max_error=max(s['error'] for s in samples),
                                mean_error=sum(s['error'] for s in samples)/len(samples))
+            if all('error_z' in s for s in samples):
+                totals[name].update(max_z_error=max(s['error_z'] for s in samples),
+                                    mean_z_error=sum(s['error_z'] for s in samples)/len(samples),
+                                    max_3d_error=max(s['error_3d'] for s in samples))
     return dict(quality=quality, totals=totals, cases=rows, config=capture['config'],
                 elapsed_minutes=capture['elapsed_minutes'], source_sha256=capture['source_sha256'])
 
