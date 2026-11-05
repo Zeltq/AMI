@@ -1,0 +1,705 @@
+{
+  "session": "C:\\AMI\\runs\\p10\\human\\20261105-032741-652789",
+  "summary": {
+    "model_team": 3,
+    "first_death": {
+      "kind": "death",
+      "team": 3,
+      "time": 82.233345031738,
+      "killer_team": 2,
+      "killer": "npc_dota_hero_nevermore"
+    },
+    "first_blood": {
+      "kind": "death",
+      "team": 3,
+      "time": 82.233345031738,
+      "killer_team": 2,
+      "killer": "npc_dota_hero_nevermore",
+      "credited_team": 2
+    },
+    "end": 82.233345031738,
+    "sides": {
+      "2": {
+        "last": {
+          "kind": "hero",
+          "lh": 6,
+          "deny": 3,
+          "deaths": 0,
+          "kills": 0,
+          "health": 419,
+          "alive": true,
+          "team": 2,
+          "time": 82.233345031738,
+          "y": -122.34052276611,
+          "x": -534.94049072266,
+          "player": 0
+        },
+        "at_seconds": {
+          "300": null,
+          "600": null
+        },
+        "deaths": 0,
+        "kills": 1,
+        "casts": {
+          "nevermore_shadowraze1": 2,
+          "nevermore_shadowraze3": 1,
+          "nevermore_shadowraze2": 1
+        },
+        "raze_casts": 4,
+        "raze_hit_events": 6,
+        "raze_hero_hits": 3,
+        "hero_attack_hits": 8,
+        "mid_game_time": -43.466659545898,
+        "telemetry_samples": 1550
+      },
+      "3": {
+        "last": {
+          "kind": "hero",
+          "lh": 1,
+          "deny": 1,
+          "deaths": 0,
+          "kills": 0,
+          "health": 10,
+          "alive": true,
+          "team": 3,
+          "time": 82.233345031738,
+          "y": 409.62268066406,
+          "x": 243.0188293457,
+          "player": 5
+        },
+        "at_seconds": {
+          "300": null,
+          "600": null
+        },
+        "deaths": 1,
+        "kills": 0,
+        "casts": {
+          "nevermore_shadowraze3": 2,
+          "nevermore_shadowraze2": 2,
+          "courier_take_stash_and_transfer_items": 1
+        },
+        "raze_casts": 4,
+        "raze_hit_events": 4,
+        "raze_hero_hits": 0,
+        "hero_attack_hits": 2,
+        "mid_game_time": -46.866661071777,
+        "telemetry_samples": 1550
+      }
+    },
+    "hit_definition": "entity_hurt events, one event per damaged target; hero hits separately",
+    "missing_marks": "null means duel ended early or no sample within 0.15 seconds"
+  },
+  "native_outcome": {
+    "reason": "death",
+    "time": 82.266670227051,
+    "winner": 2
+  },
+  "transport": {
+    "total_decisions": 1160,
+    "checked": 1159,
+    "terminal_censored": 1,
+    "acknowledged": 1159,
+    "rejected": 4,
+    "reasons": {
+      "purchase_failed": 1,
+      "target_unavailable": 3
+    },
+    "late": 0,
+    "missing": 0,
+    "scope": "Model team only. Go teacher decisions on the human side are unexecuted diagnostics."
+  },
+  "actions": {
+    "CONTINUE": 577,
+    "MOVE": 517,
+    "STOP": 33,
+    "RAZE_FAR": 2,
+    "RAZE_MID": 2,
+    "ATTACK": 28
+  },
+  "attack_targets": {
+    "enemy_creep": 9,
+    "hero": 14,
+    "deny": 5
+  },
+  "casts": [
+    {
+      "time": 18.666664123535,
+      "ability": "nevermore_shadowraze3",
+      "targets": 1,
+      "hero_targets": 0
+    },
+    {
+      "time": 28.533332824707,
+      "ability": "nevermore_shadowraze2",
+      "targets": 0,
+      "hero_targets": 0
+    },
+    {
+      "time": 30.133338928223,
+      "ability": "nevermore_shadowraze3",
+      "targets": 3,
+      "hero_targets": 0
+    },
+    {
+      "time": 39.466667175293,
+      "ability": "nevermore_shadowraze2",
+      "targets": 0,
+      "hero_targets": 0
+    }
+  ],
+  "farm_changes": [
+    {
+      "time": 25.833335876465,
+      "team": 2,
+      "lh": 1,
+      "deny": 0
+    },
+    {
+      "time": 36.133338928223,
+      "team": 2,
+      "lh": 1,
+      "deny": 1
+    },
+    {
+      "time": 39.233329772949,
+      "team": 2,
+      "lh": 1,
+      "deny": 2
+    },
+    {
+      "time": 42.533332824707,
+      "team": 2,
+      "lh": 2,
+      "deny": 2
+    },
+    {
+      "time": 43.93334197998,
+      "team": 2,
+      "lh": 3,
+      "deny": 2
+    },
+    {
+      "time": 46.733329772949,
+      "team": 2,
+      "lh": 4,
+      "deny": 2
+    },
+    {
+      "time": 58.633338928223,
+      "team": 2,
+      "lh": 4,
+      "deny": 3
+    },
+    {
+      "time": 63.633338928223,
+      "team": 2,
+      "lh": 5,
+      "deny": 3
+    },
+    {
+      "time": 72.833335876465,
+      "team": 2,
+      "lh": 6,
+      "deny": 3
+    },
+    {
+      "time": 62.033332824707,
+      "team": 3,
+      "lh": 0,
+      "deny": 1
+    },
+    {
+      "time": 65.833335876465,
+      "team": 3,
+      "lh": 1,
+      "deny": 1
+    }
+  ],
+  "selected_decisions": [
+    {
+      "sequence": 544,
+      "time": -0.0333251953125,
+      "execute_tick": 3175,
+      "action": "CONTINUE",
+      "target_kind": "none",
+      "health": 582,
+      "health_max": 582,
+      "mana": 291,
+      "x": -34.457828521728516,
+      "y": -51.61570739746094,
+      "own_t1_distance": 898.3037791178841,
+      "enemy_distance": null,
+      "move_goal_t1_distance": null,
+      "accepted": true,
+      "reject_reason": ""
+    },
+    {
+      "sequence": 684,
+      "time": 18.633331298828125,
+      "execute_tick": 3735,
+      "action": "CONTINUE",
+      "target_kind": "none",
+      "health": 582,
+      "health_max": 582,
+      "mana": 291,
+      "x": 39.849586486816406,
+      "y": 165.63015747070312,
+      "own_t1_distance": 686.2629467715183,
+      "enemy_distance": 1307.9295041541482,
+      "move_goal_t1_distance": null,
+      "accepted": true,
+      "reject_reason": ""
+    },
+    {
+      "sequence": 758,
+      "time": 28.50000762939453,
+      "execute_tick": 4031,
+      "action": "CONTINUE",
+      "target_kind": "none",
+      "health": 582,
+      "health_max": 582,
+      "mana": 228,
+      "x": 21.86637306213379,
+      "y": 44.15072250366211,
+      "own_t1_distance": 788.4278379605837,
+      "enemy_distance": 1287.5522825524613,
+      "move_goal_t1_distance": null,
+      "accepted": true,
+      "reject_reason": ""
+    },
+    {
+      "sequence": 770,
+      "time": 30.099998474121094,
+      "execute_tick": 4079,
+      "action": "CONTINUE",
+      "target_kind": "none",
+      "health": 582,
+      "health_max": 582,
+      "mana": 155,
+      "x": -45.16746520996094,
+      "y": -1.907646656036377,
+      "own_t1_distance": 866.9176987620724,
+      "enemy_distance": 1225.7147698407462,
+      "move_goal_t1_distance": null,
+      "accepted": true,
+      "reject_reason": ""
+    },
+    {
+      "sequence": 840,
+      "time": 39.43334197998047,
+      "execute_tick": 4359,
+      "action": "CONTINUE",
+      "target_kind": "none",
+      "health": 582,
+      "health_max": 582,
+      "mana": 91,
+      "x": -314.5256042480469,
+      "y": -266.6402282714844,
+      "own_t1_distance": 1243.7943206679715,
+      "enemy_distance": 1006.110675045335,
+      "move_goal_t1_distance": null,
+      "accepted": true,
+      "reject_reason": ""
+    },
+    {
+      "sequence": 994,
+      "time": 59.96666717529297,
+      "execute_tick": 4975,
+      "action": "CONTINUE",
+      "target_kind": "none",
+      "health": 582,
+      "health_max": 582,
+      "mana": 40,
+      "x": -364.6867980957031,
+      "y": -108.51046752929688,
+      "own_t1_distance": 1169.675033457996,
+      "enemy_distance": 554.5914347825039,
+      "move_goal_t1_distance": null,
+      "accepted": true,
+      "reject_reason": ""
+    },
+    {
+      "sequence": 1002,
+      "time": 61.03333282470703,
+      "execute_tick": 5007,
+      "action": "ATTACK",
+      "target_kind": "deny",
+      "health": 498,
+      "health_max": 582,
+      "mana": 42,
+      "x": -328.16650390625,
+      "y": -54.44318771362305,
+      "own_t1_distance": 1106.909686037091,
+      "enemy_distance": 627.6450912275702,
+      "move_goal_t1_distance": null,
+      "accepted": true,
+      "reject_reason": ""
+    },
+    {
+      "sequence": 1032,
+      "time": 65.03333282470703,
+      "execute_tick": 5127,
+      "action": "CONTINUE",
+      "target_kind": "none",
+      "health": 453,
+      "health_max": 582,
+      "mana": 46,
+      "x": -416.38336181640625,
+      "y": -110.39144897460938,
+      "own_t1_distance": 1210.6035066375666,
+      "enemy_distance": 616.8831648716229,
+      "move_goal_t1_distance": null,
+      "accepted": true,
+      "reject_reason": ""
+    },
+    {
+      "sequence": 1042,
+      "time": 66.3666763305664,
+      "execute_tick": 5167,
+      "action": "MOVE",
+      "target_kind": "none",
+      "health": 344,
+      "health_max": 626,
+      "mana": 51,
+      "x": -471.26727294921875,
+      "y": -77.88606262207031,
+      "own_t1_distance": 1234.216292126793,
+      "enemy_distance": 518.0090923322249,
+      "move_goal_t1_distance": 1175.29382288289,
+      "accepted": true,
+      "reject_reason": ""
+    },
+    {
+      "sequence": 1057,
+      "time": 68.3666763305664,
+      "execute_tick": 5227,
+      "action": "MOVE",
+      "target_kind": "none",
+      "health": 175,
+      "health_max": 626,
+      "mana": 54,
+      "x": -449.4091796875,
+      "y": -63.4111328125,
+      "own_t1_distance": 1208.0305388371673,
+      "enemy_distance": 314.9904304604089,
+      "move_goal_t1_distance": 1137.5742341631892,
+      "accepted": true,
+      "reject_reason": ""
+    },
+    {
+      "sequence": 1069,
+      "time": 69.96666717529297,
+      "execute_tick": 5275,
+      "action": "MOVE",
+      "target_kind": "none",
+      "health": 134,
+      "health_max": 626,
+      "mana": 56,
+      "x": -449.4091796875,
+      "y": -63.4111328125,
+      "own_t1_distance": 1208.0305388371673,
+      "enemy_distance": 355.7738993948892,
+      "move_goal_t1_distance": 896.585934225335,
+      "accepted": true,
+      "reject_reason": ""
+    },
+    {
+      "sequence": 1107,
+      "time": 75.03333282470703,
+      "execute_tick": 5427,
+      "action": "MOVE",
+      "target_kind": "none",
+      "health": 53,
+      "health_max": 626,
+      "mana": 62,
+      "x": -321.005859375,
+      "y": 64.9814453125,
+      "own_t1_distance": 1028.8950667354006,
+      "enemy_distance": 338.58807106134753,
+      "move_goal_t1_distance": 879.562671956535,
+      "accepted": true,
+      "reject_reason": ""
+    },
+    {
+      "sequence": 1144,
+      "time": 79.96666717529297,
+      "execute_tick": 5575,
+      "action": "ATTACK",
+      "target_kind": "hero",
+      "health": 13,
+      "health_max": 626,
+      "mana": 69,
+      "x": 114.57363891601562,
+      "y": 442.7774963378906,
+      "own_t1_distance": 459.78660773713614,
+      "enemy_distance": 699.1146847049614,
+      "move_goal_t1_distance": null,
+      "accepted": true,
+      "reject_reason": ""
+    },
+    {
+      "sequence": 1159,
+      "time": 81.96666717529297,
+      "execute_tick": 5635,
+      "action": "MOVE",
+      "target_kind": "none",
+      "health": 9,
+      "health_max": 626,
+      "mana": 72,
+      "x": 194.28073120117188,
+      "y": 354.0431213378906,
+      "own_t1_distance": 444.40165126672224,
+      "enemy_distance": 790.8462270543304,
+      "move_goal_t1_distance": 353.32413012677097,
+      "accepted": true,
+      "reject_reason": ""
+    }
+  ],
+  "low_health": {
+    "threshold_fraction": 0.25,
+    "decisions": 98,
+    "actions": {
+      "MOVE": 85,
+      "STOP": 3,
+      "ATTACK": 8,
+      "CONTINUE": 2
+    },
+    "attack_targets": {
+      "deny": 1,
+      "hero": 7
+    },
+    "move_goals_closer_to_own_t1": 63,
+    "first": {
+      "sequence": 1062,
+      "time": 69.03333282470703,
+      "execute_tick": 5247,
+      "action": "MOVE",
+      "target_kind": "none",
+      "health": 131,
+      "health_max": 626,
+      "mana": 55,
+      "x": -401.024169921875,
+      "y": -4.7229838371276855,
+      "own_t1_distance": 1134.439994124233,
+      "enemy_distance": 420.4465396705701,
+      "move_goal_t1_distance": 1108.5019481347742,
+      "accepted": true,
+      "reject_reason": ""
+    },
+    "last": {
+      "sequence": 1159,
+      "time": 81.96666717529297,
+      "execute_tick": 5635,
+      "action": "MOVE",
+      "target_kind": "none",
+      "health": 9,
+      "health_max": 626,
+      "mana": 72,
+      "x": 194.28073120117188,
+      "y": 354.0431213378906,
+      "own_t1_distance": 444.40165126672224,
+      "enemy_distance": 790.8462270543304,
+      "move_goal_t1_distance": 353.32413012677097,
+      "accepted": true,
+      "reject_reason": ""
+    }
+  },
+  "observed_raze_mana_costs": [
+    75.0
+  ],
+  "mana_after_last_raze": {
+    "min": 16,
+    "max": 72
+  },
+  "hero_damage_events": [
+    {
+      "kind": "hurt",
+      "time": -29.233329772949,
+      "target_team": 3,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 31,
+      "attacker": 1268,
+      "victim": 1473,
+      "team": 2,
+      "ability": ""
+    },
+    {
+      "kind": "hurt",
+      "time": 60.599998474121,
+      "target_team": 2,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 33,
+      "attacker": 1473,
+      "victim": 1268,
+      "team": 3,
+      "ability": ""
+    },
+    {
+      "kind": "hurt",
+      "time": 60.93334197998,
+      "target_team": 3,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 73,
+      "attacker": 1268,
+      "victim": 1473,
+      "team": 2,
+      "ability": "nevermore_shadowraze3"
+    },
+    {
+      "kind": "hurt",
+      "time": 66.033332824707,
+      "target_team": 3,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 46,
+      "attacker": 1268,
+      "victim": 1473,
+      "team": 2,
+      "ability": ""
+    },
+    {
+      "kind": "hurt",
+      "time": 66.333335876465,
+      "target_team": 3,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 100,
+      "attacker": 1268,
+      "victim": 1473,
+      "team": 2,
+      "ability": "nevermore_shadowraze2"
+    },
+    {
+      "kind": "hurt",
+      "time": 67.333335876465,
+      "target_team": 3,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 49,
+      "attacker": 1268,
+      "victim": 1473,
+      "team": 2,
+      "ability": ""
+    },
+    {
+      "kind": "hurt",
+      "time": 68.266670227051,
+      "target_team": 3,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 125,
+      "attacker": 1268,
+      "victim": 1473,
+      "team": 2,
+      "ability": "nevermore_shadowraze1"
+    },
+    {
+      "kind": "hurt",
+      "time": 69.000007629395,
+      "target_team": 3,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 46,
+      "attacker": 1268,
+      "victim": 1473,
+      "team": 2,
+      "ability": ""
+    },
+    {
+      "kind": "hurt",
+      "time": 70.166664123535,
+      "target_team": 3,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 47,
+      "attacker": 1268,
+      "victim": 1473,
+      "team": 2,
+      "ability": ""
+    },
+    {
+      "kind": "hurt",
+      "time": 74.966667175293,
+      "target_team": 3,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 48,
+      "attacker": 1268,
+      "victim": 1473,
+      "team": 2,
+      "ability": ""
+    },
+    {
+      "kind": "hurt",
+      "time": 77.533332824707,
+      "target_team": 3,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 44,
+      "attacker": 1268,
+      "victim": 1473,
+      "team": 2,
+      "ability": ""
+    },
+    {
+      "kind": "hurt",
+      "time": 80.500007629395,
+      "target_team": 2,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 41,
+      "attacker": 1473,
+      "victim": 1268,
+      "team": 3,
+      "ability": ""
+    },
+    {
+      "kind": "hurt",
+      "time": 82.233345031738,
+      "target_team": 3,
+      "target": "npc_dota_hero_nevermore",
+      "damage": 10,
+      "attacker": 1268,
+      "victim": 1473,
+      "team": 2,
+      "ability": ""
+    }
+  ],
+  "service": {
+    "requests": 1160,
+    "batches": {
+      "1": 1160
+    },
+    "episodes": {
+      "C:\\AMI\\runs\\p10\\human\\20261105-032741-652789:3": {
+        "team": 3,
+        "first_mid_time": -46.83332824707031,
+        "creep_projectiles": 4,
+        "raze_casts": 4,
+        "last_hits": 1,
+        "denies": 1,
+        "decisions": 1160,
+        "last_time": 82.0999984741211
+      }
+    },
+    "errors": [],
+    "checkpoint": "C:\\AMI\\runs\\p10\\ZOg-000470.pt",
+    "training_started": false,
+    "seed": 20261105,
+    "device": "cpu",
+    "memory_reset_origin_seconds": null,
+    "latest_inference_ms": 6.166100036352873,
+    "batch_wait_ms": 2.0,
+    "telemetry_write_ms": 1.4449000009335577
+  },
+  "verification": {
+    "saved_summary_equal": true,
+    "all_model_decisions_accounted": true,
+    "all_due_commands_acknowledged_on_time": true,
+    "final_farm_matches_native": true
+  },
+  "limitations": [
+    "One human match; intent of a movement command is not observable.",
+    "Last periodic hero sample can precede the death event; event determines death and final HP=0.",
+    "Human-side native teacher commands were never executed and are excluded."
+  ],
+  "source_sha256": {
+    "dota.log": "bcef2757a525c1a0bd321e8f8c5b151d2d8cfc541a7586a737bbe7a5db10c3ae",
+    "native-decisions.pb.gz": "0e7dafdc7dbaa484513c576cf0090662fe3ce1c86ad239124f15e22f626df644",
+    "summary.json": "73ae1df171bd4542c6dd69b50219f6bc03b8077a43e4e872b62cd98c55038366",
+    "duel-result.json": "2bd2f585b928cf87900a911651f9f5e13e595472349d3d6e290546dbb7799589",
+    "session.json": "7dc18124a8faf4c7f85b1dc3d94f658b716ed3648240a0e4c7dd7891a5e9d962"
+  },
+  "checkpoint_sha256": "03130bb511852dbea25f3533234de9ecd475fcbe9888584a9d1daa9c00cc22a7"
+}

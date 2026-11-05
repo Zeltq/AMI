@@ -1,4 +1,4 @@
-"""Write the P10 automatic-stage report from measured summaries, at most 150 lines."""
+"""Write P10 evaluation and completed human-match results, at most 150 lines."""
 import json
 from pathlib import Path
 
@@ -16,6 +16,7 @@ def main():
     assert json.loads((RUN/'installation.json').read_text())['installed']
     fixes=[line for line in (ROOT/'reports/P10.md').read_text(encoding='utf-8').splitlines() if line.startswith('- `[P10] fix:')]
     tests=json.loads((OUT/'verification.json').read_text())['python']['tests']
+    human=json.loads((OUT/'human-match.json').read_text()) if (OUT/'human-match.json').exists() else None
     lines=['# P10 — ZOg 000470 в настоящей Dota','', '## Результаты','',
         '8/8 матчей Dota против Lua teacher-v9, по 4 за сторону; 64/64 в симуляторе 005 против v9, по 32. Seed 20261105, sampling. Числа относятся к модели; LH/deny суммируются до первой смерти/конца. Матч человека: 0/1, точка ожидания пользователя.','',
         '| Среда / сторона | Победы / N | Ничьи / N | Поражения / N | LH / N | Deny / N | Смерти / N | Убийства / N | Время, сумма с / N |',
@@ -97,6 +98,36 @@ def main():
         '- `C:/AMI/runs/p10/native-eight/match-00…07`: логи, protobuf, match.json; неудачные попытки — `attempts/`, прежние сервисы — `service-before-resume-*`.',
         '- `C:/AMI/runs/p10/{sim-v9,sim-static,spell-probe,cast-parity,terminal-probe,native-smoke*}`; статусы — `*-job.json` и `C:/AMI/runs/pilot-status.json`.',
         '- `C:/AMI/runs/p10/installation.json`, `bots-backup-<время>`, `restore-test/`, `restore-junction-test/`; будущие матчи человека — `human/<время>/`.', '', 'DONE P10']
+    if human:
+        assert Path(human['session']).name=='20261105-032741-652789','Behavior annotations describe the audited first human match'
+        summary=human['summary'];model=summary['model_team'];winner=human['native_outcome']['winner'];t=human['transport']
+        lines[4]=lines[4].replace('Матч человека: 0/1, точка ожидания пользователя.','Матч человека: 1/1 завершён, отдельно от автоматических серий.')
+        result_lines=['Матч человека против ZOg: **first blood — Radiant (человек), 82,23 с (1:22,23)**. Native-конец 82,27 с, разница один тик.','',
+            '| Участник / сторона | Победы / N | LH / N | Deny / N | Убийства / N | Смерти / N | Койлы / N | Койлы по герою: попадания / касты | Обычные попадания по герою / N |',
+            '|---|---:|---:|---:|---:|---:|---:|---:|---:|']
+        for team in (2,3):
+            s=summary['sides'][str(team)];name='ZOg' if team==model else 'Человек'
+            values=[int(winner==team),s['last']['lh'],s['last']['deny'],s['kills'],s['deaths'],s['raze_casts']]
+            result_lines.append(f"| {name} / {'Radiant' if team==2 else 'Dire'} | "+' | '.join(f'{v}/1' for v in values)+f" | {s['raze_hero_hits']}/{s['raze_casts']} | {s['hero_attack_hits']}/1 |")
+        result_lines+=['',f"LH/deny на 5:00 и 10:00: у обоих отсутствуют, охват каждой отметки 0/1 — матч закончился раньше. Модель: ACK {t['acknowledged']}/{t['checked']}, отклонено {t['rejected']}/{t['checked']} (target_unavailable 3/4, purchase_failed 1/4), опоздания 0/{t['checked']}, пропуски 0/{t['checked']}; 1/1160 команда на границе смерти исключена. Все {human['service']['requests']}/1160 запросов CPU учтены, ошибок 0/1160. Команды Go для стороны человека не исполнялись и из анализа исключены.",
+            'Проверка: пересчитанный итог равен сохранённому; LH/deny обеих сторон совпали с native; веса имеют прежний SHA-256. [Итог и события](P10/human-match.json), [все команды модели](P10/human-decisions.csv).','']
+        at=lines.index('## Наблюдения');lines[at:at]=result_lines
+        observation_lines=[
+            '- **Подтверждено, человек–ZOg:** бот вышел на мид в −46,87 с. Из 28/1159 команд ATTACK: 14/28 на героя, 9/28 на вражеских крипов, 5/28 на deny. По герою нанесены 2 обычных попадания (60,60 и 80,50 с), суммарно 74 урона; отношение попаданий к командам не является точностью отдельных атак.',
+            '- **Подтверждено, койлы:** четыре каста ZOg в 18,67 / 28,53 / 30,13 / 39,47 с; два дальних задели 1 и 3 крипов, два средних не дали событий урона. По человеку 0/4. После последнего каста мана 16–72 при стоимости койла 75; новых кастов не было.',
+            '- **Подтверждено, добивания:** счёт ZOg изменился на deny 1 в 62,03 с и LH 1 в 65,83 с; к концу 1/1 LH и 1/1 deny. У человека 6/1 LH и 3/1 deny. Время изменения счёта измерялось с шагом около 0,1 с.',
+            '- **Подтверждено, отход:** при HP<25% было 98/1159 решений: MOVE 85/98, атака героя 7/98, deny 1/98, STOP 3/98, CONTINUE 2/98. В 63/85 MOVE цель ближе к своей T1. Между 69,03 и 81,97 с расстояние до T1 уменьшилось 1134→444, HP 131/626→9/626; смерть наступила в 82,23 с.',
+            '- **Подтверждено:** направление движения и выданные команды измерены; намерение бота и причинный вклад смены приказов, маршрута и реакции на урон не установлены. Один матч не определяет поведение против любого человека.','']
+        at=lines.index('## Что сделано');lines[at:at]=observation_lines
+        at=lines.index('python gpu/scripts/p10_report.py')
+        lines.insert(at,'python gpu/scripts/p10_human_results.py C:/AMI/runs/p10/human/20261105-032741-652789 > C:/AMI/runs/p10/human-final-analysis.log')
+        for i,line in enumerate(lines):
+            if line.startswith('- Матч человека против работающей политики ещё'):
+                lines[i]='- Человеческий путь проверен в 1/1 завершённом матче; 5:00/10:00 не достигнуты. Для этой отчётной правки выполнены проверки сырых данных и генератора; Python/Go-наборы выше относятся к ранее выполненным проверкам кода, повторно не запускались.'
+            elif line.startswith('- Скрипты установлены:'):
+                lines[i]='- Скрипты установлены: человек Radiant, модель Dire; [копия и хеши](P10/installation.json). Процессы завершённой сессии остановились; [проверка](P10/human-cleanup.json). Новый запуск пользователя и его клиент не прерывались. Heartbeat завершённой сессии приостановлен.'
+            elif line.startswith('- `C:/AMI/runs/p10/installation.json`'):
+                lines[i]='- `C:/AMI/runs/p10/installation.json`, `bots-backup-<время>`, тесты восстановления; матч человека — `C:/AMI/runs/p10/human/20261105-032741-652789/` (dota.log, native-decisions.pb.gz, summary.json, duel-result.json).'
     assert len(lines)<=150,len(lines)
     (ROOT/'reports/P10.md').write_text('\n'.join(lines)+'\n',encoding='utf-8',newline='\n')
     print(f'{len(lines)} lines')
