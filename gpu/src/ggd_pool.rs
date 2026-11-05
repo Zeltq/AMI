@@ -86,7 +86,7 @@ impl Pool {
         pool.assignments=vec![Assignment{kind:"v9".into(),model:None};2];pool.begin_block(&w,&[0,1]);
         let rng=Sampler::new(2,19,&d);let crng=Sampler::new(2,19,&d);
         let mut previous=crate::observe::initial_previous(4,&d);let mut cp=previous.clone();
-        for _ in 0..512 {
+        for _ in 0..1600 {
             let obs=w.observe(previous.clone());let co=control.observe(cp.clone());let expected=pure.actions(&control,&co);
             let before=main.command_snapshot();let labels=v10.actions(&main,&w,&obs);let _=pool.scripted(&w,&obs,labels.clone());
             // Identical learner commands isolate opponent routing and bookkeeping.

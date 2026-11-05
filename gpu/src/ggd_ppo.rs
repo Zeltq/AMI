@@ -384,21 +384,28 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
             drop(experience);d.memory_cleanup();
             let user_stop=root.join("stop.json").exists();
             let stop=(cfg.critic_only&&!warmup)||training_seconds>=cfg.minutes*60.||(cfg.stop_at_minutes>0.&&training_seconds>=cfg.stop_at_minutes*60.)||(cfg.max_blocks>0&&block>=cfg.max_blocks)||user_stop;
-            let eval=cfg.evaluate&&!user_stop&&(training_seconds-last_evaluation>=cfg.evaluation_minutes*60.||stop);
+            // Mixed-pool final series are supervised separately, including the
+            // exact planned two-hours-earlier checkpoint and the initial model.
+            let eval=cfg.evaluate&&!user_stop&&(training_seconds-last_evaluation>=cfg.evaluation_minutes*60.||(stop&&pool.is_none()));
             let snapshot_due=pool.is_some()&&training_seconds-last_snapshot>=cfg.snapshot_minutes*60.;
-            if training_seconds-last_checkpoint>=cfg.checkpoint_minutes*60.||stop||eval||snapshot_due{
+            let reference_time=(cfg.minutes-120.).max(0.)*60.;
+            let reference_due=pool.is_some()&&last_checkpoint<reference_time&&training_seconds>=reference_time;
+            if training_seconds-last_checkpoint>=cfg.checkpoint_minutes*60.||stop||eval||snapshot_due||reference_due{
                 let path=checkpoint(&policy,&optimizer,&manifest,root,block)?;last_checkpoint=training_seconds;last_path=Some(path.clone());
                 if snapshot_due{if let Some(p)=&mut pool{p.add(&path.join("weights").to_string_lossy(),&d)?;pool_paths=p.paths.clone();last_snapshot=training_seconds;crate::artifacts::atomic_json(&root.join("pool.json"),&p.evidence())?;}}
                 let progress=||serde_json::json!({"training_seconds":training_seconds,"block":block,"anchor_sha256":crate::runtime::file_sha256(&Path::new(&cfg.initial_weights).join("manifest.json")).unwrap(),"reward_mode":cfg.reward_mode,"schedule_minutes":cfg.schedule_minutes,"kl_start":cfg.kl_start,"kl_end":cfg.kl_end,"kl_decay_start_minutes":cfg.kl_decay_start_minutes,"kl_coefficient_next":anchor_coefficient(&cfg,training_seconds),"warmup_complete":!warmup,"warmup_seen":warmup_seen,"pool_paths":pool_paths,"last_snapshot":last_snapshot});
                 let mut saved=progress();saved["last_evaluation"]=last_evaluation.into();saved["previous_evaluation_weights"]=previous_evaluation_weights.clone().into();crate::artifacts::atomic_json(&path.join("progress.json"),&saved)?;
                 if eval&&state_reward {
-                    for opponent in [false,true] {for seed in [20261103u32,20261104] {
-                        let name=if opponent{"previous"}else{"v10"};let target=root.join(format!("eval-{block:06}-{name}-{seed}"));
+                    let opponents=if pool.is_some(){vec!["v10","v9","previous"]}else{vec!["v10","previous"]};
+                    for name in opponents {for seed in [20261103u32,20261104] {
+                        let opponent=name=="previous";let target=root.join(format!("eval-{block:06}-{name}-{seed}"));
                         crate::artifacts::atomic_json(&root.join("status.json"),&serde_json::json!({"stage":"evaluating","pid":std::process::id(),"block":block,"training_seconds":training_seconds,"opponent":name,"seed":seed,"report":target.join("report.json")}))?;
-                        let report=crate::imitation::evaluate_against(&engine,&path.join("weights"),&target,64,600.,"teacher",seed,false,false,false,false,cfg.teacher_version,if opponent{Some(Path::new(if event_reward{&cfg.initial_weights}else{&previous_evaluation_weights}))}else{None})?;
+                        let version=if name=="v9"{crate::teacher_v10::Version::V9}else{cfg.teacher_version};
+                        let previous=if event_reward&&pool.is_none(){&cfg.initial_weights}else{&previous_evaluation_weights};
+                        let report=crate::imitation::evaluate_against(&engine,&path.join("weights"),&target,64,600.,"teacher",seed,false,false,false,false,version,if opponent{Some(Path::new(previous))}else{None})?;
                         ensure!(report["complete"]==true,"incomplete scheduled evaluation");evaluation_seconds+=report["wall_seconds"].as_f64().unwrap_or(0.);
                     }}
-                    if !event_reward{previous_evaluation_weights=path.join("weights").to_string_lossy().to_string();}last_evaluation=training_seconds;
+                    if !event_reward||pool.is_some(){previous_evaluation_weights=path.join("weights").to_string_lossy().to_string();}last_evaluation=training_seconds;
                     let mut saved=progress();saved["last_evaluation"]=last_evaluation.into();saved["previous_evaluation_weights"]=previous_evaluation_weights.clone().into();crate::artifacts::atomic_json(&path.join("progress.json"),&saved)?;
                     crate::artifacts::atomic_json(&root.join("evaluation-complete.json"),&serde_json::json!({"block":block,"training_seconds":training_seconds,"checkpoint":path,"previous_evaluation_weights":previous_evaluation_weights}))?;
                 }

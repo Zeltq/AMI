@@ -1,0 +1,18 @@
+[
+  {
+    "stage": "rust-targeted",
+    "kind": "verification",
+    "command_literal": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P11\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p11\\target p11_ -- --nocapture --test-threads=1",
+    "artifact": null,
+    "log": "C:\\AMI\\runs\\p11\\rust-targeted.log",
+    "exit_code": 0
+  },
+  {
+    "stage": "rust-full",
+    "kind": "verification",
+    "command_literal": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P11\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p11\\target -- --test-threads=1",
+    "artifact": null,
+    "log": "C:\\AMI\\runs\\p11\\rust-full.log",
+    "exit_code": null
+  }
+]

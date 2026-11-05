@@ -1,0 +1,23 @@
+{
+  "task": "P11",
+  "date_moscow": "2026-11-05",
+  "deadline_utc": "2026-11-05T09:30:00Z",
+  "latest_training_end_utc": "2026-11-05T08:40:00Z",
+  "model": "ZOg 000470; model + critic + Adam",
+  "profile": "ggd-v4",
+  "environment": "005",
+  "reward": "event-v2 unchanged",
+  "opponent_probabilities": {"latest": 0.2, "uniform_older": 0.2, "teacher-v10": 0.3, "teacher-v9": 0.3},
+  "assignment": "Draw only at episode start; hold snapshot identity and type until terminal. Alternate learner side. Sampling for both model participants; only learner actions enter PPO loss.",
+  "snapshots": "Every 60 minutes of PPO; retain all snapshots",
+  "smoke": "10 minutes lr=0 after frozen arena desynchronization; all 59 tensors unchanged and outcomes/rewards for every opponent type",
+  "warmup": "Value only; at least20 and at most60 blocks; EV after0:00 averaged over5 blocks >0.3",
+  "evaluation": "Every120 minutes PPO, paused training; final against v10/v9/two-hours-earlier/000470; optional 000470-v9 reference if time remains",
+  "evaluation_seeds": [20261103,20261104],
+  "matches_per_seed": 64,
+  "sides_per_seed": {"radiant":32,"dire":32},
+  "metrics": ["W/D/L and terminal cause", "LH", "deny", "farm/spawn", "farm/attack cycles", "death matches and first death time", "deaths before120", "hero kills", "death cause and distances to both T1", "each raze casts and hero hits for both players", "hero attack orders and released attacks", "damage from hero/creeps/tower", "event-v2 reward and all six components"],
+  "curves": ["reward/components", "anchor KL", "entropy", "value loss", "EVpost0", "clip fraction", "per100 completed full-reward matches by opponent type: wins/farm/deaths"],
+  "publication": "Logical commits prefixed[P11]; hourly curves/report, immediately after evaluation; each evidence file<1MB; no weights/datasets/replays/binaries",
+  "autonomy": "No user questions; decisions and limitations documented. Restart failed training from latest checkpoint; no metric-based early stopping. Simulator only."
+}

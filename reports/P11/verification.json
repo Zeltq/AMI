@@ -1,0 +1,35 @@
+{
+  "executable_sha256": "314451ca2e618bf4a9d573053566680630c9e9a5efbdd9b753726a1a3f8b90e1",
+  "commands": [
+    {
+      "stage": "rust-targeted",
+      "kind": "verification",
+      "command_literal": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P11\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p11\\target p11_ -- --nocapture --test-threads=1",
+      "pid": 7248,
+      "artifact": null,
+      "log": "C:\\AMI\\runs\\p11\\rust-targeted.log",
+      "started_utc": "2026-11-05T01:55:30.490400+00:00",
+      "exit_code": 0
+    },
+    {
+      "stage": "rust-full",
+      "kind": "verification",
+      "command_literal": "cargo test --release --locked --manifest-path C:\\AMI-wt\\P11\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p11\\target -- --test-threads=1",
+      "pid": 9192,
+      "artifact": null,
+      "log": "C:\\AMI\\runs\\p11\\rust-full.log",
+      "started_utc": "2026-11-05T01:57:20.681999+00:00",
+      "exit_code": 0
+    },
+    {
+      "stage": "build",
+      "kind": "build",
+      "command_literal": "cargo build --release --locked --manifest-path C:\\AMI-wt\\P11\\gpu\\Cargo.toml --target-dir C:\\AMI\\runs\\p11\\target",
+      "pid": 532,
+      "artifact": null,
+      "log": "C:\\AMI\\runs\\p11\\build.log",
+      "started_utc": "2026-11-05T02:02:21.019601+00:00",
+      "exit_code": 0
+    }
+  ]
+}
