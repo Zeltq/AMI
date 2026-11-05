@@ -73,6 +73,33 @@
   },
   {
     "model": "2h",
+    "opponent": "000470",
+    "report": "C:\\AMI\\runs\\p11\\train-001\\eval-000324-previous-20261103\\report.json",
+    "seed": 20261103,
+    "config": {
+      "argmax": false,
+      "engine": "C:\\AMI\\runs\\p11\\train-001\\environment\\engine.json",
+      "family": "GGD",
+      "matches": 64,
+      "mode": "teacher",
+      "record_teacher": false,
+      "seconds": 600.0,
+      "seed": 20261103,
+      "teacher_sha256": "858bc93841b4a77397574721fcc8e114e6efabb8a4d02d3d472eebefd27a95ae",
+      "teacher_version": "v10",
+      "trace": false,
+      "weights": "C:\\AMI\\runs\\p11\\train-001\\checkpoint-000324\\weights",
+      "zero_previous": false
+    },
+    "minutes": 2.2951586033333333,
+    "weights_sha256": "0469b176646edca5a092c82b3edb99ff79bd51bb7cc978d32bb18865abee925d",
+    "opponent_provenance": {
+      "manifest_sha256": "ba311754cd906d4dfa883263b60581d9ae880d00a269a396d8fc4b47b55eb83d",
+      "weights": "C:\\AMI\\runs\\p09\\P09c\\continue90\\rl-continue-001\\checkpoint-000470\\weights"
+    }
+  },
+  {
+    "model": "2h",
     "opponent": "v10",
     "report": "C:\\AMI\\runs\\p11\\train-001\\eval-000324-v10-20261103\\report.json",
     "seed": 20261103,
