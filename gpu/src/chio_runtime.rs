@@ -40,6 +40,12 @@ impl Runtime {
         let after=reward::snapshot(w);let reward=reward::transition(&before,&after,self.zero_sum,&w.device);self.extra.sample(w,&after,&reward,frame.valid.clone());
         Transition{before,after,reward,done}
     }
+    pub fn reset(&mut self,selected:&[bool]) {
+        let mask=crate::ggd_arenas::reset(&self.world,&self.teacher,&self.metrics,selected).unsqueeze_dim::<2>(1);
+        self.previous=self.previous.clone().mask_where(mask.clone(),co::initial_previous(self.world.matches*2,&self.world.device));
+        self.legacy_previous=self.legacy_previous.clone().mask_where(mask,observe::initial_previous(self.world.matches*2,&self.world.device));
+        self.extra.reset(&self.world,selected);
+    }
     pub fn games(&self,offset:usize)->anyhow::Result<Vec<serde_json::Value>>{
         let audit=self.teacher.values();anyhow::ensure!(audit.chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).all(|v|v[39]==0.),"CHiO simulation/label error");
         let mut games=self.metrics.games(&audit,self.world.engine.pre_game_seconds,offset,None);crate::demo_telemetry::enrich(&self.world,&mut games)?;self.extra.enrich(&mut games)?;Ok(games)

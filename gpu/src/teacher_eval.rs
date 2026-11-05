@@ -56,8 +56,8 @@ fn run_impl(engine:&Path,root:&Path,matches:usize,seconds:f32,seed:u32,left:Vers
     }
     let audit=t.values();let mut games=metrics.games(&audit,w.engine.pre_game_seconds,0,None);
     crate::demo_telemetry::enrich(&w,&mut games)?;
-    if let Some(extra)=&extra {extra.enrich(&mut games)?;}
     potential.enrich(&mut games)?;events.enrich(&mut games)?;
+    if let Some(extra)=&extra {extra.enrich(&mut games)?;}
     let events=tensor::<1>(w.teacher_combat.clone()).into_data().try_to_vec::<f32>()?;
     let meta=tensor::<1>(w.meta.clone()).into_data().try_to_vec::<f32>()?;
     for (m,game) in games.iter_mut().enumerate(){

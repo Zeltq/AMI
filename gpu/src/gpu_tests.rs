@@ -5,6 +5,20 @@ static GPU:Mutex<()>=Mutex::new(());
 use cubecl::frontend::CompilationArg;
 
 #[test]
+fn p15_teacher_lookahead_caps_distance_and_routes_existing_local_steering_around_buildings(){
+    let _g=GPU.lock().unwrap();let mut w=arena();let d=w.device.clone();
+    let mut s=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();s[STRIDE+ACTIVE]=0.;
+    w.state=primitive(Tensor::<1>::from_data(TensorData::new(s.clone(),[UNITS*STRIDE]),&d));
+    let open=crate::chio_teacher::test_waypoint(&w,1000.,0.);assert!((open[0]-300.).abs()<0.001 && open[1].abs()<0.001);
+    let near=crate::chio_teacher::test_waypoint(&w,-100.,0.);assert!((near[0]+100.).abs()<0.001);
+    let p=BACKGROUND_START*STRIDE;s[p+ACTIVE]=1.;s[p+KIND]=1.;s[p+UNIT_HEALTH]=1000.;s[p+UNIT_X]=80.;s[p+UNIT_Y]=0.;
+    w.state=primitive(Tensor::<1>::from_data(TensorData::new(s,[UNITS*STRIDE]),&d));
+    let point=crate::chio_teacher::test_waypoint(&w,1000.,0.);let dx=point[0]+200.;let dy=point[1];
+    assert!(dx*dx+dy*dy<=500.01*500.01);assert!(dy.abs()>50.,"building detour {point:?}");
+    let f=(280.*dx/(dx*dx+dy*dy)).clamp(0.,1.);assert!((280.-f*dx).powi(2)+(f*dy).powi(2)>=168.*168.);
+}
+
+#[test]
 fn p15_first_pregame_death_terminates_chio_without_changing_legacy_rule(){
     let _g=GPU.lock().unwrap();
     for chio in [false,true] {
@@ -29,7 +43,7 @@ fn p15_reward_events_capture_simultaneous_purchase_use_and_flask_damage(){
     let events=tensor::<1>(w.chio_events.clone()).into_data().try_to_vec::<f32>().unwrap();
     assert_eq!(events[e::MANGO],1.);assert_eq!(events[e::PURCHASES+4],1.);assert_eq!(events[e::SPENT],w.engine.items[4][0]);
     assert!((events[e::GOLD]-8./30.*100./60.).abs()<1e-6);
-    let snapshot=tensor::<2>(after.clone()).into_data().try_to_vec::<f32>().unwrap();assert_eq!(snapshot[17],1.);
+    let snapshot=tensor::<2>(after.clone()).into_data().try_to_vec::<f32>().unwrap();assert_eq!(snapshot[17],1.);assert_eq!(snapshot[84],w.engine.items[5][4]);
     let reward=r::transition(&before,&after,false,&d);let parts=reward.components.into_data().try_to_vec::<f32>().unwrap();
     assert!((parts[1]-0.006*events[e::GOLD]).abs()<1e-6);assert!((parts[10]+0.1).abs()<1e-6);
     // A real ordinary hero projectile interrupts Flask. Preserve native stats.

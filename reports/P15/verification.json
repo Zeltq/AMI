@@ -1,0 +1,121 @@
+{
+  "core-contract-rust": {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_ -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "stage": "complete",
+    "exit_code": 0,
+    "elapsed_minutes": 2.9240896883323635,
+    "stdout_tail": [
+      "test gpu_tests::p15_teacher_translation_handles_thresholds_targets_items_and_pending_orders ... ok",
+      "",
+      "test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 115 filtered out; finished in 84.78s",
+      ""
+    ],
+    "stderr_tail": [
+      "",
+      "warning: `sf-duel-gpu` (bin \"sf-duel-gpu\" test) generated 3 warnings (run `cargo fix --bin \"sf-duel-gpu\" -p sf-duel-gpu --tests` to apply 2 suggestions)",
+      "    Finished `release` profile [optimized + debuginfo] target(s) in 1m 25s",
+      "     Running unittests src\\main.rs (C:/AMI/runs/p15/target\\release\\deps\\sf_duel_gpu-d3f4e3baa53334c1.exe)"
+    ]
+  },
+  "contract-tests-002": {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_ -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "stage": "complete",
+    "exit_code": 0,
+    "elapsed_minutes": 2.0066457999986596,
+    "stdout_tail": [
+      "test gpu_tests::p15_teacher_translation_handles_thresholds_targets_items_and_pending_orders ... ok",
+      "",
+      "test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 115 filtered out; finished in 31.32s",
+      ""
+    ],
+    "stderr_tail": [
+      "",
+      "warning: `sf-duel-gpu` (bin \"sf-duel-gpu\" test) generated 1 warning",
+      "    Finished `release` profile [optimized + debuginfo] target(s) in 1m 23s",
+      "     Running unittests src\\main.rs (C:/AMI/runs/p15/target\\release\\deps\\sf_duel_gpu-d3f4e3baa53334c1.exe)"
+    ]
+  },
+  "contract-tests-003": {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_ -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "stage": "complete",
+    "exit_code": 0,
+    "elapsed_minutes": 2.6732633816660383,
+    "stdout_tail": [
+      "test gpu_tests::p15_teacher_translation_handles_thresholds_targets_items_and_pending_orders ... ok",
+      "",
+      "test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 115 filtered out; finished in 79.06s",
+      ""
+    ],
+    "stderr_tail": [
+      "",
+      "warning: `sf-duel-gpu` (bin \"sf-duel-gpu\" test) generated 1 warning",
+      "    Finished `release` profile [optimized + debuginfo] target(s) in 1m 16s",
+      "     Running unittests src\\main.rs (C:/AMI/runs/p15/target\\release\\deps\\sf_duel_gpu-d3f4e3baa53334c1.exe)"
+    ]
+  },
+  "waypoint-unit-002": {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_teacher_lookahead -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "stage": "complete",
+    "exit_code": 0,
+    "elapsed_minutes": 1.5044601716663843,
+    "stdout_tail": [
+      "test gpu_tests::p15_teacher_lookahead_caps_distance_and_routes_existing_local_steering_around_buildings ... ok",
+      "",
+      "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 132 filtered out; finished in 1.62s",
+      ""
+    ],
+    "stderr_tail": [
+      "",
+      "warning: `sf-duel-gpu` (bin \"sf-duel-gpu\" test) generated 1 warning",
+      "    Finished `release` profile [optimized + debuginfo] target(s) in 1m 23s",
+      "     Running unittests src\\main.rs (C:/AMI/runs/p15/target\\release\\deps\\sf_duel_gpu-d3f4e3baa53334c1.exe)"
+    ]
+  },
+  "python-full-001": {
+    "command": "C:/Python314/python.exe -m unittest discover -s tests -v",
+    "cwd": "C:\\AMI-wt\\P15",
+    "stage": "complete",
+    "exit_code": 0,
+    "elapsed_minutes": 0.3348656816679674,
+    "stdout_tail": [
+      "SF_V9_ACK|{}",
+      "SF_V9_HUMAN_READY|2|0",
+      "SF_V9_STATUS|{}",
+      "SF_V9_ACK|{}"
+    ],
+    "stderr_tail": [
+      "----------------------------------------------------------------------",
+      "Ran 259 tests in 11.539s",
+      "",
+      "OK"
+    ]
+  },
+  "go-nativecollect": {
+    "command": "go test ./...",
+    "cwd": "C:\\AMI-wt\\P15\\tools\\nativecollect",
+    "stage": "complete",
+    "exit_code": 0,
+    "elapsed_minutes": 0.16980252333451062,
+    "stdout_tail": [
+      "ok  \tsfduel/nativecollect\t0.125s",
+      "?   \tsfduel/nativecollect/duelwire\t[no test files]",
+      "?   \tsfduel/nativecollect/worldstate\t[no test files]"
+    ],
+    "stderr_tail": []
+  },
+  "go-replaycheck": {
+    "command": "go test ./...",
+    "cwd": "C:\\AMI-wt\\P15\\tools\\replaycheck",
+    "stage": "complete",
+    "exit_code": 0,
+    "elapsed_minutes": 0.336195121666727,
+    "stdout_tail": [
+      "?   \tsfduel/replaycheck\t[no test files]"
+    ],
+    "stderr_tail": []
+  }
+}
