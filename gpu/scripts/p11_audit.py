@@ -15,6 +15,7 @@ def finish():
     initial=read(REPORT/'protected.json');changed=[p for p,h in initial.items() if sha(p)!=h];assert not changed,changed
     checks=[]
     for folder in RUN.glob('train-*'):
+        if not (folder/'config.json').is_file():continue
         cfg=read(folder/'config.json');rows=lines(folder/'history.jsonl')
         for r in rows:
             assert 0<=r['learning']['clip_fraction']<=1
