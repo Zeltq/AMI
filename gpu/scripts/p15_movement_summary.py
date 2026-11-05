@@ -69,7 +69,7 @@ def main():
         result['simulation']=str(args.simulation)
         result['simulation_sha256']=hashlib.sha256(args.simulation.read_bytes()).hexdigest()
     args.output.parent.mkdir(parents=True,exist_ok=True)
-    args.output.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    args.output.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
     print(json.dumps(result['quality']))
 
 
