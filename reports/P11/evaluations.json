@@ -92,6 +92,60 @@
     "weights_sha256": "fcd76723268588f80d26a5cbf624b57f9e47f8c867a6c997934441e77140923d"
   },
   {
+    "model": "final",
+    "opponent": "2.35h",
+    "report": "C:\\AMI\\runs\\p11\\eval-final-vs-2.35h-20261103\\report.json",
+    "seed": 20261103,
+    "config": {
+      "argmax": false,
+      "engine": "C:/AMI/runs/p07/dota-calibration-005/engine.json",
+      "family": "GGD",
+      "matches": 64,
+      "mode": "teacher",
+      "record_teacher": false,
+      "seconds": 600.0,
+      "seed": 20261103,
+      "teacher_sha256": "858bc93841b4a77397574721fcc8e114e6efabb8a4d02d3d472eebefd27a95ae",
+      "teacher_version": "v10",
+      "trace": false,
+      "weights": "C:\\AMI\\runs\\p11\\train-001\\checkpoint-000644\\weights",
+      "zero_previous": false
+    },
+    "minutes": 2.2996651349999997,
+    "weights_sha256": "fcd76723268588f80d26a5cbf624b57f9e47f8c867a6c997934441e77140923d",
+    "opponent_provenance": {
+      "manifest_sha256": "ddf255f3707c804489d4b396ce59c57d79bb97e3db3ecaa6e810e6e761d99d30",
+      "weights": "C:\\AMI\\runs\\p11\\train-001\\checkpoint-000375\\weights"
+    }
+  },
+  {
+    "model": "final",
+    "opponent": "2.35h",
+    "report": "C:\\AMI\\runs\\p11\\eval-final-vs-2.35h-20261104\\report.json",
+    "seed": 20261104,
+    "config": {
+      "argmax": false,
+      "engine": "C:/AMI/runs/p07/dota-calibration-005/engine.json",
+      "family": "GGD",
+      "matches": 64,
+      "mode": "teacher",
+      "record_teacher": false,
+      "seconds": 600.0,
+      "seed": 20261104,
+      "teacher_sha256": "858bc93841b4a77397574721fcc8e114e6efabb8a4d02d3d472eebefd27a95ae",
+      "teacher_version": "v10",
+      "trace": false,
+      "weights": "C:\\AMI\\runs\\p11\\train-001\\checkpoint-000644\\weights",
+      "zero_previous": false
+    },
+    "minutes": 2.1810137016666666,
+    "weights_sha256": "fcd76723268588f80d26a5cbf624b57f9e47f8c867a6c997934441e77140923d",
+    "opponent_provenance": {
+      "manifest_sha256": "ddf255f3707c804489d4b396ce59c57d79bb97e3db3ecaa6e810e6e761d99d30",
+      "weights": "C:\\AMI\\runs\\p11\\train-001\\checkpoint-000375\\weights"
+    }
+  },
+  {
     "model": "000470-P09c",
     "opponent": "v10",
     "report": "C:/AMI/runs/p09/P09c/continue90/eval-v10-20261103/report.json",
