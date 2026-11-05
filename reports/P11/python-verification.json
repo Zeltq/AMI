@@ -9,5 +9,17 @@
   "syntax_command": "python -m py_compile gpu/scripts/p11_run.py gpu/scripts/p11_report.py",
   "syntax_exit_code": 0,
   "recovery_targeted_passed": 3,
-  "recovery_command": "python -m unittest discover -s tests -p test_p11.py -v"
+  "recovery_command": "python -m unittest discover -s tests -p test_p11.py -v",
+  "final_command": "python -m unittest discover -s tests -v",
+  "final_environment_command": "$env:PYTHONPATH='src;scripts;tests;C:/AMI/tools/lua_test_runtime'",
+  "final_passed": 240,
+  "final_exit_code": 0,
+  "final_log": "C:/AMI/runs/p11/python-final.log",
+  "final_checked_utc": "2026-11-05T07:35:19.105531+00:00",
+  "final_source_sha256": {
+    "gpu/scripts/p11_run.py": "7eb42790acfcd193ec9543bf58917597bdc00b362c5c447480cbf45805c1bc1a",
+    "gpu/scripts/p11_report.py": "adee533815f320e2cd973462b84ba9856c465a3b66fc6af213fcd4330bade302",
+    "gpu/scripts/p11_audit.py": "b33d60bd1c84a9bd3d089b177e889be2319855372b5616d2814efff34a9779d3",
+    "tests/test_p11.py": "bc4bcce8dcc9b285ab6144e78e7c6adbd067e6d673fd1ee995c61005bf37ef74"
+  }
 }
