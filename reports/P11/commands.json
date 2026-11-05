@@ -137,5 +137,13 @@
     "log": "C:\\AMI\\runs\\p11\\eval-final-vs-2.35h-20261104.log",
     "exit_code": 0,
     "minutes": 2.3418205500007994
+  },
+  {
+    "stage": "eval-final-vs-000470-20261103",
+    "kind": "evaluation",
+    "command_literal": "C:\\AMI\\runs\\p11\\sf-duel-gpu.exe evaluate-ggd C:/AMI/runs/p07/dota-calibration-005/engine.json C:\\AMI\\runs\\p11\\train-001\\checkpoint-000644\\weights C:\\AMI\\runs\\p11\\eval-final-vs-000470-20261103 --mode teacher --matches 64 --seconds 600 --seed 20261103 --sampling --teacher-version v10 --opponent-weights C:\\AMI\\runs\\p09\\P09c\\continue90\\rl-continue-001\\checkpoint-000470\\weights",
+    "artifact": "C:\\AMI\\runs\\p11\\eval-final-vs-000470-20261103\\report.json",
+    "log": "C:\\AMI\\runs\\p11\\eval-final-vs-000470-20261103.log",
+    "exit_code": null
   }
 ]
