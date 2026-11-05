@@ -53,6 +53,8 @@ def main():
     (OUT/'verification.json').write_text(json.dumps(verification,indent=2))
     commands=[json.loads(p.read_text()) for p in sorted(RUN.glob('*-job.json'))]
     (OUT/'commands.json').write_text(json.dumps(commands,ensure_ascii=False,indent=2),encoding='utf-8')
+    for path in OUT.glob('*.json'):
+        path.write_bytes(path.read_bytes().replace(b'\r\n',b'\n'))
     print(json.dumps(dict(tensors=len(rows),python=tests,protected=len(protected))))
 
 

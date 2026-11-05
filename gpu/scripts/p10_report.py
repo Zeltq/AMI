@@ -97,7 +97,7 @@ def main():
         '- `C:/AMI/runs/p10/{sim-v9,sim-static,spell-probe,cast-parity,terminal-probe,native-smoke*}`; статусы — `*-job.json` и `C:/AMI/runs/pilot-status.json`.',
         '- `C:/AMI/runs/p10/installation.json`, `bots-backup-<время>`, `restore-test/`, `restore-junction-test/`; будущие матчи человека — `human/<время>/`.', '', 'DONE P10']
     assert len(lines)<=150,len(lines)
-    (ROOT/'reports/P10.md').write_text('\n'.join(lines)+'\n',encoding='utf-8')
+    (ROOT/'reports/P10.md').write_text('\n'.join(lines)+'\n',encoding='utf-8',newline='\n')
     print(f'{len(lines)} lines')
 
 
