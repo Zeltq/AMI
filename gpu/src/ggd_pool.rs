@@ -36,7 +36,10 @@ impl Pool {
         self.models.push(model);self.paths.push(path.into());Ok(())
     }
     fn draw(&mut self)->Assignment {let a=choose(&mut self.rng,self.paths.len());let i=match a.kind.as_str(){"latest"=>0,"older"=>1,"v10"=>2,_=>3};self.draws[i]+=1;a}
-    pub fn reset(&mut self,done:&[bool]){for (m,yes) in done.iter().enumerate(){if *yes{self.assignments[m]=self.draw();}}}
+    pub fn reset(&mut self,done:&[bool]){
+        crate::ggd_arenas::reset_teacher_cache(&self.v9,done,&crate::runtime::device());
+        for (m,yes) in done.iter().enumerate(){if *yes{self.assignments[m]=self.draw();}}
+    }
     pub fn begin_block(&mut self,w:&World,sides:&[usize]){
         self.groups.clear();
         self.sides=sides.to_vec();
@@ -86,7 +89,15 @@ impl Pool {
         pool.assignments=vec![Assignment{kind:"v9".into(),model:None};2];pool.begin_block(&w,&[0,1]);
         let rng=Sampler::new(2,19,&d);let crng=Sampler::new(2,19,&d);
         let mut previous=crate::observe::initial_previous(4,&d);let mut cp=previous.clone();
-        for _ in 0..1600 {
+        let metrics=crate::ggd_metrics::Metrics::new(&w);let cm=crate::ggd_metrics::Metrics::new(&control);
+        for step in 0..1600 {
+            if step==800 {
+                pool.reset(&[true,false]);pool.assignments[0]=Assignment{kind:"v9".into(),model:None};
+                let mask=crate::ggd_arenas::reset(&w,&main,&metrics,&[true,false]);
+                let _=crate::ggd_arenas::reset(&control,&pure,&cm,&[true,false]);
+                previous=previous.mask_where(mask.clone().unsqueeze_dim::<2>(1),crate::observe::initial_previous(4,&d));
+                cp=cp.mask_where(mask.unsqueeze_dim::<2>(1),crate::observe::initial_previous(4,&d));
+            }
             let obs=w.observe(previous.clone());let co=control.observe(cp.clone());let expected=pure.actions(&control,&co);
             let before=main.command_snapshot();let labels=v10.actions(&main,&w,&obs);let _=pool.scripted(&w,&obs,labels.clone());
             // Identical learner commands isolate opponent routing and bookkeeping.

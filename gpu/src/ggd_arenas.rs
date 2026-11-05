@@ -27,6 +27,11 @@ fn fill(data:&CubeTensor,mask:&CubeTensor,matches:usize,value:f32){
     let words=data.meta.shape().iter().product::<usize>();assert_eq!(words%matches,0);
     fill_selected::launch(&data.client,CubeCount::Static(words.div_ceil(256)as u32,1,1),CubeDim::new_1d(256),argument(data),argument(mask),words,words/matches,value);
 }
+/// A routed teacher has independent speculative caches but shares terminal audit.
+pub fn reset_teacher_cache(t:&crate::scripted_teacher::Teacher,selected:&[bool],d:&burn::tensor::Device){
+    let mask=primitive(Tensor::<1>::from_data(TensorData::new(selected.iter().map(|x|if *x{1f32}else{0.}).collect::<Vec<_>>(),[selected.len()]),d));
+    for data in [&t.memory,&t.forecasts]{fill(data,&mask,selected.len(),0.);}
+}
 /// Reset only selected arenas. Teacher and observer private caches invalidate
 /// themselves when the native episode generation changes; no teacher logic changes.
 pub fn reset(w:&World,t:&crate::scripted_teacher::Teacher,metrics:&crate::ggd_metrics::Metrics,selected:&[bool])->Tensor<1,Bool>{

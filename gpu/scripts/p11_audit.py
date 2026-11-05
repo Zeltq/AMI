@@ -9,7 +9,7 @@ def prepare():
         files.extend(Path(weights).glob('*.f32'));files.append(Path(weights)/'manifest.json')
     files.extend(START/k for k in ('model.bpk','optimizer.bpk','progress.json'))
     source=subprocess.check_output(['git','ls-files','gpu/src'],cwd=ROOT,text=True).splitlines()
-    files.extend(ROOT/p for p in source if p not in ('gpu/src/ggd_ppo.rs','gpu/src/ggd_pool.rs','gpu/src/main.rs'))
+    files.extend(ROOT/p for p in source if p not in ('gpu/src/ggd_ppo.rs','gpu/src/ggd_pool.rs','gpu/src/ggd_arenas.rs','gpu/src/main.rs'))
     save(REPORT/'protected.json',{str(p):sha(p) for p in files})
 def finish():
     initial=read(REPORT/'protected.json');changed=[p for p,h in initial.items() if sha(p)!=h];assert not changed,changed
