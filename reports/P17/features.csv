@@ -1,0 +1,396 @@
+group,feature,source,check,dota_known,dota_total,sim_known,sim_total,dota_mean,sim_mean,mean_delta,dota_min,dota_max
+heroes,x,GetLocation,"distribution; different trajectories, not state parity",725,878,128,256,0.020954860366623976,-0.5105228424072266,0.5314777027738505,-0.81787109375,0.10514304041862488
+heroes,y,GetLocation,"distribution; different trajectories, not state parity",725,878,128,256,-0.11352757733443687,-0.5047473907470703,0.39121981341263345,-0.8178715705871582,0.07958982139825821
+heroes,z,GetLocation,"distribution; different trajectories, not state parity",725,878,128,256,0.039310344827586205,0.404296875,-0.3649865301724138,0.0,0.75
+heroes,dx,visible GetLocation - own GetLocation (or GetTreeLocation),"distribution; different trajectories, not state parity",725,878,128,256,0.10619188041522586,0.0,0.10619188041522586,0.0,0.3815096616744995
+heroes,dy,visible GetLocation - own GetLocation (or GetTreeLocation),"distribution; different trajectories, not state parity",725,878,128,256,0.0,0.0,0.0,0.0,0.0
+heroes,facing_cos,GetFacing,"distribution; different trajectories, not state parity",725,878,128,256,0.9414052618680329,0.7074851989746094,0.23392006289342349,-0.5150380730628967,1.0
+heroes,facing_sin,GetFacing,"distribution; different trajectories, not state parity",725,878,128,256,-0.016316289490666883,0.6972274780273438,-0.7135437675180106,-0.9975640773773193,0.7071067690849304
+heroes,health,GetHealth,"distribution; different trajectories, not state parity",725,878,128,256,0.44070621276723926,0.291015625,0.14969058776723926,0.26899999380111694,0.46700000762939453
+heroes,health_max,GetMaxHealth,"distribution; different trajectories, not state parity",725,878,128,256,0.4624482833928075,0.291015625,0.17143265839280752,0.26899999380111694,0.46700000762939453
+heroes,health_fraction,current/max resource from visible Bot API,"distribution; different trajectories, not state parity",725,878,128,256,0.9534431067828474,1.0,-0.04655689321715262,0.6788008809089661,1.0
+heroes,mana,GetMana,"distribution; different trajectories, not state parity",725,878,128,256,0.4274468940701978,0.291015625,0.1364312690701978,0.24699999392032623,0.44699999690055847
+heroes,mana_max,GetMaxMana,"distribution; different trajectories, not state parity",725,878,128,256,0.44292827289679954,0.291015625,0.15191264789679954,0.2669999897480011,0.44699999690055847
+heroes,mana_fraction,current/max resource from visible Bot API,"distribution; different trajectories, not state parity",725,878,128,256,0.9653660416603088,1.0,-0.034633958339691184,0.5525727272033691,1.0
+heroes,health_regen,GetHealthRegen,"distribution; different trajectories, not state parity",725,878,128,256,0.41046139665718734,0.31706714630126953,0.09339425035591781,0.19850002229213715,2.553499937057495
+heroes,mana_regen,GetManaRegen,"distribution; different trajectories, not state parity",725,878,128,256,0.33720279214711024,0.22913360595703125,0.10806918619007899,0.1860000342130661,2.868000030517578
+heroes,move_speed,GetCurrentMovementSpeed,"distribution; different trajectories, not state parity",725,878,128,256,0.5080528656367598,0.50830078125,-0.0002479156132402238,0.40666666626930237,0.5083333253860474
+heroes,attack_damage,GetAttackDamage,"distribution; different trajectories, not state parity",725,878,128,256,0.35382758691393096,0.2449951171875,0.10883246972643096,0.2199999988079071,0.36500000953674316
+heroes,attack_range,GetAttackRange,"distribution; different trajectories, not state parity",725,878,128,256,0.5249999761581421,0.52490234375,9.763240814208984e-05,0.5249999761581421,0.5249999761581421
+heroes,attack_interval,GetSecondsPerAttack,"distribution; different trajectories, not state parity",725,878,128,256,0.34002952801770175,0.39208984375,-0.052060315732298246,0.33840951323509216,0.42666664719581604
+heroes,attack_point,GetAttackPoint,"distribution; different trajectories, not state parity",725,878,128,256,0.5,0.5,0.0,0.5,0.5
+heroes,projectile_speed,GetAttackProjectileSpeed,"distribution; different trajectories, not state parity",725,878,128,256,0.800000011920929,0.7998046875,0.00019532442092895508,0.800000011920929,0.800000011920929
+heroes,armor,GetArmor,"distribution; different trajectories, not state parity",725,878,128,256,0.5126517080438548,0.5256996154785156,-0.013047907434660777,0.2083333432674408,0.7674999833106995
+heroes,magic_resist,GetMagicResist,"distribution; different trajectories, not state parity",725,878,128,256,0.28080620214856905,0.26806640625,0.01273979589856905,0.2452600598335266,0.2812000513076782
+heroes,level,GetLevel,"distribution; different trajectories, not state parity",725,878,128,256,0.4567356342077255,0.066650390625,0.3900852435827255,0.06666667014360428,0.46666666865348816
+heroes,gold,GetGold (self only),"distribution; different trajectories, not state parity",439,878,128,256,0.3135933930347069,0.0032034218311309814,0.3103899712035759,0.30000001192092896,0.3174999952316284
+heroes,xp_to_next,GetXPNeededToLevel (self only),"distribution; different trajectories, not state parity",439,878,128,256,0.36638153865424267,0.1199951171875,0.24638642146674267,0.11999999731779099,0.4000000059604645
+heroes,last_hits,GetLastHits (self only),"distribution; different trajectories, not state parity",439,878,128,256,0.005178435964420743,0.0,0.005178435964420743,0.0,0.006666666828095913
+heroes,denies,GetDenies (self only),"distribution; different trajectories, not state parity",439,878,128,256,0.014168564603581244,0.0,0.014168564603581244,0.0,0.019999999552965164
+heroes,souls,GetModifierStackCount (self only),"distribution; different trajectories, not state parity",439,878,128,256,0.049506456644225504,0.0,0.049506456644225504,0.0,0.06666667014360428
+heroes,is_attacking,IsAttacking/IsUsingAbility/IsCastingAbility/IsChanneling; visible animation for enemy,"distribution; different trajectories, not state parity",725,878,128,256,0.013793103448275862,0.0,0.013793103448275862,0.0,1.0
+heroes,is_using_ability,IsAttacking/IsUsingAbility/IsCastingAbility/IsChanneling; visible animation for enemy,"distribution; different trajectories, not state parity",725,878,128,256,0.03586206896551724,0.0,0.03586206896551724,0.0,1.0
+heroes,is_casting_ability,IsAttacking/IsUsingAbility/IsCastingAbility/IsChanneling; visible animation for enemy,"distribution; different trajectories, not state parity",725,878,128,256,0.02620689655172414,0.0,0.02620689655172414,0.0,1.0
+heroes,is_channeling,IsAttacking/IsUsingAbility/IsCastingAbility/IsChanneling; visible animation for enemy,"distribution; different trajectories, not state parity",725,878,128,256,0.0,0.0,0.0,0.0,0.0
+heroes,fear,HasModifier/GetModifierStackCount/GetModifierRemainingDuration; private fields masked,"distribution; different trajectories, not state parity",725,878,128,256,0.002758620689655172,0.0,0.002758620689655172,0.0,1.0
+heroes,fear_remaining,HasModifier/GetModifierStackCount/GetModifierRemainingDuration; private fields masked,"distribution; different trajectories, not state parity",439,878,128,256,0.0,0.0,0.0,0.0,0.0
+heroes,raze_stacks,HasModifier/GetModifierStackCount/GetModifierRemainingDuration; private fields masked,"distribution; different trajectories, not state parity",725,878,128,256,0.024827586576856416,0.0,0.024827586576856416,0.0,0.20000000298023224
+heroes,raze_remaining,HasModifier/GetModifierStackCount/GetModifierRemainingDuration; private fields masked,"distribution; different trajectories, not state parity",439,878,128,256,0.0,0.0,0.0,0.0,0.0
+heroes,flask,HasModifier/GetModifierStackCount/GetModifierRemainingDuration; private fields masked,"distribution; different trajectories, not state parity",725,878,128,256,0.038620689655172416,0.0,0.038620689655172416,0.0,1.0
+heroes,clarity,HasModifier/GetModifierStackCount/GetModifierRemainingDuration; private fields masked,"distribution; different trajectories, not state parity",0,878,0,256,,,,,
+heroes,tango,HasModifier/GetModifierStackCount/GetModifierRemainingDuration; private fields masked,"distribution; different trajectories, not state parity",725,878,128,256,0.037241379310344824,0.0,0.037241379310344824,0.0,1.0
+heroes,attack_target_self,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",725,878,128,256,0.0,0.0,0.0,0.0,0.0
+heroes,attack_target_enemy,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",725,878,128,256,0.03586206896551724,0.0,0.03586206896551724,0.0,1.0
+heroes,attack_cycle,GetAnimCycle,"distribution; different trajectories, not state parity",53,878,0,256,0.5247377120661285,,,0.0,1.0
+heroes,active_spell,GetCurrentActiveAbility (self only),"distribution; different trajectories, not state parity",432,878,128,256,0.03356481481481482,0.0,0.03356481481481482,0.0,1.0
+heroes,team_relative,GetUnitName/GetTeam,"distribution; different trajectories, not state parity",0,878,0,256,,,,,
+heroes,creep_melee,GetUnitName/GetTeam,"distribution; different trajectories, not state parity",0,878,0,256,,,,,
+heroes,creep_ranged,GetUnitName/GetTeam,"distribution; different trajectories, not state parity",0,878,0,256,,,,,
+heroes,creep_siege,GetUnitName/GetTeam,"distribution; different trajectories, not state parity",0,878,0,256,,,,,
+creeps,x,GetLocation,"distribution; different trajectories, not state parity",40,439,0,2048,0.0341796875,,,0.0341796875,0.0341796875
+creeps,y,GetLocation,"distribution; different trajectories, not state parity",40,439,0,2048,-0.099609375,,,-0.099609375,-0.099609375
+creeps,z,GetLocation,"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,0.0,0.0
+creeps,dx,visible GetLocation - own GetLocation (or GetTreeLocation),"distribution; different trajectories, not state parity",40,439,0,2048,0.09765625,,,0.09765625,0.09765625
+creeps,dy,visible GetLocation - own GetLocation (or GetTreeLocation),"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,0.0,0.0
+creeps,facing_cos,GetFacing,"distribution; different trajectories, not state parity",40,439,0,2048,1.0,,,1.0,1.0
+creeps,facing_sin,GetFacing,"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,0.0,0.0
+creeps,health,GetHealth,"distribution; different trajectories, not state parity",40,439,0,2048,0.07398749962449074,,,0.027000000700354576,0.12349999696016312
+creeps,health_max,GetMaxHealth,"distribution; different trajectories, not state parity",40,439,0,2048,0.2750000059604645,,,0.2750000059604645,0.2750000059604645
+creeps,health_fraction,current/max resource from visible Bot API,"distribution; different trajectories, not state parity",40,439,0,2048,0.2690454561263323,,,0.0981818214058876,0.4490908980369568
+creeps,mana,GetMana,"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,0.0,0.0
+creeps,mana_max,GetMaxMana,"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,0.0,0.0
+creeps,mana_fraction,current/max resource from visible Bot API,"distribution; different trajectories, not state parity",0,439,0,2048,,,,,
+creeps,health_regen,GetHealthRegen,"distribution; different trajectories, not state parity",40,439,0,2048,0.02500000037252903,,,0.02500000037252903,0.02500000037252903
+creeps,mana_regen,GetManaRegen,"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,0.0,0.0
+creeps,move_speed,GetCurrentMovementSpeed,"distribution; different trajectories, not state parity",40,439,0,2048,0.5416666865348816,,,0.5416666865348816,0.5416666865348816
+creeps,attack_damage,GetAttackDamage,"distribution; different trajectories, not state parity",40,439,0,2048,0.10499999672174454,,,0.10499999672174454,0.10499999672174454
+creeps,attack_range,GetAttackRange,"distribution; different trajectories, not state parity",40,439,0,2048,0.10000000149011612,,,0.10000000149011612,0.10000000149011612
+creeps,attack_interval,GetSecondsPerAttack,"distribution; different trajectories, not state parity",40,439,0,2048,0.3333333432674408,,,0.3333333432674408,0.3333333432674408
+creeps,attack_point,GetAttackPoint,"distribution; different trajectories, not state parity",40,439,0,2048,0.46700000762939453,,,0.46700000762939453,0.46700000762939453
+creeps,projectile_speed,GetAttackProjectileSpeed,"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,0.0,0.0
+creeps,armor,GetArmor,"distribution; different trajectories, not state parity",40,439,0,2048,0.10000000149011612,,,0.10000000149011612,0.10000000149011612
+creeps,magic_resist,GetMagicResist,"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,0.0,0.0
+creeps,level,GetLevel,"distribution; different trajectories, not state parity",40,439,0,2048,0.20000000298023224,,,0.20000000298023224,0.20000000298023224
+creeps,gold,GetGold (self only),"distribution; different trajectories, not state parity",0,439,0,2048,,,,,
+creeps,xp_to_next,GetXPNeededToLevel (self only),"distribution; different trajectories, not state parity",0,439,0,2048,,,,,
+creeps,last_hits,GetLastHits (self only),"distribution; different trajectories, not state parity",0,439,0,2048,,,,,
+creeps,denies,GetDenies (self only),"distribution; different trajectories, not state parity",0,439,0,2048,,,,,
+creeps,souls,GetModifierStackCount (self only),"distribution; different trajectories, not state parity",0,439,0,2048,,,,,
+creeps,is_attacking,IsAttacking/IsUsingAbility/IsCastingAbility/IsChanneling; visible animation for enemy,"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,0.0,0.0
+creeps,is_using_ability,IsAttacking/IsUsingAbility/IsCastingAbility/IsChanneling; visible animation for enemy,"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,0.0,0.0
+creeps,is_casting_ability,IsAttacking/IsUsingAbility/IsCastingAbility/IsChanneling; visible animation for enemy,"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,0.0,0.0
+creeps,is_channeling,IsAttacking/IsUsingAbility/IsCastingAbility/IsChanneling; visible animation for enemy,"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,0.0,0.0
+creeps,fear,HasModifier/GetModifierStackCount/GetModifierRemainingDuration; private fields masked,"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,0.0,0.0
+creeps,fear_remaining,HasModifier/GetModifierStackCount/GetModifierRemainingDuration; private fields masked,"distribution; different trajectories, not state parity",0,439,0,2048,,,,,
+creeps,raze_stacks,HasModifier/GetModifierStackCount/GetModifierRemainingDuration; private fields masked,"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,0.0,0.0
+creeps,raze_remaining,HasModifier/GetModifierStackCount/GetModifierRemainingDuration; private fields masked,"distribution; different trajectories, not state parity",20,439,0,2048,0.0,,,0.0,0.0
+creeps,flask,HasModifier/GetModifierStackCount/GetModifierRemainingDuration; private fields masked,"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,0.0,0.0
+creeps,clarity,HasModifier/GetModifierStackCount/GetModifierRemainingDuration; private fields masked,"distribution; different trajectories, not state parity",0,439,0,2048,,,,,
+creeps,tango,HasModifier/GetModifierStackCount/GetModifierRemainingDuration; private fields masked,"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,0.0,0.0
+creeps,attack_target_self,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,0.0,0.0
+creeps,attack_target_enemy,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,0.0,0.0
+creeps,attack_cycle,GetAnimCycle,"distribution; different trajectories, not state parity",0,439,0,2048,,,,,
+creeps,active_spell,GetCurrentActiveAbility (self only),"distribution; different trajectories, not state parity",0,439,0,2048,,,,,
+creeps,team_relative,GetUnitName/GetTeam,"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,-1.0,1.0
+creeps,creep_melee,GetUnitName/GetTeam,"distribution; different trajectories, not state parity",40,439,0,2048,1.0,,,1.0,1.0
+creeps,creep_ranged,GetUnitName/GetTeam,"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,0.0,0.0
+creeps,creep_siege,GetUnitName/GetTeam,"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,0.0,0.0
+towers,x,GetLocation,"distribution; different trajectories, not state parity",1756,1756,512,512,-0.05231805145740509,-0.05230712890625,-1.0922551155090332e-05,-0.3894481062889099,0.3046874701976776
+towers,y,GetLocation,"distribution; different trajectories, not state parity",1756,1756,512,512,-0.047920191660523415,-0.04791259765625,-7.594004273414612e-06,-0.357208251953125,0.2578124701976776
+towers,z,GetLocation,"distribution; different trajectories, not state parity",1756,1756,512,512,0.24999994039535522,0.25,-5.960464477539063e-08,0.2499997615814209,0.25
+towers,dx,visible GetLocation - own GetLocation (or GetTreeLocation),"distribution; different trajectories, not state parity",908,1756,512,512,-1.0292115877772219,1.8328442573547363,-2.862055845131958,-1.909598708152771,2.5175788402557373
+towers,dy,visible GetLocation - own GetLocation (or GetTreeLocation),"distribution; different trajectories, not state parity",908,1756,512,512,-0.5490265999990412,1.8273348808288574,-2.3763614808278986,-1.7471922636032104,2.58398699760437
+towers,facing_cos,GetFacing,"distribution; different trajectories, not state parity",908,1756,512,512,0.7071067690849304,0.70703125,7.551908493041992e-05,0.7071067690849304,0.7071067690849304
+towers,facing_sin,GetFacing,"distribution; different trajectories, not state parity",908,1756,512,512,0.7071067690849304,0.70703125,7.551908493041992e-05,0.7071067690849304,0.7071067690849304
+towers,health,GetHealth,"distribution; different trajectories, not state parity",908,1756,512,512,1.0692180493592165,1.074951171875,-0.005733122515783506,0.8999999761581421,1.25
+towers,health_max,GetMaxHealth,"distribution; different trajectories, not state parity",908,1756,512,512,1.0692180493592165,1.074951171875,-0.005733122515783506,0.8999999761581421,1.25
+towers,health_fraction,current/max resource from visible Bot API,"distribution; different trajectories, not state parity",908,1756,512,512,1.0,1.0,0.0,1.0,1.0
+towers,mana,GetMana,"distribution; different trajectories, not state parity",908,1756,512,512,0.0,0.0,0.0,0.0,0.0
+towers,mana_max,GetMaxMana,"distribution; different trajectories, not state parity",908,1756,512,512,0.0,0.0,0.0,0.0,0.0
+towers,mana_fraction,current/max resource from visible Bot API,"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+towers,health_regen,GetHealthRegen,"distribution; different trajectories, not state parity",908,1756,512,512,0.0,0.0,0.0,0.0,0.0
+towers,mana_regen,GetManaRegen,"distribution; different trajectories, not state parity",908,1756,512,512,0.0,0.0,0.0,0.0,0.0
+towers,move_speed,GetCurrentMovementSpeed,"distribution; different trajectories, not state parity",908,1756,512,512,0.1666666716337204,0.1666259765625,4.069507122039795e-05,0.1666666716337204,0.1666666716337204
+towers,attack_damage,GetAttackDamage,"distribution; different trajectories, not state parity",908,1756,512,512,0.6482268730055393,0.6549072265625,-0.0066803535569607275,0.44999998807907104,0.8600000143051147
+towers,attack_range,GetAttackRange,"distribution; different trajectories, not state parity",908,1756,512,512,0.699999988079071,0.7001953125,-0.00019532442092895508,0.699999988079071,0.699999988079071
+towers,attack_interval,GetSecondsPerAttack,"distribution; different trajectories, not state parity",908,1756,256,512,0.27272725105285645,0.272705078125,2.2172927856445312e-05,0.27272725105285645,0.27272725105285645
+towers,attack_point,GetAttackPoint,"distribution; different trajectories, not state parity",908,1756,512,512,0.6000000238418579,0.60009765625,-9.763240814208984e-05,0.6000000238418579,0.6000000238418579
+towers,projectile_speed,GetAttackProjectileSpeed,"distribution; different trajectories, not state parity",908,1756,512,512,0.5,0.5,0.0,0.5,0.5
+towers,armor,GetArmor,"distribution; different trajectories, not state parity",908,1756,512,512,0.6966960533206158,0.699951171875,-0.0032551185543842065,0.6000000238418579,0.800000011920929
+towers,magic_resist,GetMagicResist,"distribution; different trajectories, not state parity",908,1756,512,512,0.0,0.0,0.0,0.0,0.0
+towers,level,GetLevel,"distribution; different trajectories, not state parity",908,1756,512,512,0.09889868357206494,0.0999755859375,-0.0010769023654350618,0.06666667014360428,0.13333334028720856
+towers,gold,GetGold (self only),"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+towers,xp_to_next,GetXPNeededToLevel (self only),"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+towers,last_hits,GetLastHits (self only),"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+towers,denies,GetDenies (self only),"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+towers,souls,GetModifierStackCount (self only),"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+towers,is_attacking,IsAttacking/IsUsingAbility/IsCastingAbility/IsChanneling; visible animation for enemy,"distribution; different trajectories, not state parity",908,1756,256,512,0.0,0.0,0.0,0.0,0.0
+towers,is_using_ability,IsAttacking/IsUsingAbility/IsCastingAbility/IsChanneling; visible animation for enemy,"distribution; different trajectories, not state parity",908,1756,256,512,0.0,0.0,0.0,0.0,0.0
+towers,is_casting_ability,IsAttacking/IsUsingAbility/IsCastingAbility/IsChanneling; visible animation for enemy,"distribution; different trajectories, not state parity",908,1756,256,512,0.0,0.0,0.0,0.0,0.0
+towers,is_channeling,IsAttacking/IsUsingAbility/IsCastingAbility/IsChanneling; visible animation for enemy,"distribution; different trajectories, not state parity",908,1756,256,512,0.0,0.0,0.0,0.0,0.0
+towers,fear,HasModifier/GetModifierStackCount/GetModifierRemainingDuration; private fields masked,"distribution; different trajectories, not state parity",908,1756,512,512,0.0,0.0,0.0,0.0,0.0
+towers,fear_remaining,HasModifier/GetModifierStackCount/GetModifierRemainingDuration; private fields masked,"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+towers,raze_stacks,HasModifier/GetModifierStackCount/GetModifierRemainingDuration; private fields masked,"distribution; different trajectories, not state parity",908,1756,512,512,0.0,0.0,0.0,0.0,0.0
+towers,raze_remaining,HasModifier/GetModifierStackCount/GetModifierRemainingDuration; private fields masked,"distribution; different trajectories, not state parity",878,1756,0,512,0.0,,,0.0,0.0
+towers,flask,HasModifier/GetModifierStackCount/GetModifierRemainingDuration; private fields masked,"distribution; different trajectories, not state parity",908,1756,512,512,0.0,0.0,0.0,0.0,0.0
+towers,clarity,HasModifier/GetModifierStackCount/GetModifierRemainingDuration; private fields masked,"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+towers,tango,HasModifier/GetModifierStackCount/GetModifierRemainingDuration; private fields masked,"distribution; different trajectories, not state parity",908,1756,512,512,0.0,0.0,0.0,0.0,0.0
+towers,attack_target_self,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",908,1756,512,512,0.0,0.0,0.0,0.0,0.0
+towers,attack_target_enemy,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",908,1756,512,512,0.0,0.0,0.0,0.0,0.0
+towers,attack_cycle,GetAnimCycle,"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+towers,active_spell,GetCurrentActiveAbility (self only),"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+towers,team_relative,GetUnitName/GetTeam,"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+towers,creep_melee,GetUnitName/GetTeam,"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+towers,creep_ranged,GetUnitName/GetTeam,"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+towers,creep_siege,GetUnitName/GetTeam,"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+hero_combat,attack_target_dx,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",62,878,0,256,0.17297489123959695,,,0.09765625,0.27726224064826965
+hero_combat,attack_target_dy,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",62,878,0,256,0.0,,,0.0,0.0
+hero_combat,attack_target_health,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",62,878,0,256,0.21596774266612145,,,0.027000000700354576,0.46700000762939453
+hero_combat,damage_spread,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",725,878,128,256,0.15000000596046448,0.1500244140625,-2.440810203552246e-05,0.15000000596046448,0.15000000596046448
+hero_combat,incoming_attackers,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",725,878,128,256,0.0022413793103448275,0.0,0.0022413793103448275,0.0,0.0625
+hero_combat,incoming_attack_damage,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",725,878,128,256,0.0032993103512402237,0.0,0.0032993103512402237,0.0,0.09200000017881393
+hero_combat,incoming_attack_dps,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",725,878,128,256,0.0032498205530232397,0.0,0.0032498205530232397,0.0,0.0906199961900711
+hero_combat,incoming_projectiles,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",725,878,128,256,0.0010344827586206897,0.0,0.0010344827586206897,0.0,0.0625
+hero_combat,incoming_projectile_damage,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",725,878,128,256,0.0015227586236493341,0.0,0.0015227586236493341,0.0,0.09200000017881393
+hero_combat,next_projectile_eta,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",12,878,0,256,0.08301307649041216,,,0.01481497660279274,0.1590823531150818
+hero_combat,next_projectile_damage,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",12,878,0,256,0.23000000417232513,,,0.23000000417232513,0.23000000417232513
+hero_combat,attack_animation,GetAnimActivity,"distribution; different trajectories, not state parity",725,878,128,256,0.07310344827586207,0.0,0.07310344827586207,0.0,1.0
+hero_combat,since_attack,GetLastAttackTime,"distribution; different trajectories, not state parity",358,878,0,256,0.820000785252069,,,0.0,1.0
+hero_combat,ready_in,GetLastAttackTime/GetSecondsPerAttack,"distribution; different trajectories, not state parity",725,878,128,256,0.006676753718277504,0.0,0.006676753718277504,0.0,0.2326565384864807
+hero_combat,oracle_ready_in,forbidden; value=known=0,"distribution; different trajectories, not state parity",0,878,0,256,,,,,
+hero_combat,oracle_windup_in,forbidden; value=known=0,"distribution; different trajectories, not state parity",0,878,0,256,,,,,
+hero_combat,oracle_hit_in,forbidden; value=known=0,"distribution; different trajectories, not state parity",0,878,0,256,,,,,
+hero_combat,oracle_hp,forbidden; value=known=0,"distribution; different trajectories, not state parity",0,878,0,256,,,,,
+hero_combat,oracle_damage_min,forbidden; value=known=0,"distribution; different trajectories, not state parity",0,878,0,256,,,,,
+hero_combat,oracle_damage_max,forbidden; value=known=0,"distribution; different trajectories, not state parity",0,878,0,256,,,,,
+hero_combat,oracle_death_in,forbidden; value=known=0,"distribution; different trajectories, not state parity",0,878,0,256,,,,,
+hero_combat,oracle_point_carry,forbidden; value=known=0,"distribution; different trajectories, not state parity",0,878,0,256,,,,,
+hero_combat,cast_0,visible animation + GetAbilityByName/GetLevel; causal cast onset clock,"distribution; different trajectories, not state parity",725,878,128,256,0.9737931034482759,1.0,-0.026206896551724146,0.0,1.0
+hero_combat,cast_1,visible animation + GetAbilityByName/GetLevel; causal cast onset clock,"distribution; different trajectories, not state parity",725,878,128,256,0.004137931034482759,0.0,0.004137931034482759,0.0,1.0
+hero_combat,cast_2,visible animation + GetAbilityByName/GetLevel; causal cast onset clock,"distribution; different trajectories, not state parity",725,878,128,256,0.004137931034482759,0.0,0.004137931034482759,0.0,1.0
+hero_combat,cast_3,visible animation + GetAbilityByName/GetLevel; causal cast onset clock,"distribution; different trajectories, not state parity",725,878,128,256,0.004137931034482759,0.0,0.004137931034482759,0.0,1.0
+hero_combat,cast_4,visible animation + GetAbilityByName/GetLevel; causal cast onset clock,"distribution; different trajectories, not state parity",725,878,128,256,0.013793103448275862,0.0,0.013793103448275862,0.0,1.0
+hero_combat,cast_phase,visible animation + GetAbilityByName/GetLevel; causal cast onset clock,"distribution; different trajectories, not state parity",711,878,128,256,0.00016843692076021777,0.0,0.00016843692076021777,0.0,0.11975865066051483
+hero_combat,since_cast_1,visible animation + GetAbilityByName/GetLevel; causal cast onset clock,"distribution; different trajectories, not state parity",239,878,0,256,0.39666673413353143,,,0.0,0.7933332920074463
+hero_combat,since_cast_2,visible animation + GetAbilityByName/GetLevel; causal cast onset clock,"distribution; different trajectories, not state parity",209,878,0,256,0.346666736859142,,,0.0,0.6933333277702332
+hero_combat,since_cast_3,visible animation + GetAbilityByName/GetLevel; causal cast onset clock,"distribution; different trajectories, not state parity",179,878,0,256,0.2966667398740147,,,0.0,0.5933333039283752
+hero_combat,since_cast_4,visible animation + GetAbilityByName/GetLevel; causal cast onset clock,"distribution; different trajectories, not state parity",29,878,0,256,0.04666661240706413,,,0.0,0.0933331772685051
+hero_combat,spell_level_1,visible animation + GetAbilityByName/GetLevel; causal cast onset clock,"distribution; different trajectories, not state parity",725,878,128,256,0.9751724137931035,0.25,0.7251724137931035,0.0,1.0
+hero_combat,spell_level_2,visible animation + GetAbilityByName/GetLevel; causal cast onset clock,"distribution; different trajectories, not state parity",725,878,128,256,0.9751724137931035,0.25,0.7251724137931035,0.0,1.0
+hero_combat,spell_level_3,visible animation + GetAbilityByName/GetLevel; causal cast onset clock,"distribution; different trajectories, not state parity",725,878,128,256,0.9751724137931035,0.25,0.7251724137931035,0.0,1.0
+hero_combat,spell_level_4,visible animation + GetAbilityByName/GetLevel; causal cast onset clock,"distribution; different trajectories, not state parity",725,878,128,256,0.24379310344827587,0.0,0.24379310344827587,0.0,0.25
+hero_combat,raze_stacks,HasModifier/GetModifierStackCount/GetModifierRemainingDuration; private fields masked,"distribution; different trajectories, not state parity",725,878,128,256,0.007758620689655172,0.0,0.007758620689655172,0.0,0.0625
+hero_combat,raze_remaining,HasModifier/GetModifierStackCount/GetModifierRemainingDuration; private fields masked,"distribution; different trajectories, not state parity",725,878,128,256,0.036413763540893276,4.656612873077393e-10,0.03641376307523199,0.0,0.5833328366279602
+hero_combat,hp_lag0,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",725,878,128,256,0.9534431067828474,1.0,-0.04655689321715262,0.6788008809089661,1.0
+hero_combat,hp_lag1,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",721,878,127,256,0.9535813032340739,1.0,-0.04641869676592614,0.6788008809089661,1.0
+hero_combat,hp_lag2,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",717,878,126,256,0.953656831712071,1.0,-0.04634316828792895,0.6788008809089661,1.0
+hero_combat,hp_lag3,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",713,878,125,256,0.9536476146121513,1.0,-0.046352385387848694,0.6788008809089661,1.0
+hero_combat,hp_lag4,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",709,878,124,256,0.9536382935111042,1.0,-0.046361706488895815,0.6788008809089661,1.0
+hero_combat,hp_lag5,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",705,878,123,256,0.9536303852466826,1.0,-0.046369614753317356,0.6788008809089661,1.0
+hero_combat,hp_lag6,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",701,878,122,256,0.9536239140894206,1.0,-0.0463760859105794,0.6788008809089661,1.0
+hero_combat,hp_lag7,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",697,878,121,256,0.9536189047814784,1.0,-0.04638109521852163,0.6788008809089661,1.0
+hero_combat,hp_lag8,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",693,878,120,256,0.9535427690412404,1.0,-0.04645723095875964,0.6788008809089661,1.0
+hero_combat,hp_lag9,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",689,878,119,256,0.9534657492866018,1.0,-0.04653425071339823,0.6788008809089661,1.0
+hero_combat,hp_lag10,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",685,878,118,256,0.9533893930650975,1.0,-0.04661060693490249,0.6788008809089661,1.0
+hero_combat,hp_lag11,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",681,878,117,256,0.9533137120689414,1.0,-0.04668628793105856,0.6788008809089661,1.0
+hero_combat,own_raze0,visible GetLocation/GetFacing; own ability specials; GetBoundingRadius/GetAttackRange,"distribution; different trajectories, not state parity",725,878,128,256,0.7213793103448276,1.0,-0.2786206896551724,0.0,1.0
+hero_combat,own_raze1,visible GetLocation/GetFacing; own ability specials; GetBoundingRadius/GetAttackRange,"distribution; different trajectories, not state parity",725,878,128,256,0.3641379310344828,0.0,0.3641379310344828,0.0,1.0
+hero_combat,own_raze2,visible GetLocation/GetFacing; own ability specials; GetBoundingRadius/GetAttackRange,"distribution; different trajectories, not state parity",725,878,128,256,0.32,0.0,0.32,0.0,1.0
+hero_combat,attack_reach,visible GetLocation/GetFacing; own ability specials; GetBoundingRadius/GetAttackRange,"distribution; different trajectories, not state parity",725,878,128,256,0.76,1.0,-0.24,0.0,1.0
+hero_combat,relative_angle,visible GetLocation/GetFacing; own ability specials; GetBoundingRadius/GetAttackRange,"distribution; different trajectories, not state parity",725,878,128,256,0.0,0.0,0.0,0.0,0.0
+hero_combat,enemy_raze0,visible GetLocation/GetFacing; own ability specials; GetBoundingRadius/GetAttackRange,"distribution; different trajectories, not state parity",286,878,0,256,0.0,,,0.0,0.0
+hero_combat,enemy_raze1,visible GetLocation/GetFacing; own ability specials; GetBoundingRadius/GetAttackRange,"distribution; different trajectories, not state parity",286,878,0,256,0.0,,,0.0,0.0
+hero_combat,enemy_raze2,visible GetLocation/GetFacing; own ability specials; GetBoundingRadius/GetAttackRange,"distribution; different trajectories, not state parity",286,878,0,256,0.0,,,0.0,0.0
+hero_combat,own_cast_active,accepted queue + IsCastingAbility/IsUsingAbility/GetCurrentActiveAbility,"distribution; different trajectories, not state parity",439,878,128,256,0.05466970387243736,0.0,0.05466970387243736,0.0,1.0
+hero_combat,own_cast_skill0,accepted queue + IsCastingAbility/IsUsingAbility/GetCurrentActiveAbility,"distribution; different trajectories, not state parity",439,878,128,256,0.009111617312072893,0.0,0.009111617312072893,0.0,1.0
+hero_combat,own_cast_skill1,accepted queue + IsCastingAbility/IsUsingAbility/GetCurrentActiveAbility,"distribution; different trajectories, not state parity",439,878,128,256,0.009111617312072893,0.0,0.009111617312072893,0.0,1.0
+hero_combat,own_cast_skill2,accepted queue + IsCastingAbility/IsUsingAbility/GetCurrentActiveAbility,"distribution; different trajectories, not state parity",439,878,128,256,0.009111617312072893,0.0,0.009111617312072893,0.0,1.0
+hero_combat,own_cast_skill3,accepted queue + IsCastingAbility/IsUsingAbility/GetCurrentActiveAbility,"distribution; different trajectories, not state parity",439,878,128,256,0.02733485193621868,0.0,0.02733485193621868,0.0,1.0
+creep_combat,attack_target_dx,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",0,439,0,2048,,,,,
+creep_combat,attack_target_dy,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",0,439,0,2048,,,,,
+creep_combat,attack_target_health,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",0,439,0,2048,,,,,
+creep_combat,damage_spread,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",40,439,0,2048,0.10000000149011612,,,0.10000000149011612,0.10000000149011612
+creep_combat,incoming_attackers,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",40,439,0,2048,0.05625,,,0.0,0.0625
+creep_combat,incoming_attack_damage,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",40,439,0,2048,0.11430000364780427,,,0.0,0.12800000607967377
+creep_combat,incoming_attack_dps,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",40,439,0,2048,0.11258549205958843,,,0.0,0.1260799914598465
+creep_combat,incoming_projectiles,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",40,439,0,2048,0.0125,,,0.0,0.0625
+creep_combat,incoming_projectile_damage,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",40,439,0,2048,0.025400000810623168,,,0.0,0.12800000607967377
+creep_combat,next_projectile_eta,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",8,439,0,2048,0.03429033712018281,,,0.010225489735603333,0.06547123193740845
+creep_combat,next_projectile_damage,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",8,439,0,2048,0.3174999952316284,,,0.3149999976158142,0.3199999928474426
+creep_combat,attack_animation,GetAnimActivity,"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,0.0,0.0
+creep_combat,since_attack,GetLastAttackTime,"distribution; different trajectories, not state parity",0,439,0,2048,,,,,
+creep_combat,ready_in,GetLastAttackTime/GetSecondsPerAttack,"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,0.0,0.0
+creep_combat,oracle_ready_in,forbidden; value=known=0,"distribution; different trajectories, not state parity",0,439,0,2048,,,,,
+creep_combat,oracle_windup_in,forbidden; value=known=0,"distribution; different trajectories, not state parity",0,439,0,2048,,,,,
+creep_combat,oracle_hit_in,forbidden; value=known=0,"distribution; different trajectories, not state parity",0,439,0,2048,,,,,
+creep_combat,oracle_hp,forbidden; value=known=0,"distribution; different trajectories, not state parity",0,439,0,2048,,,,,
+creep_combat,oracle_damage_min,forbidden; value=known=0,"distribution; different trajectories, not state parity",0,439,0,2048,,,,,
+creep_combat,oracle_damage_max,forbidden; value=known=0,"distribution; different trajectories, not state parity",0,439,0,2048,,,,,
+creep_combat,oracle_death_in,forbidden; value=known=0,"distribution; different trajectories, not state parity",0,439,0,2048,,,,,
+creep_combat,oracle_point_carry,forbidden; value=known=0,"distribution; different trajectories, not state parity",0,439,0,2048,,,,,
+creep_combat,hp_lag0,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",40,439,0,2048,0.2690454561263323,,,0.0981818214058876,0.4490908980369568
+creep_combat,hp_lag1,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",38,439,0,2048,0.2780382790063557,,,0.0981818214058876,0.4490908980369568
+creep_combat,hp_lag2,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",36,439,0,2048,0.2880303044286039,,,0.0981818214058876,0.4490908980369568
+creep_combat,hp_lag3,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",34,439,0,2048,0.29919786225346956,,,0.0981818214058876,0.4490908980369568
+creep_combat,hp_lag4,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",32,439,0,2048,0.31176136480644345,,,0.0981818214058876,0.4490908980369568
+creep_combat,hp_lag5,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",30,439,0,2048,0.3260000010331472,,,0.21636363863945007,0.4490908980369568
+creep_combat,hp_lag6,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",28,439,0,2048,0.33376623477254597,,,0.21636363863945007,0.4490908980369568
+creep_combat,hp_lag7,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",26,439,0,2048,0.34272727370262146,,,0.21636363863945007,0.4490908980369568
+creep_combat,hp_lag8,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",24,439,0,2048,0.3531818191210429,,,0.21636363863945007,0.4490908980369568
+creep_combat,hp_lag9,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",22,439,0,2048,0.3655371909791773,,,0.21636363863945007,0.4490908980369568
+creep_combat,hp_lag10,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",20,439,0,2048,0.3803636372089386,,,0.33454546332359314,0.4490908980369568
+creep_combat,hp_lag11,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",18,439,0,2048,0.38545454541842145,,,0.33454546332359314,0.4490908980369568
+creep_combat,own_raze0,visible GetLocation/GetFacing; own ability specials; GetBoundingRadius/GetAttackRange,"distribution; different trajectories, not state parity",40,439,0,2048,1.0,,,1.0,1.0
+creep_combat,own_raze1,visible GetLocation/GetFacing; own ability specials; GetBoundingRadius/GetAttackRange,"distribution; different trajectories, not state parity",40,439,0,2048,1.0,,,1.0,1.0
+creep_combat,own_raze2,visible GetLocation/GetFacing; own ability specials; GetBoundingRadius/GetAttackRange,"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,0.0,0.0
+creep_combat,attack_reach,visible GetLocation/GetFacing; own ability specials; GetBoundingRadius/GetAttackRange,"distribution; different trajectories, not state parity",40,439,0,2048,1.0,,,1.0,1.0
+creep_combat,relative_angle,visible GetLocation/GetFacing; own ability specials; GetBoundingRadius/GetAttackRange,"distribution; different trajectories, not state parity",40,439,0,2048,0.0,,,0.0,0.0
+tower_combat,attack_target_dx,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+tower_combat,attack_target_dy,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+tower_combat,attack_target_health,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+tower_combat,damage_spread,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",908,1756,256,512,0.10000000149011612,0.0999755859375,2.4415552616119385e-05,0.10000000149011612,0.10000000149011612
+tower_combat,incoming_attackers,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",908,1756,256,512,0.0,0.0,0.0,0.0,0.0
+tower_combat,incoming_attack_damage,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",908,1756,256,512,0.0,0.0,0.0,0.0,0.0
+tower_combat,incoming_attack_dps,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",908,1756,256,512,0.0,0.0,0.0,0.0,0.0
+tower_combat,incoming_projectiles,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",908,1756,256,512,0.0,0.0,0.0,0.0,0.0
+tower_combat,incoming_projectile_damage,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",908,1756,256,512,0.0,0.0,0.0,0.0,0.0
+tower_combat,next_projectile_eta,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+tower_combat,next_projectile_damage,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+tower_combat,attack_animation,GetAnimActivity,"distribution; different trajectories, not state parity",908,1756,256,512,0.0,0.0,0.0,0.0,0.0
+tower_combat,since_attack,GetLastAttackTime,"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+tower_combat,ready_in,GetLastAttackTime/GetSecondsPerAttack,"distribution; different trajectories, not state parity",908,1756,256,512,0.0,0.0,0.0,0.0,0.0
+tower_combat,oracle_ready_in,forbidden; value=known=0,"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+tower_combat,oracle_windup_in,forbidden; value=known=0,"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+tower_combat,oracle_hit_in,forbidden; value=known=0,"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+tower_combat,oracle_hp,forbidden; value=known=0,"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+tower_combat,oracle_damage_min,forbidden; value=known=0,"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+tower_combat,oracle_damage_max,forbidden; value=known=0,"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+tower_combat,oracle_death_in,forbidden; value=known=0,"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+tower_combat,oracle_point_carry,forbidden; value=known=0,"distribution; different trajectories, not state parity",0,1756,0,512,,,,,
+tower_combat,hp_lag0,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",908,1756,256,512,1.0,1.0,0.0,1.0,1.0
+tower_combat,hp_lag1,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",906,1756,254,512,1.0,1.0,0.0,1.0,1.0
+tower_combat,hp_lag2,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",904,1756,252,512,1.0,1.0,0.0,1.0,1.0
+tower_combat,hp_lag3,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",902,1756,250,512,1.0,1.0,0.0,1.0,1.0
+tower_combat,hp_lag4,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",900,1756,248,512,1.0,1.0,0.0,1.0,1.0
+tower_combat,hp_lag5,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",898,1756,246,512,1.0,1.0,0.0,1.0,1.0
+tower_combat,hp_lag6,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",896,1756,244,512,1.0,1.0,0.0,1.0,1.0
+tower_combat,hp_lag7,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",894,1756,242,512,1.0,1.0,0.0,1.0,1.0
+tower_combat,hp_lag8,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",892,1756,240,512,1.0,1.0,0.0,1.0,1.0
+tower_combat,hp_lag9,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",890,1756,238,512,1.0,1.0,0.0,1.0,1.0
+tower_combat,hp_lag10,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",888,1756,236,512,1.0,1.0,0.0,1.0,1.0
+tower_combat,hp_lag11,GetHealth/GetMaxHealth; identity+generation; missing sample=unknown,"distribution; different trajectories, not state parity",886,1756,234,512,1.0,1.0,0.0,1.0,1.0
+tower_combat,own_raze0,visible GetLocation/GetFacing; own ability specials; GetBoundingRadius/GetAttackRange,"distribution; different trajectories, not state parity",908,1756,256,512,0.03303964757709251,0.0546875,-0.02164785242290749,0.0,1.0
+tower_combat,own_raze1,visible GetLocation/GetFacing; own ability specials; GetBoundingRadius/GetAttackRange,"distribution; different trajectories, not state parity",908,1756,256,512,0.03303964757709251,0.05078125,-0.01774160242290749,0.0,1.0
+tower_combat,own_raze2,visible GetLocation/GetFacing; own ability specials; GetBoundingRadius/GetAttackRange,"distribution; different trajectories, not state parity",908,1756,256,512,0.0,0.05078125,-0.05078125,0.0,0.0
+tower_combat,attack_reach,visible GetLocation/GetFacing; own ability specials; GetBoundingRadius/GetAttackRange,"distribution; different trajectories, not state parity",908,1756,256,512,0.03303964757709251,0.1328125,-0.09977285242290748,0.0,1.0
+tower_combat,relative_angle,visible GetLocation/GetFacing; own ability specials; GetBoundingRadius/GetAttackRange,"distribution; different trajectories, not state parity",908,1756,256,512,-0.752797455808952,0.07027013599872589,-0.8230675918076779,-0.9495722055435181,0.011537599377334118
+trees,dx,visible GetLocation - own GetLocation (or GetTreeLocation),"distribution; different trajectories, not state parity",970,970,1363,4096,0.0584535242432786,0.045973747968673706,0.012479776274604892,-0.7113391160964966,0.771484375
+trees,dy,visible GetLocation - own GetLocation (or GetTreeLocation),"distribution; different trajectories, not state parity",970,970,1363,4096,-0.07613032048510522,-0.07895893603563309,0.002828615550527866,-0.41796875,0.7089862823486328
+trees,z,GetLocation,"distribution; different trajectories, not state parity",970,970,1363,4096,0.19097938144329896,0.37013939023017883,-0.17916000878687988,0.0,0.5
+trees,distance,visible GetLocation - own GetLocation (or GetTreeLocation),"distribution; different trajectories, not state parity",970,970,1363,4096,0.3615538208524591,0.49623343348503113,-0.13467961263257205,0.07617255300283432,0.7783978581428528
+projectiles,dx,visible GetLocation - own GetLocation (or GetTreeLocation),"distribution; different trajectories, not state parity",20,439,0,2048,0.09714768677949906,,,-0.0027636513113975525,0.24782037734985352
+projectiles,dy,visible GetLocation - own GetLocation (or GetTreeLocation),"distribution; different trajectories, not state parity",20,439,0,2048,0.011655397713184357,,,-0.07905179262161255,0.07756951451301575
+projectiles,speed,GetIncomingTrackingProjectiles.velocity or visible caster GetAttackProjectileSpeed,"distribution; different trajectories, not state parity",20,439,0,2048,0.800000011920929,,,0.800000011920929,0.800000011920929
+projectiles,is_attack,IsAttacking/IsUsingAbility/IsCastingAbility/IsChanneling; visible animation for enemy,"distribution; different trajectories, not state parity",20,439,0,2048,1.0,,,1.0,1.0
+projectiles,caster_enemy,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",20,439,0,2048,0.0,,,0.0,0.0
+projectiles,target_self,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",20,439,0,2048,0.0,,,0.0,0.0
+projectile_combat,target_dx,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",20,439,0,2048,0.2054198443889618,,,0.09765625,0.27726224064826965
+projectile_combat,target_dy,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",20,439,0,2048,0.0,,,0.0,0.0
+projectile_combat,target_health,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",20,439,0,2048,0.2834250032901764,,,0.027000000700354576,0.46700000762939453
+projectile_combat,caster_damage,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",20,439,0,2048,0.3600000023841858,,,0.3499999940395355,0.36500000953674316
+projectile_combat,caster_dx,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",20,439,0,2048,0.0,,,0.0,0.0
+projectile_combat,caster_dy,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",20,439,0,2048,0.0,,,0.0,0.0
+projectile_combat,caster_kind,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",20,439,0,2048,0.0,,,0.0,0.0
+projectile_combat,target_team_relative,visible GetAttackTarget/GetIncomingTrackingProjectiles; calibrated public damage table; unknown caster=0,"distribution; different trajectories, not state parity",20,439,0,2048,-0.6,,,-1.0,1.0
+skills,level,GetLevel,"distribution; different trajectories, not state parity",1756,1756,512,512,0.7791856492027335,0.1875,0.5916856492027335,0.0,1.0
+skills,cooldown,GetCooldownTimeRemaining (self only),"distribution; different trajectories, not state parity",1756,1756,512,512,0.013522686394343073,0.0,0.013522686394343073,0.0,1.0
+skills,mana_cost,GetManaCost (self only),"distribution; different trajectories, not state parity",1756,1756,512,512,0.44953018223234625,0.28125,0.16828018223234625,0.0,0.75
+skills,cast_point,GetCastPoint (self only),"distribution; different trajectories, not state parity",1756,1756,512,512,0.39798405381229307,0.2061767578125,0.19180729599979307,0.0,0.8349999785423279
+skills,castable,IsFullyCastable (self only),"distribution; different trajectories, not state parity",1756,1756,512,512,0.9048974943052391,0.75,0.15489749430523914,0.0,1.0
+skills,channel_time,GetChannelTime (self only),"distribution; different trajectories, not state parity",1756,1756,512,512,0.0,0.0,0.0,0.0,0.0
+items,inventory,GetItemInSlot/GetCurrentCharges,"distribution; different trajectories, not state parity",2634,2634,768,768,0.0917236167561311,0.06588935852050781,0.025834258235623284,0.0,0.30000001192092896
+items,backpack,GetItemInSlot/GetCurrentCharges,"distribution; different trajectories, not state parity",2634,2634,768,768,0.0,0.0,0.0,0.0,0.0
+items,stash,GetItemInSlot/GetCurrentCharges,"distribution; different trajectories, not state parity",2634,2634,768,768,0.0,0.0,0.0,0.0,0.0
+items,courier,GetCourier/GetItemInSlot,"distribution; different trajectories, not state parity",2634,2634,768,768,0.0,0.0,0.0,0.0,0.0
+items,cooldown,GetCooldownTimeRemaining (self only),"distribution; different trajectories, not state parity",1625,2634,254,768,0.0,0.0,0.0,0.0,0.0
+items,castable,IsFullyCastable (self only),"distribution; different trajectories, not state parity",2634,2634,768,768,0.4525436598329537,0.1640625,0.2884811598329537,0.0,1.0
+items,mana_cost,GetManaCost (self only),"distribution; different trajectories, not state parity",1625,2634,254,768,0.0,0.0,0.0,0.0,0.0
+items,slot,FindItemSlot (self only),"distribution; different trajectories, not state parity",2634,2634,768,768,0.02634776102756585,-0.025254249572753906,0.051602010600319756,-0.05000000074505806,0.15000000596046448
+enemy_items,inventory,GetItemInSlot/GetCurrentCharges,"distribution; different trajectories, not state parity",1716,2634,0,768,0.016666666915019352,,,0.0,0.10000000149011612
+enemy_items,backpack,GetItemInSlot/GetCurrentCharges,"distribution; different trajectories, not state parity",1716,2634,0,768,0.0,,,0.0,0.0
+enemy_items,stash,GetItemInSlot/GetCurrentCharges,"distribution; different trajectories, not state parity",0,2634,0,768,,,,,
+enemy_items,courier,GetCourier/GetItemInSlot,"distribution; different trajectories, not state parity",0,2634,0,768,,,,,
+enemy_items,cooldown,GetCooldownTimeRemaining (self only),"distribution; different trajectories, not state parity",0,2634,0,768,,,,,
+enemy_items,castable,IsFullyCastable (self only),"distribution; different trajectories, not state parity",0,2634,0,768,,,,,
+enemy_items,mana_cost,GetManaCost (self only),"distribution; different trajectories, not state parity",0,2634,0,768,,,,,
+enemy_items,slot,FindItemSlot (self only),"distribution; different trajectories, not state parity",0,2634,0,768,,,,,
+global_features,time,DotaTime,"distribution; different trajectories, not state parity",439,439,128,128,-0.07661111191697928,-0.12888813018798828,0.052277018271009,-0.14961111545562744,-0.003611119696870446
+global_features,next_permanent,local economy,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+global_features,side,GetTeam,"distribution; different trajectories, not state parity",439,439,128,128,1.0,1.0,0.0,1.0,1.0
+previous,previous_0,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0683371298405467,0.984375,-0.9160378701594533,0.0,1.0
+previous,previous_1,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.5990888382687927,0.015625,0.5834638382687927,0.0,1.0
+previous,previous_2,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.04555808656036447,0.0,0.04555808656036447,0.0,1.0
+previous,previous_3,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.04555808656036447,0.0,0.04555808656036447,0.0,1.0
+previous,previous_4,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0683371298405467,0.0,0.0683371298405467,0.0,1.0
+previous,previous_5,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0683371298405467,0.0,0.0683371298405467,0.0,1.0
+previous,previous_6,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.011389521640091117,0.0,0.011389521640091117,0.0,1.0
+previous,previous_7,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.011389521640091117,0.0,0.011389521640091117,0.0,1.0
+previous,previous_8,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.011389521640091117,0.0,0.011389521640091117,0.0,1.0
+previous,previous_9,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.02733485193621868,0.0,0.02733485193621868,0.0,1.0
+previous,previous_10,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.004555808656036446,0.0,0.004555808656036446,0.0,1.0
+previous,previous_11,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.004555808656036446,0.0,0.004555808656036446,0.0,1.0
+previous,previous_12,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.03416856492027335,0.0,0.03416856492027335,0.0,1.0
+previous,previous_13,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0683371298405467,0.0,0.0683371298405467,0.0,1.0
+previous,previous_14,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_15,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_16,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.1015625,-0.1015625,0.0,0.0
+previous,previous_17,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.34375,-0.34375,0.0,0.0
+previous,previous_18,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.5390625,-0.5390625,0.0,0.0
+previous,previous_19,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_20,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_21,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_22,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_23,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_24,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_25,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_26,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_27,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_28,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_29,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_30,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_31,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_32,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_33,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_34,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_35,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_36,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_37,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_38,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_39,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_40,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_41,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_42,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_43,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_44,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_45,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_46,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_47,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_48,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0,0.0,0.0,0.0,0.0
+previous,previous_49,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.7380410022779044,1.0,-0.26195899772209563,0.0,1.0
+previous,previous_50,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.04555808656036447,0.0,0.04555808656036447,0.0,1.0
+previous,previous_51,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.04555808656036447,0.0,0.04555808656036447,0.0,1.0
+previous,previous_52,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0683371298405467,0.0,0.0683371298405467,0.0,1.0
+previous,previous_53,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.0683371298405467,0.0,0.0683371298405467,0.0,1.0
+previous,previous_54,executor last issued action/direction/target category,"distribution; different trajectories, not state parity",439,439,128,128,0.03416856492027335,0.0,0.03416856492027335,0.0,1.0
+terrain,channel_0,GetHeightLevel,"distribution; different trajectories, not state parity",28096,28096,8192,8192,0.6651552002887604,0.4800291657447815,0.1851260345439789,0.20000000298023224,0.800000011920929
+terrain,channel_1,IsLocationVisible/IsLocationPassable,"distribution; different trajectories, not state parity",28096,28096,8192,8192,0.24480353075170844,0.6510009765625,-0.40619744581079154,0.0,1.0
+terrain,channel_2,IsLocationVisible,"distribution; different trajectories, not state parity",28096,28096,8192,8192,0.3293351366742597,0.7880859375,-0.4587508008257403,0.0,1.0
+terrain,channel_3,visible lane creep occupancy,"distribution; different trajectories, not state parity",28096,28096,8192,8192,0.0,0.0,0.0,-0.25,0.25
+hero_valid,bit,CanBeSeen/IsAlive; public categories; cast queue; own IsFullyCastable,"distribution; different trajectories, not state parity",878,878,256,256,0.8257403189066059,0.5,0.32574031890660593,0.0,1.0
+creep_valid,bit,CanBeSeen/IsAlive; public categories; cast queue; own IsFullyCastable,"distribution; different trajectories, not state parity",439,439,2048,2048,0.09111617312072894,0.0,0.09111617312072894,0.0,1.0
+creep_ally,bit,CanBeSeen/IsAlive; public categories; cast queue; own IsFullyCastable,"distribution; different trajectories, not state parity",439,439,2048,2048,0.04555808656036447,0.0,0.04555808656036447,0.0,1.0
+tree_valid,bit,CanBeSeen/IsAlive; public categories; cast queue; own IsFullyCastable,"distribution; different trajectories, not state parity",970,970,4096,4096,1.0,0.332763671875,0.667236328125,1.0,1.0
+projectile_valid,bit,CanBeSeen/IsAlive; public categories; cast queue; own IsFullyCastable,"distribution; different trajectories, not state parity",439,439,2048,2048,0.04555808656036447,0.0,0.04555808656036447,0.0,1.0
+action_mask,bit,CanBeSeen/IsAlive; public categories; cast queue; own IsFullyCastable,"distribution; different trajectories, not state parity",5707,5707,1664,1664,0.6698790958472052,0.4579326808452606,0.21194641500194455,0.0,1.0
+enemy_target_mask,bit,CanBeSeen/IsAlive; public categories; cast queue; own IsFullyCastable,"distribution; different trajectories, not state parity",439,439,2048,2048,0.04555808656036447,0.0,0.04555808656036447,0.0,1.0
+ally_target_mask,bit,CanBeSeen/IsAlive; public categories; cast queue; own IsFullyCastable,"distribution; different trajectories, not state parity",439,439,2048,2048,0.04555808656036447,0.0,0.04555808656036447,0.0,1.0

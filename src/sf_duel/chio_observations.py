@@ -10,11 +10,11 @@ ITEM_IDS=[0,1,2,5,4,6]
 
 class Observer:
     def __init__(self):
-        self.history={};self.episode=None;self.tick=None
+        self.history={};self.episode=None;self.tick=None;self.enemy_identity=None
 
     def encode(self,s,previous=None,pending_cast=None):
         tick=s['tick'];episode=s['match']
-        if episode!=self.episode:self.history={};self.tick=None;self.episode=episode
+        if episode!=self.episode:self.history={};self.tick=None;self.episode=episode;self.enemy_identity=None
         if self.tick is not None and tick<=self.tick:raise ValueError('Repeated observation')
         delta=1 if self.tick is None else max(1,(tick-self.tick)//6)
         self.tick=tick
@@ -24,11 +24,14 @@ class Observer:
         # frame-local here: hidden projectile casters must not reuse old damage.
         encoded=encode(s,combat_memory=CombatMemory(),observation_profile='ggd-v4')
         own=s['self'];enemy=s.get('enemy') or {};units=s['creeps'];towers=s['towers']
+        if enemy.get('id') is not None:self.enemy_identity=(enemy['id'],enemy.get('generation',0))
+        elif self.enemy_identity is not None:
+            enemy=dict(id=self.enemy_identity[0],generation=self.enemy_identity[1],visible=False)
         def key(u):return (u.get('id'),u.get('generation',0))
         def seen(u):return bool(u) and u.get('visible',False) and u.get('health',0)>0
-        def zone(source,target,reach):
+        def zone(source,target,reach,radius=250):
             angle=math.radians(source['facing']);x=source['x']+reach*math.cos(angle);y=source['y']+reach*math.sin(angle)
-            return float((target['x']-x)**2+(target['y']-y)**2<=250**2)
+            return float((target['x']-x)**2+(target['y']-y)**2<=radius**2)
         def extension(u,hero):
             width=25 if hero else 17;v=np.zeros(width,np.float32);known=np.zeros(width,np.float32)
             if u.get('id') is not None:
@@ -37,7 +40,10 @@ class Observer:
                 for i,x in enumerate(h):
                     if x is not None:v[i]=x;known[i]=1
             if seen(u):
-                for i,r in enumerate((200,450,700)):v[12+i]=zone(own,u,r);known[12+i]=1
+                for i,r in enumerate((200,450,700)):
+                    rule=(s.get('raze_rules') or [dict(range=x,radius=250) for x in (200,450,700)])[i]
+                    if rule.get('range',0)>0 and rule.get('radius',0)>0:
+                        v[12+i]=zone(own,u,rule['range'],rule['radius']);known[12+i]=1
                 dx=u['x']-own['x'];dy=u['y']-own['y'];distance=math.hypot(dx,dy)
                 if own.get('hull') is not None and u.get('hull') is not None:
                     v[15]=distance<=own['attack_range']+own['hull']+u['hull'];known[15]=1

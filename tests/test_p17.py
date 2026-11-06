@@ -28,6 +28,10 @@ class P17(unittest.TestCase):
         row=b['hero_combat'][0,1,-50:]
         self.assertEqual(float(row[26:].sum()),5) # four geometry known plus angle
         self.assertAlmostEqual(float(row[0]),1/6,places=6)
+        s['tick']=24;s.pop('enemy');b=o.encode(s)
+        row=b['hero_combat'][0,1,-50:]
+        self.assertEqual(row[25],0);self.assertEqual(row[26],1)
+        self.assertAlmostEqual(float(row[1]),1/6,places=6)
 
     def test_geometry_and_pending_cast_mask(self):
         s=scene();s['enemy']['x']=700

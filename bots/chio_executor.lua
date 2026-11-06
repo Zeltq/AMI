@@ -66,6 +66,8 @@ function M.Think()
   for _,d in ipairs(commands) do if d.execute_tick>tick and d.action>=6 and d.action<=9 and not d.continuation then pending=d.action end end
   st.seq=st.seq+1
   local snapshot=agent.snapshot(bot,st);snapshot.tick=tick;snapshot.pending_cast=pending
+  snapshot.raze_rules={}
+  for i=1,3 do local a=bot:GetAbilityByName(spells[i]);snapshot.raze_rules[i]={range=a:GetSpecialValueInt('shadowraze_range'),radius=a:GetSpecialValueInt('shadowraze_radius')} end
   snapshot.deaths=GetHeroDeaths(bot:GetPlayerID());snapshot.player=bot:GetPlayerID()
   local body=json.encode(snapshot);local count=math.ceil(#body/1800)
   for part=1,count do print('SF_CHIO_OBS|'..GetTeam()..'|'..tick..'|'..part..'|'..count..'|'..body:sub((part-1)*1800+1,part*1800)) end
