@@ -1,0 +1,4984 @@
+[
+  {
+    "accessible_credited": 28.0,
+    "accessible_deaths": 54.0,
+    "credited": 28.0,
+    "game": 0,
+    "game_seconds": 233.03334045410156,
+    "lane_creeps_spawned": 64.0,
+    "lane_deaths": 54.0,
+    "native_terminal": true,
+    "outcome_reason": "death",
+    "result": -1.0,
+    "sides": [
+      {
+        "actions": [
+          0.0,
+          126.0,
+          407.0,
+          467.0,
+          574.0,
+          0.0,
+          0.0,
+          10.0,
+          30.0,
+          0.0,
+          2.0
+        ],
+        "alive_seconds": 323.0,
+        "attack_cancellations": 10.0,
+        "attack_cycles_completed": 66.0,
+        "attack_enemy_creep_commands": 286.0,
+        "attack_hero_commands": 88.0,
+        "attack_structure_commands": 0.0,
+        "buys": [
+          1609.0,
+          1.0,
+          0.0,
+          3.0,
+          2.0,
+          1.0,
+          0.0
+        ],
+        "cancelled_casts": 0.0,
+        "chio_decisions": 1616.0,
+        "commands_during_windup": 9.0,
+        "consumable_uses": {
+          "flask": 1.0,
+          "mango": 0.0,
+          "tango": 0.0
+        },
+        "controller": "CHiO",
+        "damage_from_creeps": 542.031982421875,
+        "damage_from_hero": 867.0,
+        "damage_from_tower": 0.0,
+        "dead_seconds": 0.066680908203125,
+        "death_causes": [
+          {
+            "cause": "hero_attack",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "raze",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "creeps",
+            "count": 1.0,
+            "enemy_t1_distance_sum": 1719.855712890625,
+            "own_t1_distance_sum": 1204.8203125
+          },
+          {
+            "cause": "tower",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "requiem",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          }
+        ],
+        "deaths": 1.0,
+        "deny": 4.0,
+        "deny_commands": 93.0,
+        "distance_travelled": 32838.47265625,
+        "first_death_game_seconds": 233.00003051757812,
+        "first_death_location": {
+          "cause_code": 3.0,
+          "enemy_t1_distance": 1719.855712890625,
+          "own_t1_distance": 1204.8203125
+        },
+        "first_move_game_seconds": -89.63333892822266,
+        "gold": 40.36342239379883,
+        "gold_received": 930.3235473632812,
+        "gold_spent": 985.0,
+        "health": 0.0,
+        "hero_attacks_released": 7.0,
+        "hero_kills": 0.0,
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.0,
+          0.0,
+          0.0
+        ],
+        "level": 4.0,
+        "lh": 13.0,
+        "longest_idle_seconds": 24.800003051757812,
+        "longest_movement_stall_seconds": 1.4000244140625,
+        "longest_stuck_seconds": 1.8000030517578125,
+        "mana": 59.79631042480469,
+        "mid_arrival_elapsed_seconds": 25.199996948242188,
+        "mid_arrival_game_seconds": -64.83333587646484,
+        "minimum_health_fraction": 0.0,
+        "minute_snapshots": [
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": -0.03333282470703125,
+            "gold": 5.0,
+            "health": 582.0,
+            "level": 1.0,
+            "lh": 0.0,
+            "mana": 291.0,
+            "net_worth": 880.0,
+            "razes_completed": 0.0,
+            "souls": 0.0,
+            "xp_in_level": 0.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 1.0,
+            "game_seconds": 59.96666717529297,
+            "gold": 89.94640350341797,
+            "health": 626.0,
+            "level": 2.0,
+            "lh": 3.0,
+            "mana": 137.24594116210938,
+            "net_worth": 1094.9464111328125,
+            "razes_completed": 3.0,
+            "souls": 4.0,
+            "xp_in_level": 57.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 4.0,
+            "game_seconds": 119.96666717529297,
+            "gold": 300.9473571777344,
+            "health": 692.0,
+            "level": 3.0,
+            "lh": 10.0,
+            "mana": 16.884258270263672,
+            "net_worth": 1370.9473876953125,
+            "razes_completed": 6.0,
+            "souls": 14.0,
+            "xp_in_level": 251.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 4.0,
+            "game_seconds": 179.9666748046875,
+            "gold": 480.9229431152344,
+            "health": 758.0,
+            "level": 4.0,
+            "lh": 11.0,
+            "mana": 53.604026794433594,
+            "net_worth": 1550.9229736328125,
+            "razes_completed": 7.0,
+            "souls": 15.0,
+            "xp_in_level": 128.5
+          },
+          {
+            "deaths": 1.0,
+            "deny": 4.0,
+            "game_seconds": 233.03335571289062,
+            "gold": 40.36342239379883,
+            "health": 0.0,
+            "level": 4.0,
+            "lh": 13.0,
+            "mana": 59.79631042480469,
+            "net_worth": 1710.3634033203125,
+            "razes_completed": 8.0,
+            "souls": 12.0,
+            "xp_in_level": 497.5
+          }
+        ],
+        "net_worth": 1710.3634033203125,
+        "purchases": {
+          "boots": 1.0,
+          "bracer": 0.0,
+          "clarity": 0.0,
+          "flask": 2.0,
+          "mango": 3.0,
+          "tango": 1.0,
+          "tp": 0.0,
+          "wraith_band": 0.0
+        },
+        "raze_creep_hits": 17.0,
+        "raze_hero_hits": 3.0,
+        "raze_hero_hits_by_spell": [
+          0.0,
+          1.0,
+          2.0
+        ],
+        "razes_hitting_any_target": 7.0,
+        "razes_hitting_hero": 3.0,
+        "reward_components": {
+          "enemy_deaths": 0.0,
+          "enemy_denies": -0.10000000149011612,
+          "enemy_experience": -3.516000509262085,
+          "enemy_flask": 0.6000000238418579,
+          "enemy_flask_break": 0.6012966632843018,
+          "enemy_gold_received": -5.930037021636963,
+          "enemy_health": 0.9062610864639282,
+          "enemy_kills": 0.0,
+          "enemy_last_hits": 1.1999999284744263,
+          "enemy_mana": 0.43983346223831177,
+          "enemy_mango": 0.0,
+          "enemy_outcome": 0.0,
+          "enemy_own_t1": 0.028343617916107178,
+          "enemy_tango": 0.0,
+          "own_deaths": -2.200000047683716,
+          "own_denies": 0.4000000059604645,
+          "own_experience": 3.315000295639038,
+          "own_flask": -0.30000001192092896,
+          "own_flask_break": 0.0,
+          "own_gold_received": 5.5819268226623535,
+          "own_health": -2.0,
+          "own_kills": 0.0,
+          "own_last_hits": -1.559999942779541,
+          "own_mana": -0.4176371693611145,
+          "own_mango": 0.0,
+          "own_outcome": 0.0,
+          "own_own_t1": 0.0,
+          "own_tango": 0.0
+        },
+        "reward_total": -2.9509968757629395,
+        "side": "radiant",
+        "souls": 12.0,
+        "spell_completions": [
+          0.0,
+          2.0,
+          6.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 1.0,
+        "stuck_after_mid": {
+          "denominator": 1491.0,
+          "numerator": 4.0
+        },
+        "stuck_before_mid": {
+          "denominator": 125.0,
+          "numerator": 0.0
+        },
+        "stuck_decisions": 4.0,
+        "stuck_fraction": {
+          "denominator": 1616.0,
+          "numerator": 4.0
+        },
+        "xp_in_level": 497.5
+      },
+      {
+        "actions": [
+          0.0,
+          128.0,
+          688.0,
+          364.0,
+          392.0,
+          0.0,
+          0.0,
+          24.0,
+          15.0,
+          0.0,
+          5.0
+        ],
+        "alive_seconds": 323.0666809082031,
+        "attack_cancellations": 6.0,
+        "attack_cycles_completed": 47.0,
+        "attack_enemy_creep_commands": 207.0,
+        "attack_hero_commands": 137.0,
+        "attack_structure_commands": 0.0,
+        "buys": [
+          1609.0,
+          0.0,
+          0.0,
+          3.0,
+          3.0,
+          1.0,
+          0.0
+        ],
+        "cancelled_casts": 0.0,
+        "chio_decisions": 1616.0,
+        "commands_during_windup": 13.0,
+        "consumable_uses": {
+          "flask": 2.0,
+          "mango": 0.0,
+          "tango": 0.0
+        },
+        "controller": "CHiO-opponent",
+        "damage_from_creeps": 1054.0,
+        "damage_from_hero": 694.0,
+        "damage_from_tower": 0.0,
+        "dead_seconds": 0.0,
+        "death_causes": [
+          {
+            "cause": "hero_attack",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "raze",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "creeps",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "tower",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "requiem",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          }
+        ],
+        "deaths": 0.0,
+        "deny": 1.0,
+        "deny_commands": 20.0,
+        "distance_travelled": 38424.63671875,
+        "first_death_game_seconds": null,
+        "first_death_location": {
+          "cause_code": 0.0,
+          "enemy_t1_distance": 0.0,
+          "own_t1_distance": 0.0
+        },
+        "first_move_game_seconds": -89.63333892822266,
+        "gold": 498.3578796386719,
+        "gold_received": 988.3386840820312,
+        "gold_spent": 585.0,
+        "health": 238.40919494628906,
+        "hero_attacks_released": 12.0,
+        "hero_kills": 0.0,
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          4.0,
+          1.0,
+          0.0
+        ],
+        "level": 4.0,
+        "lh": 10.0,
+        "longest_idle_seconds": 72.60000610351562,
+        "longest_movement_stall_seconds": 2.199981689453125,
+        "longest_stuck_seconds": 2.8000030517578125,
+        "mana": 43.68311309814453,
+        "mid_arrival_elapsed_seconds": 25.59999656677246,
+        "mid_arrival_game_seconds": -64.43333435058594,
+        "minimum_health_fraction": 0.05340595543384552,
+        "minute_snapshots": [
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": -0.03333282470703125,
+            "gold": 5.0,
+            "health": 582.0,
+            "level": 1.0,
+            "lh": 0.0,
+            "mana": 291.0,
+            "net_worth": 880.0,
+            "razes_completed": 0.0,
+            "souls": 0.0,
+            "xp_in_level": 0.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": 59.96666717529297,
+            "gold": 23.945255279541016,
+            "health": 424.3887939453125,
+            "level": 2.0,
+            "lh": 1.0,
+            "mana": 127.13772583007812,
+            "net_worth": 1028.9453125,
+            "razes_completed": 3.0,
+            "souls": 1.0,
+            "xp_in_level": 28.5
+          },
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": 119.96666717529297,
+            "gold": 128.9476318359375,
+            "health": 465.6624450683594,
+            "level": 2.0,
+            "lh": 3.0,
+            "mana": 55.73711395263672,
+            "net_worth": 1198.9476318359375,
+            "razes_completed": 5.0,
+            "souls": 3.0,
+            "xp_in_level": 354.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 1.0,
+            "game_seconds": 179.9666748046875,
+            "gold": 332.9350280761719,
+            "health": 427.172607421875,
+            "level": 3.0,
+            "lh": 8.0,
+            "mana": 89.70146942138672,
+            "net_worth": 1502.93505859375,
+            "razes_completed": 6.0,
+            "souls": 9.0,
+            "xp_in_level": 494.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 1.0,
+            "game_seconds": 233.03335571289062,
+            "gold": 498.3578796386719,
+            "health": 238.40919494628906,
+            "level": 4.0,
+            "lh": 10.0,
+            "mana": 43.68311309814453,
+            "net_worth": 1668.35791015625,
+            "razes_completed": 8.0,
+            "souls": 11.0,
+            "xp_in_level": 598.0
+          }
+        ],
+        "net_worth": 1668.35791015625,
+        "purchases": {
+          "boots": 0.0,
+          "bracer": 0.0,
+          "clarity": 0.0,
+          "flask": 3.0,
+          "mango": 3.0,
+          "tango": 1.0,
+          "tp": 0.0,
+          "wraith_band": 0.0
+        },
+        "raze_creep_hits": 7.0,
+        "raze_hero_hits": 3.0,
+        "raze_hero_hits_by_spell": [
+          0.0,
+          2.0,
+          1.0
+        ],
+        "razes_hitting_any_target": 6.0,
+        "razes_hitting_hero": 3.0,
+        "reward_components": {
+          "enemy_deaths": 0.0,
+          "enemy_denies": -0.4000000059604645,
+          "enemy_experience": -3.315000295639038,
+          "enemy_flask": 0.30000001192092896,
+          "enemy_flask_break": 0.0,
+          "enemy_gold_received": -5.5819268226623535,
+          "enemy_health": 2.0,
+          "enemy_kills": 0.0,
+          "enemy_last_hits": 1.559999942779541,
+          "enemy_mana": 0.4176371693611145,
+          "enemy_mango": 0.0,
+          "enemy_outcome": 0.0,
+          "enemy_own_t1": 0.0,
+          "enemy_tango": 0.0,
+          "own_deaths": 0.0,
+          "own_denies": 0.10000000149011612,
+          "own_experience": 3.516000509262085,
+          "own_flask": -0.6000000238418579,
+          "own_flask_break": -0.6012966632843018,
+          "own_gold_received": 5.930037021636963,
+          "own_health": -0.9062610864639282,
+          "own_kills": 0.0,
+          "own_last_hits": -1.1999999284744263,
+          "own_mana": -0.43983346223831177,
+          "own_mango": 0.0,
+          "own_outcome": 0.0,
+          "own_own_t1": -0.028343617916107178,
+          "own_tango": 0.0
+        },
+        "reward_total": 0.7509975433349609,
+        "side": "dire",
+        "souls": 11.0,
+        "spell_completions": [
+          0.0,
+          5.0,
+          3.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 0.0,
+        "stuck_after_mid": {
+          "denominator": 1489.0,
+          "numerator": 30.0
+        },
+        "stuck_before_mid": {
+          "denominator": 127.0,
+          "numerator": 0.0
+        },
+        "stuck_decisions": 30.0,
+        "stuck_fraction": {
+          "denominator": 1616.0,
+          "numerator": 30.0
+        },
+        "xp_in_level": 598.0
+      }
+    ],
+    "simulation_error": 0.0
+  },
+  {
+    "accessible_credited": 6.0,
+    "accessible_deaths": 19.0,
+    "credited": 6.0,
+    "game": 1,
+    "game_seconds": 95.36666870117188,
+    "lane_creeps_spawned": 32.0,
+    "lane_deaths": 19.0,
+    "native_terminal": true,
+    "outcome_reason": "death",
+    "result": -1.0,
+    "sides": [
+      {
+        "actions": [
+          0.0,
+          126.0,
+          251.0,
+          135.0,
+          399.0,
+          0.0,
+          0.0,
+          5.0,
+          10.0,
+          0.0,
+          1.0
+        ],
+        "alive_seconds": 185.1999969482422,
+        "attack_cancellations": 7.0,
+        "attack_cycles_completed": 16.0,
+        "attack_enemy_creep_commands": 96.0,
+        "attack_hero_commands": 36.0,
+        "attack_structure_commands": 0.0,
+        "buys": [
+          924.0,
+          0.0,
+          0.0,
+          2.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "cancelled_casts": 0.0,
+        "chio_decisions": 927.0,
+        "commands_during_windup": 5.0,
+        "consumable_uses": {
+          "flask": 0.0,
+          "mango": 0.0,
+          "tango": 0.0
+        },
+        "controller": "CHiO-opponent",
+        "damage_from_creeps": 185.0,
+        "damage_from_hero": 554.5081787109375,
+        "damage_from_tower": 0.0,
+        "dead_seconds": 0.20001220703125,
+        "death_causes": [
+          {
+            "cause": "hero_attack",
+            "count": 1.0,
+            "enemy_t1_distance_sum": 1703.689453125,
+            "own_t1_distance_sum": 1289.7012939453125
+          },
+          {
+            "cause": "raze",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "creeps",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "tower",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "requiem",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          }
+        ],
+        "deaths": 1.0,
+        "deny": 0.0,
+        "deny_commands": 3.0,
+        "distance_travelled": 15763.951171875,
+        "first_death_game_seconds": 95.3333511352539,
+        "first_death_location": {
+          "cause_code": 1.0,
+          "enemy_t1_distance": 1703.689453125,
+          "own_t1_distance": 1289.7012939453125
+        },
+        "first_move_game_seconds": -89.63333892822266,
+        "gold": 33.94670104980469,
+        "gold_received": 158.94821166992188,
+        "gold_spent": 220.0,
+        "health": 0.0,
+        "hero_attacks_released": 4.0,
+        "hero_kills": 0.0,
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "level": 2.0,
+        "lh": 0.0,
+        "longest_idle_seconds": 48.39999771118164,
+        "longest_movement_stall_seconds": 2.600006103515625,
+        "longest_stuck_seconds": 5.399997711181641,
+        "mana": 173.7987060546875,
+        "mid_arrival_elapsed_seconds": 25.199996948242188,
+        "mid_arrival_game_seconds": -64.83333587646484,
+        "minimum_health_fraction": 0.0,
+        "minute_snapshots": [
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": -0.03333282470703125,
+            "gold": 5.0,
+            "health": 582.0,
+            "level": 1.0,
+            "lh": 0.0,
+            "mana": 291.0,
+            "net_worth": 880.0,
+            "razes_completed": 0.0,
+            "souls": 0.0,
+            "xp_in_level": 0.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": 59.96666717529297,
+            "gold": 39.94550704956055,
+            "health": 541.024658203125,
+            "level": 1.0,
+            "lh": 0.0,
+            "mana": 254.15359497070312,
+            "net_worth": 979.9454956054688,
+            "razes_completed": 1.0,
+            "souls": 0.0,
+            "xp_in_level": 234.0
+          },
+          {
+            "deaths": 1.0,
+            "deny": 0.0,
+            "game_seconds": 95.3666763305664,
+            "gold": 33.94670104980469,
+            "health": 0.0,
+            "level": 2.0,
+            "lh": 0.0,
+            "mana": 173.7987060546875,
+            "net_worth": 1038.94677734375,
+            "razes_completed": 3.0,
+            "souls": 0.0,
+            "xp_in_level": 136.5
+          }
+        ],
+        "net_worth": 1038.94677734375,
+        "purchases": {
+          "boots": 0.0,
+          "bracer": 0.0,
+          "clarity": 0.0,
+          "flask": 0.0,
+          "mango": 2.0,
+          "tango": 1.0,
+          "tp": 0.0,
+          "wraith_band": 0.0
+        },
+        "raze_creep_hits": 5.0,
+        "raze_hero_hits": 2.0,
+        "raze_hero_hits_by_spell": [
+          0.0,
+          1.0,
+          1.0
+        ],
+        "razes_hitting_any_target": 3.0,
+        "razes_hitting_hero": 2.0,
+        "reward_components": {
+          "enemy_deaths": 0.0,
+          "enemy_denies": -0.30000001192092896,
+          "enemy_experience": -1.5980000495910645,
+          "enemy_flask": 0.0,
+          "enemy_flask_break": 0.0,
+          "enemy_gold_received": -3.605659246444702,
+          "enemy_health": 0.5738966464996338,
+          "enemy_kills": 0.0,
+          "enemy_last_hits": 0.35999998450279236,
+          "enemy_mana": 0.443524569272995,
+          "enemy_mango": 0.0,
+          "enemy_outcome": 0.0,
+          "enemy_own_t1": 0.0,
+          "enemy_tango": 0.0,
+          "own_deaths": -2.200000047683716,
+          "own_denies": 0.0,
+          "own_experience": 0.753000020980835,
+          "own_flask": 0.0,
+          "own_flask_break": 0.0,
+          "own_gold_received": 0.9536833167076111,
+          "own_health": -2.0,
+          "own_kills": 0.0,
+          "own_last_hits": 0.0,
+          "own_mana": -0.22412902116775513,
+          "own_mango": 0.0,
+          "own_outcome": 0.0,
+          "own_own_t1": 0.0,
+          "own_tango": 0.0
+        },
+        "reward_total": -6.843679428100586,
+        "side": "radiant",
+        "souls": 0.0,
+        "spell_completions": [
+          0.0,
+          1.0,
+          2.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 1.0,
+        "stuck_after_mid": {
+          "denominator": 802.0,
+          "numerator": 62.0
+        },
+        "stuck_before_mid": {
+          "denominator": 125.0,
+          "numerator": 0.0
+        },
+        "stuck_decisions": 62.0,
+        "stuck_fraction": {
+          "denominator": 927.0,
+          "numerator": 62.0
+        },
+        "xp_in_level": 136.5
+      },
+      {
+        "actions": [
+          0.0,
+          128.0,
+          227.0,
+          179.0,
+          368.0,
+          0.0,
+          0.0,
+          10.0,
+          15.0,
+          0.0,
+          0.0
+        ],
+        "alive_seconds": 185.40000915527344,
+        "attack_cancellations": 5.0,
+        "attack_cycles_completed": 26.0,
+        "attack_enemy_creep_commands": 90.0,
+        "attack_hero_commands": 63.0,
+        "attack_structure_commands": 0.0,
+        "buys": [
+          923.0,
+          0.0,
+          0.0,
+          3.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "cancelled_casts": 0.0,
+        "chio_decisions": 927.0,
+        "commands_during_windup": 5.0,
+        "consumable_uses": {
+          "flask": 0.0,
+          "mango": 0.0,
+          "tango": 0.0
+        },
+        "controller": "CHiO",
+        "damage_from_creeps": 161.0,
+        "damage_from_hero": 317.0,
+        "damage_from_tower": 0.0,
+        "dead_seconds": 0.0,
+        "death_causes": [
+          {
+            "cause": "hero_attack",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "raze",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "creeps",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "tower",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "requiem",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          }
+        ],
+        "deaths": 0.0,
+        "deny": 3.0,
+        "deny_commands": 26.0,
+        "distance_travelled": 15570.0634765625,
+        "first_death_game_seconds": null,
+        "first_death_location": {
+          "cause_code": 0.0,
+          "enemy_t1_distance": 0.0,
+          "own_t1_distance": 0.0
+        },
+        "first_move_game_seconds": -89.63333892822266,
+        "gold": 410.9476623535156,
+        "gold_received": 600.9429931640625,
+        "gold_spent": 285.0,
+        "health": 340.7821044921875,
+        "hero_attacks_released": 10.0,
+        "hero_kills": 1.0,
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "level": 3.0,
+        "lh": 3.0,
+        "longest_idle_seconds": 44.000003814697266,
+        "longest_movement_stall_seconds": 7.1999969482421875,
+        "longest_stuck_seconds": 7.200000286102295,
+        "mana": 38.29204177856445,
+        "mid_arrival_elapsed_seconds": 25.59999656677246,
+        "mid_arrival_game_seconds": -64.43333435058594,
+        "minimum_health_fraction": 0.42974814772605896,
+        "minute_snapshots": [
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": -0.03333282470703125,
+            "gold": 5.0,
+            "health": 582.0,
+            "level": 1.0,
+            "lh": 0.0,
+            "mana": 291.0,
+            "net_worth": 880.0,
+            "razes_completed": 0.0,
+            "souls": 0.0,
+            "xp_in_level": 0.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 2.0,
+            "game_seconds": 59.96666717529297,
+            "gold": 45.94618606567383,
+            "health": 611.901611328125,
+            "level": 2.0,
+            "lh": 2.0,
+            "mana": 42.801658630371094,
+            "net_worth": 1050.9461669921875,
+            "razes_completed": 4.0,
+            "souls": 4.0,
+            "xp_in_level": 57.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 3.0,
+            "game_seconds": 95.3666763305664,
+            "gold": 410.9476623535156,
+            "health": 340.7821044921875,
+            "level": 3.0,
+            "lh": 3.0,
+            "mana": 38.29204177856445,
+            "net_worth": 1480.9476318359375,
+            "razes_completed": 5.0,
+            "souls": 10.0,
+            "xp_in_level": 159.0
+          }
+        ],
+        "net_worth": 1480.9476318359375,
+        "purchases": {
+          "boots": 0.0,
+          "bracer": 0.0,
+          "clarity": 0.0,
+          "flask": 0.0,
+          "mango": 3.0,
+          "tango": 1.0,
+          "tp": 0.0,
+          "wraith_band": 0.0
+        },
+        "raze_creep_hits": 7.0,
+        "raze_hero_hits": 2.0,
+        "raze_hero_hits_by_spell": [
+          0.0,
+          0.0,
+          2.0
+        ],
+        "razes_hitting_any_target": 4.0,
+        "razes_hitting_hero": 2.0,
+        "reward_components": {
+          "enemy_deaths": 0.0,
+          "enemy_denies": 0.0,
+          "enemy_experience": -0.753000020980835,
+          "enemy_flask": 0.0,
+          "enemy_flask_break": 0.0,
+          "enemy_gold_received": -0.9536833167076111,
+          "enemy_health": 2.0,
+          "enemy_kills": 0.0,
+          "enemy_last_hits": 0.0,
+          "enemy_mana": 0.22412902116775513,
+          "enemy_mango": 0.0,
+          "enemy_outcome": 0.0,
+          "enemy_own_t1": 0.0,
+          "enemy_tango": 0.0,
+          "own_deaths": 0.0,
+          "own_denies": 0.30000001192092896,
+          "own_experience": 1.5980000495910645,
+          "own_flask": 0.0,
+          "own_flask_break": 0.0,
+          "own_gold_received": 3.605659246444702,
+          "own_health": -0.5738966464996338,
+          "own_kills": 0.699999988079071,
+          "own_last_hits": -0.35999998450279236,
+          "own_mana": -0.443524569272995,
+          "own_mango": 0.0,
+          "own_outcome": 0.0,
+          "own_own_t1": 0.0,
+          "own_tango": 0.0
+        },
+        "reward_total": 5.343679904937744,
+        "side": "dire",
+        "souls": 10.0,
+        "spell_completions": [
+          0.0,
+          2.0,
+          3.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 0.0,
+        "stuck_after_mid": {
+          "denominator": 800.0,
+          "numerator": 64.0
+        },
+        "stuck_before_mid": {
+          "denominator": 127.0,
+          "numerator": 0.0
+        },
+        "stuck_decisions": 64.0,
+        "stuck_fraction": {
+          "denominator": 927.0,
+          "numerator": 64.0
+        },
+        "xp_in_level": 159.0
+      }
+    ],
+    "simulation_error": 0.0
+  },
+  {
+    "accessible_credited": 14.0,
+    "accessible_deaths": 23.0,
+    "credited": 14.0,
+    "game": 2,
+    "game_seconds": 105.33333587646484,
+    "lane_creeps_spawned": 32.0,
+    "lane_deaths": 23.0,
+    "native_terminal": true,
+    "outcome_reason": "death",
+    "result": -1.0,
+    "sides": [
+      {
+        "actions": [
+          0.0,
+          126.0,
+          217.0,
+          167.0,
+          442.0,
+          0.0,
+          5.0,
+          5.0,
+          15.0,
+          0.0,
+          0.0
+        ],
+        "alive_seconds": 195.20001220703125,
+        "attack_cancellations": 3.0,
+        "attack_cycles_completed": 21.0,
+        "attack_enemy_creep_commands": 68.0,
+        "attack_hero_commands": 49.0,
+        "attack_structure_commands": 0.0,
+        "buys": [
+          972.0,
+          0.0,
+          0.0,
+          3.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cancelled_casts": 0.0,
+        "chio_decisions": 977.0,
+        "commands_during_windup": 5.0,
+        "consumable_uses": {
+          "flask": 0.0,
+          "mango": 0.0,
+          "tango": 0.0
+        },
+        "controller": "CHiO",
+        "damage_from_creeps": 263.0,
+        "damage_from_hero": 612.5386352539062,
+        "damage_from_tower": 0.0,
+        "dead_seconds": 0.166656494140625,
+        "death_causes": [
+          {
+            "cause": "hero_attack",
+            "count": 1.0,
+            "enemy_t1_distance_sum": 2649.894775390625,
+            "own_t1_distance_sum": 549.6871337890625
+          },
+          {
+            "cause": "raze",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "creeps",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "tower",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "requiem",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          }
+        ],
+        "deaths": 1.0,
+        "deny": 2.0,
+        "deny_commands": 50.0,
+        "distance_travelled": 18520.828125,
+        "first_death_game_seconds": 105.30001068115234,
+        "first_death_location": {
+          "cause_code": 1.0,
+          "enemy_t1_distance": 2649.894775390625,
+          "own_t1_distance": 549.6871337890625
+        },
+        "first_move_game_seconds": -89.63333892822266,
+        "gold": 27.558008193969727,
+        "gold_received": 324.55572509765625,
+        "gold_spent": 385.0,
+        "health": 0.0,
+        "hero_attacks_released": 6.0,
+        "hero_kills": 0.0,
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "level": 2.0,
+        "lh": 4.0,
+        "longest_idle_seconds": 47.000003814697266,
+        "longest_movement_stall_seconds": 4.0,
+        "longest_stuck_seconds": 4.0,
+        "mana": 40.504695892333984,
+        "mid_arrival_elapsed_seconds": 25.199996948242188,
+        "mid_arrival_game_seconds": -64.83333587646484,
+        "minimum_health_fraction": 0.0,
+        "minute_snapshots": [
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": -0.03333282470703125,
+            "gold": 5.0,
+            "health": 582.0,
+            "level": 1.0,
+            "lh": 0.0,
+            "mana": 291.0,
+            "net_worth": 880.0,
+            "razes_completed": 0.0,
+            "souls": 0.0,
+            "xp_in_level": 0.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 1.0,
+            "game_seconds": 59.96666717529297,
+            "gold": 8.946288108825684,
+            "health": 444.5584716796875,
+            "level": 2.0,
+            "lh": 1.0,
+            "mana": 56.075233459472656,
+            "net_worth": 1013.9462890625,
+            "razes_completed": 4.0,
+            "souls": 2.0,
+            "xp_in_level": 28.5
+          },
+          {
+            "deaths": 1.0,
+            "deny": 2.0,
+            "game_seconds": 105.33333587646484,
+            "gold": 27.558008193969727,
+            "health": 0.0,
+            "level": 2.0,
+            "lh": 4.0,
+            "mana": 40.504695892333984,
+            "net_worth": 1197.5579833984375,
+            "razes_completed": 5.0,
+            "souls": 5.0,
+            "xp_in_level": 354.0
+          }
+        ],
+        "net_worth": 1197.5579833984375,
+        "purchases": {
+          "boots": 0.0,
+          "bracer": 0.0,
+          "clarity": 0.0,
+          "flask": 1.0,
+          "mango": 3.0,
+          "tango": 1.0,
+          "tp": 0.0,
+          "wraith_band": 0.0
+        },
+        "raze_creep_hits": 3.0,
+        "raze_hero_hits": 0.0,
+        "raze_hero_hits_by_spell": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "razes_hitting_any_target": 2.0,
+        "razes_hitting_hero": 0.0,
+        "reward_components": {
+          "enemy_deaths": 0.0,
+          "enemy_denies": -0.20000000298023224,
+          "enemy_experience": -1.6800000667572021,
+          "enemy_flask": 0.0,
+          "enemy_flask_break": 0.0,
+          "enemy_gold_received": -4.551279544830322,
+          "enemy_health": 0.2863445281982422,
+          "enemy_kills": 0.0,
+          "enemy_last_hits": 0.7199999690055847,
+          "enemy_mana": 0.3203217089176178,
+          "enemy_mango": 0.0,
+          "enemy_outcome": 0.0,
+          "enemy_own_t1": 0.0,
+          "enemy_tango": 0.0,
+          "own_deaths": -2.200000047683716,
+          "own_denies": 0.20000000298023224,
+          "own_experience": 1.1880000829696655,
+          "own_flask": 0.0,
+          "own_flask_break": 0.0,
+          "own_gold_received": 1.9473302364349365,
+          "own_health": -2.000000238418579,
+          "own_kills": 0.0,
+          "own_last_hits": -0.47999998927116394,
+          "own_mana": -0.4357096254825592,
+          "own_mango": 0.0,
+          "own_outcome": 0.0,
+          "own_own_t1": 0.0,
+          "own_tango": 0.0
+        },
+        "reward_total": -6.884978294372559,
+        "side": "radiant",
+        "souls": 5.0,
+        "spell_completions": [
+          1.0,
+          1.0,
+          3.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 0.0,
+        "stuck_after_mid": {
+          "denominator": 852.0,
+          "numerator": 15.0
+        },
+        "stuck_before_mid": {
+          "denominator": 125.0,
+          "numerator": 0.0
+        },
+        "stuck_decisions": 15.0,
+        "stuck_fraction": {
+          "denominator": 977.0,
+          "numerator": 15.0
+        },
+        "xp_in_level": 354.0
+      },
+      {
+        "actions": [
+          0.0,
+          128.0,
+          243.0,
+          279.0,
+          306.0,
+          0.0,
+          0.0,
+          5.0,
+          15.0,
+          0.0,
+          1.0
+        ],
+        "alive_seconds": 195.36666870117188,
+        "attack_cancellations": 6.0,
+        "attack_cycles_completed": 43.0,
+        "attack_enemy_creep_commands": 155.0,
+        "attack_hero_commands": 85.0,
+        "attack_structure_commands": 0.0,
+        "buys": [
+          972.0,
+          0.0,
+          0.0,
+          3.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cancelled_casts": 0.0,
+        "chio_decisions": 977.0,
+        "commands_during_windup": 13.0,
+        "consumable_uses": {
+          "flask": 0.0,
+          "mango": 0.0,
+          "tango": 0.0
+        },
+        "controller": "CHiO-opponent",
+        "damage_from_creeps": 151.0,
+        "damage_from_hero": 247.0,
+        "damage_from_tower": 0.0,
+        "dead_seconds": 0.0,
+        "death_causes": [
+          {
+            "cause": "hero_attack",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "raze",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "creeps",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "tower",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "requiem",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          }
+        ],
+        "deaths": 0.0,
+        "deny": 2.0,
+        "deny_commands": 39.0,
+        "distance_travelled": 16369.7958984375,
+        "first_death_game_seconds": null,
+        "first_death_location": {
+          "cause_code": 0.0,
+          "enemy_t1_distance": 0.0,
+          "own_t1_distance": 0.0
+        },
+        "first_move_game_seconds": -89.63333892822266,
+        "gold": 468.55999755859375,
+        "gold_received": 758.5451049804688,
+        "gold_spent": 385.0,
+        "health": 498.11407470703125,
+        "hero_attacks_released": 13.0,
+        "hero_kills": 1.0,
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "level": 3.0,
+        "lh": 6.0,
+        "longest_idle_seconds": 14.799999237060547,
+        "longest_movement_stall_seconds": 3.3999996185302734,
+        "longest_stuck_seconds": 4.399997711181641,
+        "mana": 121.82168579101562,
+        "mid_arrival_elapsed_seconds": 25.59999656677246,
+        "mid_arrival_game_seconds": -64.43333435058594,
+        "minimum_health_fraction": 0.560558557510376,
+        "minute_snapshots": [
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": -0.03333282470703125,
+            "gold": 5.0,
+            "health": 582.0,
+            "level": 1.0,
+            "lh": 0.0,
+            "mana": 291.0,
+            "net_worth": 880.0,
+            "razes_completed": 0.0,
+            "souls": 0.0,
+            "xp_in_level": 0.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 1.0,
+            "game_seconds": 59.96666717529297,
+            "gold": 60.946563720703125,
+            "health": 572.7493286132812,
+            "level": 2.0,
+            "lh": 2.0,
+            "mana": 187.58563232421875,
+            "net_worth": 1065.946533203125,
+            "razes_completed": 2.0,
+            "souls": 3.0,
+            "xp_in_level": 28.5
+          },
+          {
+            "deaths": 0.0,
+            "deny": 2.0,
+            "game_seconds": 105.33333587646484,
+            "gold": 468.55999755859375,
+            "health": 498.11407470703125,
+            "level": 3.0,
+            "lh": 6.0,
+            "mana": 121.82168579101562,
+            "net_worth": 1638.56005859375,
+            "razes_completed": 4.0,
+            "souls": 12.0,
+            "xp_in_level": 200.0
+          }
+        ],
+        "net_worth": 1638.56005859375,
+        "purchases": {
+          "boots": 0.0,
+          "bracer": 0.0,
+          "clarity": 0.0,
+          "flask": 1.0,
+          "mango": 3.0,
+          "tango": 1.0,
+          "tp": 0.0,
+          "wraith_band": 0.0
+        },
+        "raze_creep_hits": 6.0,
+        "raze_hero_hits": 2.0,
+        "raze_hero_hits_by_spell": [
+          0.0,
+          0.0,
+          2.0
+        ],
+        "razes_hitting_any_target": 4.0,
+        "razes_hitting_hero": 2.0,
+        "reward_components": {
+          "enemy_deaths": 0.0,
+          "enemy_denies": -0.20000000298023224,
+          "enemy_experience": -1.1880000829696655,
+          "enemy_flask": 0.0,
+          "enemy_flask_break": 0.0,
+          "enemy_gold_received": -1.9473302364349365,
+          "enemy_health": 2.000000238418579,
+          "enemy_kills": 0.0,
+          "enemy_last_hits": 0.47999998927116394,
+          "enemy_mana": 0.4357096254825592,
+          "enemy_mango": 0.0,
+          "enemy_outcome": 0.0,
+          "enemy_own_t1": 0.0,
+          "enemy_tango": 0.0,
+          "own_deaths": 0.0,
+          "own_denies": 0.20000000298023224,
+          "own_experience": 1.6800000667572021,
+          "own_flask": 0.0,
+          "own_flask_break": 0.0,
+          "own_gold_received": 4.551279544830322,
+          "own_health": -0.2863445281982422,
+          "own_kills": 0.699999988079071,
+          "own_last_hits": -0.7199999690055847,
+          "own_mana": -0.3203217089176178,
+          "own_mango": 0.0,
+          "own_outcome": 0.0,
+          "own_own_t1": 0.0,
+          "own_tango": 0.0
+        },
+        "reward_total": 5.384978294372559,
+        "side": "dire",
+        "souls": 12.0,
+        "spell_completions": [
+          0.0,
+          1.0,
+          3.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 0.0,
+        "stuck_after_mid": {
+          "denominator": 850.0,
+          "numerator": 51.0
+        },
+        "stuck_before_mid": {
+          "denominator": 127.0,
+          "numerator": 0.0
+        },
+        "stuck_decisions": 51.0,
+        "stuck_fraction": {
+          "denominator": 977.0,
+          "numerator": 51.0
+        },
+        "xp_in_level": 200.0
+      }
+    ],
+    "simulation_error": 0.0
+  },
+  {
+    "accessible_credited": 14.0,
+    "accessible_deaths": 47.0,
+    "credited": 15.0,
+    "game": 3,
+    "game_seconds": 202.36668395996094,
+    "lane_creeps_spawned": 56.0,
+    "lane_deaths": 48.0,
+    "native_terminal": true,
+    "outcome_reason": "death",
+    "result": -1.0,
+    "sides": [
+      {
+        "actions": [
+          0.0,
+          126.0,
+          538.0,
+          338.0,
+          421.0,
+          0.0,
+          3.0,
+          12.0,
+          21.0,
+          0.0,
+          3.0
+        ],
+        "alive_seconds": 292.20001220703125,
+        "attack_cancellations": 4.0,
+        "attack_cycles_completed": 38.0,
+        "attack_enemy_creep_commands": 123.0,
+        "attack_hero_commands": 213.0,
+        "attack_structure_commands": 0.0,
+        "buys": [
+          1456.0,
+          0.0,
+          0.0,
+          3.0,
+          2.0,
+          1.0,
+          0.0
+        ],
+        "cancelled_casts": 2.0,
+        "chio_decisions": 1462.0,
+        "commands_during_windup": 6.0,
+        "consumable_uses": {
+          "flask": 1.0,
+          "mango": 0.0,
+          "tango": 1.0
+        },
+        "controller": "CHiO-opponent",
+        "damage_from_creeps": 651.0,
+        "damage_from_hero": 660.0,
+        "damage_from_tower": 284.69097900390625,
+        "dead_seconds": 0.20001220703125,
+        "death_causes": [
+          {
+            "cause": "hero_attack",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "raze",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "creeps",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "tower",
+            "count": 1.0,
+            "enemy_t1_distance_sum": 1004.844482421875,
+            "own_t1_distance_sum": 1931.356689453125
+          },
+          {
+            "cause": "requiem",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          }
+        ],
+        "deaths": 1.0,
+        "deny": 0.0,
+        "deny_commands": 2.0,
+        "distance_travelled": 35338.34375,
+        "first_death_game_seconds": 202.33334350585938,
+        "first_death_location": {
+          "cause_code": 4.0,
+          "enemy_t1_distance": 1004.844482421875,
+          "own_t1_distance": 1931.356689453125
+        },
+        "first_move_game_seconds": -89.63333892822266,
+        "gold": 63.283966064453125,
+        "gold_received": 453.2646484375,
+        "gold_spent": 485.0,
+        "health": 0.0,
+        "hero_attacks_released": 22.0,
+        "hero_kills": 0.0,
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.0,
+          1.0,
+          0.0
+        ],
+        "level": 3.0,
+        "lh": 3.0,
+        "longest_idle_seconds": 24.800003051757812,
+        "longest_movement_stall_seconds": 2.1999969482421875,
+        "longest_stuck_seconds": 2.399993896484375,
+        "mana": 46.1468505859375,
+        "mid_arrival_elapsed_seconds": 25.199996948242188,
+        "mid_arrival_game_seconds": -64.83333587646484,
+        "minimum_health_fraction": 0.0,
+        "minute_snapshots": [
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": -0.03333282470703125,
+            "gold": 5.0,
+            "health": 582.0,
+            "level": 1.0,
+            "lh": 0.0,
+            "mana": 291.0,
+            "net_worth": 880.0,
+            "razes_completed": 0.0,
+            "souls": 0.0,
+            "xp_in_level": 0.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": 59.96666717529297,
+            "gold": 39.94550704956055,
+            "health": 516.8087768554688,
+            "level": 2.0,
+            "lh": 0.0,
+            "mana": 129.60292053222656,
+            "net_worth": 979.9454956054688,
+            "razes_completed": 3.0,
+            "souls": 0.0,
+            "xp_in_level": 28.5
+          },
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": 119.96666717529297,
+            "gold": 74.94749450683594,
+            "health": 288.8844299316406,
+            "level": 2.0,
+            "lh": 0.0,
+            "mana": 133.1981201171875,
+            "net_worth": 989.947509765625,
+            "razes_completed": 4.0,
+            "souls": 0.0,
+            "xp_in_level": 388.5
+          },
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": 179.9666748046875,
+            "gold": 125.94949340820312,
+            "health": 637.9871215820312,
+            "level": 3.0,
+            "lh": 3.0,
+            "mana": 89.3392333984375,
+            "net_worth": 1105.949462890625,
+            "razes_completed": 6.0,
+            "souls": 3.0,
+            "xp_in_level": 386.0
+          },
+          {
+            "deaths": 1.0,
+            "deny": 0.0,
+            "game_seconds": 202.36669921875,
+            "gold": 63.283966064453125,
+            "health": 0.0,
+            "level": 3.0,
+            "lh": 3.0,
+            "mana": 46.1468505859375,
+            "net_worth": 1143.283935546875,
+            "razes_completed": 7.0,
+            "souls": 3.0,
+            "xp_in_level": 449.0
+          }
+        ],
+        "net_worth": 1143.283935546875,
+        "purchases": {
+          "boots": 0.0,
+          "bracer": 0.0,
+          "clarity": 0.0,
+          "flask": 2.0,
+          "mango": 3.0,
+          "tango": 1.0,
+          "tp": 0.0,
+          "wraith_band": 0.0
+        },
+        "raze_creep_hits": 10.0,
+        "raze_hero_hits": 3.0,
+        "raze_hero_hits_by_spell": [
+          0.0,
+          1.0,
+          2.0
+        ],
+        "razes_hitting_any_target": 5.0,
+        "razes_hitting_hero": 3.0,
+        "reward_components": {
+          "enemy_deaths": 0.0,
+          "enemy_denies": -0.8000000715255737,
+          "enemy_experience": -3.3680005073547363,
+          "enemy_flask": 0.30000001192092896,
+          "enemy_flask_break": 0.0,
+          "enemy_gold_received": -4.285482883453369,
+          "enemy_health": 0.979971170425415,
+          "enemy_kills": 0.0,
+          "enemy_last_hits": 0.47999998927116394,
+          "enemy_mana": 0.38525891304016113,
+          "enemy_mango": 0.0,
+          "enemy_outcome": 0.0,
+          "enemy_own_t1": 0.0,
+          "enemy_tango": 0.0,
+          "own_deaths": -2.200000047683716,
+          "own_denies": 0.0,
+          "own_experience": 2.177999973297119,
+          "own_flask": -0.30000001192092896,
+          "own_flask_break": -0.20814073085784912,
+          "own_gold_received": 2.7196035385131836,
+          "own_health": -2.0,
+          "own_kills": 0.0,
+          "own_last_hits": -0.35999998450279236,
+          "own_mana": -0.43193715810775757,
+          "own_mango": 0.0,
+          "own_outcome": 0.0,
+          "own_own_t1": -0.19392192363739014,
+          "own_tango": -0.10000000149011612
+        },
+        "reward_total": -7.204617500305176,
+        "side": "radiant",
+        "souls": 3.0,
+        "spell_completions": [
+          1.0,
+          2.0,
+          4.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 0.0,
+        "stuck_after_mid": {
+          "denominator": 1337.0,
+          "numerator": 16.0
+        },
+        "stuck_before_mid": {
+          "denominator": 125.0,
+          "numerator": 0.0
+        },
+        "stuck_decisions": 16.0,
+        "stuck_fraction": {
+          "denominator": 1462.0,
+          "numerator": 16.0
+        },
+        "xp_in_level": 449.0
+      },
+      {
+        "actions": [
+          0.0,
+          128.0,
+          449.0,
+          391.0,
+          455.0,
+          0.0,
+          0.0,
+          6.0,
+          31.0,
+          0.0,
+          2.0
+        ],
+        "alive_seconds": 292.4000244140625,
+        "attack_cancellations": 4.0,
+        "attack_cycles_completed": 58.0,
+        "attack_enemy_creep_commands": 242.0,
+        "attack_hero_commands": 64.0,
+        "attack_structure_commands": 0.0,
+        "buys": [
+          1456.0,
+          0.0,
+          0.0,
+          3.0,
+          2.0,
+          1.0,
+          0.0
+        ],
+        "cancelled_casts": 2.0,
+        "chio_decisions": 1462.0,
+        "commands_during_windup": 9.0,
+        "consumable_uses": {
+          "flask": 1.0,
+          "mango": 0.0,
+          "tango": 0.0
+        },
+        "controller": "CHiO",
+        "damage_from_creeps": 289.0,
+        "damage_from_hero": 983.0,
+        "damage_from_tower": 0.0,
+        "dead_seconds": 0.0,
+        "death_causes": [
+          {
+            "cause": "hero_attack",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "raze",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "creeps",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "tower",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "requiem",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          }
+        ],
+        "deaths": 0.0,
+        "deny": 8.0,
+        "deny_commands": 85.0,
+        "distance_travelled": 27799.7265625,
+        "first_death_game_seconds": null,
+        "first_death_location": {
+          "cause_code": 0.0,
+          "enemy_t1_distance": 0.0,
+          "own_t1_distance": 0.0
+        },
+        "first_move_game_seconds": -89.63333892822266,
+        "gold": 324.2852783203125,
+        "gold_received": 714.2393798828125,
+        "gold_spent": 485.0,
+        "health": 214.9175262451172,
+        "hero_attacks_released": 8.0,
+        "hero_kills": 0.0,
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.0,
+          0.0,
+          0.0
+        ],
+        "level": 4.0,
+        "lh": 4.0,
+        "longest_idle_seconds": 47.80000305175781,
+        "longest_movement_stall_seconds": 7.1999969482421875,
+        "longest_stuck_seconds": 7.1999969482421875,
+        "mana": 83.3047103881836,
+        "mid_arrival_elapsed_seconds": 25.59999656677246,
+        "mid_arrival_game_seconds": -64.43333435058594,
+        "minimum_health_fraction": 0.25949034094810486,
+        "minute_snapshots": [
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": -0.03333282470703125,
+            "gold": 5.0,
+            "health": 582.0,
+            "level": 1.0,
+            "lh": 0.0,
+            "mana": 291.0,
+            "net_worth": 880.0,
+            "razes_completed": 0.0,
+            "souls": 0.0,
+            "xp_in_level": 0.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 1.0,
+            "game_seconds": 59.96666717529297,
+            "gold": 18.945632934570312,
+            "health": 547.6370239257812,
+            "level": 2.0,
+            "lh": 1.0,
+            "mana": 57.749610900878906,
+            "net_worth": 1023.9456176757812,
+            "razes_completed": 4.0,
+            "souls": 2.0,
+            "xp_in_level": 0.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 4.0,
+            "game_seconds": 119.96666717529297,
+            "gold": 84.94776153564453,
+            "health": 591.8660888671875,
+            "level": 3.0,
+            "lh": 4.0,
+            "mana": 86.60238647460938,
+            "net_worth": 1154.94775390625,
+            "razes_completed": 5.0,
+            "souls": 8.0,
+            "xp_in_level": 137.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 6.0,
+            "game_seconds": 179.9666748046875,
+            "gold": 184.9508056640625,
+            "health": 614.3180541992188,
+            "level": 4.0,
+            "lh": 4.0,
+            "mana": 49.03215026855469,
+            "net_worth": 1254.9508056640625,
+            "razes_completed": 7.0,
+            "souls": 10.0,
+            "xp_in_level": 100.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 8.0,
+            "game_seconds": 202.36669921875,
+            "gold": 324.2852783203125,
+            "health": 214.9175262451172,
+            "level": 4.0,
+            "lh": 4.0,
+            "mana": 83.3047103881836,
+            "net_worth": 1494.2852783203125,
+            "razes_completed": 7.0,
+            "souls": 12.0,
+            "xp_in_level": 524.0
+          }
+        ],
+        "net_worth": 1494.2852783203125,
+        "purchases": {
+          "boots": 0.0,
+          "bracer": 0.0,
+          "clarity": 0.0,
+          "flask": 2.0,
+          "mango": 3.0,
+          "tango": 1.0,
+          "tp": 0.0,
+          "wraith_band": 0.0
+        },
+        "raze_creep_hits": 10.0,
+        "raze_hero_hits": 3.0,
+        "raze_hero_hits_by_spell": [
+          0.0,
+          0.0,
+          3.0
+        ],
+        "razes_hitting_any_target": 6.0,
+        "razes_hitting_hero": 3.0,
+        "reward_components": {
+          "enemy_deaths": 0.0,
+          "enemy_denies": 0.0,
+          "enemy_experience": -2.177999973297119,
+          "enemy_flask": 0.30000001192092896,
+          "enemy_flask_break": 0.20814073085784912,
+          "enemy_gold_received": -2.7196035385131836,
+          "enemy_health": 2.0,
+          "enemy_kills": 0.0,
+          "enemy_last_hits": 0.35999998450279236,
+          "enemy_mana": 0.43193715810775757,
+          "enemy_mango": 0.0,
+          "enemy_outcome": 0.0,
+          "enemy_own_t1": 0.19392192363739014,
+          "enemy_tango": 0.10000000149011612,
+          "own_deaths": 0.0,
+          "own_denies": 0.8000000715255737,
+          "own_experience": 3.3680005073547363,
+          "own_flask": -0.30000001192092896,
+          "own_flask_break": 0.0,
+          "own_gold_received": 4.285482883453369,
+          "own_health": -0.979971170425415,
+          "own_kills": 0.0,
+          "own_last_hits": -0.47999998927116394,
+          "own_mana": -0.38525891304016113,
+          "own_mango": 0.0,
+          "own_outcome": 0.0,
+          "own_own_t1": 0.0,
+          "own_tango": 0.0
+        },
+        "reward_total": 5.0046162605285645,
+        "side": "dire",
+        "souls": 12.0,
+        "spell_completions": [
+          0.0,
+          1.0,
+          6.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 0.0,
+        "stuck_after_mid": {
+          "denominator": 1335.0,
+          "numerator": 46.0
+        },
+        "stuck_before_mid": {
+          "denominator": 127.0,
+          "numerator": 0.0
+        },
+        "stuck_decisions": 46.0,
+        "stuck_fraction": {
+          "denominator": 1462.0,
+          "numerator": 46.0
+        },
+        "xp_in_level": 524.0
+      }
+    ],
+    "simulation_error": 0.0
+  },
+  {
+    "accessible_credited": 17.0,
+    "accessible_deaths": 33.0,
+    "credited": 17.0,
+    "game": 4,
+    "game_seconds": 154.43333435058594,
+    "lane_creeps_spawned": 48.0,
+    "lane_deaths": 34.0,
+    "native_terminal": true,
+    "outcome_reason": "death",
+    "result": 1.0,
+    "sides": [
+      {
+        "actions": [
+          0.0,
+          126.0,
+          269.0,
+          296.0,
+          501.0,
+          0.0,
+          4.0,
+          10.0,
+          15.0,
+          0.0,
+          2.0
+        ],
+        "alive_seconds": 244.4666748046875,
+        "attack_cancellations": 8.0,
+        "attack_cycles_completed": 48.0,
+        "attack_enemy_creep_commands": 162.0,
+        "attack_hero_commands": 96.0,
+        "attack_structure_commands": 0.0,
+        "buys": [
+          1218.0,
+          0.0,
+          0.0,
+          3.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cancelled_casts": 0.0,
+        "chio_decisions": 1223.0,
+        "commands_during_windup": 9.0,
+        "consumable_uses": {
+          "flask": 1.0,
+          "mango": 0.0,
+          "tango": 0.0
+        },
+        "controller": "CHiO",
+        "damage_from_creeps": 354.0,
+        "damage_from_hero": 456.0,
+        "damage_from_tower": 0.0,
+        "dead_seconds": 0.0,
+        "death_causes": [
+          {
+            "cause": "hero_attack",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "raze",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "creeps",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "tower",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "requiem",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          }
+        ],
+        "deaths": 0.0,
+        "deny": 6.0,
+        "deny_commands": 38.0,
+        "distance_travelled": 22685.375,
+        "first_death_game_seconds": null,
+        "first_death_location": {
+          "cause_code": 0.0,
+          "enemy_t1_distance": 0.0,
+          "own_t1_distance": 0.0
+        },
+        "first_move_game_seconds": -89.63333892822266,
+        "gold": 490.3851318359375,
+        "gold_received": 780.3539428710938,
+        "gold_spent": 385.0,
+        "health": 574.99658203125,
+        "hero_attacks_released": 16.0,
+        "hero_kills": 0.0,
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.0,
+          0.0,
+          0.0
+        ],
+        "level": 4.0,
+        "lh": 8.0,
+        "longest_idle_seconds": 42.400001525878906,
+        "longest_movement_stall_seconds": 1.1999969482421875,
+        "longest_stuck_seconds": 1.5999984741210938,
+        "mana": 88.80123901367188,
+        "mid_arrival_elapsed_seconds": 25.199996948242188,
+        "mid_arrival_game_seconds": -64.83333587646484,
+        "minimum_health_fraction": 0.30538931488990784,
+        "minute_snapshots": [
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": -0.03333282470703125,
+            "gold": 5.0,
+            "health": 582.0,
+            "level": 1.0,
+            "lh": 0.0,
+            "mana": 291.0,
+            "net_worth": 880.0,
+            "razes_completed": 0.0,
+            "souls": 0.0,
+            "xp_in_level": 0.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 3.0,
+            "game_seconds": 59.96666717529297,
+            "gold": 2.946023941040039,
+            "health": 218.87034606933594,
+            "level": 2.0,
+            "lh": 3.0,
+            "mana": 61.65436553955078,
+            "net_worth": 1107.946044921875,
+            "razes_completed": 4.0,
+            "souls": 6.0,
+            "xp_in_level": 0.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 6.0,
+            "game_seconds": 119.96666717529297,
+            "gold": 230.9478302001953,
+            "health": 653.6805419921875,
+            "level": 3.0,
+            "lh": 8.0,
+            "mana": 15.859153747558594,
+            "net_worth": 1300.94775390625,
+            "razes_completed": 6.0,
+            "souls": 14.0,
+            "xp_in_level": 251.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 6.0,
+            "game_seconds": 154.433349609375,
+            "gold": 490.3851318359375,
+            "health": 574.99658203125,
+            "level": 4.0,
+            "lh": 8.0,
+            "mana": 88.80123901367188,
+            "net_worth": 1560.3851318359375,
+            "razes_completed": 6.0,
+            "souls": 14.0,
+            "xp_in_level": 66.0
+          }
+        ],
+        "net_worth": 1560.3851318359375,
+        "purchases": {
+          "boots": 0.0,
+          "bracer": 0.0,
+          "clarity": 0.0,
+          "flask": 1.0,
+          "mango": 3.0,
+          "tango": 1.0,
+          "tp": 0.0,
+          "wraith_band": 0.0
+        },
+        "raze_creep_hits": 14.0,
+        "raze_hero_hits": 2.0,
+        "raze_hero_hits_by_spell": [
+          0.0,
+          1.0,
+          1.0
+        ],
+        "razes_hitting_any_target": 6.0,
+        "razes_hitting_hero": 2.0,
+        "reward_components": {
+          "enemy_deaths": 0.0,
+          "enemy_denies": 0.0,
+          "enemy_experience": -1.6799999475479126,
+          "enemy_flask": 0.30000001192092896,
+          "enemy_flask_break": 0.0,
+          "enemy_gold_received": -2.2283222675323486,
+          "enemy_health": 2.000000238418579,
+          "enemy_kills": 0.0,
+          "enemy_last_hits": 0.35999998450279236,
+          "enemy_mana": 0.4131743311882019,
+          "enemy_mango": 0.0,
+          "enemy_outcome": 0.0,
+          "enemy_own_t1": 0.0,
+          "enemy_tango": 0.0,
+          "own_deaths": 0.0,
+          "own_denies": 0.6000000238418579,
+          "own_experience": 2.4519999027252197,
+          "own_flask": -0.30000001192092896,
+          "own_flask_break": 0.0,
+          "own_gold_received": 4.682149887084961,
+          "own_health": -0.2448267936706543,
+          "own_kills": 0.0,
+          "own_last_hits": -0.9599999785423279,
+          "own_mana": -0.3776869475841522,
+          "own_mango": 0.0,
+          "own_outcome": 0.0,
+          "own_own_t1": 0.0,
+          "own_tango": 0.0
+        },
+        "reward_total": 5.01647424697876,
+        "side": "radiant",
+        "souls": 14.0,
+        "spell_completions": [
+          1.0,
+          2.0,
+          3.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 1.0,
+        "stuck_after_mid": {
+          "denominator": 1098.0,
+          "numerator": 3.0
+        },
+        "stuck_before_mid": {
+          "denominator": 125.0,
+          "numerator": 0.0
+        },
+        "stuck_decisions": 3.0,
+        "stuck_fraction": {
+          "denominator": 1223.0,
+          "numerator": 3.0
+        },
+        "xp_in_level": 66.0
+      },
+      {
+        "actions": [
+          0.0,
+          128.0,
+          415.0,
+          288.0,
+          357.0,
+          0.0,
+          1.0,
+          25.0,
+          5.0,
+          0.0,
+          4.0
+        ],
+        "alive_seconds": 244.40000915527344,
+        "attack_cancellations": 7.0,
+        "attack_cycles_completed": 33.0,
+        "attack_enemy_creep_commands": 111.0,
+        "attack_hero_commands": 146.0,
+        "attack_structure_commands": 0.0,
+        "buys": [
+          1218.0,
+          0.0,
+          0.0,
+          3.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cancelled_casts": 2.0,
+        "chio_decisions": 1223.0,
+        "commands_during_windup": 10.0,
+        "consumable_uses": {
+          "flask": 1.0,
+          "mango": 0.0,
+          "tango": 0.0
+        },
+        "controller": "CHiO-opponent",
+        "damage_from_creeps": 523.9235229492188,
+        "damage_from_hero": 910.0,
+        "damage_from_tower": 0.0,
+        "dead_seconds": 0.0666656494140625,
+        "death_causes": [
+          {
+            "cause": "hero_attack",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "raze",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "creeps",
+            "count": 1.0,
+            "enemy_t1_distance_sum": 1951.5225830078125,
+            "own_t1_distance_sum": 973.2513427734375
+          },
+          {
+            "cause": "tower",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "requiem",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          }
+        ],
+        "deaths": 1.0,
+        "deny": 0.0,
+        "deny_commands": 31.0,
+        "distance_travelled": 25736.349609375,
+        "first_death_game_seconds": 154.4000244140625,
+        "first_death_location": {
+          "cause_code": 3.0,
+          "enemy_t1_distance": 1951.5225830078125,
+          "own_t1_distance": 973.2513427734375
+        },
+        "first_move_game_seconds": -89.63333892822266,
+        "gold": 60.39323425292969,
+        "gold_received": 371.3848571777344,
+        "gold_spent": 385.0,
+        "health": 0.0,
+        "hero_attacks_released": 13.0,
+        "hero_kills": 0.0,
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.0,
+          2.0,
+          0.0
+        ],
+        "level": 3.0,
+        "lh": 3.0,
+        "longest_idle_seconds": 27.599998474121094,
+        "longest_movement_stall_seconds": 5.0,
+        "longest_stuck_seconds": 5.1999969482421875,
+        "mana": 58.86927032470703,
+        "mid_arrival_elapsed_seconds": 25.59999656677246,
+        "mid_arrival_game_seconds": -64.43333435058594,
+        "minimum_health_fraction": 0.0,
+        "minute_snapshots": [
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": -0.03333282470703125,
+            "gold": 5.0,
+            "health": 582.0,
+            "level": 1.0,
+            "lh": 0.0,
+            "mana": 291.0,
+            "net_worth": 880.0,
+            "razes_completed": 0.0,
+            "souls": 0.0,
+            "xp_in_level": 0.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": 59.96666717529297,
+            "gold": 39.94550704956055,
+            "health": 118.42266082763672,
+            "level": 1.0,
+            "lh": 0.0,
+            "mana": 111.35792541503906,
+            "net_worth": 979.9454956054688,
+            "razes_completed": 3.0,
+            "souls": 0.0,
+            "xp_in_level": 154.5
+          },
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": 119.96666717529297,
+            "gold": 10.947821617126465,
+            "health": 575.3601684570312,
+            "level": 2.0,
+            "lh": 1.0,
+            "mana": 62.12336730957031,
+            "net_worth": 1015.9478149414062,
+            "razes_completed": 5.0,
+            "souls": 1.0,
+            "xp_in_level": 303.0
+          },
+          {
+            "deaths": 1.0,
+            "deny": 0.0,
+            "game_seconds": 154.433349609375,
+            "gold": 60.39323425292969,
+            "health": 0.0,
+            "level": 3.0,
+            "lh": 3.0,
+            "mana": 58.86927032470703,
+            "net_worth": 1130.393310546875,
+            "razes_completed": 6.0,
+            "souls": 3.0,
+            "xp_in_level": 200.0
+          }
+        ],
+        "net_worth": 1130.393310546875,
+        "purchases": {
+          "boots": 0.0,
+          "bracer": 0.0,
+          "clarity": 0.0,
+          "flask": 1.0,
+          "mango": 3.0,
+          "tango": 1.0,
+          "tp": 0.0,
+          "wraith_band": 0.0
+        },
+        "raze_creep_hits": 9.0,
+        "raze_hero_hits": 1.0,
+        "raze_hero_hits_by_spell": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "razes_hitting_any_target": 5.0,
+        "razes_hitting_hero": 1.0,
+        "reward_components": {
+          "enemy_deaths": 0.0,
+          "enemy_denies": -0.6000000238418579,
+          "enemy_experience": -2.4519999027252197,
+          "enemy_flask": 0.30000001192092896,
+          "enemy_flask_break": 0.0,
+          "enemy_gold_received": -4.682149887084961,
+          "enemy_health": 0.2448267936706543,
+          "enemy_kills": 0.0,
+          "enemy_last_hits": 0.9599999785423279,
+          "enemy_mana": 0.3776869475841522,
+          "enemy_mango": 0.0,
+          "enemy_outcome": 0.0,
+          "enemy_own_t1": 0.0,
+          "enemy_tango": 0.0,
+          "own_deaths": -2.200000047683716,
+          "own_denies": 0.0,
+          "own_experience": 1.6799999475479126,
+          "own_flask": -0.30000001192092896,
+          "own_flask_break": 0.0,
+          "own_gold_received": 2.2283222675323486,
+          "own_health": -2.000000238418579,
+          "own_kills": 0.0,
+          "own_last_hits": -0.35999998450279236,
+          "own_mana": -0.4131743311882019,
+          "own_mango": 0.0,
+          "own_outcome": 0.0,
+          "own_own_t1": 0.0,
+          "own_tango": 0.0
+        },
+        "reward_total": -7.216474533081055,
+        "side": "dire",
+        "souls": 3.0,
+        "spell_completions": [
+          0.0,
+          5.0,
+          1.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 0.0,
+        "stuck_after_mid": {
+          "denominator": 1096.0,
+          "numerator": 41.0
+        },
+        "stuck_before_mid": {
+          "denominator": 127.0,
+          "numerator": 0.0
+        },
+        "stuck_decisions": 41.0,
+        "stuck_fraction": {
+          "denominator": 1223.0,
+          "numerator": 41.0
+        },
+        "xp_in_level": 200.0
+      }
+    ],
+    "simulation_error": 0.0
+  },
+  {
+    "accessible_credited": 22.0,
+    "accessible_deaths": 39.0,
+    "credited": 22.0,
+    "game": 5,
+    "game_seconds": 172.03334045410156,
+    "lane_creeps_spawned": 48.0,
+    "lane_deaths": 40.0,
+    "native_terminal": true,
+    "outcome_reason": "death",
+    "result": -1.0,
+    "sides": [
+      {
+        "actions": [
+          0.0,
+          126.0,
+          410.0,
+          310.0,
+          431.0,
+          0.0,
+          0.0,
+          13.0,
+          21.0,
+          0.0,
+          0.0
+        ],
+        "alive_seconds": 262.0,
+        "attack_cancellations": 19.0,
+        "attack_cycles_completed": 34.0,
+        "attack_enemy_creep_commands": 210.0,
+        "attack_hero_commands": 95.0,
+        "attack_structure_commands": 0.0,
+        "buys": [
+          1305.0,
+          0.0,
+          0.0,
+          3.0,
+          2.0,
+          1.0,
+          0.0
+        ],
+        "cancelled_casts": 1.0,
+        "chio_decisions": 1311.0,
+        "commands_during_windup": 16.0,
+        "consumable_uses": {
+          "flask": 0.0,
+          "mango": 0.0,
+          "tango": 0.0
+        },
+        "controller": "CHiO-opponent",
+        "damage_from_creeps": 354.0,
+        "damage_from_hero": 455.0,
+        "damage_from_tower": 274.7234191894531,
+        "dead_seconds": 0.066680908203125,
+        "death_causes": [
+          {
+            "cause": "hero_attack",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "raze",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "creeps",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "tower",
+            "count": 1.0,
+            "enemy_t1_distance_sum": 1167.6314697265625,
+            "own_t1_distance_sum": 1761.59814453125
+          },
+          {
+            "cause": "requiem",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          }
+        ],
+        "deaths": 1.0,
+        "deny": 0.0,
+        "deny_commands": 5.0,
+        "distance_travelled": 26493.025390625,
+        "first_death_game_seconds": 172.00003051757812,
+        "first_death_location": {
+          "cause_code": 4.0,
+          "enemy_t1_distance": 1167.6314697265625,
+          "own_t1_distance": 1761.59814453125
+        },
+        "first_move_game_seconds": -89.63333892822266,
+        "gold": 137.72003173828125,
+        "gold_received": 527.7071533203125,
+        "gold_spent": 485.0,
+        "health": 0.0,
+        "hero_attacks_released": 12.0,
+        "hero_kills": 0.0,
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "level": 3.0,
+        "lh": 5.0,
+        "longest_idle_seconds": 38.400001525878906,
+        "longest_movement_stall_seconds": 2.600006103515625,
+        "longest_stuck_seconds": 2.7999954223632812,
+        "mana": 11.395642280578613,
+        "mid_arrival_elapsed_seconds": 25.199996948242188,
+        "mid_arrival_game_seconds": -64.83333587646484,
+        "minimum_health_fraction": 0.0,
+        "minute_snapshots": [
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": -0.03333282470703125,
+            "gold": 5.0,
+            "health": 582.0,
+            "level": 1.0,
+            "lh": 0.0,
+            "mana": 291.0,
+            "net_worth": 880.0,
+            "razes_completed": 0.0,
+            "souls": 0.0,
+            "xp_in_level": 0.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": 59.96666717529297,
+            "gold": 39.94550704956055,
+            "health": 477.94146728515625,
+            "level": 2.0,
+            "lh": 0.0,
+            "mana": 135.56777954101562,
+            "net_worth": 979.9454956054688,
+            "razes_completed": 3.0,
+            "souls": 0.0,
+            "xp_in_level": 0.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": 119.96666717529297,
+            "gold": 61.94749450683594,
+            "health": 626.0,
+            "level": 2.0,
+            "lh": 1.0,
+            "mana": 64.16999816894531,
+            "net_worth": 1131.947509765625,
+            "razes_completed": 5.0,
+            "souls": 1.0,
+            "xp_in_level": 394.5
+          },
+          {
+            "deaths": 1.0,
+            "deny": 0.0,
+            "game_seconds": 172.03335571289062,
+            "gold": 137.72003173828125,
+            "health": 0.0,
+            "level": 3.0,
+            "lh": 5.0,
+            "mana": 11.395642280578613,
+            "net_worth": 1407.719970703125,
+            "razes_completed": 7.0,
+            "souls": 4.0,
+            "xp_in_level": 420.5
+          }
+        ],
+        "net_worth": 1407.719970703125,
+        "purchases": {
+          "boots": 0.0,
+          "bracer": 0.0,
+          "clarity": 0.0,
+          "flask": 2.0,
+          "mango": 3.0,
+          "tango": 1.0,
+          "tp": 0.0,
+          "wraith_band": 0.0
+        },
+        "raze_creep_hits": 10.0,
+        "raze_hero_hits": 3.0,
+        "raze_hero_hits_by_spell": [
+          0.0,
+          1.0,
+          2.0
+        ],
+        "razes_hitting_any_target": 5.0,
+        "razes_hitting_hero": 3.0,
+        "reward_components": {
+          "enemy_deaths": 0.0,
+          "enemy_denies": -0.5,
+          "enemy_experience": -2.880000114440918,
+          "enemy_flask": 0.0,
+          "enemy_flask_break": 0.0,
+          "enemy_gold_received": -6.058108329772949,
+          "enemy_health": 1.0418990850448608,
+          "enemy_kills": 0.0,
+          "enemy_last_hits": 1.4399999380111694,
+          "enemy_mana": 0.37649238109588623,
+          "enemy_mango": 0.0,
+          "enemy_outcome": 0.0,
+          "enemy_own_t1": 0.0,
+          "enemy_tango": 0.0,
+          "own_deaths": -2.200000047683716,
+          "own_denies": 0.0,
+          "own_experience": 2.120999813079834,
+          "own_flask": 0.0,
+          "own_flask_break": 0.0,
+          "own_gold_received": 3.166257858276367,
+          "own_health": -1.9999998807907104,
+          "own_kills": 0.0,
+          "own_last_hits": -0.5999999642372131,
+          "own_mana": -0.4831940233707428,
+          "own_mango": 0.0,
+          "own_outcome": 0.0,
+          "own_own_t1": 0.0,
+          "own_tango": 0.0
+        },
+        "reward_total": -6.575658798217773,
+        "side": "radiant",
+        "souls": 4.0,
+        "spell_completions": [
+          0.0,
+          3.0,
+          4.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 0.0,
+        "stuck_after_mid": {
+          "denominator": 1186.0,
+          "numerator": 20.0
+        },
+        "stuck_before_mid": {
+          "denominator": 125.0,
+          "numerator": 0.0
+        },
+        "stuck_decisions": 20.0,
+        "stuck_fraction": {
+          "denominator": 1311.0,
+          "numerator": 20.0
+        },
+        "xp_in_level": 420.5
+      },
+      {
+        "actions": [
+          0.0,
+          128.0,
+          335.0,
+          329.0,
+          487.0,
+          0.0,
+          5.0,
+          7.0,
+          20.0,
+          0.0,
+          0.0
+        ],
+        "alive_seconds": 262.0666809082031,
+        "attack_cancellations": 8.0,
+        "attack_cycles_completed": 56.0,
+        "attack_enemy_creep_commands": 230.0,
+        "attack_hero_commands": 28.0,
+        "attack_structure_commands": 0.0,
+        "buys": [
+          1305.0,
+          1.0,
+          0.0,
+          3.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cancelled_casts": 0.0,
+        "chio_decisions": 1311.0,
+        "commands_during_windup": 9.0,
+        "consumable_uses": {
+          "flask": 0.0,
+          "mango": 0.0,
+          "tango": 0.0
+        },
+        "controller": "CHiO",
+        "damage_from_creeps": 112.0,
+        "damage_from_hero": 738.0,
+        "damage_from_tower": 0.0,
+        "dead_seconds": 0.0,
+        "death_causes": [
+          {
+            "cause": "hero_attack",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "raze",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "creeps",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "tower",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "requiem",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          }
+        ],
+        "deaths": 0.0,
+        "deny": 5.0,
+        "deny_commands": 71.0,
+        "distance_travelled": 22874.59765625,
+        "first_death_game_seconds": null,
+        "first_death_location": {
+          "cause_code": 0.0,
+          "enemy_t1_distance": 0.0,
+          "own_t1_distance": 0.0
+        },
+        "first_move_game_seconds": -89.63333892822266,
+        "gold": 219.70834350585938,
+        "gold_received": 1009.6820678710938,
+        "gold_spent": 885.0,
+        "health": 196.49253845214844,
+        "hero_attacks_released": 5.0,
+        "hero_kills": 0.0,
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "level": 4.0,
+        "lh": 12.0,
+        "longest_idle_seconds": 74.80000305175781,
+        "longest_movement_stall_seconds": 0.600006103515625,
+        "longest_stuck_seconds": 1.3999977111816406,
+        "mana": 89.66693115234375,
+        "mid_arrival_elapsed_seconds": 25.59999656677246,
+        "mid_arrival_game_seconds": -64.43333435058594,
+        "minimum_health_fraction": 0.24036851525306702,
+        "minute_snapshots": [
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": -0.03333282470703125,
+            "gold": 5.0,
+            "health": 582.0,
+            "level": 1.0,
+            "lh": 0.0,
+            "mana": 291.0,
+            "net_worth": 880.0,
+            "razes_completed": 0.0,
+            "souls": 0.0,
+            "xp_in_level": 0.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 2.0,
+            "game_seconds": 59.96666717529297,
+            "gold": 45.946224212646484,
+            "health": 536.53125,
+            "level": 2.0,
+            "lh": 2.0,
+            "mana": 185.47557067871094,
+            "net_worth": 1050.9462890625,
+            "razes_completed": 2.0,
+            "souls": 4.0,
+            "xp_in_level": 57.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 5.0,
+            "game_seconds": 119.96666717529297,
+            "gold": 319.9418640136719,
+            "health": 692.0,
+            "level": 3.0,
+            "lh": 8.0,
+            "mana": 66.1898422241211,
+            "net_worth": 1389.94189453125,
+            "razes_completed": 5.0,
+            "souls": 13.0,
+            "xp_in_level": 137.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 5.0,
+            "game_seconds": 172.03335571289062,
+            "gold": 219.70834350585938,
+            "health": 196.49253845214844,
+            "level": 4.0,
+            "lh": 12.0,
+            "mana": 89.66693115234375,
+            "net_worth": 1889.7083740234375,
+            "razes_completed": 6.0,
+            "souls": 17.0,
+            "xp_in_level": 280.0
+          }
+        ],
+        "net_worth": 1889.7083740234375,
+        "purchases": {
+          "boots": 1.0,
+          "bracer": 0.0,
+          "clarity": 0.0,
+          "flask": 1.0,
+          "mango": 3.0,
+          "tango": 1.0,
+          "tp": 0.0,
+          "wraith_band": 0.0
+        },
+        "raze_creep_hits": 6.0,
+        "raze_hero_hits": 2.0,
+        "raze_hero_hits_by_spell": [
+          0.0,
+          1.0,
+          1.0
+        ],
+        "razes_hitting_any_target": 5.0,
+        "razes_hitting_hero": 2.0,
+        "reward_components": {
+          "enemy_deaths": 0.0,
+          "enemy_denies": 0.0,
+          "enemy_experience": -2.120999813079834,
+          "enemy_flask": 0.0,
+          "enemy_flask_break": 0.0,
+          "enemy_gold_received": -3.166257858276367,
+          "enemy_health": 1.9999998807907104,
+          "enemy_kills": 0.0,
+          "enemy_last_hits": 0.5999999642372131,
+          "enemy_mana": 0.4831940233707428,
+          "enemy_mango": 0.0,
+          "enemy_outcome": 0.0,
+          "enemy_own_t1": 0.0,
+          "enemy_tango": 0.0,
+          "own_deaths": 0.0,
+          "own_denies": 0.5,
+          "own_experience": 2.880000114440918,
+          "own_flask": 0.0,
+          "own_flask_break": 0.0,
+          "own_gold_received": 6.058108329772949,
+          "own_health": -1.0418990850448608,
+          "own_kills": 0.0,
+          "own_last_hits": -1.4399999380111694,
+          "own_mana": -0.37649238109588623,
+          "own_mango": 0.0,
+          "own_outcome": 0.0,
+          "own_own_t1": 0.0,
+          "own_tango": 0.0
+        },
+        "reward_total": 4.37565803527832,
+        "side": "dire",
+        "souls": 17.0,
+        "spell_completions": [
+          1.0,
+          1.0,
+          4.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 1.0,
+        "stuck_after_mid": {
+          "denominator": 1184.0,
+          "numerator": 2.0
+        },
+        "stuck_before_mid": {
+          "denominator": 127.0,
+          "numerator": 0.0
+        },
+        "stuck_decisions": 2.0,
+        "stuck_fraction": {
+          "denominator": 1311.0,
+          "numerator": 2.0
+        },
+        "xp_in_level": 280.0
+      }
+    ],
+    "simulation_error": 0.0
+  },
+  {
+    "accessible_credited": 15.0,
+    "accessible_deaths": 26.0,
+    "credited": 15.0,
+    "game": 6,
+    "game_seconds": 128.93333435058594,
+    "lane_creeps_spawned": 40.0,
+    "lane_deaths": 29.0,
+    "native_terminal": true,
+    "outcome_reason": "death",
+    "result": -1.0,
+    "sides": [
+      {
+        "actions": [
+          0.0,
+          126.0,
+          296.0,
+          199.0,
+          443.0,
+          0.0,
+          0.0,
+          10.0,
+          20.0,
+          0.0,
+          1.0
+        ],
+        "alive_seconds": 218.8000030517578,
+        "attack_cancellations": 14.0,
+        "attack_cycles_completed": 26.0,
+        "attack_enemy_creep_commands": 131.0,
+        "attack_hero_commands": 38.0,
+        "attack_structure_commands": 0.0,
+        "buys": [
+          1089.0,
+          0.0,
+          0.0,
+          3.0,
+          2.0,
+          1.0,
+          0.0
+        ],
+        "cancelled_casts": 0.0,
+        "chio_decisions": 1095.0,
+        "commands_during_windup": 8.0,
+        "consumable_uses": {
+          "flask": 1.0,
+          "mango": 0.0,
+          "tango": 0.0
+        },
+        "controller": "CHiO",
+        "damage_from_creeps": 223.0,
+        "damage_from_hero": 1049.982666015625,
+        "damage_from_tower": 0.0,
+        "dead_seconds": 0.1666717529296875,
+        "death_causes": [
+          {
+            "cause": "hero_attack",
+            "count": 1.0,
+            "enemy_t1_distance_sum": 2750.09375,
+            "own_t1_distance_sum": 169.52357482910156
+          },
+          {
+            "cause": "raze",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "creeps",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "tower",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "requiem",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          }
+        ],
+        "deaths": 1.0,
+        "deny": 1.0,
+        "deny_commands": 30.0,
+        "distance_travelled": 20326.044921875,
+        "first_death_game_seconds": 128.9000244140625,
+        "first_death_location": {
+          "cause_code": 1.0,
+          "enemy_t1_distance": 2750.09375,
+          "own_t1_distance": 169.52357482910156
+        },
+        "first_move_game_seconds": -89.63333892822266,
+        "gold": 68.89215087890625,
+        "gold_received": 482.8757019042969,
+        "gold_spent": 485.0,
+        "health": 0.0,
+        "hero_attacks_released": 6.0,
+        "hero_kills": 0.0,
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "level": 3.0,
+        "lh": 7.0,
+        "longest_idle_seconds": 26.20000457763672,
+        "longest_movement_stall_seconds": 4.200004577636719,
+        "longest_stuck_seconds": 4.19999885559082,
+        "mana": 25.88370132446289,
+        "mid_arrival_elapsed_seconds": 25.199996948242188,
+        "mid_arrival_game_seconds": -64.83333587646484,
+        "minimum_health_fraction": 0.0,
+        "minute_snapshots": [
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": -0.03333282470703125,
+            "gold": 5.0,
+            "health": 582.0,
+            "level": 1.0,
+            "lh": 0.0,
+            "mana": 291.0,
+            "net_worth": 880.0,
+            "razes_completed": 0.0,
+            "souls": 0.0,
+            "xp_in_level": 0.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 1.0,
+            "game_seconds": 59.96666717529297,
+            "gold": 46.945247650146484,
+            "health": 207.90274047851562,
+            "level": 2.0,
+            "lh": 2.0,
+            "mana": 58.98455810546875,
+            "net_worth": 1051.9453125,
+            "razes_completed": 4.0,
+            "souls": 3.0,
+            "xp_in_level": 114.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 1.0,
+            "game_seconds": 119.96666717529297,
+            "gold": 138.94725036621094,
+            "health": 494.25616455078125,
+            "level": 3.0,
+            "lh": 6.0,
+            "mana": 13.151129722595215,
+            "net_worth": 1208.947265625,
+            "razes_completed": 6.0,
+            "souls": 7.0,
+            "xp_in_level": 137.0
+          },
+          {
+            "deaths": 1.0,
+            "deny": 1.0,
+            "game_seconds": 128.933349609375,
+            "gold": 68.89215087890625,
+            "health": 0.0,
+            "level": 3.0,
+            "lh": 7.0,
+            "mana": 25.88370132446289,
+            "net_worth": 1238.89208984375,
+            "razes_completed": 6.0,
+            "souls": 6.0,
+            "xp_in_level": 194.0
+          }
+        ],
+        "net_worth": 1238.89208984375,
+        "purchases": {
+          "boots": 0.0,
+          "bracer": 0.0,
+          "clarity": 0.0,
+          "flask": 2.0,
+          "mango": 3.0,
+          "tango": 1.0,
+          "tp": 0.0,
+          "wraith_band": 0.0
+        },
+        "raze_creep_hits": 11.0,
+        "raze_hero_hits": 3.0,
+        "raze_hero_hits_by_spell": [
+          0.0,
+          1.0,
+          2.0
+        ],
+        "razes_hitting_any_target": 5.0,
+        "razes_hitting_hero": 3.0,
+        "reward_components": {
+          "enemy_deaths": 0.0,
+          "enemy_denies": 0.0,
+          "enemy_experience": -2.128999948501587,
+          "enemy_flask": 0.30000001192092896,
+          "enemy_flask_break": 0.0,
+          "enemy_gold_received": -4.805274963378906,
+          "enemy_health": 0.10732817649841309,
+          "enemy_kills": 0.0,
+          "enemy_last_hits": 0.8399999737739563,
+          "enemy_mana": 0.3455038070678711,
+          "enemy_mango": 0.0,
+          "enemy_outcome": 0.0,
+          "enemy_own_t1": 0.0,
+          "enemy_tango": 0.0,
+          "own_deaths": -2.200000047683716,
+          "own_denies": 0.10000000149011612,
+          "own_experience": 1.6679999828338623,
+          "own_flask": -0.30000001192092896,
+          "own_flask_break": 0.0,
+          "own_gold_received": 2.8972630500793457,
+          "own_health": -1.9999998807907104,
+          "own_kills": 0.0,
+          "own_last_hits": -0.8399999737739563,
+          "own_mana": -0.46182653307914734,
+          "own_mango": 0.0,
+          "own_outcome": 0.0,
+          "own_own_t1": 0.0,
+          "own_tango": 0.0
+        },
+        "reward_total": -6.47799825668335,
+        "side": "radiant",
+        "souls": 6.0,
+        "spell_completions": [
+          0.0,
+          2.0,
+          4.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 0.0,
+        "stuck_after_mid": {
+          "denominator": 970.0,
+          "numerator": 35.0
+        },
+        "stuck_before_mid": {
+          "denominator": 125.0,
+          "numerator": 0.0
+        },
+        "stuck_decisions": 35.0,
+        "stuck_fraction": {
+          "denominator": 1095.0,
+          "numerator": 35.0
+        },
+        "xp_in_level": 194.0
+      },
+      {
+        "actions": [
+          0.0,
+          128.0,
+          312.0,
+          265.0,
+          359.0,
+          0.0,
+          0.0,
+          7.0,
+          22.0,
+          0.0,
+          2.0
+        ],
+        "alive_seconds": 218.9666748046875,
+        "attack_cancellations": 18.0,
+        "attack_cycles_completed": 35.0,
+        "attack_enemy_creep_commands": 115.0,
+        "attack_hero_commands": 132.0,
+        "attack_structure_commands": 0.0,
+        "buys": [
+          1090.0,
+          0.0,
+          0.0,
+          3.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cancelled_casts": 1.0,
+        "chio_decisions": 1095.0,
+        "commands_during_windup": 19.0,
+        "consumable_uses": {
+          "flask": 1.0,
+          "mango": 0.0,
+          "tango": 0.0
+        },
+        "controller": "CHiO-opponent",
+        "damage_from_creeps": 398.0,
+        "damage_from_hero": 439.0,
+        "damage_from_tower": 0.0,
+        "dead_seconds": 0.0,
+        "death_causes": [
+          {
+            "cause": "hero_attack",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "raze",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "creeps",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "tower",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "requiem",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          }
+        ],
+        "deaths": 0.0,
+        "deny": 0.0,
+        "deny_commands": 18.0,
+        "distance_travelled": 22670.41796875,
+        "first_death_game_seconds": null,
+        "first_death_location": {
+          "cause_code": 0.0,
+          "enemy_t1_distance": 0.0,
+          "own_t1_distance": 0.0
+        },
+        "first_move_game_seconds": -89.63333892822266,
+        "gold": 510.8924255371094,
+        "gold_received": 800.8768310546875,
+        "gold_spent": 385.0,
+        "health": 617.8206176757812,
+        "hero_attacks_released": 19.0,
+        "hero_kills": 1.0,
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          2.0,
+          0.0,
+          0.0
+        ],
+        "level": 3.0,
+        "lh": 7.0,
+        "longest_idle_seconds": 27.199996948242188,
+        "longest_movement_stall_seconds": 2.0,
+        "longest_stuck_seconds": 3.7999954223632812,
+        "mana": 104.74839782714844,
+        "mid_arrival_elapsed_seconds": 25.59999656677246,
+        "mid_arrival_game_seconds": -64.43333435058594,
+        "minimum_health_fraction": 0.1548205316066742,
+        "minute_snapshots": [
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": -0.03333282470703125,
+            "gold": 5.0,
+            "health": 582.0,
+            "level": 1.0,
+            "lh": 0.0,
+            "mana": 291.0,
+            "net_worth": 880.0,
+            "razes_completed": 0.0,
+            "souls": 0.0,
+            "xp_in_level": 0.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": 59.96666717529297,
+            "gold": 44.9453239440918,
+            "health": 161.680908203125,
+            "level": 1.0,
+            "lh": 2.0,
+            "mana": 114.95439147949219,
+            "net_worth": 1049.9453125,
+            "razes_completed": 3.0,
+            "souls": 2.0,
+            "xp_in_level": 205.5
+          },
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": 119.96666717529297,
+            "gold": 200.94752502441406,
+            "health": 626.7374267578125,
+            "level": 3.0,
+            "lh": 6.0,
+            "mana": 167.01588439941406,
+            "net_worth": 1205.947509765625,
+            "razes_completed": 4.0,
+            "souls": 6.0,
+            "xp_in_level": 102.5
+          },
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": 128.933349609375,
+            "gold": 510.8924255371094,
+            "health": 617.8206176757812,
+            "level": 3.0,
+            "lh": 7.0,
+            "mana": 104.74839782714844,
+            "net_worth": 1580.8924560546875,
+            "razes_completed": 5.0,
+            "souls": 11.0,
+            "xp_in_level": 424.5
+          }
+        ],
+        "net_worth": 1580.8924560546875,
+        "purchases": {
+          "boots": 0.0,
+          "bracer": 0.0,
+          "clarity": 0.0,
+          "flask": 1.0,
+          "mango": 3.0,
+          "tango": 1.0,
+          "tp": 0.0,
+          "wraith_band": 0.0
+        },
+        "raze_creep_hits": 11.0,
+        "raze_hero_hits": 4.0,
+        "raze_hero_hits_by_spell": [
+          0.0,
+          1.0,
+          3.0
+        ],
+        "razes_hitting_any_target": 5.0,
+        "razes_hitting_hero": 4.0,
+        "reward_components": {
+          "enemy_deaths": 0.0,
+          "enemy_denies": -0.10000000149011612,
+          "enemy_experience": -1.6679999828338623,
+          "enemy_flask": 0.30000001192092896,
+          "enemy_flask_break": 0.0,
+          "enemy_gold_received": -2.8972630500793457,
+          "enemy_health": 1.9999998807907104,
+          "enemy_kills": 0.0,
+          "enemy_last_hits": 0.8399999737739563,
+          "enemy_mana": 0.46182653307914734,
+          "enemy_mango": 0.0,
+          "enemy_outcome": 0.0,
+          "enemy_own_t1": 0.0,
+          "enemy_tango": 0.0,
+          "own_deaths": 0.0,
+          "own_denies": 0.0,
+          "own_experience": 2.128999948501587,
+          "own_flask": -0.30000001192092896,
+          "own_flask_break": 0.0,
+          "own_gold_received": 4.805274963378906,
+          "own_health": -0.10732817649841309,
+          "own_kills": 0.699999988079071,
+          "own_last_hits": -0.8399999737739563,
+          "own_mana": -0.3455038070678711,
+          "own_mango": 0.0,
+          "own_outcome": 0.0,
+          "own_own_t1": 0.0,
+          "own_tango": 0.0
+        },
+        "reward_total": 4.977998733520508,
+        "side": "dire",
+        "souls": 11.0,
+        "spell_completions": [
+          0.0,
+          1.0,
+          4.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 1.0,
+        "stuck_after_mid": {
+          "denominator": 968.0,
+          "numerator": 23.0
+        },
+        "stuck_before_mid": {
+          "denominator": 127.0,
+          "numerator": 0.0
+        },
+        "stuck_decisions": 23.0,
+        "stuck_fraction": {
+          "denominator": 1095.0,
+          "numerator": 23.0
+        },
+        "xp_in_level": 424.5
+      }
+    ],
+    "simulation_error": 0.0
+  },
+  {
+    "accessible_credited": 3.0,
+    "accessible_deaths": 8.0,
+    "credited": 3.0,
+    "game": 7,
+    "game_seconds": 55.400001525878906,
+    "lane_creeps_spawned": 16.0,
+    "lane_deaths": 8.0,
+    "native_terminal": true,
+    "outcome_reason": "death",
+    "result": -1.0,
+    "sides": [
+      {
+        "actions": [
+          0.0,
+          126.0,
+          118.0,
+          89.0,
+          375.0,
+          0.0,
+          0.0,
+          10.0,
+          10.0,
+          0.0,
+          0.0
+        ],
+        "alive_seconds": 145.40000915527344,
+        "attack_cancellations": 2.0,
+        "attack_cycles_completed": 12.0,
+        "attack_enemy_creep_commands": 30.0,
+        "attack_hero_commands": 59.0,
+        "attack_structure_commands": 0.0,
+        "buys": [
+          726.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "cancelled_casts": 0.0,
+        "chio_decisions": 728.0,
+        "commands_during_windup": 2.0,
+        "consumable_uses": {
+          "flask": 0.0,
+          "mango": 0.0,
+          "tango": 0.0
+        },
+        "controller": "CHiO-opponent",
+        "damage_from_creeps": 287.72821044921875,
+        "damage_from_hero": 407.0,
+        "damage_from_tower": 0.0,
+        "dead_seconds": 0.0333251953125,
+        "death_causes": [
+          {
+            "cause": "hero_attack",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "raze",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "creeps",
+            "count": 1.0,
+            "enemy_t1_distance_sum": 1299.95556640625,
+            "own_t1_distance_sum": 1619.1004638671875
+          },
+          {
+            "cause": "tower",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "requiem",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          }
+        ],
+        "deaths": 1.0,
+        "deny": 0.0,
+        "deny_commands": 0.0,
+        "distance_travelled": 12668.60546875,
+        "first_death_game_seconds": 55.366676330566406,
+        "first_death_location": {
+          "cause_code": 3.0,
+          "enemy_t1_distance": 1299.95556640625,
+          "own_t1_distance": 1619.1004638671875
+        },
+        "first_move_game_seconds": -89.63333892822266,
+        "gold": 67.33489990234375,
+        "gold_received": 127.33506774902344,
+        "gold_spent": 155.0,
+        "health": 0.0,
+        "hero_attacks_released": 7.0,
+        "hero_kills": 0.0,
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "level": 2.0,
+        "lh": 1.0,
+        "longest_idle_seconds": 24.400001525878906,
+        "longest_movement_stall_seconds": 4.20001220703125,
+        "longest_stuck_seconds": 4.599998474121094,
+        "mana": 52.39773178100586,
+        "mid_arrival_elapsed_seconds": 25.199996948242188,
+        "mid_arrival_game_seconds": -64.83333587646484,
+        "minimum_health_fraction": 0.0,
+        "minute_snapshots": [
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": -0.03333282470703125,
+            "gold": 5.0,
+            "health": 582.0,
+            "level": 1.0,
+            "lh": 0.0,
+            "mana": 291.0,
+            "net_worth": 880.0,
+            "razes_completed": 0.0,
+            "souls": 0.0,
+            "xp_in_level": 0.0
+          },
+          {
+            "deaths": 1.0,
+            "deny": 0.0,
+            "game_seconds": 55.400001525878906,
+            "gold": 67.33489990234375,
+            "health": 0.0,
+            "level": 2.0,
+            "lh": 1.0,
+            "mana": 52.39773178100586,
+            "net_worth": 1007.3348999023438,
+            "razes_completed": 4.0,
+            "souls": 1.0,
+            "xp_in_level": 0.0
+          }
+        ],
+        "net_worth": 1007.3348999023438,
+        "purchases": {
+          "boots": 0.0,
+          "bracer": 0.0,
+          "clarity": 0.0,
+          "flask": 0.0,
+          "mango": 1.0,
+          "tango": 1.0,
+          "tp": 0.0,
+          "wraith_band": 0.0
+        },
+        "raze_creep_hits": 6.0,
+        "raze_hero_hits": 2.0,
+        "raze_hero_hits_by_spell": [
+          0.0,
+          1.0,
+          1.0
+        ],
+        "razes_hitting_any_target": 3.0,
+        "razes_hitting_hero": 2.0,
+        "reward_components": {
+          "enemy_deaths": 0.0,
+          "enemy_denies": 0.0,
+          "enemy_experience": -0.7420000433921814,
+          "enemy_flask": 0.0,
+          "enemy_flask_break": 0.0,
+          "enemy_gold_received": -2.2040069103240967,
+          "enemy_health": 0.5321595668792725,
+          "enemy_kills": 0.0,
+          "enemy_last_hits": 0.23999999463558197,
+          "enemy_mana": 0.4232146143913269,
+          "enemy_mango": 0.0,
+          "enemy_outcome": 0.0,
+          "enemy_own_t1": 0.0,
+          "enemy_tango": 0.0,
+          "own_deaths": -2.200000047683716,
+          "own_denies": 0.0,
+          "own_experience": 0.48000001907348633,
+          "own_flask": 0.0,
+          "own_flask_break": 0.0,
+          "own_gold_received": 0.7640067934989929,
+          "own_health": -1.9999998807907104,
+          "own_kills": 0.0,
+          "own_last_hits": -0.11999999731779099,
+          "own_mana": -0.41682976484298706,
+          "own_mango": 0.0,
+          "own_outcome": 0.0,
+          "own_own_t1": 0.0,
+          "own_tango": 0.0
+        },
+        "reward_total": -5.24345588684082,
+        "side": "radiant",
+        "souls": 1.0,
+        "spell_completions": [
+          0.0,
+          2.0,
+          2.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 0.0,
+        "stuck_after_mid": {
+          "denominator": 603.0,
+          "numerator": 18.0
+        },
+        "stuck_before_mid": {
+          "denominator": 125.0,
+          "numerator": 0.0
+        },
+        "stuck_decisions": 18.0,
+        "stuck_fraction": {
+          "denominator": 728.0,
+          "numerator": 18.0
+        },
+        "xp_in_level": 0.0
+      },
+      {
+        "actions": [
+          0.0,
+          128.0,
+          90.0,
+          96.0,
+          394.0,
+          0.0,
+          0.0,
+          10.0,
+          10.0,
+          0.0,
+          0.0
+        ],
+        "alive_seconds": 145.43333435058594,
+        "attack_cancellations": 5.0,
+        "attack_cycles_completed": 12.0,
+        "attack_enemy_creep_commands": 36.0,
+        "attack_hero_commands": 50.0,
+        "attack_structure_commands": 0.0,
+        "buys": [
+          725.0,
+          0.0,
+          0.0,
+          2.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "cancelled_casts": 0.0,
+        "chio_decisions": 728.0,
+        "commands_during_windup": 6.0,
+        "consumable_uses": {
+          "flask": 0.0,
+          "mango": 0.0,
+          "tango": 0.0
+        },
+        "controller": "CHiO",
+        "damage_from_creeps": 83.0,
+        "damage_from_hero": 307.0,
+        "damage_from_tower": 0.0,
+        "dead_seconds": 0.0,
+        "death_causes": [
+          {
+            "cause": "hero_attack",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "raze",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "creeps",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "tower",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "requiem",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          }
+        ],
+        "deaths": 0.0,
+        "deny": 0.0,
+        "deny_commands": 10.0,
+        "distance_travelled": 12666.67578125,
+        "first_death_game_seconds": null,
+        "first_death_location": {
+          "cause_code": 0.0,
+          "enemy_t1_distance": 0.0,
+          "own_t1_distance": 0.0
+        },
+        "first_move_game_seconds": -89.63333892822266,
+        "gold": 242.3341064453125,
+        "gold_received": 367.3350830078125,
+        "gold_spent": 220.0,
+        "health": 325.9215393066406,
+        "hero_attacks_released": 7.0,
+        "hero_kills": 0.0,
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "level": 2.0,
+        "lh": 2.0,
+        "longest_idle_seconds": 50.400001525878906,
+        "longest_movement_stall_seconds": 2.5999984741210938,
+        "longest_stuck_seconds": 2.5999984741210938,
+        "mana": 48.375179290771484,
+        "mid_arrival_elapsed_seconds": 25.59999656677246,
+        "mid_arrival_game_seconds": -64.43333435058594,
+        "minimum_health_fraction": 0.42204153537750244,
+        "minute_snapshots": [
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": -0.03333282470703125,
+            "gold": 5.0,
+            "health": 582.0,
+            "level": 1.0,
+            "lh": 0.0,
+            "mana": 291.0,
+            "net_worth": 880.0,
+            "razes_completed": 0.0,
+            "souls": 0.0,
+            "xp_in_level": 0.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": 55.400001525878906,
+            "gold": 242.3341064453125,
+            "health": 325.9215393066406,
+            "level": 2.0,
+            "lh": 2.0,
+            "mana": 48.375179290771484,
+            "net_worth": 1247.3341064453125,
+            "razes_completed": 4.0,
+            "souls": 2.0,
+            "xp_in_level": 131.0
+          }
+        ],
+        "net_worth": 1247.3341064453125,
+        "purchases": {
+          "boots": 0.0,
+          "bracer": 0.0,
+          "clarity": 0.0,
+          "flask": 0.0,
+          "mango": 2.0,
+          "tango": 1.0,
+          "tp": 0.0,
+          "wraith_band": 0.0
+        },
+        "raze_creep_hits": 8.0,
+        "raze_hero_hits": 2.0,
+        "raze_hero_hits_by_spell": [
+          0.0,
+          0.0,
+          2.0
+        ],
+        "razes_hitting_any_target": 3.0,
+        "razes_hitting_hero": 2.0,
+        "reward_components": {
+          "enemy_deaths": 0.0,
+          "enemy_denies": 0.0,
+          "enemy_experience": -0.48000001907348633,
+          "enemy_flask": 0.0,
+          "enemy_flask_break": 0.0,
+          "enemy_gold_received": -0.7640067934989929,
+          "enemy_health": 1.9999998807907104,
+          "enemy_kills": 0.0,
+          "enemy_last_hits": 0.11999999731779099,
+          "enemy_mana": 0.41682976484298706,
+          "enemy_mango": 0.0,
+          "enemy_outcome": 0.0,
+          "enemy_own_t1": 0.0,
+          "enemy_tango": 0.0,
+          "own_deaths": 0.0,
+          "own_denies": 0.0,
+          "own_experience": 0.7420000433921814,
+          "own_flask": 0.0,
+          "own_flask_break": 0.0,
+          "own_gold_received": 2.2040069103240967,
+          "own_health": -0.5321595668792725,
+          "own_kills": 0.0,
+          "own_last_hits": -0.23999999463558197,
+          "own_mana": -0.4232146143913269,
+          "own_mango": 0.0,
+          "own_outcome": 0.0,
+          "own_own_t1": 0.0,
+          "own_tango": 0.0
+        },
+        "reward_total": 3.0434556007385254,
+        "side": "dire",
+        "souls": 2.0,
+        "spell_completions": [
+          0.0,
+          2.0,
+          2.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 0.0,
+        "stuck_after_mid": {
+          "denominator": 601.0,
+          "numerator": 12.0
+        },
+        "stuck_before_mid": {
+          "denominator": 127.0,
+          "numerator": 0.0
+        },
+        "stuck_decisions": 12.0,
+        "stuck_fraction": {
+          "denominator": 728.0,
+          "numerator": 12.0
+        },
+        "xp_in_level": 131.0
+      }
+    ],
+    "simulation_error": 0.0
+  },
+  {
+    "accessible_credited": 4.0,
+    "accessible_deaths": 13.0,
+    "credited": 4.0,
+    "game": 8,
+    "game_seconds": 77.9000015258789,
+    "lane_creeps_spawned": 24.0,
+    "lane_deaths": 13.0,
+    "native_terminal": true,
+    "outcome_reason": "death",
+    "result": -1.0,
+    "sides": [
+      {
+        "actions": [
+          0.0,
+          126.0,
+          229.0,
+          110.0,
+          355.0,
+          0.0,
+          0.0,
+          10.0,
+          10.0,
+          0.0,
+          0.0
+        ],
+        "alive_seconds": 167.8000030517578,
+        "attack_cancellations": 3.0,
+        "attack_cycles_completed": 14.0,
+        "attack_enemy_creep_commands": 63.0,
+        "attack_hero_commands": 16.0,
+        "attack_structure_commands": 0.0,
+        "buys": [
+          837.0,
+          0.0,
+          0.0,
+          2.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "cancelled_casts": 0.0,
+        "chio_decisions": 840.0,
+        "commands_during_windup": 3.0,
+        "consumable_uses": {
+          "flask": 0.0,
+          "mango": 0.0,
+          "tango": 0.0
+        },
+        "controller": "CHiO",
+        "damage_from_creeps": 47.0,
+        "damage_from_hero": 722.9179077148438,
+        "damage_from_tower": 0.0,
+        "dead_seconds": 0.133331298828125,
+        "death_causes": [
+          {
+            "cause": "hero_attack",
+            "count": 1.0,
+            "enemy_t1_distance_sum": 2531.202880859375,
+            "own_t1_distance_sum": 583.2120971679688
+          },
+          {
+            "cause": "raze",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "creeps",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "tower",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "requiem",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          }
+        ],
+        "deaths": 1.0,
+        "deny": 2.0,
+        "deny_commands": 31.0,
+        "distance_travelled": 19619.6171875,
+        "first_death_game_seconds": 77.8666763305664,
+        "first_death_location": {
+          "cause_code": 1.0,
+          "enemy_t1_distance": 2531.202880859375,
+          "own_t1_distance": 583.2120971679688
+        },
+        "first_move_game_seconds": -89.63333892822266,
+        "gold": 39.83491134643555,
+        "gold_received": 164.83621215820312,
+        "gold_spent": 220.0,
+        "health": 0.0,
+        "hero_attacks_released": 4.0,
+        "hero_kills": 0.0,
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "level": 2.0,
+        "lh": 1.0,
+        "longest_idle_seconds": 23.400001525878906,
+        "longest_movement_stall_seconds": 0.8000030517578125,
+        "longest_stuck_seconds": 1.2000045776367188,
+        "mana": 80.19032287597656,
+        "mid_arrival_elapsed_seconds": 25.199996948242188,
+        "mid_arrival_game_seconds": -64.83333587646484,
+        "minimum_health_fraction": 0.0,
+        "minute_snapshots": [
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": -0.03333282470703125,
+            "gold": 5.0,
+            "health": 582.0,
+            "level": 1.0,
+            "lh": 0.0,
+            "mana": 291.0,
+            "net_worth": 880.0,
+            "razes_completed": 0.0,
+            "souls": 0.0,
+            "xp_in_level": 0.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 1.0,
+            "game_seconds": 59.96666717529297,
+            "gold": 9.9458646774292,
+            "health": 498.303955078125,
+            "level": 2.0,
+            "lh": 1.0,
+            "mana": 206.69773864746094,
+            "net_worth": 1014.9458618164062,
+            "razes_completed": 2.0,
+            "souls": 2.0,
+            "xp_in_level": 57.0
+          },
+          {
+            "deaths": 1.0,
+            "deny": 2.0,
+            "game_seconds": 77.9000015258789,
+            "gold": 39.83491134643555,
+            "health": 0.0,
+            "level": 2.0,
+            "lh": 1.0,
+            "mana": 80.19032287597656,
+            "net_worth": 1044.8349609375,
+            "razes_completed": 4.0,
+            "souls": 3.0,
+            "xp_in_level": 57.0
+          }
+        ],
+        "net_worth": 1044.8349609375,
+        "purchases": {
+          "boots": 0.0,
+          "bracer": 0.0,
+          "clarity": 0.0,
+          "flask": 0.0,
+          "mango": 2.0,
+          "tango": 1.0,
+          "tp": 0.0,
+          "wraith_band": 0.0
+        },
+        "raze_creep_hits": 6.0,
+        "raze_hero_hits": 2.0,
+        "raze_hero_hits_by_spell": [
+          0.0,
+          1.0,
+          1.0
+        ],
+        "razes_hitting_any_target": 3.0,
+        "razes_hitting_hero": 2.0,
+        "reward_components": {
+          "enemy_deaths": 0.0,
+          "enemy_denies": 0.0,
+          "enemy_experience": -1.1220000982284546,
+          "enemy_flask": 0.0,
+          "enemy_flask_break": 0.0,
+          "enemy_gold_received": -2.9510138034820557,
+          "enemy_health": 1.1825907230377197,
+          "enemy_kills": 0.0,
+          "enemy_last_hits": 0.11999999731779099,
+          "enemy_mana": 0.2617816925048828,
+          "enemy_mango": 0.0,
+          "enemy_outcome": 0.0,
+          "enemy_own_t1": 0.0,
+          "enemy_tango": 0.0,
+          "own_deaths": -2.200000047683716,
+          "own_denies": 0.20000000298023224,
+          "own_experience": 0.5940000414848328,
+          "own_flask": 0.0,
+          "own_flask_break": 0.0,
+          "own_gold_received": 0.9890105128288269,
+          "own_health": -1.9999998807907104,
+          "own_kills": 0.0,
+          "own_last_hits": -0.11999999731779099,
+          "own_mana": -0.3727140426635742,
+          "own_mango": 0.0,
+          "own_outcome": 0.0,
+          "own_own_t1": 0.0,
+          "own_tango": 0.0
+        },
+        "reward_total": -5.418341159820557,
+        "side": "radiant",
+        "souls": 3.0,
+        "spell_completions": [
+          0.0,
+          2.0,
+          2.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 0.0,
+        "stuck_after_mid": {
+          "denominator": 715.0,
+          "numerator": 1.0
+        },
+        "stuck_before_mid": {
+          "denominator": 125.0,
+          "numerator": 0.0
+        },
+        "stuck_decisions": 1.0,
+        "stuck_fraction": {
+          "denominator": 840.0,
+          "numerator": 1.0
+        },
+        "xp_in_level": 57.0
+      },
+      {
+        "actions": [
+          0.0,
+          128.0,
+          177.0,
+          197.0,
+          322.0,
+          0.0,
+          0.0,
+          5.0,
+          10.0,
+          0.0,
+          1.0
+        ],
+        "alive_seconds": 167.93333435058594,
+        "attack_cancellations": 3.0,
+        "attack_cycles_completed": 26.0,
+        "attack_enemy_creep_commands": 88.0,
+        "attack_hero_commands": 109.0,
+        "attack_structure_commands": 0.0,
+        "buys": [
+          837.0,
+          0.0,
+          0.0,
+          2.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "cancelled_casts": 0.0,
+        "chio_decisions": 840.0,
+        "commands_during_windup": 5.0,
+        "consumable_uses": {
+          "flask": 0.0,
+          "mango": 0.0,
+          "tango": 0.0
+        },
+        "controller": "CHiO-opponent",
+        "damage_from_creeps": 394.0,
+        "damage_from_hero": 251.0,
+        "damage_from_tower": 0.0,
+        "dead_seconds": 0.0,
+        "death_causes": [
+          {
+            "cause": "hero_attack",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "raze",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "creeps",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "tower",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "requiem",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          }
+        ],
+        "deaths": 0.0,
+        "deny": 0.0,
+        "deny_commands": 0.0,
+        "distance_travelled": 16155.7880859375,
+        "first_death_game_seconds": null,
+        "first_death_location": {
+          "cause_code": 0.0,
+          "enemy_t1_distance": 0.0,
+          "own_t1_distance": 0.0
+        },
+        "first_move_game_seconds": -89.63333892822266,
+        "gold": 366.8344421386719,
+        "gold_received": 491.8362121582031,
+        "gold_spent": 220.0,
+        "health": 130.81004333496094,
+        "hero_attacks_released": 16.0,
+        "hero_kills": 1.0,
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "level": 2.0,
+        "lh": 1.0,
+        "longest_idle_seconds": 23.20000457763672,
+        "longest_movement_stall_seconds": 6.0,
+        "longest_stuck_seconds": 7.200000762939453,
+        "mana": 150.07711791992188,
+        "mid_arrival_elapsed_seconds": 25.59999656677246,
+        "mid_arrival_game_seconds": -64.43333435058594,
+        "minimum_health_fraction": 0.19312123954296112,
+        "minute_snapshots": [
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": -0.03333282470703125,
+            "gold": 5.0,
+            "health": 582.0,
+            "level": 1.0,
+            "lh": 0.0,
+            "mana": 291.0,
+            "net_worth": 880.0,
+            "razes_completed": 0.0,
+            "souls": 0.0,
+            "xp_in_level": 0.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": 59.96666717529297,
+            "gold": 10.945354461669922,
+            "health": 496.1964416503906,
+            "level": 2.0,
+            "lh": 1.0,
+            "mana": 126.58255004882812,
+            "net_worth": 1015.9453735351562,
+            "razes_completed": 3.0,
+            "souls": 1.0,
+            "xp_in_level": 28.5
+          },
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": 77.9000015258789,
+            "gold": 366.8344421386719,
+            "health": 130.81004333496094,
+            "level": 2.0,
+            "lh": 1.0,
+            "mana": 150.07711791992188,
+            "net_worth": 1371.83447265625,
+            "razes_completed": 3.0,
+            "souls": 5.0,
+            "xp_in_level": 321.0
+          }
+        ],
+        "net_worth": 1371.83447265625,
+        "purchases": {
+          "boots": 0.0,
+          "bracer": 0.0,
+          "clarity": 0.0,
+          "flask": 0.0,
+          "mango": 2.0,
+          "tango": 1.0,
+          "tp": 0.0,
+          "wraith_band": 0.0
+        },
+        "raze_creep_hits": 6.0,
+        "raze_hero_hits": 2.0,
+        "raze_hero_hits_by_spell": [
+          0.0,
+          1.0,
+          1.0
+        ],
+        "razes_hitting_any_target": 2.0,
+        "razes_hitting_hero": 2.0,
+        "reward_components": {
+          "enemy_deaths": 0.0,
+          "enemy_denies": -0.20000000298023224,
+          "enemy_experience": -0.5940000414848328,
+          "enemy_flask": 0.0,
+          "enemy_flask_break": 0.0,
+          "enemy_gold_received": -0.9890105128288269,
+          "enemy_health": 1.9999998807907104,
+          "enemy_kills": 0.0,
+          "enemy_last_hits": 0.11999999731779099,
+          "enemy_mana": 0.3727140426635742,
+          "enemy_mango": 0.0,
+          "enemy_outcome": 0.0,
+          "enemy_own_t1": 0.0,
+          "enemy_tango": 0.0,
+          "own_deaths": 0.0,
+          "own_denies": 0.0,
+          "own_experience": 1.1220000982284546,
+          "own_flask": 0.0,
+          "own_flask_break": 0.0,
+          "own_gold_received": 2.9510138034820557,
+          "own_health": -1.1825907230377197,
+          "own_kills": 0.699999988079071,
+          "own_last_hits": -0.11999999731779099,
+          "own_mana": -0.2617816925048828,
+          "own_mango": 0.0,
+          "own_outcome": 0.0,
+          "own_own_t1": 0.0,
+          "own_tango": 0.0
+        },
+        "reward_total": 3.9183411598205566,
+        "side": "dire",
+        "souls": 5.0,
+        "spell_completions": [
+          0.0,
+          1.0,
+          2.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 0.0,
+        "stuck_after_mid": {
+          "denominator": 713.0,
+          "numerator": 40.0
+        },
+        "stuck_before_mid": {
+          "denominator": 127.0,
+          "numerator": 0.0
+        },
+        "stuck_decisions": 40.0,
+        "stuck_fraction": {
+          "denominator": 840.0,
+          "numerator": 40.0
+        },
+        "xp_in_level": 321.0
+      }
+    ],
+    "simulation_error": 0.0
+  },
+  {
+    "accessible_credited": 29.0,
+    "accessible_deaths": 64.0,
+    "credited": 29.0,
+    "game": 9,
+    "game_seconds": 266.2666931152344,
+    "lane_creeps_spawned": 72.0,
+    "lane_deaths": 64.0,
+    "native_terminal": true,
+    "outcome_reason": "death",
+    "result": -1.0,
+    "sides": [
+      {
+        "actions": [
+          0.0,
+          126.0,
+          647.0,
+          521.0,
+          440.0,
+          0.0,
+          0.0,
+          15.0,
+          25.0,
+          0.0,
+          8.0
+        ],
+        "alive_seconds": 356.20001220703125,
+        "attack_cancellations": 14.0,
+        "attack_cycles_completed": 63.0,
+        "attack_enemy_creep_commands": 250.0,
+        "attack_hero_commands": 244.0,
+        "attack_structure_commands": 0.0,
+        "buys": [
+          1773.0,
+          0.0,
+          0.0,
+          3.0,
+          5.0,
+          1.0,
+          0.0
+        ],
+        "cancelled_casts": 0.0,
+        "chio_decisions": 1782.0,
+        "commands_during_windup": 18.0,
+        "consumable_uses": {
+          "flask": 3.0,
+          "mango": 0.0,
+          "tango": 0.0
+        },
+        "controller": "CHiO-opponent",
+        "damage_from_creeps": 910.0,
+        "damage_from_hero": 1273.1644287109375,
+        "damage_from_tower": 0.0,
+        "dead_seconds": 0.100006103515625,
+        "death_causes": [
+          {
+            "cause": "hero_attack",
+            "count": 1.0,
+            "enemy_t1_distance_sum": 1382.196044921875,
+            "own_t1_distance_sum": 1545.4949951171875
+          },
+          {
+            "cause": "raze",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "creeps",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "tower",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "requiem",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          }
+        ],
+        "deaths": 1.0,
+        "deny": 1.0,
+        "deny_commands": 27.0,
+        "distance_travelled": 38266.9609375,
+        "first_death_game_seconds": 266.2333679199219,
+        "first_death_location": {
+          "cause_code": 1.0,
+          "enemy_t1_distance": 1382.196044921875,
+          "own_t1_distance": 1545.4949951171875
+        },
+        "first_move_game_seconds": -89.63333892822266,
+        "gold": 1.788252592086792,
+        "gold_received": 691.7164306640625,
+        "gold_spent": 785.0,
+        "health": 0.0,
+        "hero_attacks_released": 31.0,
+        "hero_kills": 0.0,
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          6.0,
+          2.0,
+          0.0
+        ],
+        "level": 4.0,
+        "lh": 6.0,
+        "longest_idle_seconds": 79.0,
+        "longest_movement_stall_seconds": 2.1999969482421875,
+        "longest_stuck_seconds": 4.1999969482421875,
+        "mana": 93.0615234375,
+        "mid_arrival_elapsed_seconds": 25.199996948242188,
+        "mid_arrival_game_seconds": -64.83333587646484,
+        "minimum_health_fraction": 0.0,
+        "minute_snapshots": [
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": -0.03333282470703125,
+            "gold": 5.0,
+            "health": 582.0,
+            "level": 1.0,
+            "lh": 0.0,
+            "mana": 291.0,
+            "net_worth": 880.0,
+            "razes_completed": 0.0,
+            "souls": 0.0,
+            "xp_in_level": 0.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": 59.96666717529297,
+            "gold": 10.94602108001709,
+            "health": 435.6565246582031,
+            "level": 1.0,
+            "lh": 1.0,
+            "mana": 178.67367553710938,
+            "net_worth": 1015.946044921875,
+            "razes_completed": 2.0,
+            "souls": 1.0,
+            "xp_in_level": 205.5
+          },
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": 119.96666717529297,
+            "gold": 90.94834899902344,
+            "health": 692.0,
+            "level": 3.0,
+            "lh": 2.0,
+            "mana": 78.65864562988281,
+            "net_worth": 1160.9483642578125,
+            "razes_completed": 5.0,
+            "souls": 2.0,
+            "xp_in_level": 17.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": 179.9666748046875,
+            "gold": 218.9507598876953,
+            "health": 692.0,
+            "level": 3.0,
+            "lh": 5.0,
+            "mana": 88.85762786865234,
+            "net_worth": 1288.95068359375,
+            "razes_completed": 6.0,
+            "souls": 5.0,
+            "xp_in_level": 407.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": 239.9666748046875,
+            "gold": 157.95361328125,
+            "health": 442.3311767578125,
+            "level": 4.0,
+            "lh": 6.0,
+            "mana": 52.82138442993164,
+            "net_worth": 1327.95361328125,
+            "razes_completed": 8.0,
+            "souls": 6.0,
+            "xp_in_level": 341.5
+          },
+          {
+            "deaths": 1.0,
+            "deny": 1.0,
+            "game_seconds": 266.2666931152344,
+            "gold": 1.788252592086792,
+            "health": 0.0,
+            "level": 4.0,
+            "lh": 6.0,
+            "mana": 93.0615234375,
+            "net_worth": 1271.7882080078125,
+            "razes_completed": 8.0,
+            "souls": 5.0,
+            "xp_in_level": 490.0
+          }
+        ],
+        "net_worth": 1271.7882080078125,
+        "purchases": {
+          "boots": 0.0,
+          "bracer": 0.0,
+          "clarity": 0.0,
+          "flask": 5.0,
+          "mango": 3.0,
+          "tango": 1.0,
+          "tp": 0.0,
+          "wraith_band": 0.0
+        },
+        "raze_creep_hits": 14.0,
+        "raze_hero_hits": 5.0,
+        "raze_hero_hits_by_spell": [
+          0.0,
+          1.0,
+          4.0
+        ],
+        "razes_hitting_any_target": 8.0,
+        "razes_hitting_hero": 5.0,
+        "reward_components": {
+          "enemy_deaths": 0.0,
+          "enemy_denies": -0.9000000953674316,
+          "enemy_experience": -4.285000324249268,
+          "enemy_flask": 0.6000000238418579,
+          "enemy_flask_break": 0.27574992179870605,
+          "enemy_gold_received": -8.092242240905762,
+          "enemy_health": 1.372969627380371,
+          "enemy_kills": 0.0,
+          "enemy_last_hits": 1.559999942779541,
+          "enemy_mana": 0.34391188621520996,
+          "enemy_mango": 0.0,
+          "enemy_outcome": 0.0,
+          "enemy_own_t1": 0.0,
+          "enemy_tango": 0.0,
+          "own_deaths": -2.200000047683716,
+          "own_denies": 0.10000000149011612,
+          "own_experience": 3.299999952316284,
+          "own_flask": -0.9000000357627869,
+          "own_flask_break": -0.4000000059604645,
+          "own_gold_received": 4.150336265563965,
+          "own_health": -2.0,
+          "own_kills": 0.0,
+          "own_last_hits": -0.7199999690055847,
+          "own_mana": -0.37181758880615234,
+          "own_mango": 0.0,
+          "own_outcome": 0.0,
+          "own_own_t1": -0.013334333896636963,
+          "own_tango": 0.0
+        },
+        "reward_total": -8.179458618164062,
+        "side": "radiant",
+        "souls": 5.0,
+        "spell_completions": [
+          0.0,
+          3.0,
+          5.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 0.0,
+        "stuck_after_mid": {
+          "denominator": 1657.0,
+          "numerator": 58.0
+        },
+        "stuck_before_mid": {
+          "denominator": 125.0,
+          "numerator": 0.0
+        },
+        "stuck_decisions": 58.0,
+        "stuck_fraction": {
+          "denominator": 1782.0,
+          "numerator": 58.0
+        },
+        "xp_in_level": 490.0
+      },
+      {
+        "actions": [
+          0.0,
+          128.0,
+          565.0,
+          592.0,
+          453.0,
+          0.0,
+          0.0,
+          5.0,
+          35.0,
+          0.0,
+          4.0
+        ],
+        "alive_seconds": 356.3000183105469,
+        "attack_cancellations": 14.0,
+        "attack_cycles_completed": 95.0,
+        "attack_enemy_creep_commands": 348.0,
+        "attack_hero_commands": 115.0,
+        "attack_structure_commands": 0.0,
+        "buys": [
+          1774.0,
+          1.0,
+          0.0,
+          3.0,
+          3.0,
+          1.0,
+          0.0
+        ],
+        "cancelled_casts": 0.0,
+        "chio_decisions": 1782.0,
+        "commands_during_windup": 13.0,
+        "consumable_uses": {
+          "flask": 2.0,
+          "mango": 0.0,
+          "tango": 0.0
+        },
+        "controller": "CHiO",
+        "damage_from_creeps": 347.0,
+        "damage_from_hero": 1721.0,
+        "damage_from_tower": 0.0,
+        "dead_seconds": 0.0,
+        "death_causes": [
+          {
+            "cause": "hero_attack",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "raze",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "creeps",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "tower",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          },
+          {
+            "cause": "requiem",
+            "count": 0.0,
+            "enemy_t1_distance_sum": 0.0,
+            "own_t1_distance_sum": 0.0
+          }
+        ],
+        "deaths": 0.0,
+        "deny": 9.0,
+        "deny_commands": 129.0,
+        "distance_travelled": 34468.203125,
+        "first_death_game_seconds": null,
+        "first_death_location": {
+          "cause_code": 0.0,
+          "enemy_t1_distance": 0.0,
+          "own_t1_distance": 0.0
+        },
+        "first_move_game_seconds": -89.63333892822266,
+        "gold": 358.75390625,
+        "gold_received": 1348.706298828125,
+        "gold_spent": 1085.0,
+        "health": 120.0765380859375,
+        "hero_attacks_released": 20.0,
+        "hero_kills": 1.0,
+        "items": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          4.0,
+          0.0,
+          0.0
+        ],
+        "level": 5.0,
+        "lh": 13.0,
+        "longest_idle_seconds": 64.4000015258789,
+        "longest_movement_stall_seconds": 2.8000011444091797,
+        "longest_stuck_seconds": 6.599998474121094,
+        "mana": 120.81230926513672,
+        "mid_arrival_elapsed_seconds": 25.59999656677246,
+        "mid_arrival_game_seconds": -64.43333435058594,
+        "minimum_health_fraction": 0.1261909157037735,
+        "minute_snapshots": [
+          {
+            "deaths": 0.0,
+            "deny": 0.0,
+            "game_seconds": -0.03333282470703125,
+            "gold": 5.0,
+            "health": 582.0,
+            "level": 1.0,
+            "lh": 0.0,
+            "mana": 291.0,
+            "net_worth": 880.0,
+            "razes_completed": 0.0,
+            "souls": 0.0,
+            "xp_in_level": 0.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 1.0,
+            "game_seconds": 59.96666717529297,
+            "gold": 11.946192741394043,
+            "health": 547.7078247070312,
+            "level": 2.0,
+            "lh": 1.0,
+            "mana": 197.49012756347656,
+            "net_worth": 1016.9461669921875,
+            "razes_completed": 2.0,
+            "souls": 2.0,
+            "xp_in_level": 57.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 2.0,
+            "game_seconds": 119.96666717529297,
+            "gold": 263.94659423828125,
+            "health": 525.2341918945312,
+            "level": 3.0,
+            "lh": 5.0,
+            "mana": 151.60975646972656,
+            "net_worth": 1268.946533203125,
+            "razes_completed": 4.0,
+            "souls": 7.0,
+            "xp_in_level": 137.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 5.0,
+            "game_seconds": 179.9666748046875,
+            "gold": 293.93634033203125,
+            "health": 758.0,
+            "level": 4.0,
+            "lh": 7.0,
+            "mana": 38.03560256958008,
+            "net_worth": 1363.936279296875,
+            "razes_completed": 7.0,
+            "souls": 12.0,
+            "xp_in_level": 157.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 6.0,
+            "game_seconds": 239.9666748046875,
+            "gold": 49.920284271240234,
+            "health": 292.7755126953125,
+            "level": 4.0,
+            "lh": 12.0,
+            "mana": 54.836177825927734,
+            "net_worth": 1619.9202880859375,
+            "razes_completed": 8.0,
+            "souls": 18.0,
+            "xp_in_level": 526.0
+          },
+          {
+            "deaths": 0.0,
+            "deny": 9.0,
+            "game_seconds": 266.2666931152344,
+            "gold": 358.75390625,
+            "health": 120.0765380859375,
+            "level": 5.0,
+            "lh": 13.0,
+            "mana": 120.81230926513672,
+            "net_worth": 2028.75390625,
+            "razes_completed": 8.0,
+            "souls": 20.0,
+            "xp_in_level": 382.5
+          }
+        ],
+        "net_worth": 2028.75390625,
+        "purchases": {
+          "boots": 1.0,
+          "bracer": 0.0,
+          "clarity": 0.0,
+          "flask": 3.0,
+          "mango": 3.0,
+          "tango": 1.0,
+          "tp": 0.0,
+          "wraith_band": 0.0
+        },
+        "raze_creep_hits": 12.0,
+        "raze_hero_hits": 3.0,
+        "raze_hero_hits_by_spell": [
+          0.0,
+          1.0,
+          2.0
+        ],
+        "razes_hitting_any_target": 6.0,
+        "razes_hitting_hero": 3.0,
+        "reward_components": {
+          "enemy_deaths": 0.0,
+          "enemy_denies": -0.10000000149011612,
+          "enemy_experience": -3.299999952316284,
+          "enemy_flask": 0.9000000357627869,
+          "enemy_flask_break": 0.4000000059604645,
+          "enemy_gold_received": -4.150336265563965,
+          "enemy_health": 2.0,
+          "enemy_kills": 0.0,
+          "enemy_last_hits": 0.7199999690055847,
+          "enemy_mana": 0.37181758880615234,
+          "enemy_mango": 0.0,
+          "enemy_outcome": 0.0,
+          "enemy_own_t1": 0.013334333896636963,
+          "enemy_tango": 0.0,
+          "own_deaths": 0.0,
+          "own_denies": 0.9000000953674316,
+          "own_experience": 4.285000324249268,
+          "own_flask": -0.6000000238418579,
+          "own_flask_break": -0.27574992179870605,
+          "own_gold_received": 8.092242240905762,
+          "own_health": -1.372969627380371,
+          "own_kills": 0.699999988079071,
+          "own_last_hits": -1.559999942779541,
+          "own_mana": -0.34391188621520996,
+          "own_mango": 0.0,
+          "own_outcome": 0.0,
+          "own_own_t1": 0.0,
+          "own_tango": 0.0
+        },
+        "reward_total": 6.6794586181640625,
+        "side": "dire",
+        "souls": 20.0,
+        "spell_completions": [
+          0.0,
+          1.0,
+          7.0,
+          0.0
+        ],
+        "stacked_raze_hero_hits": 1.0,
+        "stuck_after_mid": {
+          "denominator": 1655.0,
+          "numerator": 45.0
+        },
+        "stuck_before_mid": {
+          "denominator": 127.0,
+          "numerator": 0.0
+        },
+        "stuck_decisions": 45.0,
+        "stuck_fraction": {
+          "denominator": 1782.0,
+          "numerator": 45.0
+        },
+        "xp_in_level": 382.5
+      }
+    ],
+    "simulation_error": 0.0
+  }
+]
