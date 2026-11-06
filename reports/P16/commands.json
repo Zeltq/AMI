@@ -289,10 +289,31 @@
       "C:\\AMI\\runs\\p16\\jobs\\controller\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller\\stderr.log"
     ],
-    "elapsed_minutes": 69.72338527166673,
+    "elapsed_minutes": 81.16400614833304,
     "child_pid": 36428,
     "exit_code": null,
     "job": "controller"
+  },
+  {
+    "stage": "complete",
+    "pid": 12712,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe collect-dagger C:\\AMI-wt\\P16\\reports\\P16\\configs\\dagger-1-256.json C:\\AMI\\runs\\p16\\dagger-1-256",
+    "argv": [
+      "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe",
+      "collect-dagger",
+      "C:\\AMI-wt\\P16\\reports\\P16\\configs\\dagger-1-256.json",
+      "C:\\AMI\\runs\\p16\\dagger-1-256"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\dagger-1-256\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\dagger-1-256\\stderr.log"
+    ],
+    "elapsed_minutes": 11.194490146666066,
+    "child_pid": 17576,
+    "exit_code": 0,
+    "job": "dagger-1-256"
   },
   {
     "stage": "complete",
