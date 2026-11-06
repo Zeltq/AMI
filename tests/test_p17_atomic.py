@@ -24,3 +24,17 @@ def test_permanent_lock_has_deadline_and_keeps_previous_file():
             except PermissionError:pass
             else:raise AssertionError('must report permanent lock')
         assert path.read_text()=='return {}'
+
+
+def test_policy_status_retries_transient_reader_lock(tmp_path):
+    import json
+    import sys
+    sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
+    from play_vs_chio import save
+    path=tmp_path/'pilot-status.json';original=Path.replace;attempts=[]
+    def locked(source,target):
+        attempts.append(1)
+        if len(attempts)<3:raise PermissionError('status reader open')
+        return original(source,target)
+    with patch.object(Path,'replace',locked):save(path,{'stage':'match','note':'обучение'})
+    assert len(attempts)==3 and json.loads(path.read_text(encoding='utf-8'))['stage']=='match'

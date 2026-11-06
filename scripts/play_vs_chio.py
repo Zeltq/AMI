@@ -24,7 +24,8 @@ def below_normal():
 
 
 def save(path,value):
-    tmp=path.with_suffix('.tmp');tmp.write_text(json.dumps(value,ensure_ascii=False,indent=2),encoding='utf-8');tmp.replace(path)
+    # Windows status readers may briefly hold the destination open too.
+    replace_text(path,json.dumps(value,ensure_ascii=False,indent=2),timeout=.25)
 
 
 def serve(model_path,log,bots,output,team,stop,ready,audit=False,navigation_probe=False,seed=20261103):
