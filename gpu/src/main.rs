@@ -43,6 +43,7 @@ mod chio_teacher;
 mod chio_metrics;
 mod chio_collect;
 mod chio_runtime;
+mod chio_pool;
 mod chio_train;
 mod chio_eval;
 mod aggro_fidelity;

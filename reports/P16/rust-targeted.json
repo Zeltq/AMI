@@ -1,0 +1,72 @@
+{
+  "build-p16-001": {
+    "stage": "complete",
+    "pid": 26376,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p16/target p16_ -- --test-threads=1",
+    "argv": [
+      "cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "gpu/Cargo.toml",
+      "--target-dir",
+      "C:/AMI/runs/p16/target",
+      "p16_",
+      "--",
+      "--test-threads=1"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\build-p16-001\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\build-p16-001\\stderr.log"
+    ],
+    "elapsed_minutes": 3.5109765250002964,
+    "child_pid": 35032,
+    "exit_code": 0,
+    "stdout_tail": [
+      "test chio_pool::tests::p16_routed_v9_matches_pure_chio_v9_across_reset ... ok",
+      "test gpu_tests::experience_is_zeroed_fp16_and_preserves_rollout_write_read ... ok",
+      "test gpu_tests::policy_trace_two_frames_keep_fp16_observations_and_f32_aux_separate ... ok",
+      "",
+      "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 134 filtered out; finished in 113.99s",
+      ""
+    ]
+  },
+  "p16-training-check": {
+    "stage": "complete",
+    "pid": 11904,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p16/target chio_train::tests::p16_ -- --test-threads=1",
+    "argv": [
+      "cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "gpu/Cargo.toml",
+      "--target-dir",
+      "C:/AMI/runs/p16/target",
+      "chio_train::tests::p16_",
+      "--",
+      "--test-threads=1"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\p16-training-check\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\p16-training-check\\stderr.log"
+    ],
+    "elapsed_minutes": 2.924170428334037,
+    "child_pid": 10604,
+    "exit_code": 0,
+    "stdout_tail": [
+      "running 2 tests",
+      "test chio_train::tests::p16_anchor_schedule_uses_elapsed_training_time ... ok",
+      "test chio_train::tests::p16_critic_freeze_anchor_resume_and_mixed_episode_assignment ... ok",
+      "",
+      "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 138 filtered out; finished in 86.67s",
+      ""
+    ]
+  }
+}
