@@ -57,8 +57,8 @@ def minibatches(sources,stage,batch,seed,targets):
 
 def run(config,output,max_updates=None,initialize=None,updates=None,resume=None,**unused):
     if unused.get('zero_previous') or unused.get('check_resume'):raise ValueError('Legacy ablation/resume-inspection flags are not CHiO modes')
-    if resume:raise ValueError('CHiO uses initialize plus an explicit additional update budget')
-    cfg=json.loads(Path(config).read_text());allowed={'dataset','replay_datasets','observation_profile','engine','decision_ticks','offset_ticks','gamma','gae_lambda','reward_mode','zero_sum','mode','epochs','updates','batch_sequences','learning_rate','gradient_norm','seed','device','initialize'}
+    resume=resume or json.loads(Path(config).read_text()).get('resume')
+    cfg=json.loads(Path(config).read_text());allowed={'dataset','replay_datasets','observation_profile','engine','decision_ticks','offset_ticks','gamma','gae_lambda','reward_mode','zero_sum','mode','epochs','updates','batch_sequences','learning_rate','gradient_norm','seed','device','initialize','resume','checkpoint_updates'}
     if set(cfg)-allowed:raise ValueError('Unknown CHiO training keys: '+str(set(cfg)-allowed))
     for key,expected in dict(observation_profile='chio-v1',decision_ticks=6,offset_ticks=6,gamma=.997,gae_lambda=.95,reward_mode='lastorder-fb-v1').items():
         if cfg.get(key)!=expected:raise ValueError('CHiO training contract: '+key)
@@ -79,7 +79,7 @@ def run(config,output,max_updates=None,initialize=None,updates=None,resume=None,
     if device=='cuda' and not torch.cuda.is_available():raise RuntimeError('CHiO training requires ROCm/CUDA')
     if device not in ('cpu','cuda'):raise ValueError('Unsupported device')
     torch.set_num_threads(2);seed=cfg.get('seed',20261103);torch.manual_seed(seed);model=Policy().to(device)
-    init=initialize or cfg.get('initialize')
+    init=resume or initialize or cfg.get('initialize')
     if mode=='critic' and not init:raise ValueError('Critic pretraining requires imitation checkpoint')
     if init:
         checkpoint=torch.load(local_path(init),map_location='cpu',weights_only=False)
@@ -88,14 +88,31 @@ def run(config,output,max_updates=None,initialize=None,updates=None,resume=None,
     if mode=='critic':
         for name,param in model.named_parameters():param.requires_grad_(name.startswith('value_head.'))
     optimizer=torch.optim.AdamW([p for p in model.parameters() if p.requires_grad],lr=cfg.get('learning_rate',1e-4),weight_decay=1e-5)
+    if resume:optimizer.load_state_dict(checkpoint['optimizer'])
     budget=max_updates or updates or cfg.get('updates');epochs=cfg.get('epochs',5);batch=cfg.get('batch_sequences',8);clip=cfg.get('gradient_norm',1.)
     if min(epochs,batch,clip)<=0 or (budget is not None and budget<=0):raise ValueError('Positive training parameters required')
     targets=[returns(root,.997,cfg['zero_sum']) for root,_ in sources] if mode=='critic' else None
     out=Path(output);out.mkdir(parents=True,exist_ok=True)
-    if (out/'config.json').exists():raise FileExistsError('Fresh output required')
+    if (out/'config.json').exists() and not resume:raise FileExistsError('Fresh output required')
     provenance={**cfg,'device_actual':str(device),'torch':torch.__version__,'datasets':[{'path':str(root),'sha256':hashlib.sha256((root/'dataset.json').read_bytes()).hexdigest()} for root,_ in sources],
                 'source_sha256':{str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in [Path(__file__),ROOT/'src/sf_duel/chio_model.py',ROOT/'gpu/scripts/ggd_dataset.py']}}
-    save(out/'config.json',provenance);started=time.monotonic();steps=0;history=[]
+    if resume:
+        previous=checkpoint['config']
+        for key in ('observation_profile','gamma','gae_lambda','zero_sum','mode','dataset','replay_datasets','batch_sequences','learning_rate','seed'):
+            if previous.get(key)!=provenance.get(key):raise ValueError('Resume configuration changed: '+key)
+    else:save(out/'config.json',provenance)
+    started=time.monotonic();steps=checkpoint['optimizer_steps'] if resume else 0;history=checkpoint['history'] if resume else []
+    start_epoch=checkpoint.get('epoch',1) if resume else 1;resume_batch=checkpoint.get('batch_index',-1) if resume else -1
+    elapsed=history[-1]['wall_seconds'] if history else 0.
+    if resume and 'rng' in checkpoint:
+        torch.set_rng_state(checkpoint['rng'])
+        if device=='cuda' and checkpoint.get('cuda_rng') is not None:torch.cuda.set_rng_state_all(checkpoint['cuda_rng'])
+    def checkpoint_now(epoch,batch_index):
+        state={'spec_version':5,'state_dict':{k:v.detach().cpu() for k,v in model.state_dict().items()},'optimizer':optimizer.state_dict(),
+               'optimizer_steps':steps,'config':provenance,'history':history,'epoch':epoch,'batch_index':batch_index,'rng':torch.get_rng_state(),
+               'cuda_rng':torch.cuda.get_rng_state_all() if device=='cuda' else None}
+        temporary=out/'checkpoint.pt.tmp';torch.save(state,temporary);temporary.replace(out/'checkpoint.pt')
+
     initial_value={k:v.detach().cpu().clone() for k,v in model.state_dict().items() if k.startswith('value_head.')}
     def compute(b,resets,n,target):
         labels=torch.as_tensor(b.pop('labels'),device=device);valid=torch.as_tensor(b.pop('loss_valid'),device=device)
@@ -115,17 +132,22 @@ def run(config,output,max_updates=None,initialize=None,updates=None,resume=None,
         if not torch.isfinite(loss):raise FloatingPointError('Nonfinite loss')
         return loss,int(valid.sum())
     # An explicit update budget is independent of dataset size/epoch count.
-    epoch=0
+    epoch=start_epoch-1
     while epoch<epochs or (budget is not None and steps<budget):
         epoch+=1;model.train();epoch_steps=0
-        for b,resets,n,target in minibatches(sources,'train',batch,seed+epoch,targets):
+        skipped=0
+        for batch_index,(b,resets,n,target) in enumerate(minibatches(sources,'train',batch,seed+epoch,targets)):
+            if epoch==start_epoch and batch_index<=resume_batch:skipped+=1;continue
+            if budget is not None and steps>=budget:break
             optimizer.zero_grad(set_to_none=True);loss,count=compute(b,resets,n,target)
             if loss is None:continue
             loss.backward();norm=torch.nn.utils.clip_grad_norm_(model.parameters(),clip,error_if_nonfinite=True);optimizer.step();steps+=1;epoch_steps+=1
-            row=dict(step=steps,epoch=epoch,loss=float(loss.detach()),gradient_norm=float(norm),frames=count,wall_seconds=time.monotonic()-started);history.append(row)
+            row=dict(step=steps,epoch=epoch,loss=float(loss.detach()),gradient_norm=float(norm),frames=count,wall_seconds=elapsed+time.monotonic()-started);history.append(row)
             save(out/'status.json',row);print(json.dumps(row),flush=True)
+            if steps%cfg.get('checkpoint_updates',250)==0:checkpoint_now(epoch,batch_index)
             if budget is not None and steps>=budget:break
-        if not epoch_steps:raise ValueError('No eligible training sequences')
+        if epoch_steps:checkpoint_now(epoch,batch_index)
+        if not epoch_steps and not skipped and not (budget is not None and steps>=budget):raise ValueError('No eligible training sequences')
         if budget is not None and steps>=budget:break
     model.eval();validation_sum=0.;validation_frames=0
     with torch.no_grad():
@@ -134,15 +156,14 @@ def run(config,output,max_updates=None,initialize=None,updates=None,resume=None,
             if loss is not None:validation_sum+=float(loss)*count;validation_frames+=count
     if not validation_frames:raise ValueError('Empty validation split')
     if mode=='imitation' and any(not torch.equal(initial_value[k],v.cpu()) for k,v in model.state_dict().items() if k in initial_value):raise AssertionError('Imitation changed unused value head')
-    checkpoint={'spec_version':5,'state_dict':model.cpu().state_dict(),'optimizer':optimizer.state_dict(),'optimizer_steps':steps,'config':provenance,'history':history}
-    torch.save(checkpoint,out/'checkpoint.pt');export_weights(model,out/'weights')
+    export_weights(model.cpu(),out/'weights')
     result=dict(passed=True,mode=mode,updates=steps,finite_updates=len(history),validation_loss=validation_sum/validation_frames,validation_frames=validation_frames,
-                wall_seconds=time.monotonic()-started,checkpoint=str(out/'checkpoint.pt'),weights=str(out/'weights'),parameters=sum(p.numel() for p in model.parameters()))
+                wall_seconds=elapsed+time.monotonic()-started,checkpoint=str(out/'checkpoint.pt'),weights=str(out/'weights'),parameters=sum(p.numel() for p in model.parameters()))
     save(out/'history.json',history);save(out/'result.json',result);print(json.dumps(result),flush=True);return result
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('config');p.add_argument('output');p.add_argument('--max-updates',type=int);p.add_argument('--initialize');p.add_argument('--updates',type=int)
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('config');p.add_argument('output');p.add_argument('--max-updates',type=int);p.add_argument('--initialize');p.add_argument('--updates',type=int);p.add_argument('--resume')
     run(**vars(p.parse_args()))
 
 
