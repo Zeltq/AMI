@@ -677,6 +677,27 @@
   },
   {
     "stage": "complete",
+    "pid": 34120,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe evaluate-chio C:\\AMI-wt\\P16\\reports\\P16\\configs\\eval-nav-imitation-v10-sampling.json C:\\AMI\\runs\\p16\\eval-nav-imitation-v10-sampling",
+    "argv": [
+      "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe",
+      "evaluate-chio",
+      "C:\\AMI-wt\\P16\\reports\\P16\\configs\\eval-nav-imitation-v10-sampling.json",
+      "C:\\AMI\\runs\\p16\\eval-nav-imitation-v10-sampling"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\eval-nav-imitation-v10-sampling\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\eval-nav-imitation-v10-sampling\\stderr.log"
+    ],
+    "elapsed_minutes": 5.520991534999727,
+    "child_pid": 17248,
+    "exit_code": 0,
+    "job": "eval-nav-imitation-v10-sampling"
+  },
+  {
+    "stage": "complete",
     "pid": 9756,
     "cwd": "C:\\AMI-wt\\P16",
     "command": "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe evaluate-chio C:\\AMI-wt\\P16\\reports\\P16\\configs\\eval-nav-imitation-v9.json C:\\AMI\\runs\\p16\\eval-nav-imitation-v9",
@@ -1353,6 +1374,54 @@
     "job": "release-p16"
   },
   {
+    "stage": "complete",
+    "pid": 21772,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:/Python314/python.exe -X utf8 -m unittest discover -s tests -v",
+    "argv": [
+      "C:/Python314/python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-v"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\sampling-full-python\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\sampling-full-python\\stderr.log"
+    ],
+    "elapsed_minutes": 0.2511206816668467,
+    "child_pid": 3504,
+    "exit_code": 0,
+    "job": "sampling-full-python"
+  },
+  {
+    "stage": "running",
+    "pid": 37408,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:/Python314/python.exe -X utf8 -c \"import sys;sys.path.insert(0,'gpu/scripts');from p16_run import *;evaluation('nav-imitation',RUN/'nav-imitation/weights','v10')\"",
+    "argv": [
+      "C:/Python314/python.exe",
+      "-X",
+      "utf8",
+      "-c",
+      "import sys;sys.path.insert(0,'gpu/scripts');from p16_run import *;evaluation('nav-imitation',RUN/'nav-imitation/weights','v10')"
+    ],
+    "background_work_remaining": true,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\sampling-step2\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\sampling-step2\\stderr.log"
+    ],
+    "elapsed_minutes": 5.68200258333236,
+    "child_pid": 33168,
+    "exit_code": null,
+    "job": "sampling-step2"
+  },
+  {
     "stage": "failed",
     "pid": 35440,
     "cwd": "C:\\AMI-wt\\P16",
@@ -1479,5 +1548,29 @@
     "child_pid": 17908,
     "exit_code": 0,
     "job": "test-artifact-routing"
+  },
+  {
+    "stage": "complete",
+    "pid": 31936,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "wsl -d Ubuntu -- bash /mnt/c/AMI-wt/P16/scripts/wsl_python.sh /mnt/c/AMI-wt/P16/gpu/scripts/p16_weighted_resume_check.py",
+    "argv": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "bash",
+      "/mnt/c/AMI-wt/P16/scripts/wsl_python.sh",
+      "/mnt/c/AMI-wt/P16/gpu/scripts/p16_weighted_resume_check.py"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\weighted-resume-check\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\weighted-resume-check\\stderr.log"
+    ],
+    "elapsed_minutes": 0.25165566166785236,
+    "child_pid": 35132,
+    "exit_code": 0,
+    "job": "weighted-resume-check"
   }
 ]
