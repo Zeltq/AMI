@@ -1,0 +1,226 @@
+{
+  "model": "sampling-dagger-2",
+  "fingerprint": "b20b19613371c192ee5cc0a2bb653cef6ae08e47ed4c07f4fbc2f64d0e2d5dcb",
+  "games": 8,
+  "wins": 5,
+  "draws": 0,
+  "lh": 222,
+  "deny": 149,
+  "deaths": 1,
+  "acks": 23089,
+  "issued": 23568,
+  "delay7": 23089,
+  "stuck": 9,
+  "windows": 45,
+  "requests": 24600,
+  "errors": 0,
+  "write_retries": 1,
+  "handoffs": 16,
+  "mid_seconds": 206.86666107177695,
+  "spells": {
+    "nevermore_shadowraze1": {
+      "casts": 9,
+      "hits": 1
+    },
+    "nevermore_shadowraze2": {
+      "casts": 35,
+      "hits": 18
+    },
+    "nevermore_shadowraze3": {
+      "casts": 68,
+      "hits": 35
+    },
+    "nevermore_requiem": {
+      "casts": 0,
+      "hits": 0
+    },
+    "item_flask": {
+      "casts": 9,
+      "hits": 0
+    },
+    "item_enchanted_mango": {
+      "casts": 0,
+      "hits": 0
+    },
+    "item_tango": {
+      "casts": 0,
+      "hits": 0
+    }
+  },
+  "outcome_reasons": {
+    "win:death": 2,
+    "win:timeout": 3,
+    "loss:timeout": 2,
+    "loss:death": 1
+  },
+  "per_game": [
+    {
+      "seed": 20261103,
+      "model_team": 2,
+      "winner": 2,
+      "reason": "death",
+      "terminal": {
+        "killer": "npc_dota_creep_goodguys_ranged",
+        "team": 3,
+        "time": 590.30004882813,
+        "killer_team": 2,
+        "kind": "death"
+      },
+      "mid_seconds": 25.433334350585994,
+      "lh": 25,
+      "deny": 21,
+      "deaths": 0,
+      "run": "C:\\AMI\\runs\\p17\\matches\\sampling-dagger-2\\match-000-attempt-1"
+    },
+    {
+      "seed": 20261104,
+      "model_team": 3,
+      "winner": 3,
+      "reason": "death",
+      "terminal": {
+        "team": 2,
+        "killer_team": 3,
+        "killer": "npc_dota_hero_nevermore",
+        "time": 229.20001220703,
+        "kind": "death"
+      },
+      "mid_seconds": 26.233329772949,
+      "lh": 7,
+      "deny": 6,
+      "deaths": 0,
+      "run": "C:\\AMI\\runs\\p17\\matches\\sampling-dagger-2\\match-001-attempt-1"
+    },
+    {
+      "seed": 20261105,
+      "model_team": 2,
+      "winner": 2,
+      "reason": "timeout",
+      "terminal": null,
+      "mid_seconds": 25.433334350585994,
+      "lh": 41,
+      "deny": 26,
+      "deaths": 0,
+      "run": "C:\\AMI\\runs\\p17\\matches\\sampling-dagger-2\\match-002-attempt-1"
+    },
+    {
+      "seed": 20261106,
+      "model_team": 3,
+      "winner": 2,
+      "reason": "timeout",
+      "terminal": null,
+      "mid_seconds": 26.433334350586,
+      "lh": 25,
+      "deny": 19,
+      "deaths": 0,
+      "run": "C:\\AMI\\runs\\p17\\matches\\sampling-dagger-2\\match-003-attempt-1"
+    },
+    {
+      "seed": 20261107,
+      "model_team": 2,
+      "winner": 2,
+      "reason": "timeout",
+      "terminal": null,
+      "mid_seconds": 25.433334350585994,
+      "lh": 46,
+      "deny": 25,
+      "deaths": 0,
+      "run": "C:\\AMI\\runs\\p17\\matches\\sampling-dagger-2\\match-004-attempt-1"
+    },
+    {
+      "seed": 20261108,
+      "model_team": 3,
+      "winner": 2,
+      "reason": "death",
+      "terminal": {
+        "killer_team": 2,
+        "team": 3,
+        "time": 380.03332519531,
+        "kind": "death",
+        "killer": "npc_dota_creep_goodguys_melee"
+      },
+      "mid_seconds": 26.233329772949,
+      "lh": 17,
+      "deny": 11,
+      "deaths": 1,
+      "run": "C:\\AMI\\runs\\p17\\matches\\sampling-dagger-2\\match-005-attempt-1"
+    },
+    {
+      "seed": 20261109,
+      "model_team": 2,
+      "winner": 2,
+      "reason": "timeout",
+      "terminal": null,
+      "mid_seconds": 25.433334350585994,
+      "lh": 34,
+      "deny": 18,
+      "deaths": 0,
+      "run": "C:\\AMI\\runs\\p17\\matches\\sampling-dagger-2\\match-006-attempt-1"
+    },
+    {
+      "seed": 20261110,
+      "model_team": 3,
+      "winner": 2,
+      "reason": "timeout",
+      "terminal": null,
+      "mid_seconds": 26.233329772949,
+      "lh": 27,
+      "deny": 23,
+      "deaths": 0,
+      "run": "C:\\AMI\\runs\\p17\\matches\\sampling-dagger-2\\match-007-attempt-1"
+    }
+  ],
+  "simulator_v9": {
+    "actors": 128,
+    "lh": {
+      "numerator": 1495.0,
+      "denominator": 128
+    },
+    "deny": {
+      "numerator": 989.0,
+      "denominator": 128
+    },
+    "deaths": {
+      "numerator": 77.0,
+      "denominator": 128
+    },
+    "outcomes": {
+      "loss": 116,
+      "win": 10,
+      "draw": 2
+    },
+    "outcome_reasons": {
+      "loss:LH600": 39,
+      "loss:death": 77,
+      "win:death": 9,
+      "draw:LH600": 2,
+      "win:T1": 1
+    },
+    "raze_hero_hit_rates": {
+      "near": {
+        "numerator": 25.0,
+        "denominator": 169.0
+      },
+      "mid": {
+        "numerator": 383.0,
+        "denominator": 606.0
+      },
+      "far": {
+        "numerator": 429.0,
+        "denominator": 757.0
+      }
+    },
+    "mid_arrivals": {
+      "numerator": 128,
+      "denominator": 128
+    },
+    "mid_arrival_elapsed_seconds": {
+      "numerator": 3251.1995849609375,
+      "denominator": 128
+    },
+    "stuck_fraction": {
+      "numerator": 6234.0,
+      "denominator": 302169.0
+    }
+  },
+  "limitation": "Dota MOVE-window stuck metric and simulator stuck_fraction have different denominators; eight games do not establish equal strength."
+}
