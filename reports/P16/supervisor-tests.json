@@ -1,0 +1,9 @@
+{
+  "passed": 2,
+  "total": 2,
+  "command": "C:/Python314/python.exe -m unittest discover -s tests -p test_p16_supervisor.py -v",
+  "checks": [
+    "Windows paths become correct WSL paths",
+    "nonparallel evaluation waits for native process exit, then resumes same anchor and schedule"
+  ]
+}
