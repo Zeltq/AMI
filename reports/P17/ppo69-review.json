@@ -1,0 +1,372 @@
+{
+  "model": "ppo-checkpoint-000069",
+  "fingerprint": "f34658164c62f75a0b05e34aa57ca3dbedaa1d3912e17e48a266bc7ac57264fe",
+  "games": 8,
+  "wins": 5,
+  "draws": 0,
+  "lh": 184,
+  "deny": 117,
+  "deaths": 0,
+  "acks": 23585,
+  "issued": 24314,
+  "delay7": 23585,
+  "stuck": 0,
+  "windows": 36,
+  "requests": 25347,
+  "write_retries": 1,
+  "handoffs": 16,
+  "mid_seconds": 207.26667022705095,
+  "spells": {
+    "nevermore_shadowraze1": {
+      "casts": 11,
+      "hits": 0
+    },
+    "nevermore_shadowraze2": {
+      "casts": 37,
+      "hits": 11
+    },
+    "nevermore_shadowraze3": {
+      "casts": 67,
+      "hits": 27
+    },
+    "nevermore_requiem": {
+      "casts": 0,
+      "hits": 0
+    },
+    "item_flask": {
+      "casts": 7,
+      "hits": 0
+    },
+    "item_enchanted_mango": {
+      "casts": 0,
+      "hits": 0
+    },
+    "item_tango": {
+      "casts": 0,
+      "hits": 0
+    }
+  },
+  "per_game": [
+    {
+      "seed": 20261103,
+      "model_team": 2,
+      "winner": 3,
+      "reason": "timeout",
+      "terminal": null,
+      "mid_seconds": 25.433334350585994,
+      "sides": {
+        "2": {
+          "team": 2,
+          "time": 600,
+          "x": -788.28845214844,
+          "y": -659.62145996094,
+          "hp": 934,
+          "lh": 17,
+          "deny": 13,
+          "deaths": 0,
+          "alive": true,
+          "tower_alive": true,
+          "tick": 22116
+        },
+        "3": {
+          "team": 3,
+          "time": 600,
+          "x": 749.80297851563,
+          "y": 871.27777099609,
+          "hp": 489,
+          "lh": 42,
+          "tick": 22116,
+          "deaths": 0,
+          "alive": true,
+          "tower_alive": true,
+          "deny": 34
+        }
+      },
+      "run": "C:\\AMI\\runs\\p17\\matches\\ppo-checkpoint-000069\\match-000-attempt-1"
+    },
+    {
+      "seed": 20261104,
+      "model_team": 3,
+      "winner": 3,
+      "reason": "timeout",
+      "terminal": null,
+      "mid_seconds": 26.233329772949,
+      "sides": {
+        "2": {
+          "team": 2,
+          "time": 600,
+          "x": -1091.4208984375,
+          "y": -833.7666015625,
+          "hp": 384,
+          "lh": 22,
+          "deny": 22,
+          "deaths": 0,
+          "alive": true,
+          "tower_alive": true,
+          "tick": 22116
+        },
+        "3": {
+          "team": 3,
+          "time": 600,
+          "x": -647.43243408203,
+          "y": -317.87496948242,
+          "hp": 865,
+          "lh": 28,
+          "tick": 22116,
+          "deaths": 0,
+          "alive": true,
+          "tower_alive": true,
+          "deny": 19
+        }
+      },
+      "run": "C:\\AMI\\runs\\p17\\matches\\ppo-checkpoint-000069\\match-001-attempt-1"
+    },
+    {
+      "seed": 20261105,
+      "model_team": 2,
+      "winner": 2,
+      "reason": "death",
+      "terminal": {
+        "team": 3,
+        "time": 432.13336181641,
+        "kind": "death",
+        "killer": "npc_dota_creep_goodguys_ranged",
+        "killer_team": 2
+      },
+      "mid_seconds": 25.433334350585994,
+      "sides": {
+        "2": {
+          "lh": 21,
+          "tick": 17076,
+          "deaths": 0,
+          "alive": true,
+          "tower_alive": true,
+          "deny": 12,
+          "team": 2,
+          "time": 432,
+          "x": -385.08288574219,
+          "y": -462.02590942383,
+          "hp": 868
+        },
+        "3": {
+          "time": 432.13336181641,
+          "x": 706.57171630859,
+          "y": 835.35894775391,
+          "hp": 0,
+          "lh": 21,
+          "deny": 22,
+          "deaths": 1,
+          "alive": false,
+          "tower_alive": true,
+          "tick": 17076,
+          "team": 3
+        }
+      },
+      "run": "C:\\AMI\\runs\\p17\\matches\\ppo-checkpoint-000069\\match-002-attempt-1"
+    },
+    {
+      "seed": 20261106,
+      "model_team": 3,
+      "winner": 2,
+      "reason": "timeout",
+      "terminal": null,
+      "mid_seconds": 26.433334350586,
+      "sides": {
+        "2": {
+          "team": 2,
+          "time": 600,
+          "x": -1048.0911865234,
+          "y": -849.27557373047,
+          "hp": 689,
+          "lh": 35,
+          "tick": 22116,
+          "deaths": 0,
+          "alive": true,
+          "tower_alive": true,
+          "deny": 28
+        },
+        "3": {
+          "team": 3,
+          "time": 600,
+          "x": -324.88482666016,
+          "y": -381.8703918457,
+          "hp": 828,
+          "lh": 27,
+          "tick": 22116,
+          "deaths": 0,
+          "alive": true,
+          "tower_alive": true,
+          "deny": 20
+        }
+      },
+      "run": "C:\\AMI\\runs\\p17\\matches\\ppo-checkpoint-000069\\match-003-attempt-1"
+    },
+    {
+      "seed": 20261107,
+      "model_team": 2,
+      "winner": 3,
+      "reason": "timeout",
+      "terminal": null,
+      "mid_seconds": 25.433334350585994,
+      "sides": {
+        "2": {
+          "lh": 29,
+          "tick": 22116,
+          "deaths": 0,
+          "alive": true,
+          "tower_alive": true,
+          "deny": 12,
+          "team": 2,
+          "time": 600,
+          "x": -531.47735595703,
+          "y": -542.10186767578,
+          "hp": 934
+        },
+        "3": {
+          "hp": 377,
+          "lh": 38,
+          "tick": 22116,
+          "deaths": 0,
+          "alive": true,
+          "tower_alive": true,
+          "deny": 31,
+          "team": 3,
+          "time": 600,
+          "x": 742.77807617188,
+          "y": 858.02435302734
+        }
+      },
+      "run": "C:\\AMI\\runs\\p17\\matches\\ppo-checkpoint-000069\\match-004-attempt-1"
+    },
+    {
+      "seed": 20261108,
+      "model_team": 3,
+      "winner": 3,
+      "reason": "death",
+      "terminal": {
+        "team": 2,
+        "kind": "death",
+        "killer": "npc_dota_creep_badguys_ranged",
+        "time": 461.86669921875,
+        "killer_team": 3
+      },
+      "mid_seconds": 26.433334350586,
+      "sides": {
+        "2": {
+          "y": -1622.7703857422,
+          "hp": 0,
+          "lh": 29,
+          "tick": 17946,
+          "deaths": 1,
+          "alive": false,
+          "tower_alive": true,
+          "deny": 20,
+          "team": 2,
+          "time": 461.86669921875,
+          "x": -1759.1759033203
+        },
+        "3": {
+          "team": 3,
+          "time": 461,
+          "x": -1458.9765625,
+          "y": -1137.0166015625,
+          "hp": 801,
+          "lh": 16,
+          "tick": 17946,
+          "deaths": 0,
+          "alive": true,
+          "tower_alive": true,
+          "deny": 12
+        }
+      },
+      "run": "C:\\AMI\\runs\\p17\\matches\\ppo-checkpoint-000069\\match-005-attempt-1"
+    },
+    {
+      "seed": 20261109,
+      "model_team": 2,
+      "winner": 2,
+      "reason": "timeout",
+      "terminal": null,
+      "mid_seconds": 25.433334350585994,
+      "sides": {
+        "2": {
+          "lh": 34,
+          "tick": 22116,
+          "deaths": 0,
+          "alive": true,
+          "tower_alive": true,
+          "deny": 21,
+          "team": 2,
+          "time": 600,
+          "x": -922.021484375,
+          "y": -958.19281005859,
+          "hp": 934
+        },
+        "3": {
+          "team": 3,
+          "time": 600,
+          "x": -466.27947998047,
+          "y": -408.57647705078,
+          "hp": 934,
+          "lh": 31,
+          "deny": 24,
+          "deaths": 0,
+          "alive": true,
+          "tower_alive": true,
+          "tick": 22116
+        }
+      },
+      "run": "C:\\AMI\\runs\\p17\\matches\\ppo-checkpoint-000069\\match-006-attempt-1"
+    },
+    {
+      "seed": 20261110,
+      "model_team": 3,
+      "winner": 3,
+      "reason": "death",
+      "terminal": {
+        "time": 454.80004882813,
+        "kind": "death",
+        "team": 2,
+        "killer_team": 3,
+        "killer": "npc_dota_hero_nevermore"
+      },
+      "mid_seconds": 26.433334350586,
+      "sides": {
+        "2": {
+          "y": -1634.3979492188,
+          "hp": 0,
+          "lh": 29,
+          "tick": 17736,
+          "deaths": 1,
+          "alive": false,
+          "tower_alive": true,
+          "deny": 29,
+          "team": 2,
+          "time": 454.80004882813,
+          "x": -1757.1326904297
+        },
+        "3": {
+          "y": -1109.2188720703,
+          "hp": 405,
+          "lh": 12,
+          "tick": 17736,
+          "deaths": 0,
+          "alive": true,
+          "tower_alive": true,
+          "deny": 8,
+          "team": 3,
+          "time": 454,
+          "x": -1549.1389160156
+        }
+      },
+      "run": "C:\\AMI\\runs\\p17\\matches\\ppo-checkpoint-000069\\match-007-attempt-1"
+    }
+  ],
+  "outcome_reasons": {
+    "loss:timeout": 3,
+    "win:timeout": 2,
+    "win:death": 3
+  },
+  "simulator_reports": [],
+  "limitation": "No ready P16 sampling evaluation of these exact weights found; later PPO weights are not a substitute."
+}
