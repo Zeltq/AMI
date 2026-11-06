@@ -22,7 +22,7 @@ def refresh():
         d=read(p);d['job']=p.parent.name;commands.append(d)
     save(REPORT/'commands.json',commands)
     text=['# P16 — ночное обучение CHiO','','## Результаты','',f"Стадия: {state.get('stage','подготовка')}. Дедлайн UTC: {plan.get('deadline_utc')}. Контракт и ограничения P15 сохранены.",
-          'Оценки: argmax, seed20261103, 128 матчей, поровну сторон; оба учителя через CHiO.',
+          'Оценки: argmax, seed20261103, 128 матчей, поровну сторон; оба учителя через CHiO. Столбец базы различает policy/script; лучший выбирается только в текущем режиме.',
           'Проверка CHiO против CHiO: 8/8 полных матчей; [результат](P16/preflight-model-pair.json).','',
           '| Этап | Результат | Завершение UTC |','|---|---|---|']
     native=state.get('native',{})
@@ -34,7 +34,7 @@ def refresh():
         elif 'updates' in r:metric=f"конечные updates {r['finite_updates']}/{r['updates']}; val loss {r['validation_loss']:.6f}, frames {r['validation_frames']}/{r['validation_frames']}"
         elif 'training_seconds' in r:metric=f"{r['training_seconds']/60:.2f} мин; {r['blocks']}/{r['blocks']} блоков; {r['optimizer_steps']}/{r['optimizer_steps']} updates"
         text.append(f"|{name}|{metric}|{row['finished_utc']}|")
-    checks=read(REPORT/'full-verification.json')
+    checks=read(REPORT/'nav-full-verification.json') or read(REPORT/'full-verification.json')
     if checks:
         rust=re.search(r'(\d+) passed', '\n'.join(checks['full-rust-tail']));python=re.search(r'Ran (\d+) tests','\n'.join(checks['full-python-tail']))
         if rust and python:text.append(f"Полные тесты: Rust {rust[1]}/{rust[1]}, Python {python[1]}/{python[1]}.")
@@ -44,13 +44,13 @@ def refresh():
         text += ['',f"Диагностика imitation: направление до мида R {r['correct']}/{r['frames']}, D {d['correct']}/{d['frames']}; соглашение72/72, очередь+2000 —2256/2256.",'Подтверждён сдвиг состояний: модель40°/220° упирается в базе, учитель требует130°/270°. [Данные и траектории](P16/direction-diagnosis/result.json), [карта](P16/direction-diagnosis/trajectories.svg).']
     navigation=read(REPORT/'navigation-decision.json')
     if navigation:text += ['',f"Решение после DAgger1: {navigation['action']}; мид {navigation['mid_arrivals']['numerator']}/{navigation['mid_arrivals']['denominator']}."]
-    text+=['','| План этапа | Ожидаемое завершение UTC (первоначальная оценка) |','|---|---|']
+    text+=['','| План этапа | Ожидаемое завершение UTC (текущий план) |','|---|---|']
     text += [f"|{r['stage']}|{r['expected_end_utc']}|" for r in plan.get('estimates',[])]
-    text+=['','| Чекпоинт / соперник | W/D/L | Смерти | LH+deny | Мид | Время выхода на мид, с |','|---|---|---|---|---|---|']
+    text+=['','| Чекпоинт / соперник / база | W/D/L | Смерти | LH+deny | Мид | Время выхода на мид, с |','|---|---|---|---|---|---|']
     for e in evaluations:
         if not e.get('complete'):continue
         d=read(ROOT/e['summary']);c=d['controllers']['CHiO'];n=c['actors'];o=c['outcomes'];a=c['mid_arrival_elapsed_seconds'];farm=c['lh']['numerator']+c['deny']['numerator']
-        text.append(f"|{e['label']} / {e['opponent']}|{o.get('win',0)}/{n}; {o.get('draw',0)}/{n}; {o.get('loss',0)}/{n}|{c['deaths']['numerator']:g}/{n}|{farm:g}/{n}|{c['mid_arrivals']['numerator']}/{n}|{a['numerator']:.2f}/{a['denominator']}|")
+        text.append(f"|{e['label']} / {e['opponent']} / {'script' if e.get('scripted_base_to_mid') else 'policy'}|{o.get('win',0)}/{n}; {o.get('draw',0)}/{n}; {o.get('loss',0)}/{n}|{c['deaths']['numerator']:g}/{n}|{farm:g}/{n}|{c['mid_arrivals']['numerator']}/{n}|{a['numerator']:.2f}/{a['denominator']}|")
     text+=['','| Оценённая модель | Путь весов |','|---|---|']
     models={e['label']:e['weights'] for e in evaluations if e.get('complete')}
     text += [f'|{name}|`{path}`|' for name,path in models.items()]
@@ -93,6 +93,8 @@ def refresh():
            '`C:/AMI/runs/p16/`: environment/, teacher-1024/, imitation/, dagger-*/, critic*/, ppo*/, self-play*/, eval-*/, jobs/, state.json.',
            'Все изменения в C:/AMI-wt/P16; веса/датасеты/бинарники/крупные логи внеgit; графический клиент и папка ботов не используются.','',
            'DONE P16' if state.get('stage')=='complete' else 'BLOCKED P16: обучение продолжается; промежуточный отчёт']
+    if len(text)>150:
+        start=next(i for i,line in enumerate(text) if line.startswith('| План этапа'));end=start+2+len(plan.get('estimates',[]));text[start:end]=['Первоначальные сроки этапов: [plan.json](P16/plan.json); дополнительное обучение оплачивается временем self-play.']
     assert len(text)<=150,len(text);(ROOT/'reports/P16.md').write_text('\n'.join(text)+'\n',encoding='utf-8',newline='\n')
     save(REPORT/'incidents.json',read(RUN/'incidents.json',[]))
     return text

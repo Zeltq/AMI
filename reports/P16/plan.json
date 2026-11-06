@@ -8,38 +8,39 @@
   "collection_started_utc": "2026-11-06T02:11:03.936612+00:00",
   "estimates": [
     {
-      "stage": "teacher1024",
-      "expected_end_utc": "2026-11-06T02:56:03.936612+00:00",
-      "estimated_minutes": 45
+      "stage": "navigation verification and runtime smoke",
+      "expected_end_utc": "2026-11-06T05:23:16.274166+00:00",
+      "estimated_minutes": 5
     },
     {
-      "stage": "imitation3 + parity",
-      "expected_end_utc": "2026-11-06T03:26:03.936612+00:00",
+      "stage": "masked imitation3 + parity + evaluations",
+      "expected_end_utc": "2026-11-06T06:13:16.274166+00:00",
+      "estimated_minutes": 50
+    },
+    {
+      "stage": "new DAgger1 + parity + evaluations",
+      "expected_end_utc": "2026-11-06T07:08:16.274166+00:00",
+      "estimated_minutes": 55
+    },
+    {
+      "stage": "new DAgger2 + parity + evaluations",
+      "expected_end_utc": "2026-11-06T08:03:16.274166+00:00",
+      "estimated_minutes": 55
+    },
+    {
+      "stage": "frozen critic",
+      "expected_end_utc": "2026-11-06T08:33:16.274166+00:00",
       "estimated_minutes": 30
     },
     {
-      "stage": "DAgger1 + \u043e\u0446\u0435\u043d\u043a\u0430",
-      "expected_end_utc": "2026-11-06T04:11:03.936612+00:00",
-      "estimated_minutes": 45
-    },
-    {
-      "stage": "DAgger2 + parity + \u043e\u0446\u0435\u043d\u043a\u0430",
-      "expected_end_utc": "2026-11-06T04:56:03.936612+00:00",
-      "estimated_minutes": 45
-    },
-    {
-      "stage": "critic20..60",
-      "expected_end_utc": "2026-11-06T05:41:03.936612+00:00",
-      "estimated_minutes": 45
-    },
-    {
-      "stage": "PPOv10",
-      "expected_end_utc": "2026-11-06T07:41:03.936612+00:00",
-      "estimated_minutes": 120
+      "stage": "PPOv10 120min + desync",
+      "expected_end_utc": "2026-11-06T10:43:16.274166+00:00",
+      "estimated_minutes": 130
     },
     {
       "stage": "self-play + final evaluations",
       "expected_end_utc": "2026-11-06T13:01:16.332838+00:00"
     }
-  ]
+  ],
+  "navigation_recovery_started_utc": "2026-11-06T05:18:16.272001+00:00"
 }

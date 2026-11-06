@@ -17,6 +17,7 @@ def save(p,v):
             except PermissionError:
                 if attempt==19:raise
                 time.sleep(.05)
+def current_engine():return read(RUN/'navigation-mode.json',{}).get('engine',str(RUN/'environment/engine.json'))
 def utc():return datetime.datetime.now(datetime.timezone.utc).isoformat()
 def alive(pid):
     if not pid:return False
@@ -128,7 +129,7 @@ def evaluation(label,weights,opponent,previous=None,foreground=True):
     with LOCK:
         existing=[e for e in read(RUN/'evaluations.json',[]) if e['label']==label and e['opponent']==opponent and e.get('complete')]
     if existing:return existing[0]
-    cfg=dict(engine=str(RUN/'environment/engine.json'),matches=128,seconds=600,seed=20261103,left='v10',right='v9' if opponent=='v9' else 'v10',swap=True,weights=str(weights),sampling=False,zero_sum=True)
+    cfg=dict(engine=current_engine(),matches=128,seconds=600,seed=20261103,left='v10',right='v9' if opponent=='v9' else 'v10',swap=True,weights=str(weights),sampling=False,zero_sum=True)
     if previous:cfg['opponent_weights']=str(previous)
     for attempt in range(1,4):
         job=name if attempt==1 else name+f'-retry-{attempt}';folder=RUN/job;cp=config(job,cfg)
@@ -139,10 +140,10 @@ def evaluation(label,weights,opponent,previous=None,foreground=True):
         raise RuntimeError('Evaluation failed: '+name)
     assert r['complete'] and len(r['per_match'])==128
     summary=REPORT/(name+'.json');d=summarize(folder/'report.json',summary)
-    d['duration_elapsed_seconds']={'numerator':sum(g['game_seconds']+90 for g in r['per_match']),'denominator':128}
+    d['duration_elapsed_seconds']={'numerator':sum(g['game_seconds']+read(Path(cfg['engine']))['pre_game_seconds'] for g in r['per_match']),'denominator':128}
     for c in d['controllers'].values():
         c['counter_denominator']=c['actors'];c['raze_denominator_note']='Hits on enemy hero / all completed casts of this spell; no inferred model intent.'
-    save(summary,d);row=dict(label=label,opponent=opponent,weights=str(weights),opponent_weights=str(previous) if previous else None,complete=True,summary=str(summary.relative_to(ROOT)).replace('\\','/'),folder=str(folder),finished_utc=utc(),seconds=r['wall_seconds'])
+    save(summary,d);row=dict(scripted_base_to_mid=bool(r.get('scripted_base_to_mid',False)),label=label,opponent=opponent,weights=str(weights),opponent_weights=str(previous) if previous else None,complete=True,summary=str(summary.relative_to(ROOT)).replace('\\','/'),folder=str(folder),finished_utc=utc(),seconds=r['wall_seconds'])
     with LOCK:
         rows=read(RUN/'evaluations.json',[]);rows.append(row);save(RUN/'evaluations.json',rows)
     publish('evaluate '+label+' against '+opponent);return row
@@ -159,16 +160,16 @@ def queue_evaluation(label,weights,parallel):
     previous=read(RUN/'previous-evaluated.json',{}).get('weights')
     if parallel:FUTURES.append(POOL.submit(evaluate_group,label,weights,previous,False))
     else:evaluate_group(label,weights,previous)
-def full_verification():
-    if cached('full-verification'):return
+def full_verification(prefix=''):
+    if cached(prefix+'full-verification'):return
     (RUN/'tmp').mkdir(exist_ok=True);os.environ['TEMP']=os.environ['TMP']=str(RUN/'tmp');os.environ['SF_DUEL_TEST_ARTIFACTS']=str(RUN/'test-artifacts');os.environ['SF_DUEL_DATA_ROOT']='C:/AMI';os.environ['PYTHONPATH']=';'.join([str(ROOT/'src'),str(ROOT/'scripts'),str(ROOT/'tests'),str(ROOT/'gpu/scripts'),'C:/AMI/tools/lua_test_runtime']);os.environ['PYTHONDONTWRITEBYTECODE']='1'
-    r=run_job('full-rust',['cargo','test','--release','--locked','--manifest-path','gpu/Cargo.toml','--target-dir',RUN/'target','--','--test-threads=1'])
-    p=run_job('full-python',[PY,'-m','unittest','discover','-s','tests','-v'])
-    run_job('release-final',['cargo','build','--release','--locked','--manifest-path','gpu/Cargo.toml','--target-dir',RUN/'target'])
+    r=run_job(prefix+'full-rust',['cargo','test','--release','--locked','--manifest-path','gpu/Cargo.toml','--target-dir',RUN/'target','--','--test-threads=1'])
+    p=run_job(prefix+'full-python',[PY,'-m','unittest','discover','-s','tests','-v'])
+    run_job(prefix+'release-final',['cargo','build','--release','--locked','--manifest-path','gpu/Cargo.toml','--target-dir',RUN/'target'])
     evidence={'rust':r,'python':p}
     for name in ['full-rust','full-python']:
-        evidence[name+'-tail']=(RUN/'jobs'/name/('stdout.log' if name=='full-rust' else 'stderr.log')).read_text(encoding='utf-8',errors='replace').splitlines()[-7:]
-    save(REPORT/'full-verification.json',evidence);done('full-verification',evidence,RUN/'jobs')
+        evidence[name+'-tail']=(RUN/'jobs'/(prefix+name)/('stdout.log' if name=='full-rust' else 'stderr.log')).read_text(encoding='utf-8',errors='replace').splitlines()[-7:]
+    save(REPORT/(prefix+'full-verification.json'),evidence);done(prefix+'full-verification',evidence,RUN/'jobs')
 def dagger_capacity(weights):
     existing=read(RUN/'dagger-capacity.json')
     if existing:return existing['parallel_matches']
@@ -183,8 +184,8 @@ def dagger_capacity(weights):
 def parallel_probe(weights):
     known=read(RUN/'parallel-evaluation.json')
     if known:return known['allowed']
-    cfg=read(REPORT/'configs/ppo-v10.json');cfg.update(initial_weights=str(weights),desynchronize=False,max_blocks=1,minutes=10,checkpoint_minutes=0);cp=config('parallel-ppo-smoke',cfg)
-    e=dict(engine=str(RUN/'environment/engine.json'),matches=128,seconds=1,seed=20261103,weights=str(weights),opponent_weights=str(weights),sampling=False,zero_sum=True);ep=config('parallel-eval-smoke',e)
+    cfg=read(REPORT/'configs/ppo-v10.json');cfg.update(engine=current_engine(),initial_weights=str(weights),desynchronize=False,max_blocks=6 if read(RUN/'navigation-mode.json',{}).get('active') else 1,minutes=10,checkpoint_minutes=0);cp=config('parallel-ppo-smoke',cfg)
+    e=dict(engine=current_engine(),matches=128,seconds=60 if read(RUN/'navigation-mode.json',{}).get('active') else 1,seed=20261103,weights=str(weights),opponent_weights=str(weights),sampling=False,zero_sum=True);ep=config('parallel-eval-smoke',e)
     launch('parallel-ppo-smoke',[EXE,'train-ggd',cp,RUN/'parallel-ppo-smoke']);launch('parallel-eval-smoke',[EXE,'evaluate-chio',ep,RUN/'parallel-eval-smoke'])
     results={}
     for name in ['parallel-ppo-smoke','parallel-eval-smoke']:
@@ -225,10 +226,11 @@ def native_training(name,cfg,parallel=False):
     else:raise RuntimeError('Native training retry/segment limit: '+name)
     done(name,r,folder);return cached(name)
 
-def choose_best():
+def choose_best(eligible_labels=None):
     entries=read(RUN/'evaluations.json',[]);labels=sorted({e['label'] for e in entries});candidates=[]
     for label in labels:
-        selected=[e for e in entries if e['label']==label and e['opponent'] in ('v10','v9') and e.get('complete')]
+        if eligible_labels is not None and label not in eligible_labels:continue
+        selected=[e for e in entries if bool(e.get('scripted_base_to_mid',False))==bool(read(RUN/'navigation-mode.json',{}).get('active')) and e['label']==label and e['opponent'] in ('v10','v9') and e.get('complete')]
         if len(selected)!=2:continue
         cs=[read(ROOT/e['summary'])['controllers']['CHiO'] for e in selected];n=sum(c['actors'] for c in cs)
         wins=sum(c['outcomes'].get('win',0) for c in cs);draws=sum(c['outcomes'].get('draw',0) for c in cs);deaths=sum(c['deaths']['numerator'] for c in cs)
@@ -242,7 +244,7 @@ def choose_best():
     winner=max(candidates,key=lambda c:c['rank_score']);n=winner['actors']
     reason=(f"предварительный сбалансированный выбор по рангам побед, выживаемости, фарма, выхода/времени на мид, койлов и смертей от башни (веса3/2/2/2/1/1/1; без порога). "
             f"Против обоих учителей суммарно: W {winner['wins']}/{n}, смерти {winner['deaths']:g}/{n}, LH+deny {winner['farm']:g}/{n}, мид {winner['mid']}/{n}, койлы {winner['hits']:g}/{winner['casts']:g}. Это эвристика выбора, не доказательство переноса в Dota.")
-    result=dict(label=winner['label'],weights=winner['weights'],reason=reason,candidates=candidates);save(RUN/'best.json',result);save(REPORT/'best.json',result)
+    result=dict(label=winner['label'],weights=winner['weights'],reason=reason,candidates=candidates);save(RUN/'best.json',result);save(REPORT/'best.json',result);return result
 
 def navigation_gate():
     """User revision: diagnose first; decide only after completed DAgger-1 evaluation."""
@@ -258,9 +260,60 @@ def navigation_gate():
             raise RuntimeError('Navigation recovery is ready; hand off to the revised pipeline before further training')
         state('direction-diagnosis-pending',mid_arrivals=arrival,review=review);time.sleep(10)
 
+def finish_rl(previous,il,older_weights):
+    cfg=read(REPORT/'configs/critic.json');cfg['engine']=current_engine();cfg['initial_weights']=str(Path(previous['folder'])/'weights');critic=native_training('critic',cfg)
+    old=read(Path(previous['folder'])/'weights/manifest.json');new=read(Path(critic['folder'])/'final-weights/manifest.json');keys=[k for k in old['tensors'] if not k.startswith('value_')]
+    equal=sum(old['tensors'][k]['sha256']==new['tensors'][k]['sha256'] for k in keys);assert equal==len(keys)==45
+    save(REPORT/'critic-freeze.json',dict(equal=equal,total=len(keys)));publish('verify frozen critic policy')
+    parallel=parallel_probe(Path(critic['folder'])/'final-weights')
+    cfg=read(REPORT/'configs/ppo-v10.json');cfg.update(engine=current_engine(),initial_weights=str(Path(critic['folder'])/'final-weights'),bootstrap_checkpoint=critic['result']['checkpoint'])
+    ppo=native_training('ppo',cfg,parallel);queue_evaluation('ppo-120m',Path(ppo['folder'])/'final-weights',parallel)
+    plan=read(RUN/'plan.json');deadline=datetime.datetime.fromisoformat(plan['deadline_utc']);remaining=(deadline-datetime.datetime.now(datetime.timezone.utc)).total_seconds()/60
+    evaluations=read(RUN/'evaluations.json',[]);worst=max([e['seconds']/60 for e in evaluations]+[10]);reserve=3*worst+20
+    plan['self_play_stop_utc']=(deadline-datetime.timedelta(minutes=3*worst+5)).isoformat();save(RUN/'plan.json',plan);save(REPORT/'plan.json',plan)
+    cfg=read(REPORT/'configs/self-play.json');cfg.update(engine=current_engine(),initial_weights=str(Path(ppo['folder'])/'final-weights'),bootstrap_checkpoint=ppo['result']['checkpoint'],minutes=max(1,int(remaining-reserve)),opponent_pool=older_weights+[str(Path(ppo['folder'])/'final-weights')]);cfg['schedule_minutes']=cfg['minutes']
+    # Persist the stage duration once. Restarts preserve this schedule and its anchor.
+    frozen=RUN/'self-play-stage-config.json'
+    if frozen.exists():cfg=read(frozen)
+    else:save(frozen,cfg)
+    sp=native_training('self-play',cfg,parallel)
+    for future in FUTURES:future.result()
+    evaluate_group('self-play-final',Path(sp['folder'])/'final-weights',read(RUN/'previous-evaluated.json')['weights'])
+    choose_best()
+    state('complete',deadline_utc=plan['deadline_utc'],finished_utc=utc());publish('complete all training and evaluations')
+
+def navigation_validation():
+    if cached('nav-runtime-validation'):return
+    cfg=dict(engine=current_engine(),games=8,parallel_matches=8,seconds=600,seed=20261103,max_blocks=3,observation_profile='chio-v1',teacher_version='v10',zero_sum=True,telemetry=False)
+    cp=config('nav-collect-smoke',cfg);folder=RUN/'nav-collect-smoke';r=run_job('nav-collect-smoke',[EXE,'collect-teacher',cp,folder],folder/'report.json')
+    manifest=read(folder/'dataset.json');assert manifest['scripted_base_to_mid'] and r['partial']
+    audit=run_job('nav-collect-smoke-audit',[PY,'gpu/scripts/p15_dataset_audit.py',folder,REPORT/'nav-collect-smoke-audit.json'],REPORT/'nav-collect-smoke-audit.json');assert audit['passed']
+    cfg=read(REPORT/'configs/ppo-v10.json');cfg.update(engine=current_engine(),initial_weights=str(RUN/'dagger-1-il/weights'),matches=2,max_blocks=1,batch_sequences=1,epochs=1,desynchronize=False,minutes=10,checkpoint_minutes=0)
+    cp=config('nav-ppo-mask-smoke',cfg);folder=RUN/'nav-ppo-mask-smoke';ppo=run_job('nav-ppo-mask-smoke',[EXE,'train-ggd',cp,folder],folder/'result.json')
+    assert ppo['optimizer_steps']>0 and ppo['phase_counts']==[2.,0.,0.,0.],ppo
+    result=dict(collect=r,audit=audit,ppo=ppo,expected_trainable_learner_decisions={'numerator':2,'denominator':256},reason='Only Radiant learner decisions126/127 are after scripted handoff in first128-step block; Dire handoff is128.')
+    save(REPORT/'nav-runtime-validation.json',result);done('nav-runtime-validation',result,RUN)
+
+def navigation_pipeline():
+    """Reuses teacher1024 with exact masks; old experiments remain immutable."""
+    full_verification('nav-');navigation_validation()
+    teacher=cached('teacher-1024');cfg=read(REPORT/'configs/imitation.json');cfg.update(engine=current_engine(),exclude_premid=True,dataset=teacher['folder']);cfg.pop('initialize',None);cfg.pop('resume',None)
+    il=supervised('nav-imitation',cfg);parity('parity-nav-imitation',teacher['folder'],il['folder']);evaluate_group('nav-imitation',Path(il['folder'])/'weights')
+    previous=il;older=[str(Path(il['folder'])/'weights')]
+    for i in [1,2]:
+        cfg=read(REPORT/f'configs/dagger-{i}-collect.json');cfg['collection'].update(engine=current_engine(),parallel_matches=256);cfg['weights']=str(Path(previous['folder'])/'weights')
+        data=collect(f'nav-dagger-{i}-256',cfg,dagger=True)
+        cfg=read(REPORT/f'configs/dagger-{i}-train.json');cfg.update(engine=current_engine(),exclude_premid=True,dataset=data['folder'],replay_datasets=[teacher['folder']],initialize=str(Path(previous['folder'])/'checkpoint.pt'))
+        previous=supervised(f'nav-dagger-{i}-il',cfg);wait(f'nav-dagger-{i}-256-audit',REPORT/f'nav-dagger-{i}-256-audit.json')
+        parity(f'parity-nav-dagger-{i}',data['folder'],previous['folder']);evaluate_group(f'nav-dagger-{i}',Path(previous['folder'])/'weights');older.append(str(Path(previous['folder'])/'weights'))
+    best=choose_best({'nav-imitation','nav-dagger-1','nav-dagger-2'});folder=str(Path(best['weights']).parent);candidate=next(row for row in read(RUN/'stages.json').values() if row['folder']==folder)
+    save(REPORT/'pre-rl-selection.json',dict(best=best['label'],weights=best['weights'],reason=best['reason'],continue_rl_even_if_navigation_or_farm_remains_weak=True));publish('select best scripted-phase model and proceed to RL')
+    finish_rl(candidate,il,older)
+
 def main():
     guard=(RUN/'controller.lock').open('a+b');guard.seek(0);guard.write(b'1');guard.flush();guard.seek(0);msvcrt.locking(guard.fileno(),msvcrt.LK_NBLCK,1)
     try:
+        if read(RUN/'navigation-mode.json',{}).get('active'):return navigation_pipeline()
         teacher=collect('teacher-1024',read(REPORT/'configs/collect-1024.json'),adopt=True)
         full_verification()
         cfg=read(REPORT/'configs/imitation.json');cfg['dataset']=teacher['folder'];il=supervised('imitation',cfg)
@@ -273,26 +326,7 @@ def main():
             previous=supervised(f'dagger-{i}-il',cfg);wait(f'dagger-{i}-256-audit',REPORT/f'dagger-{i}-256-audit.json')
             parity(f'parity-dagger-{i}',data['folder'],previous['folder']);evaluate_group(f'dagger-{i}',Path(previous['folder'])/'weights')
             if i==1:navigation_gate()
-        cfg=read(REPORT/'configs/critic.json');cfg['initial_weights']=str(Path(previous['folder'])/'weights');critic=native_training('critic',cfg)
-        old=read(Path(previous['folder'])/'weights/manifest.json');new=read(Path(critic['folder'])/'final-weights/manifest.json');keys=[k for k in old['tensors'] if not k.startswith('value_')]
-        equal=sum(old['tensors'][k]['sha256']==new['tensors'][k]['sha256'] for k in keys);assert equal==len(keys)==45
-        save(REPORT/'critic-freeze.json',dict(equal=equal,total=len(keys)));publish('verify frozen critic policy')
-        parallel=parallel_probe(Path(critic['folder'])/'final-weights')
-        cfg=read(REPORT/'configs/ppo-v10.json');cfg.update(initial_weights=str(Path(critic['folder'])/'final-weights'),bootstrap_checkpoint=critic['result']['checkpoint'])
-        ppo=native_training('ppo',cfg,parallel);queue_evaluation('ppo-120m',Path(ppo['folder'])/'final-weights',parallel)
-        plan=read(RUN/'plan.json');deadline=datetime.datetime.fromisoformat(plan['deadline_utc']);remaining=(deadline-datetime.datetime.now(datetime.timezone.utc)).total_seconds()/60
-        evaluations=read(RUN/'evaluations.json',[]);worst=max([e['seconds']/60 for e in evaluations]+[10]);reserve=3*worst+20
-        plan['self_play_stop_utc']=(deadline-datetime.timedelta(minutes=3*worst+5)).isoformat();save(RUN/'plan.json',plan);save(REPORT/'plan.json',plan)
-        cfg=read(REPORT/'configs/self-play.json');cfg.update(initial_weights=str(Path(ppo['folder'])/'final-weights'),bootstrap_checkpoint=ppo['result']['checkpoint'],minutes=max(1,int(remaining-reserve)),opponent_pool=[str(Path(il['folder'])/'weights'),str(Path(read(RUN/'stages.json')['dagger-1-il']['folder'])/'weights'),str(Path(previous['folder'])/'weights'),str(Path(ppo['folder'])/'final-weights')]);cfg['schedule_minutes']=cfg['minutes']
-        # Persist the stage duration once. Restarts preserve this schedule and its anchor.
-        frozen=RUN/'self-play-stage-config.json'
-        if frozen.exists():cfg=read(frozen)
-        else:save(frozen,cfg)
-        sp=native_training('self-play',cfg,parallel)
-        for future in FUTURES:future.result()
-        evaluate_group('self-play-final',Path(sp['folder'])/'final-weights',read(RUN/'previous-evaluated.json')['weights'])
-        choose_best()
-        state('complete',deadline_utc=plan['deadline_utc'],finished_utc=utc());publish('complete all training and evaluations')
+        finish_rl(previous,il,[str(Path(il['folder'])/'weights'),str(Path(read(RUN/'stages.json')['dagger-1-il']['folder'])/'weights'),str(Path(previous['folder'])/'weights')])
     except Exception as error:
         incident('supervisor',repr(error));state('needs-repair',error=repr(error));publish('record interruption for autonomous repair');raise
 if __name__=='__main__':main()
