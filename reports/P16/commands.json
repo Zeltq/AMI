@@ -308,7 +308,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\controller-navigation-review\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller-navigation-review\\stderr.log"
     ],
-    "elapsed_minutes": 20.799640621665944,
+    "elapsed_minutes": 27.815363699999093,
     "child_pid": 17056,
     "exit_code": null,
     "job": "controller-navigation-review"
@@ -539,6 +539,27 @@
     "child_pid": 37268,
     "exit_code": 0,
     "job": "eval-dagger-1-v10"
+  },
+  {
+    "stage": "complete",
+    "pid": 35120,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe evaluate-chio C:\\AMI-wt\\P16\\reports\\P16\\configs\\eval-dagger-1-v9.json C:\\AMI\\runs\\p16\\eval-dagger-1-v9",
+    "argv": [
+      "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe",
+      "evaluate-chio",
+      "C:\\AMI-wt\\P16\\reports\\P16\\configs\\eval-dagger-1-v9.json",
+      "C:\\AMI\\runs\\p16\\eval-dagger-1-v9"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\eval-dagger-1-v9\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\eval-dagger-1-v9\\stderr.log"
+    ],
+    "elapsed_minutes": 6.855271021666704,
+    "child_pid": 31888,
+    "exit_code": 0,
+    "job": "eval-dagger-1-v9"
   },
   {
     "stage": "complete",
@@ -907,6 +928,35 @@
     "child_pid": 35548,
     "exit_code": 0,
     "job": "release-p16"
+  },
+  {
+    "stage": "failed",
+    "pid": 35440,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p16/target p16_navigation_ -- --nocapture --test-threads=1",
+    "argv": [
+      "cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "gpu/Cargo.toml",
+      "--target-dir",
+      "C:/AMI/runs/p16/target",
+      "p16_navigation_",
+      "--",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\script-navigation-tests\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\script-navigation-tests\\stderr.log"
+    ],
+    "elapsed_minutes": 0.3355901533330325,
+    "child_pid": 31732,
+    "exit_code": 101,
+    "job": "script-navigation-tests"
   },
   {
     "stage": "complete",
