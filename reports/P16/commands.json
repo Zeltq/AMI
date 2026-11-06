@@ -310,7 +310,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\controller-live-status-repair\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller-live-status-repair\\stderr.log"
     ],
-    "elapsed_minutes": 29.487143466666264,
+    "elapsed_minutes": 56.63122666833418,
     "child_pid": 21636,
     "exit_code": null,
     "job": "controller-live-status-repair"
@@ -1602,7 +1602,7 @@
     "job": "sampling-dagger-1-256-audit"
   },
   {
-    "stage": "running",
+    "stage": "complete",
     "pid": 31076,
     "cwd": "C:\\AMI-wt\\P16",
     "command": "wsl -d Ubuntu -- bash /mnt/c/AMI-wt/P16/scripts/wsl_python.sh /mnt/c/AMI-wt/P16/gpu/scripts/train_chio.py /mnt/c/AMI-wt/P16/reports/P16/configs/sampling-dagger-1-il.json /mnt/c/AMI/runs/p16/sampling-dagger-1-il",
@@ -1617,14 +1617,14 @@
       "/mnt/c/AMI-wt/P16/reports/P16/configs/sampling-dagger-1-il.json",
       "/mnt/c/AMI/runs/p16/sampling-dagger-1-il"
     ],
-    "background_work_remaining": true,
+    "background_work_remaining": false,
     "artifacts": [
       "C:\\AMI\\runs\\p16\\jobs\\sampling-dagger-1-il\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\sampling-dagger-1-il\\stderr.log"
     ],
-    "elapsed_minutes": 8.351906731666531,
+    "elapsed_minutes": 35.41457057333319,
     "child_pid": 26704,
-    "exit_code": null,
+    "exit_code": 0,
     "job": "sampling-dagger-1-il"
   },
   {

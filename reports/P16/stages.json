@@ -946,5 +946,21 @@
     },
     "folder": "C:\\AMI\\runs\\p16\\sampling-dagger-1-256",
     "finished_utc": "2026-11-06T07:27:07.909327+00:00"
+  },
+  "sampling-dagger-1-il": {
+    "result": {
+      "passed": true,
+      "mode": "imitation",
+      "updates": 5000,
+      "finite_updates": 5000,
+      "validation_loss": 0.46463741154801624,
+      "validation_frames": 818922,
+      "wall_seconds": 2109.322041229,
+      "checkpoint": "/mnt/c/AMI/runs/p16/sampling-dagger-1-il/checkpoint.pt",
+      "weights": "/mnt/c/AMI/runs/p16/sampling-dagger-1-il/weights",
+      "parameters": 1074274
+    },
+    "folder": "C:\\AMI\\runs\\p16\\sampling-dagger-1-il",
+    "finished_utc": "2026-11-06T08:02:44.011443+00:00"
   }
 }
