@@ -15,7 +15,9 @@ def health(h):return h+1-(1-h)**4
 def tower(h):return h+1-(1-h)**3
 
 
-def components(before,after,zero_sum=True):
+def components(before,after,zero_sum=True,reward_mode="lastorder-fb-v1"):
+    if reward_mode not in ("lastorder-fb-v1","lastorder-fb-v2"):raise ValueError("reward mode")
+    v2=reward_mode=="lastorder-fb-v2"
     before=np.asarray(before,dtype=np.float64);after=np.asarray(after,dtype=np.float64)
     if before.shape!=after.shape or before.ndim!=2 or before.shape[1]!=SNAP or len(before)%2:
         raise ValueError('paired actor snapshots [N,85] required')
@@ -24,7 +26,7 @@ def components(before,after,zero_sum=True):
     r[:,2]=.5*(fraction(after[:,6],after[:,7])-fraction(before[:,6],before[:,7]))
     r[:,3]=health(fraction(after[:,4],after[:,5]))-health(fraction(before[:,4],before[:,5]))
     r[:,4]=-.12*(after[:,12]-before[:,12]);r[:,5]=.1*(after[:,13]-before[:,13])
-    r[:,6]=1.5*(after[:,14]-before[:,14]);r[:,7]=-3*(after[:,15]-before[:,15])
+    r[:,6]=(.7 if v2 else 1.5)*(after[:,14]-before[:,14]);r[:,7]=(-2.2 if v2 else -3)*(after[:,15]-before[:,15])
     r[:,8]=1.5*(tower(fraction(after[:,8],after[:,9]))-tower(fraction(before[:,8],before[:,9])))
     r[:,9:12]=(after[:,16:19]-before[:,16:19])*np.array([-.3,-.1,-.1])
     for actor in range(len(before)):
@@ -35,7 +37,7 @@ def components(before,after,zero_sum=True):
             r[actor,12]+=max(float(health(fraction(hp_after,maximum))-health(fraction(hp+after[actor,84]*remaining,maximum))),-.4)
     decay=np.where(after[:,0]>=360,.6,1.)
     for component in set(range(13))-{6,7}:r[:,component]*=decay
-    r[:,13]=np.where((before[:,21]<=0)&(after[:,21]>0),5*after[:,22],0)
+    r[:,13]=np.where((before[:,21]<=0)&(after[:,21]>0),(0 if v2 else 5)*after[:,22],0)
     enemy=-r[np.arange(len(r))^1].copy() if zero_sum else np.zeros_like(r)
     enemy[:,[6,7,13]]=0
     result=np.concatenate((r,enemy),axis=1)
@@ -55,7 +57,7 @@ def read_record(path):
 def audit_record(path,tolerance=5e-5):
     header,data=read_record(path);worst=0.;checked=0
     for step in range(header['frames']):
-        frame=data[:,step];parts,total=components(frame[:,:SNAP],frame[:,SNAP:2*SNAP],header['zero_sum'])
+        frame=data[:,step];parts,total=components(frame[:,:SNAP],frame[:,SNAP:2*SNAP],header['zero_sum'],header.get('reward_mode','lastorder-fb-v1'))
         valid=frame[:,-1]>.5
         if valid.any():
             error=max(np.max(np.abs(parts[valid]-frame[valid,2*SNAP:2*SNAP+28])),np.max(np.abs(total[valid]-frame[valid,-2])))

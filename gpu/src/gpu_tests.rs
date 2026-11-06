@@ -1918,3 +1918,19 @@ fn p16_all_direction_bins_keep_absolute_axes_for_both_sides(){
         }
     }
 }
+
+#[test]
+fn p18_reward_v2_record_and_v1_unchanged(){
+    use crate::chio_reward as r;
+    let _g=GPU.lock().unwrap();let w=arena();let d=w.device.clone();
+    let before=r::snapshot(&w);let mut values=tensor::<2>(before.clone()).into_data().try_to_vec::<f32>().unwrap();
+    for a in 0..2 {let i=a*r::SNAP;values[i]=400.;values[i+1]+=30.;values[i+3]+=100.;values[i+12]+=1.;values[i+13]+=1.;values[i+14]+=1.;values[i+15]+=1.;values[i+21]=1.;values[i+22]=if a==0{1.}else{-1.};}
+    let after=primitive(Tensor::<2>::from_data(TensorData::new(values,[2,r::SNAP]),&d));
+    for zero in [false,true] {
+        let old=r::transition(&before,&after,zero,&d).components.into_data().try_to_vec::<f32>().unwrap();
+        let reward=r::transition_mode(&before,&after,zero,true,&d);let new=reward.components.clone().into_data().try_to_vec::<f32>().unwrap();
+        for a in 0..2 {let i=a*28;assert!((new[i+6]-0.7).abs()<1e-6);assert!((new[i+7]+2.2).abs()<1e-6);assert_eq!(new[i+13],0.);assert_eq!(old[i+6],1.5);assert_eq!(old[i+7],-3.);assert_eq!(old[i+13],if a==0{5.}else{-5.});for c in 0..28 {if ![6,7,13].contains(&c){assert_eq!(old[i+c],new[i+c]);}}}
+        let path=std::path::PathBuf::from(std::env::var_os("SF_DUEL_TEST_ARTIFACTS").expect("test artifact root")).join(if zero{"reward-v2-zero"}else{"reward-v2-raw"});std::fs::create_dir_all(&path).unwrap();
+        let mut recorder=r::Recorder::new(&w,zero);recorder.v2=true;recorder.store(&before,&after,&reward,Tensor::ones([2],&d),0);recorder.flush(&path,0,0,1).unwrap();
+    }
+}

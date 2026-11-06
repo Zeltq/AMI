@@ -9,6 +9,14 @@ def baseline():
 
 
 class RewardContract(unittest.TestCase):
+    def test_v2_changes_only_kills_deaths_outcome(self):
+        before=baseline();after=before.copy();after[:,0]=400;after[:,1:4]+=10;after[:,12:19]+=1;after[:,21]=1;after[:,22]=[1,-1]
+        for zero in [False,True]:
+            old,_=components(before,after,zero);new,_=components(before,after,zero,'lastorder-fb-v2')
+            np.testing.assert_allclose(new[:,6],.7);np.testing.assert_allclose(new[:,7],-2.2);np.testing.assert_array_equal(new[:,13],0)
+            unchanged=[i for i in range(28) if i not in [6,7,13]]
+            np.testing.assert_array_equal(old[:,unchanged],new[:,unchanged])
+
     def test_every_event_coefficient_and_positive_gold_only(self):
         before=baseline();after=before.copy();after[0,3]+=100;after[0,1]+=50;after[0,2]-=100
         after[0,12:16]+=[1,2,1,1];after[0,16:19]+=[1,2,3]

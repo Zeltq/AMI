@@ -37,7 +37,8 @@ def returns(root,gamma,zero_sum):
 
 def validate_dataset(manifest,cfg,mode,smoke):
     if manifest.get('family')!='CHiO' or manifest.get('observation_profile')!='chio-v1' or manifest.get('decision_ticks')!=6 or manifest.get('offset_ticks')!=6:raise ValueError('CHiO demonstration clock required')
-    if manifest.get('reward_mode')!='lastorder-fb-v1' or any(abs(manifest.get(k,0)-v)>1e-6 for k,v in [('gamma',.997),('gae_lambda',.95)]):raise ValueError('Dataset reward contract mismatch')
+    if manifest.get('reward_mode') not in ('lastorder-fb-v1','lastorder-fb-v2') or any(abs(manifest.get(k,0)-v)>1e-6 for k,v in [('gamma',.997),('gae_lambda',.95)]):raise ValueError('Dataset reward contract mismatch')
+    if manifest.get('reward_mode')!=cfg.get('reward_mode', 'lastorder-fb-v1'):raise ValueError('Dataset/config reward mismatch')
     if manifest.get('zero_sum',manifest['config'].get('zero_sum',True))!=cfg['zero_sum']:raise ValueError('Dataset zero_sum mismatch')
     if manifest['partial'] and not smoke:raise ValueError('Partial datasets allowed only for smoke')
     if mode=='critic' and manifest['completed_matches']!=manifest['config']['games']:raise ValueError('Critic targets require complete terminal episodes')
@@ -64,8 +65,9 @@ def run(config,output,max_updates=None,initialize=None,updates=None,resume=None,
     resume=resume or json.loads(Path(config).read_text()).get('resume')
     cfg=json.loads(Path(config).read_text());allowed={'dataset','replay_datasets','observation_profile','engine','decision_ticks','offset_ticks','gamma','gae_lambda','reward_mode','zero_sum','mode','epochs','updates','batch_sequences','learning_rate','gradient_norm','seed','device','initialize','resume','checkpoint_updates','exclude_premid','class_weights'}
     if set(cfg)-allowed:raise ValueError('Unknown CHiO training keys: '+str(set(cfg)-allowed))
-    for key,expected in dict(observation_profile='chio-v1',decision_ticks=6,offset_ticks=6,gamma=.997,gae_lambda=.95,reward_mode='lastorder-fb-v1').items():
+    for key,expected in dict(observation_profile='chio-v1',decision_ticks=6,offset_ticks=6,gamma=.997,gae_lambda=.95).items():
         if cfg.get(key)!=expected:raise ValueError('CHiO training contract: '+key)
+    if cfg.get('reward_mode') not in ('lastorder-fb-v1','lastorder-fb-v2'):raise ValueError('CHiO reward mode')
     if not isinstance(cfg.get('zero_sum'),bool):raise ValueError('Explicit zero_sum required')
     engine=json.loads(local_path(cfg['engine']).read_text())
     if not engine.get('chio_direct') or engine['decision_ticks']!=6 or engine['offset_ticks']!=6:raise ValueError('CHiO environment required')

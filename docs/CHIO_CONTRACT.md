@@ -390,3 +390,8 @@ DAgger без весов. При фарме <3/матч продолжать; д
 Затем два новых сбора по256 beta0.5/0.25 от выбранной цепочки; replay teacher-1024 и сохранённый
 nav-dagger-1-256 из шага0. Старое остановленное nav-dagger-1-il не используется.
 После каждого раунда — паритет128 и sampling-оценки, далее прогрев критика, PPOv10 и self-play.
+
+## lastorder-fb-v2 (P18)
+
+v2 differs from v1 only in kills +0.7, deaths -2.2 and outcome 0.
+All other components, decay after 360 seconds, zero-sum exceptions, gamma 0.997 and lambda 0.95 are unchanged. v1 remains supported. Match termination and evaluation winners are unchanged. Reward records carry reward_mode; missing mode means v1.

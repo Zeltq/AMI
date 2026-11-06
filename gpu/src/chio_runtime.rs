@@ -12,7 +12,7 @@ pub struct Frame {
 }
 pub struct Transition {pub before:CubeTensor,pub after:CubeTensor,pub reward:reward::Reward,pub done:Tensor<1>}
 pub struct Runtime {
-    pub world:World,pub diagnostic_teacher_purchases:bool,pub teacher:Teacher,pub metrics:crate::ggd_metrics::Metrics,pub extra:crate::chio_metrics::Metrics,
+    pub reward_v2:bool,pub world:World,pub diagnostic_teacher_purchases:bool,pub teacher:Teacher,pub metrics:crate::ggd_metrics::Metrics,pub extra:crate::chio_metrics::Metrics,
     controller:Controller,translator:crate::chio_teacher::Translator,economy:crate::chio_economy::Economy,
     history:co::Observer,combat:crate::combat_observe::CombatObserver,enemy:crate::enemy_observe::Observer,
     navigation:Option<crate::chio_navigation::Navigation>,v9:Option<(Teacher,crate::chio_teacher::Translator)>,v9_rows:Option<Tensor<2,Bool>>,
@@ -25,7 +25,7 @@ impl Runtime {
         let result=Self{controller:Controller::new(&w,left,right,swap),translator:crate::chio_teacher::Translator::new(&w),economy:crate::chio_economy::Economy::new(&w),
             history:co::Observer::new(&w),combat:crate::combat_observe::CombatObserver::new(&w),enemy:crate::enemy_observe::Observer::new(&w),
             navigation:w.engine.chio_script_navigation.then(||crate::chio_navigation::Navigation::new(&w)),v9:None,v9_rows:None,previous:co::initial_previous(w.matches*2,&w.device),legacy_previous:observe::initial_previous(w.matches*2,&w.device),extra:crate::chio_metrics::Metrics::new(&w),
-            world:w,diagnostic_teacher_purchases:false,teacher,metrics,legacy_right,swap,zero_sum};Ok(result)
+            reward_v2:false,world:w,diagnostic_teacher_purchases:false,teacher,metrics,legacy_right,swap,zero_sum};Ok(result)
     }
     /// Opponent routing only; each v9 uses the unchanged teacher and CHiO translator.
     pub fn route_v9(&mut self,selected:&[bool]) {
@@ -59,7 +59,7 @@ impl Runtime {
         self.teacher.reconcile_commands(w,&frame.base,(frame.teacher_before.0.clone(),frame.teacher_before.1.clone()),frame.raw.clone(),executed.clone());
         self.metrics.commands(w,&self.teacher,executed.clone(),&frame.base.refs);self.legacy_previous=frame.base.previous(executed,&w.bases,&w.state);self.previous=chosen;
         let before=reward::snapshot(w);let (_,done)=w.step_ticks_audit(rng,w.engine.decision_ticks,true,Some(&self.teacher));self.teacher.record(w,deadline);self.metrics.sample(w,&self.teacher);
-        let after=reward::snapshot(w);let reward=reward::transition(&before,&after,self.zero_sum,&w.device);self.extra.sample(w,&after,&reward,frame.valid.clone());
+        let after=reward::snapshot(w);let reward=reward::transition_mode(&before,&after,self.zero_sum,self.reward_v2,&w.device);self.extra.sample(w,&after,&reward,frame.valid.clone());
         Transition{before,after,reward,done}
     }
     pub fn reset(&mut self,selected:&[bool]) {

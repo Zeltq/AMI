@@ -13,7 +13,7 @@ pub struct Config {
     pub decision_ticks:usize,pub offset_ticks:usize,pub gamma:f32,pub gae_lambda:f32,pub zero_sum:bool,
     pub matches:usize,pub seed:u32,pub minutes:f64,pub max_blocks:usize,pub batch_sequences:usize,pub epochs:usize,
     pub learning_rate:f64,pub entropy:f32,pub clip:f32,pub gradient_norm:f32,pub stop_kl:f32,
-    pub desynchronize:bool,pub self_play:bool,pub opponent_pool:Vec<String>,pub snapshot_blocks:usize,pub checkpoint_blocks:usize,
+    pub sampling:bool,pub desynchronize:bool,pub self_play:bool,pub opponent_pool:Vec<String>,pub snapshot_blocks:usize,pub checkpoint_blocks:usize,
     pub resume_checkpoint:Option<String>,pub teacher_version:Version,
     pub critic_learning_rate:f64,pub separate_critic_lr:bool,pub critic_only:bool,pub warmup_min_blocks:usize,pub warmup_blocks:usize,
     pub kl_start:f32,pub kl_end:f32,pub schedule_minutes:f64,pub checkpoint_minutes:f64,pub snapshot_minutes:f64,
@@ -21,7 +21,7 @@ pub struct Config {
 }
 impl Default for Config {fn default()->Self{Self{observation_profile:"chio-v1".into(),engine:String::new(),initial_weights:String::new(),reward_mode:"lastorder-fb-v1".into(),
     decision_ticks:6,offset_ticks:6,gamma:0.997,gae_lambda:0.95,zero_sum:true,matches:16,seed:20261103,minutes:480.,max_blocks:0,batch_sequences:4,epochs:2,
-    learning_rate:1e-5,entropy:0.005,clip:0.2,gradient_norm:0.5,stop_kl:0.02,desynchronize:true,self_play:false,opponent_pool:vec![],snapshot_blocks:20,checkpoint_blocks:10,
+    learning_rate:1e-5,entropy:0.005,clip:0.2,gradient_norm:0.5,stop_kl:0.02,sampling:true,desynchronize:true,self_play:false,opponent_pool:vec![],snapshot_blocks:20,checkpoint_blocks:10,
     resume_checkpoint:None,teacher_version:Version::V10,critic_learning_rate:3e-4,separate_critic_lr:false,critic_only:false,warmup_min_blocks:20,warmup_blocks:60,
     kl_start:0.,kl_end:0.,schedule_minutes:240.,checkpoint_minutes:0.,snapshot_minutes:0.,mixed_pool:false,bootstrap_checkpoint:None,evaluation_minutes:120.}}}
 fn scalar(x:Tensor<1>)->f32{x.without_autodiff().into_scalar::<f32>()}
@@ -102,13 +102,14 @@ fn reset_finished(runtime:&mut Runtime,sides:&mut [usize],pool:&mut Option<crate
 }
 
 pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
-    ensure!(cfg.observation_profile=="chio-v1" && cfg.reward_mode=="lastorder-fb-v1" && cfg.decision_ticks==6 && cfg.offset_ticks==6 && cfg.gamma==0.997 && cfg.gae_lambda==0.95,"CHiO PPO contract mismatch");
+    ensure!(cfg.observation_profile=="chio-v1" && matches!(cfg.reward_mode.as_str(),"lastorder-fb-v1"|"lastorder-fb-v2") && cfg.decision_ticks==6 && cfg.offset_ticks==6 && cfg.gamma==0.997 && cfg.gae_lambda==0.95,"CHiO PPO contract mismatch");
+    ensure!(cfg.sampling,"CHiO training requires sampling");
     ensure!(cfg.matches>0 && cfg.matches<=1024 && cfg.batch_sequences>0 && cfg.epochs>0 && cfg.minutes>0. && cfg.learning_rate>0. && cfg.gradient_norm>0. && cfg.clip>0. && cfg.clip<1. && cfg.checkpoint_blocks>0 && cfg.snapshot_blocks>0,"invalid CHiO PPO dimensions");
     ensure!(cfg.self_play||cfg.opponent_pool.is_empty(),"opponent_pool requires self_play");ensure!(cfg.teacher_version==Version::V10,"CHiO PPO teacher must be v10");crate::teacher_v10::check_pin()?;
     ensure!(!cfg.mixed_pool||cfg.self_play,"mixed_pool requires self_play");ensure!(cfg.schedule_minutes>0.&&cfg.critic_learning_rate>0.&&cfg.warmup_min_blocks<=cfg.warmup_blocks,"invalid CHiO P16 schedule");
     std::fs::create_dir_all(root)?;let lock=std::fs::OpenOptions::new().create(true).truncate(false).write(true).open(root.join("run.lock"))?;lock.try_lock()?;ensure!(!root.join("config.json").exists(),"fresh training directory required");crate::artifacts::atomic_json(&root.join("config.json"),&cfg)?;
     let frozen=crate::artifacts::freeze_environment(Path::new(&cfg.engine),root,false)?;let d=device();let world=World::load(&frozen,cfg.matches,&d)?;let n=cfg.matches*2;
-    let mut runtime=Runtime::new(world,Version::V10,Version::V10,false,false,cfg.zero_sum)?;let mut policy=crate::chio_bridge::import(Path::new(&cfg.initial_weights),&d)?.train();
+    let mut runtime=Runtime::new(world,Version::V10,Version::V10,false,false,cfg.zero_sum)?;runtime.reward_v2=cfg.reward_mode=="lastorder-fb-v2";let mut policy=crate::chio_bridge::import(Path::new(&cfg.initial_weights),&d)?.train();
     let mut optimizer=AdamConfig::new().with_epsilon(1e-8).init();
     let anchor=policy.clone().valid();let anchor_sha=crate::runtime::file_sha256(&Path::new(&cfg.initial_weights).join("manifest.json"))?;
     let mut saved=serde_json::json!({});

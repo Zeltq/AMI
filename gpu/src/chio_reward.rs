@@ -50,7 +50,7 @@ fn health(h:f32)->f32 {let gap=1.0f32-h;h+1.0f32-gap*gap*gap*gap}
 #[cube]
 fn tower(h:f32)->f32 {let gap=1.0f32-h;h+1.0f32-gap*gap*gap}
 #[cube]
-fn component(before:&[f32],after:&[f32],a:usize,c:usize)->f32 {
+fn component(before:&[f32],after:&[f32],a:usize,c:usize,#[comptime] v2:bool)->f32 {
     let r=a*SNAP;let mut value=0.0f32.runtime();
     if c==0 {value=0.002f32*(after[r+3]-before[r+3]);}
     if c==1 {value=0.006f32*(after[r+1]-before[r+1]).max(0.0f32);}
@@ -58,8 +58,8 @@ fn component(before:&[f32],after:&[f32],a:usize,c:usize)->f32 {
     if c==3 {value=health(fraction(after[r+4],after[r+5]))-health(fraction(before[r+4],before[r+5]));}
     if c==4 {value=-0.12f32*(after[r+12]-before[r+12]);}
     if c==5 {value=0.1f32*(after[r+13]-before[r+13]);}
-    if c==6 {value=1.5f32*(after[r+14]-before[r+14]);}
-    if c==7 {value=-3.0f32*(after[r+15]-before[r+15]);}
+    if c==6 {value=(if v2 {0.7f32}else{1.5f32})*(after[r+14]-before[r+14]);}
+    if c==7 {value=(if v2 {-2.2f32}else{-3.0f32})*(after[r+15]-before[r+15]);}
     if c==8 {value=1.5f32*(tower(fraction(after[r+8],after[r+9]))-tower(fraction(before[r+8],before[r+9])));}
     if c>=9 && c<=11 {value=(if c==9{-0.3f32}else{-0.1f32})*(after[r+16+c-9]-before[r+16+c-9]);}
     if c==12 {
@@ -71,25 +71,28 @@ fn component(before:&[f32],after:&[f32],a:usize,c:usize)->f32 {
         }}
     }
     if after[r]>=360.0f32 && c!=6 && c!=7 && c!=13 {value*=0.6f32;}
-    if c==13 && before[r+21]<=0.0f32 && after[r+21]>0.0f32 {value=5.0f32*after[r+22];}
+    if !v2 && c==13 && before[r+21]<=0.0f32 && after[r+21]>0.0f32 {value=5.0f32*after[r+22];}
     value
 }
 
 #[cube(launch)]
-fn reward_kernel(before:&[f32],after:&[f32],out:&mut [f32],actors:usize,#[comptime] zero_sum:bool){
+fn reward_kernel(before:&[f32],after:&[f32],out:&mut [f32],actors:usize,#[comptime] zero_sum:bool,#[comptime] v2:bool){
     let a=ABSOLUTE_POS;if a<actors {
         let r=a*(2*COMPONENTS+1);let enemy=if a%2==0{a+1}else{a-1};let mut total=0.0f32.runtime();
         for c in 0..COMPONENTS {
-            let own=component(before,after,a,c);let opponent=if zero_sum && c!=6 && c!=7 && c!=13 {-component(before,after,enemy,c)}else{0.0f32};
+            let own=component(before,after,a,c,v2);let opponent=if zero_sum && c!=6 && c!=7 && c!=13 {-component(before,after,enemy,c,v2)}else{0.0f32};
             out[r+c]=own;out[r+COMPONENTS+c]=opponent;total+=own+opponent;
         }out[r+2*COMPONENTS]=total;
     }
 }
 pub struct Reward {pub components:Tensor<2>,pub total:Tensor<1>}
 pub fn transition(before:&CubeTensor,after:&CubeTensor,zero_sum:bool,d:&burn::tensor::Device)->Reward {
+    transition_mode(before,after,zero_sum,false,d)
+}
+pub fn transition_mode(before:&CubeTensor,after:&CubeTensor,zero_sum:bool,v2:bool,d:&burn::tensor::Device)->Reward {
     let n=before.meta.shape()[0];assert_eq!(before.meta.shape(),after.meta.shape());assert_eq!(n%2,0);
     let out=primitive(Tensor::<2>::zeros([n,2*COMPONENTS+1],d));
-    reward_kernel::launch(&out.client,CubeCount::Static(n.div_ceil(64)as u32,1,1),CubeDim::new_1d(64),argument(before),argument(after),argument(&out),n,zero_sum);
+    reward_kernel::launch(&out.client,CubeCount::Static(n.div_ceil(64)as u32,1,1),CubeDim::new_1d(64),argument(before),argument(after),argument(&out),n,zero_sum,v2);
     let out=tensor::<2>(out);Reward{components:out.clone().slice([0..n,0..2*COMPONENTS]),total:out.slice([0..n,2*COMPONENTS..2*COMPONENTS+1]).squeeze_dim(1)}
 }
 
@@ -100,9 +103,9 @@ fn record_kernel(before:&[f32],after:&[f32],components:&[f32],total:&[f32],valid
         let value=if f<SNAP {before[a*SNAP+f]}else if f<2*SNAP {after[a*SNAP+f-SNAP]}else if f<2*SNAP+2*COMPONENTS {components[a*2*COMPONENTS+f-2*SNAP]}else if f==RECORD-2 {total[a]}else{valid[a]};out[at]=value;
     }
 }
-pub struct Recorder {buffer:CubeTensor,actors:usize,device:burn::tensor::Device,zero_sum:bool}
+pub struct Recorder {buffer:CubeTensor,actors:usize,device:burn::tensor::Device,zero_sum:bool,pub v2:bool}
 impl Recorder {
-    pub fn new(w:&World,zero_sum:bool)->Self {Self{buffer:primitive(Tensor::<3>::zeros([w.matches*2,128,RECORD],&w.device)),actors:w.matches*2,device:w.device.clone(),zero_sum}}
+    pub fn new(w:&World,zero_sum:bool)->Self {Self{buffer:primitive(Tensor::<3>::zeros([w.matches*2,128,RECORD],&w.device)),actors:w.matches*2,device:w.device.clone(),zero_sum,v2:false}}
     pub fn store(&self,before:&CubeTensor,after:&CubeTensor,reward:&Reward,valid:Tensor<1>,step:usize){
         let components=primitive(reward.components.clone());let total=primitive(reward.total.clone());let valid=primitive(valid);
         record_kernel::launch(&self.buffer.client,CubeCount::Static((self.actors*RECORD).div_ceil(256)as u32,1,1),CubeDim::new_1d(256),
@@ -111,7 +114,7 @@ impl Recorder {
     pub fn flush(&mut self,root:&Path,block:usize,offset:usize,frames:usize)->Result<()> {
         let values=tensor::<3>(self.buffer.clone()).into_data().try_to_vec::<f32>()?;
         let header=serde_json::to_vec(&serde_json::json!({"format":"chio-reward-v2","shape":[self.actors,128,RECORD],"actors":(offset*2..offset*2+self.actors).collect::<Vec<_>>(),
-            "frames":frames,"snapshot_fields":fields(),"components":NAMES,"zero_sum":self.zero_sum,"gamma":GAMMA,"gae_lambda":LAMBDA,
+            "reward_mode":if self.v2 {"lastorder-fb-v2"}else{"lastorder-fb-v1"},"frames":frames,"snapshot_fields":fields(),"components":NAMES,"zero_sum":self.zero_sum,"gamma":GAMMA,"gae_lambda":LAMBDA,
             "layout":"before snapshot, after snapshot, own components, subtracted enemy components, total, valid; opposite hero is adjacent actor id xor 1"}))?;
         let mut out=flate2::write::GzEncoder::new(std::fs::File::create(root.join(format!("chio-reward-{block:06}.f32.gz")))?,flate2::Compression::fast());
         out.write_all(&(header.len()as u32).to_le_bytes())?;out.write_all(&header)?;for value in values {out.write_all(&value.to_le_bytes())?;}out.finish()?;
