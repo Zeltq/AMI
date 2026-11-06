@@ -4,6 +4,7 @@ import hashlib
 import json
 import msvcrt
 import os
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -29,12 +30,17 @@ def fingerprint(weights):
     return hashlib.sha256(json.dumps({k:(v['shape'],v.get('sha256')) for k,v in m['tensors'].items()},sort_keys=True).encode()).hexdigest()
 
 
+def dagger_name():
+    return 'nav-dagger-2' if read(P16/'navigation-mode.json',{}).get('active') else 'dagger-2'
+
+
 def candidates():
     stages=read(P16/'stages.json',{});result=[]
     # DAgger 2 is mandatory even if a newer RL checkpoint already exists.
-    if 'dagger-2-il' in stages and 'parity-dagger-2' in stages:
-        path=Path(stages['dagger-2-il']['folder'])/'weights'
-        result.append(('dagger-2',path))
+    dagger=dagger_name()
+    if dagger+'-il' in stages and 'parity-'+dagger in stages:
+        path=Path(stages[dagger+'-il']['folder'])/'weights'
+        result.append((dagger,path))
     for folder in [*P16.glob('ppo'),*P16.glob('ppo-attempt-*'),*P16.glob('self-play'),*P16.glob('self-play-attempt-*')]:
         latest=read(folder/'latest.json',{})
         if latest.get('block',0)>0:
@@ -53,7 +59,9 @@ def simulator_reports(weights):
         source=Path(e['weights'])
         if not (source/'manifest.json').exists() or fingerprint(source)!=sha:continue
         path=P16ROOT/e['summary']
-        if path.exists():result.append(dict(evaluation=e,summary=read(path)))
+        if path.exists():result.append(dict(evaluation=e,summary=read(path),
+            directly_comparable=not bool(e.get('scripted_base_to_mid',False)),
+            dota_base_navigation='policy',simulator_base_navigation='script' if e.get('scripted_base_to_mid') else 'policy'))
     return result
 
 
@@ -78,13 +86,13 @@ def refresh_report(series,done=False):
         sides=[g['summary']['sides'][str(g['model_team'])] for g in games]
         lh=sum(s['lh'] for s in sides);deny=sum(s['deny'] for s in sides);deaths=sum(s['deaths'] for s in sides);mid=sum(s['mid_time'] is not None for s in sides)
         lines.append(f"|{name}|{n}/8|{wins}/{n};{draws}/{n};{n-wins-draws}/{n}|{lh}/{n};{deny}/{n};{deaths}/{n}|{mid}/{n}|{len(item.get('simulator',[]))}/2|")
-    if len(lines)>18:lines=lines[:2]+lines[-16:] # Full history remains in JSON.
+    if len(lines)>18:lines=lines[:3]+lines[-15:] # Full history remains in JSON.
     lines+=[end]
     replacement='\n'.join(lines)
     if begin in text:text=text[:text.index(begin)]+replacement+text[text.index(end)+len(end):]
     else:text=text.replace('## Приоритет P16',replacement+'\n\n## Приоритет P16')
-    dagger=series.get('dagger-2',{});count=len(dagger.get('games',[]))
-    text=text.replace('P16 DAgger2:0/8 матчей, веса ещё ожидаются; RL:0/8, ещё не появились.',f'P16: подробные результаты и события в [series.json](P17/series.json); DAgger2 {count}/8 матчей.')
+    name=dagger_name();count=len(series.get(name,{}).get('games',[]))
+    text=re.sub(r'^P16(?: DAgger2:|: подробные).*$',f'P16: подробные результаты и события в [series.json](P17/series.json); {name} {count}/8 матчей.',text,flags=re.MULTILINE)
     if done:
         text='\n'.join(text.splitlines()[:-1])+"\nBLOCKED P17: серверная часть завершена; Local Host с человеком не проверен, полный replay наблюдений недоступен без GPU\n"
     if len(text.splitlines())>150:raise RuntimeError('Report exceeds150 lines')
@@ -107,19 +115,20 @@ def run():
             available=candidates();pending=[]
             for name,weights in available:
                 sha=fingerprint(weights)
-                checked=[series.get('dagger-2',{})] if name=='dagger-2' else series.values()
+                checked=[series.get(name,{})] if name==dagger_name() else series.values()
                 if any(v.get('fingerprint')==sha and len(v.get('games',[]))>=8 for v in checked):continue
                 pending.append((name,weights,sha))
             if pending:
-                chosen=next((r for r in pending if r[0]=='dagger-2'),None) or max(pending,key=lambda r:(r[1]/'manifest.json').stat().st_mtime)
+                chosen=next((r for r in pending if r[0]==dagger_name()),None) or max(pending,key=lambda r:(r[1]/'manifest.json').stat().st_mtime)
                 name,weights,sha=chosen
-                item=series.setdefault(name,dict(source=str(weights),fingerprint=sha,games=[]))
+                item=series.setdefault(name,dict(source=str(weights),fingerprint=sha,games=[],dota_base_navigation='policy',
+                    p16_navigation_mode=read(P16/'navigation-mode.json',{})))
                 frozen=RUN/'models'/name/'weights'
                 if not frozen.exists():shutil.copytree(weights,frozen)
                 load_bundle(frozen) # Verify every tensor before any Dota launch.
                 if fingerprint(frozen)!=sha:raise RuntimeError('Checkpoint changed while copying')
-                if name=='dagger-2':
-                    reference=P16/'parity-dagger-2';parity_path=frozen.parent/'cpu-parity.json'
+                if name==dagger_name():
+                    reference=P16/('parity-'+name);parity_path=frozen.parent/'cpu-parity.json'
                     if fingerprint(reference/'roundtrip-weights')!=sha:raise RuntimeError('DAgger2 Burn parity export differs from selected weights')
                     if not parity_path.exists():
                         subprocess.run([sys.executable,str(ROOT/'gpu/scripts/p17_cpu_parity.py'),'--reference',str(reference),'--output',str(parity_path)],check=True)
@@ -150,7 +159,7 @@ def run():
             p16=read(P16/'state.json',{});p16stage=p16.get('stage')
             # Final summaries may arrive after Dota series, so attach them when ready.
             for item in series.values():item['simulator']=simulator_reports(Path(item['source']))
-            if p16stage=='complete' and len(series.get('dagger-2',{}).get('games',[]))>=8:
+            if p16stage=='complete' and len(series.get(dagger_name(),{}).get('games',[]))>=8:
                 save(RUN/'series.json',series);refresh_report(series,done=True);publish('finish P16 checkpoint comparisons')
                 state('complete',models=len(series));return
             state('waiting-for-p16-checkpoint',p16_stage=p16stage,p16_pid=p16.get('pid'),p16_alive=alive(p16.get('pid')),
