@@ -1,0 +1,30 @@
+{
+  "step": 6,
+  "finished_utc": "2026-11-06T07:15:53.761780+00:00",
+  "start": "nav-imitation-w",
+  "baseline_farm": {
+    "numerator": 256.0,
+    "denominator": 128
+  },
+  "weighted_farm": {
+    "numerator": 296.0,
+    "denominator": 128
+  },
+  "dagger_class_weights": [
+    1,
+    1,
+    4,
+    4,
+    1.0,
+    4,
+    4.0,
+    2.93,
+    4.0,
+    1,
+    1,
+    1,
+    1
+  ],
+  "below_three": true,
+  "rule": "weighted >= baseline LH+deny per match, v10 sampling only; equality selects weighted; continue regardless of <3"
+}
