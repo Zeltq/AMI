@@ -310,7 +310,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\controller-live-status-repair\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller-live-status-repair\\stderr.log"
     ],
-    "elapsed_minutes": 118.86113026333236,
+    "elapsed_minutes": 119.61292758333342,
     "child_pid": 21636,
     "exit_code": null,
     "job": "controller-live-status-repair"
@@ -1554,6 +1554,55 @@
     "child_pid": 25340,
     "exit_code": 0,
     "job": "parity-sampling-dagger-1-fixture"
+  },
+  {
+    "stage": "complete",
+    "pid": 18992,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe check-chio-parity C:\\AMI\\runs\\p16\\parity-sampling-dagger-2\\weights C:\\AMI\\runs\\p16\\parity-sampling-dagger-2\\fixture C:\\AMI\\runs\\p16\\parity-sampling-dagger-2\\result.json",
+    "argv": [
+      "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe",
+      "check-chio-parity",
+      "C:\\AMI\\runs\\p16\\parity-sampling-dagger-2\\weights",
+      "C:\\AMI\\runs\\p16\\parity-sampling-dagger-2\\fixture",
+      "C:\\AMI\\runs\\p16\\parity-sampling-dagger-2\\result.json"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\parity-sampling-dagger-2\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\parity-sampling-dagger-2\\stderr.log"
+    ],
+    "elapsed_minutes": 0.09138942999998108,
+    "child_pid": 10420,
+    "exit_code": 0,
+    "job": "parity-sampling-dagger-2"
+  },
+  {
+    "stage": "complete",
+    "pid": 36688,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "wsl -d Ubuntu -- bash /mnt/c/AMI-wt/P16/scripts/wsl_python.sh /mnt/c/AMI-wt/P16/gpu/scripts/p16_parity_fixture.py /mnt/c/AMI/runs/p16/sampling-dagger-2-256 /mnt/c/AMI/runs/p16/sampling-dagger-2-il/checkpoint.pt /mnt/c/AMI/runs/p16/parity-sampling-dagger-2",
+    "argv": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "bash",
+      "/mnt/c/AMI-wt/P16/scripts/wsl_python.sh",
+      "/mnt/c/AMI-wt/P16/gpu/scripts/p16_parity_fixture.py",
+      "/mnt/c/AMI/runs/p16/sampling-dagger-2-256",
+      "/mnt/c/AMI/runs/p16/sampling-dagger-2-il/checkpoint.pt",
+      "/mnt/c/AMI/runs/p16/parity-sampling-dagger-2"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\parity-sampling-dagger-2-fixture\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\parity-sampling-dagger-2-fixture\\stderr.log"
+    ],
+    "elapsed_minutes": 0.3345271766670824,
+    "child_pid": 36244,
+    "exit_code": 0,
+    "job": "parity-sampling-dagger-2-fixture"
   },
   {
     "stage": "complete",
