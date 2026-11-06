@@ -102,5 +102,18 @@
     "folder": "C:\\AMI\\runs\\p18\\eval-self-play-120m-v9-sampling",
     "finished_utc": "2026-11-06T22:18:42.318114+00:00",
     "seconds": 351.7691384
+  },
+  {
+    "sampling": true,
+    "scripted_base_to_mid": true,
+    "label": "self-play-120m",
+    "opponent": "previous",
+    "weights": "C:\\AMI\\runs\\p18\\self-play\\checkpoint-000167\\weights",
+    "opponent_weights": "C:\\AMI\\runs\\p18\\ppo\\final-weights",
+    "complete": true,
+    "summary": "reports/P18/eval-self-play-120m-previous-sampling.json",
+    "folder": "C:\\AMI\\runs\\p18\\eval-self-play-120m-previous-sampling",
+    "finished_utc": "2026-11-06T22:27:06.357632+00:00",
+    "seconds": 491.2685019
   }
 ]
