@@ -205,7 +205,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\controller\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller\\stderr.log"
     ],
-    "elapsed_minutes": 60.873010091665975,
+    "elapsed_minutes": 67.63599728666595,
     "child_pid": 36428,
     "exit_code": null,
     "job": "controller"
@@ -230,6 +230,27 @@
     "child_pid": 23996,
     "exit_code": 0,
     "job": "eval-imitation-v10"
+  },
+  {
+    "stage": "complete",
+    "pid": 3992,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe evaluate-chio C:\\AMI-wt\\P16\\reports\\P16\\configs\\eval-imitation-v9.json C:\\AMI\\runs\\p16\\eval-imitation-v9",
+    "argv": [
+      "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe",
+      "evaluate-chio",
+      "C:\\AMI-wt\\P16\\reports\\P16\\configs\\eval-imitation-v9.json",
+      "C:\\AMI\\runs\\p16\\eval-imitation-v9"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\eval-imitation-v9\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\eval-imitation-v9\\stderr.log"
+    ],
+    "elapsed_minutes": 6.521229301668549,
+    "child_pid": 7844,
+    "exit_code": 0,
+    "job": "eval-imitation-v9"
   },
   {
     "stage": "complete",
