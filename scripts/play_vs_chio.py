@@ -27,14 +27,18 @@ def save(path,value):
 
 
 def serve(model_path,log,bots,output,team,stop,ready,audit=False):
+    initial_offset=log.stat().st_size if log.exists() else 0
     model,_=load_bundle(model_path);session=Session(model);observer=Observer()
     output.mkdir(parents=True,exist_ok=True)
     stats=dict(pid=os.getpid(),device='cpu',model=str(model_path),requests=0,errors=[],resets=0,acks=0,accepted=0)
-    offset=0;tail='';parts={};queue=[];previous=None;last_deaths=0;last_tick=None;last_save=0;audit_case=None
+    offset=initial_offset;tail='';parts={};queue=[];previous=None;last_deaths=0;last_tick=None;last_save=0;audit_case=None
     save(output/'status.json',stats);ready.write_text(str(os.getpid()))
     with gzip.open(output/'observations.jsonl.gz','wt',encoding='utf-8') as trace, (output/'decisions.jsonl').open('w') as decisions:
         while not stop.exists():
             if not log.exists():time.sleep(.02);continue
+            if log.stat().st_size<offset:
+                offset=0;tail='';parts={};queue=[];previous=None;last_deaths=0;last_tick=None
+                observer=Observer();session=Session(model)
             with log.open(errors='replace') as f:f.seek(offset);data=tail+f.read();offset=f.tell()
             lines=data.split('\n');tail=lines.pop()
             for line in lines:
