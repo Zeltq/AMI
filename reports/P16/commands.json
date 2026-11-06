@@ -310,7 +310,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\controller-live-status-repair\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller-live-status-repair\\stderr.log"
     ],
-    "elapsed_minutes": 119.61292758333342,
+    "elapsed_minutes": 126.71276634500052,
     "child_pid": 21636,
     "exit_code": null,
     "job": "controller-live-status-repair"
@@ -842,6 +842,27 @@
     "child_pid": 30272,
     "exit_code": 0,
     "job": "eval-sampling-dagger-1-v9-sampling"
+  },
+  {
+    "stage": "complete",
+    "pid": 35912,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe evaluate-chio C:\\AMI-wt\\P16\\reports\\P16\\configs\\eval-sampling-dagger-2-v10-sampling.json C:\\AMI\\runs\\p16\\eval-sampling-dagger-2-v10-sampling",
+    "argv": [
+      "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe",
+      "evaluate-chio",
+      "C:\\AMI-wt\\P16\\reports\\P16\\configs\\eval-sampling-dagger-2-v10-sampling.json",
+      "C:\\AMI\\runs\\p16\\eval-sampling-dagger-2-v10-sampling"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\eval-sampling-dagger-2-v10-sampling\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\eval-sampling-dagger-2-v10-sampling\\stderr.log"
+    ],
+    "elapsed_minutes": 6.8570857633332105,
+    "child_pid": 3988,
+    "exit_code": 0,
+    "job": "eval-sampling-dagger-2-v10-sampling"
   },
   {
     "stage": "complete",
