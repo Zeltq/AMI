@@ -205,7 +205,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\controller\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller\\stderr.log"
     ],
-    "elapsed_minutes": 17.537454113333176,
+    "elapsed_minutes": 52.60616366166699,
     "child_pid": 36428,
     "exit_code": null,
     "job": "controller"
@@ -288,6 +288,32 @@
     "child_pid": 31684,
     "exit_code": 0,
     "job": "full-rust"
+  },
+  {
+    "stage": "complete",
+    "pid": 33308,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "wsl -d Ubuntu -- bash /mnt/c/AMI-wt/P16/scripts/wsl_python.sh /mnt/c/AMI-wt/P16/gpu/scripts/train_chio.py /mnt/c/AMI-wt/P16/reports/P16/configs/imitation.json /mnt/c/AMI/runs/p16/imitation",
+    "argv": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "bash",
+      "/mnt/c/AMI-wt/P16/scripts/wsl_python.sh",
+      "/mnt/c/AMI-wt/P16/gpu/scripts/train_chio.py",
+      "/mnt/c/AMI-wt/P16/reports/P16/configs/imitation.json",
+      "/mnt/c/AMI/runs/p16/imitation"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\imitation\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\imitation\\stderr.log"
+    ],
+    "elapsed_minutes": 34.90369044000011,
+    "child_pid": 37336,
+    "exit_code": 0,
+    "job": "imitation"
   },
   {
     "stage": "complete",
