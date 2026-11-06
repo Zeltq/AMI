@@ -392,7 +392,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\controller-user-stop120\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller-user-stop120\\stderr.log"
     ],
-    "elapsed_minutes": 3.0912555433324695,
+    "elapsed_minutes": 3.5925518983334768,
     "child_pid": 17608,
     "exit_code": null,
     "job": "controller-user-stop120"
@@ -991,6 +991,27 @@
     "child_pid": 7596,
     "exit_code": 0,
     "job": "eval-sampling-dagger-2-v9-sampling"
+  },
+  {
+    "stage": "running",
+    "pid": 1912,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe evaluate-chio C:\\AMI-wt\\P16\\reports\\P16\\configs\\eval-self-play-120m-v10-sampling.json C:\\AMI\\runs\\p16\\eval-self-play-120m-v10-sampling",
+    "argv": [
+      "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe",
+      "evaluate-chio",
+      "C:\\AMI-wt\\P16\\reports\\P16\\configs\\eval-self-play-120m-v10-sampling.json",
+      "C:\\AMI\\runs\\p16\\eval-self-play-120m-v10-sampling"
+    ],
+    "background_work_remaining": true,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\eval-self-play-120m-v10-sampling\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\eval-self-play-120m-v10-sampling\\stderr.log"
+    ],
+    "elapsed_minutes": 0.4252318533331466,
+    "child_pid": 35844,
+    "exit_code": null,
+    "job": "eval-self-play-120m-v10-sampling"
   },
   {
     "stage": "complete",

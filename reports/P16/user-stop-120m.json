@@ -8,5 +8,11 @@
     "passed": 9,
     "total": 9,
     "checks": "7199s continues;7200s requests stop; no extra evaluation queue or resume; stage schedule remains249"
-  }
+  },
+  "actual_training_seconds": 7274.963501599995,
+  "actual_training_minutes": 121.24939169333325,
+  "blocks": 193,
+  "checkpoint": "C:\\AMI\\runs\\p16\\self-play\\checkpoint-000193",
+  "reason_for_overrun": "Supervisor observes completed blocks every10s; next in-flight block finished before stop.json was consumed. No second training interval.",
+  "training_exit_code": 0
 }
