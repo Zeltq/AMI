@@ -310,7 +310,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\controller-live-status-repair\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller-live-status-repair\\stderr.log"
     ],
-    "elapsed_minutes": 178.65736417666776,
+    "elapsed_minutes": 291.56574220333323,
     "child_pid": 21636,
     "exit_code": null,
     "previous_wrapper_pid": 32132,
@@ -1712,7 +1712,7 @@
     "job": "parity-sampling-dagger-2-fixture"
   },
   {
-    "stage": "running",
+    "stage": "complete",
     "pid": 37524,
     "cwd": "C:\\AMI-wt\\P16",
     "command": "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe train-ggd C:\\AMI-wt\\P16\\reports\\P16\\configs\\ppo.json C:\\AMI\\runs\\p16\\ppo",
@@ -1722,14 +1722,14 @@
       "C:\\AMI-wt\\P16\\reports\\P16\\configs\\ppo.json",
       "C:\\AMI\\runs\\p16\\ppo"
     ],
-    "background_work_remaining": true,
+    "background_work_remaining": false,
     "artifacts": [
       "C:\\AMI\\runs\\p16\\jobs\\ppo\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\ppo\\stderr.log"
     ],
-    "elapsed_minutes": 14.623056028333183,
+    "elapsed_minutes": 127.53634059166652,
     "child_pid": 7988,
-    "exit_code": null,
+    "exit_code": 0,
     "previous_wrapper_pid": 20424,
     "adopted": true,
     "job": "ppo"
