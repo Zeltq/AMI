@@ -31,7 +31,8 @@ def fingerprint(weights):
 
 
 def dagger_name():
-    return 'nav-dagger-2' if read(P16/'navigation-mode.json',{}).get('active') else 'dagger-2'
+    # User explicitly retired the original imitation/DAgger chain for P17 matches.
+    return 'nav-dagger-2'
 
 
 def candidates():
@@ -42,6 +43,9 @@ def candidates():
         path=Path(stages[dagger+'-il']['folder'])/'weights'
         result.append((dagger,path))
     for folder in [*P16.glob('ppo'),*P16.glob('ppo-attempt-*'),*P16.glob('self-play'),*P16.glob('self-play-attempt-*')]:
+        config=read(folder/'config.json',{})
+        engine=config.get('engine')
+        if not engine or not read(Path(engine),{}).get('chio_script_navigation'):continue
         latest=read(folder/'latest.json',{})
         if latest.get('block',0)>0:
             weights=Path(latest['path'])/'weights'
@@ -60,8 +64,8 @@ def simulator_reports(weights):
         if not (source/'manifest.json').exists() or fingerprint(source)!=sha:continue
         path=P16ROOT/e['summary']
         if path.exists():result.append(dict(evaluation=e,summary=read(path),
-            directly_comparable=not bool(e.get('scripted_base_to_mid',False)),
-            dota_base_navigation='policy',simulator_base_navigation='script' if e.get('scripted_base_to_mid') else 'policy'))
+            directly_comparable=bool(e.get('scripted_base_to_mid',False)),
+            dota_base_navigation='script',simulator_base_navigation='script' if e.get('scripted_base_to_mid') else 'policy'))
     return result
 
 
@@ -121,7 +125,7 @@ def run():
             if pending:
                 chosen=next((r for r in pending if r[0]==dagger_name()),None) or max(pending,key=lambda r:(r[1]/'manifest.json').stat().st_mtime)
                 name,weights,sha=chosen
-                item=series.setdefault(name,dict(source=str(weights),fingerprint=sha,games=[],dota_base_navigation='policy',
+                item=series.setdefault(name,dict(source=str(weights),fingerprint=sha,games=[],dota_base_navigation='script',
                     p16_navigation_mode=read(P16/'navigation-mode.json',{})))
                 frozen=RUN/'models'/name/'weights'
                 if not frozen.exists():shutil.copytree(weights,frozen)

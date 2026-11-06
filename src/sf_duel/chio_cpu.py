@@ -54,11 +54,11 @@ class Session:
         self.last_tick=None;self.resets=0
 
     @torch.inference_mode()
-    def decide(self,b,tick,episode,death=False):
+    def decide(self,b,tick,episode,death=False,handoff=False):
         if self.episode!=episode or death:
             self.state=None;self.decisions=0;self.last_tick=None;self.episode=episode
         if self.last_tick is not None and tick<=self.last_tick:raise ValueError('Nonmonotonic observation tick')
-        reset=self.decisions%128==0
+        reset=self.decisions%128==0 or handoff
         if reset:self.state=None;self.resets+=1
         b={k:(v.cpu().half().float() if v.is_floating_point() else v.cpu()) for k,v in b.items()}
         if any(v.is_floating_point() and not torch.isfinite(v).all() for v in b.values()):raise ValueError('Nonfinite observation')

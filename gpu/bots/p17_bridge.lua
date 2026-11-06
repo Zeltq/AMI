@@ -19,6 +19,7 @@ clock_unit:SetContextThink('p17_bridge',function()
      local unit=heroes[team]
      local accepted=unit and not unit:IsNull() and unit:IsAlive() and unit:GetTeamNumber()==team
      local reason=''
+     if d.navigation_ready==false then accepted=false;reason='navigation' end
      -- A late command is dropped: do not silently change the contract clock.
      if tick~=d.execute_tick then accepted=false;reason='late' end
      if d.execute_tick~=d.observed_tick+7 then accepted=false;reason='clock' end

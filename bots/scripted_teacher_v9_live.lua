@@ -2,6 +2,8 @@
 local core=require("bots/scripted_teacher_v9")
 local agent=require("bots/agent")
 local settings=require("bots/settings")
+local navigation=settings.chio_script_navigation==true and require('bots/chio_navigation') or nil
+local nav=navigation and navigation.new(true) or nil
 local json=require("game/dkjson")
 local M={}
 local st={seq=0,skill_index=1,permanent=0,last_action=0}
@@ -103,6 +105,14 @@ function M.Think()
  last_tick=tick
  if not ready() or ended then return end
  if settings.chio then require('bots/chio_economy').Think(bot,st) else agent.infrastructure(bot,st) end
+ if navigation and bot:IsAlive() then
+  local policy_ready,handoff=navigation.update(nav,bot,tick)
+  if handoff then memory=core.new();st.last_action=4;pending={} end
+  if not policy_ready then
+   if tick%6==0 then agent.snapshot(bot,st) end
+   return
+  end
+ end
  if DotaTime()>=0 then
   local reason=nil
   if not bot:IsAlive() or GetHeroDeaths(bot:GetPlayerID())>0 then reason="teacher_death" end

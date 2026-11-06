@@ -10,7 +10,7 @@ def test_active_navigation_pipeline_requires_its_own_dagger_parity(tmp_path):
     stages={'dagger-2-il':{'folder':str(tmp_path/'dagger-2-il')},'parity-dagger-2':{}}
     (tmp_path/'stages.json').write_text(json.dumps(stages))
     with patch.object(supervisor,'P16',tmp_path):
-        assert supervisor.candidates()==[('dagger-2',tmp_path/'dagger-2-il/weights')]
+        assert supervisor.candidates()==[] # Original chain is retired even if its parity passed.
         (tmp_path/'navigation-mode.json').write_text(json.dumps({'active':True}))
         assert supervisor.candidates()==[]
         stages['nav-dagger-2-il']={'folder':str(tmp_path/'nav-dagger-2-il')}
@@ -19,16 +19,28 @@ def test_active_navigation_pipeline_requires_its_own_dagger_parity(tmp_path):
         assert supervisor.candidates()==[('nav-dagger-2',tmp_path/'nav-dagger-2-il/weights')]
 
 
-def test_script_navigation_simulator_result_is_marked_noncomparable(tmp_path):
+def test_script_navigation_simulator_result_has_matching_control_mode(tmp_path):
     weights=tmp_path/'weights';weights.mkdir()
     (weights/'manifest.json').write_text(json.dumps({'tensors':{'x':{'shape':[1],'sha256':'abc'}}}))
     (tmp_path/'summary.json').write_text('{}')
     (tmp_path/'evaluations.json').write_text(json.dumps([dict(complete=True,weights=str(weights),summary='summary.json',scripted_base_to_mid=True)]))
     with patch.object(supervisor,'P16',tmp_path),patch.object(supervisor,'P16ROOT',tmp_path):
         result=supervisor.simulator_reports(weights)
-    assert result[0]['directly_comparable'] is False
-    assert result[0]['dota_base_navigation']=='policy'
+    assert result[0]['directly_comparable'] is True
+    assert result[0]['dota_base_navigation']=='script'
     assert result[0]['simulator_base_navigation']=='script'
+
+
+def test_rl_candidates_require_navigation_engine(tmp_path):
+    folder=tmp_path/'ppo';weights=folder/'checkpoint-000001/weights';weights.mkdir(parents=True)
+    (weights/'manifest.json').write_text('{}')
+    (folder/'latest.json').write_text(json.dumps(dict(block=1,path=str(weights.parent))))
+    engine=tmp_path/'engine.json';engine.write_text(json.dumps(dict(chio_script_navigation=False)))
+    (folder/'config.json').write_text(json.dumps(dict(engine=str(engine))))
+    with patch.object(supervisor,'P16',tmp_path):
+        assert supervisor.candidates()==[]
+        engine.write_text(json.dumps(dict(chio_script_navigation=True)))
+        assert supervisor.candidates()==[('ppo-checkpoint-000001',weights)]
 
 
 def test_report_count_refreshes_after_first_match(tmp_path):

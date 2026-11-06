@@ -2,6 +2,8 @@ local agent=require('bots/agent')
 local economy=require('bots/chio_economy')
 local json=require('game/dkjson')
 local settings=require('bots/settings')
+local navigation=settings.chio_script_navigation==true and not settings.audit and require('bots/chio_navigation') or nil
+local nav=navigation and navigation.new(true) or {}
 settings.chio=true;settings.observation_profile='ggd-v4'
 local spells={'nevermore_shadowraze1','nevermore_shadowraze2','nevermore_shadowraze3','nevermore_requiem'}
 local items={'item_flask','item_enchanted_mango','item_tango'}
@@ -47,13 +49,18 @@ function M.Think()
  local tick=math.floor(GameTime()*30+.5);if tick==last then return end;last=tick
  if tick%6==0 and not settings.audit then economy.Think(bot,st) end
  if not bot:IsAlive() then casting=nil;st.attack=nil;return end
+ local policy_ready,handoff=true,false
+ if navigation then policy_ready,handoff=navigation.update(nav,bot,tick) end
+ if handoff then casting=nil;st.attack=nil end
  if casting and not bot:IsCastingAbility() and not bot:IsUsingAbility() then casting=nil end
  local module='bots/chio_commands_'..GetTeam();package.loaded[module]=nil
  local ok,result=pcall(require,module);if ok then commands=result end
  for _,d in ipairs(commands) do
   if d.sequence>sequence and d.execute_tick<=tick then
    sequence=d.sequence
-   if d.action~=0 then
+   if not policy_ready or (nav.handoff_tick and d.observed_tick<nav.handoff_tick) then
+    print('SF_CHIO_SUPPRESSED|'..json.encode({team=GetTeam(),sequence=d.sequence,tick=tick,reason='navigation'}))
+   elseif d.action~=0 then
     local accepted,why=false,'late'
     if d.execute_tick==tick and d.execute_tick==d.observed_tick+7 then accepted,why=execute(bot,d) end
     print('SF_CHIO_ACK|'..json.encode({team=GetTeam(),sequence=d.sequence,tick=tick,observed_tick=d.observed_tick,
@@ -66,6 +73,8 @@ function M.Think()
   for _,d in ipairs(commands) do if d.execute_tick>tick and d.action>=6 and d.action<=9 and not d.continuation then pending=d.action end end
   st.seq=st.seq+1
   local snapshot=agent.snapshot(bot,st);snapshot.tick=tick;snapshot.pending_cast=pending
+  snapshot.navigation_ready=policy_ready;snapshot.navigation_handoff=handoff
+  snapshot.navigation_handoff_tick=nav.handoff_tick
   snapshot.raze_rules={}
   for i=1,3 do local a=bot:GetAbilityByName(spells[i]);snapshot.raze_rules[i]={range=a:GetSpecialValueInt('shadowraze_range'),radius=a:GetSpecialValueInt('shadowraze_radius')} end
   snapshot.deaths=GetHeroDeaths(bot:GetPlayerID());snapshot.player=bot:GetPlayerID()

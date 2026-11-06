@@ -26,7 +26,7 @@ def save(path,value):
     tmp=path.with_suffix('.tmp');tmp.write_text(json.dumps(value,ensure_ascii=False,indent=2),encoding='utf-8');tmp.replace(path)
 
 
-def serve(model_path,log,bots,output,team,stop,ready,audit=False):
+def serve(model_path,log,bots,output,team,stop,ready,audit=False,navigation_probe=False):
     initial_offset=log.stat().st_size if log.exists() else 0
     model,_=load_bundle(model_path);session=Session(model);observer=Observer()
     output.mkdir(parents=True,exist_ok=True)
@@ -61,8 +61,14 @@ def serve(model_path,log,bots,output,team,stop,ready,audit=False):
                     death=s['deaths']!=last_deaths
                     if death:observer=Observer();previous=None
                     last_deaths=s['deaths']
+                    handoff=s.get('navigation_handoff',False)
+                    if handoff:previous=dict(action=1,direction=0)
+                    input_previous_action=(previous or {'action':1})['action']
                     b=observer.encode(s,previous,s.get('pending_cast'))
-                    action,value,reset=session.decide(b,tick,s['match'],death)
+                    decision_index=session.decisions
+                    action,value,reset=session.decide(b,tick,s['match'],death,handoff)
+                    policy_ready=s.get('navigation_ready',True)
+                    if not policy_ready or navigation_probe:action=dict(action=1,direction=0,enemy_target=0,ally_target=0)
                     if audit:
                         kind=audit_case['case'] if audit_case else 1
                         if kind==13:kind=9 if tick-audit_case['start_tick']<12 else 1
@@ -71,14 +77,22 @@ def serve(model_path,log,bots,output,team,stop,ready,audit=False):
                         for name in ('enemy_target','ally_target'):
                             valid=b[name+'_mask'][0].nonzero()
                             if len(valid):action[name]=int(valid[0,0])
-                    d=command(s,action,stats['requests']+1);queue.append(d);queue=queue[-16:]
-                    retries=replace_text(bots/f'chio_commands_{team}.lua','return '+literal(queue)+'\n')
+                    d=command(s,action,stats['requests']+1)
+                    d['navigation_ready']=policy_ready
+                    retries=0
+                    if policy_ready:
+                        queue.append(d);queue=queue[-16:]
+                        retries=replace_text(bots/f'chio_commands_{team}.lua','return '+literal(queue)+'\n')
+                    stats['navigation_observations']=stats.get('navigation_observations',0)+int(not policy_ready)
+                    stats['handoffs']=stats.get('handoffs',0)+int(handoff)
                     stats['write_retries']=stats.get('write_retries',0)+retries
                     previous=action;last_tick=tick;stats['requests']+=1;stats['resets']+=int(reset)
                     ms=(time.perf_counter()-started)*1000
                     stats['last_tick']=tick;stats['last_ms']=ms;stats['max_ms']=max(stats.get('max_ms',0),ms)
                     trace.write(json.dumps(s,separators=(',',':'))+'\n')
-                    decisions.write(json.dumps(dict(**d,value=value,inference_ms=ms,reset=reset))+'\n');decisions.flush()
+                    decisions.write(json.dumps(dict(**d,value=value,inference_ms=ms,reset=reset,decision_index=decision_index,
+                        handoff=handoff,policy_executed=policy_ready,input_previous_action=input_previous_action,
+                        hp_history_known=int(b['hero_combat'][0,0,-25:-13].sum())))+'\n');decisions.flush()
                 except Exception as e:
                     stats['errors'].append(dict(tick=tick,error=repr(e)));save(output/'status.json',stats);raise
             if time.monotonic()-last_save>2:save(output/'status.json',stats);last_save=time.monotonic()
@@ -91,8 +105,9 @@ def main():
     p.add_argument('--log',type=Path,required=True);p.add_argument('--bots',type=Path,required=True)
     p.add_argument('--output',type=Path,required=True);p.add_argument('--team',type=int,choices=(2,3),default=2)
     p.add_argument('--audit',action='store_true')
+    p.add_argument('--navigation-probe',action='store_true',help='Diagnostic STOP after handoff; not a model evaluation')
     a=p.parse_args();below_normal();a.output.mkdir(parents=True,exist_ok=False)
-    serve(a.model,a.log,a.bots,a.output,a.team,a.output/'stop',a.output/'ready',a.audit)
+    serve(a.model,a.log,a.bots,a.output,a.team,a.output/'stop',a.output/'ready',a.audit,a.navigation_probe)
 
 
 if __name__=='__main__':main()

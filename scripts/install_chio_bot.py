@@ -19,7 +19,7 @@ def prepare(dest,human_team):
     legacy_bundle(selection,human_team)
     shutil.copy2(selection/'hero_selection.lua',dest/'hero_selection.lua')
     shutil.copy2(ROOT/'bots/play_model_lobby.lua',dest/'play_model_lobby.lua')
-    settings=dict(interval=.2,match='P17-human',observation_profile='ggd-v4',chio=True,
+    settings=dict(interval=.2,match='P17-human',observation_profile='ggd-v4',chio=True,chio_script_navigation=True,
                   human_team=human_team,model_team=5-human_team,controller_type='chio',endpoint='')
     from sf_duel.live.bridge import literal
     (dest/'settings.lua').write_text('return '+literal(settings)+'\n')

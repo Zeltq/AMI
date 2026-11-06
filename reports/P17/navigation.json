@@ -1,0 +1,166 @@
+{
+  "reference": "C:\\AMI\\runs\\p16\\nav-collect-smoke",
+  "reference_kind": "existing partial navigation diagnostic, not a new CPU model evaluation",
+  "simulator_first_decisions": {
+    "0": 126,
+    "2": 126,
+    "4": 126,
+    "6": 126,
+    "8": 126,
+    "10": 126,
+    "12": 126,
+    "14": 126,
+    "1": 128,
+    "3": 128,
+    "5": 128,
+    "7": 128,
+    "9": 128,
+    "11": 128,
+    "13": 128,
+    "15": 128
+  },
+  "simulator_handoff_resets": {
+    "0": 1.0,
+    "2": 1.0,
+    "4": 1.0,
+    "6": 1.0,
+    "8": 1.0,
+    "10": 1.0,
+    "12": 1.0,
+    "14": 1.0,
+    "1": 1.0,
+    "3": 1.0,
+    "5": 1.0,
+    "7": 1.0,
+    "9": 1.0,
+    "11": 1.0,
+    "13": 1.0,
+    "15": 1.0
+  },
+  "rows": [
+    {
+      "team": 2,
+      "sim_arrival_seconds_sum": 201.60000000000002,
+      "sim_actors": 8,
+      "sim_mean_seconds": 25.200000000000003,
+      "dota_arrival_elapsed_pregame_seconds": 25.433334350585994,
+      "dota_actors": 1,
+      "delta_seconds": 0.2333343505859915,
+      "dota_first_observation_relative_seconds": 25.200000000000003,
+      "handoff_count": 1,
+      "reset": true,
+      "previous_action": 1,
+      "hp_history_known": 12
+    },
+    {
+      "team": 3,
+      "sim_arrival_seconds_sum": 204.8,
+      "sim_actors": 8,
+      "sim_mean_seconds": 25.6,
+      "dota_arrival_elapsed_pregame_seconds": 26.233329772949,
+      "dota_actors": 1,
+      "delta_seconds": 0.6333297729489971,
+      "dota_first_observation_relative_seconds": 25.8,
+      "handoff_count": 1,
+      "reset": true,
+      "previous_action": 1,
+      "hp_history_known": 12
+    }
+  ],
+  "dota": {
+    "teams": {
+      "2": {
+        "handoffs": [
+          {
+            "x": -1373.2694091797,
+            "y": -1439.8308105469,
+            "tick": 2178,
+            "reset_required": true,
+            "handoffs": 1,
+            "elapsed_seconds": 25.333333333333,
+            "previous_action": 1,
+            "team": 2,
+            "time": -64.566665649414
+          }
+        ],
+        "boundary": [
+          {
+            "action": 1,
+            "sequence": 127,
+            "observed_tick": 2178,
+            "execute_tick": 2185,
+            "player": 0,
+            "team": 2,
+            "navigation_ready": true,
+            "value": -0.10615549236536026,
+            "inference_ms": 7.026299950666726,
+            "reset": true,
+            "decision_index": 126,
+            "handoff": true,
+            "policy_executed": true,
+            "input_previous_action": 1,
+            "hp_history_known": 12
+          }
+        ],
+        "pre_handoff_observations": 126,
+        "pre_handoff_model_executions": 0,
+        "outside_after_handoff": 141,
+        "periodic_resets": 3,
+        "periodic_expected": 3,
+        "hp_history_known_at_handoff": [
+          12
+        ],
+        "passed": true
+      },
+      "3": {
+        "handoffs": [
+          {
+            "tick": 2202,
+            "handoffs": 1,
+            "elapsed_seconds": 25.966666666667,
+            "previous_action": 1,
+            "reset_required": true,
+            "team": 3,
+            "time": -63.766670227051,
+            "x": 1598.9730224609,
+            "y": 1176.55078125
+          }
+        ],
+        "boundary": [
+          {
+            "action": 1,
+            "sequence": 130,
+            "observed_tick": 2202,
+            "execute_tick": 2209,
+            "player": 5,
+            "team": 3,
+            "navigation_ready": true,
+            "value": -0.10725641995668411,
+            "inference_ms": 7.097200024873018,
+            "reset": true,
+            "decision_index": 129,
+            "handoff": true,
+            "policy_executed": true,
+            "input_previous_action": 1,
+            "hp_history_known": 12
+          }
+        ],
+        "pre_handoff_observations": 129,
+        "pre_handoff_model_executions": 0,
+        "outside_after_handoff": 141,
+        "periodic_resets": 3,
+        "periodic_expected": 3,
+        "hp_history_known_at_handoff": [
+          12
+        ],
+        "passed": true
+      }
+    },
+    "acks": {
+      "total": 255,
+      "on_time": 255
+    },
+    "training_eligible": false,
+    "passed": true
+  }
+}

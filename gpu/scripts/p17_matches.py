@@ -16,7 +16,7 @@ from p17_p16_guard import check as p16_check
 CALLBACK='''local settings=require('bots/settings')
 for k,v in pairs(require('bots/p17_settings')) do settings[k]=v end
 local controller
-if GetTeam()==settings.model_team then controller=require('bots/chio_executor')
+if settings.navigation_probe or GetTeam()==settings.model_team then controller=require('bots/chio_executor')
 else controller=require('bots/scripted_teacher_v9_live') end
 local json=require('game/dkjson');local last=nil;local second=nil
 function Think()
@@ -37,15 +37,15 @@ end
 '''
 
 
-def bundle(dest,team,audit=False):
+def bundle(dest,team,audit=False,navigation_probe=False):
     dest.mkdir(parents=True,exist_ok=False)
-    for name in ('agent.lua','chio_executor.lua','chio_economy.lua','hero_selection.lua','scripted_teacher_v9_live.lua','scripted_teacher_v9.lua','play_model_events.lua'):
+    for name in ('agent.lua','chio_executor.lua','chio_economy.lua','chio_navigation.lua','hero_selection.lua','scripted_teacher_v9_live.lua','scripted_teacher_v9.lua','play_model_events.lua'):
         shutil.copy2(ROOT/'bots'/name,dest/name)
     for name in ('p17_setup.lua','p17_bridge.lua','p17_audit.lua'):shutil.copy2(ROOT/'gpu/bots'/name,dest/name)
     (dest/'bot_generic.lua').write_text(CALLBACK)
     (dest/'item_purchase_generic.lua').write_text('function ItemPurchaseThink() end\n')
     (dest/'ability_item_usage_generic.lua').write_text('require("bots/bot_generic")\nfunction AbilityUsageThink() Think() end\nfunction AbilityLevelUpThink() end\nfunction CourierUsageThink() end\nfunction ItemUsageThink() end\nfunction BuybackUsageThink() end\n')
-    (dest/'p17_settings.lua').write_text('return '+literal(dict(model_team=team,chio=True,audit=audit,observation_profile='ggd-v4'))+'\n')
+    (dest/'p17_settings.lua').write_text('return '+literal(dict(model_team=team,chio=True,audit=audit,navigation_probe=navigation_probe,chio_script_navigation=True,observation_profile='ggd-v4'))+'\n')
     for side in (2,3):(dest/f'chio_commands_{side}.lua').write_text('return {}\n')
 
 
