@@ -59,13 +59,16 @@ def analyze(game):
         own_window=[own_start]+[h for h in heroes[team] if own_start['time']<h['time']<=stop]
         casts=[e for e in events if e['kind']=='cast' and e.get('team')==other and start<=e['time']<=stop]
         after=[e for e in events if e['kind']=='cast' and e.get('team')==other and stop<e['time']<=end+10]
-        gain=collections.Counter();known=0;potential=0.;visible_dt=0.;flask_dt=0.;tango_dt=0.
-        for a,b in zip(window,window[1:]):
-            ea=enemy_at(a['time']);eb=enemy_at(b['time'])
-            if not ea or not eb or b['time']-a['time']>.3:continue
+        gain=collections.Counter();known=0;all_intervals=0;potential=0.;visible_dt=0.;flask_dt=0.;tango_dt=0.
+        # Compare HP and max HP from the same Bot API snapshots: joining a newer
+        # server HP to an older max HP can misclassify a level-up as healing.
+        for a,b in zip(obs,obs[1:]):
+            if a['time']<start or b['time']>stop:continue
+            all_intervals+=1;ea,eb=a['enemy'],b['enemy']
+            if not ea or not eb or b['time']-a['time']>.41:continue
             known+=1
             growth=max(0,eb['health_max']-ea['health_max'])
-            amount=max(0,b['health']-a['health']-growth)
+            amount=max(0,eb['health']-ea['health']-growth)
             tag='flask_active' if ea.get('flask') else 'tango_active' if ea.get('tango') else 'no_consumable_buff'
             gain[tag]+=amount
         for r,next_r in zip(obs,obs[1:]):
@@ -91,7 +94,7 @@ def analyze(game):
         episodes.append(dict(index=index,start=start,last_hit=end,measurement_end=stop,hits=len(group),damage=sum(e['damage'] for e in group),
             damage_physical=sum(e['damage'] for e in group if not e.get('ability')),damage_spells=sum(e['damage'] for e in group if e.get('ability')),
             v9_hp_start=h0['health'],v9_hp_end=h1['health'],v9_health_gain_lower_bound=sum(gain.values()),health_gain_by_buff_state=dict(gain),
-            healing_coverage=dict(known_intervals=known,all_intervals=max(0,len(window)-1)),
+            healing_coverage=dict(known_intervals=known,all_intervals=all_intervals),
             v9_casts=dict(collections.Counter(e['ability'] for e in casts)),v9_casts_next8s=dict(collections.Counter(e['ability'] for e in after)),
             v9_cast_events=[dict(time=e['time'],ability=e['ability']) for e in casts+after],
             flask_active_seconds=flask_dt,tango_active_seconds=tango_dt,visible_seconds=visible_dt,
@@ -112,13 +115,13 @@ def analyze(game):
                 progress_to_goal5s=dist(b,goal)-dist(later,goal) if goal else None,
                 position=dict(x=b['x'],y=b['y']),position_after5s=dict(x=later['x'],y=later['y'])))
     full_gain=0;full_known=0
-    for a,b in zip(heroes[other],heroes[other][1:]):
-        ea,eb=enemy_at(a['time']),enemy_at(b['time'])
-        if ea and eb and b['time']-a['time']<=.3:
-            full_known+=1;full_gain+=max(0,b['health']-a['health']-max(0,eb['health_max']-ea['health_max']))
+    for a,b in zip(obs,obs[1:]):
+        ea,eb=a['enemy'],b['enemy']
+        if ea and eb and b['time']-a['time']<=.41:
+            full_known+=1;full_gain+=max(0,eb['health']-ea['health']-max(0,eb['health_max']-ea['health_max']))
     flask_casts=[e for e in events if e['kind']=='cast' and e.get('team')==other and e.get('ability')=='item_flask']
     return dict(seed=game['seed'],model_team=team,run=str(folder),episodes=episodes,low_hp_crossings=crossings,t1_retreat_goal=goal,
-        full_match_v9_health_gain_lower_bound=full_gain,full_match_healing_coverage=dict(known=full_known,total=max(0,len(heroes[other])-1)),
+        full_match_v9_health_gain_lower_bound=full_gain,full_match_healing_coverage=dict(known=full_known,total=max(0,len(obs)-1)),
         v9_flask_casts_in_pressure=sum(any(ep['start']<=e['time']<=ep['measurement_end'] for ep in episodes) for e in flask_casts),
         total_hero_damage=sum(e['damage'] for e in hits),v9_flask_casts=len(flask_casts),
         v9_tango_casts=sum(e['kind']=='cast' and e.get('team')==other and e.get('ability')=='item_tango' for e in events))
