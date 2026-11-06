@@ -1,0 +1,194 @@
+{
+  "acks": {
+    "accepted": 623,
+    "total": 623
+  },
+  "actions": {
+    "0": {
+      "accepted": 113,
+      "issued": 113
+    },
+    "1": {
+      "accepted": 510,
+      "issued": 510
+    },
+    "2": {
+      "accepted": 0,
+      "issued": 0
+    },
+    "3": {
+      "accepted": 0,
+      "issued": 0
+    },
+    "4": {
+      "accepted": 0,
+      "issued": 0
+    },
+    "5": {
+      "accepted": 0,
+      "issued": 0
+    },
+    "6": {
+      "accepted": 0,
+      "issued": 0
+    },
+    "7": {
+      "accepted": 0,
+      "issued": 0
+    },
+    "8": {
+      "accepted": 0,
+      "issued": 0
+    },
+    "9": {
+      "accepted": 0,
+      "issued": 0
+    },
+    "10": {
+      "accepted": 0,
+      "issued": 0
+    },
+    "11": {
+      "accepted": 0,
+      "issued": 0
+    },
+    "12": {
+      "accepted": 0,
+      "issued": 0
+    }
+  },
+  "delay_ticks": {
+    "7": 623
+  },
+  "rejections": {},
+  "sides": {
+    "2": {
+      "lh": 0,
+      "deny": 0,
+      "deaths": 0,
+      "end_time": 60,
+      "mid_time": -64.566665649414,
+      "spells": {
+        "nevermore_shadowraze1": {
+          "casts": 0,
+          "hero_hits": 0
+        },
+        "nevermore_shadowraze2": {
+          "casts": 0,
+          "hero_hits": 0
+        },
+        "nevermore_shadowraze3": {
+          "casts": 0,
+          "hero_hits": 0
+        },
+        "nevermore_requiem": {
+          "casts": 0,
+          "hero_hits": 0
+        },
+        "item_flask": {
+          "casts": 0,
+          "hero_hits": 0
+        },
+        "item_enchanted_mango": {
+          "casts": 0,
+          "hero_hits": 0
+        },
+        "item_tango": {
+          "casts": 0,
+          "hero_hits": 0
+        }
+      },
+      "navigation": {
+        "handoffs": [
+          {
+            "tick": 2178,
+            "reset_required": true,
+            "previous_action": 1,
+            "team": 2,
+            "time": -64.566665649414,
+            "x": -1376.5166015625,
+            "y": -1449.6164550781,
+            "handoffs": 1,
+            "elapsed_seconds": 25.333333333333
+          }
+        ],
+        "accepted": 126,
+        "orders": 126,
+        "delay7": 126
+      }
+    },
+    "3": {
+      "lh": 4,
+      "deny": 5,
+      "deaths": 0,
+      "end_time": 60,
+      "mid_time": -63.766670227051,
+      "spells": {
+        "nevermore_shadowraze1": {
+          "casts": 0,
+          "hero_hits": 0
+        },
+        "nevermore_shadowraze2": {
+          "casts": 0,
+          "hero_hits": 0
+        },
+        "nevermore_shadowraze3": {
+          "casts": 0,
+          "hero_hits": 0
+        },
+        "nevermore_requiem": {
+          "casts": 0,
+          "hero_hits": 0
+        },
+        "item_flask": {
+          "casts": 0,
+          "hero_hits": 0
+        },
+        "item_enchanted_mango": {
+          "casts": 0,
+          "hero_hits": 0
+        },
+        "item_tango": {
+          "casts": 0,
+          "hero_hits": 0
+        }
+      },
+      "navigation": {
+        "handoffs": [
+          {
+            "handoffs": 1,
+            "reset_required": true,
+            "elapsed_seconds": 25.966666666667,
+            "previous_action": 1,
+            "x": 1596.7322998047,
+            "y": 1163.2668457031,
+            "time": -63.766670227051,
+            "team": 3,
+            "tick": 2202
+          }
+        ],
+        "accepted": 129,
+        "orders": 129,
+        "delay7": 129
+      }
+    }
+  },
+  "coverage": {
+    "executed": 2,
+    "total": 13
+  },
+  "move_decisions": {
+    "numerator": 114,
+    "denominator": 750
+  },
+  "inference_ms": {
+    "sum": 5401.262398459949,
+    "count": 750,
+    "max": 20.22069995291531
+  },
+  "stuck_windows": {
+    "stuck": 11,
+    "checked": 15,
+    "definition": "continuous MOVE for5s, sum path<25; overlapping1s windows"
+  }
+}
