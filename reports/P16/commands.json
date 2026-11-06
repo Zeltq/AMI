@@ -205,7 +205,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\controller\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller\\stderr.log"
     ],
-    "elapsed_minutes": 8.935993263333026,
+    "elapsed_minutes": 17.537454113333176,
     "child_pid": 36428,
     "exit_code": null,
     "job": "controller"
@@ -263,7 +263,7 @@
     "job": "full-python"
   },
   {
-    "stage": "running",
+    "stage": "complete",
     "pid": 29144,
     "cwd": "C:\\AMI-wt\\P16",
     "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p16/target -- --test-threads=1",
@@ -279,14 +279,14 @@
       "--",
       "--test-threads=1"
     ],
-    "background_work_remaining": true,
+    "background_work_remaining": false,
     "artifacts": [
       "C:\\AMI\\runs\\p16\\jobs\\full-rust\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\full-rust\\stderr.log"
     ],
-    "elapsed_minutes": 0.5859741983333758,
+    "elapsed_minutes": 7.433261719999913,
     "child_pid": 31684,
-    "exit_code": null,
+    "exit_code": 0,
     "job": "full-rust"
   },
   {
@@ -364,6 +364,31 @@
   },
   {
     "stage": "complete",
+    "pid": 7844,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:\\AMI\\runs\\p16\\target",
+    "argv": [
+      "cargo",
+      "build",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "gpu/Cargo.toml",
+      "--target-dir",
+      "C:\\AMI\\runs\\p16\\target"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\release-final\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\release-final\\stderr.log"
+    ],
+    "elapsed_minutes": 1.504811771668028,
+    "child_pid": 36904,
+    "exit_code": 0,
+    "job": "release-final"
+  },
+  {
+    "stage": "complete",
     "pid": 21104,
     "cwd": "C:\\AMI-wt\\P16",
     "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p16/target",
@@ -407,6 +432,27 @@
     "child_pid": 33880,
     "exit_code": 0,
     "job": "teacher-1024"
+  },
+  {
+    "stage": "complete",
+    "pid": 4680,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:/Python314/python.exe gpu/scripts/p15_dataset_audit.py C:\\AMI\\runs\\p16\\teacher-1024 C:\\AMI-wt\\P16\\reports\\P16\\teacher-1024-audit.json",
+    "argv": [
+      "C:/Python314/python.exe",
+      "gpu/scripts/p15_dataset_audit.py",
+      "C:\\AMI\\runs\\p16\\teacher-1024",
+      "C:\\AMI-wt\\P16\\reports\\P16\\teacher-1024-audit.json"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\teacher-1024-audit\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\teacher-1024-audit\\stderr.log"
+    ],
+    "elapsed_minutes": 8.183552204999918,
+    "child_pid": 32008,
+    "exit_code": 0,
+    "job": "teacher-1024-audit"
   },
   {
     "stage": "complete",

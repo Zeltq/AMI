@@ -12,5 +12,78 @@
     },
     "folder": "C:\\AMI\\runs\\p16\\teacher-1024",
     "finished_utc": "2026-11-06T02:52:56.928854+00:00"
+  },
+  "full-verification": {
+    "result": {
+      "rust": {
+        "stage": "complete",
+        "pid": 29144,
+        "cwd": "C:\\AMI-wt\\P16",
+        "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p16/target -- --test-threads=1",
+        "argv": [
+          "cargo",
+          "test",
+          "--release",
+          "--locked",
+          "--manifest-path",
+          "gpu/Cargo.toml",
+          "--target-dir",
+          "C:/AMI/runs/p16/target",
+          "--",
+          "--test-threads=1"
+        ],
+        "background_work_remaining": false,
+        "artifacts": [
+          "C:\\AMI\\runs\\p16\\jobs\\full-rust\\stdout.log",
+          "C:\\AMI\\runs\\p16\\jobs\\full-rust\\stderr.log"
+        ],
+        "elapsed_minutes": 7.433261719999913,
+        "child_pid": 31684,
+        "exit_code": 0
+      },
+      "python": {
+        "stage": "complete",
+        "pid": 37768,
+        "cwd": "C:\\AMI-wt\\P16",
+        "command": "C:/Python314/python.exe -m unittest discover -s tests -v",
+        "argv": [
+          "C:/Python314/python.exe",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-v"
+        ],
+        "background_work_remaining": false,
+        "artifacts": [
+          "C:\\AMI\\runs\\p16\\jobs\\full-python\\stdout.log",
+          "C:\\AMI\\runs\\p16\\jobs\\full-python\\stderr.log"
+        ],
+        "elapsed_minutes": 0.25077498000076354,
+        "child_pid": 27912,
+        "exit_code": 0
+      },
+      "full-rust-tail": [
+        "test gpu_tests::tower_aura_uses_the_strongest_tier_and_expires_each_linger_independently ... ok",
+        "test gpu_tests::tower_protection_is_authoritative_in_physics_and_known_only_after_sight ... ok",
+        "test potential_reward::tests::p09b_native_snapshot_coefficients_and_terminal_zero_potential ... ok",
+        "test potential_reward::tests::p09b_potential_terminal_and_discount ... ok",
+        "",
+        "test result: ok. 140 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 440.11s",
+        ""
+      ],
+      "full-python-tail": [
+        "test_bad_column_count_is_rejected (test_telemetry.TelemetryTests.test_bad_column_count_is_rejected) ... ok",
+        "test_columns_preserve_every_model_input_and_target (test_telemetry.TelemetryTests.test_columns_preserve_every_model_input_and_target) ... ok",
+        "",
+        "----------------------------------------------------------------------",
+        "Ran 262 tests in 9.005s",
+        "",
+        "OK"
+      ]
+    },
+    "folder": "C:\\AMI\\runs\\p16\\jobs",
+    "finished_utc": "2026-11-06T03:01:30.835873+00:00"
   }
 }
