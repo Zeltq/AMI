@@ -3,5 +3,14 @@
     "utc": "2026-11-06T07:01:40.618858+00:00",
     "stage": "supervisor",
     "reason": "JSONDecodeError('Expecting value: line 1 column 1 (char 0)')"
+  },
+  {
+    "utc": "2026-11-06T10:07:41.734848+00:00",
+    "stage": "wrapper-status-recovery",
+    "reason": "Shared pilot-status read conflict; recovered wrappers by adopting unchanged live processes",
+    "controller_pid": 21636,
+    "ppo_pid": 7988,
+    "training_restarted": false,
+    "anchor_and_clock_preserved": true
   }
 ]

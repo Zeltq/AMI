@@ -5,6 +5,11 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'gpu/scripts'))
 import p16_run as runner
 
 class P16Supervisor(unittest.TestCase):
+    def test_wrapper_retries_shared_status_read_conflicts(self):
+        import p16_job
+        with patch.object(Path,'exists',return_value=True),patch.object(Path,'read_text',side_effect=[PermissionError('busy'),'','{"P16":{}}']),patch.object(p16_job.time,'sleep') as sleep:
+            self.assertEqual(p16_job.shared_status(Path('pilot-status.json')),{'P16':{}});self.assertEqual(sleep.call_count,2)
+
     def test_live_status_retries_partial_json_but_rejects_persistent_corruption(self):
         with patch.object(Path,'exists',return_value=True),patch.object(Path,'read_text',side_effect=['','{"step":','{"step":42}']),patch.object(runner.time,'sleep') as sleep:
             self.assertEqual(runner.read('status.json'),{'step':42});self.assertEqual(sleep.call_count,2)

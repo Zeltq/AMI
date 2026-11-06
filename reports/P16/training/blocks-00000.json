@@ -1355,5 +1355,629 @@
       5736.0,
       4019.0
     ]
+  },
+  {
+    "run": "ppo",
+    "block": 1,
+    "training_seconds": 31.696710500000002,
+    "optimizer_steps": 24,
+    "metrics": {
+      "loss": {
+        "numerator": 4.893645891454071,
+        "denominator": 24
+      },
+      "value_loss": {
+        "numerator": 9.831092774868011,
+        "denominator": 24
+      },
+      "entropy": {
+        "numerator": 4.569655120372772,
+        "denominator": 24
+      },
+      "old_policy_kl": {
+        "numerator": 0.06204718304798007,
+        "denominator": 24
+      },
+      "anchor_kl": {
+        "numerator": 0.06261500803520903,
+        "denominator": 24
+      },
+      "gradient_norm": {
+        "numerator": 33.61508667469025,
+        "denominator": 24
+      }
+    },
+    "ev_post0": 0.30092811584472656,
+    "phase_counts": [
+      4615.0,
+      10982.0,
+      3974.0,
+      1811.0
+    ]
+  },
+  {
+    "run": "ppo",
+    "block": 2,
+    "training_seconds": 59.2507491,
+    "optimizer_steps": 24,
+    "metrics": {
+      "loss": {
+        "numerator": 7.068722974509001,
+        "denominator": 24
+      },
+      "value_loss": {
+        "numerator": 14.008278287947178,
+        "denominator": 24
+      },
+      "entropy": {
+        "numerator": 4.4134036004543304,
+        "denominator": 24
+      },
+      "old_policy_kl": {
+        "numerator": 0.0289889452396892,
+        "denominator": 24
+      },
+      "anchor_kl": {
+        "numerator": 0.10892381425946951,
+        "denominator": 24
+      },
+      "gradient_norm": {
+        "numerator": 36.610704600811005,
+        "denominator": 24
+      }
+    },
+    "ev_post0": 0.25008219480514526,
+    "phase_counts": [
+      5611.0,
+      10777.0,
+      4319.0,
+      1824.0
+    ]
+  },
+  {
+    "run": "ppo",
+    "block": 3,
+    "training_seconds": 85.6299832,
+    "optimizer_steps": 24,
+    "metrics": {
+      "loss": {
+        "numerator": 3.596899541094899,
+        "denominator": 24
+      },
+      "value_loss": {
+        "numerator": 7.329151671379805,
+        "denominator": 24
+      },
+      "entropy": {
+        "numerator": 4.432142809033394,
+        "denominator": 24
+      },
+      "old_policy_kl": {
+        "numerator": 0.044443852267249895,
+        "denominator": 24
+      },
+      "anchor_kl": {
+        "numerator": 0.1741535561159253,
+        "denominator": 24
+      },
+      "gradient_norm": {
+        "numerator": 27.008711963891983,
+        "denominator": 24
+      }
+    },
+    "ev_post0": 0.2663058638572693,
+    "phase_counts": [
+      4997.0,
+      10074.0,
+      4896.0,
+      1871.0
+    ]
+  },
+  {
+    "run": "ppo",
+    "block": 4,
+    "training_seconds": 112.3427403,
+    "optimizer_steps": 24,
+    "metrics": {
+      "loss": {
+        "numerator": 4.489224155433476,
+        "denominator": 24
+      },
+      "value_loss": {
+        "numerator": 8.979148980230093,
+        "denominator": 24
+      },
+      "entropy": {
+        "numerator": 4.3712005615234375,
+        "denominator": 24
+      },
+      "old_policy_kl": {
+        "numerator": 0.02851822440425167,
+        "denominator": 24
+      },
+      "anchor_kl": {
+        "numerator": 0.2781887808814645,
+        "denominator": 24
+      },
+      "gradient_norm": {
+        "numerator": 37.95818477869034,
+        "denominator": 24
+      }
+    },
+    "ev_post0": 0.2830080986022949,
+    "phase_counts": [
+      4745.0,
+      10838.0,
+      5038.0,
+      2236.0
+    ]
+  },
+  {
+    "run": "ppo",
+    "block": 5,
+    "training_seconds": 139.2114272,
+    "optimizer_steps": 24,
+    "metrics": {
+      "loss": {
+        "numerator": 5.511585488915443,
+        "denominator": 24
+      },
+      "value_loss": {
+        "numerator": 10.924469947814941,
+        "denominator": 24
+      },
+      "entropy": {
+        "numerator": 4.583437889814377,
+        "denominator": 24
+      },
+      "old_policy_kl": {
+        "numerator": 0.042431531905094744,
+        "denominator": 24
+      },
+      "anchor_kl": {
+        "numerator": 0.349747315980494,
+        "denominator": 24
+      },
+      "gradient_norm": {
+        "numerator": 35.189355969429016,
+        "denominator": 24
+      }
+    },
+    "ev_post0": 0.2389841079711914,
+    "phase_counts": [
+      3939.0,
+      11614.0,
+      4876.0,
+      2362.0
+    ]
+  },
+  {
+    "run": "ppo",
+    "block": 6,
+    "training_seconds": 166.1624226,
+    "optimizer_steps": 24,
+    "metrics": {
+      "loss": {
+        "numerator": 6.706728036515415,
+        "denominator": 24
+      },
+      "value_loss": {
+        "numerator": 13.417418148368597,
+        "denominator": 24
+      },
+      "entropy": {
+        "numerator": 4.480227693915367,
+        "denominator": 24
+      },
+      "old_policy_kl": {
+        "numerator": 0.042959637838066556,
+        "denominator": 24
+      },
+      "anchor_kl": {
+        "numerator": 0.5305539257824421,
+        "denominator": 24
+      },
+      "gradient_norm": {
+        "numerator": 28.782919943332672,
+        "denominator": 24
+      }
+    },
+    "ev_post0": 0.19695013761520386,
+    "phase_counts": [
+      3579.0,
+      11375.0,
+      4878.0,
+      2670.0
+    ]
+  },
+  {
+    "run": "ppo",
+    "block": 7,
+    "training_seconds": 193.1627253,
+    "optimizer_steps": 24,
+    "metrics": {
+      "loss": {
+        "numerator": 5.648958505829796,
+        "denominator": 24
+      },
+      "value_loss": {
+        "numerator": 11.144301023334265,
+        "denominator": 24
+      },
+      "entropy": {
+        "numerator": 4.532112464308739,
+        "denominator": 24
+      },
+      "old_policy_kl": {
+        "numerator": 0.035790895846730564,
+        "denominator": 24
+      },
+      "anchor_kl": {
+        "numerator": 0.6253067050129175,
+        "denominator": 24
+      },
+      "gradient_norm": {
+        "numerator": 29.092303901910782,
+        "denominator": 24
+      }
+    },
+    "ev_post0": 0.22792822122573853,
+    "phase_counts": [
+      3309.0,
+      10944.0,
+      4917.0,
+      2670.0
+    ]
+  },
+  {
+    "run": "ppo",
+    "block": 8,
+    "training_seconds": 220.5577149,
+    "optimizer_steps": 24,
+    "metrics": {
+      "loss": {
+        "numerator": 6.819088019430637,
+        "denominator": 24
+      },
+      "value_loss": {
+        "numerator": 13.426556259393692,
+        "denominator": 24
+      },
+      "entropy": {
+        "numerator": 4.709175109863281,
+        "denominator": 24
+      },
+      "old_policy_kl": {
+        "numerator": 0.024627411185065284,
+        "denominator": 24
+      },
+      "anchor_kl": {
+        "numerator": 0.6267241947352886,
+        "denominator": 24
+      },
+      "gradient_norm": {
+        "numerator": 36.68528866767883,
+        "denominator": 24
+      }
+    },
+    "ev_post0": 0.2656628489494324,
+    "phase_counts": [
+      4012.0,
+      9956.0,
+      5673.0,
+      2441.0
+    ]
+  },
+  {
+    "run": "ppo",
+    "block": 9,
+    "training_seconds": 247.5622817,
+    "optimizer_steps": 24,
+    "metrics": {
+      "loss": {
+        "numerator": 7.019335860386491,
+        "denominator": 24
+      },
+      "value_loss": {
+        "numerator": 13.908406477421522,
+        "denominator": 24
+      },
+      "entropy": {
+        "numerator": 4.6828286200761795,
+        "denominator": 24
+      },
+      "old_policy_kl": {
+        "numerator": 0.03835801296008867,
+        "denominator": 24
+      },
+      "anchor_kl": {
+        "numerator": 0.7301227562129498,
+        "denominator": 24
+      },
+      "gradient_norm": {
+        "numerator": 44.36923012137413,
+        "denominator": 24
+      }
+    },
+    "ev_post0": 0.32045233249664307,
+    "phase_counts": [
+      4339.0,
+      9190.0,
+      5397.0,
+      2499.0
+    ]
+  },
+  {
+    "run": "ppo",
+    "block": 10,
+    "training_seconds": 276.7958258,
+    "optimizer_steps": 24,
+    "metrics": {
+      "loss": {
+        "numerator": 6.142377311858581,
+        "denominator": 24
+      },
+      "value_loss": {
+        "numerator": 12.373099498450756,
+        "denominator": 24
+      },
+      "entropy": {
+        "numerator": 4.30513945966959,
+        "denominator": 24
+      },
+      "old_policy_kl": {
+        "numerator": 0.050617995557331597,
+        "denominator": 24
+      },
+      "anchor_kl": {
+        "numerator": 0.7939571645110846,
+        "denominator": 24
+      },
+      "gradient_norm": {
+        "numerator": 36.51698684692383,
+        "denominator": 24
+      }
+    },
+    "ev_post0": 0.27757102251052856,
+    "phase_counts": [
+      4735.0,
+      8899.0,
+      4930.0,
+      2977.0
+    ]
+  },
+  {
+    "run": "ppo",
+    "block": 11,
+    "training_seconds": 304.0453313,
+    "optimizer_steps": 24,
+    "metrics": {
+      "loss": {
+        "numerator": 5.8936846405267715,
+        "denominator": 24
+      },
+      "value_loss": {
+        "numerator": 11.641069542616606,
+        "denominator": 24
+      },
+      "entropy": {
+        "numerator": 4.407277390360832,
+        "denominator": 24
+      },
+      "old_policy_kl": {
+        "numerator": 0.050557448601466604,
+        "denominator": 24
+      },
+      "anchor_kl": {
+        "numerator": 0.9194564204663038,
+        "denominator": 24
+      },
+      "gradient_norm": {
+        "numerator": 39.847443759441376,
+        "denominator": 24
+      }
+    },
+    "ev_post0": 0.35956108570098877,
+    "phase_counts": [
+      5373.0,
+      8688.0,
+      4664.0,
+      3407.0
+    ]
+  },
+  {
+    "run": "ppo",
+    "block": 12,
+    "training_seconds": 331.31679729999996,
+    "optimizer_steps": 24,
+    "metrics": {
+      "loss": {
+        "numerator": 6.669270023703575,
+        "denominator": 24
+      },
+      "value_loss": {
+        "numerator": 13.39203655719757,
+        "denominator": 24
+      },
+      "entropy": {
+        "numerator": 4.1777840703725815,
+        "denominator": 24
+      },
+      "old_policy_kl": {
+        "numerator": 0.034757681785777095,
+        "denominator": 24
+      },
+      "anchor_kl": {
+        "numerator": 0.8847850523889065,
+        "denominator": 24
+      },
+      "gradient_norm": {
+        "numerator": 40.97020888328552,
+        "denominator": 24
+      }
+    },
+    "ev_post0": 0.27480548620224,
+    "phase_counts": [
+      5302.0,
+      9046.0,
+      4217.0,
+      3595.0
+    ]
+  },
+  {
+    "run": "ppo",
+    "block": 13,
+    "training_seconds": 357.7930467,
+    "optimizer_steps": 24,
+    "metrics": {
+      "loss": {
+        "numerator": 4.728817203082144,
+        "denominator": 24
+      },
+      "value_loss": {
+        "numerator": 9.395341232419014,
+        "denominator": 24
+      },
+      "entropy": {
+        "numerator": 4.41661661863327,
+        "denominator": 24
+      },
+      "old_policy_kl": {
+        "numerator": 0.033213788774446584,
+        "denominator": 24
+      },
+      "anchor_kl": {
+        "numerator": 1.0273696910589933,
+        "denominator": 24
+      },
+      "gradient_norm": {
+        "numerator": 33.78080528974533,
+        "denominator": 24
+      }
+    },
+    "ev_post0": 0.2921215295791626,
+    "phase_counts": [
+      4749.0,
+      9912.0,
+      3862.0,
+      3315.0
+    ]
+  },
+  {
+    "run": "ppo",
+    "block": 14,
+    "training_seconds": 385.08635219999996,
+    "optimizer_steps": 24,
+    "metrics": {
+      "loss": {
+        "numerator": 3.6267565432935953,
+        "denominator": 24
+      },
+      "value_loss": {
+        "numerator": 7.156116329133511,
+        "denominator": 24
+      },
+      "entropy": {
+        "numerator": 4.611791640520096,
+        "denominator": 24
+      },
+      "old_policy_kl": {
+        "numerator": 0.039397538486809935,
+        "denominator": 24
+      },
+      "anchor_kl": {
+        "numerator": 1.1457225047051907,
+        "denominator": 24
+      },
+      "gradient_norm": {
+        "numerator": 28.07771387696266,
+        "denominator": 24
+      }
+    },
+    "ev_post0": 0.2731146812438965,
+    "phase_counts": [
+      4536.0,
+      10647.0,
+      4386.0,
+      3100.0
+    ]
+  },
+  {
+    "run": "ppo",
+    "block": 15,
+    "training_seconds": 411.6034147,
+    "optimizer_steps": 24,
+    "metrics": {
+      "loss": {
+        "numerator": 6.159376308321953,
+        "denominator": 24
+      },
+      "value_loss": {
+        "numerator": 12.460404764860868,
+        "denominator": 24
+      },
+      "entropy": {
+        "numerator": 4.500873565673828,
+        "denominator": 24
+      },
+      "old_policy_kl": {
+        "numerator": 0.040898454683883756,
+        "denominator": 24
+      },
+      "anchor_kl": {
+        "numerator": 1.1536972187459469,
+        "denominator": 24
+      },
+      "gradient_norm": {
+        "numerator": 33.21219593286514,
+        "denominator": 24
+      }
+    },
+    "ev_post0": 0.2255610227584839,
+    "phase_counts": [
+      4205.0,
+      10969.0,
+      4406.0,
+      3189.0
+    ]
+  },
+  {
+    "run": "ppo",
+    "block": 16,
+    "training_seconds": 438.2855891,
+    "optimizer_steps": 24,
+    "metrics": {
+      "loss": {
+        "numerator": 6.623657088726759,
+        "denominator": 24
+      },
+      "value_loss": {
+        "numerator": 13.229123365134,
+        "denominator": 24
+      },
+      "entropy": {
+        "numerator": 4.6799579709768295,
+        "denominator": 24
+      },
+      "old_policy_kl": {
+        "numerator": 0.029377760733041214,
+        "denominator": 24
+      },
+      "anchor_kl": {
+        "numerator": 1.2597103491425514,
+        "denominator": 24
+      },
+      "gradient_norm": {
+        "numerator": 38.00799298286438,
+        "denominator": 24
+      }
+    },
+    "ev_post0": 0.17763853073120117,
+    "phase_counts": [
+      3323.0,
+      10735.0,
+      4424.0,
+      2911.0
+    ]
   }
 ]

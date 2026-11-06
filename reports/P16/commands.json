@@ -296,7 +296,7 @@
   },
   {
     "stage": "running",
-    "pid": 32132,
+    "pid": 13652,
     "cwd": "C:\\AMI-wt\\P16",
     "command": "C:/Python314/python.exe -X utf8 gpu/scripts/p16_run.py",
     "argv": [
@@ -310,9 +310,11 @@
       "C:\\AMI\\runs\\p16\\jobs\\controller-live-status-repair\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller-live-status-repair\\stderr.log"
     ],
-    "elapsed_minutes": 166.88255930000062,
+    "elapsed_minutes": 178.65736417666776,
     "child_pid": 21636,
     "exit_code": null,
+    "previous_wrapper_pid": 32132,
+    "adopted": true,
     "job": "controller-live-status-repair"
   },
   {
@@ -1710,6 +1712,29 @@
     "job": "parity-sampling-dagger-2-fixture"
   },
   {
+    "stage": "running",
+    "pid": 37524,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe train-ggd C:\\AMI-wt\\P16\\reports\\P16\\configs\\ppo.json C:\\AMI\\runs\\p16\\ppo",
+    "argv": [
+      "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe",
+      "train-ggd",
+      "C:\\AMI-wt\\P16\\reports\\P16\\configs\\ppo.json",
+      "C:\\AMI\\runs\\p16\\ppo"
+    ],
+    "background_work_remaining": true,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\ppo\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\ppo\\stderr.log"
+    ],
+    "elapsed_minutes": 14.623056028333183,
+    "child_pid": 7988,
+    "exit_code": null,
+    "previous_wrapper_pid": 20424,
+    "adopted": true,
+    "job": "ppo"
+  },
+  {
     "stage": "complete",
     "pid": 20188,
     "cwd": "C:\\AMI-wt\\P16",
@@ -2139,5 +2164,18 @@
     "child_pid": 35132,
     "exit_code": 0,
     "job": "weighted-resume-check"
+  },
+  {
+    "pid": 36424,
+    "child_pid": 27160,
+    "command": "adoption fixture",
+    "argv": [],
+    "elapsed_minutes": 0.0837022866665696,
+    "stage": "failed",
+    "background_work_remaining": false,
+    "previous_wrapper_pid": 999999,
+    "adopted": true,
+    "exit_code": 7,
+    "job": "wrapper-adopt-test"
   }
 ]
