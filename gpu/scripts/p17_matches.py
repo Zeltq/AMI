@@ -82,6 +82,8 @@ def match(run,model,team,seconds,runtime,audit=False):
                     if audit and 'SF_P17_AUDIT_DONE|' in line:result=dict(audit=True,acks=acks)
                     if 'SF_CHIO_ERROR|' in line or 'SF_P17_ERROR|' in line or 'Script Runtime Error:' in line:raise RuntimeError(line)
                     if 'SF_CHIO_ACK|' in line:acks.append(json.loads(line.split('SF_CHIO_ACK|',1)[1]))
+                    if not audit and 'SF_CHIO_TERMINAL|' in line and terminal is None:
+                        terminal=json.loads(line.split('SF_CHIO_TERMINAL|',1)[1])
                     if not audit and 'SF_PLAY_EVENT|' in line:
                         event=json.loads(line.split('SF_PLAY_EVENT|',1)[1])
                         if event['kind']=='death' and terminal is None:terminal=event
@@ -90,13 +92,15 @@ def match(run,model,team,seconds,runtime,audit=False):
                 if audit and result is not None:break
                 if not audit and len(metrics)==2:
                     if terminal:
-                        side=terminal['team'];metrics[side].update(deaths=max(1,metrics[side]['deaths']),alive=False,hp=0,time=terminal['time'])
-                    reason=next(('death' for r in metrics.values() if r['deaths']>0),None)
+                        side=terminal['team'];metrics[side]['time']=terminal['time']
+                        if terminal.get('reason')=='tower':metrics[side]['tower_alive']=False
+                        else:metrics[side].update(deaths=max(1,metrics[side]['deaths']),alive=False,hp=0)
+                    reason=terminal.get('reason','death') if terminal else next(('death' for r in metrics.values() if r['deaths']>0),None)
                     reason=reason or next(('tower' for r in metrics.values() if not r['tower_alive']),None)
                     reason=reason or ('timeout' if min(r['time'] for r in metrics.values())>=seconds else None)
                     if reason:
-                        if reason=='death':loser=next(k for k,r in metrics.items() if r['deaths']>0);winner=5-loser
-                        elif reason=='tower':loser=next(k for k,r in metrics.items() if not r['tower_alive']);winner=5-loser
+                        if reason=='death':loser=terminal['team'] if terminal else next(k for k,r in metrics.items() if r['deaths']>0);winner=5-loser
+                        elif reason=='tower':loser=terminal['team'] if terminal else next(k for k,r in metrics.items() if not r['tower_alive']);winner=5-loser
                         else:winner=2 if metrics[2]['lh']>metrics[3]['lh'] else 3 if metrics[3]['lh']>metrics[2]['lh'] else 0
                         result=dict(reason=reason,winner=winner,model_team=team,sides=metrics,censored=seconds<600,acks=acks,terminal_event=terminal);break
                 status(stage='match',metrics=metrics,acks=len(acks),elapsed_seconds=time.monotonic()-started)

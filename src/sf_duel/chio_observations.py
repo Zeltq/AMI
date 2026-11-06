@@ -51,7 +51,10 @@ class Observer:
                 known[16]=1
             if hero and u is own:
                 if seen(enemy):
-                    for i,r in enumerate((200,450,700)):v[17+i]=zone(enemy,own,r);known[17+i]=1
+                    for i,r in enumerate((200,450,700)):
+                        rule=(s.get('raze_rules') or [dict(range=x,radius=250) for x in (200,450,700)])[i]
+                        if rule.get('range',0)>0 and rule.get('radius',0)>0:
+                            v[17+i]=zone(enemy,own,rule['range'],rule['radius']);known[17+i]=1
                 known[20:25]=1
                 if pending_cast is not None:v[20]=1;v[21+pending_cast-6]=1
             return np.concatenate((v,known))

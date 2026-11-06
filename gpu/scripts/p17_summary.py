@@ -27,7 +27,8 @@ def summarize(run):
             hits=sum(e['kind']=='hurt' and e.get('team')==team and e.get('ability')==name and e.get('target')=='npc_dota_hero_nevermore' for e in events)
             spells[name]=dict(casts=casts,hero_hits=hits)
         last=metrics[-1]
-        result['sides'][str(team)]=dict(lh=last['lh'],deny=last['deny'],deaths=last['deaths'],end_time=last['time'],
+        deaths=max(last['deaths'],sum(e['kind']=='death' and e.get('team')==team for e in events))
+        result['sides'][str(team)]=dict(lh=last['lh'],deny=last['deny'],deaths=deaths,end_time=last['time'],
             mid_time=min(arrived) if arrived else None,spells=spells)
     if frames:
         moving=[r for r in frames if r['case']==0 and 9<=r['case_tick']<170];angles=[]

@@ -2,6 +2,7 @@ local agent=require('bots/agent')
 local M={}
 function M.Think(bot,st)
  -- Wraith Band belongs to mode setup; infrastructure must not buy another.
+ st.permanent=agent.owned(bot,'item_bracer')>0 and 2 or (agent.owned(bot,'item_boots')>0 and 1 or 0)
  st.start_bought=true;agent.infrastructure(bot,st)
  if not bot:IsAlive() then return end
  local tango=agent.owned(bot,'item_tango')

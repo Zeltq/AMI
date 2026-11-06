@@ -42,6 +42,10 @@ class P17(unittest.TestCase):
         self.assertEqual(row[16],0)
         self.assertEqual(b['items'].shape,(1,6,16));self.assertEqual(b['previous'][0,1],1)
         self.assertTrue((b['heroes'][0,:,[38,86]]==0).all())
+        s['raze_rules']=[dict(range=0,radius=0) for _ in range(3)]
+        unknown=Observer().encode(s)
+        self.assertEqual(float(unknown['hero_combat'][0,1,-50:][37:40].sum()),0)
+        self.assertEqual(float(unknown['hero_combat'][0,0,-50:][42:45].sum()),0)
 
     def test_target_sort_tree_tie_move_bounds(self):
         s=scene(60);s['self'].update(x=8100,y=8100)
@@ -105,6 +109,24 @@ package.preload['bots/chio_commands_2']=function()return commands end
         lua.execute('tick=19;commands={{sequence=3,observed_tick=12,execute_tick=19,action=5,target=1}}');executor.Think()
         lua.execute('tick=25;commands={{sequence=4,observed_tick=18,execute_tick=25,action=5,target=1}}');executor.Think()
         self.assertEqual(lua.globals().attacks,1)
+
+    def test_economy_permanent_observation_includes_delivery(self):
+        from lupa.lua51 import LuaRuntime
+        lua=LuaRuntime();root=Path(__file__).resolve().parents[1]
+        lua.execute('''owned={item_boots=1,item_tango=3,item_flask=1}
+function DotaTime()return 100 end
+package.preload['bots/agent']=function()return {
+ owned=function(_,name)return owned[name] or 0 end,infrastructure=function()end,
+ missing_cost=function()return 100 end}end
+bot={IsAlive=function()return true end,GetHealth=function()return 100 end,GetMaxHealth=function()return 100 end,
+ GetMana=function()return 100 end,GetMaxMana=function()return 100 end,GetLevel=function()return 1 end,
+ GetGold=function()return 0 end,GetModifierByName=function()return -1 end}
+state={permanent=0}
+''')
+        economy=lua.execute((root/'bots/chio_economy.lua').read_text())
+        economy.Think(lua.globals().bot,lua.globals().state);self.assertEqual(lua.globals().state.permanent,1)
+        lua.execute('owned.item_bracer=1');economy.Think(lua.globals().bot,lua.globals().state)
+        self.assertEqual(lua.globals().state.permanent,2)
 
 
 if __name__=='__main__':unittest.main()
