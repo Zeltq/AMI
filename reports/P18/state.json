@@ -1,7 +1,21 @@
 {
-  "stage": "critic-start",
+  "stage": "critic",
   "controller_pid": 26712,
-  "updated_utc": "2026-11-06T17:11:35.509601+00:00",
+  "updated_utc": "2026-11-06T17:13:19.247186+00:00",
   "background_work_remaining": true,
-  "deadline_utc": "2026-11-07T05:11:35.508233+00:00"
+  "pid": 10612,
+  "command": "C:\\AMI\\runs\\p18\\target\\release\\sf-duel-gpu.exe train-ggd C:\\AMI-wt\\P18\\reports\\P18\\configs\\critic.json C:\\AMI\\runs\\p18\\critic",
+  "native": {
+    "anchor_sha256": "0851630f75d84f2200fa41f9db647910bb434a1d886f75e129fc747dd0b139af",
+    "block": 0,
+    "completed_episodes": 0,
+    "optimizer_steps": 0,
+    "pid": 10612,
+    "stage": "desynchronizing",
+    "training_seconds": 0.0,
+    "wall_seconds": 86.6827109,
+    "warmup_block": 5,
+    "warmup_blocks": 26
+  },
+  "artifacts": "C:\\AMI\\runs\\p18\\critic"
 }

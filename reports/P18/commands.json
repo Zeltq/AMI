@@ -1,1 +1,22 @@
-{}
+{
+  "critic": {
+    "stage": "running",
+    "pid": 6944,
+    "cwd": "C:\\AMI-wt\\P18",
+    "command": "C:\\AMI\\runs\\p18\\target\\release\\sf-duel-gpu.exe train-ggd C:\\AMI-wt\\P18\\reports\\P18\\configs\\critic.json C:\\AMI\\runs\\p18\\critic",
+    "argv": [
+      "C:\\AMI\\runs\\p18\\target\\release\\sf-duel-gpu.exe",
+      "train-ggd",
+      "C:\\AMI-wt\\P18\\reports\\P18\\configs\\critic.json",
+      "C:\\AMI\\runs\\p18\\critic"
+    ],
+    "background_work_remaining": true,
+    "artifacts": [
+      "C:\\AMI\\runs\\p18\\jobs\\critic\\stdout.log",
+      "C:\\AMI\\runs\\p18\\jobs\\critic\\stderr.log"
+    ],
+    "elapsed_minutes": 1.677933666666892,
+    "child_pid": 10612,
+    "exit_code": null
+  }
+}
