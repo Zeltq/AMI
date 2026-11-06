@@ -17,16 +17,17 @@ pub struct Config {
     pub resume_checkpoint:Option<String>,pub teacher_version:Version,
     pub critic_learning_rate:f64,pub separate_critic_lr:bool,pub critic_only:bool,pub warmup_min_blocks:usize,pub warmup_blocks:usize,
     pub kl_start:f32,pub kl_end:f32,pub schedule_minutes:f64,pub checkpoint_minutes:f64,pub snapshot_minutes:f64,
-    pub mixed_pool:bool,pub bootstrap_checkpoint:Option<String>,
+    pub mixed_pool:bool,pub bootstrap_checkpoint:Option<String>,pub evaluation_minutes:f64,
 }
 impl Default for Config {fn default()->Self{Self{observation_profile:"chio-v1".into(),engine:String::new(),initial_weights:String::new(),reward_mode:"lastorder-fb-v1".into(),
     decision_ticks:6,offset_ticks:6,gamma:0.997,gae_lambda:0.95,zero_sum:true,matches:16,seed:20261103,minutes:480.,max_blocks:0,batch_sequences:4,epochs:2,
     learning_rate:1e-5,entropy:0.005,clip:0.2,gradient_norm:0.5,stop_kl:0.02,desynchronize:true,self_play:false,opponent_pool:vec![],snapshot_blocks:20,checkpoint_blocks:10,
     resume_checkpoint:None,teacher_version:Version::V10,critic_learning_rate:3e-4,separate_critic_lr:false,critic_only:false,warmup_min_blocks:20,warmup_blocks:60,
-    kl_start:0.,kl_end:0.,schedule_minutes:240.,checkpoint_minutes:0.,snapshot_minutes:0.,mixed_pool:false,bootstrap_checkpoint:None}}}
+    kl_start:0.,kl_end:0.,schedule_minutes:240.,checkpoint_minutes:0.,snapshot_minutes:0.,mixed_pool:false,bootstrap_checkpoint:None,evaluation_minutes:120.}}}
 fn scalar(x:Tensor<1>)->f32{x.without_autodiff().into_scalar::<f32>()}
 fn weighted(x:Tensor<1>,mask:Tensor<1>)->Tensor<1>{(x*mask.clone()).sum()/mask.sum().clamp_min(1.)}
 fn coefficient(cfg:&Config,seconds:f64)->f32 {cfg.kl_start+(cfg.kl_end-cfg.kl_start)*(seconds/(cfg.schedule_minutes*60.)).clamp(0.,1.)as f32}
+fn evaluation_due(minutes:f64,seconds:f64,last:f64)->bool {minutes>0.&&(seconds/(minutes*60.)).floor()>(last/(minutes*60.)).floor()}
 fn value_gradients(policy:&Policy,source:&mut GradientsParams)->GradientsParams {
     use burn::module::{ModuleVisitor,Param};
     struct Take<'a>{source:&'a mut GradientsParams,target:GradientsParams}
@@ -165,7 +166,8 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
             completed+=reset_finished(&mut runtime,&mut sides,&mut mixed)?;let record=serde_json::json!({"block":block,"update":update,"phase_counts":pv,"reward_components":cv,"completed_episodes":completed,"training_seconds":training_seconds,"anchor_sha256":anchor_sha,"wall_seconds":started.elapsed().as_secs_f64()});history.push(record.clone());
             crate::artifacts::atomic_json(&root.join(format!("block-{block:06}.json")),&record)?;
             let snapshot=cfg.self_play&&if cfg.snapshot_minutes>0.{training_seconds-last_snapshot_seconds>=cfg.snapshot_minutes*60.}else{block%cfg.snapshot_blocks==0};
-            let save=if cfg.checkpoint_minutes>0.{training_seconds-last_checkpoint_seconds>=cfg.checkpoint_minutes*60.}else{block%cfg.checkpoint_blocks==0};
+            let evaluation_due=evaluation_due(cfg.evaluation_minutes,training_seconds,last_checkpoint_seconds);
+            let save=evaluation_due||if cfg.checkpoint_minutes>0.{training_seconds-last_checkpoint_seconds>=cfg.checkpoint_minutes*60.}else{block%cfg.checkpoint_blocks==0};
             if save||snapshot {let state=serde_json::json!({"block":block,"training_seconds":training_seconds,"anchor_sha256":anchor_sha,"optimizer_steps":optimizer_steps,"completed_episodes":completed,"pool":mixed.as_ref().map(|p|p.evidence()),"ev_history":ev_history,"last_snapshot_seconds":last_snapshot_seconds});
                 let path=checkpoint(&policy,&optimizer,root,block,&cfg,&state)?;
                 if snapshot{let weights=path.join("weights").to_string_lossy().into_owned();pool.push(weights.clone());if let Some(p)=&mut mixed{p.add(&weights,&d)?;}last_snapshot_seconds=training_seconds;
@@ -186,7 +188,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
 
 #[cfg(test)] mod tests {
     use super::*;
-    #[test] fn p16_anchor_schedule_uses_elapsed_training_time(){let c=Config{kl_start:0.03,kl_end:0.01,schedule_minutes:120.,..Config::default()};assert!((coefficient(&c,0.)-0.03).abs()<1e-7);assert!((coefficient(&c,3600.)-0.02).abs()<1e-7);assert!((coefficient(&c,9000.)-0.01).abs()<1e-7);}
+    #[test] fn p16_anchor_schedule_uses_elapsed_training_time(){let c=Config{kl_start:0.03,kl_end:0.01,schedule_minutes:120.,..Config::default()};assert!((coefficient(&c,0.)-0.03).abs()<1e-7);assert!((coefficient(&c,3600.)-0.02).abs()<1e-7);assert!((coefficient(&c,9000.)-0.01).abs()<1e-7);assert!(!evaluation_due(120.,7199.,6600.));assert!(evaluation_due(120.,7201.,6600.));assert!(!evaluation_due(120.,7202.,7201.));assert!(evaluation_due(120.,14401.,13800.));}
     #[test] fn p16_critic_freeze_anchor_resume_and_mixed_episode_assignment(){
         let base=std::path::PathBuf::from(format!("C:/AMI/runs/p16/rust-training-check-{}-{}",std::process::id(),std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()));
         let source="C:/AMI/runs/p15/imitation-aim-smoke/weights";

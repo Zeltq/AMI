@@ -1,0 +1,34 @@
+{
+  "stage": "complete",
+  "pid": 34496,
+  "cwd": "C:\\AMI-wt\\P16",
+  "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p16/target p16_anchor_schedule -- --test-threads=1",
+  "argv": [
+    "cargo",
+    "test",
+    "--release",
+    "--locked",
+    "--manifest-path",
+    "gpu/Cargo.toml",
+    "--target-dir",
+    "C:/AMI/runs/p16/target",
+    "p16_anchor_schedule",
+    "--",
+    "--test-threads=1"
+  ],
+  "background_work_remaining": false,
+  "artifacts": [
+    "C:\\AMI\\runs\\p16\\jobs\\evaluation-cadence-check\\stdout.log",
+    "C:\\AMI\\runs\\p16\\jobs\\evaluation-cadence-check\\stderr.log"
+  ],
+  "elapsed_minutes": 1.5048937833344098,
+  "child_pid": 35320,
+  "exit_code": 0,
+  "stdout_tail": [
+    "running 1 test",
+    "test chio_train::tests::p16_anchor_schedule_uses_elapsed_training_time ... ok",
+    "",
+    "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 139 filtered out; finished in 0.00s",
+    ""
+  ]
+}
