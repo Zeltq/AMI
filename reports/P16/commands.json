@@ -310,7 +310,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\controller-live-status-repair\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller-live-status-repair\\stderr.log"
     ],
-    "elapsed_minutes": 310.189327640001,
+    "elapsed_minutes": 321.12875282333505,
     "child_pid": 21636,
     "exit_code": null,
     "previous_wrapper_pid": 32132,
@@ -823,6 +823,27 @@
     "child_pid": 20604,
     "exit_code": 0,
     "job": "eval-nav-imitation-w-v9-sampling"
+  },
+  {
+    "stage": "complete",
+    "pid": 8052,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe evaluate-chio C:\\AMI-wt\\P16\\reports\\P16\\configs\\eval-ppo-120m-previous-sampling.json C:\\AMI\\runs\\p16\\eval-ppo-120m-previous-sampling",
+    "argv": [
+      "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe",
+      "evaluate-chio",
+      "C:\\AMI-wt\\P16\\reports\\P16\\configs\\eval-ppo-120m-previous-sampling.json",
+      "C:\\AMI\\runs\\p16\\eval-ppo-120m-previous-sampling"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\eval-ppo-120m-previous-sampling\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\eval-ppo-120m-previous-sampling\\stderr.log"
+    ],
+    "elapsed_minutes": 10.689922569998695,
+    "child_pid": 32520,
+    "exit_code": 0,
+    "job": "eval-ppo-120m-previous-sampling"
   },
   {
     "stage": "complete",
@@ -2129,7 +2150,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\self-play\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\self-play\\stderr.log"
     ],
-    "elapsed_minutes": 18.54886260999871,
+    "elapsed_minutes": 29.407363156665816,
     "child_pid": 31424,
     "exit_code": null,
     "job": "self-play"

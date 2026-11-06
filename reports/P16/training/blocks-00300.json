@@ -1051,5 +1051,44 @@
       5619.0,
       2911.0
     ]
+  },
+  {
+    "run": "self-play",
+    "block": 1,
+    "training_seconds": 69.0772357,
+    "optimizer_steps": 24,
+    "metrics": {
+      "loss": {
+        "numerator": 6.685634773224592,
+        "denominator": 24
+      },
+      "value_loss": {
+        "numerator": 13.359566684812307,
+        "denominator": 24
+      },
+      "entropy": {
+        "numerator": 6.024324923753738,
+        "denominator": 24
+      },
+      "old_policy_kl": {
+        "numerator": 0.09486211460716731,
+        "denominator": 24
+      },
+      "anchor_kl": {
+        "numerator": 0.0932666375865665,
+        "denominator": 24
+      },
+      "gradient_norm": {
+        "numerator": 204.01909312605858,
+        "denominator": 24
+      }
+    },
+    "ev_post0": 0.5348337888717651,
+    "phase_counts": [
+      5328.0,
+      10576.0,
+      3624.0,
+      1687.0
+    ]
   }
 ]
