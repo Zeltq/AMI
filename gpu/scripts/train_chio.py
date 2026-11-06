@@ -33,12 +33,21 @@ def returns(root,gamma,zero_sum):
     return result
 
 
+def validate_dataset(manifest,cfg,mode,smoke):
+    if manifest.get('family')!='CHiO' or manifest.get('observation_profile')!='chio-v1' or manifest.get('decision_ticks')!=6 or manifest.get('offset_ticks')!=6:raise ValueError('CHiO demonstration clock required')
+    if manifest.get('reward_mode')!='lastorder-fb-v1' or any(abs(manifest.get(k,0)-v)>1e-6 for k,v in [('gamma',.997),('gae_lambda',.95)]):raise ValueError('Dataset reward contract mismatch')
+    if manifest.get('zero_sum',manifest['config'].get('zero_sum',True))!=cfg['zero_sum']:raise ValueError('Dataset zero_sum mismatch')
+    if manifest['partial'] and not smoke:raise ValueError('Partial datasets allowed only for smoke')
+    if mode=='critic' and manifest['completed_matches']!=manifest['config']['games']:raise ValueError('Critic targets require complete terminal episodes')
+
+
 def minibatches(sources,stage,batch,seed,targets):
     rng=random.Random(seed);files=[(i,e) for i,(_,m) in enumerate(sources) for e in m['files']];rng.shuffle(files)
     for source,entry in files:
         ids=[j for j,a in enumerate(entry['actors']) if split(a)==stage]
         if not ids:continue
         root,_=sources[source];header,obs,signals=read_block(root/entry['file'],entry['sha256']);rng.shuffle(ids)
+        if header['version']!=5:raise ValueError('CHiO version-5 block required')
         block=int(entry['file'].split('-')[1])
         for begin in range(0,len(ids),batch):
             chosen=ids[begin:begin+batch];b=decode(header,obs[chosen],signals[chosen])
@@ -61,10 +70,7 @@ def run(config,output,max_updates=None,initialize=None,updates=None,resume=None,
     sources=[]
     for path in [cfg['dataset']]+cfg.get('replay_datasets',[]):
         root=local_path(path);manifest=json.loads((root/'dataset.json').read_text())
-        if manifest['family']!='CHiO' or manifest['observation_profile']!='chio-v1' or manifest['decision_ticks']!=6:raise ValueError('CHiO demonstrations required')
-        if manifest['config']['zero_sum'] is not None and manifest['config']['zero_sum']!=cfg['zero_sum']:raise ValueError('Dataset zero_sum mismatch')
-        if manifest['partial'] and max_updates is None:raise ValueError('Partial datasets allowed only for smoke')
-        if mode=='critic' and manifest['completed_matches']!=manifest['config']['games']:raise ValueError('Critic targets require complete terminal episodes')
+        validate_dataset(manifest,cfg,mode,max_updates is not None)
         sources.append((root,manifest))
     for stage in ('train','validation'):
         if not any(any(split(a)==stage for a in e['actors']) for _,m in sources for e in m['files']):raise ValueError('Separate train/validation matches required')
