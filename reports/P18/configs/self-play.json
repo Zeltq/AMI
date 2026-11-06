@@ -10,7 +10,7 @@
   "initial_weights": "C:\\AMI\\runs\\p18\\ppo\\final-weights",
   "matches": 192,
   "seed": 20261103,
-  "minutes": 249,
+  "minutes": 576.3872908,
   "max_blocks": 0,
   "batch_sequences": 48,
   "epochs": 2,
@@ -23,7 +23,7 @@
   "stop_kl": 0.02,
   "kl_start": 0.03,
   "kl_end": 0.01,
-  "schedule_minutes": 249,
+  "schedule_minutes": 576.3872908,
   "desynchronize": true,
   "critic_only": false,
   "warmup_min_blocks": 20,
@@ -34,7 +34,8 @@
     "C:/AMI/runs/p16/sampling-dagger-2-il/weights",
     "C:/AMI/runs/p16/ppo/final-weights",
     "C:/AMI/runs/p16/self-play/final-weights",
-    "C:/AMI/runs/p18/ppo/final-weights"
+    "C:\\AMI\\runs\\p18\\ppo\\final-weights",
+    "C:\\AMI\\runs\\p18\\self-play-initial-latest\\weights"
   ],
   "checkpoint_minutes": 10,
   "snapshot_minutes": 60,
@@ -42,5 +43,6 @@
   "snapshot_blocks": 20,
   "teacher_version": "v10",
   "evaluation_minutes": 120,
-  "sampling": true
+  "sampling": true,
+  "bootstrap_checkpoint": "C:\\AMI\\runs\\p18\\ppo\\checkpoint-000268"
 }
