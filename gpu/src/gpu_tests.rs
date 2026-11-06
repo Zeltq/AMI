@@ -1905,3 +1905,16 @@ fn ggd_metrics_count_actual_cast_hits_death_and_freeze_at_terminal(){
 
 
 #[path="teacher_v10_tests.rs"] mod teacher_v10_tests;
+
+#[test]
+fn p16_all_direction_bins_keep_absolute_axes_for_both_sides(){
+    let _guard=GPU.lock().unwrap();let w=chio_arena();let d=w.device.clone();let obs=w.observe(initial_previous(2,&d));let masks=crate::chio_actions::observe(&w,&obs);
+    let state=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();
+    for k in 0..36i32 {let actions=Tensor::<2,Int>::from_data(TensorData::new(vec![0,k,0,0,0,k,0,0],[2,4]),&d);
+        let _=crate::chio_actions::enqueue(&w,&obs,&masks,actions,Tensor::zeros([2],&d));let commands=tensor::<1>(w.commands.clone()).into_data().try_to_vec::<f32>().unwrap();
+        for side in 0..2 {let at=side*4*COMMAND_FIELDS;let p=side*STRIDE;let angle=k as f32*std::f32::consts::PI/18.;assert_eq!(commands[at+1],2.);
+            assert!((commands[at+5]-(state[p+UNIT_X]+2000.*angle.cos()).clamp(-8192.,8192.)).abs()<0.003);
+            assert!((commands[at+6]-(state[p+UNIT_Y]+2000.*angle.sin()).clamp(-8192.,8192.)).abs()<0.003);
+        }
+    }
+}

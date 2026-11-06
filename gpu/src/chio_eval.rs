@@ -9,10 +9,10 @@ use crate::{world::World,chio_observe as co,teacher_v10::Version,runtime::{devic
 pub struct Config {
     pub engine:String,pub matches:usize,pub seconds:f32,pub seed:u32,pub left:Version,pub right:Version,
     pub swap:bool,pub original_v9:bool,pub baseline_005:bool,pub weights:Option<String>,pub opponent_weights:Option<String>,
-    pub mirror:bool,pub sampling:bool,pub zero_sum:bool,pub trace:bool,
+    pub mirror:bool,pub sampling:bool,pub zero_sum:bool,pub trace:bool,pub direction_diagnostics:bool,
 }
 impl Default for Config {fn default()->Self{Self{engine:String::new(),matches:200,seconds:600.,seed:20261103,left:Version::V10,right:Version::V10,
-    swap:false,original_v9:false,baseline_005:false,weights:None,opponent_weights:None,mirror:false,sampling:true,zero_sum:true,trace:false}}}
+    swap:false,original_v9:false,baseline_005:false,weights:None,opponent_weights:None,mirror:false,sampling:true,zero_sum:true,trace:false,direction_diagnostics:false}}}
 
 pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{run_impl(cfg,root,false)}
 /// Explicit ablation only; production collect/train/evaluate always share purchases.
@@ -39,6 +39,8 @@ fn run_impl(cfg:Config,root:&Path,diagnostic_teacher_purchases:bool)->Result<ser
     let opponent_sampler=Sampler::new(n,cfg.seed.wrapping_add(2),&d).with_argmax(!cfg.sampling);
     let learner=Tensor::<1,Int>::from_data(TensorData::new((0..n).map(|a|i32::from(cfg.mirror||a%2==(a/2)%2)).collect::<Vec<_>>(),[n]),&d).greater_elem(0).unsqueeze_dim::<2>(1);
     let mut h=Tensor::<2>::zeros([n,256],&d);let mut c=h.clone();let mut oh=h.clone();let mut oc=h.clone();
+    let mut diagnostic=if cfg.direction_diagnostics {let mut file=std::fs::File::create(root.join("direction-diagnostics.csv"))?;
+        writeln!(file,"match,side,elapsed,game_seconds,x,y,after_x,after_y,action,direction,teacher_action,teacher_direction,order,dest_x,dest_y,queued_action,queued_x,queued_y,move_speed")?;Some(file)}else{None};
     let trace=cfg.trace.then(||crate::trace::Trace::new(&runtime.world));let started=Instant::now();let mut steps=0;
     for step in 0..limit {
         let frame=runtime.observe();let mut chosen=frame.labels.clone();let mut value=Tensor::<1>::zeros([n],&d);let mut logp=value.clone();
@@ -49,7 +51,17 @@ fn run_impl(cfg:Config,root:&Path,diagnostic_teacher_purchases:bool)->Result<ser
             if let Some(opponent)=&opponent {let encoded=opponent.encode(&b);(oh,oc)=opponent.memory.step(encoded.fused,oh,oc);chosen=opponent.heads(&masks,oh.clone(),encoded.keys,None,&opponent_sampler).actions;}
             chosen=chosen.mask_where(learner.clone(),heads.actions);value=heads.value;logp=heads.logp;
         }
+        let diagnosis=if diagnostic.is_some(){use crate::{world::*,contract::*};
+            Some((tensor::<1>(runtime.world.state.clone()).reshape([cfg.matches,UNITS,STRIDE]).slice([0..cfg.matches,0..2,0..STRIDE]).into_data().try_to_vec::<f32>()?,
+                tensor::<1>(runtime.world.meta.clone()).into_data().try_to_vec::<f32>()?,chosen.clone().into_data().try_to_vec::<i32>()?,frame.labels.clone().into_data().try_to_vec::<i32>()?))}else{None};
         let transition=runtime.advance(&frame,chosen.clone(),&rng,cfg.seconds);steps=step+1;
+        if let (Some(file),Some((before,meta,actions,labels)))=(&mut diagnostic,diagnosis){use crate::{world::*,contract::*};
+            let after=tensor::<1>(runtime.world.state.clone()).reshape([cfg.matches,UNITS,STRIDE]).slice([0..cfg.matches,0..2,0..STRIDE]).into_data().try_to_vec::<f32>()?;
+            let queue=tensor::<1>(runtime.world.commands.clone()).into_data().try_to_vec::<f32>()?;
+            for m in 0..cfg.matches.min(3) {let side=m%2;let a=m*2+side;let p=a*STRIDE;let slot=meta[m*META+6]as usize%4;let q=(a*4+slot)*COMMAND_FIELDS;let game=meta[m*META]/30.;
+                writeln!(file,"{m},{side},{},{game},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}",game+runtime.world.engine.pre_game_seconds,before[p+UNIT_X],before[p+UNIT_Y],after[p+UNIT_X],after[p+UNIT_Y],actions[a*4],actions[a*4+1],labels[a*4],labels[a*4+1],before[p+ORDER],before[p+DEST_X],before[p+DEST_Y],queue[q+1],queue[q+5],queue[q+6],before[p+UNIT_MOVE_SPEED])?;
+            }
+        }
         if let Some(trace)=&trace {
             let signals=Tensor::cat(vec![chosen.float(),Tensor::zeros([n,2],&d),logp.unsqueeze_dim::<2>(1),value.unsqueeze_dim::<2>(1),
                 transition.reward.total.unsqueeze_dim::<2>(1),transition.done.unsqueeze_dim::<2>(1),frame.observation.reset.unsqueeze_dim::<2>(1),frame.valid.unsqueeze_dim::<2>(1),Tensor::zeros([n,1],&d)],1);

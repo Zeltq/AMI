@@ -38,6 +38,12 @@ def refresh():
     if checks:
         rust=re.search(r'(\d+) passed', '\n'.join(checks['full-rust-tail']));python=re.search(r'Ran (\d+) tests','\n'.join(checks['full-python-tail']))
         if rust and python:text.append(f"Полные тесты: Rust {rust[1]}/{rust[1]}, Python {python[1]}/{python[1]}.")
+    diagnosis=read(REPORT/'direction-diagnosis/result.json')
+    if diagnosis:
+        a=diagnosis['audit'];r=a['teacher_validation_premid']['radiant'];d=a['teacher_validation_premid']['dire']
+        text += ['',f"Диагностика imitation: направление до мида R {r['correct']}/{r['frames']}, D {d['correct']}/{d['frames']}; соглашение72/72, очередь+2000 —2256/2256.",'Подтверждён сдвиг состояний: модель40°/220° упирается в базе, учитель требует130°/270°. [Данные и траектории](P16/direction-diagnosis/result.json), [карта](P16/direction-diagnosis/trajectories.svg).']
+    navigation=read(REPORT/'navigation-decision.json')
+    if navigation:text += ['',f"Решение после DAgger1: {navigation['action']}; мид {navigation['mid_arrivals']['numerator']}/{navigation['mid_arrivals']['denominator']}."]
     text+=['','| План этапа | Ожидаемое завершение UTC (первоначальная оценка) |','|---|---|']
     text += [f"|{r['stage']}|{r['expected_end_utc']}|" for r in plan.get('estimates',[])]
     text+=['','| Чекпоинт / соперник | W/D/L | Смерти | LH+deny | Мид | Время выхода на мид, с |','|---|---|---|---|---|---|']
