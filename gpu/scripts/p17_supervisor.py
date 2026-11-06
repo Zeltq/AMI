@@ -127,7 +127,7 @@ def run():
                 checkpoint=RUN/'models'/(name+'.pt')
                 if not checkpoint.exists():subprocess.run([sys.executable,str(ROOT/'scripts/export_chio_cpu.py'),'--bundle',str(frozen),'--output',str(checkpoint)],check=True)
                 while len(item['games'])<8:
-                    try:guard()
+                    try:guard(force=True)
                     except RuntimeError as e:
                         state('paused-for-p16',reason=str(e));time.sleep(30);continue
                     i=len(item['games']);state('matches',model=name,completed=i,requested=8,weights=str(checkpoint))
