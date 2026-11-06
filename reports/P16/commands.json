@@ -314,7 +314,7 @@
     "job": "controller-navigation-review"
   },
   {
-    "stage": "running",
+    "stage": "failed",
     "pid": 36872,
     "cwd": "C:\\AMI-wt\\P16",
     "command": "C:/Python314/python.exe -X utf8 gpu/scripts/p16_run.py",
@@ -324,14 +324,14 @@
       "utf8",
       "gpu/scripts/p16_run.py"
     ],
-    "background_work_remaining": true,
+    "background_work_remaining": false,
     "artifacts": [
       "C:\\AMI\\runs\\p16\\jobs\\controller-sampling-weighted\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller-sampling-weighted\\stderr.log"
     ],
-    "elapsed_minutes": 31.572653769998578,
+    "elapsed_minutes": 31.73968178833214,
     "child_pid": 34048,
-    "exit_code": null,
+    "exit_code": 1,
     "job": "controller-sampling-weighted"
   },
   {
@@ -1126,7 +1126,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\nav-imitation-w\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\nav-imitation-w\\stderr.log"
     ],
-    "elapsed_minutes": 27.314900314999978,
+    "elapsed_minutes": 31.65785894833389,
     "child_pid": 15560,
     "exit_code": null,
     "job": "nav-imitation-w"

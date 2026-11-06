@@ -5,6 +5,18 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'gpu/scripts'))
 import p16_run as runner
 
 class P16Supervisor(unittest.TestCase):
+    def test_live_status_retries_partial_json_but_rejects_persistent_corruption(self):
+        with patch.object(Path,'exists',return_value=True),patch.object(Path,'read_text',side_effect=['','{"step":','{"step":42}']),patch.object(runner.time,'sleep') as sleep:
+            self.assertEqual(runner.read('status.json'),{'step':42});self.assertEqual(sleep.call_count,2)
+        with patch.object(Path,'exists',return_value=True),patch.object(Path,'read_text',return_value='{'),patch.object(runner.time,'sleep') as sleep:
+            with self.assertRaises(json.JSONDecodeError):runner.read('status.json')
+            self.assertEqual(sleep.call_count,19)
+
+    def test_launch_adopts_existing_job_without_spawning(self):
+        with patch.object(Path,'exists',return_value=True),patch.object(runner.subprocess,'Popen') as spawn:
+            runner.launch('nav-imitation-w',['trainer'])
+            spawn.assert_not_called()
+
     def test_new_sampling_evaluation_does_not_reuse_argmax(self):
         archived=[dict(label='nav-imitation',opponent='v10',complete=True)]
         captured=[]

@@ -1,0 +1,10 @@
+{
+  "reason": "Supervisor read truncated trainer status.json during concurrent write",
+  "trainer_pid_preserved": 15560,
+  "checks": {
+    "passed": 7,
+    "total": 7,
+    "command": "C:/Python314/python.exe -X utf8 -m unittest test_p16_supervisor -v"
+  },
+  "behavior": "20 bounded attempts; persistent corrupt JSON still fails; existing named job is adopted without spawning"
+}

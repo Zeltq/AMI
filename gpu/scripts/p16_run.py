@@ -7,7 +7,15 @@ ROOT=Path(__file__).resolve().parents[2];RUN=Path('C:/AMI/runs/p16');REPORT=ROOT
 EXE=RUN/'target/release/sf-duel-gpu.exe';BASE=RUN/'p15-base.exe';PY='C:/Python314/python.exe'
 LOCK=threading.RLock();POOL=concurrent.futures.ThreadPoolExecutor(max_workers=1);FUTURES=[]
 
-def read(p,default=None):return json.loads(Path(p).read_text(encoding='utf-8-sig')) if Path(p).exists() else default
+def read(p,default=None):
+    p=Path(p)
+    if not p.exists():return default
+    # Live trainers overwrite status.json; a reader can see a truncated write.
+    for attempt in range(20):
+        try:return json.loads(p.read_text(encoding='utf-8-sig'))
+        except (json.JSONDecodeError,PermissionError):
+            if attempt==19:raise
+            time.sleep(.05)
 def save(p,v):
     with LOCK:
         p=Path(p);p.parent.mkdir(parents=True,exist_ok=True);temp=p.with_suffix(f'.{os.getpid()}.pending')
