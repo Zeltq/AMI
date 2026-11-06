@@ -19,6 +19,7 @@ def summarize(run):
     if status_path.exists():
         policy_status=json.loads(status_path.read_text(encoding='utf-8-sig'))
         result['action_selection']=policy_status.get('action_selection','unrecorded');result['seed']=policy_status.get('seed')
+        result['executor_version']=policy_status.get('executor_version','p17-v1')
     for kind in range(13):result['actions'][str(kind)]=dict(accepted=sum(a['action']==kind for a in accepted),issued=sum(a['action']==kind for a in acks))
     result['coverage']=dict(executed=sum(r['accepted']>0 for r in result['actions'].values()),total=13)
     for team in (2,3):

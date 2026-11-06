@@ -12,9 +12,11 @@ from play_vs_chio import below_normal,save
 from sf_duel.live.game import Game
 from sf_duel.live.bridge import literal
 from p17_p16_guard import check as p16_check
+from sf_duel.chio_version import EXECUTOR_VERSION
 
 CALLBACK='''local settings=require('bots/settings')
 for k,v in pairs(require('bots/p17_settings')) do settings[k]=v end
+print('SF_CHIO_EXECUTOR_VERSION|'..settings.executor_version)
 local controller
 if settings.navigation_probe or GetTeam()==settings.model_team then controller=require('bots/chio_executor')
 else controller=require('bots/scripted_teacher_v9_live') end
@@ -45,7 +47,7 @@ def bundle(dest,team,audit=False,navigation_probe=False):
     (dest/'bot_generic.lua').write_text(CALLBACK)
     (dest/'item_purchase_generic.lua').write_text('function ItemPurchaseThink() end\n')
     (dest/'ability_item_usage_generic.lua').write_text('require("bots/bot_generic")\nfunction AbilityUsageThink() Think() end\nfunction AbilityLevelUpThink() end\nfunction CourierUsageThink() end\nfunction ItemUsageThink() end\nfunction BuybackUsageThink() end\n')
-    (dest/'p17_settings.lua').write_text('return '+literal(dict(model_team=team,chio=True,audit=audit,navigation_probe=navigation_probe,chio_script_navigation=True,observation_profile='ggd-v4'))+'\n')
+    (dest/'p17_settings.lua').write_text('return '+literal(dict(model_team=team,chio=True,audit=audit,navigation_probe=navigation_probe,chio_script_navigation=True,observation_profile='ggd-v4',executor_version=EXECUTOR_VERSION))+'\n')
     for side in (2,3):(dest/f'chio_commands_{side}.lua').write_text('return {}\n')
 
 
@@ -57,7 +59,7 @@ def match(run,model,team,seconds,runtime,audit=False,seed=20261103,setup_lua=Non
           '--bots',str(bots),'--output',str(run/'policy'),'--team',str(team),'--seed',str(seed)]
     if audit:args.append('--audit')
     policy=subprocess.Popen(args,stdout=log,stderr=subprocess.STDOUT,creationflags=subprocess.CREATE_NO_WINDOW|subprocess.BELOW_NORMAL_PRIORITY_CLASS)
-    record=dict(stage='starting',pid=policy.pid,command=subprocess.list2cmdline(args),background_work_remaining=True)
+    record=dict(stage='starting',pid=policy.pid,command=subprocess.list2cmdline(args),background_work_remaining=True,executor_version=EXECUTOR_VERSION)
     def status(**kw):record.update(kw);save(run/'status.json',record);save(ROOT/'runs/pilot-status.json',{'P17':record})
     status();metrics={};acks=[];started=time.monotonic();result=None;terminal=None
     try:
@@ -104,7 +106,7 @@ def match(run,model,team,seconds,runtime,audit=False,seed=20261103,setup_lua=Non
                         if reason=='death':loser=terminal['team'] if terminal else next(k for k,r in metrics.items() if r['deaths']>0);winner=5-loser
                         elif reason=='tower':loser=terminal['team'] if terminal else next(k for k,r in metrics.items() if not r['tower_alive']);winner=5-loser
                         else:winner=2 if metrics[2]['lh']>metrics[3]['lh'] else 3 if metrics[3]['lh']>metrics[2]['lh'] else 0
-                        result=dict(reason=reason,winner=winner,model_team=team,sides=metrics,censored=seconds<600,acks=acks,terminal_event=terminal,action_selection='sampling',seed=seed);break
+                        result=dict(reason=reason,winner=winner,model_team=team,sides=metrics,censored=seconds<600,acks=acks,terminal_event=terminal,action_selection='sampling',seed=seed,executor_version=EXECUTOR_VERSION);break
                 status(stage='match',metrics=metrics,acks=len(acks),elapsed_seconds=time.monotonic()-started)
                 time.sleep(.1)
             if result is None:raise TimeoutError('Match deadline')

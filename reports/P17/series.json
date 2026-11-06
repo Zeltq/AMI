@@ -3829,7 +3829,8 @@
         "dota_base_navigation": "script",
         "simulator_base_navigation": "script"
       }
-    ]
+    ],
+    "executor_version": "p17-v1"
   },
   "ppo-checkpoint-000069": {
     "source": "C:\\AMI\\runs\\p16\\ppo\\checkpoint-000069\\weights",
@@ -5757,7 +5758,8 @@
       "reused_teacher_dataset": "C:/AMI/runs/p16/teacher-1024",
       "activated_utc": "2026-11-06T05:18:16.272001+00:00"
     },
-    "simulator": []
+    "simulator": [],
+    "executor_version": "p17-v1"
   },
   "ppo-final": {
     "source": "C:\\AMI\\runs\\p16\\ppo\\final-weights",
@@ -10455,6 +10457,524 @@
         "dota_base_navigation": "script",
         "simulator_base_navigation": "script"
       }
-    ]
+    ],
+    "executor_version": "p17-v1"
+  },
+  "self-play-checkpoint-000097": {
+    "source": "C:\\AMI\\runs\\p16\\self-play\\checkpoint-000097\\weights",
+    "fingerprint": "912933c5797382c2d4b4da03e2a606f77afe626556f054c7a5f03f6681ec4955",
+    "games": [
+      {
+        "reason": "timeout",
+        "winner": 3,
+        "model_team": 2,
+        "sides": {
+          "2": {
+            "tick": 22116,
+            "deny": 10,
+            "deaths": 0,
+            "alive": true,
+            "tower_alive": true,
+            "lh": 19,
+            "team": 2,
+            "time": 600,
+            "x": -201.00033569336,
+            "y": -440.69772338867,
+            "hp": 799
+          },
+          "3": {
+            "team": 3,
+            "time": 600,
+            "x": 742.88690185547,
+            "y": 869.77862548828,
+            "hp": 322,
+            "lh": 39,
+            "tick": 22116,
+            "deaths": 0,
+            "alive": true,
+            "tower_alive": true,
+            "deny": 33
+          }
+        },
+        "censored": false,
+        "terminal_event": null,
+        "action_selection": "sampling",
+        "seed": 20261103,
+        "summary": {
+          "acks": {
+            "accepted": 3239,
+            "total": 3324
+          },
+          "actions": {
+            "0": {
+              "accepted": 1266,
+              "issued": 1266
+            },
+            "1": {
+              "accepted": 452,
+              "issued": 452
+            },
+            "2": {
+              "accepted": 688,
+              "issued": 739
+            },
+            "3": {
+              "accepted": 211,
+              "issued": 237
+            },
+            "4": {
+              "accepted": 542,
+              "issued": 549
+            },
+            "5": {
+              "accepted": 0,
+              "issued": 0
+            },
+            "6": {
+              "accepted": 2,
+              "issued": 2
+            },
+            "7": {
+              "accepted": 20,
+              "issued": 20
+            },
+            "8": {
+              "accepted": 55,
+              "issued": 55
+            },
+            "9": {
+              "accepted": 0,
+              "issued": 0
+            },
+            "10": {
+              "accepted": 0,
+              "issued": 0
+            },
+            "11": {
+              "accepted": 0,
+              "issued": 0
+            },
+            "12": {
+              "accepted": 3,
+              "issued": 4
+            }
+          },
+          "delay_ticks": {
+            "7": 3239
+          },
+          "rejections": {
+            "tree_changed": 1,
+            "target_unavailable": 84
+          },
+          "sides": {
+            "2": {
+              "lh": 19,
+              "deny": 10,
+              "deaths": 0,
+              "end_time": 600,
+              "mid_time": -64.566665649414,
+              "spells": {
+                "nevermore_shadowraze1": {
+                  "casts": 0,
+                  "hero_hits": 0
+                },
+                "nevermore_shadowraze2": {
+                  "casts": 4,
+                  "hero_hits": 1
+                },
+                "nevermore_shadowraze3": {
+                  "casts": 11,
+                  "hero_hits": 5
+                },
+                "nevermore_requiem": {
+                  "casts": 0,
+                  "hero_hits": 0
+                },
+                "item_flask": {
+                  "casts": 0,
+                  "hero_hits": 0
+                },
+                "item_enchanted_mango": {
+                  "casts": 0,
+                  "hero_hits": 0
+                },
+                "item_tango": {
+                  "casts": 0,
+                  "hero_hits": 0
+                }
+              },
+              "navigation": {
+                "handoffs": [
+                  {
+                    "tick": 2178,
+                    "elapsed_seconds": 25.333333333333,
+                    "previous_action": 1,
+                    "reset_required": true,
+                    "team": 2,
+                    "time": -64.566665649414,
+                    "x": -1376.2933349609,
+                    "y": -1449.2457275391,
+                    "handoffs": 1
+                  }
+                ],
+                "accepted": 126,
+                "orders": 126,
+                "delay7": 126
+              }
+            },
+            "3": {
+              "lh": 39,
+              "deny": 33,
+              "deaths": 0,
+              "end_time": 600,
+              "mid_time": -63.766670227051,
+              "spells": {
+                "nevermore_shadowraze1": {
+                  "casts": 0,
+                  "hero_hits": 0
+                },
+                "nevermore_shadowraze2": {
+                  "casts": 0,
+                  "hero_hits": 0
+                },
+                "nevermore_shadowraze3": {
+                  "casts": 0,
+                  "hero_hits": 0
+                },
+                "nevermore_requiem": {
+                  "casts": 0,
+                  "hero_hits": 0
+                },
+                "item_flask": {
+                  "casts": 9,
+                  "hero_hits": 0
+                },
+                "item_enchanted_mango": {
+                  "casts": 0,
+                  "hero_hits": 0
+                },
+                "item_tango": {
+                  "casts": 0,
+                  "hero_hits": 0
+                }
+              },
+              "navigation": {
+                "handoffs": [
+                  {
+                    "reset_required": true,
+                    "team": 3,
+                    "time": -63.766670227051,
+                    "x": 1569.8074951172,
+                    "y": 1150.1623535156,
+                    "handoffs": 1,
+                    "tick": 2202,
+                    "elapsed_seconds": 25.966666666667,
+                    "previous_action": 1
+                  }
+                ],
+                "accepted": 129,
+                "orders": 129,
+                "delay7": 129
+              }
+            }
+          },
+          "action_selection": "sampling",
+          "seed": 20261103,
+          "coverage": {
+            "executed": 9,
+            "total": 13
+          },
+          "move_decisions": {
+            "numerator": 1266,
+            "denominator": 3451
+          },
+          "inference_ms": {
+            "sum": 25982.17090894468,
+            "count": 3451,
+            "max": 37.623099982738495
+          },
+          "stuck_windows": {
+            "stuck": 0,
+            "checked": 37,
+            "definition": "continuous MOVE for5s, sum path<25; overlapping1s windows"
+          }
+        },
+        "run": "C:\\AMI\\runs\\p17\\matches\\self-play-checkpoint-000097\\match-000-attempt-2"
+      },
+      {
+        "reason": "timeout",
+        "winner": 2,
+        "model_team": 3,
+        "sides": {
+          "2": {
+            "x": -1767.7443847656,
+            "y": -1627.1447753906,
+            "hp": 207,
+            "lh": 27,
+            "tick": 22116,
+            "deaths": 0,
+            "alive": true,
+            "tower_alive": true,
+            "deny": 27,
+            "team": 2,
+            "time": 600
+          },
+          "3": {
+            "team": 3,
+            "time": 600,
+            "x": -353.78820800781,
+            "y": -280.96151733398,
+            "hp": 934,
+            "lh": 25,
+            "tick": 22116,
+            "deaths": 0,
+            "alive": true,
+            "tower_alive": true,
+            "deny": 10
+          }
+        },
+        "censored": false,
+        "terminal_event": null,
+        "action_selection": "sampling",
+        "seed": 20261104,
+        "summary": {
+          "acks": {
+            "accepted": 3232,
+            "total": 3319
+          },
+          "actions": {
+            "0": {
+              "accepted": 1319,
+              "issued": 1319
+            },
+            "1": {
+              "accepted": 266,
+              "issued": 266
+            },
+            "2": {
+              "accepted": 795,
+              "issued": 846
+            },
+            "3": {
+              "accepted": 207,
+              "issued": 226
+            },
+            "4": {
+              "accepted": 562,
+              "issued": 575
+            },
+            "5": {
+              "accepted": 0,
+              "issued": 0
+            },
+            "6": {
+              "accepted": 1,
+              "issued": 1
+            },
+            "7": {
+              "accepted": 45,
+              "issued": 45
+            },
+            "8": {
+              "accepted": 30,
+              "issued": 30
+            },
+            "9": {
+              "accepted": 0,
+              "issued": 0
+            },
+            "10": {
+              "accepted": 5,
+              "issued": 9
+            },
+            "11": {
+              "accepted": 0,
+              "issued": 0
+            },
+            "12": {
+              "accepted": 2,
+              "issued": 2
+            }
+          },
+          "delay_ticks": {
+            "7": 3232
+          },
+          "rejections": {
+            "target_unavailable": 83,
+            "item_unavailable": 4
+          },
+          "sides": {
+            "2": {
+              "lh": 27,
+              "deny": 27,
+              "deaths": 0,
+              "end_time": 600,
+              "mid_time": -64.566665649414,
+              "spells": {
+                "nevermore_shadowraze1": {
+                  "casts": 0,
+                  "hero_hits": 0
+                },
+                "nevermore_shadowraze2": {
+                  "casts": 0,
+                  "hero_hits": 0
+                },
+                "nevermore_shadowraze3": {
+                  "casts": 0,
+                  "hero_hits": 0
+                },
+                "nevermore_requiem": {
+                  "casts": 0,
+                  "hero_hits": 0
+                },
+                "item_flask": {
+                  "casts": 9,
+                  "hero_hits": 0
+                },
+                "item_enchanted_mango": {
+                  "casts": 0,
+                  "hero_hits": 0
+                },
+                "item_tango": {
+                  "casts": 0,
+                  "hero_hits": 0
+                }
+              },
+              "navigation": {
+                "handoffs": [
+                  {
+                    "x": -1376.2166748047,
+                    "y": -1449.1184082031,
+                    "tick": 2178,
+                    "handoffs": 1,
+                    "elapsed_seconds": 25.333333333333,
+                    "previous_action": 1,
+                    "reset_required": true,
+                    "team": 2,
+                    "time": -64.566665649414
+                  }
+                ],
+                "accepted": 126,
+                "orders": 126,
+                "delay7": 126
+              }
+            },
+            "3": {
+              "lh": 25,
+              "deny": 10,
+              "deaths": 0,
+              "end_time": 600,
+              "mid_time": -63.766670227051,
+              "spells": {
+                "nevermore_shadowraze1": {
+                  "casts": 0,
+                  "hero_hits": 0
+                },
+                "nevermore_shadowraze2": {
+                  "casts": 9,
+                  "hero_hits": 4
+                },
+                "nevermore_shadowraze3": {
+                  "casts": 6,
+                  "hero_hits": 4
+                },
+                "nevermore_requiem": {
+                  "casts": 0,
+                  "hero_hits": 0
+                },
+                "item_flask": {
+                  "casts": 5,
+                  "hero_hits": 0
+                },
+                "item_enchanted_mango": {
+                  "casts": 0,
+                  "hero_hits": 0
+                },
+                "item_tango": {
+                  "casts": 0,
+                  "hero_hits": 0
+                }
+              },
+              "navigation": {
+                "handoffs": [
+                  {
+                    "team": 3,
+                    "time": -63.766670227051,
+                    "elapsed_seconds": 25.966666666667,
+                    "y": 1173.4415283203,
+                    "reset_required": true,
+                    "tick": 2202,
+                    "x": 1605.4925537109,
+                    "handoffs": 1,
+                    "previous_action": 1
+                  }
+                ],
+                "accepted": 129,
+                "orders": 129,
+                "delay7": 129
+              }
+            }
+          },
+          "action_selection": "sampling",
+          "seed": 20261104,
+          "coverage": {
+            "executed": 10,
+            "total": 13
+          },
+          "move_decisions": {
+            "numerator": 1319,
+            "denominator": 3450
+          },
+          "inference_ms": {
+            "sum": 26600.16370122321,
+            "count": 3450,
+            "max": 25.99479991476983
+          },
+          "stuck_windows": {
+            "stuck": 0,
+            "checked": 21,
+            "definition": "continuous MOVE for5s, sum path<25; overlapping1s windows"
+          }
+        },
+        "run": "C:\\AMI\\runs\\p17\\matches\\self-play-checkpoint-000097\\match-001-attempt-1"
+      }
+    ],
+    "action_selection": "sampling",
+    "dota_base_navigation": "script",
+    "p16_navigation_mode": {
+      "active": true,
+      "engine": "C:/AMI/runs/p16/environment-script-navigation/engine.json",
+      "reason": "User-authorized fallback after DAgger1 mid arrivals0/128",
+      "exclude_premid": true,
+      "reset_at_handoff": true,
+      "reused_teacher_dataset": "C:/AMI/runs/p16/teacher-1024",
+      "activated_utc": "2026-11-06T05:18:16.272001+00:00"
+    },
+    "errors": [
+      {
+        "run": "C:\\AMI\\runs\\p17\\matches\\self-play-checkpoint-000097\\match-000-attempt-1",
+        "error": "[WinError 5] Отказано в доступе: 'C:\\\\AMI-wt\\\\P17\\\\runs\\\\pilot-status.tmp' -> 'C:\\\\AMI-wt\\\\P17\\\\runs\\\\pilot-status.json'"
+      }
+    ],
+    "simulator": [],
+    "executor_version": "p17-v1",
+    "retired_reason": "User requested executor v2; incomplete v1 series retained without replay."
+  },
+  "self-play-final-p17-v2": {
+    "source": "C:\\AMI\\runs\\p16\\self-play\\final-weights",
+    "fingerprint": "c973965f92a60cc9b623576fbadbf47919e0aaf639cdeaa7a5b84707f1cd1719",
+    "games": [],
+    "action_selection": "sampling",
+    "dota_base_navigation": "script",
+    "executor_version": "p17-v2",
+    "p16_navigation_mode": {
+      "active": true,
+      "engine": "C:/AMI/runs/p16/environment-script-navigation/engine.json",
+      "reason": "User-authorized fallback after DAgger1 mid arrivals0/128",
+      "exclude_premid": true,
+      "reset_at_handoff": true,
+      "reused_teacher_dataset": "C:/AMI/runs/p16/teacher-1024",
+      "activated_utc": "2026-11-06T05:18:16.272001+00:00"
+    }
   }
 }

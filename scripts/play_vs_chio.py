@@ -61,6 +61,7 @@ def serve(model_path,log,bots,output,team,stop,ready,audit=False,navigation_prob
                 started=time.perf_counter()
                 try:
                     s=json.loads(body)
+                    stats['executor_version']=s.get('executor_version','p17-v1')
                     death=s['deaths']!=last_deaths
                     if death:observer=Observer();previous=None
                     last_deaths=s['deaths']
@@ -95,7 +96,8 @@ def serve(model_path,log,bots,output,team,stop,ready,audit=False,navigation_prob
                     trace.write(json.dumps(s,separators=(',',':'))+'\n')
                     decisions.write(json.dumps(dict(**d,value=value,inference_ms=ms,reset=reset,decision_index=decision_index,
                         handoff=handoff,policy_executed=policy_ready,input_previous_action=input_previous_action,
-                        hp_history_known=int(b['hero_combat'][0,0,-25:-13].sum()),action_selection='sampling',seed=seed))+'\n');decisions.flush()
+                        hp_history_known=int(b['hero_combat'][0,0,-25:-13].sum()),action_selection='sampling',seed=seed,
+                        executor_version=stats['executor_version']))+'\n');decisions.flush()
                 except Exception as e:
                     stats['errors'].append(dict(tick=tick,error=repr(e)));save(output/'status.json',stats);raise
             if time.monotonic()-last_save>2:save(output/'status.json',stats);last_save=time.monotonic()

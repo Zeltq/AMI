@@ -9,6 +9,7 @@ ROOT=Path(__file__).resolve().parents[1];sys.path[:0]=[str(ROOT/'src'),str(ROOT/
 from install_play_bot import inventory,backup_contents,replace_contents,restore,DEFAULT_BOTS,bundle as legacy_bundle
 from install_teacher_lobby import no_dota
 from p17_matches import bundle as dedicated_bundle
+from sf_duel.chio_version import EXECUTOR_VERSION
 
 
 def prepare(dest,human_team):
@@ -20,7 +21,7 @@ def prepare(dest,human_team):
     shutil.copy2(selection/'hero_selection.lua',dest/'hero_selection.lua')
     shutil.copy2(ROOT/'bots/play_model_lobby.lua',dest/'play_model_lobby.lua')
     settings=dict(interval=.2,match='P17-human',observation_profile='ggd-v4',chio=True,chio_script_navigation=True,
-                  human_team=human_team,model_team=5-human_team,controller_type='chio',endpoint='')
+                  human_team=human_team,model_team=5-human_team,controller_type='chio',endpoint='',executor_version=EXECUTOR_VERSION)
     from sf_duel.live.bridge import literal
     (dest/'settings.lua').write_text('return '+literal(settings)+'\n')
     (dest/'chio_play_setup.lua').write_text("local ok,err=pcall(function()\nrequire('bots/play_model_lobby').run("+str(human_team)+")\nrequire('bots/p17_setup')\nend)\nif not ok then print('SF_P17_ERROR|'..tostring(err)) end\n")

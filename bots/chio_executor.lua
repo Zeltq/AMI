@@ -86,6 +86,7 @@ function M.Think()
   for _,d in ipairs(commands) do if d.execute_tick>tick and d.action>=6 and d.action<=9 and not d.continuation then pending=d.action end end
   st.seq=st.seq+1
   local snapshot=agent.snapshot(bot,st);snapshot.tick=tick;snapshot.pending_cast=pending
+  snapshot.executor_version=settings.executor_version or 'p17-v1'
   snapshot.navigation_ready=policy_ready;snapshot.navigation_handoff=handoff
   snapshot.navigation_handoff_tick=nav.handoff_tick
   snapshot.raze_rules={}

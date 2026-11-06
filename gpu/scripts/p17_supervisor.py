@@ -17,6 +17,7 @@ from p17_matches import match
 from p17_summary import summarize
 from p17_p16_guard import check as guard,alive
 from sf_duel.chio_cpu import load_bundle
+from sf_duel.chio_version import EXECUTOR_VERSION
 
 RUN=Path('C:/AMI/runs/p17');P16=Path('C:/AMI/runs/p16');P16ROOT=Path('C:/AMI-wt/P16')
 
@@ -69,8 +70,33 @@ def simulator_reports(weights):
     return result
 
 
+def base_name(name):
+    return name.removesuffix('-'+EXECUTOR_VERSION)
+
+
+def pending_candidates(series):
+    available=candidates();pending=[];seen=set()
+    for name,item in series.items():
+        if item.get('executor_version','p17-v1')!=EXECUTOR_VERSION or len(item.get('games',[]))>=8:continue
+        weights=Path(item['source'])
+        if not weights.resolve().is_relative_to(P16.resolve()):raise ValueError('Resume source escapes runs/p16')
+        if fingerprint(weights)!=item['fingerprint']:raise RuntimeError('Resume source checkpoint changed')
+        available.append((name,weights))
+    for name,weights in available:
+        sha=fingerprint(weights)
+        # Previously completed v1 series remain historical results; never rerun them.
+        if any(v.get('fingerprint')==sha and len(v.get('games',[]))>=8 for v in series.values()):continue
+        name=base_name(name)+'-'+EXECUTOR_VERSION
+        if name not in seen:pending.append((name,weights,sha));seen.add(name)
+    return pending
+
+
+def dagger_count(series):
+    return max((len(v.get('games',[])) for k,v in series.items() if base_name(k)==dagger_name()),default=0)
+
+
 def choose_candidate(pending,series):
-    mandatory=next((r for r in pending if r[0]==dagger_name()),None)
+    mandatory=next((r for r in pending if base_name(r[0])==dagger_name()),None)
     unfinished=next((r for r in pending if r[0] in series and len(series[r[0]].get('games',[]))<8),None)
     return mandatory or unfinished or max(pending,key=lambda r:(r[1]/'manifest.json').stat().st_mtime)
 
@@ -97,22 +123,33 @@ def refresh_report(series,done=False):
         lh=sum(s['lh'] for s in sides);deny=sum(s['deny'] for s in sides);deaths=sum(s['deaths'] for s in sides);mid=sum(s['mid_time'] is not None for s in sides)
         opponents={r.get('evaluation',{}).get('opponent') for r in item.get('simulator',[]) if r.get('directly_comparable')}
         coverage=len(opponents & {'v9','v10'})
-        lines.append(f"|{name}|{n}/8|{wins}/{n};{draws}/{n};{n-wins-draws}/{n}|{lh}/{n};{deny}/{n};{deaths}/{n}|{mid}/{n}|{coverage}/2|")
+        label=name if name.endswith('-'+EXECUTOR_VERSION) else name+' [v1]'
+        if item.get('retired_reason'):label+=' (partial)'
+        lines.append(f"|{label}|{n}/8|{wins}/{n};{draws}/{n};{n-wins-draws}/{n}|{lh}/{n};{deny}/{n};{deaths}/{n}|{mid}/{n}|{coverage}/2|")
     if len(lines)>18:lines=lines[:3]+lines[-15:] # Full history remains in JSON.
     lines+=[end]
     replacement='\n'.join(lines)
     if begin in text:text=text[:text.index(begin)]+replacement+text[text.index(end)+len(end):]
     else:text=text.replace('## Приоритет P16',replacement+'\n\n## Приоритет P16')
-    name=dagger_name();count=len(series.get(name,{}).get('games',[]))
+    name=dagger_name();count=dagger_count(series)
     text=re.sub(r'^P16(?: DAgger2:|: подробные).*$',f'P16: подробные результаты и события в [series.json](P17/series.json); {name} {count}/8 матчей.',text,flags=re.MULTILINE)
     if done:
         text='\n'.join(text.splitlines()[:-1])+"\nBLOCKED P17: серверная часть завершена; Local Host с человеком не проверен, полный replay наблюдений недоступен без GPU\n"
-    if len(text.splitlines())>150:raise RuntimeError('Report exceeds150 lines')
+    overflow=len(text.splitlines())-150
+    if overflow>0:
+        rows=lines[3:-1]
+        if overflow>=len(rows):raise RuntimeError('Report exceeds150 lines without removable history rows')
+        replacement='\n'.join(lines[:3]+rows[overflow:]+[end])
+        text=text[:text.index(begin)]+replacement+text[text.index(end)+len(end):]
     path.write_text(text,encoding='utf-8');save(ROOT/'reports/P17/series.json',series)
 
 
 def run():
     below_normal();series=read(RUN/'series.json',{});state_path=RUN/'supervisor-status.json'
+    for item in series.values():
+        item.setdefault('executor_version','p17-v1')
+        if item['executor_version']!=EXECUTOR_VERSION and len(item.get('games',[]))<8:
+            item['retired_reason']='User requested executor v2; incomplete v1 series retained without replay.'
     def state(stage,**kw):
         row=dict(stage=stage,pid=os.getpid(),command=subprocess.list2cmdline([sys.executable,*sys.argv]),
                  cwd=str(ROOT),artifacts=[str(RUN/'series.json'),str(state_path)],background_work_remaining=stage!='complete',**kw)
@@ -124,30 +161,19 @@ def run():
             try:guard()
             except RuntimeError as e:
                 state('paused-for-p16',reason=str(e));time.sleep(30);continue
-            available=candidates();pending=[]
-            # A newer P16 checkpoint must not orphan a partly completed series on restart.
-            for name,item in series.items():
-                if len(item.get('games',[]))>=8 or any(n==name for n,_ in available):continue
-                weights=Path(item['source'])
-                if not weights.resolve().is_relative_to(P16.resolve()):raise ValueError('Resume source escapes runs/p16')
-                if fingerprint(weights)!=item['fingerprint']:raise RuntimeError('Resume source checkpoint changed')
-                available.append((name,weights))
-            for name,weights in available:
-                sha=fingerprint(weights)
-                checked=[series.get(name,{})] if name==dagger_name() else series.values()
-                if any(v.get('fingerprint')==sha and len(v.get('games',[]))>=8 for v in checked):continue
-                pending.append((name,weights,sha))
+            pending=pending_candidates(series)
             if pending:
                 chosen=choose_candidate(pending,series)
                 name,weights,sha=chosen
-                item=series.setdefault(name,dict(source=str(weights),fingerprint=sha,games=[],action_selection='sampling',dota_base_navigation='script',
+                item=series.setdefault(name,dict(source=str(weights),fingerprint=sha,games=[],action_selection='sampling',dota_base_navigation='script',executor_version=EXECUTOR_VERSION,
                     p16_navigation_mode=read(P16/'navigation-mode.json',{})))
+                save(RUN/'series.json',series);refresh_report(series)
                 frozen=RUN/'models'/name/'weights'
                 if not frozen.exists():shutil.copytree(weights,frozen)
                 load_bundle(frozen) # Verify every tensor before any Dota launch.
                 if fingerprint(frozen)!=sha:raise RuntimeError('Checkpoint changed while copying')
-                if name==dagger_name():
-                    reference=P16/('parity-'+name);parity_path=frozen.parent/'cpu-parity.json'
+                if base_name(name)==dagger_name():
+                    reference=P16/('parity-'+base_name(name));parity_path=frozen.parent/'cpu-parity.json'
                     if fingerprint(reference/'roundtrip-weights')!=sha:raise RuntimeError('DAgger2 Burn parity export differs from selected weights')
                     if not parity_path.exists():
                         subprocess.run([sys.executable,str(ROOT/'gpu/scripts/p17_cpu_parity.py'),'--reference',str(reference),'--output',str(parity_path)],check=True)
@@ -172,13 +198,13 @@ def run():
                     item['games'].append(r);item['simulator']=simulator_reports(weights)
                     save(RUN/'series.json',series);refresh_report(series)
                 item['simulator']=simulator_reports(weights);save(RUN/'series.json',series);refresh_report(series)
-                save(RUN/'models/selected.json',dict(model=str(checkpoint),source=str(weights),fingerprint=sha,pipeline_only=False,matches=8))
+                save(RUN/'models/selected.json',dict(model=str(checkpoint),source=str(weights),fingerprint=sha,pipeline_only=False,matches=8,executor_version=EXECUTOR_VERSION))
                 publish('evaluate '+name+' in8 dedicated Dota matches')
                 continue
             p16=read(P16/'state.json',{});p16stage=p16.get('stage')
             # Final summaries may arrive after Dota series, so attach them when ready.
             for item in series.values():item['simulator']=simulator_reports(Path(item['source']))
-            if p16stage=='complete' and len(series.get(dagger_name(),{}).get('games',[]))>=8:
+            if p16stage=='complete' and dagger_count(series)>=8:
                 save(RUN/'series.json',series);refresh_report(series,done=True);publish('finish P16 checkpoint comparisons')
                 state('complete',models=len(series));return
             state('waiting-for-p16-checkpoint',p16_stage=p16stage,p16_pid=p16.get('pid'),p16_alive=alive(p16.get('pid')),
