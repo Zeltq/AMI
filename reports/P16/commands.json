@@ -295,6 +295,27 @@
     "job": "controller"
   },
   {
+    "stage": "running",
+    "pid": 32132,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:/Python314/python.exe -X utf8 gpu/scripts/p16_run.py",
+    "argv": [
+      "C:/Python314/python.exe",
+      "-X",
+      "utf8",
+      "gpu/scripts/p16_run.py"
+    ],
+    "background_work_remaining": true,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\controller-live-status-repair\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\controller-live-status-repair\\stderr.log"
+    ],
+    "elapsed_minutes": 2.172124531667214,
+    "child_pid": 21636,
+    "exit_code": null,
+    "job": "controller-live-status-repair"
+  },
+  {
     "stage": "failed",
     "pid": 31820,
     "cwd": "C:\\AMI-wt\\P16",
@@ -1106,7 +1127,7 @@
     "job": "nav-imitation-postmid-audit"
   },
   {
-    "stage": "running",
+    "stage": "complete",
     "pid": 37856,
     "cwd": "C:\\AMI-wt\\P16",
     "command": "wsl -d Ubuntu -- bash /mnt/c/AMI-wt/P16/scripts/wsl_python.sh /mnt/c/AMI-wt/P16/gpu/scripts/train_chio.py /mnt/c/AMI-wt/P16/reports/P16/configs/nav-imitation-w.json /mnt/c/AMI/runs/p16/nav-imitation-w",
@@ -1121,14 +1142,14 @@
       "/mnt/c/AMI-wt/P16/reports/P16/configs/nav-imitation-w.json",
       "/mnt/c/AMI/runs/p16/nav-imitation-w"
     ],
-    "background_work_remaining": true,
+    "background_work_remaining": false,
     "artifacts": [
       "C:\\AMI\\runs\\p16\\jobs\\nav-imitation-w\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\nav-imitation-w\\stderr.log"
     ],
-    "elapsed_minutes": 31.65785894833389,
+    "elapsed_minutes": 33.82950299999987,
     "child_pid": 15560,
-    "exit_code": null,
+    "exit_code": 0,
     "job": "nav-imitation-w"
   },
   {
