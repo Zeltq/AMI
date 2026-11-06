@@ -205,7 +205,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\controller\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller\\stderr.log"
     ],
-    "elapsed_minutes": 52.60616366166699,
+    "elapsed_minutes": 53.357586124999216,
     "child_pid": 36428,
     "exit_code": null,
     "job": "controller"
@@ -342,6 +342,55 @@
     "child_pid": 10604,
     "exit_code": 0,
     "job": "p16-training-check"
+  },
+  {
+    "stage": "complete",
+    "pid": 36384,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe check-chio-parity C:\\AMI\\runs\\p16\\parity-imitation\\weights C:\\AMI\\runs\\p16\\parity-imitation\\fixture C:\\AMI\\runs\\p16\\parity-imitation\\result.json",
+    "argv": [
+      "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe",
+      "check-chio-parity",
+      "C:\\AMI\\runs\\p16\\parity-imitation\\weights",
+      "C:\\AMI\\runs\\p16\\parity-imitation\\fixture",
+      "C:\\AMI\\runs\\p16\\parity-imitation\\result.json"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\parity-imitation\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\parity-imitation\\stderr.log"
+    ],
+    "elapsed_minutes": 0.09090406166700025,
+    "child_pid": 37004,
+    "exit_code": 0,
+    "job": "parity-imitation"
+  },
+  {
+    "stage": "complete",
+    "pid": 24872,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "wsl -d Ubuntu -- bash /mnt/c/AMI-wt/P16/scripts/wsl_python.sh /mnt/c/AMI-wt/P16/gpu/scripts/p16_parity_fixture.py /mnt/c/AMI/runs/p16/teacher-1024 /mnt/c/AMI/runs/p16/imitation/checkpoint.pt /mnt/c/AMI/runs/p16/parity-imitation",
+    "argv": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "bash",
+      "/mnt/c/AMI-wt/P16/scripts/wsl_python.sh",
+      "/mnt/c/AMI-wt/P16/gpu/scripts/p16_parity_fixture.py",
+      "/mnt/c/AMI/runs/p16/teacher-1024",
+      "/mnt/c/AMI/runs/p16/imitation/checkpoint.pt",
+      "/mnt/c/AMI/runs/p16/parity-imitation"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\parity-imitation-fixture\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\parity-imitation-fixture\\stderr.log"
+    ],
+    "elapsed_minutes": 0.4178373050002847,
+    "child_pid": 36580,
+    "exit_code": 0,
+    "job": "parity-imitation-fixture"
   },
   {
     "stage": "complete",
