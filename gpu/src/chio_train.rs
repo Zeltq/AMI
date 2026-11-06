@@ -191,7 +191,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
     use super::*;
     #[test] fn p16_anchor_schedule_uses_elapsed_training_time(){let c=Config{kl_start:0.03,kl_end:0.01,schedule_minutes:120.,..Config::default()};assert!((coefficient(&c,0.)-0.03).abs()<1e-7);assert!((coefficient(&c,3600.)-0.02).abs()<1e-7);assert!((coefficient(&c,9000.)-0.01).abs()<1e-7);assert!(!evaluation_due(120.,7199.,6600.));assert!(evaluation_due(120.,7201.,6600.));assert!(!evaluation_due(120.,7202.,7201.));assert!(evaluation_due(120.,14401.,13800.));}
     #[test] fn p16_critic_freeze_anchor_resume_and_mixed_episode_assignment(){
-        let base=std::path::PathBuf::from(format!("C:/AMI/runs/p16/rust-training-check-{}-{}",std::process::id(),std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()));
+        let base=std::env::var_os("SF_DUEL_TEST_ARTIFACTS").map(std::path::PathBuf::from).unwrap_or_else(std::env::temp_dir).join(format!("rust-training-check-{}-{}",std::process::id(),std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()));
         let source="C:/AMI/runs/p15/imitation-aim-smoke/weights";
         let c=Config{engine:"C:/AMI/runs/p16/environment/engine.json".into(),initial_weights:source.into(),matches:2,max_blocks:1,batch_sequences:1,epochs:1,desynchronize:false,critic_only:true,warmup_min_blocks:1,warmup_blocks:1,separate_critic_lr:true,learning_rate:3e-5,critic_learning_rate:3e-4,kl_start:0.03,kl_end:0.01,..Config::default()};
         let r=run(c.clone(),&base.join("critic")).unwrap();assert!(r["optimizer_steps"].as_u64().unwrap()>0);

@@ -20,5 +20,40 @@
       "tolerance": 5e-05,
       "passed": true
     }
+  },
+  "commands": [
+    {
+      "command": "C:/Python314/python.exe -m unittest discover -s tests -v",
+      "log": "C:/AMI/runs/p18/full-python-final.log",
+      "exit_code": 0
+    },
+    {
+      "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p18/target p18_reward_v2 -- --test-threads=1",
+      "exit_code": 0
+    }
+  ],
+  "environment": {
+    "SF_DUEL_TEST_ARTIFACTS": "C:/AMI/runs/p18/test-artifacts",
+    "SF_DUEL_DATA_ROOT": "C:/AMI",
+    "PYTHONPATH": "src;scripts;tests;gpu/scripts;C:/AMI/tools/lua_test_runtime"
+  },
+  "release_build": {
+    "exit_code": 0,
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p18/target",
+    "log": "C:/AMI/runs/p18/build.log"
+  },
+  "rust_full": {
+    "passed": 144,
+    "total": 144,
+    "seconds": 478.4,
+    "exit_code": 0,
+    "log": "C:/AMI/runs/p18/full-rust.log",
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p18/target -- --test-threads=1"
+  },
+  "v1_replay": {
+    "checked": 2,
+    "max_error": 8.314767119266264e-08,
+    "tolerance": 5e-05,
+    "passed": true
   }
 }
