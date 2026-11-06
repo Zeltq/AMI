@@ -1,0 +1,412 @@
+[
+  {
+    "stage": "complete",
+    "pid": 26376,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p16/target p16_ -- --test-threads=1",
+    "argv": [
+      "cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "gpu/Cargo.toml",
+      "--target-dir",
+      "C:/AMI/runs/p16/target",
+      "p16_",
+      "--",
+      "--test-threads=1"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\build-p16-001\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\build-p16-001\\stderr.log"
+    ],
+    "elapsed_minutes": 3.5109765250002964,
+    "child_pid": 35032,
+    "exit_code": 0,
+    "job": "build-p16-001"
+  },
+  {
+    "stage": "complete",
+    "pid": 23976,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:\\AMI\\runs\\p16\\p15-base.exe collect-teacher C:\\AMI-wt\\P16\\reports\\P16\\configs\\capacity-192.json C:\\AMI\\runs\\p16\\capacity-192",
+    "argv": [
+      "C:\\AMI\\runs\\p16\\p15-base.exe",
+      "collect-teacher",
+      "C:\\AMI-wt\\P16\\reports\\P16\\configs\\capacity-192.json",
+      "C:\\AMI\\runs\\p16\\capacity-192"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\capacity-192\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\capacity-192\\stderr.log"
+    ],
+    "elapsed_minutes": 0.3417518766674524,
+    "child_pid": 37152,
+    "exit_code": 0,
+    "job": "capacity-192"
+  },
+  {
+    "stage": "complete",
+    "pid": 27844,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:\\AMI\\runs\\p16\\p15-base.exe collect-teacher C:\\AMI-wt\\P16\\reports\\P16\\configs\\capacity-256.json C:\\AMI\\runs\\p16\\capacity-256",
+    "argv": [
+      "C:\\AMI\\runs\\p16\\p15-base.exe",
+      "collect-teacher",
+      "C:\\AMI-wt\\P16\\reports\\P16\\configs\\capacity-256.json",
+      "C:\\AMI\\runs\\p16\\capacity-256"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\capacity-256\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\capacity-256\\stderr.log"
+    ],
+    "elapsed_minutes": 0.34175893166684546,
+    "child_pid": 36456,
+    "exit_code": 0,
+    "job": "capacity-256"
+  },
+  {
+    "stage": "complete",
+    "pid": 23504,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:\\AMI\\runs\\p16\\p15-base.exe collect-teacher C:\\AMI-wt\\P16\\reports\\P16\\configs\\capacity-320.json C:\\AMI\\runs\\p16\\capacity-320",
+    "argv": [
+      "C:\\AMI\\runs\\p16\\p15-base.exe",
+      "collect-teacher",
+      "C:\\AMI-wt\\P16\\reports\\P16\\configs\\capacity-320.json",
+      "C:\\AMI\\runs\\p16\\capacity-320"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\capacity-320\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\capacity-320\\stderr.log"
+    ],
+    "elapsed_minutes": 0.4253823350009043,
+    "child_pid": 14580,
+    "exit_code": 0,
+    "job": "capacity-320"
+  },
+  {
+    "stage": "failed",
+    "pid": 11568,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:\\AMI\\runs\\p16\\p15-base.exe collect-teacher C:\\AMI-wt\\P16\\reports\\P16\\configs\\capacity-352.json C:\\AMI\\runs\\p16\\capacity-352",
+    "argv": [
+      "C:\\AMI\\runs\\p16\\p15-base.exe",
+      "collect-teacher",
+      "C:\\AMI-wt\\P16\\reports\\P16\\configs\\capacity-352.json",
+      "C:\\AMI\\runs\\p16\\capacity-352"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\capacity-352\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\capacity-352\\stderr.log"
+    ],
+    "elapsed_minutes": 0.17475949166691862,
+    "child_pid": 30856,
+    "exit_code": 101,
+    "job": "capacity-352"
+  },
+  {
+    "stage": "failed",
+    "pid": 37808,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:\\AMI\\runs\\p16\\p15-base.exe collect-teacher C:\\AMI-wt\\P16\\reports\\P16\\configs\\capacity-384.json C:\\AMI\\runs\\p16\\capacity-384",
+    "argv": [
+      "C:\\AMI\\runs\\p16\\p15-base.exe",
+      "collect-teacher",
+      "C:\\AMI-wt\\P16\\reports\\P16\\configs\\capacity-384.json",
+      "C:\\AMI\\runs\\p16\\capacity-384"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\capacity-384\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\capacity-384\\stderr.log"
+    ],
+    "elapsed_minutes": 0.4253649683339366,
+    "child_pid": 15064,
+    "exit_code": 101,
+    "job": "capacity-384"
+  },
+  {
+    "stage": "complete",
+    "pid": 34900,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:/AMI/runs/p16/p15-base.exe collect-teacher reports/P16/configs/capacity-combat-320.json C:/AMI/runs/p16/capacity-combat-320",
+    "argv": [
+      "C:/AMI/runs/p16/p15-base.exe",
+      "collect-teacher",
+      "reports/P16/configs/capacity-combat-320.json",
+      "C:/AMI/runs/p16/capacity-combat-320"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\capacity-combat-320\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\capacity-combat-320\\stderr.log"
+    ],
+    "elapsed_minutes": 1.9288512666670916,
+    "child_pid": 8440,
+    "exit_code": 0,
+    "job": "capacity-combat-320"
+  },
+  {
+    "stage": "complete",
+    "pid": 25128,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:/Python314/python.exe gpu/scripts/p16_capacity.py",
+    "argv": [
+      "C:/Python314/python.exe",
+      "gpu/scripts/p16_capacity.py"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\capacity-probe\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\capacity-probe\\stderr.log"
+    ],
+    "elapsed_minutes": 2.6723538649986343,
+    "child_pid": 8312,
+    "exit_code": 0,
+    "job": "capacity-probe"
+  },
+  {
+    "stage": "complete",
+    "pid": 36820,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:/Python314/python.exe gpu/scripts/p16_capacity.py",
+    "argv": [
+      "C:/Python314/python.exe",
+      "gpu/scripts/p16_capacity.py"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\capacity-refine\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\capacity-refine\\stderr.log"
+    ],
+    "elapsed_minutes": 1.0022893449990078,
+    "child_pid": 19896,
+    "exit_code": 0,
+    "job": "capacity-refine"
+  },
+  {
+    "stage": "running",
+    "pid": 29428,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:/Python314/python.exe gpu/scripts/p16_run.py",
+    "argv": [
+      "C:/Python314/python.exe",
+      "gpu/scripts/p16_run.py"
+    ],
+    "background_work_remaining": true,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\controller\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\controller\\stderr.log"
+    ],
+    "elapsed_minutes": 4.593411743332399,
+    "child_pid": 36428,
+    "exit_code": null,
+    "job": "controller"
+  },
+  {
+    "stage": "complete",
+    "pid": 34496,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p16/target p16_anchor_schedule -- --test-threads=1",
+    "argv": [
+      "cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "gpu/Cargo.toml",
+      "--target-dir",
+      "C:/AMI/runs/p16/target",
+      "p16_anchor_schedule",
+      "--",
+      "--test-threads=1"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\evaluation-cadence-check\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\evaluation-cadence-check\\stderr.log"
+    ],
+    "elapsed_minutes": 1.5048937833344098,
+    "child_pid": 35320,
+    "exit_code": 0,
+    "job": "evaluation-cadence-check"
+  },
+  {
+    "stage": "complete",
+    "pid": 37768,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:/Python314/python.exe -m unittest discover -s tests -v",
+    "argv": [
+      "C:/Python314/python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-v"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\full-python\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\full-python\\stderr.log"
+    ],
+    "elapsed_minutes": 0.25077498000076354,
+    "child_pid": 27912,
+    "exit_code": 0,
+    "job": "full-python"
+  },
+  {
+    "stage": "complete",
+    "pid": 11904,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p16/target chio_train::tests::p16_ -- --test-threads=1",
+    "argv": [
+      "cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "gpu/Cargo.toml",
+      "--target-dir",
+      "C:/AMI/runs/p16/target",
+      "chio_train::tests::p16_",
+      "--",
+      "--test-threads=1"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\p16-training-check\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\p16-training-check\\stderr.log"
+    ],
+    "elapsed_minutes": 2.924170428334037,
+    "child_pid": 10604,
+    "exit_code": 0,
+    "job": "p16-training-check"
+  },
+  {
+    "stage": "complete",
+    "pid": 20188,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:/AMI/runs/p16/p15-base.exe evaluate-chio reports/P16/configs/preflight-model-pair.json C:/AMI/runs/p16/preflight-model-pair",
+    "argv": [
+      "C:/AMI/runs/p16/p15-base.exe",
+      "evaluate-chio",
+      "reports/P16/configs/preflight-model-pair.json",
+      "C:/AMI/runs/p16/preflight-model-pair"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\preflight-model-pair\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\preflight-model-pair\\stderr.log"
+    ],
+    "elapsed_minutes": 3.515476221666904,
+    "child_pid": 12500,
+    "exit_code": 0,
+    "job": "preflight-model-pair"
+  },
+  {
+    "stage": "complete",
+    "pid": 20012,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "wsl -d Ubuntu -- bash /mnt/c/AMI-wt/P16/scripts/wsl_python.sh /mnt/c/AMI-wt/P16/gpu/scripts/p16_resume_check.py",
+    "argv": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "bash",
+      "/mnt/c/AMI-wt/P16/scripts/wsl_python.sh",
+      "/mnt/c/AMI-wt/P16/gpu/scripts/p16_resume_check.py"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\python-resume-check\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\python-resume-check\\stderr.log"
+    ],
+    "elapsed_minutes": 0.3343941333335048,
+    "child_pid": 37176,
+    "exit_code": 0,
+    "job": "python-resume-check"
+  },
+  {
+    "stage": "complete",
+    "pid": 21104,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p16/target",
+    "argv": [
+      "cargo",
+      "build",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "gpu/Cargo.toml",
+      "--target-dir",
+      "C:/AMI/runs/p16/target"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\release-p16\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\release-p16\\stderr.log"
+    ],
+    "elapsed_minutes": 1.5047891833334386,
+    "child_pid": 35548,
+    "exit_code": 0,
+    "job": "release-p16"
+  },
+  {
+    "stage": "running",
+    "pid": 37208,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:/AMI/runs/p16/p15-base.exe collect-teacher reports/P16/configs/collect-1024.json C:/AMI/runs/p16/teacher-1024",
+    "argv": [
+      "C:/AMI/runs/p16/p15-base.exe",
+      "collect-teacher",
+      "reports/P16/configs/collect-1024.json",
+      "C:/AMI/runs/p16/teacher-1024"
+    ],
+    "background_work_remaining": true,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\teacher-1024\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\teacher-1024\\stderr.log"
+    ],
+    "elapsed_minutes": 37.4194068533349,
+    "child_pid": 33880,
+    "exit_code": null,
+    "job": "teacher-1024"
+  },
+  {
+    "stage": "complete",
+    "pid": 18156,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p16/target p15_reward_events_capture -- --test-threads=1",
+    "argv": [
+      "cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "gpu/Cargo.toml",
+      "--target-dir",
+      "C:/AMI/runs/p16/target",
+      "p15_reward_events_capture",
+      "--",
+      "--test-threads=1"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\test-artifact-routing\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\test-artifact-routing\\stderr.log"
+    ],
+    "elapsed_minutes": 1.7553636383342868,
+    "child_pid": 17908,
+    "exit_code": 0,
+    "job": "test-artifact-routing"
+  }
+]

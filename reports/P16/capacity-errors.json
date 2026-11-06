@@ -1,0 +1,58 @@
+{
+  "capacity-352": {
+    "exit_code": 101,
+    "stderr_tail": [
+      "  couldn't find resource for that handle: Memory location was never initialized",
+      "No backtrace available",
+      "2026-11-06T02:07:15.250095Z  WARN cubecl_runtime::logging::server: An IO error happened",
+      "Caused by:",
+      "  couldn't find resource for that handle: Memory location was never initialized",
+      "No backtrace available",
+      "",
+      "thread 'main' (21208) panicked at src\\experience.rs:43:46:",
+      "Error while reading data: use `try_into_scalar` instead to catch the error at runtime: Execution(An error happened during execution",
+      "Caused by:",
+      "  Several failures at once",
+      "Caused by:",
+      "  The bytes were never written (failure #159, still claiming 68 buffer(s))",
+      "  skipped `ReduceKernel`: it needed memory ManagedMemoryId { value: 26118 }, which carried the failure",
+      "  skipped `SliceAssignKernel`: it needed memory ManagedMemoryId { value: 26111 }, which carried the failure",
+      "  (15595 older skip record(s) were dropped; the walk may stop before the root)",
+      "Caused by:",
+      "  An IO error happened",
+      "Caused by:",
+      "  out of device memory allocating 547356672 bytes",
+      "No backtrace available",
+      "Asked at:",
+      "No backtrace available)"
+    ]
+  },
+  "capacity-384": {
+    "exit_code": 101,
+    "stderr_tail": [
+      "Caused by:",
+      "  couldn't find resource for that handle: Memory location was never initialized",
+      "No backtrace available",
+      "",
+      "thread 'main' (20512) panicked at src\\experience.rs:43:46:",
+      "Error while reading data: use `try_into_scalar` instead to catch the error at runtime: Execution(An error happened during execution",
+      "Caused by:",
+      "  Several failures at once",
+      "Caused by:",
+      "  The bytes were never written (failure #4819, still claiming 3 buffer(s))",
+      "  skipped `ReduceKernel`: it needed memory ManagedMemoryId { value: 23424 }, which carried the failure",
+      "  skipped `SliceAssignKernel`: it needed memory ManagedMemoryId { value: 23423 }, which carried the failure",
+      "  skipped `ReduceKernel`: it needed memory ManagedMemoryId { value: 23422 }, which carried the failure",
+      "  skipped `ReduceKernel`: it needed memory ManagedMemoryId { value: 23421 }, which carried the failure",
+      "  skipped `ReduceKernel`: it needed memory ManagedMemoryId { value: 23420 }, which carried the failure",
+      "  skipped `ReduceKernel`: it needed memory ManagedMemoryId { value: 23419 }, which carried the failure",
+      "Caused by:",
+      "  An IO error happened",
+      "Caused by:",
+      "  out of device memory allocating 547356672 bytes",
+      "No backtrace available",
+      "Asked at:",
+      "No backtrace available)"
+    ]
+  }
+}
