@@ -1,0 +1,35 @@
+{
+  "stage": "complete",
+  "pid": 18156,
+  "cwd": "C:\\AMI-wt\\P16",
+  "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p16/target p15_reward_events_capture -- --test-threads=1",
+  "argv": [
+    "cargo",
+    "test",
+    "--release",
+    "--locked",
+    "--manifest-path",
+    "gpu/Cargo.toml",
+    "--target-dir",
+    "C:/AMI/runs/p16/target",
+    "p15_reward_events_capture",
+    "--",
+    "--test-threads=1"
+  ],
+  "background_work_remaining": false,
+  "artifacts": [
+    "C:\\AMI\\runs\\p16\\jobs\\test-artifact-routing\\stdout.log",
+    "C:\\AMI\\runs\\p16\\jobs\\test-artifact-routing\\stderr.log"
+  ],
+  "elapsed_minutes": 1.7553636383342868,
+  "child_pid": 17908,
+  "exit_code": 0,
+  "stdout_tail": [
+    "running 1 test",
+    "test gpu_tests::p15_reward_events_capture_simultaneous_purchase_use_and_flask_damage ... ok",
+    "",
+    "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 139 filtered out; finished in 13.90s",
+    ""
+  ],
+  "test_artifacts": "C:/AMI/runs/p16/test-artifacts"
+}

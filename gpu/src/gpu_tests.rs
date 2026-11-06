@@ -107,7 +107,7 @@ fn p15_reward_events_capture_simultaneous_purchase_use_and_flask_damage(){
     let before=r::snapshot(&w);let _=w.step_ticks_with_waves(&rng,1,false);let after=r::snapshot(&w);
     let snap=tensor::<2>(after.clone()).into_data().try_to_vec::<f32>().unwrap();assert_eq!(snap[25],1.);assert_eq!(snap[19],0.);assert!(snap[28]>snap[30]);assert!((snap[31]-8.).abs()<1e-4);
     let reward=r::transition(&before,&after,true,&d);let parts=reward.components.clone().into_data().try_to_vec::<f32>().unwrap();assert!(parts[12]<0. && parts[12]>=-0.400001);
-    let path=data_root().join("runs/p15/reward-unit");std::fs::create_dir_all(&path).unwrap();
+    let path=std::env::var_os("SF_DUEL_TEST_ARTIFACTS").map(std::path::PathBuf::from).unwrap_or_else(||data_root().join("runs/p15")).join("reward-unit");std::fs::create_dir_all(&path).unwrap();
     let mut recorder=r::Recorder::new(&w,true);recorder.store(&before,&after,&reward,Tensor::ones([2],&d),0);recorder.flush(&path,0,0,1).unwrap();
 }
 
