@@ -17,6 +17,12 @@ def test_active_navigation_pipeline_requires_its_own_dagger_parity(tmp_path):
         (tmp_path/'stages.json').write_text(json.dumps(stages));assert supervisor.candidates()==[]
         stages['parity-nav-dagger-2']={};(tmp_path/'stages.json').write_text(json.dumps(stages))
         assert supervisor.candidates()==[('nav-dagger-2',tmp_path/'nav-dagger-2-il/weights')]
+        (tmp_path/'sampling-plan.json').write_text(json.dumps({'active':True}))
+        assert supervisor.candidates()==[] # A completed superseded chain must not be selected.
+        stages['sampling-dagger-2-il']={'folder':str(tmp_path/'sampling-dagger-2-il')}
+        (tmp_path/'stages.json').write_text(json.dumps(stages));assert supervisor.candidates()==[]
+        stages['parity-sampling-dagger-2']={};(tmp_path/'stages.json').write_text(json.dumps(stages))
+        assert supervisor.candidates()==[('sampling-dagger-2',tmp_path/'sampling-dagger-2-il/weights')]
 
 
 def test_script_navigation_simulator_result_has_matching_control_mode(tmp_path):

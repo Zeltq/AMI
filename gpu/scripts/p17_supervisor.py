@@ -32,7 +32,7 @@ def fingerprint(weights):
 
 def dagger_name():
     # User explicitly retired the original imitation/DAgger chain for P17 matches.
-    return 'nav-dagger-2'
+    return 'sampling-dagger-2' if read(P16/'sampling-plan.json',{}).get('active') else 'nav-dagger-2'
 
 
 def candidates():
