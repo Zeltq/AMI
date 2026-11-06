@@ -327,7 +327,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\controller-scripted-navigation\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller-scripted-navigation\\stderr.log"
     ],
-    "elapsed_minutes": 19.126732693333178,
+    "elapsed_minutes": 37.003636121666446,
     "child_pid": 26976,
     "exit_code": null,
     "job": "controller-scripted-navigation"
@@ -399,6 +399,38 @@
     "child_pid": 11332,
     "exit_code": 0,
     "job": "dagger-1-il"
+  },
+  {
+    "stage": "complete",
+    "pid": 26732,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "wsl -d Ubuntu -- bash /mnt/c/AMI-wt/P16/scripts/wsl_python.sh /mnt/c/AMI-wt/P16/gpu/scripts/p16_direction_audit.py --teacher /mnt/c/AMI/runs/p16/teacher-1024 --dagger /mnt/c/AMI/runs/p16/dagger-1-256 --weights /mnt/c/AMI/runs/p16/imitation/checkpoint.pt --output /mnt/c/AMI/runs/p16/direction-audit-argmax",
+    "argv": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "bash",
+      "/mnt/c/AMI-wt/P16/scripts/wsl_python.sh",
+      "/mnt/c/AMI-wt/P16/gpu/scripts/p16_direction_audit.py",
+      "--teacher",
+      "/mnt/c/AMI/runs/p16/teacher-1024",
+      "--dagger",
+      "/mnt/c/AMI/runs/p16/dagger-1-256",
+      "--weights",
+      "/mnt/c/AMI/runs/p16/imitation/checkpoint.pt",
+      "--output",
+      "/mnt/c/AMI/runs/p16/direction-audit-argmax"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\direction-audit-argmax\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\direction-audit-argmax\\stderr.log"
+    ],
+    "elapsed_minutes": 1.8381373683339917,
+    "child_pid": 36104,
+    "exit_code": 0,
+    "job": "direction-audit-argmax"
   },
   {
     "stage": "complete",
@@ -869,7 +901,7 @@
     "job": "nav-full-rust"
   },
   {
-    "stage": "running",
+    "stage": "complete",
     "pid": 16440,
     "cwd": "C:\\AMI-wt\\P16",
     "command": "wsl -d Ubuntu -- bash /mnt/c/AMI-wt/P16/scripts/wsl_python.sh /mnt/c/AMI-wt/P16/gpu/scripts/train_chio.py /mnt/c/AMI-wt/P16/reports/P16/configs/nav-imitation.json /mnt/c/AMI/runs/p16/nav-imitation",
@@ -884,14 +916,14 @@
       "/mnt/c/AMI-wt/P16/reports/P16/configs/nav-imitation.json",
       "/mnt/c/AMI/runs/p16/nav-imitation"
     ],
-    "background_work_remaining": true,
+    "background_work_remaining": false,
     "artifacts": [
       "C:\\AMI\\runs\\p16\\jobs\\nav-imitation\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\nav-imitation\\stderr.log"
     ],
-    "elapsed_minutes": 16.28507826999994,
+    "elapsed_minutes": 34.158095476665764,
     "child_pid": 27304,
-    "exit_code": null,
+    "exit_code": 0,
     "job": "nav-imitation"
   },
   {
