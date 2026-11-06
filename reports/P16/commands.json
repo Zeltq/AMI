@@ -308,7 +308,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\controller-navigation-review\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller-navigation-review\\stderr.log"
     ],
-    "elapsed_minutes": 12.613815165000657,
+    "elapsed_minutes": 13.031540404999395,
     "child_pid": 17056,
     "exit_code": null,
     "job": "controller-navigation-review"
@@ -514,7 +514,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\direction-trajectories\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\direction-trajectories\\stderr.log"
     ],
-    "elapsed_minutes": 0.26007856166688725,
+    "elapsed_minutes": 0.6778222433330181,
     "child_pid": 18280,
     "exit_code": null,
     "job": "direction-trajectories"
@@ -693,6 +693,55 @@
     "child_pid": 10604,
     "exit_code": 0,
     "job": "p16-training-check"
+  },
+  {
+    "stage": "complete",
+    "pid": 27804,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe check-chio-parity C:\\AMI\\runs\\p16\\parity-dagger-1\\weights C:\\AMI\\runs\\p16\\parity-dagger-1\\fixture C:\\AMI\\runs\\p16\\parity-dagger-1\\result.json",
+    "argv": [
+      "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe",
+      "check-chio-parity",
+      "C:\\AMI\\runs\\p16\\parity-dagger-1\\weights",
+      "C:\\AMI\\runs\\p16\\parity-dagger-1\\fixture",
+      "C:\\AMI\\runs\\p16\\parity-dagger-1\\result.json"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\parity-dagger-1\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\parity-dagger-1\\stderr.log"
+    ],
+    "elapsed_minutes": 0.09186283833308456,
+    "child_pid": 31944,
+    "exit_code": 0,
+    "job": "parity-dagger-1"
+  },
+  {
+    "stage": "complete",
+    "pid": 34844,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "wsl -d Ubuntu -- bash /mnt/c/AMI-wt/P16/scripts/wsl_python.sh /mnt/c/AMI-wt/P16/gpu/scripts/p16_parity_fixture.py /mnt/c/AMI/runs/p16/dagger-1-256 /mnt/c/AMI/runs/p16/dagger-1-il/checkpoint.pt /mnt/c/AMI/runs/p16/parity-dagger-1",
+    "argv": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "bash",
+      "/mnt/c/AMI-wt/P16/scripts/wsl_python.sh",
+      "/mnt/c/AMI-wt/P16/gpu/scripts/p16_parity_fixture.py",
+      "/mnt/c/AMI/runs/p16/dagger-1-256",
+      "/mnt/c/AMI/runs/p16/dagger-1-il/checkpoint.pt",
+      "/mnt/c/AMI/runs/p16/parity-dagger-1"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\parity-dagger-1-fixture\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\parity-dagger-1-fixture\\stderr.log"
+    ],
+    "elapsed_minutes": 0.08381574166705832,
+    "child_pid": 22892,
+    "exit_code": 0,
+    "job": "parity-dagger-1-fixture"
   },
   {
     "stage": "complete",

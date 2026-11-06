@@ -171,5 +171,45 @@
     },
     "folder": "C:\\AMI\\runs\\p16\\dagger-1-il",
     "finished_utc": "2026-11-06T04:40:56.406443+00:00"
+  },
+  "parity-dagger-1": {
+    "result": {
+      "fixture_life_resets": 1,
+      "hidden_max_error": 4.559755325317383e-06,
+      "logits": {
+        "action": {
+          "max_absolute_error": 4.76837158203125e-06,
+          "steps": 128,
+          "tolerance": 0.0001
+        },
+        "ally_target": {
+          "max_absolute_error": 2.086162567138672e-07,
+          "steps": 128,
+          "tolerance": 0.0001
+        },
+        "direction": {
+          "max_absolute_error": 6.67572021484375e-06,
+          "steps": 128,
+          "tolerance": 0.0001
+        },
+        "enemy_target": {
+          "max_absolute_error": 2.5331974029541016e-07,
+          "steps": 128,
+          "tolerance": 0.0001
+        }
+      },
+      "logp_max_error": 5.364418029785156e-06,
+      "observation_storage": "FP16 to FP32",
+      "passed": true,
+      "recurrent_reset": 128,
+      "roundtrip": {
+        "equal": 49,
+        "total": 49
+      },
+      "steps": 128,
+      "value_max_error": 1.9371509552001953e-07
+    },
+    "folder": "C:\\AMI\\runs\\p16\\parity-dagger-1",
+    "finished_utc": "2026-11-06T04:41:20.068386+00:00"
   }
 }
