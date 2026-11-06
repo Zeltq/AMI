@@ -18,5 +18,25 @@
     "elapsed_minutes": 15.624627676666327,
     "child_pid": 10612,
     "exit_code": 0
+  },
+  "ppo": {
+    "stage": "complete",
+    "pid": 34144,
+    "cwd": "C:\\AMI-wt\\P18",
+    "command": "C:\\AMI\\runs\\p18\\target\\release\\sf-duel-gpu.exe train-ggd C:\\AMI-wt\\P18\\reports\\P18\\configs\\ppo.json C:\\AMI\\runs\\p18\\ppo",
+    "argv": [
+      "C:\\AMI\\runs\\p18\\target\\release\\sf-duel-gpu.exe",
+      "train-ggd",
+      "C:\\AMI-wt\\P18\\reports\\P18\\configs\\ppo.json",
+      "C:\\AMI\\runs\\p18\\ppo"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p18\\jobs\\ppo\\stdout.log",
+      "C:\\AMI\\runs\\p18\\jobs\\ppo\\stderr.log"
+    ],
+    "elapsed_minutes": 127.62885737333175,
+    "child_pid": 33748,
+    "exit_code": 0
   }
 }
