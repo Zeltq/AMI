@@ -17,7 +17,20 @@ local function execute(bot,d)
   if not u or u:IsNull() or not u:CanBeSeen() or not u:IsAlive() then return false,'target_unavailable' end
   if d.action==3 and (u:GetTeam()~=GetTeam() or u:GetHealth()>u:GetMaxHealth()*.5) then return false,'deny_unavailable' end
   if d.action~=3 and u:GetTeam()==GetTeam() then return false,'wrong_team' end
-  if st.attack==u then return true,'same_attack' end
+  if st.attack==u then
+   local target=bot:GetAttackTarget();local activity=bot:GetAnimActivity()
+   local attacking=bot:GetCurrentActionType()==BOT_ACTION_TYPE_ATTACK
+   local animation=activity==ACTIVITY_ATTACK or activity==ACTIVITY_ATTACK2
+   local finished=not attacking and not animation and (target==nil or target:IsNull())
+   if finished then
+    local p=bot:GetLocation();local q=u:GetLocation()
+    local range=bot:GetAttackRange()+(bot:GetBoundingRadius() or 0)+(u:GetBoundingRadius() or 0)
+    if (p.x-q.x)^2+(p.y-q.y)^2<=range^2 then
+     bot:Action_AttackUnit(u,true);return true,'attack_rearmed'
+    end
+   end
+   return true,'same_attack'
+  end
   bot:Action_AttackUnit(u,true);st.attack=u;return true,'attack'
  end
  st.attack=nil
