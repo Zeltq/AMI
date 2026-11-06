@@ -197,14 +197,16 @@ end
 local function order_item(bot,name)
     -- Assembled items are requested through their legal shop components.
     local list=components[name] or {name}
-    local results={};local success=true
+    local results={};local success=true;local attempts={}
     for _,component in ipairs(list) do
         if components[name]==nil or owned(bot,component)==0 then
+            local before=call(bot,"GetGold");local stock=global("GetItemStockCount",component)
             local result=call(bot,"ActionImmediate_PurchaseItem",component)
             results[#results+1]=result;success=success and result==PURCHASE_ITEM_SUCCESS
+            attempts[#attempts+1]={item=component,gold_before=before,gold_after=call(bot,"GetGold"),stock=stock,result=result}
         end
     end
-    return results,success
+    return results,success,attempts
 end
 local function missing_cost(bot,name)
     if components[name]==nil then return global("GetItemCost",name) or 99999 end

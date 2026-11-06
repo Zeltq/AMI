@@ -84,6 +84,7 @@ class P17(unittest.TestCase):
         lua=LuaRuntime();root=Path(__file__).resolve().parents[1]
         lua.execute('''tick=7;casts=0;attacks=0;commands={}
 GAME_STATE_PRE_GAME=1;GAME_STATE_GAME_IN_PROGRESS=2
+BOT_ACTION_TYPE_ATTACK=3;ACTIVITY_ATTACK=10;ACTIVITY_ATTACK2=11
 function GetGameState()return 1 end
 function GameTime()return tick/30 end
 function GetTeam()return 2 end
@@ -94,7 +95,8 @@ bot={GetUnitName=function()return 'npc_dota_hero_nevermore' end,IsAlive=function
  IsCastingAbility=function()return false end,IsUsingAbility=function()return false end,
  GetAbilityByName=function()return {IsFullyCastable=function()return true end} end,
  Action_UseAbility=function()casts=casts+1 end,Action_AttackUnit=function()attacks=attacks+1 end,
- GetAttackTarget=function()return nil end}
+ GetAttackTarget=function()return nil end,GetAnimActivity=function()return 10 end,
+ GetCurrentActionType=function()return 3 end}
 function GetBot()return bot end
 package.preload['bots/agent']=function()return {resolve=function()return target end}end
 package.preload['bots/chio_economy']=function()return {}end
@@ -115,12 +117,19 @@ package.preload['bots/chio_commands_2']=function()return commands end
         lua=LuaRuntime();root=Path(__file__).resolve().parents[1]
         lua.execute('''owned={item_boots=1,item_tango=3,item_flask=1}
 function DotaTime()return 100 end
+function GameTime()return 100 end
+function GetTeam()return 2 end
+function GetCourier()return nil end
+function GetItemStockCount()return 0 end
+function print()end
+package.preload['game/dkjson']=function()return {encode=function()return '{}'end}end
 package.preload['bots/agent']=function()return {
  owned=function(_,name)return owned[name] or 0 end,infrastructure=function()end,
  missing_cost=function()return 100 end}end
 bot={IsAlive=function()return true end,GetHealth=function()return 100 end,GetMaxHealth=function()return 100 end,
  GetMana=function()return 100 end,GetMaxMana=function()return 100 end,GetLevel=function()return 1 end,
- GetGold=function()return 0 end,GetModifierByName=function()return -1 end}
+ GetGold=function()return 0 end,GetModifierByName=function()return -1 end,
+ GetPlayerID=function()return 0 end,GetItemInSlot=function()return nil end,GetCurrentMovementSpeed=function()return 305 end}
 state={permanent=0}
 ''')
         economy=lua.execute((root/'bots/chio_economy.lua').read_text())

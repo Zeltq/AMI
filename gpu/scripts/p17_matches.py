@@ -49,8 +49,9 @@ def bundle(dest,team,audit=False,navigation_probe=False):
     for side in (2,3):(dest/f'chio_commands_{side}.lua').write_text('return {}\n')
 
 
-def match(run,model,team,seconds,runtime,audit=False,seed=20261103):
+def match(run,model,team,seconds,runtime,audit=False,seed=20261103,setup_lua=None):
     run.mkdir(parents=True,exist_ok=False);bots=run/'bots';bundle(bots,team,audit)
+    if setup_lua:(bots/'p17_diagnostic_setup.lua').write_text(setup_lua,encoding='utf-8')
     log=(run/'policy.log').open('wb')
     args=[sys.executable,str(ROOT/'scripts/play_vs_chio.py'),'--model',str(model),'--log',str(run/'dota.log'),
           '--bots',str(bots),'--output',str(run/'policy'),'--team',str(team),'--seed',str(seed)]
@@ -69,6 +70,7 @@ def match(run,model,team,seconds,runtime,audit=False,seed=20261103):
                   game_port=27927,engine_threads=1,below_normal=True) as game:
             status(stage='match',dota_pid=game.pid)
             game.command('script_reload_code bots/p17_setup')
+            if setup_lua:game.command('script_reload_code bots/p17_diagnostic_setup')
             if audit:
                 game.command('dota_creeps_no_spawning 1');game.command('script_reload_code bots/p17_audit')
             offset=0;tail='';deadline=time.monotonic()+seconds+240

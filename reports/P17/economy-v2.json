@@ -1,0 +1,339 @@
+{
+  "cause": "GetItemStockCount zero for unrestricted Boots/Bracer suppressed API calls",
+  "baseline": "economy-v2-baseline",
+  "baseline_cleanup_error": "localized tasklist decoding; fixed bc9c986; traces preserved",
+  "blocked_affordable_boots": 50,
+  "short_matches": [
+    {
+      "run": "C:\\AMI\\runs\\p17\\economy-v2-fixed-001",
+      "funded_gold": 2000,
+      "forced_redelivery_time": null,
+      "teams": {
+        "2": {
+          "boots_equipped": true,
+          "first_equipped_after_test": -89.566665649414,
+          "courier_first_seen": null,
+          "purchase_attempts": [
+            {
+              "courier_state": 0,
+              "api_results": [
+                -1
+              ],
+              "cost": 500,
+              "kind": "attempt",
+              "gold": 10,
+              "courier_team": 2,
+              "team": 2,
+              "inventory": [
+                {
+                  "charges": 3,
+                  "name": "item_tango",
+                  "slot": 0
+                },
+                {
+                  "charges": 0,
+                  "name": "item_boots",
+                  "slot": 1
+                },
+                {
+                  "charges": 1,
+                  "name": "item_tpscroll",
+                  "slot": 15
+                }
+              ],
+              "player": 0,
+              "success": true,
+              "attempts": [
+                {
+                  "gold_after": 10,
+                  "item": "item_boots",
+                  "stock": 0,
+                  "result": -1,
+                  "gold_before": 510
+                }
+              ],
+              "time": -89.566665649414,
+              "courier_inventory": [],
+              "stock": 0,
+              "item": "item_boots",
+              "gold_before": 510
+            }
+          ],
+          "final_move_speed": 350
+        },
+        "3": {
+          "boots_equipped": true,
+          "first_equipped_after_test": -89.699996948242,
+          "courier_first_seen": null,
+          "purchase_attempts": [
+            {
+              "team": 3,
+              "courier_inventory": [],
+              "courier_team": 3,
+              "inventory": [
+                {
+                  "slot": 0,
+                  "name": "item_tango",
+                  "charges": 3
+                },
+                {
+                  "slot": 1,
+                  "name": "item_boots",
+                  "charges": 0
+                },
+                {
+                  "slot": 15,
+                  "name": "item_tpscroll",
+                  "charges": 1
+                }
+              ],
+              "player": 5,
+              "kind": "attempt",
+              "success": true,
+              "attempts": [
+                {
+                  "item": "item_boots",
+                  "stock": 0,
+                  "gold_before": 510,
+                  "gold_after": 10,
+                  "result": -1
+                }
+              ],
+              "gold": 10,
+              "item": "item_boots",
+              "stock": 0,
+              "gold_before": 510,
+              "time": -89.699996948242,
+              "courier_state": 0,
+              "cost": 500,
+              "api_results": [
+                -1
+              ]
+            }
+          ],
+          "final_move_speed": 350
+        }
+      }
+    },
+    {
+      "run": "C:\\AMI\\runs\\p17\\economy-v2-fixed-002",
+      "funded_gold": 2000,
+      "forced_redelivery_time": -55.0,
+      "teams": {
+        "2": {
+          "boots_equipped": true,
+          "first_equipped_after_test": 26.199996948242,
+          "courier_first_seen": 0.19999694824219,
+          "purchase_attempts": [
+            {
+              "success": true,
+              "attempts": [
+                {
+                  "result": -1,
+                  "stock": 0,
+                  "item": "item_boots",
+                  "gold_before": 510,
+                  "gold_after": 10
+                }
+              ],
+              "courier_state": 0,
+              "time": -89.566665649414,
+              "stock": 0,
+              "api_results": [
+                -1
+              ],
+              "gold_before": 510,
+              "inventory": [
+                {
+                  "slot": 0,
+                  "name": "item_tango",
+                  "charges": 3
+                },
+                {
+                  "slot": 1,
+                  "name": "item_boots",
+                  "charges": 0
+                },
+                {
+                  "slot": 15,
+                  "name": "item_tpscroll",
+                  "charges": 1
+                }
+              ],
+              "player": 0,
+              "cost": 500,
+              "kind": "attempt",
+              "courier_inventory": [],
+              "gold": 10,
+              "item": "item_boots",
+              "team": 2,
+              "courier_team": 2
+            },
+            {
+              "success": true,
+              "attempts": [
+                {
+                  "result": -1,
+                  "stock": 0,
+                  "item": "item_boots",
+                  "gold_before": 2005,
+                  "gold_after": 1505
+                }
+              ],
+              "courier_state": 0,
+              "time": -54.966667175293,
+              "stock": 0,
+              "api_results": [
+                -1
+              ],
+              "gold_before": 2005,
+              "inventory": [
+                {
+                  "slot": 0,
+                  "name": "item_tango",
+                  "charges": 3
+                },
+                {
+                  "slot": 2,
+                  "name": "item_wraith_band",
+                  "charges": 0
+                },
+                {
+                  "slot": 3,
+                  "name": "item_bracer",
+                  "charges": 0
+                },
+                {
+                  "slot": 9,
+                  "name": "item_boots",
+                  "charges": 0
+                },
+                {
+                  "slot": 15,
+                  "name": "item_tpscroll",
+                  "charges": 1
+                }
+              ],
+              "player": 0,
+              "cost": 500,
+              "kind": "attempt",
+              "courier_inventory": [],
+              "gold": 1505,
+              "item": "item_boots",
+              "team": 2,
+              "courier_team": 2
+            }
+          ],
+          "final_move_speed": 350
+        },
+        "3": {
+          "boots_equipped": true,
+          "first_equipped_after_test": 30.33332824707,
+          "courier_first_seen": 0.33332824707031,
+          "purchase_attempts": [
+            {
+              "courier_state": 0,
+              "courier_team": 3,
+              "success": true,
+              "attempts": [
+                {
+                  "gold_after": 10,
+                  "item": "item_boots",
+                  "result": -1,
+                  "stock": 0,
+                  "gold_before": 510
+                }
+              ],
+              "inventory": [
+                {
+                  "slot": 0,
+                  "charges": 3,
+                  "name": "item_tango"
+                },
+                {
+                  "slot": 1,
+                  "charges": 0,
+                  "name": "item_boots"
+                },
+                {
+                  "slot": 15,
+                  "charges": 1,
+                  "name": "item_tpscroll"
+                }
+              ],
+              "courier_inventory": [],
+              "stock": 0,
+              "gold_before": 510,
+              "team": 3,
+              "time": -89.699996948242,
+              "cost": 500,
+              "kind": "attempt",
+              "player": 5,
+              "item": "item_boots",
+              "api_results": [
+                -1
+              ],
+              "gold": 10
+            },
+            {
+              "courier_state": 0,
+              "courier_team": 3,
+              "success": true,
+              "attempts": [
+                {
+                  "gold_after": 1505,
+                  "item": "item_boots",
+                  "result": -1,
+                  "stock": 0,
+                  "gold_before": 2005
+                }
+              ],
+              "inventory": [
+                {
+                  "slot": 0,
+                  "charges": 3,
+                  "name": "item_tango"
+                },
+                {
+                  "slot": 2,
+                  "charges": 0,
+                  "name": "item_wraith_band"
+                },
+                {
+                  "slot": 3,
+                  "charges": 0,
+                  "name": "item_bracer"
+                },
+                {
+                  "slot": 9,
+                  "charges": 0,
+                  "name": "item_boots"
+                },
+                {
+                  "slot": 15,
+                  "charges": 1,
+                  "name": "item_tpscroll"
+                }
+              ],
+              "courier_inventory": [],
+              "stock": 0,
+              "gold_before": 2005,
+              "team": 3,
+              "time": -55,
+              "cost": 500,
+              "kind": "attempt",
+              "player": 5,
+              "item": "item_boots",
+              "api_results": [
+                -1
+              ],
+              "gold": 1505
+            }
+          ],
+          "final_move_speed": 350
+        }
+      }
+    }
+  ],
+  "test_cases_passed": 4
+}
