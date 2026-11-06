@@ -32,14 +32,14 @@ def speed(lines):
 
 def check(force=False):
     now=datetime.datetime.now(datetime.timezone.utc);path=RUN/'p16-monitor.json'
-    previous=json.loads(path.read_text()) if path.exists() else {}
+    previous=json.loads(path.read_text(encoding='utf-8-sig')) if path.exists() else {}
     if not force and previous and (now-datetime.datetime.fromisoformat(previous['utc'])).total_seconds()<1800:
         if previous.get('pause'):raise RuntimeError('P16 slowdown; P17 paused until next read-only check')
         return previous
-    baseline=json.loads((RUN/'bridge-001/p16-baseline.json').read_text());base=speed(baseline['stderr_tail'])
+    baseline=json.loads((RUN/'bridge-001/p16-baseline.json').read_text(encoding='utf-8-sig'));base=speed(baseline['stderr_tail'])
     jobs=[]
     for p in (P16/'jobs').glob('*/status.json'):
-        s=json.loads(p.read_text())
+        s=json.loads(p.read_text(encoding='utf-8-sig'))
         if s.get('background_work_remaining'):
             jobs.append(dict(name=p.parent.name,status=s,alive=alive(s.get('child_pid')) or alive(s.get('pid'))))
     current=speed((P16/'jobs/teacher-1024/stderr.log').read_text().splitlines())

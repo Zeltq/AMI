@@ -23,7 +23,7 @@ def below_normal():
 
 
 def save(path,value):
-    tmp=path.with_suffix('.tmp');tmp.write_text(json.dumps(value,ensure_ascii=False,indent=2));tmp.replace(path)
+    tmp=path.with_suffix('.tmp');tmp.write_text(json.dumps(value,ensure_ascii=False,indent=2),encoding='utf-8');tmp.replace(path)
 
 
 def serve(model_path,log,bots,output,team,stop,ready,audit=False):
