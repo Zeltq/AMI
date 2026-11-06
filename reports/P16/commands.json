@@ -1400,7 +1400,7 @@
     "job": "sampling-full-python"
   },
   {
-    "stage": "running",
+    "stage": "complete",
     "pid": 37408,
     "cwd": "C:\\AMI-wt\\P16",
     "command": "C:/Python314/python.exe -X utf8 -c \"import sys;sys.path.insert(0,'gpu/scripts');from p16_run import *;evaluation('nav-imitation',RUN/'nav-imitation/weights','v10')\"",
@@ -1411,14 +1411,14 @@
       "-c",
       "import sys;sys.path.insert(0,'gpu/scripts');from p16_run import *;evaluation('nav-imitation',RUN/'nav-imitation/weights','v10')"
     ],
-    "background_work_remaining": true,
+    "background_work_remaining": false,
     "artifacts": [
       "C:\\AMI\\runs\\p16\\jobs\\sampling-step2\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\sampling-step2\\stderr.log"
     ],
-    "elapsed_minutes": 5.68200258333236,
+    "elapsed_minutes": 5.765523644998514,
     "child_pid": 33168,
-    "exit_code": null,
+    "exit_code": 0,
     "job": "sampling-step2"
   },
   {

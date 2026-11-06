@@ -313,6 +313,9 @@ def navigation_pipeline():
 def main():
     guard=(RUN/'controller.lock').open('a+b');guard.seek(0);guard.write(b'1');guard.flush();guard.seek(0);msvcrt.locking(guard.fileno(),msvcrt.LK_NBLCK,1)
     try:
+        if read(RUN/'sampling-plan.json',{}).get('active'):
+            import p16_sampling_pipeline,sys
+            return p16_sampling_pipeline.run(sys.modules[__name__])
         if read(RUN/'navigation-mode.json',{}).get('active'):return navigation_pipeline()
         teacher=collect('teacher-1024',read(REPORT/'configs/collect-1024.json'),adopt=True)
         full_verification()

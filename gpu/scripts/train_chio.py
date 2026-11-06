@@ -10,6 +10,7 @@ from ggd_dataset import read_block,decode
 from train_ggd import recurrent,local_path,split
 from p15_model_fixture import export_weights
 from chio_mid_phase import MidPhase
+from chio_loss_weights import class_weights,imitation_loss
 
 
 def save(path,value):
@@ -61,7 +62,7 @@ def minibatches(sources,stage,batch,seed,targets,phases=None):
 def run(config,output,max_updates=None,initialize=None,updates=None,resume=None,**unused):
     if unused.get('zero_previous') or unused.get('check_resume'):raise ValueError('Legacy ablation/resume-inspection flags are not CHiO modes')
     resume=resume or json.loads(Path(config).read_text()).get('resume')
-    cfg=json.loads(Path(config).read_text());allowed={'dataset','replay_datasets','observation_profile','engine','decision_ticks','offset_ticks','gamma','gae_lambda','reward_mode','zero_sum','mode','epochs','updates','batch_sequences','learning_rate','gradient_norm','seed','device','initialize','resume','checkpoint_updates','exclude_premid'}
+    cfg=json.loads(Path(config).read_text());allowed={'dataset','replay_datasets','observation_profile','engine','decision_ticks','offset_ticks','gamma','gae_lambda','reward_mode','zero_sum','mode','epochs','updates','batch_sequences','learning_rate','gradient_norm','seed','device','initialize','resume','checkpoint_updates','exclude_premid','class_weights'}
     if set(cfg)-allowed:raise ValueError('Unknown CHiO training keys: '+str(set(cfg)-allowed))
     for key,expected in dict(observation_profile='chio-v1',decision_ticks=6,offset_ticks=6,gamma=.997,gae_lambda=.95,reward_mode='lastorder-fb-v1').items():
         if cfg.get(key)!=expected:raise ValueError('CHiO training contract: '+key)
@@ -69,6 +70,7 @@ def run(config,output,max_updates=None,initialize=None,updates=None,resume=None,
     engine=json.loads(local_path(cfg['engine']).read_text())
     if not engine.get('chio_direct') or engine['decision_ticks']!=6 or engine['offset_ticks']!=6:raise ValueError('CHiO environment required')
     if cfg.get('exclude_premid',False)!=bool(engine.get('chio_script_navigation',False)):raise ValueError('Navigation environment and loss phase must agree')
+    class_weights(cfg)
     mode=cfg.get('mode','imitation')
     if mode not in ('imitation','critic'):raise ValueError('Unsupported CHiO supervised mode')
     sources=[]
@@ -100,10 +102,10 @@ def run(config,output,max_updates=None,initialize=None,updates=None,resume=None,
     out=Path(output);out.mkdir(parents=True,exist_ok=True)
     if (out/'config.json').exists() and not resume:raise FileExistsError('Fresh output required')
     provenance={**cfg,'device_actual':str(device),'torch':torch.__version__,'datasets':[{'path':str(root),'sha256':hashlib.sha256((root/'dataset.json').read_bytes()).hexdigest()} for root,_ in sources],
-                'source_sha256':{str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in [Path(__file__),ROOT/'src/sf_duel/chio_model.py',ROOT/'gpu/scripts/ggd_dataset.py',ROOT/'gpu/scripts/chio_mid_phase.py']}}
+                'source_sha256':{str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in [Path(__file__),ROOT/'src/sf_duel/chio_model.py',ROOT/'gpu/scripts/ggd_dataset.py',ROOT/'gpu/scripts/chio_mid_phase.py',ROOT/'gpu/scripts/chio_loss_weights.py']}}
     if resume:
         previous=checkpoint['config']
-        for key in ('observation_profile','gamma','gae_lambda','zero_sum','mode','dataset','replay_datasets','batch_sequences','learning_rate','seed','exclude_premid'):
+        for key in ('observation_profile','gamma','gae_lambda','zero_sum','mode','dataset','replay_datasets','batch_sequences','learning_rate','seed','exclude_premid','class_weights'):
             if previous.get(key)!=provenance.get(key):raise ValueError('Resume configuration changed: '+key)
     else:save(out/'config.json',provenance)
     started=time.monotonic();steps=checkpoint['optimizer_steps'] if resume else 0;history=checkpoint['history'] if resume else []
@@ -133,7 +135,7 @@ def run(config,output,max_updates=None,initialize=None,updates=None,resume=None,
             prediction=model.value_head(h).squeeze(-1);target=torch.as_tensor(target,device=device);loss=(prediction[valid]-target[valid]).square().mean()
         else:
             h,keys=recurrent(model,b,n,resets);_,logp,_,_,_=model.heads(b,h,keys,actions={name:labels[:,i] for i,name in enumerate(HEADS)})
-            loss=-logp[valid].mean()
+            loss=imitation_loss(logp,labels,valid,cfg)
         if not torch.isfinite(loss):raise FloatingPointError('Nonfinite loss')
         return loss,int(valid.sum())
     # An explicit update budget is independent of dataset size/epoch count.

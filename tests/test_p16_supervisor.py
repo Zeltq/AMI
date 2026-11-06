@@ -5,6 +5,28 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'gpu/scripts'))
 import p16_run as runner
 
 class P16Supervisor(unittest.TestCase):
+    def test_new_sampling_evaluation_does_not_reuse_argmax(self):
+        archived=[dict(label='nav-imitation',opponent='v10',complete=True)]
+        captured=[]
+        def config(name,value):
+            captured.append((name,value));raise LookupError('captured config')
+        with patch.object(runner,'read',return_value=archived),patch.object(runner,'current_engine',return_value='engine'),patch.object(runner,'config',side_effect=config):
+            with self.assertRaisesRegex(LookupError,'captured config'):runner.evaluation('nav-imitation','weights','v10')
+        name,cfg=captured[0]
+        self.assertEqual(name,'eval-nav-imitation-v10-sampling');self.assertTrue(cfg['sampling'])
+        self.assertEqual((cfg['matches'],cfg['seed']),(128,20261103))
+
+    def test_sampling_start_rule_ties_and_low_farm_are_not_stop_conditions(self):
+        from p16_sampling_pipeline import choose_start
+        def summary(farm):return {'controllers':{'CHiO':{'lh':{'numerator':farm},'deny':{'numerator':0},'actors':128}}}
+        weights=[1,1,4,4,4,4,4,2.93,4,1,1,1,1]
+        for left,right,label in [(1,1,'nav-imitation-w'),(3,2,'nav-imitation'),(2,3,'nav-imitation-w')]:
+            d=choose_start(summary(left),summary(right),weights)
+            self.assertEqual(d['start'],label);self.assertTrue(d['below_three'])
+            self.assertEqual(d['dagger_class_weights'][4],1)
+            self.assertEqual(d['dagger_class_weights'][2],4 if label.endswith('-w') else 1)
+        self.assertEqual(weights[4],4)
+
     def test_navigation_gate_requires_a_strict_majority(self):
         for count,action in [(65,'continue-policy'),(64,'scripted-navigation-restart')]:
             writes=[]

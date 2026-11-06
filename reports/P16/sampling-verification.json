@@ -1,0 +1,39 @@
+{
+  "python_tests": {
+    "passed": 268,
+    "total": 268,
+    "command": "C:/Python314/python.exe -X utf8 -m unittest discover -s tests -v",
+    "status": {
+      "stage": "complete",
+      "pid": 21772,
+      "cwd": "C:\\AMI-wt\\P16",
+      "command": "C:/Python314/python.exe -X utf8 -m unittest discover -s tests -v",
+      "argv": [
+        "C:/Python314/python.exe",
+        "-X",
+        "utf8",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "background_work_remaining": false,
+      "artifacts": [
+        "C:\\AMI\\runs\\p16\\jobs\\sampling-full-python\\stdout.log",
+        "C:\\AMI\\runs\\p16\\jobs\\sampling-full-python\\stderr.log"
+      ],
+      "elapsed_minutes": 0.2511206816668467,
+      "child_pid": 3504,
+      "exit_code": 0
+    }
+  },
+  "narrow_tests": {
+    "passed": 8,
+    "total": 8,
+    "command": "C:/Python314/python.exe -X utf8 -m unittest test_p16_supervisor test_p16_mid_phase -v"
+  },
+  "weighted_loss_command": "wsl -d Ubuntu -- bash /mnt/c/AMI-wt/P16/scripts/wsl_python.sh /mnt/c/AMI-wt/P16/gpu/scripts/p16_weight_checks.py",
+  "rust": "No Rust changes in this revision; prior executed suite143/143"
+}

@@ -38,12 +38,27 @@ def refresh():
     if checks:
         rust=re.search(r'(\d+) passed', '\n'.join(checks['full-rust-tail']));python=re.search(r'Ran (\d+) tests','\n'.join(checks['full-python-tail']))
         if rust and python:text.append(f"Полные тесты: Rust {rust[1]}/{rust[1]}, Python {python[1]}/{python[1]}.")
+    weighted_checks=read(REPORT/'sampling-verification.json')
+    if weighted_checks:text.append('После перехода на sampling/веса: Python268/268; узкие8/8; веса13/13; resume49/49, loss3/3. [Проверки](P16/sampling-verification.json).')
     diagnosis=read(REPORT/'direction-diagnosis/result.json')
     if diagnosis:
         a=diagnosis['audit'];r=a['teacher_validation_premid']['radiant'];d=a['teacher_validation_premid']['dire']
         text += ['',f"Диагностика imitation: направление до мида R {r['correct']}/{r['frames']}, D {d['correct']}/{d['frames']}; соглашение72/72, очередь+2000 —2256/2256.",'Подтверждён сдвиг состояний: модель40°/220° упирается в базе, учитель требует130°/270°. [Данные и траектории](P16/direction-diagnosis/result.json), [карта](P16/direction-diagnosis/trajectories.svg).']
     revision=read(REPORT/'sampling-plan-step0.json')
     if revision:text += ['', 'План sampling/веса: шаг0 — сбор nav-DAgger1 сохранён256/256; прежнее обучение остановлено по пользователю. [Решение и частичные данные](P16/sampling-plan-step0.json).']
+    sampling=read(REPORT/'eval-nav-imitation-v10-sampling.json')
+    if sampling:
+        c=sampling['controllers']['CHiO'];n=c['actors'];stuck=c['stuck_after_mid'];casts=c['spell_completions']
+        text += ['',f"Sampling nav-imitation/v10: LH+deny {c['lh']['numerator']+c['deny']['numerator']:g}/{n}; койлы near/mid/far {casts[0]:g}/{n}, {casts[1]:g}/{n}, {casts[2]:g}/{n}; смерти {c['deaths']['numerator']:g}/{n}; упирается после мида {stuck['numerator']:g}/{stuck['denominator']:g}.", 'Причины смертей: '+', '.join(f"{k} {v:g}/{n}" for k,v in c['death_causes'].items())+'.']
+    audit=read(REPORT/'nav-imitation-postmid-audit.json')
+    if audit:
+        text += ['', 'Validation teacher1024 после мида, nav-imitation; диагноз не выбирает модель:', '| Тип | Доля меток | Recall argmax | Precision argmax |','|---|---|---|---|']
+        for row in audit['actions']:
+            cells=[str(row[k]['numerator'])+'/'+str(row[k]['denominator']) for k in ('label_share','recall','precision')]
+            text.append('|'+row['action']+'|'+'|'.join(cells)+'|')
+        same=audit['label_equals_previous_type'];text.append(f"Метка типа = previous type: {same['numerator']}/{same['denominator']}; 0/0 — неопределено, previous не обнулялся. [Полная матрица](P16/nav-imitation-postmid-audit.json).")
+    selected=read(REPORT/'sampling-plan-step6.json')
+    if selected:text += ['',f"Старт DAgger: {selected['start']}; правило LH+deny weighted>=baseline; ниже3/матч={selected['below_three']}; [числители, знаменатели и веса](P16/sampling-plan-step6.json)."]
     navigation=read(REPORT/'navigation-decision.json')
     if navigation:text += ['',f"Решение после DAgger1: {navigation['action']}; мид {navigation['mid_arrivals']['numerator']}/{navigation['mid_arrivals']['denominator']}."]
     text+=['','| План этапа | Ожидаемое завершение UTC (текущий план) |','|---|---|']
@@ -97,6 +112,8 @@ def refresh():
            'DONE P16' if state.get('stage')=='complete' else 'BLOCKED P16: обучение продолжается; промежуточный отчёт']
     if len(text)>150:
         start=next(i for i,line in enumerate(text) if line.startswith('| План этапа'));end=start+2+len(plan.get('estimates',[]));text[start:end]=['Первоначальные сроки этапов: [plan.json](P16/plan.json); дополнительное обучение оплачивается временем self-play.']
+    if len(text)>150:
+        text=[line for line in text if not any(line.startswith('|'+name+'|') for name in ('imitation','dagger-1-il','parity-imitation','parity-dagger-1','full-verification','nav-full-verification','nav-runtime-validation'))]
     assert len(text)<=150,len(text);(ROOT/'reports/P16.md').write_text('\n'.join(text)+'\n',encoding='utf-8',newline='\n')
     save(REPORT/'incidents.json',read(RUN/'incidents.json',[]))
     return text

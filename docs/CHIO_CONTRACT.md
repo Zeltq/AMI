@@ -361,3 +361,32 @@ PPO/self-play, DAgger-сбор, IL и критик проверены корот
 `mid_arrival_elapsed_seconds` и точному индексу решения (0.2с), а не по округлённому FP16 времени.
 На границе также добавляется reset и STOP в previous. После неё — паритет128, два новых раунда
 DAgger256 (beta0.5/0.25), прогрев value, PPOv10 и self-play. Время берётся из self-play.
+
+## P16: sampling и веса imitation (последующее решение пользователя)
+
+Все новые оценки — sampling, 128 матчей, seed20261103, баланс сторон; прежние argmax
+сохраняются отдельными записями и не участвуют в сравнении для выбора старта DAgger.
+`nav-imitation-w` учится с нуля три эпохи на teacher-1024 с прежней маской до мида.
+Previous action остаётся во входе; zero_previous не применяется.
+
+| Тип CHiO | Вес imitation |
+|---|---:|
+| MOVE, STOP | 1 |
+| ATTACK_ENEMY_CREEP, DENY, ATTACK_HERO, ATTACK_TOWER | 4 |
+| RAZE_NEAR | 4 |
+| RAZE_MID | 2.93 |
+| RAZE_FAR | 4 |
+| REQUIEM, USE_FLASK, USE_MANGO, EAT_TREE | 1 |
+
+Источник койлов: `reports/P09a/training-config.json`, action_weights 6/7/8.
+Как в `train_ggd.loss_weights`, вес относится к полной log-prob фактически использованных
+голов: `loss = -sum(weight[label_type] * log_prob) / sum(weight[label_type])`
+по допустимым кадрам после мида. Маски недоступных действий и условные головы сохраняются.
+Взвешенный loss не меняет PPO, награду, физику или смысл действия.
+
+Выбор старта: сравнить LH+deny/матч против v10 в sampling. При результате weighted >= baseline
+старт — nav-imitation-w, в DAgger те же веса, кроме ATTACK_HERO=1. Иначе старт — nav-imitation,
+DAgger без весов. При фарме <3/матч продолжать; диагностика validation только описательная.
+Затем два новых сбора по256 beta0.5/0.25 от выбранной цепочки; replay teacher-1024 и сохранённый
+nav-dagger-1-256 из шага0. Старое остановленное nav-dagger-1-il не используется.
+После каждого раунда — паритет128 и sampling-оценки, далее прогрев критика, PPOv10 и self-play.

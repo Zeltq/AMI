@@ -3,44 +3,39 @@
   "deadline_utc": "2026-11-06T13:01:16.332838+00:00",
   "budget_hours": 11,
   "stage": "teacher1024",
-  "contract": "P15 unchanged",
+  "contract": "CHiO P15 plus user-authorized scripted navigation and weighted IL/sampling revision",
   "seed": 20261103,
   "collection_started_utc": "2026-11-06T02:11:03.936612+00:00",
   "estimates": [
     {
-      "stage": "navigation verification and runtime smoke",
-      "expected_end_utc": "2026-11-06T05:23:16.274166+00:00",
-      "estimated_minutes": 5
+      "stage": "sampling baseline + validation diagnostic",
+      "expected_end_utc": "2026-11-06T06:40:00+00:00"
     },
     {
-      "stage": "masked imitation3 + parity + evaluations",
-      "expected_end_utc": "2026-11-06T06:13:16.274166+00:00",
-      "estimated_minutes": 50
+      "stage": "fresh weighted IL3 + parity + sampling evaluations + selection",
+      "expected_end_utc": "2026-11-06T07:30:00+00:00"
     },
     {
-      "stage": "new DAgger1 + parity + evaluations",
-      "expected_end_utc": "2026-11-06T07:08:16.274166+00:00",
-      "estimated_minutes": 55
+      "stage": "new sampling DAgger1 + parity + evaluations",
+      "expected_end_utc": "2026-11-06T08:30:00+00:00"
     },
     {
-      "stage": "new DAgger2 + parity + evaluations",
-      "expected_end_utc": "2026-11-06T08:03:16.274166+00:00",
-      "estimated_minutes": 55
+      "stage": "new sampling DAgger2 + parity + evaluations",
+      "expected_end_utc": "2026-11-06T09:30:00+00:00"
     },
     {
       "stage": "frozen critic",
-      "expected_end_utc": "2026-11-06T08:33:16.274166+00:00",
-      "estimated_minutes": 30
+      "expected_end_utc": "2026-11-06T10:00:00+00:00"
     },
     {
       "stage": "PPOv10 120min + desync",
-      "expected_end_utc": "2026-11-06T10:43:16.274166+00:00",
-      "estimated_minutes": 130
+      "expected_end_utc": "2026-11-06T12:10:00+00:00"
     },
     {
-      "stage": "self-play + final evaluations",
+      "stage": "self-play remaining budget + final evaluations",
       "expected_end_utc": "2026-11-06T13:01:16.332838+00:00"
     }
   ],
-  "navigation_recovery_started_utc": "2026-11-06T05:18:16.272001+00:00"
+  "navigation_recovery_started_utc": "2026-11-06T05:18:16.272001+00:00",
+  "sampling_revision_utc": "2026-11-06T06:21:30+00:00"
 }
