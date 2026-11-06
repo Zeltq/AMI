@@ -1,0 +1,45 @@
+{
+  "started_utc": "2026-11-06T02:01:16.332838+00:00",
+  "deadline_utc": "2026-11-06T13:01:16.332838+00:00",
+  "budget_hours": 11,
+  "stage": "teacher1024",
+  "contract": "P15 unchanged",
+  "seed": 20261103,
+  "collection_started_utc": "2026-11-06T02:11:03.936612+00:00",
+  "estimates": [
+    {
+      "stage": "teacher1024",
+      "expected_end_utc": "2026-11-06T02:56:03.936612+00:00",
+      "estimated_minutes": 45
+    },
+    {
+      "stage": "imitation3 + parity",
+      "expected_end_utc": "2026-11-06T03:26:03.936612+00:00",
+      "estimated_minutes": 30
+    },
+    {
+      "stage": "DAgger1 + \u043e\u0446\u0435\u043d\u043a\u0430",
+      "expected_end_utc": "2026-11-06T04:11:03.936612+00:00",
+      "estimated_minutes": 45
+    },
+    {
+      "stage": "DAgger2 + parity + \u043e\u0446\u0435\u043d\u043a\u0430",
+      "expected_end_utc": "2026-11-06T04:56:03.936612+00:00",
+      "estimated_minutes": 45
+    },
+    {
+      "stage": "critic20..60",
+      "expected_end_utc": "2026-11-06T05:41:03.936612+00:00",
+      "estimated_minutes": 45
+    },
+    {
+      "stage": "PPOv10",
+      "expected_end_utc": "2026-11-06T07:41:03.936612+00:00",
+      "estimated_minutes": 120
+    },
+    {
+      "stage": "self-play + final evaluations",
+      "expected_end_utc": "2026-11-06T13:01:16.332838+00:00"
+    }
+  ]
+}
