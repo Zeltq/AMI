@@ -3,8 +3,10 @@ import csv,json,math,xml.etree.ElementTree as ET
 from pathlib import Path
 import numpy as np
 ROOT=Path(__file__).resolve().parents[2];RUN=Path('C:/AMI/runs/p16');OUT=ROOT/'reports/P16/direction-diagnosis';OUT.mkdir(exist_ok=True)
-audit=json.loads((RUN/'direction-audit-clock/result.json').read_text());rows=[{k:float(v) for k,v in r.items()} for r in csv.DictReader((RUN/'direction-trajectories/direction-diagnostics.csv').open())]
+audit=json.loads((RUN/'direction-audit-argmax/result.json').read_text());rows=[{k:float(v) for k,v in r.items()} for r in csv.DictReader((RUN/'direction-trajectories/direction-diagnostics.csv').open())]
 engine=json.loads((RUN/'environment/engine.json').read_text());grid=np.fromfile(RUN/'environment'/engine['movement_geometry'],dtype='<f4').reshape(512,512,2)
+for group in ['teacher_validation_premid','dagger_learner_stuck']:
+    for value in audit[group].values():value['actual_move_delta_histogram_denominator']=value['student_move']
 scenes=[];errors=[];moves=0
 for match in range(3):
     data=[r for r in rows if r['match']==match];slow=0;first=None

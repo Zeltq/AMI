@@ -8,8 +8,9 @@ from train_ggd import recurrent,split
 from p15_model_fixture import Policy
 
 def save(p,v):p=Path(p);p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(v,indent=2)+'\n',encoding='utf-8',newline='\n')
-def new():return dict(frames=0,correct=0,student_move=0,joint_correct=0,confusion=np.zeros((36,36),np.int64),student_executed_frames=0,student_executed_correct=0,delta_histogram=np.zeros(36,np.int64),toward_mid_histogram=np.zeros(36,np.int64))
+def new():return dict(frames=0,correct=0,student_move=0,joint_correct=0,confusion=np.zeros((36,36),np.int64),student_executed_frames=0,student_executed_correct=0,delta_histogram=np.zeros(36,np.int64),actual_move_delta_histogram=np.zeros(36,np.int64),toward_mid_histogram=np.zeros(36,np.int64))
 def finish(x):
+    assert int(x['actual_move_delta_histogram'].sum())==x['student_move']
     matrix=x.pop('confusion');x['confusion_teacher_rows_student_columns']=matrix.tolist();n=x['frames']
     offsets=[sum(matrix[t,(t+k)%36] for t in range(36)) for k in range(36)];mirrors=[sum(matrix[t,(-t+k)%36] for t in range(36)) for k in range(36)]
     x.update(best_offset_bin=int(np.argmax(offsets)),best_offset_matches=int(max(offsets)),best_mirror_offset_bin=int(np.argmax(mirrors)),best_mirror_matches=int(max(mirrors)),denominator=n)
@@ -27,7 +28,7 @@ def predict(model,header,obs,sig):
 def add(out,side,mask,teacher,student,kind,student_used,xy):
     x=out['radiant' if side==0 else 'dire'];t=teacher[mask].astype(int);s=student[mask].astype(int);k=kind[mask];used=student_used[mask]
     x['frames']+=len(t);x['correct']+=int((t==s).sum());x['student_move']+=int((k==0).sum());x['joint_correct']+=int(((k==0)&(t==s)).sum());x['student_executed_frames']+=int(used.sum());x['student_executed_correct']+=int(((s==t)&used).sum())
-    np.add.at(x['confusion'],(t,s),1);delta=(s-t+18)%36-18;np.add.at(x['delta_histogram'],delta+18,1)
+    np.add.at(x['confusion'],(t,s),1);delta=(s-t+18)%36-18;np.add.at(x['delta_histogram'],delta+18,1);np.add.at(x['actual_move_delta_histogram'],delta[k==0]+18,1)
     points=xy[mask];mid=np.floor(np.arctan2(-points[:,1],-points[:,0])/np.deg2rad(10)+.5).astype(int)%36;np.add.at(x['toward_mid_histogram'],(s-mid+18)%36,1)
 
 def run(a):
