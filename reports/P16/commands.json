@@ -155,6 +155,90 @@
   },
   {
     "stage": "complete",
+    "pid": 34396,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe collect-dagger C:\\AMI-wt\\P16\\reports\\P16\\configs\\capacity-dagger-192.json C:\\AMI\\runs\\p16\\capacity-dagger-192",
+    "argv": [
+      "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe",
+      "collect-dagger",
+      "C:\\AMI-wt\\P16\\reports\\P16\\configs\\capacity-dagger-192.json",
+      "C:\\AMI\\runs\\p16\\capacity-dagger-192"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\capacity-dagger-192\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\capacity-dagger-192\\stderr.log"
+    ],
+    "elapsed_minutes": 0.3409991700008201,
+    "child_pid": 24444,
+    "exit_code": 0,
+    "job": "capacity-dagger-192"
+  },
+  {
+    "stage": "complete",
+    "pid": 36980,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe collect-dagger C:\\AMI-wt\\P16\\reports\\P16\\configs\\capacity-dagger-256.json C:\\AMI\\runs\\p16\\capacity-dagger-256",
+    "argv": [
+      "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe",
+      "collect-dagger",
+      "C:\\AMI-wt\\P16\\reports\\P16\\configs\\capacity-dagger-256.json",
+      "C:\\AMI\\runs\\p16\\capacity-dagger-256"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\capacity-dagger-256\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\capacity-dagger-256\\stderr.log"
+    ],
+    "elapsed_minutes": 0.42446794833328266,
+    "child_pid": 37772,
+    "exit_code": 0,
+    "job": "capacity-dagger-256"
+  },
+  {
+    "stage": "complete",
+    "pid": 10436,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe collect-dagger C:\\AMI-wt\\P16\\reports\\P16\\configs\\capacity-dagger-288.json C:\\AMI\\runs\\p16\\capacity-dagger-288",
+    "argv": [
+      "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe",
+      "collect-dagger",
+      "C:\\AMI-wt\\P16\\reports\\P16\\configs\\capacity-dagger-288.json",
+      "C:\\AMI\\runs\\p16\\capacity-dagger-288"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\capacity-dagger-288\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\capacity-dagger-288\\stderr.log"
+    ],
+    "elapsed_minutes": 0.424724218332752,
+    "child_pid": 23104,
+    "exit_code": 0,
+    "job": "capacity-dagger-288"
+  },
+  {
+    "stage": "complete",
+    "pid": 19648,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe collect-dagger C:\\AMI-wt\\P16\\reports\\P16\\configs\\capacity-dagger-320.json C:\\AMI\\runs\\p16\\capacity-dagger-320",
+    "argv": [
+      "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe",
+      "collect-dagger",
+      "C:\\AMI-wt\\P16\\reports\\P16\\configs\\capacity-dagger-320.json",
+      "C:\\AMI\\runs\\p16\\capacity-dagger-320"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\capacity-dagger-320\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\capacity-dagger-320\\stderr.log"
+    ],
+    "elapsed_minutes": 0.4252627083333209,
+    "child_pid": 6992,
+    "exit_code": 0,
+    "job": "capacity-dagger-320"
+  },
+  {
+    "stage": "complete",
     "pid": 25128,
     "cwd": "C:\\AMI-wt\\P16",
     "command": "C:/Python314/python.exe gpu/scripts/p16_capacity.py",
@@ -205,7 +289,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\controller\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller\\stderr.log"
     ],
-    "elapsed_minutes": 67.63599728666595,
+    "elapsed_minutes": 69.72338527166673,
     "child_pid": 36428,
     "exit_code": null,
     "job": "controller"
