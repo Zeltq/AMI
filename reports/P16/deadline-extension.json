@@ -1,0 +1,16 @@
+{
+  "utc": "2026-11-06T09:39:42.790873+00:00",
+  "authorized_by": "user",
+  "previous_deadline": "2026-11-06T13:01:16.332838+00:00",
+  "new_deadline": "2026-11-06T17:00:00+00:00",
+  "ppo_training_minutes": 120,
+  "self_play": "All remaining budget after PPO, reserving final evaluations",
+  "evaluation_interval_training_minutes": 120,
+  "sampling": true,
+  "matches_per_opponent": 128,
+  "opponents": [
+    "v10",
+    "v9",
+    "previous evaluated model"
+  ]
+}

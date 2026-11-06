@@ -1,12 +1,49 @@
 {
   "started_utc": "2026-11-06T02:01:16.332838+00:00",
-  "deadline_utc": "2026-11-06T13:01:16.332838+00:00",
-  "budget_hours": 11,
+  "deadline_utc": "2026-11-06T17:00:00+00:00",
+  "budget_hours": 14.978796433888888,
   "stage": "teacher1024",
   "contract": "CHiO P15 plus user-authorized scripted navigation and weighted IL/sampling revision",
   "seed": 20261103,
   "collection_started_utc": "2026-11-06T02:11:03.936612+00:00",
   "estimates": [
+    {
+      "stage": "Прогрев критика + проверка параллельной оценки",
+      "expected_end_utc": "2026-11-06T10:00:00+00:00"
+    },
+    {
+      "stage": "PPOv10: 120 минут обучения + рассинхронизация",
+      "expected_end_utc": "2026-11-06T12:10:00+00:00"
+    },
+    {
+      "stage": "Self-play: оставшийся бюджет; оценки каждые120мин",
+      "expected_end_utc": "2026-11-06T16:25:00+00:00"
+    },
+    {
+      "stage": "Финальные sampling-оценки v10/v9/previous и отчёт",
+      "expected_end_utc": "2026-11-06T17:00:00+00:00"
+    }
+  ],
+  "navigation_recovery_started_utc": "2026-11-06T05:18:16.272001+00:00",
+  "sampling_revision_utc": "2026-11-06T06:21:30+00:00",
+  "original_deadline_utc": "2026-11-06T13:01:16.332838+00:00",
+  "deadline_revision": {
+    "utc": "2026-11-06T09:39:42.790873+00:00",
+    "authorized_by": "user",
+    "previous_deadline": "2026-11-06T13:01:16.332838+00:00",
+    "new_deadline": "2026-11-06T17:00:00+00:00",
+    "ppo_training_minutes": 120,
+    "self_play": "All remaining budget after PPO, reserving final evaluations",
+    "evaluation_interval_training_minutes": 120,
+    "sampling": true,
+    "matches_per_opponent": 128,
+    "opponents": [
+      "v10",
+      "v9",
+      "previous evaluated model"
+    ]
+  },
+  "previous_estimates": [
     {
       "stage": "sampling baseline + validation diagnostic",
       "expected_end_utc": "2026-11-06T06:40:00+00:00"
@@ -36,6 +73,5 @@
       "expected_end_utc": "2026-11-06T13:01:16.332838+00:00"
     }
   ],
-  "navigation_recovery_started_utc": "2026-11-06T05:18:16.272001+00:00",
-  "sampling_revision_utc": "2026-11-06T06:21:30+00:00"
+  "estimate_note": "UTC estimates; final evaluation reserve35min (3 opponents x at least10min +5min). Self-play schedule computed from actual PPO completion and measured evaluation durations; PPO120min fixed."
 }
