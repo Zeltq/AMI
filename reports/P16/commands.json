@@ -377,7 +377,7 @@
     "job": "controller-scripted-navigation"
   },
   {
-    "stage": "running",
+    "stage": "complete",
     "pid": 29368,
     "cwd": "C:\\AMI-wt\\P16",
     "command": "C:/Python314/python.exe -X utf8 gpu/scripts/p16_run.py",
@@ -387,14 +387,14 @@
       "utf8",
       "gpu/scripts/p16_run.py"
     ],
-    "background_work_remaining": true,
+    "background_work_remaining": false,
     "artifacts": [
       "C:\\AMI\\runs\\p16\\jobs\\controller-user-stop120\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller-user-stop120\\stderr.log"
     ],
-    "elapsed_minutes": 21.05110724666544,
+    "elapsed_minutes": 21.218277634998472,
     "child_pid": 17608,
-    "exit_code": null,
+    "exit_code": 0,
     "job": "controller-user-stop120"
   },
   {

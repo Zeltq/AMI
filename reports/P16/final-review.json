@@ -1,0 +1,83 @@
+{
+  "results_commit": "e11ca52518d8e0ad0acd05895715eebc97b54489",
+  "command": "C:/Python314/python.exe -X utf8 gpu/scripts/p16_final_audit.py",
+  "parity_passed": 6,
+  "parity_total": 6,
+  "parity_steps": 768,
+  "training": {
+    "critic": {
+      "blocks": 59,
+      "finite_updates": 1416,
+      "total_updates": 1416,
+      "training_seconds": 1317.3383906000001,
+      "anchor_sha256": "0851630f75d84f2200fa41f9db647910bb434a1d886f75e129fc747dd0b139af"
+    },
+    "ppo": {
+      "blocks": 268,
+      "finite_updates": 6432,
+      "total_updates": 6432,
+      "training_seconds": 7213.501170799999,
+      "anchor_sha256": "8892c3f28f08956700166619cd18049fdb84daacc855db0a6824547d797b1bec"
+    },
+    "self-play": {
+      "blocks": 193,
+      "finite_updates": 4632,
+      "total_updates": 4632,
+      "training_seconds": 7274.963501599995,
+      "anchor_sha256": "171336090c30496b1493236ef1c797e5f32c9a985be3e1852e61b28ace48da0f"
+    }
+  },
+  "evaluations": {
+    "complete": 19,
+    "total": 19,
+    "matches": 2432,
+    "final_complete": 3,
+    "final_required": 3
+  },
+  "python": {
+    "passed": 272,
+    "total": 272,
+    "status": {
+      "stage": "complete",
+      "pid": 32560,
+      "cwd": "C:\\AMI-wt\\P16",
+      "command": "C:/Python314/python.exe -X utf8 -m unittest discover -s tests -v",
+      "argv": [
+        "C:/Python314/python.exe",
+        "-X",
+        "utf8",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "background_work_remaining": false,
+      "artifacts": [
+        "C:\\AMI\\runs\\p16\\jobs\\final-python-verification\\stdout.log",
+        "C:\\AMI\\runs\\p16\\jobs\\final-python-verification\\stderr.log"
+      ],
+      "elapsed_minutes": 0.2512198766654668,
+      "child_pid": 24616,
+      "exit_code": 0
+    },
+    "log_tail": [
+      "",
+      "----------------------------------------------------------------------",
+      "Ran 272 tests in 9.767s",
+      "",
+      "OK"
+    ]
+  },
+  "rust": {
+    "passed": 143,
+    "total": 143,
+    "source": "nav-full-verification.json; no subsequent Rust changes"
+  },
+  "finished_utc": "2026-11-06T14:48:11.677338+00:00",
+  "deadline_utc": "2026-11-06T17:00:00+00:00",
+  "user_requested_early_stop": true,
+  "selected_model": "ppo-120m",
+  "selected_weights": "C:\\AMI\\runs\\p16\\ppo\\final-weights"
+}

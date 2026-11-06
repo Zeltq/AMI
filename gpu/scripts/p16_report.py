@@ -114,7 +114,15 @@ def refresh():
     if len(text)>150:
         start=next(i for i,line in enumerate(text) if line.startswith('| План этапа'));end=start+2+len(plan.get('estimates',[]));text[start:end]=['Первоначальные сроки этапов: [plan.json](P16/plan.json); дополнительное обучение оплачивается временем self-play.']
     if len(text)>150:
-        text=[line for line in text if not any(line.startswith('|'+name+'|') for name in ('imitation','dagger-1-il','parity-imitation','parity-dagger-1','full-verification','nav-full-verification','nav-runtime-validation'))]
+        text=[line for line in text if '|`' in line or not any(line.startswith('|'+name+'|') for name in ('imitation','dagger-1-il','parity-imitation','parity-dagger-1','full-verification','nav-full-verification','nav-runtime-validation'))]
+    final=read(REPORT/'final-review.json')
+    if final and state.get('stage')=='complete':
+        text=[line.replace('Полные тесты: Rust 143/143, Python 266/266.', 'Полные тесты: Rust143/143 (после последних Rust-изменений), Python272/272 (финальный запуск); паритет6/6, шаги768/768; конечные RL/value updates12480/12480.') for line in text]
+        text=[line for line in text if not line.startswith('После перехода на sampling/веса:')]
+        text=[line if not line.startswith('Первоначальные сроки этапов:') else f"По решению пользователя остановлено после первого интервала self-play: фактически121.25мин, PPO120.23мин; все оценки закончены {state['finished_utc']} UTC. [Стоп и превышение на завершение блока](P16/user-stop-120m.json)." for line in text]
+        text.insert(-1, 'SHA точки восстановления кода и результатов: `'+final['results_commit']+'`; заключительная фиксация отчёта следует за ним. [Итоговая проверка](P16/final-review.json).')
+        if len(text)>150:
+            text=[line for line in text if not line.startswith(('|nav-imitation-postmid-audit|','|parity-nav-imitation|'))]
     assert len(text)<=150,len(text);(ROOT/'reports/P16.md').write_text('\n'.join(text)+'\n',encoding='utf-8',newline='\n')
     save(REPORT/'incidents.json',read(RUN/'incidents.json',[]))
     return text
