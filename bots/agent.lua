@@ -61,6 +61,7 @@ local function mod(unit,name)
 end
 local function unit_data(unit,bot,own)
     if unit==nil or call(unit,"IsNull")==true then return nil end
+    if settings.chio and not own and call(unit,"CanBeSeen")~=true then return nil end
     local location=call(unit,"GetLocation")
     -- Unit visibility is authoritative. A revealed unit may be visible while
     -- its ground tile remains fogged (e.g. attack vision at a height boundary).
@@ -72,7 +73,7 @@ local function unit_data(unit,bot,own)
     local p=location
     if p==nil then return nil end
     local fixed=identities[unit]
-    if not fixed then
+    if not fixed or settings.chio then
         fixed={name=call(unit,"GetUnitName"),team=call(unit,"GetTeam"),hero=call(unit,"IsHero")}
         for key,method in pairs(fixed_methods) do fixed[key]=call(unit,method) end
         if not fixed.hero then
@@ -92,6 +93,7 @@ local function unit_data(unit,bot,own)
     end
     local u={id=id(unit),name=fixed.name,team=fixed.team,visible=true,x=p.x,y=p.y,z=p.z,
         attack_range=fixed.attack_range,attack_point=fixed.attack_point,projectile_speed=fixed.projectile_speed}
+    if settings.chio then u.hull=call(unit,"GetBoundingRadius") end
     local methods={health="GetHealth",health_max="GetMaxHealth",mana="GetMana",mana_max="GetMaxMana",
         health_regen="GetHealthRegen",mana_regen="GetManaRegen",move_speed="GetCurrentMovementSpeed",
         facing="GetFacing",attack_damage="GetAttackDamage",attack_interval="GetSecondsPerAttack",

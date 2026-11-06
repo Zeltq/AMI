@@ -102,7 +102,7 @@ function M.Think()
  if last_tick and tick<last_tick then st={seq=0,skill_index=1,permanent=0,last_action=0};memory=core.new();pending={};ended=false end
  last_tick=tick
  if not ready() or ended then return end
- agent.infrastructure(bot,st)
+ if settings.chio then require('bots/chio_economy').Think(bot,st) else agent.infrastructure(bot,st) end
  if DotaTime()>=0 then
   local reason=nil
   if not bot:IsAlive() or GetHeroDeaths(bot:GetPlayerID())>0 then reason="teacher_death" end
@@ -131,10 +131,11 @@ function M.Think()
   if chosen.action~=0 then st.last_action=chosen.action end
   print("SF_V9_ACK|"..json.encode({seq=chosen.seq,observed_tick=chosen.observed_tick,scheduled_tick=chosen.execute_tick,actual_tick=tick,late_ticks=tick-chosen.execute_tick,execution=st.execution}))
  end
- if tick%4~=0 or not bot:IsAlive() then return end
+ if tick%(settings.chio and 6 or 4)~=0 or not bot:IsAlive() then return end
  st.seq=st.seq+1
  local s=agent.snapshot(bot,st);local scene=build(s,GameTime())
  local action,diagnostics=core.decide(scene,memory)
+ if settings.chio then action.buy=0 end
  action.seq=st.seq;action.observed_tick=tick;action.execute_tick=tick+7;action.observed_time=s.time
  pending[action.execute_tick]=action
  if action.action==3 then print("SF_V9_ATTACK|"..json.encode({time=s.time,target=action.target_id,forecast=diagnostics.forecasts[action.target_id],candidates=diagnostics.candidates,protected=diagnostics.protected})) end
