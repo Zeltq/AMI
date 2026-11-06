@@ -158,7 +158,7 @@ class Game:
                 self.process.wait(timeout=8)
             except (OSError,RuntimeError,subprocess.TimeoutExpired):
                 pass
-            found=subprocess.run(['tasklist','/FI',f'PID eq {self.pid}','/FO','CSV'],capture_output=True,text=True)
+            found=subprocess.run(['tasklist','/FI',f'PID eq {self.pid}','/FO','CSV'],capture_output=True,text=True,errors='replace')
             if 'dota2.exe' in found.stdout.lower():
                 subprocess.run(['taskkill','/PID',str(self.pid),'/T','/F'],capture_output=True,check=True)
         if self.process is not None and self.process.poll() is None:
