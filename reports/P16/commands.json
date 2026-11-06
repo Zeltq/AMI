@@ -314,7 +314,7 @@
     "job": "controller-navigation-review"
   },
   {
-    "stage": "running",
+    "stage": "failed",
     "pid": 18452,
     "cwd": "C:\\AMI-wt\\P16",
     "command": "C:/Python314/python.exe gpu/scripts/p16_run.py",
@@ -322,14 +322,14 @@
       "C:/Python314/python.exe",
       "gpu/scripts/p16_run.py"
     ],
-    "background_work_remaining": true,
+    "background_work_remaining": false,
     "artifacts": [
       "C:\\AMI\\runs\\p16\\jobs\\controller-scripted-navigation\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller-scripted-navigation\\stderr.log"
     ],
-    "elapsed_minutes": 59.887502948332504,
+    "elapsed_minutes": 63.39490962666653,
     "child_pid": 26976,
-    "exit_code": null,
+    "exit_code": 4294967295,
     "job": "controller-scripted-navigation"
   },
   {
@@ -911,6 +911,53 @@
     "child_pid": 5756,
     "exit_code": 0,
     "job": "nav-dagger-1-256"
+  },
+  {
+    "stage": "complete",
+    "pid": 2348,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:/Python314/python.exe gpu/scripts/p15_dataset_audit.py C:\\AMI\\runs\\p16\\nav-dagger-1-256 C:\\AMI-wt\\P16\\reports\\P16\\nav-dagger-1-256-audit.json",
+    "argv": [
+      "C:/Python314/python.exe",
+      "gpu/scripts/p15_dataset_audit.py",
+      "C:\\AMI\\runs\\p16\\nav-dagger-1-256",
+      "C:\\AMI-wt\\P16\\reports\\P16\\nav-dagger-1-256-audit.json"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\nav-dagger-1-256-audit\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\nav-dagger-1-256-audit\\stderr.log"
+    ],
+    "elapsed_minutes": 2.2551300266660594,
+    "child_pid": 36452,
+    "exit_code": 0,
+    "job": "nav-dagger-1-256-audit"
+  },
+  {
+    "stage": "failed",
+    "pid": 37560,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "wsl -d Ubuntu -- bash /mnt/c/AMI-wt/P16/scripts/wsl_python.sh /mnt/c/AMI-wt/P16/gpu/scripts/train_chio.py /mnt/c/AMI-wt/P16/reports/P16/configs/nav-dagger-1-il.json /mnt/c/AMI/runs/p16/nav-dagger-1-il",
+    "argv": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "bash",
+      "/mnt/c/AMI-wt/P16/scripts/wsl_python.sh",
+      "/mnt/c/AMI-wt/P16/gpu/scripts/train_chio.py",
+      "/mnt/c/AMI-wt/P16/reports/P16/configs/nav-dagger-1-il.json",
+      "/mnt/c/AMI/runs/p16/nav-dagger-1-il"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\nav-dagger-1-il\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\nav-dagger-1-il\\stderr.log"
+    ],
+    "elapsed_minutes": 3.5080784683329207,
+    "child_pid": 36488,
+    "exit_code": 15,
+    "job": "nav-dagger-1-il"
   },
   {
     "stage": "complete",

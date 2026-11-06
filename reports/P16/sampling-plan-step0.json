@@ -1,0 +1,26 @@
+{
+  "step": 0,
+  "utc": "2026-11-06T06:21:59.782193+00:00",
+  "decision": "User requested sampling and weighted IL restart; stopped only nav-dagger-1-il and supervisor",
+  "collection": {
+    "blocks": 27,
+    "family": "CHiO",
+    "games_recorded": 256,
+    "games_requested": 256,
+    "native_completed": 256,
+    "partial": false,
+    "valid_decisions": 1159576,
+    "wall_seconds": 662.8841106
+  },
+  "dataset": "C:\\AMI\\runs\\p16\\nav-dagger-1-256",
+  "stopped_training_status": {
+    "step": 521,
+    "epoch": 1,
+    "loss": 0.5630356073379517,
+    "gradient_norm": 1.2858573198318481,
+    "frames": 2304,
+    "wall_seconds": 194.773047636
+  },
+  "checkpoint": "C:\\AMI\\runs\\p16\\nav-dagger-1-il\\checkpoint.pt",
+  "training_not_for_use": true
+}
