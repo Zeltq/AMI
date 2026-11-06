@@ -327,7 +327,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\controller-scripted-navigation\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller-scripted-navigation\\stderr.log"
     ],
-    "elapsed_minutes": 48.6976917516673,
+    "elapsed_minutes": 59.887502948332504,
     "child_pid": 26976,
     "exit_code": null,
     "job": "controller-scripted-navigation"
@@ -890,6 +890,27 @@
     "child_pid": 36944,
     "exit_code": 0,
     "job": "nav-collect-smoke-audit"
+  },
+  {
+    "stage": "complete",
+    "pid": 31152,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe collect-dagger C:\\AMI-wt\\P16\\reports\\P16\\configs\\nav-dagger-1-256.json C:\\AMI\\runs\\p16\\nav-dagger-1-256",
+    "argv": [
+      "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe",
+      "collect-dagger",
+      "C:\\AMI-wt\\P16\\reports\\P16\\configs\\nav-dagger-1-256.json",
+      "C:\\AMI\\runs\\p16\\nav-dagger-1-256"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\nav-dagger-1-256\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\nav-dagger-1-256\\stderr.log"
+    ],
+    "elapsed_minutes": 11.113426648332583,
+    "child_pid": 5756,
+    "exit_code": 0,
+    "job": "nav-dagger-1-256"
   },
   {
     "stage": "complete",
