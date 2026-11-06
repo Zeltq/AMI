@@ -310,7 +310,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\controller-live-status-repair\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller-live-status-repair\\stderr.log"
     ],
-    "elapsed_minutes": 321.12875282333505,
+    "elapsed_minutes": 437.98049483333403,
     "child_pid": 21636,
     "exit_code": null,
     "previous_wrapper_pid": 32132,
@@ -375,6 +375,27 @@
     "child_pid": 26976,
     "exit_code": 4294967295,
     "job": "controller-scripted-navigation"
+  },
+  {
+    "stage": "running",
+    "pid": 29368,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:/Python314/python.exe -X utf8 gpu/scripts/p16_run.py",
+    "argv": [
+      "C:/Python314/python.exe",
+      "-X",
+      "utf8",
+      "gpu/scripts/p16_run.py"
+    ],
+    "background_work_remaining": true,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\controller-user-stop120\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\controller-user-stop120\\stderr.log"
+    ],
+    "elapsed_minutes": 0.0002870066654092322,
+    "child_pid": 17608,
+    "exit_code": null,
+    "job": "controller-user-stop120"
   },
   {
     "stage": "complete",
@@ -2150,7 +2171,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\self-play\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\self-play\\stderr.log"
     ],
-    "elapsed_minutes": 29.407363156665816,
+    "elapsed_minutes": 146.34432356666656,
     "child_pid": 31424,
     "exit_code": null,
     "job": "self-play"

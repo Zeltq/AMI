@@ -8,20 +8,12 @@
   "collection_started_utc": "2026-11-06T02:11:03.936612+00:00",
   "estimates": [
     {
-      "stage": "Прогрев критика + проверка параллельной оценки",
-      "expected_end_utc": "2026-11-06T10:00:00+00:00"
+      "stage": "Self-play: первые120мин, штатный стоп на границе блока",
+      "expected_end_utc": "2026-11-06T14:30:00+00:00"
     },
     {
-      "stage": "PPOv10: 120 минут обучения + рассинхронизация",
-      "expected_end_utc": "2026-11-06T12:10:00+00:00"
-    },
-    {
-      "stage": "Self-play: оставшийся бюджет; оценки каждые120мин",
-      "expected_end_utc": "2026-11-06T16:25:00+00:00"
-    },
-    {
-      "stage": "Финальные sampling-оценки v10/v9/previous и отчёт",
-      "expected_end_utc": "2026-11-06T17:00:00+00:00"
+      "stage": "Оценки v10/v9/previous, итоговый отчёт и остановка",
+      "expected_end_utc": "2026-11-06T15:05:00+00:00"
     }
   ],
   "navigation_recovery_started_utc": "2026-11-06T05:18:16.272001+00:00",
@@ -74,5 +66,12 @@
     }
   ],
   "estimate_note": "UTC estimates; final evaluation reserve35min (3 opponents x at least10min +5min). Self-play schedule computed from actual PPO completion and measured evaluation durations; PPO120min fixed.",
-  "self_play_stop_utc": "2026-11-06T16:25:00+00:00"
+  "self_play_stop_utc": "2026-11-06T16:25:00+00:00",
+  "stop_after_self_play_minutes": 120,
+  "user_stop_revision": {
+    "utc": "2026-11-06T14:27:04.590698+00:00",
+    "reason": "User requested stop after first120min self-play and checks against all opponents",
+    "preserve_stage_anchor": true,
+    "preserve_schedule_minutes": 249
+  }
 }
