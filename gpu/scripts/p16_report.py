@@ -21,8 +21,8 @@ def refresh():
     for p in sorted((RUN/'jobs').glob('*/status.json')):
         d=read(p);d['job']=p.parent.name;commands.append(d)
     save(REPORT/'commands.json',commands)
-    text=['# P16 — ночное обучение CHiO','','## Результаты','',f"Стадия: {state.get('stage','подготовка')}. Дедлайн UTC: {plan.get('deadline_utc')}. Контракт и ограничения P15 сохранены.",
-          'Оценки: argmax, seed20261103, 128 матчей, поровну сторон; оба учителя через CHiO. Столбец базы различает policy/script; лучший выбирается только в текущем режиме.',
+    text=['# P16 — ночное обучение CHiO','','## Результаты','',f"Стадия: {state.get('stage','подготовка')}. Дедлайн UTC: {plan.get('deadline_utc')}. Ограничения P15 сохранены; изменения навигации и обучения — по решению пользователя.",
+          'Оценки: новые sampling, прежние argmax явно помечены; seed20261103, 128 матчей, поровну сторон; оба учителя через CHiO. Столбец базы различает policy/script; лучший выбирается только в текущем режиме.',
           'Проверка CHiO против CHiO: 8/8 полных матчей; [результат](P16/preflight-model-pair.json).','',
           '| Этап | Результат | Завершение UTC |','|---|---|---|']
     native=state.get('native',{})
@@ -42,15 +42,17 @@ def refresh():
     if diagnosis:
         a=diagnosis['audit'];r=a['teacher_validation_premid']['radiant'];d=a['teacher_validation_premid']['dire']
         text += ['',f"Диагностика imitation: направление до мида R {r['correct']}/{r['frames']}, D {d['correct']}/{d['frames']}; соглашение72/72, очередь+2000 —2256/2256.",'Подтверждён сдвиг состояний: модель40°/220° упирается в базе, учитель требует130°/270°. [Данные и траектории](P16/direction-diagnosis/result.json), [карта](P16/direction-diagnosis/trajectories.svg).']
+    revision=read(REPORT/'sampling-plan-step0.json')
+    if revision:text += ['', 'План sampling/веса: шаг0 — сбор nav-DAgger1 сохранён256/256; прежнее обучение остановлено по пользователю. [Решение и частичные данные](P16/sampling-plan-step0.json).']
     navigation=read(REPORT/'navigation-decision.json')
     if navigation:text += ['',f"Решение после DAgger1: {navigation['action']}; мид {navigation['mid_arrivals']['numerator']}/{navigation['mid_arrivals']['denominator']}."]
     text+=['','| План этапа | Ожидаемое завершение UTC (текущий план) |','|---|---|']
     text += [f"|{r['stage']}|{r['expected_end_utc']}|" for r in plan.get('estimates',[])]
-    text+=['','| Чекпоинт / соперник / база | W/D/L | Смерти | LH+deny | Мид | Время выхода на мид, с |','|---|---|---|---|---|---|']
+    text+=['','| Чекпоинт / соперник / база / режим | W/D/L | Смерти | LH+deny | Мид | Время выхода на мид, с |','|---|---|---|---|---|---|']
     for e in evaluations:
         if not e.get('complete'):continue
         d=read(ROOT/e['summary']);c=d['controllers']['CHiO'];n=c['actors'];o=c['outcomes'];a=c['mid_arrival_elapsed_seconds'];farm=c['lh']['numerator']+c['deny']['numerator']
-        text.append(f"|{e['label']} / {e['opponent']} / {'script' if e.get('scripted_base_to_mid') else 'policy'}|{o.get('win',0)}/{n}; {o.get('draw',0)}/{n}; {o.get('loss',0)}/{n}|{c['deaths']['numerator']:g}/{n}|{farm:g}/{n}|{c['mid_arrivals']['numerator']}/{n}|{a['numerator']:.2f}/{a['denominator']}|")
+        text.append(f"|{e['label']} / {e['opponent']} / {'script' if e.get('scripted_base_to_mid') else 'policy'} / {'sampling' if e.get('sampling') else 'argmax'}|{o.get('win',0)}/{n}; {o.get('draw',0)}/{n}; {o.get('loss',0)}/{n}|{c['deaths']['numerator']:g}/{n}|{farm:g}/{n}|{c['mid_arrivals']['numerator']}/{n}|{a['numerator']:.2f}/{a['denominator']}|")
     text+=['','| Оценённая модель | Путь весов |','|---|---|']
     models={e['label']:e['weights'] for e in evaluations if e.get('complete')}
     text += [f'|{name}|`{path}`|' for name,path in models.items()]
@@ -70,7 +72,7 @@ def refresh():
            '| Якорь |старт каждого этапа, неизменный при resume;0.03→0.01, за120мин PPO и бюджет self-play вместо261мин|',
            '| Прогрев |20..60 блоков, mean EVpost0 последних5>0.3; только value — как P11|',
            '| Пул |20/20/30/30 →45/35/10/10; задание, оба учителя через CHiO, соперник закреплён на матч|',
-           '| Оценки |sampling →argmax; задание; одинаковые128 матчей/seed и баланс сторон|',
+           '| Оценки |sampling как P11; прежние argmax архивированы; одинаковые128 матчей/seed и баланс сторон|',
            '| Инициализация |GGD000470+Adam →IL/DAgger CHiO; новый Adam для value warmup, затем перенос critic→PPO→self-play|',
            '| Desync/snapshot/checkpoint |вкл/60мин/10мин — те же; обучение учитывается отдельно от desync и оценки|',
            '| Карта/дерево/учитель |ограничения P15 сохранены; не исправлялись в P16|','',

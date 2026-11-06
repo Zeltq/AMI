@@ -242,8 +242,8 @@ def choose_best(eligible_labels=None):
     weights=[3,2,2,2,1,1,1]
     for c in candidates:c['rank_score']=sum(w*sum(other['metrics'][i]<c['metrics'][i] for other in candidates)/max(1,len(candidates)-1) for i,w in enumerate(weights))/sum(weights)
     winner=max(candidates,key=lambda c:c['rank_score']);n=winner['actors']
-    reason=(f"РїСЂРµРґРІР°СЂРёС‚РµР»СЊРЅС‹Р№ СЃР±Р°Р»Р°РЅСЃРёСЂРѕРІР°РЅРЅС‹Р№ РІС‹Р±РѕСЂ РїРѕ СЂР°РЅРіР°Рј РїРѕР±РµРґ, РІС‹Р¶РёРІР°РµРјРѕСЃС‚Рё, С„Р°СЂРјР°, РІС‹С…РѕРґР°/РІСЂРµРјРµРЅРё РЅР° РјРёРґ, РєРѕР№Р»РѕРІ Рё СЃРјРµСЂС‚РµР№ РѕС‚ Р±Р°С€РЅРё (РІРµСЃР°3/2/2/2/1/1/1; Р±РµР· РїРѕСЂРѕРіР°). "
-            f"РџСЂРѕС‚РёРІ РѕР±РѕРёС… СѓС‡РёС‚РµР»РµР№ СЃСѓРјРјР°СЂРЅРѕ: W {winner['wins']}/{n}, СЃРјРµСЂС‚Рё {winner['deaths']:g}/{n}, LH+deny {winner['farm']:g}/{n}, РјРёРґ {winner['mid']}/{n}, РєРѕР№Р»С‹ {winner['hits']:g}/{winner['casts']:g}. Р­С‚Рѕ СЌРІСЂРёСЃС‚РёРєР° РІС‹Р±РѕСЂР°, РЅРµ РґРѕРєР°Р·Р°С‚РµР»СЊСЃС‚РІРѕ РїРµСЂРµРЅРѕСЃР° РІ Dota.")
+    reason=(f"предварительный сбалансированный выбор по рангам побед, выживаемости, фарма, выхода/времени на мид, койлов и смертей от башни (веса3/2/2/2/1/1/1; без порога). "
+            f"Против обоих учителей суммарно: W {winner['wins']}/{n}, смерти {winner['deaths']:g}/{n}, LH+deny {winner['farm']:g}/{n}, мид {winner['mid']}/{n}, койлы {winner['hits']:g}/{winner['casts']:g}. Это эвристика выбора, не доказательство переноса в Dota.")
     result=dict(label=winner['label'],weights=winner['weights'],reason=reason,candidates=candidates);save(RUN/'best.json',result);save(REPORT/'best.json',result);return result
 
 def navigation_gate():
