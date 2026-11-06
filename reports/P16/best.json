@@ -1,0 +1,76 @@
+{
+  "label": "sampling-dagger-2",
+  "weights": "C:\\AMI\\runs\\p16\\sampling-dagger-2-il\\weights",
+  "reason": "предварительный сбалансированный выбор по рангам побед, выживаемости, фарма, выхода/времени на мид, койлов и смертей от башни (веса3/2/2/2/1/1/1; без порога). Против обоих учителей суммарно: W 35/256, смерти 155/256, LH+deny 4716/256, мид 256/256, койлы 1501/2817. Это эвристика выбора, не доказательство переноса в Dota.",
+  "candidates": [
+    {
+      "label": "nav-imitation-w",
+      "weights": "C:\\AMI\\runs\\p16\\nav-imitation-w\\weights",
+      "metrics": [
+        0.06640625,
+        0.06640625,
+        2.8125,
+        1.0,
+        0.27906976744186046,
+        0.73046875,
+        -25.399996757507324
+      ],
+      "wins": 17,
+      "draws": 0,
+      "deaths": 239.0,
+      "farm": 720.0,
+      "mid": 256,
+      "hits": 384.0,
+      "casts": 1376.0,
+      "tower_deaths": 69.0,
+      "actors": 256,
+      "rank_score": 0.041666666666666664
+    },
+    {
+      "label": "sampling-dagger-1",
+      "weights": "C:\\AMI\\runs\\p16\\sampling-dagger-1-il\\weights",
+      "metrics": [
+        0.134765625,
+        0.25,
+        11.78125,
+        1.0,
+        0.3973509933774834,
+        0.66796875,
+        -25.399996757507324
+      ],
+      "wins": 34,
+      "draws": 1,
+      "deaths": 192.0,
+      "farm": 3016.0,
+      "mid": 256,
+      "hits": 900.0,
+      "casts": 2265.0,
+      "tower_deaths": 85.0,
+      "actors": 256,
+      "rank_score": 0.3333333333333333
+    },
+    {
+      "label": "sampling-dagger-2",
+      "weights": "C:\\AMI\\runs\\p16\\sampling-dagger-2-il\\weights",
+      "metrics": [
+        0.140625,
+        0.39453125,
+        18.421875,
+        1.0,
+        0.5328363507277245,
+        0.7421875,
+        -25.399996757507324
+      ],
+      "wins": 35,
+      "draws": 2,
+      "deaths": 155.0,
+      "farm": 4716.0,
+      "mid": 256,
+      "hits": 1501.0,
+      "casts": 2817.0,
+      "tower_deaths": 66.0,
+      "actors": 256,
+      "rank_score": 0.75
+    }
+  ]
+}
