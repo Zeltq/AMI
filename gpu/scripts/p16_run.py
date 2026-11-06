@@ -209,7 +209,11 @@ def native_training(name,cfg,parallel=False):
         def tick(native):
             nonlocal next_eval,pending_label
             seconds=native.get('training_seconds',0)
-            cutoff=read(RUN/'plan.json',{}).get('self_play_stop_utc')
+            plan=read(RUN/'plan.json',{});cutoff=plan.get('self_play_stop_utc')
+            limit=plan.get('stop_after_self_play_minutes')
+            if name=='self-play' and limit is not None and seconds>=limit*60:
+                save(folder/'stop.json',{'reason':'user requested stop after first training interval','training_minutes':limit})
+                return
             if name=='self-play' and cutoff and datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(cutoff):
                 save(folder/'stop.json',{'reason':'wall-clock budget; reserve final evaluations before 11-hour deadline'})
             # The final checkpoint is evaluated by the caller; native loop forces checkpoints at 120-minute boundaries.
@@ -286,7 +290,8 @@ def finish_rl(previous,il,older_weights):
     else:save(frozen,cfg)
     sp=native_training('self-play',cfg,parallel)
     for future in FUTURES:future.result()
-    evaluate_group('self-play-final',Path(sp['folder'])/'final-weights',read(RUN/'previous-evaluated.json')['weights'])
+    final_label='self-play-120m' if read(RUN/'plan.json').get('stop_after_self_play_minutes')==120 else 'self-play-final'
+    evaluate_group(final_label,Path(sp['folder'])/'final-weights',read(RUN/'previous-evaluated.json')['weights'])
     choose_best()
     state('complete',deadline_utc=plan['deadline_utc'],finished_utc=utc());publish('complete all training and evaluations')
 

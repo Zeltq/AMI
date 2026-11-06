@@ -5,6 +5,18 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'gpu/scripts'))
 import p16_run as runner
 
 class P16Supervisor(unittest.TestCase):
+    def test_user_limit_stops_at120_without_resuming_or_queueing_another_interval(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            run=Path(temporary);reports=run/'reports';reports.mkdir();runner.save(run/'plan.json',{'stop_after_self_play_minutes':120})
+            def job(name,cmd,artifact,on_tick):
+                artifact.parent.mkdir(exist_ok=True)
+                on_tick({'training_seconds':7199});self.assertFalse((artifact.parent/'stop.json').exists())
+                on_tick({'training_seconds':7200});self.assertTrue((artifact.parent/'stop.json').exists())
+                return {'training_seconds':7201,'checkpoint':'same-stage','blocks':192}
+            with patch.multiple(runner,RUN=run,REPORT=reports),patch.object(runner,'cached',return_value=None),patch.object(runner,'run_job',side_effect=job) as jobs,patch.object(runner,'queue_evaluation') as queue,patch.object(runner,'done'):
+                runner.native_training('self-play',{'minutes':249,'schedule_minutes':249,'initial_weights':'unchanged'},parallel=True)
+            self.assertEqual(jobs.call_count,1);queue.assert_not_called()
+
     def test_wrapper_retries_shared_status_read_conflicts(self):
         import p16_job
         with patch.object(Path,'exists',return_value=True),patch.object(Path,'read_text',side_effect=[PermissionError('busy'),'','{"P16":{}}']),patch.object(p16_job.time,'sleep') as sleep:

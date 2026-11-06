@@ -2,5 +2,11 @@
   "utc": "2026-11-06T14:27:04.590698+00:00",
   "reason": "User requested stop after first120min self-play and checks against all opponents",
   "preserve_stage_anchor": true,
-  "preserve_schedule_minutes": 249
+  "preserve_schedule_minutes": 249,
+  "verification": {
+    "command": "C:/Python314/python.exe -X utf8 -m unittest test_p16_supervisor -v",
+    "passed": 9,
+    "total": 9,
+    "checks": "7199s continues;7200s requests stop; no extra evaluation queue or resume; stage schedule remains249"
+  }
 }

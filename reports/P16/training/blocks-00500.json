@@ -583,5 +583,44 @@
       1417.0,
       780.0
     ]
+  },
+  {
+    "run": "self-play",
+    "block": 189,
+    "training_seconds": 7114.732757899995,
+    "optimizer_steps": 24,
+    "metrics": {
+      "loss": {
+        "numerator": 9.15983260050416,
+        "denominator": 24
+      },
+      "value_loss": {
+        "numerator": 17.885041715577245,
+        "denominator": 24
+      },
+      "entropy": {
+        "numerator": 4.489625990390778,
+        "denominator": 24
+      },
+      "old_policy_kl": {
+        "numerator": 0.06526672226482333,
+        "denominator": 24
+      },
+      "anchor_kl": {
+        "numerator": 1.4369508884847164,
+        "denominator": 24
+      },
+      "gradient_norm": {
+        "numerator": 328.6586016714573,
+        "denominator": 24
+      }
+    },
+    "ev_post0": 0.6592122316360474,
+    "phase_counts": [
+      8477.0,
+      10127.0,
+      1439.0,
+      761.0
+    ]
   }
 ]
