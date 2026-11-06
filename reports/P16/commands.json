@@ -329,7 +329,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\controller-sampling-weighted\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller-sampling-weighted\\stderr.log"
     ],
-    "elapsed_minutes": 4.17677214666619,
+    "elapsed_minutes": 4.594438136665849,
     "child_pid": 34048,
     "exit_code": null,
     "job": "controller-sampling-weighted"
@@ -1104,6 +1104,32 @@
     "child_pid": 2912,
     "exit_code": 0,
     "job": "nav-imitation-postmid-audit"
+  },
+  {
+    "stage": "running",
+    "pid": 37856,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "wsl -d Ubuntu -- bash /mnt/c/AMI-wt/P16/scripts/wsl_python.sh /mnt/c/AMI-wt/P16/gpu/scripts/train_chio.py /mnt/c/AMI-wt/P16/reports/P16/configs/nav-imitation-w.json /mnt/c/AMI/runs/p16/nav-imitation-w",
+    "argv": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "bash",
+      "/mnt/c/AMI-wt/P16/scripts/wsl_python.sh",
+      "/mnt/c/AMI-wt/P16/gpu/scripts/train_chio.py",
+      "/mnt/c/AMI-wt/P16/reports/P16/configs/nav-imitation-w.json",
+      "/mnt/c/AMI/runs/p16/nav-imitation-w"
+    ],
+    "background_work_remaining": true,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\nav-imitation-w\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\nav-imitation-w\\stderr.log"
+    ],
+    "elapsed_minutes": 0.3347518316664112,
+    "child_pid": 15560,
+    "exit_code": null,
+    "job": "nav-imitation-w"
   },
   {
     "stage": "complete",
