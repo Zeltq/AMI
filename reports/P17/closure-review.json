@@ -1,0 +1,138 @@
+{
+  "completed_utc": "2026-11-06T15:14:13.603551+00:00",
+  "reason": "User requested immediate closure and human play",
+  "series": [
+    {
+      "name": "sampling-dagger-2",
+      "version": "p17-v1",
+      "completed": 8,
+      "wins": 5,
+      "draws": 0,
+      "losses": 3,
+      "summary_totals": {
+        "lh": 222,
+        "deny": 149,
+        "deaths": 1
+      },
+      "terminal_totals": {
+        "lh": 222,
+        "deny": 149,
+        "deaths": 1
+      },
+      "retired_reason": null
+    },
+    {
+      "name": "ppo-checkpoint-000069",
+      "version": "p17-v1",
+      "completed": 8,
+      "wins": 5,
+      "draws": 0,
+      "losses": 3,
+      "summary_totals": {
+        "lh": 184,
+        "deny": 117,
+        "deaths": 0
+      },
+      "terminal_totals": {
+        "lh": 184,
+        "deny": 117,
+        "deaths": 0
+      },
+      "retired_reason": null
+    },
+    {
+      "name": "ppo-final",
+      "version": "p17-v1",
+      "completed": 8,
+      "wins": 1,
+      "draws": 0,
+      "losses": 7,
+      "summary_totals": {
+        "lh": 133,
+        "deny": 41,
+        "deaths": 1
+      },
+      "terminal_totals": {
+        "lh": 133,
+        "deny": 41,
+        "deaths": 1
+      },
+      "retired_reason": null
+    },
+    {
+      "name": "self-play-checkpoint-000097",
+      "version": "p17-v1",
+      "completed": 2,
+      "wins": 0,
+      "draws": 0,
+      "losses": 2,
+      "summary_totals": {
+        "lh": 44,
+        "deny": 20,
+        "deaths": 0
+      },
+      "terminal_totals": {
+        "lh": 44,
+        "deny": 20,
+        "deaths": 0
+      },
+      "retired_reason": "User requested executor v2; incomplete v1 series retained without replay."
+    },
+    {
+      "name": "self-play-final-p17-v2",
+      "version": "p17-v2",
+      "completed": 3,
+      "wins": 1,
+      "draws": 0,
+      "losses": 2,
+      "summary_totals": {
+        "lh": 36,
+        "deny": 12,
+        "deaths": 1
+      },
+      "terminal_totals": {
+        "lh": 35,
+        "deny": 12,
+        "deaths": 1
+      },
+      "retired_reason": "User requested immediate stop to play against the trained model; completed games retained, no new series."
+    }
+  ],
+  "human": {
+    "model": "C:\\AMI\\runs\\p17\\models\\sampling-dagger-2.pt",
+    "source": "C:\\AMI\\runs\\p16\\sampling-dagger-2-il\\weights",
+    "executor_version": "p17-v2",
+    "action_selection": "sampling",
+    "seed": 20261103,
+    "device": "cpu",
+    "selection_reason": "User choice for human play",
+    "equal_tensors": 49,
+    "total_tensors": 49,
+    "fingerprint": "b20b19613371c192ee5cc0a2bb653cef6ae08e47ed4c07f4fbc2f64d0e2d5dcb",
+    "prepared": "C:\\AMI\\runs\\p17\\human\\prepared-20261106-181158-741112",
+    "installed": false
+  },
+  "old_results_unchanged": {
+    "numerator": 26,
+    "denominator": 26
+  },
+  "verification": {
+    "cpu_tensors_equal": 49,
+    "cpu_tensors_total": 49,
+    "focused_install_test": "1 passed; temporary directory only"
+  },
+  "interrupted_run": "C:\\AMI\\runs\\p17\\matches\\self-play-final-p17-v2\\match-003-attempt-1",
+  "interrupted_game_counted": false,
+  "unverified": [
+    "Human Local Host",
+    "Full feature-state replay",
+    "3/1920 reconstructed FP16 geometry angles exceed 1e-3"
+  ],
+  "p18_tracked": false,
+  "process_verification": {
+    "checked_utc": "2026-11-06T15:14:30.259384+00:00",
+    "p17_supervisors": 0,
+    "p17_dota_servers": 0,
+    "p17_policy_servers": 0
+  }
+}

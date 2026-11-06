@@ -11,6 +11,9 @@ from install_teacher_lobby import no_dota
 from p17_matches import bundle as dedicated_bundle
 from sf_duel.chio_version import EXECUTOR_VERSION
 
+HUMAN_MODEL=Path('C:/AMI/runs/p17/models/sampling-dagger-2.pt')
+HUMAN_SOURCE=Path('C:/AMI/runs/p16/sampling-dagger-2-il/weights')
+
 
 def prepare(dest,human_team):
     dedicated_bundle(dest,5-human_team)
@@ -24,6 +27,9 @@ def prepare(dest,human_team):
                   human_team=human_team,model_team=5-human_team,controller_type='chio',endpoint='',executor_version=EXECUTOR_VERSION)
     from sf_duel.live.bridge import literal
     (dest/'settings.lua').write_text('return '+literal(settings)+'\n')
+    (dest/'policy-config.json').write_text(json.dumps(dict(
+        model=str(HUMAN_MODEL),source=str(HUMAN_SOURCE),executor_version=EXECUTOR_VERSION,
+        device='cpu',action_selection='sampling',seed=20261103,model_team=5-human_team),indent=2))
     (dest/'chio_play_setup.lua').write_text("local ok,err=pcall(function()\nrequire('bots/play_model_lobby').run("+str(human_team)+")\nrequire('bots/p17_setup')\nend)\nif not ok then print('SF_P17_ERROR|'..tostring(err)) end\n")
     return dest
 

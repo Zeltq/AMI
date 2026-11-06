@@ -1,4 +1,5 @@
 import importlib.util
+import json
 from pathlib import Path
 import tempfile
 import unittest
@@ -17,6 +18,11 @@ class Installation(unittest.TestCase):
             from lupa.lua51 import LuaRuntime
             self.assertEqual(LuaRuntime().execute((prepared/'settings.lua').read_text()).human_team,2)
             self.assertIn('chio_executor',(prepared/'bot_generic.lua').read_text())
+            policy=json.loads((prepared/'policy-config.json').read_text())
+            self.assertEqual(policy['executor_version'],'p17-v2')
+            self.assertEqual(Path(policy['source']),Path('C:/AMI/runs/p16/sampling-dagger-2-il/weights'))
+            self.assertEqual(Path(policy['model']),Path('C:/AMI/runs/p17/models/sampling-dagger-2.pt'))
+            self.assertEqual((policy['device'],policy['action_selection'],policy['model_team']),('cpu','sampling',3))
             artifacts=root/'artifacts';saved=installer.install(target,prepared,artifacts,2)
             self.assertTrue(saved['installed']);self.assertEqual(installer.inventory(Path(saved['backup'])),before)
             result=installer.restore(artifacts)

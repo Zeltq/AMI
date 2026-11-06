@@ -41,14 +41,12 @@ python scripts/install_chio_bot.py --install --human-team 2
 через `--seed` (по умолчанию20261103) и записывается в status.json и decisions.jsonl.
 В автоматической серии seed увеличивается на1 для каждого следующего матча.
 
-Проверьте `C:/AMI/runs/p17/models/selected.json`: поле `model` содержит путь
-последних скопированных и проверенных весов. P15-smoke проверяет только транспорт
-и может оставаться на базе; его не следует считать обученной игровой моделью P16.
-Burn bundle можно передать напрямую либо экспортировать в CPU checkpoint:
-
-```powershell
-python scripts/export_chio_cpu.py --bundle C:/AMI/runs/p17/models/ИМЯ/weights --output C:/AMI/runs/p17/models/ИМЯ.pt
-```
+Для игры человека закреплены **sampling-dagger-2 + исполнитель p17-v2**.
+Источник: `C:/AMI/runs/p16/sampling-dagger-2-il/weights` (только чтение).
+Проверенная CPU-копия: `C:/AMI/runs/p17/models/sampling-dagger-2.pt`.
+Каждый подготовленный комплект содержит `policy-config.json` с этими путями,
+версией, sampling и seed. `models/selected.json` также закреплён за этой моделью.
+Результат DAgger2 5/8 относится к старому исполнителю v1; силу v2 против человека не измеряли.
 
 1. В параметрах запуска Steam для Dota добавьте `-console -condebug`.
    Эти параметры пользователь меняет сам; P17 их не устанавливал.
@@ -56,7 +54,7 @@ python scripts/export_chio_cpu.py --bundle C:/AMI/runs/p17/models/ИМЯ/weights
 
 ```powershell
 cd C:/AMI-wt/P17
-python scripts/play_vs_chio.py --model "C:/AMI/runs/p17/models/ИМЯ.pt" --seed 20261103 --team 3 --log "C:/Program Files (x86)/Steam/steamapps/common/dota 2 beta/game/dota/console.log" --bots "C:/Program Files (x86)/Steam/steamapps/common/dota 2 beta/game/dota/scripts/vscripts/bots" --output "C:/AMI/runs/p17/human/session-001"
+python scripts/play_vs_chio.py --model "C:/AMI/runs/p17/models/sampling-dagger-2.pt" --seed 20261103 --team 3 --log "C:/Program Files (x86)/Steam/steamapps/common/dota 2 beta/game/dota/console.log" --bots "C:/Program Files (x86)/Steam/steamapps/common/dota 2 beta/game/dota/scripts/vscripts/bots" --output "C:/AMI/runs/p17/human/session-001"
 ```
 
    Для новой сессии используйте новое имя output. Процесс использует BelowNormal,
