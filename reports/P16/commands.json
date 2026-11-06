@@ -327,7 +327,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\controller-scripted-navigation\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller-scripted-navigation\\stderr.log"
     ],
-    "elapsed_minutes": 2.6731781933340244,
+    "elapsed_minutes": 19.126732693333178,
     "child_pid": 26976,
     "exit_code": null,
     "job": "controller-scripted-navigation"
@@ -867,6 +867,32 @@
     "child_pid": 30244,
     "exit_code": 0,
     "job": "nav-full-rust"
+  },
+  {
+    "stage": "running",
+    "pid": 16440,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "wsl -d Ubuntu -- bash /mnt/c/AMI-wt/P16/scripts/wsl_python.sh /mnt/c/AMI-wt/P16/gpu/scripts/train_chio.py /mnt/c/AMI-wt/P16/reports/P16/configs/nav-imitation.json /mnt/c/AMI/runs/p16/nav-imitation",
+    "argv": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "bash",
+      "/mnt/c/AMI-wt/P16/scripts/wsl_python.sh",
+      "/mnt/c/AMI-wt/P16/gpu/scripts/train_chio.py",
+      "/mnt/c/AMI-wt/P16/reports/P16/configs/nav-imitation.json",
+      "/mnt/c/AMI/runs/p16/nav-imitation"
+    ],
+    "background_work_remaining": true,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\nav-imitation\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\nav-imitation\\stderr.log"
+    ],
+    "elapsed_minutes": 16.28507826999994,
+    "child_pid": 27304,
+    "exit_code": null,
+    "job": "nav-imitation"
   },
   {
     "stage": "complete",
