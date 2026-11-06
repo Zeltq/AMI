@@ -295,7 +295,7 @@
     "job": "controller"
   },
   {
-    "stage": "running",
+    "stage": "failed",
     "pid": 13652,
     "cwd": "C:\\AMI-wt\\P16",
     "command": "C:/Python314/python.exe -X utf8 gpu/scripts/p16_run.py",
@@ -305,14 +305,14 @@
       "utf8",
       "gpu/scripts/p16_run.py"
     ],
-    "background_work_remaining": true,
+    "background_work_remaining": false,
     "artifacts": [
       "C:\\AMI\\runs\\p16\\jobs\\controller-live-status-repair\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller-live-status-repair\\stderr.log"
     ],
-    "elapsed_minutes": 437.98049483333403,
+    "elapsed_minutes": 438.0640030783349,
     "child_pid": 21636,
-    "exit_code": null,
+    "exit_code": 4294967295,
     "previous_wrapper_pid": 32132,
     "adopted": true,
     "job": "controller-live-status-repair"
@@ -2171,7 +2171,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\self-play\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\self-play\\stderr.log"
     ],
-    "elapsed_minutes": 146.34432356666656,
+    "elapsed_minutes": 146.4278452999987,
     "child_pid": 31424,
     "exit_code": null,
     "job": "self-play"
