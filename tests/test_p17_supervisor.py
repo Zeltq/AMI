@@ -23,12 +23,15 @@ def test_script_navigation_simulator_result_has_matching_control_mode(tmp_path):
     weights=tmp_path/'weights';weights.mkdir()
     (weights/'manifest.json').write_text(json.dumps({'tensors':{'x':{'shape':[1],'sha256':'abc'}}}))
     (tmp_path/'summary.json').write_text('{}')
-    (tmp_path/'evaluations.json').write_text(json.dumps([dict(complete=True,weights=str(weights),summary='summary.json',scripted_base_to_mid=True)]))
+    (tmp_path/'evaluations.json').write_text(json.dumps([
+        dict(complete=True,weights=str(weights),summary='summary.json',scripted_base_to_mid=True),
+        dict(complete=True,weights=str(weights),summary='summary.json',scripted_base_to_mid=True,sampling=True)]))
     with patch.object(supervisor,'P16',tmp_path),patch.object(supervisor,'P16ROOT',tmp_path):
         result=supervisor.simulator_reports(weights)
     assert result[0]['directly_comparable'] is True
     assert result[0]['dota_base_navigation']=='script'
     assert result[0]['simulator_base_navigation']=='script'
+    assert len(result)==1 and result[0]['action_selection']=='sampling'
 
 
 def test_rl_candidates_require_navigation_engine(tmp_path):

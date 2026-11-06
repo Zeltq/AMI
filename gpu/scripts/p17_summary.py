@@ -15,6 +15,10 @@ def summarize(run):
     accepted=[a for a in acks if a['accepted']]
     result=dict(acks=dict(accepted=len(accepted),total=len(acks)),actions={},delay_ticks=dict(Counter(a['tick']-a['observed_tick'] for a in accepted)),
       rejections=dict(Counter(a['reason'] for a in acks if not a['accepted'])),sides={})
+    status_path=run/'policy/status.json'
+    if status_path.exists():
+        policy_status=json.loads(status_path.read_text(encoding='utf-8-sig'))
+        result['action_selection']=policy_status.get('action_selection','unrecorded');result['seed']=policy_status.get('seed')
     for kind in range(13):result['actions'][str(kind)]=dict(accepted=sum(a['action']==kind for a in accepted),issued=sum(a['action']==kind for a in acks))
     result['coverage']=dict(executed=sum(r['accepted']>0 for r in result['actions'].values()),total=13)
     for team in (2,3):

@@ -59,13 +59,13 @@ def candidates():
 def simulator_reports(weights):
     result=[];sha=fingerprint(weights)
     for e in read(P16/'evaluations.json',[]):
-        if not e.get('complete'):continue
+        if not e.get('complete') or not e.get('sampling',False):continue
         source=Path(e['weights'])
         if not (source/'manifest.json').exists() or fingerprint(source)!=sha:continue
         path=P16ROOT/e['summary']
         if path.exists():result.append(dict(evaluation=e,summary=read(path),
             directly_comparable=bool(e.get('scripted_base_to_mid',False)),
-            dota_base_navigation='script',simulator_base_navigation='script' if e.get('scripted_base_to_mid') else 'policy'))
+            action_selection='sampling',dota_base_navigation='script',simulator_base_navigation='script' if e.get('scripted_base_to_mid') else 'policy'))
     return result
 
 
@@ -125,7 +125,7 @@ def run():
             if pending:
                 chosen=next((r for r in pending if r[0]==dagger_name()),None) or max(pending,key=lambda r:(r[1]/'manifest.json').stat().st_mtime)
                 name,weights,sha=chosen
-                item=series.setdefault(name,dict(source=str(weights),fingerprint=sha,games=[],dota_base_navigation='script',
+                item=series.setdefault(name,dict(source=str(weights),fingerprint=sha,games=[],action_selection='sampling',dota_base_navigation='script',
                     p16_navigation_mode=read(P16/'navigation-mode.json',{})))
                 frozen=RUN/'models'/name/'weights'
                 if not frozen.exists():shutil.copytree(weights,frozen)
@@ -148,7 +148,7 @@ def run():
                         runtime_lock.seek(0);msvcrt.locking(runtime_lock.fileno(),msvcrt.LK_NBLCK,1)
                         existing=list((RUN/'matches'/name).glob(f'match-{i:03d}-attempt-*')) if (RUN/'matches'/name).exists() else []
                         run_path=RUN/'matches'/name/f'match-{i:03d}-attempt-{len(existing)+1}'
-                        try:r=match(run_path,checkpoint,2+i%2,600,RUN/'bridge-001/runtime')
+                        try:r=match(run_path,checkpoint,2+i%2,600,RUN/'bridge-001/runtime',seed=20261103+i)
                         except Exception as e:
                             item.setdefault('errors',[]).append(dict(run=str(run_path),error=str(e)));save(RUN/'series.json',series)
                             if len(existing)>=2:raise

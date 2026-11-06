@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import sys
 import time
+import torch
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'src'))
 from sf_duel.chio_cpu import load_bundle,Session
 from sf_duel.chio_observations import Observer,command
@@ -26,11 +27,12 @@ def save(path,value):
     tmp=path.with_suffix('.tmp');tmp.write_text(json.dumps(value,ensure_ascii=False,indent=2),encoding='utf-8');tmp.replace(path)
 
 
-def serve(model_path,log,bots,output,team,stop,ready,audit=False,navigation_probe=False):
+def serve(model_path,log,bots,output,team,stop,ready,audit=False,navigation_probe=False,seed=20261103):
     initial_offset=log.stat().st_size if log.exists() else 0
     model,_=load_bundle(model_path);session=Session(model);observer=Observer()
+    torch.manual_seed(seed)
     output.mkdir(parents=True,exist_ok=True)
-    stats=dict(pid=os.getpid(),device='cpu',model=str(model_path),requests=0,errors=[],resets=0,acks=0,accepted=0)
+    stats=dict(pid=os.getpid(),device='cpu',model=str(model_path),action_selection='sampling',seed=seed,requests=0,errors=[],resets=0,acks=0,accepted=0)
     offset=initial_offset;tail='';parts={};queue=[];previous=None;last_deaths=0;last_tick=None;last_save=0;audit_case=None
     save(output/'status.json',stats);ready.write_text(str(os.getpid()))
     with gzip.open(output/'observations.jsonl.gz','wt',encoding='utf-8') as trace, (output/'decisions.jsonl').open('w') as decisions:
@@ -92,7 +94,7 @@ def serve(model_path,log,bots,output,team,stop,ready,audit=False,navigation_prob
                     trace.write(json.dumps(s,separators=(',',':'))+'\n')
                     decisions.write(json.dumps(dict(**d,value=value,inference_ms=ms,reset=reset,decision_index=decision_index,
                         handoff=handoff,policy_executed=policy_ready,input_previous_action=input_previous_action,
-                        hp_history_known=int(b['hero_combat'][0,0,-25:-13].sum())))+'\n');decisions.flush()
+                        hp_history_known=int(b['hero_combat'][0,0,-25:-13].sum()),action_selection='sampling',seed=seed))+'\n');decisions.flush()
                 except Exception as e:
                     stats['errors'].append(dict(tick=tick,error=repr(e)));save(output/'status.json',stats);raise
             if time.monotonic()-last_save>2:save(output/'status.json',stats);last_save=time.monotonic()
@@ -105,9 +107,10 @@ def main():
     p.add_argument('--log',type=Path,required=True);p.add_argument('--bots',type=Path,required=True)
     p.add_argument('--output',type=Path,required=True);p.add_argument('--team',type=int,choices=(2,3),default=2)
     p.add_argument('--audit',action='store_true')
+    p.add_argument('--seed',type=int,default=20261103,help='CPU policy sampling seed (recorded in status and decisions)')
     p.add_argument('--navigation-probe',action='store_true',help='Diagnostic STOP after handoff; not a model evaluation')
     a=p.parse_args();below_normal();a.output.mkdir(parents=True,exist_ok=False)
-    serve(a.model,a.log,a.bots,a.output,a.team,a.output/'stop',a.output/'ready',a.audit,a.navigation_probe)
+    serve(a.model,a.log,a.bots,a.output,a.team,a.output/'stop',a.output/'ready',a.audit,a.navigation_probe,a.seed)
 
 
 if __name__=='__main__':main()

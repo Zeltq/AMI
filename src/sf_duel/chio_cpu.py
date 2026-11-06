@@ -62,6 +62,6 @@ class Session:
         if reset:self.state=None;self.resets+=1
         b={k:(v.cpu().half().float() if v.is_floating_point() else v.cpu()) for k,v in b.items()}
         if any(v.is_floating_point() and not torch.isfinite(v).all() for v in b.values()):raise ValueError('Nonfinite observation')
-        chosen,_,_,value,self.state=self.model.decide(b,self.state,deterministic=True)
+        chosen,_,_,value,self.state=self.model.decide(b,self.state,deterministic=False)
         self.decisions+=1;self.last_tick=tick
         return {k:int(v.item()) for k,v in chosen.items()},float(value.item()),reset

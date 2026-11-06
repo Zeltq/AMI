@@ -49,11 +49,11 @@ def bundle(dest,team,audit=False,navigation_probe=False):
     for side in (2,3):(dest/f'chio_commands_{side}.lua').write_text('return {}\n')
 
 
-def match(run,model,team,seconds,runtime,audit=False):
+def match(run,model,team,seconds,runtime,audit=False,seed=20261103):
     run.mkdir(parents=True,exist_ok=False);bots=run/'bots';bundle(bots,team,audit)
     log=(run/'policy.log').open('wb')
     args=[sys.executable,str(ROOT/'scripts/play_vs_chio.py'),'--model',str(model),'--log',str(run/'dota.log'),
-          '--bots',str(bots),'--output',str(run/'policy'),'--team',str(team)]
+          '--bots',str(bots),'--output',str(run/'policy'),'--team',str(team),'--seed',str(seed)]
     if audit:args.append('--audit')
     policy=subprocess.Popen(args,stdout=log,stderr=subprocess.STDOUT,creationflags=subprocess.CREATE_NO_WINDOW|subprocess.BELOW_NORMAL_PRIORITY_CLASS)
     record=dict(stage='starting',pid=policy.pid,command=subprocess.list2cmdline(args),background_work_remaining=True)
@@ -102,7 +102,7 @@ def match(run,model,team,seconds,runtime,audit=False):
                         if reason=='death':loser=terminal['team'] if terminal else next(k for k,r in metrics.items() if r['deaths']>0);winner=5-loser
                         elif reason=='tower':loser=terminal['team'] if terminal else next(k for k,r in metrics.items() if not r['tower_alive']);winner=5-loser
                         else:winner=2 if metrics[2]['lh']>metrics[3]['lh'] else 3 if metrics[3]['lh']>metrics[2]['lh'] else 0
-                        result=dict(reason=reason,winner=winner,model_team=team,sides=metrics,censored=seconds<600,acks=acks,terminal_event=terminal);break
+                        result=dict(reason=reason,winner=winner,model_team=team,sides=metrics,censored=seconds<600,acks=acks,terminal_event=terminal,action_selection='sampling',seed=seed);break
                 status(stage='match',metrics=metrics,acks=len(acks),elapsed_seconds=time.monotonic()-started)
                 time.sleep(.1)
             if result is None:raise TimeoutError('Match deadline')
@@ -119,6 +119,7 @@ def match(run,model,team,seconds,runtime,audit=False):
 def main():
     p=argparse.ArgumentParser();p.add_argument('--model',type=Path,required=True);p.add_argument('--run',type=Path,required=True)
     p.add_argument('--games',type=int,default=8);p.add_argument('--seconds',type=int,default=600)
+    p.add_argument('--seed',type=int,default=20261103,help='First policy seed; incremented once per match')
     p.add_argument('--runtime',type=Path,default=Path('C:/AMI/runs/p17/bridge-001/runtime'));p.add_argument('--audit',action='store_true');a=p.parse_args()
     below_normal();a.run.mkdir(parents=True,exist_ok=False)
     with Path('C:/AMI/runs/p17/runtime.lock').open('a+b') as lock:
@@ -126,7 +127,7 @@ def main():
         results=[]
         for i in range(a.games):
             p16_check()
-            results.append(match(a.run/f'match-{i:03d}',a.model,2+i%2,a.seconds,a.runtime,a.audit))
+            results.append(match(a.run/f'match-{i:03d}',a.model,2+i%2,a.seconds,a.runtime,a.audit,seed=a.seed+i))
             save(a.run/'series.json',dict(completed=len(results),requested=a.games,results=results))
 
 

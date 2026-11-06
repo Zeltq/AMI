@@ -32,6 +32,11 @@ python scripts/install_chio_bot.py --install --human-team 2
 
 ## Policy server и лобби
 
+Действия выбираются семплированием из распределений модели с учётом масок, как
+в текущих оценках P16. Argmax в игровом policy server отключён. Seed задаётся
+через `--seed` (по умолчанию20261103) и записывается в status.json и decisions.jsonl.
+В автоматической серии seed увеличивается на1 для каждого следующего матча.
+
 Проверьте `C:/AMI/runs/p17/models/selected.json`: поле `model` содержит путь
 последних скопированных и проверенных весов. P15-smoke проверяет только транспорт
 и может оставаться на базе; его не следует считать обученной игровой моделью P16.
@@ -47,7 +52,7 @@ python scripts/export_chio_cpu.py --bundle C:/AMI/runs/p17/models/ИМЯ/weights
 
 ```powershell
 cd C:/AMI-wt/P17
-python scripts/play_vs_chio.py --model "C:/AMI/runs/p17/models/ИМЯ.pt" --team 3 --log "C:/Program Files (x86)/Steam/steamapps/common/dota 2 beta/game/dota/console.log" --bots "C:/Program Files (x86)/Steam/steamapps/common/dota 2 beta/game/dota/scripts/vscripts/bots" --output "C:/AMI/runs/p17/human/session-001"
+python scripts/play_vs_chio.py --model "C:/AMI/runs/p17/models/ИМЯ.pt" --seed 20261103 --team 3 --log "C:/Program Files (x86)/Steam/steamapps/common/dota 2 beta/game/dota/console.log" --bots "C:/Program Files (x86)/Steam/steamapps/common/dota 2 beta/game/dota/scripts/vscripts/bots" --output "C:/AMI/runs/p17/human/session-001"
 ```
 
    Для новой сессии используйте новое имя output. Процесс использует BelowNormal,
