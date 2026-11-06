@@ -1,33 +1,6 @@
 {
   "source": "C:\\AMI\\runs\\p07\\dota-calibration-005",
   "target": "C:\\AMI\\runs\\p15\\dota-calibration-005-chio",
-  "changed_keys": [
-    "calibration",
-    "chio_direct",
-    "decision_ticks"
-  ],
-  "assets": {
-    "geometry": {
-      "file": "geometry.f32",
-      "source_sha256": "e3b471165ea35f9ad5b15f40083e07e2556c4141420ce677ce7104b9a6e50605",
-      "copy_sha256": "e3b471165ea35f9ad5b15f40083e07e2556c4141420ce677ce7104b9a6e50605"
-    },
-    "navigation": {
-      "file": "movement-navigation64.u32",
-      "source_sha256": "d9f818813f25a08febc4abb1fe8afb916f17ab91bfb07568a926fd3d72cd0104",
-      "copy_sha256": "d9f818813f25a08febc4abb1fe8afb916f17ab91bfb07568a926fd3d72cd0104"
-    },
-    "movement_geometry": {
-      "file": "movement-geometry.f32",
-      "source_sha256": "5d8b2b3003288d211b9c86cbabdad6d62b3ab56b415449c89f74fc5ce758d729",
-      "copy_sha256": "5d8b2b3003288d211b9c86cbabdad6d62b3ab56b415449c89f74fc5ce758d729"
-    },
-    "fow_blockers": {
-      "file": "fow_blockers.f32",
-      "source_sha256": "52717c7332a78ffe1b9deebe236ad5127347a841cba7524929f04bbe417ff3c2",
-      "copy_sha256": "52717c7332a78ffe1b9deebe236ad5127347a841cba7524929f04bbe417ff3c2"
-    }
-  },
   "identical_table_sha256": {
     "approximations": "1f6a29423e447aa6a5235a1f197951901db1e640dca46824b1535991e4d41a9d",
     "bases": "9eb48d50639dcc4898f900a80ccfac86cbea447d96f49fa6708e4c38167620ff",
@@ -54,6 +27,41 @@
     "trees": "8148e169bbeae53faa51f243a04f591289525b028ecdaab8f9c31b3496eebaa2",
     "uphill_miss": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
   },
+  "assets": {
+    "geometry": {
+      "source_sha256": "e3b471165ea35f9ad5b15f40083e07e2556c4141420ce677ce7104b9a6e50605",
+      "copy_sha256": "e3b471165ea35f9ad5b15f40083e07e2556c4141420ce677ce7104b9a6e50605"
+    },
+    "navigation": {
+      "source_sha256": "d9f818813f25a08febc4abb1fe8afb916f17ab91bfb07568a926fd3d72cd0104",
+      "copy_sha256": "d9f818813f25a08febc4abb1fe8afb916f17ab91bfb07568a926fd3d72cd0104"
+    },
+    "movement_geometry": {
+      "source_sha256": "5d8b2b3003288d211b9c86cbabdad6d62b3ab56b415449c89f74fc5ce758d729",
+      "copy_sha256": "5d8b2b3003288d211b9c86cbabdad6d62b3ab56b415449c89f74fc5ce758d729"
+    },
+    "fow_blockers": {
+      "source_sha256": "52717c7332a78ffe1b9deebe236ad5127347a841cba7524929f04bbe417ff3c2",
+      "copy_sha256": "52717c7332a78ffe1b9deebe236ad5127347a841cba7524929f04bbe417ff3c2"
+    }
+  },
+  "chio_only_assets": {
+    "chio_ground": {
+      "file": "chio-ground32.f32",
+      "sha256": "53be4efa443e3283e170c2625c2f155cd02fc2abbc7e323feb34531c0ba05f91",
+      "bytes": 1048576
+    },
+    "chio_teacher_navigation": {
+      "file": "chio-teacher-navigation64.u32",
+      "sha256": "9a4cb26bcb96b8a5357c12ced7cbd19c5fd28a8130fe7ca78f28f8218cd5fdc0",
+      "bytes": 134217728
+    },
+    "chio_live_grid": {
+      "file": "chio-live-grid.npz",
+      "sha256": "0f1658300ca2288832a87be550fe568d3caec61f3849af502ad3152412e691e6",
+      "bytes": 187515
+    }
+  },
   "source_engine_sha256": "b6db514226812343a636f87a3182bf7206097056dc5def70d1b893b01382ee4f",
-  "target_engine_sha256": "01991f56cd32d6debd6bb7fbfa9835e5f8439979bb1d1e210abb8c3066e09fe9"
+  "target_engine_sha256": "f689594d81e0328c34abb939b3c8861d0e37f96c26c54a251fb56d955eb1b976"
 }

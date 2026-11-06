@@ -50,9 +50,10 @@ fn motion(state:&[f32],meta:&[f32],out:&mut [f32],matches:usize){
 #[cube(launch)]
 fn overlay(state:&mut [f32],meta:&[f32],hero:&[f32],spells:&[f32],commands:&[f32],
     combat:&[f32],motion:&[f32],before:&[f32],memory:&[f32],forecasts:&[f32],audit:&[f32],
-    obs:&[f32],actions:&mut [f32],actors:usize,pregame:f32,left:usize,right:usize,#[comptime] swap:bool){
+    obs:&[f32],actions:&mut [f32],intents:&mut [f32],actors:usize,pregame:f32,left:usize,right:usize,#[comptime] swap:bool){
     let a=ABSOLUTE_POS;
     if a<actors {
+        for i in 0..3 {intents[a*3+i]=0.0f32;}
         let m=a/2;let side=a%2;let selected=if swap && m%2==1 {1-side}else{side};
         let version=if selected==0 {left}else{right};
         let base=m*UNITS*STRIDE;let p=base+side*STRIDE;let enemy=base+(1-side)*STRIDE;
@@ -184,6 +185,7 @@ fn overlay(state:&mut [f32],meta:&[f32],hero:&[f32],spells:&[f32],commands:&[f32
                     }else if !farm_soon && can_aim {
                         let dx=state[enemy+UNIT_X]-state[p+UNIT_X];let dy=state[enemy+UNIT_Y]-state[p+UNIT_Y];let length=(dx*dx+dy*dy).sqrt().max(1.0f32);
                         gx=state[p+UNIT_X]+dx/length*AIM_STEP;gy=state[p+UNIT_Y]+dy/length*AIM_STEP;action=1;change=true;
+                        intents[a*3]=1.0f32;intents[a*3+1]=gx;intents[a*3+2]=gy;
                     }
                 }
             }
@@ -197,14 +199,14 @@ fn overlay(state:&mut [f32],meta:&[f32],hero:&[f32],spells:&[f32],commands:&[f32
     }
 }
 
-pub struct Controller {motion:CubeTensor,left:Version,right:Version,swap:bool}
+pub struct Controller {motion:CubeTensor,pub intents:CubeTensor,left:Version,right:Version,swap:bool}
 impl Controller {
-    pub fn new(w:&World,left:Version,right:Version,swap:bool)->Self {Self{motion:primitive(Tensor::<1>::zeros([w.matches*MOTION_WORDS],&w.device)),left,right,swap}}
+    pub fn new(w:&World,left:Version,right:Version,swap:bool)->Self {Self{motion:primitive(Tensor::<1>::zeros([w.matches*MOTION_WORDS],&w.device)),intents:primitive(Tensor::<2>::zeros([w.matches*2,3],&w.device)),left,right,swap}}
     pub fn actions(&self,t:&Teacher,w:&World,obs:&Observed)->Tensor<2,Int>{
         if self.left==Version::V9 && self.right==Version::V9 {return t.actions(w,obs);}
         let before=t.command_snapshot();let original=t.actions(w,obs);let actions=primitive(original.clone().float());let packed=primitive(obs.packed.clone());
         motion::launch(&w.state.client,CubeCount::Static(w.matches.div_ceil(32)as u32,1,1),CubeDim::new_1d(32),argument(&w.state),argument(&w.meta),argument(&self.motion),w.matches);
-        overlay::launch(&w.state.client,CubeCount::Static((w.matches*2).div_ceil(32)as u32,1,1),CubeDim::new_1d(32),argument(&w.state),argument(&w.meta),argument(&w.hero),argument(&w.spells),argument(&w.commands),argument(&w.teacher_combat),argument(&self.motion),argument(&before.0),argument(&t.memory),argument(&t.forecasts),argument(&t.audit),argument(&packed),argument(&actions),w.matches*2,w.engine.pre_game_seconds,self.left.number(),self.right.number(),self.swap);
+        overlay::launch(&w.state.client,CubeCount::Static((w.matches*2).div_ceil(32)as u32,1,1),CubeDim::new_1d(32),argument(&w.state),argument(&w.meta),argument(&w.hero),argument(&w.spells),argument(&w.commands),argument(&w.teacher_combat),argument(&self.motion),argument(&before.0),argument(&t.memory),argument(&t.forecasts),argument(&t.audit),argument(&packed),argument(&actions),argument(&self.intents),w.matches*2,w.engine.pre_game_seconds,self.left.number(),self.right.number(),self.swap);
         let actions=tensor::<2>(actions).int();t.reconcile_commands(w,obs,before,original,actions.clone());actions
     }
 }

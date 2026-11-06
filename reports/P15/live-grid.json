@@ -1,0 +1,179 @@
+{
+  "file": "C:\\AMI\\runs\\p15\\gridnav-start-001\\live-grid.npz",
+  "sha256": "0f1658300ca2288832a87be550fe568d3caec61f3849af502ad3152412e691e6",
+  "chunks": 5120,
+  "expected_chunks": 5120,
+  "trees": 2475,
+  "buildings": 52,
+  "metadata": {
+    "grid_mapping": [
+      {
+        "center": -96,
+        "x": -128,
+        "index": -2
+      },
+      {
+        "center": -32,
+        "x": -64,
+        "index": -1
+      },
+      {
+        "center": -32,
+        "x": -32,
+        "index": -1
+      },
+      {
+        "center": -32,
+        "x": -16,
+        "index": -1
+      },
+      {
+        "center": 32,
+        "x": 0,
+        "index": 0
+      },
+      {
+        "center": 32,
+        "x": 16,
+        "index": 0
+      },
+      {
+        "center": 32,
+        "x": 32,
+        "index": 0
+      },
+      {
+        "center": 32,
+        "x": 48,
+        "index": 0
+      },
+      {
+        "center": 96,
+        "x": 64,
+        "index": 1
+      },
+      {
+        "center": 160,
+        "x": 128,
+        "index": 2
+      }
+    ],
+    "game_time": 0.033340454101563,
+    "height_api": "function"
+  },
+  "grids": {
+    "64": {
+      "cells": 65536,
+      "blocked": 0,
+      "traversable": 56005
+    },
+    "32": {
+      "cells": 262144,
+      "blocked": 0,
+      "traversable": 224020
+    }
+  },
+  "wall_minutes": 0.8055503850007274,
+  "surface": "dedicated server; same server Lua bridge, Local Host not tested",
+  "locations": [
+    {
+      "name": "radiant_building",
+      "position": [
+        -5420,
+        -5356
+      ],
+      "center": {
+        "traversable": true,
+        "blocked": false,
+        "height": 256.0
+      },
+      "blocked_hull_samples": 0,
+      "hull_samples": 8,
+      "next_step_blocked_hull_samples": 0
+    },
+    {
+      "name": "dire_building",
+      "position": [
+        4844,
+        4912
+      ],
+      "center": {
+        "traversable": true,
+        "blocked": false,
+        "height": 256.0
+      },
+      "blocked_hull_samples": 0,
+      "hull_samples": 8,
+      "next_step_blocked_hull_samples": 0
+    },
+    {
+      "name": "dire_trees",
+      "position": [
+        2782,
+        2768
+      ],
+      "center": {
+        "traversable": true,
+        "blocked": false,
+        "height": 128.0
+      },
+      "blocked_hull_samples": 0,
+      "hull_samples": 8,
+      "next_step_blocked_hull_samples": 0
+    },
+    {
+      "name": "native_tree_stop",
+      "position": [
+        -192,
+        -1375.0017089844
+      ],
+      "center": {
+        "traversable": true,
+        "blocked": false,
+        "height": 128.0
+      },
+      "blocked_hull_samples": 0,
+      "hull_samples": 8,
+      "next_step_blocked_hull_samples": 0
+    },
+    {
+      "name": "tree_center",
+      "position": [
+        -192,
+        -1472
+      ],
+      "center": {
+        "traversable": true,
+        "blocked": false,
+        "height": 128.0
+      },
+      "blocked_hull_samples": 0,
+      "hull_samples": 8,
+      "next_step_blocked_hull_samples": 0
+    },
+    {
+      "name": "building_center",
+      "position": [
+        4944,
+        4776
+      ],
+      "center": {
+        "traversable": true,
+        "blocked": false,
+        "height": 256.0
+      },
+      "blocked_hull_samples": 0,
+      "hull_samples": 8,
+      "next_step_blocked_hull_samples": 0
+    }
+  ],
+  "grid_native_spacing": 64,
+  "subcells_equal_to_64_grid": true,
+  "matched_blockage_locations": {
+    "numerator": 0,
+    "denominator": 3
+  },
+  "conclusion": "The requested GridNav queries do not expose the tree/building collision layer in this stock dedicated mode. They do not establish whether the actual tree collision shape is circular or grid-aligned. Keep the separately approved clearance atlas; do not replace it with this incomplete obstacle mask.",
+  "local_host_verified": false,
+  "physics_changed_for_this_audit": false
+}

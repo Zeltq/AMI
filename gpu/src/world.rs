@@ -94,6 +94,8 @@ pub struct Engine {
     #[serde(default)]pub uphill_miss:bool,
     /// CHiO: directional movement (native MOVE_TO_DIRECTION), six-tick clock.
     #[serde(default)]pub chio_direct:bool,
+    #[serde(default)]pub chio_ground:String,
+    #[serde(default)]pub chio_teacher_navigation:String,
 }
 
 pub struct World {
@@ -103,7 +105,7 @@ pub struct World {
     pub collision_grid:CubeTensor,pub extra_vision:CubeTensor,pub fow_blockers:CubeTensor,pub static_vision:CubeTensor,
     pub sf_projectile_animation:CubeTensor,
     pub prototypes:CubeTensor,pub spells:CubeTensor,pub items:CubeTensor,pub hero:CubeTensor,pub combat:CubeTensor,pub experience:CubeTensor,
-    pub geometry:CubeTensor,pub movement_geometry:Option<CubeTensor>,pub navigation:CubeTensor,pub trees:CubeTensor,pub tree_map:CubeTensor,pub bases:CubeTensor,pub spawns:CubeTensor,pub lane:CubeTensor,pub fountains:CubeTensor,
+    pub geometry:CubeTensor,pub movement_geometry:Option<CubeTensor>,pub direct_ground:CubeTensor,pub teacher_navigation:Option<CubeTensor>,pub navigation:CubeTensor,pub trees:CubeTensor,pub tree_map:CubeTensor,pub bases:CubeTensor,pub spawns:CubeTensor,pub lane:CubeTensor,pub fountains:CubeTensor,
     pub matches:usize,pub tree_count:usize,pub lane_lengths:[usize;2],pub engine:Engine,pub device:Device,pub fingerprint:String,
 }
 
@@ -172,6 +174,17 @@ impl World {
             ensure!(physical.chunks_exact(8).zip(bytes.chunks_exact(8)).all(|(p,o)|p[..4]==o[..4] && matches!(f32::from_le_bytes(p[4..8].try_into().unwrap()),0.0|1.0)),"movement geometry must retain observation heights and binary walkability");
             (Some(data(physical.chunks_exact(4).map(|b|f32::from_le_bytes(b.try_into().unwrap())).collect(),d)),crate::runtime::file_sha256(&file)?)
         };
+        ensure!(engine.chio_direct || (engine.chio_ground.is_empty() && engine.chio_teacher_navigation.is_empty()),"CHiO assets require the new environment flag");
+        let (direct_ground,ground_hash)=if engine.chio_ground.is_empty(){(data(vec![0.],d),String::new())}else{
+            let file=calibration.join(&engine.chio_ground);let bytes=std::fs::read(&file)?;ensure!(bytes.len()==512*512*4,"incomplete CHiO ground map");
+            let values:Vec<_>=bytes.chunks_exact(4).map(|b|f32::from_le_bytes(b.try_into().unwrap())).collect();ensure!(values.iter().all(|x|x.is_finite()),"nonfinite ground map");
+            (data(values,d),crate::runtime::file_sha256(&file)?)
+        };
+        let (teacher_navigation,teacher_nav_hash)=if engine.chio_teacher_navigation.is_empty(){(None,String::new())}else{
+            let file=calibration.join(&engine.chio_teacher_navigation);let bytes=std::fs::read(&file)?;
+            ensure!(bytes.len()==crate::navigation::GOALS*crate::navigation::GOALS*crate::navigation::WORDS_PER_GOAL*4,"incomplete teacher atlas");
+            (Some(data(bytes.chunks_exact(4).map(|b|f32::from_bits(u32::from_le_bytes(b.try_into().unwrap()))).collect(),d)),crate::runtime::file_sha256(&file)?)
+        };
         ensure!(!engine.navigation.is_empty(),"build navigation before loading the environment");
         let bytes=std::fs::read(calibration.join(&engine.navigation))?;
         ensure!(bytes.len()==crate::navigation::GOALS*crate::navigation::GOALS*crate::navigation::WORDS_PER_GOAL*4,"navigation is incomplete; rebuild the64-unit navigation table");
@@ -193,7 +206,9 @@ impl World {
             ensure!(words.iter().all(|v|*v<4096 && (v&63)&!((v>>6)&63)==0),"static sight must have phase/team validity bits");
             (data(words.into_iter().map(f32::from_bits).collect(),d),crate::runtime::file_sha256(&file)?)
         };
-        let fingerprint=format!("{}:{}:{}:{}:{}:{}:{}",crate::runtime::file_sha256(path)?,crate::runtime::file_sha256(&calibration.join(&engine.geometry))?,navigation_hash,fow_hash,movement_hash,static_hash,crate::runtime::bytes_sha256(kernels.as_bytes()));
+        let mut fingerprint=format!("{}:{}:{}:{}:{}:{}:{}",crate::runtime::file_sha256(path)?,crate::runtime::file_sha256(&calibration.join(&engine.geometry))?,navigation_hash,fow_hash,movement_hash,static_hash,crate::runtime::bytes_sha256(kernels.as_bytes()));
+        if !ground_hash.is_empty(){fingerprint.push_str(&format!(":ground:{ground_hash}"));}
+        if !teacher_nav_hash.is_empty(){fingerprint.push_str(&format!(":teacher:{teacher_nav_hash}"));}
         let trees=data(engine.trees.iter().flat_map(|p|[p.x,p.y,p.z]).collect(),d);
         let tree_map=data(tree_map(&engine.trees),d);
         let bases=data(engine.bases.iter().flat_map(|p|[p.x,p.y,p.z]).collect(),d);
@@ -216,7 +231,7 @@ impl World {
             prototypes:data(engine.prototypes.iter().flatten().copied().collect(),d),
             spells:data(engine.spells.iter().flatten().flatten().copied().collect(),d),
             items:data(engine.items.iter().flatten().copied().collect(),d),hero:data(engine.hero.clone(),d),combat:data(engine.combat.clone(),d),experience:data(engine.experience.clone(),d),
-            geometry,movement_geometry,navigation,trees,tree_map,bases,spawns,lane,fountains,matches,tree_count,lane_lengths,engine,device:d.clone(),fingerprint,
+            geometry,movement_geometry,direct_ground,teacher_navigation,navigation,trees,tree_map,bases,spawns,lane,fountains,matches,tree_count,lane_lengths,engine,device:d.clone(),fingerprint,
         };
         world.reset();Ok(world)
     }

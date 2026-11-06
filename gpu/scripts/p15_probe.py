@@ -20,6 +20,8 @@ CASES = [
     dict(name='turn90', x=80, y=-816, facing=90, direction=0),
     dict(name='turn180', x=80, y=-816, facing=180, direction=0),
     dict(name='tree', x=-192, y=-1392, facing=270, direction=27),
+    dict(name='tree_approach', x=-192, y=-1192, facing=270, direction=27),
+    dict(name='tree_diagonal', x=-371.98053071223103, y=-1257.507555926686, facing=310, direction=31),
     dict(name='edge', x=80, y=-1040, facing=0, direction=0),
     dict(name='cliff', x=-816, y=-816, facing=0, direction=0),
     dict(name='slope', x=-1200, y=-1008, facing=50, direction=5),

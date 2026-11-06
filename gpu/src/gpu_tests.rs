@@ -5,6 +5,59 @@ static GPU:Mutex<()>=Mutex::new(());
 use cubecl::frontend::CompilationArg;
 
 #[test]
+fn p15_aim_step_uses_explicit_teacher_intent_and_exact_direction_without_distance_heuristic(){
+    use crate::{chio_actions as ca,chio_teacher::Translator,teacher_v10::{Controller,Version}};
+    let _g=GPU.lock().unwrap();let mut w=arena();let d=w.device.clone();w.engine.chio_direct=true;w.engine.decision_ticks=6;
+    let mut state=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();state[FACING]=std::f32::consts::FRAC_PI_2;state[STRIDE+UNIT_X]=500.;
+    w.state=primitive(Tensor::<1>::from_data(TensorData::new(state,[UNITS*STRIDE]),&d));
+    let teacher=crate::scripted_teacher::Teacher::new(&w);let controller=Controller::new(&w,Version::V10,Version::V9,false);let obs=w.observe(initial_previous(2,&d));
+    let raw=controller.actions(&teacher,&w,&obs);let flags=tensor::<2>(controller.intents.clone()).into_data().try_to_vec::<f32>().unwrap();assert_eq!(flags[0],1.);
+    assert_eq!(raw.clone().into_data().try_to_vec::<i32>().unwrap()[0],1);let masks=ca::observe(&w,&obs);let translator=Translator::new(&w);
+    let ordinary=translator.labels(&w,&obs,&masks,raw.clone()).into_data().try_to_vec::<i32>().unwrap();assert_eq!(ordinary[0],1,"ordinary 64-unit MOVE must STOP");
+    let aim=translator.labels_with_intent(&w,&obs,&masks,raw,&controller.intents).into_data().try_to_vec::<i32>().unwrap();assert_eq!(&aim[..2],&[0,0]);
+    // The exact intent avoids quantizing a 19-degree aim through the old 16-unit
+    // coordinate grid first (64,16 would incorrectly round to 10 degrees).
+    let angle=19f32.to_radians();let intent=primitive(Tensor::<2>::from_data([[1.,-200.+64.*angle.cos(),64.*angle.sin()],[0.,0.,0.]],&d));
+    let label=translator.labels_with_intent(&w,&obs,&masks,Tensor::<2,Int>::from_data([[1,0,0,0,68,65],[4,0,0,0,64,64]],&d),&intent);
+    assert_eq!(&label.clone().into_data().try_to_vec::<i32>().unwrap()[..2],&[0,2]);
+    let _=ca::enqueue(&w,&obs,&masks,label,Tensor::zeros([2],&d));
+    let again=translator.labels(&w,&obs,&masks,Tensor::<2,Int>::from_data([[0,0,0,0,64,64],[4,0,0,0,64,64]],&d)).into_data().try_to_vec::<i32>().unwrap();assert_eq!(&again[..2],&[0,2]);
+}
+
+#[test]
+fn p15_dagger_override_clears_an_unexecuted_teacher_move_goal(){
+    use crate::{chio_actions as ca,chio_teacher::Translator};
+    let _g=GPU.lock().unwrap();let mut w=arena();w.engine.chio_direct=true;w.engine.decision_ticks=6;let d=w.device.clone();
+    let mut state=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();state[STRIDE+ACTIVE]=0.;
+    w.state=primitive(Tensor::<1>::from_data(TensorData::new(state,[UNITS*STRIDE]),&d));let t=Translator::new(&w);
+    let obs=w.observe(initial_previous(2,&d));let masks=ca::observe(&w,&obs);let raw=Tensor::<2,Int>::from_data([[1,0,0,0,64,80],[0,0,0,0,64,64]],&d);
+    let labels=t.labels(&w,&obs,&masks,raw);assert_eq!(labels.clone().into_data().try_to_vec::<i32>().unwrap()[1],9);
+    let chosen=Tensor::<2,Int>::from_data([[0,0,0,0],[1,0,0,0]],&d);let _=ca::enqueue(&w,&obs,&masks,chosen.clone(),Tensor::zeros([2],&d));t.reconcile(&w,labels,chosen);
+    let next=t.labels(&w,&obs,&masks,Tensor::<2,Int>::from_data([[0,0,0,0,64,64],[0,0,0,0,64,64]],&d)).into_data().try_to_vec::<i32>().unwrap();
+    assert_eq!(&next[..2],&[0,0],"CONTINUE must repeat the executed model direction, not the unexecuted teacher goal");
+}
+
+#[test]
+fn p15_measured_ground_affects_only_direct_movement_and_teacher_atlas_is_not_an_input(){
+    let _g=GPU.lock().unwrap();let mut w=arena();let d=w.device.clone();w.engine.chio_direct=true;w.engine.decision_ticks=6;
+    let ground:Vec<f32>=(0..512*512).map(|i|100.+(-8192.+(i%512)as f32*32.+16.)*0.02+(-8192.+(i/512)as f32*32.+16.)*0.01).collect();
+    w.direct_ground=primitive(Tensor::<1>::from_data(TensorData::new(ground,[512*512]),&d));
+    let before=w.observe(initial_previous(2,&d)).packed.into_data().try_to_vec::<f32>().unwrap();
+    w.teacher_navigation=Some(primitive(Tensor::<1>::zeros([1],&d)));
+    let after=w.observe(initial_previous(2,&d)).packed.into_data().try_to_vec::<f32>().unwrap();assert_eq!(before,after);
+    w.direct_fixture_step(2000.,0.);let state=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();
+    assert!((state[UNIT_Z]-(100.+state[UNIT_X]*0.02+state[UNIT_Y]*0.01)).abs()<0.001);
+    let mut normal=arena();normal.engine.chio_direct=false;normal.direct_ground=w.direct_ground.clone();normal.direct_fixture_step(2000.,0.);
+    let state=tensor::<1>(normal.state.clone()).into_data().try_to_vec::<f32>().unwrap();assert_eq!(state[UNIT_Z],384.);
+    // A vertical edge is not interpolated into an artificial slope.
+    let edge:Vec<f32>=(0..512*512).map(|i|if i%512>=256{100.}else{0.}).collect();
+    w.direct_ground=primitive(Tensor::<1>::from_data(TensorData::new(edge,[512*512]),&d));
+    let mut state=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();state[UNIT_X]=0.;state[UNIT_Y]=0.;state[FACING]=0.;
+    w.state=primitive(Tensor::<1>::from_data(TensorData::new(state,[UNITS*STRIDE]),&d));w.direct_fixture_step(2000.,0.);
+    assert_eq!(tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap()[UNIT_Z],100.);
+}
+
+#[test]
 fn p15_teacher_lookahead_caps_distance_and_routes_existing_local_steering_around_buildings(){
     let _g=GPU.lock().unwrap();let mut w=arena();let d=w.device.clone();
     let mut s=tensor::<1>(w.state.clone()).into_data().try_to_vec::<f32>().unwrap();s[STRIDE+ACTIVE]=0.;

@@ -96,6 +96,7 @@ mod cli_tests {
 #[derive(Subcommand)]
 enum Command {
     EvaluateChio {config:PathBuf,output:PathBuf},
+    DiagnoseChioEconomy {config:PathBuf,output:PathBuf},
     CheckChioParity {weights:PathBuf,fixture:PathBuf,output:PathBuf},
     CheckChioMovement {engine:PathBuf,reference:PathBuf,output:PathBuf},
     CollectTeacher {config:PathBuf,output:PathBuf},
@@ -178,6 +179,7 @@ fn main()->anyhow::Result<()> {
         },
         Command::BuildNavigation{engine}=>navigation::build(&engine)?,
         Command::EvaluateChio{config,output}=>chio_eval::run(serde_json::from_slice(&std::fs::read(config)?)?,&output)?,
+        Command::DiagnoseChioEconomy{config,output}=>chio_eval::diagnose_teacher_purchases(serde_json::from_slice(&std::fs::read(config)?)?,&output)?,
         Command::CheckChioMovement{engine,reference,output}=>chio_fidelity::check(&engine,&reference,&output)?,
         Command::CheckChioParity{weights,fixture,output}=>chio_bridge::parity(&weights,&fixture,&output)?,
         Command::CheckTiming{engine,fixture,output}=>timing_observe::check(&engine,&fixture,&output)?,

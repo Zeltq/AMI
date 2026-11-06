@@ -14,7 +14,13 @@ pub struct Config {
 impl Default for Config {fn default()->Self{Self{engine:String::new(),matches:200,seconds:600.,seed:20261103,left:Version::V10,right:Version::V10,
     swap:false,original_v9:false,baseline_005:false,weights:None,opponent_weights:None,mirror:false,sampling:true,zero_sum:true,trace:false}}}
 
-pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
+pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{run_impl(cfg,root,false)}
+/// Explicit ablation only; production collect/train/evaluate always share purchases.
+pub fn diagnose_teacher_purchases(cfg:Config,root:&Path)->Result<serde_json::Value>{
+    ensure!(!cfg.baseline_005 && !cfg.original_v9 && cfg.weights.is_none() && cfg.opponent_weights.is_none() && cfg.left==Version::V10 && cfg.right==Version::V10,"purchase ablation requires two v10 teachers");
+    run_impl(cfg,root,true)
+}
+fn run_impl(cfg:Config,root:&Path,diagnostic_teacher_purchases:bool)->Result<serde_json::Value>{
     ensure!(cfg.matches>0 && cfg.seconds>0. && cfg.seconds<=600.,"invalid CHiO evaluation dimensions");
     ensure!(!cfg.swap||cfg.matches%2==0,"swap requires an even number of matches");crate::teacher_v10::check_pin()?;
     if cfg.baseline_005 {
@@ -25,7 +31,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
     crate::artifacts::atomic_json(&root.join("config.json"),&cfg)?;
     let frozen=crate::artifacts::freeze_environment(Path::new(&cfg.engine),root,false)?;let d=device();let w=World::load(&frozen,cfg.matches,&d)?;
     let n=cfg.matches*2;let limit=((w.engine.pre_game_seconds+cfg.seconds)*w.decision_hz()).ceil()as usize+2;
-    let mut runtime=crate::chio_runtime::Runtime::new(w,cfg.left,cfg.right,cfg.swap,cfg.original_v9,cfg.zero_sum)?;
+    let mut runtime=crate::chio_runtime::Runtime::new(w,cfg.left,cfg.right,cfg.swap,cfg.original_v9,cfg.zero_sum)?;runtime.diagnostic_teacher_purchases=diagnostic_teacher_purchases;
     let model=cfg.weights.as_ref().map(|p|crate::chio_bridge::import(Path::new(p),&d).map(|p|p.valid())).transpose()?;
     let opponent=cfg.opponent_weights.as_ref().map(|p|crate::chio_bridge::import(Path::new(p),&d).map(|p|p.valid())).transpose()?;
     ensure!(opponent.is_none()||model.is_some(),"opponent weights require learner weights");
@@ -71,7 +77,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
         game["sides"][side]["controller"]=name.into();
     }}
     let complete=runtime.teacher.values().chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).all(|v|v[0]>0.);
-    let result=serde_json::json!({"family":"CHiO","matches":cfg.matches,"seed":cfg.seed,"complete":complete,"steps":steps,"wall_seconds":started.elapsed().as_secs_f64(),
+    let result=serde_json::json!({"family":"CHiO","diagnostic_teacher_purchases":diagnostic_teacher_purchases,"matches":cfg.matches,"seed":cfg.seed,"complete":complete,"steps":steps,"wall_seconds":started.elapsed().as_secs_f64(),
         "decision_ticks":6,"offset_ticks":6,"reward_mode":"lastorder-fb-v1","zero_sum":cfg.zero_sum,"per_match":games});
     crate::artifacts::atomic_json(&root.join("report.json"),&result)?;Ok(result)
 }

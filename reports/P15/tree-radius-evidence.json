@@ -1,0 +1,173 @@
+{
+  "radius_chosen": 88,
+  "source": "tree-approach-020, DOTA_UNIT_ORDER_MOVE_TO_DIRECTION 28, 20 repetitions, six-tick repeated orders",
+  "cases": [
+    {
+      "case": 1,
+      "repeat": 0,
+      "start_distance": 280,
+      "last_clear_distance": 96.99926757809999,
+      "next_forward_distance": 86.83260091143325,
+      "radius_88_consistent": true
+    },
+    {
+      "case": 2,
+      "repeat": 1,
+      "start_distance": 280,
+      "last_clear_distance": 97.00061035160002,
+      "next_forward_distance": 86.83394368493327,
+      "radius_88_consistent": true
+    },
+    {
+      "case": 3,
+      "repeat": 2,
+      "start_distance": 280,
+      "last_clear_distance": 96.99829101559999,
+      "next_forward_distance": 86.83162434893325,
+      "radius_88_consistent": true
+    },
+    {
+      "case": 4,
+      "repeat": 3,
+      "start_distance": 280,
+      "last_clear_distance": 96.99829101559999,
+      "next_forward_distance": 86.83162434893325,
+      "radius_88_consistent": true
+    },
+    {
+      "case": 5,
+      "repeat": 4,
+      "start_distance": 280,
+      "last_clear_distance": 96.99829101559999,
+      "next_forward_distance": 86.83162434893325,
+      "radius_88_consistent": true
+    },
+    {
+      "case": 6,
+      "repeat": 5,
+      "start_distance": 280,
+      "last_clear_distance": 96.99829101559999,
+      "next_forward_distance": 86.83162434893325,
+      "radius_88_consistent": true
+    },
+    {
+      "case": 7,
+      "repeat": 6,
+      "start_distance": 280,
+      "last_clear_distance": 96.99829101559999,
+      "next_forward_distance": 86.83162434893325,
+      "radius_88_consistent": true
+    },
+    {
+      "case": 8,
+      "repeat": 7,
+      "start_distance": 280,
+      "last_clear_distance": 97.00061035160002,
+      "next_forward_distance": 86.83394368493327,
+      "radius_88_consistent": true
+    },
+    {
+      "case": 9,
+      "repeat": 8,
+      "start_distance": 280,
+      "last_clear_distance": 97.00061035160002,
+      "next_forward_distance": 86.83394368493327,
+      "radius_88_consistent": true
+    },
+    {
+      "case": 10,
+      "repeat": 9,
+      "start_distance": 280,
+      "last_clear_distance": 97.00061035160002,
+      "next_forward_distance": 86.83394368493327,
+      "radius_88_consistent": true
+    },
+    {
+      "case": 11,
+      "repeat": 10,
+      "start_distance": 280,
+      "last_clear_distance": 97.00061035160002,
+      "next_forward_distance": 86.83394368493327,
+      "radius_88_consistent": true
+    },
+    {
+      "case": 12,
+      "repeat": 11,
+      "start_distance": 280,
+      "last_clear_distance": 97.00061035160002,
+      "next_forward_distance": 86.83394368493327,
+      "radius_88_consistent": true
+    },
+    {
+      "case": 13,
+      "repeat": 12,
+      "start_distance": 280,
+      "last_clear_distance": 97.0029296875,
+      "next_forward_distance": 86.83626302083326,
+      "radius_88_consistent": true
+    },
+    {
+      "case": 14,
+      "repeat": 13,
+      "start_distance": 280,
+      "last_clear_distance": 97.0029296875,
+      "next_forward_distance": 86.83626302083326,
+      "radius_88_consistent": true
+    },
+    {
+      "case": 15,
+      "repeat": 14,
+      "start_distance": 280,
+      "last_clear_distance": 97.0029296875,
+      "next_forward_distance": 86.83626302083326,
+      "radius_88_consistent": true
+    },
+    {
+      "case": 16,
+      "repeat": 15,
+      "start_distance": 280,
+      "last_clear_distance": 96.99829101559999,
+      "next_forward_distance": 86.83162434893325,
+      "radius_88_consistent": true
+    },
+    {
+      "case": 17,
+      "repeat": 16,
+      "start_distance": 280,
+      "last_clear_distance": 96.99829101559999,
+      "next_forward_distance": 86.83162434893325,
+      "radius_88_consistent": true
+    },
+    {
+      "case": 18,
+      "repeat": 17,
+      "start_distance": 280,
+      "last_clear_distance": 96.99829101559999,
+      "next_forward_distance": 86.83162434893325,
+      "radius_88_consistent": true
+    },
+    {
+      "case": 19,
+      "repeat": 18,
+      "start_distance": 280,
+      "last_clear_distance": 96.99829101559999,
+      "next_forward_distance": 86.83162434893325,
+      "radius_88_consistent": true
+    },
+    {
+      "case": 20,
+      "repeat": 19,
+      "start_distance": 280,
+      "last_clear_distance": 96.99829101559999,
+      "next_forward_distance": 86.83162434893325,
+      "radius_88_consistent": true
+    }
+  ],
+  "consistent": 20,
+  "repeats": 20,
+  "measurement_interval": {
+    "lower_exclusive": 86.83626302083326,
+    "upper_inclusive": 96.99829101559999
+  },
+  "interpretation": "88 = measured SF hull 24 + assumed tree hull 64. Native stopping bounds the effective radius; it does not uniquely determine 88. The original 80-unit-start test only proves an inward move is blocked."
+}

@@ -48,7 +48,7 @@ pub fn freeze_environment(source:&Path,root:&Path,resume:bool)->Result<std::path
         let file=engine[key].as_str().ok_or_else(||anyhow::anyhow!("missing {key}"))?;
         std::fs::copy(calibration.join(file),directory.join(name))?;engine[key]=name.into();
     }
-    for (key,name)in[("fow_blockers","fow_blockers.f32"),("movement_geometry","movement-geometry.f32"),("static_vision","static-vision.u32")] {
+    for (key,name)in[("fow_blockers","fow_blockers.f32"),("movement_geometry","movement-geometry.f32"),("static_vision","static-vision.u32"),("chio_ground","chio-ground32.f32"),("chio_teacher_navigation","chio-teacher-navigation64.u32"),("chio_live_grid","chio-live-grid.npz")] {
       if let Some(file)=engine[key].as_str().filter(|v|!v.is_empty()) {
         std::fs::copy(calibration.join(file),directory.join(name))?;engine[key]=name.into();
       }

@@ -361,5 +361,910 @@
     "elapsed_minutes": 0.09050436333442728,
     "child_pid": 7940,
     "exit_code": 0
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_ -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 15136,
+    "child_pid": 9552,
+    "stage": "failed",
+    "exit_code": 101,
+    "job": "actions-economy-rust",
+    "elapsed_minutes": 1.3375299150007778
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_ -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 34688,
+    "child_pid": 19508,
+    "stage": "failed",
+    "exit_code": 101,
+    "job": "actions-economy-rust-002",
+    "elapsed_minutes": 1.7549157633329742
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_ -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 21192,
+    "child_pid": 12472,
+    "stage": "failed",
+    "exit_code": 101,
+    "job": "actions-rust"
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_ -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 6012,
+    "child_pid": 7376,
+    "stage": "failed",
+    "exit_code": 101,
+    "job": "actions-rust-002"
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_ -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 1312,
+    "child_pid": 5636,
+    "stage": "failed",
+    "exit_code": 101,
+    "job": "actions-rust-003",
+    "elapsed_minutes": 1.337741016666405
+  },
+  {
+    "command": "C:/AMI/runs/p15/training-002.exe check-chio-parity C:/AMI/runs/p15/actual-parity-001/weights C:/AMI/runs/p15/actual-parity-001/fixture C:/AMI/runs/p15/actual-parity-001/result.json",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 23188,
+    "child_pid": 23932,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "actual-parity-001"
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_aim_step -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 35688,
+    "child_pid": 34988,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "aim-intent-tests",
+    "elapsed_minutes": 1.5882018449987905
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_measured_ground -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 22624,
+    "child_pid": 28052,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "asset-tests",
+    "elapsed_minutes": 1.5047316733320864
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_repeated_attack -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 19772,
+    "child_pid": 25340,
+    "stage": "failed",
+    "exit_code": 101,
+    "job": "attack-repeat-rust",
+    "elapsed_minutes": 1.504805771666967
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_repeated_attack -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 19284,
+    "child_pid": 18784,
+    "stage": "failed",
+    "exit_code": 101,
+    "job": "attack-repeat-rust-002",
+    "elapsed_minutes": 1.4209771566675045
+  },
+  {
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 30536,
+    "child_pid": 28008,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "build-aim-intent",
+    "elapsed_minutes": 3.091764433332719
+  },
+  {
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 14068,
+    "child_pid": 10884,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "build-chio-assets",
+    "elapsed_minutes": 1.8395074716672146
+  },
+  {
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 20324,
+    "child_pid": 20388,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "build-clock",
+    "elapsed_minutes": 1.337476055000055
+  },
+  {
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 24740,
+    "child_pid": 28448,
+    "stage": "failed",
+    "exit_code": 101,
+    "job": "build-collect"
+  },
+  {
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 33848,
+    "child_pid": 30320,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "build-collect-002",
+    "elapsed_minutes": 1.5046926316669367
+  },
+  {
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 26736,
+    "child_pid": 2940,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "build-core-contract",
+    "elapsed_minutes": 1.5046271433335885
+  },
+  {
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 26364,
+    "child_pid": 32896,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "build-dagger-reconcile",
+    "elapsed_minutes": 2.697807348333299
+  },
+  {
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 37580,
+    "child_pid": 36520,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "build-economy-diagnostic",
+    "elapsed_minutes": 1.5048333300005956
+  },
+  {
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 32660,
+    "child_pid": 20140,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "build-final-contract",
+    "elapsed_minutes": 1.4209244600012123
+  },
+  {
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 19172,
+    "child_pid": 34144,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "build-model",
+    "elapsed_minutes": 1.254484353332858
+  },
+  {
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 20364,
+    "child_pid": 20660,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "build-movement-v2",
+    "elapsed_minutes": 1.3366161949990782
+  },
+  {
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 33216,
+    "child_pid": 23128,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "build-runtime",
+    "elapsed_minutes": 1.5049405366667392
+  },
+  {
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 33380,
+    "child_pid": 32820,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "build-steering-margin",
+    "elapsed_minutes": 1.5045249350000327
+  },
+  {
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 29012,
+    "child_pid": 28960,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "build-training-001",
+    "elapsed_minutes": 2.924393453334536
+  },
+  {
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 32988,
+    "child_pid": 26548,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "build-training-002",
+    "elapsed_minutes": 2.7567229833337477
+  },
+  {
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 21332,
+    "child_pid": 5512,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "build-waypoint-001",
+    "elapsed_minutes": 2.8408858666662127
+  },
+  {
+    "command": "cargo check --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 18716,
+    "child_pid": 36816,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "check-aim-intent"
+  },
+  {
+    "command": "cargo check --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 32180,
+    "child_pid": 30492,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "check-chio-assets"
+  },
+  {
+    "command": "cargo check --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 15140,
+    "child_pid": 18912,
+    "stage": "failed",
+    "exit_code": 101,
+    "job": "check-chio-train-001",
+    "elapsed_minutes": 2.341067979998964
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_decision_clock -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 30704,
+    "child_pid": 19508,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "clock-rust",
+    "elapsed_minutes": 1.671524535001178
+  },
+  {
+    "command": "C:/AMI/runs/p15/training-001.exe collect-teacher reports/P15/configs/collect-008.json C:/AMI/runs/p15/collect-008",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 15336,
+    "child_pid": 31732,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "collect-008",
+    "elapsed_minutes": 10.3612065233329
+  },
+  {
+    "command": "C:/AMI/runs/p15/aim-intent.exe collect-teacher reports/P15/configs/collect-008.json C:/AMI/runs/p15/collect-008-aim",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 36360,
+    "child_pid": 29580,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "collect-008-aim",
+    "elapsed_minutes": 18.79420391333212
+  },
+  {
+    "command": "C:/AMI/runs/p15/steering-margin.exe collect-teacher reports/P15/configs/collect-008.json C:/AMI/runs/p15/collect-008-final",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 9612,
+    "child_pid": 28768,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "collect-008-final",
+    "elapsed_minutes": 15.879198805000245
+  },
+  {
+    "command": "C:/AMI/runs/p15/target/release/sf-duel-gpu.exe collect-teacher C:/AMI/runs/p15/collect-debug.json C:/AMI/runs/p15/collect-debug",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 15728,
+    "child_pid": 28364,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "collect-debug"
+  },
+  {
+    "command": "C:/AMI/runs/p15/aim-intent.exe collect-teacher reports/P15/configs/collect-shard-check.json C:/AMI/runs/p15/collect-shard-check",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 22068,
+    "child_pid": 35028,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "collect-shard-check",
+    "elapsed_minutes": 3.423752983333543
+  },
+  {
+    "command": "C:/AMI/runs/p15/waypoint-001.exe collect-teacher C:/AMI/runs/p15/collect-debug/config.json C:/AMI/runs/p15/collect-waypoint-short-001",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 7572,
+    "child_pid": 7800,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "collect-waypoint-short-001"
+  },
+  {
+    "command": "C:/AMI/runs/p15/training-001.exe collect-teacher reports/P15/configs/collect-short.json C:/AMI/runs/p15/collect-waypoint-short-002",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 4104,
+    "child_pid": 5984,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "collect-waypoint-short-002"
+  },
+  {
+    "command": "C:/AMI/runs/p15/training-002.exe collect-teacher reports/P15/configs/collect-short.json C:/AMI/runs/p15/collect-waypoint-short-003",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 23112,
+    "child_pid": 7572,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "collect-waypoint-short-003",
+    "elapsed_minutes": 2.2881410449995503
+  },
+  {
+    "command": "C:/AMI/runs/p15/assets-001.exe collect-teacher reports/P15/configs/collect-short.json C:/AMI/runs/p15/collect-waypoint-short-004",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 21344,
+    "child_pid": 20336,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "collect-waypoint-short-004"
+  },
+  {
+    "command": "C:/AMI/runs/p15/steering-margin.exe collect-teacher reports/P15/configs/collect-short.json C:/AMI/runs/p15/collect-waypoint-short-005",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 29384,
+    "child_pid": 6356,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "collect-waypoint-short-005"
+  },
+  {
+    "command": "C:/AMI/runs/p15/final-contract.exe collect-teacher reports/P15/configs/collect-short.json C:/AMI/runs/p15/collect-waypoint-short-006",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 11812,
+    "child_pid": 37304,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "collect-waypoint-short-006"
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_ -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 12584,
+    "child_pid": 32696,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "contract-rust",
+    "elapsed_minutes": 2.9244171966662784
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_ -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 15188,
+    "child_pid": 30812,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "contract-tests-002",
+    "elapsed_minutes": 2.0066457999986596
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_ -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 18652,
+    "child_pid": 16656,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "contract-tests-003",
+    "elapsed_minutes": 2.6732633816660383
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_ -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 31596,
+    "child_pid": 28052,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "core-contract-rust",
+    "elapsed_minutes": 2.9240896883323635
+  },
+  {
+    "command": "C:/AMI/runs/p15/training-002.exe train-il reports/P15/configs/critic-smoke.json C:/AMI/runs/p15/critic-smoke-001 --max-updates 10",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 17572,
+    "child_pid": 11952,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "critic-smoke-001"
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_dagger_override -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 30320,
+    "child_pid": 32204,
+    "stage": "failed",
+    "exit_code": 101,
+    "job": "dagger-reconcile-test",
+    "elapsed_minutes": 1.3373206866672263
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_dagger_override -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 19932,
+    "child_pid": 23320,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "dagger-reconcile-test-002",
+    "elapsed_minutes": 1.3618327333339646
+  },
+  {
+    "command": "C:/AMI/runs/p15/dagger-reconcile.exe collect-dagger reports/P15/configs/dagger-smoke.json C:/AMI/runs/p15/dagger-smoke-001",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 35212,
+    "child_pid": 35120,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "dagger-smoke-001",
+    "elapsed_minutes": 2.680638536667296
+  },
+  {
+    "command": "C:/AMI/runs/p15/aim-intent.exe evaluate-chio reports/P15/configs/diagnostic-clock6.json C:/AMI/runs/p15/diagnostic-clock6",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 32100,
+    "child_pid": 37380,
+    "stage": "running",
+    "exit_code": null,
+    "job": "diagnostic-clock6",
+    "elapsed_minutes": 1.5110656466664902
+  },
+  {
+    "command": "C:/AMI/runs/p15/final-contract.exe check-chio-movement C:/AMI/runs/p15/dota-calibration-005-chio/engine.json C:/AMI/runs/p15/direction-020/capture.json C:/AMI/runs/p15/direction-020/simulator-final.json",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 35644,
+    "child_pid": 13104,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "direction-final-parity"
+  },
+  {
+    "command": "C:/AMI/runs/p15/aim-intent.exe evaluate-chio reports/P15/configs/eval-chio-v10.json C:/AMI/runs/p15/eval-aim-v10",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 37124,
+    "child_pid": 37764,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "eval-aim-v10",
+    "elapsed_minutes": 19.716187014999257
+  },
+  {
+    "command": "C:/AMI/runs/p15/aim-intent.exe evaluate-chio reports/P15/configs/eval-chio-v9.json C:/AMI/runs/p15/eval-aim-v9",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 36208,
+    "child_pid": 35392,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "eval-aim-v9",
+    "elapsed_minutes": 19.88155022333182
+  },
+  {
+    "command": "C:/AMI/runs/p15/steering-margin.exe evaluate-chio reports/P15/configs/eval-chio-v10.json C:/AMI/runs/p15/eval-chio-v10-final",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 25868,
+    "child_pid": 32468,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "eval-chio-v10-final",
+    "elapsed_minutes": 16.714207581665445
+  },
+  {
+    "command": "C:/AMI/runs/p15/training-001.exe evaluate-chio reports/P15/configs/eval-chio-v10.json C:/AMI/runs/p15/eval-chio-v10-iteration1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 4596,
+    "child_pid": 31840,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "eval-chio-v10-iteration1",
+    "elapsed_minutes": 10.863119301667515
+  },
+  {
+    "command": "C:/AMI/runs/p15/steering-margin.exe evaluate-chio reports/P15/configs/eval-chio-v9.json C:/AMI/runs/p15/eval-chio-v9-final",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 6892,
+    "child_pid": 28096,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "eval-chio-v9-final",
+    "elapsed_minutes": 16.7985807300002
+  },
+  {
+    "command": "C:/AMI/runs/p15/waypoint-001.exe evaluate-chio reports/P15/eval-baseline-005.json C:/AMI/runs/p15/eval-baseline-200",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 3504,
+    "child_pid": 23056,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "evaluate-baseline-200",
+    "elapsed_minutes": 5.853244714999649
+  },
+  {
+    "command": "go test ./...",
+    "cwd": "C:\\AMI-wt\\P15\\tools\\nativecollect",
+    "pid": 20928,
+    "child_pid": 20476,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "go-nativecollect"
+  },
+  {
+    "command": "go test ./...",
+    "cwd": "C:\\AMI-wt\\P15\\tools\\replaycheck",
+    "pid": 31296,
+    "child_pid": 8548,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "go-replaycheck"
+  },
+  {
+    "command": "C:/Python314/python.exe gpu/scripts/p15_live_grid.py C:/AMI/runs/p15/gridnav-diagnostic-001",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 37840,
+    "child_pid": 36036,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "gridnav-diagnostic-001"
+  },
+  {
+    "command": "C:/Python314/python.exe gpu/scripts/p15_live_grid.py C:/AMI/runs/p15/gridnav-start-001 --after-start --port 27925",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 15216,
+    "child_pid": 8256,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "gridnav-start-001"
+  },
+  {
+    "command": "C:/Python314/python.exe gpu/scripts/p15_height.py C:/AMI/runs/p15/height-001",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 20228,
+    "child_pid": 21344,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "ground-height-001"
+  },
+  {
+    "command": "C:/AMI/runs/p15/final-contract.exe train-il reports/P15/configs/imitation-final-smoke.json C:/AMI/runs/p15/imitation-final-smoke --max-updates 50",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 12000,
+    "child_pid": 37740,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "imitation-final-smoke"
+  },
+  {
+    "command": "C:/AMI/runs/p15/training-002.exe train-il reports/P15/configs/imitation-smoke.json C:/AMI/runs/p15/imitation-smoke-001 --max-updates 50",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 16020,
+    "child_pid": 31296,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "imitation-smoke-001"
+  },
+  {
+    "command": "C:/Python314/python.exe gpu/scripts/p15_legacy.py --run C:/AMI/runs/p15/legacy-aim-intent --baseline C:/AMI/runs/p15/baseline-clock.exe --candidate C:/AMI/runs/p15/aim-intent.exe --extended --reference-run C:/AMI/runs/p15/legacy-final",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 14736,
+    "child_pid": 34972,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "legacy-aim-intent",
+    "elapsed_minutes": 20.789796026668046
+  },
+  {
+    "command": "C:/Python314/python.exe gpu/scripts/p15_legacy.py --run C:/AMI/runs/p15/legacy-clock --baseline C:/AMI/runs/p15/baseline-clock.exe --candidate C:/AMI/runs/p15/candidate-clock.exe",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 31872,
+    "child_pid": 30208,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "legacy-clock",
+    "elapsed_minutes": 8.3507983799985
+  },
+  {
+    "command": "C:/Python314/python.exe gpu/scripts/p15_legacy.py --run C:/AMI/runs/p15/legacy-final --baseline C:/AMI/runs/p15/baseline-clock.exe --candidate C:/AMI/runs/p15/final-contract.exe --extended",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 34868,
+    "child_pid": 37288,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "legacy-final",
+    "elapsed_minutes": 9.188507383332277
+  },
+  {
+    "command": "C:/AMI/runs/p15/target/release/sf-duel-gpu.exe check-chio-parity C:/AMI/runs/p15/parity-001/weights C:/AMI/runs/p15/parity-001/fixture C:/AMI/runs/p15/parity-001/parity.json",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 14604,
+    "child_pid": 11944,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "model-parity"
+  },
+  {
+    "command": "C:/AMI/runs/p15/target/release/sf-duel-gpu.exe check-chio-movement C:/AMI/runs/p15/dota-calibration-005-chio/engine.json C:/AMI/runs/p15/direction-contrast/capture.json C:/AMI/runs/p15/direction-contrast/simulator.json",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 15520,
+    "child_pid": 29040,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "movement-contrast-sim"
+  },
+  {
+    "command": "C:/AMI/runs/p15/target/release/sf-duel-gpu.exe check-chio-movement C:/AMI/runs/p15/dota-calibration-005-chio/engine.json C:/AMI/runs/p15/direction-020/capture.json C:/AMI/runs/p15/direction-020/simulator.json",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 944,
+    "child_pid": 16184,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "movement-direction-sim"
+  },
+  {
+    "command": "C:/AMI/runs/p15/target/release/sf-duel-gpu.exe check-chio-movement C:/AMI/runs/p15/dota-calibration-005-chio/engine.json C:/AMI/runs/p15/direction-020/capture.json C:/AMI/runs/p15/direction-020/simulator-v2.json",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 22064,
+    "child_pid": 19784,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "movement-direction-sim-v2"
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 34520,
+    "child_pid": 3512,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "movement-rust-full",
+    "elapsed_minutes": 4.426250738332358
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_ -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 32492,
+    "child_pid": 33536,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "movement-rust-v2",
+    "elapsed_minutes": 1.4193890566685392
+  },
+  {
+    "command": "C:/AMI/runs/p15/target/release/sf-duel-gpu.exe check-chio-movement C:/AMI/runs/p15/dota-calibration-005-chio/engine.json C:/AMI/runs/p15/direction-slope-020/capture.json C:/AMI/runs/p15/direction-slope-020/simulator-v2.json",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 19104,
+    "child_pid": 7940,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "movement-slope-sim-v2"
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_ -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 22728,
+    "child_pid": 30788,
+    "stage": "failed",
+    "exit_code": 101,
+    "job": "observe-rust",
+    "elapsed_minutes": 1.6715451016653484
+  },
+  {
+    "command": "C:/AMI/runs/p15/dagger-reconcile.exe train-ggd reports/P15/configs/ppo-desync-nonzero-smoke.json C:/AMI/runs/p15/ppo-desync-nonzero-smoke",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 5984,
+    "child_pid": 32556,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "ppo-desync-nonzero-smoke",
+    "elapsed_minutes": 5.0182828633328125
+  },
+  {
+    "command": "C:/AMI/runs/p15/training-001.exe train-ggd reports/P15/configs/ppo-smoke.json C:/AMI/runs/p15/ppo-smoke-001",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 23932,
+    "child_pid": 12132,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "ppo-smoke-001",
+    "elapsed_minutes": 1.0116382616669095
+  },
+  {
+    "command": "C:/Python314/python.exe -m unittest discover -s tests -v",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 5968,
+    "child_pid": 28716,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "python-full-001"
+  },
+  {
+    "command": "C:/AMI/runs/p15/assets-001.exe check-chio-movement C:/AMI/runs/p15/dota-calibration-005-chio/engine.json C:/AMI/runs/p15/direction-slope-020/capture.json C:/AMI/runs/p15/direction-slope-020/simulator-z-corrected.json",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 18512,
+    "child_pid": 30340,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "ramp-z-corrected"
+  },
+  {
+    "command": "C:/AMI/runs/p15/training-001.exe check-chio-movement C:/AMI/runs/p15/dota-calibration-005-chio/engine.json C:/AMI/runs/p15/direction-slope-020/capture.json C:/AMI/runs/p15/direction-slope-020/simulator-z.json",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 32896,
+    "child_pid": 32580,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "ramp-z-parity",
+    "elapsed_minutes": 2.254291901667602
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_reward_events -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 18196,
+    "child_pid": 24444,
+    "stage": "failed",
+    "exit_code": 101,
+    "job": "reward-rust"
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_reward_events -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 9384,
+    "child_pid": 13112,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "reward-rust-002",
+    "elapsed_minutes": 1.4210772300003252
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 8392,
+    "child_pid": 33536,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "rust-full-001",
+    "elapsed_minutes": 8.850927854998735
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 32820,
+    "child_pid": 36480,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "rust-full-aim",
+    "elapsed_minutes": 20.205604149998788
+  },
+  {
+    "command": "C:/AMI/runs/p15/training-002.exe train-ggd reports/P15/configs/self-play-smoke.json C:/AMI/runs/p15/selfplay-smoke-001",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 34348,
+    "child_pid": 23104,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "selfplay-smoke-001",
+    "elapsed_minutes": 3.122492874999686
+  },
+  {
+    "command": "C:/Python314/python.exe gpu/scripts/p15_teacher_navigation.py C:/AMI/runs/p15/dota-calibration-005-chio/engine.json C:/AMI/runs/p15/training-002.exe C:/AMI/runs/p15/teacher-atlas-001",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 4168,
+    "child_pid": 34008,
+    "stage": "failed",
+    "exit_code": 1,
+    "job": "teacher-navigation-build"
+  },
+  {
+    "command": "C:/Python314/python.exe gpu/scripts/p15_teacher_navigation.py C:/AMI/runs/p15/dota-calibration-005-chio/engine.json C:/AMI/runs/p15/training-002.exe C:/AMI/runs/p15/teacher-atlas-002",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 33840,
+    "child_pid": 21212,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "teacher-navigation-build-002"
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_teacher_ -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 9504,
+    "child_pid": 14720,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "teacher-translator-rust",
+    "elapsed_minutes": 2.9240187866671477
+  },
+  {
+    "command": "C:/Python314/python.exe gpu/scripts/p15_probe.py --run C:/AMI/runs/p15/tree-approach-020 --repeats 20 --cases tree_approach --server-direction --port 27922",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 25844,
+    "child_pid": 22380,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "tree-approach-020"
+  },
+  {
+    "command": "C:/AMI/runs/p15/assets-001.exe check-chio-movement C:/AMI/runs/p15/dota-calibration-005-chio/engine.json C:/AMI/runs/p15/tree-approach-020/capture.json C:/AMI/runs/p15/tree-approach-020/simulator.json",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 30828,
+    "child_pid": 24860,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "tree-approach-parity"
+  },
+  {
+    "command": "C:/Python314/python.exe gpu/scripts/p15_probe.py --run C:/AMI/runs/p15/tree-diagonal-020 --repeats 20 --cases tree_diagonal --server-direction --port 27924",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 36796,
+    "child_pid": 35232,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "tree-diagonal-020"
+  },
+  {
+    "command": "C:/AMI/runs/p15/final-contract.exe check-chio-movement C:/AMI/runs/p15/dota-calibration-005-chio/engine.json C:/AMI/runs/p15/tree-diagonal-020/capture.json C:/AMI/runs/p15/tree-diagonal-020/simulator.json",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 36200,
+    "child_pid": 16420,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "tree-diagonal-parity"
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_teacher -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 32420,
+    "child_pid": 8028,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "waypoint-tests-001",
+    "elapsed_minutes": 1.5048906466671421
+  },
+  {
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target p15_teacher_lookahead -- --test-threads=1",
+    "cwd": "C:\\AMI-wt\\P15",
+    "pid": 17264,
+    "child_pid": 31648,
+    "stage": "complete",
+    "exit_code": 0,
+    "job": "waypoint-unit-002",
+    "elapsed_minutes": 1.5044601716663843
   }
 ]

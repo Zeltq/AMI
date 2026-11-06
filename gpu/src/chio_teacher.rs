@@ -7,16 +7,23 @@ use crate::{world::*,contract::*,observe::{self,Observed},chio_actions::{self,Ma
 pub struct Translator {pub counters:CubeTensor, goals:CubeTensor}
 impl Translator {
     pub fn new(w:&World)->Self {Self{counters:primitive(Tensor::<2>::zeros([w.matches*2,4],&w.device)),goals:primitive(Tensor::<2>::zeros([w.matches*2,4],&w.device))}}
+    pub fn reconcile(&self,w:&World,labels:Tensor<2,Int>,executed:Tensor<2,Int>){
+        let labels=primitive(labels.float());let executed=primitive(executed.float());let n=w.matches*2;
+        reconcile::launch(&w.state.client,CubeCount::Static(n.div_ceil(64)as u32,1,1),CubeDim::new_1d(64),argument(&labels),argument(&executed),argument(&self.goals),n);
+    }
     pub fn labels(&self,w:&World,obs:&Observed,masks:&Masks,legacy:Tensor<2,Int>)->Tensor<2,Int>{
+        let intent=primitive(Tensor::<2>::zeros([w.matches*2,3],&w.device));self.labels_with_intent(w,obs,masks,legacy,&intent)
+    }
+    pub fn labels_with_intent(&self,w:&World,obs:&Observed,masks:&Masks,legacy:Tensor<2,Int>,intent:&CubeTensor)->Tensor<2,Int>{
         let n=w.matches*2;let legacy=primitive(legacy.float());let public=primitive(obs.packed.clone());let out=primitive(Tensor::<2>::zeros([n,4],&w.device));
         translate::launch(&w.state.client,CubeCount::Static(n.div_ceil(32)as u32,1,1),CubeDim::new_1d(32),
-            argument(&w.state),argument(&w.commands),argument(&legacy),argument(&public),argument(&obs.refs),argument(&masks.packed),argument(&out),argument(&self.counters),argument(&self.goals),argument(&w.meta),argument(w.movement_geometry.as_ref().unwrap_or(&w.geometry)),argument(&w.navigation),argument(&w.tree_map),argument(&w.trees),argument(&w.tree_alive),n,w.tree_count);
+            argument(&w.state),argument(&w.commands),argument(&legacy),argument(intent),argument(&public),argument(&obs.refs),argument(&masks.packed),argument(&out),argument(&self.counters),argument(&self.goals),argument(&w.meta),argument(w.movement_geometry.as_ref().unwrap_or(&w.geometry)),argument(w.teacher_navigation.as_ref().unwrap_or(&w.navigation)),argument(&w.tree_map),argument(&w.trees),argument(&w.tree_alive),n,w.tree_count);
         tensor::<2>(out).int()
     }
 }
 
 #[cube(launch)]
-fn translate(state:&[f32],commands:&[f32],legacy:&[f32],obs:&[f32],refs:&[f32],mask:&[f32],out:&mut [f32],counters:&mut [f32],goals:&mut [f32],meta:&[f32],geometry:&[f32],navigation:&[u32],tree_map:&[f32],trees:&[f32],alive:&[f32],actors:usize,tree_count:usize){
+fn translate(state:&[f32],commands:&[f32],legacy:&[f32],intent:&[f32],obs:&[f32],refs:&[f32],mask:&[f32],out:&mut [f32],counters:&mut [f32],goals:&mut [f32],meta:&[f32],geometry:&[f32],navigation:&[u32],tree_map:&[f32],trees:&[f32],alive:&[f32],actors:usize,tree_count:usize){
     let a=ABSOLUTE_POS;if a<actors {
         let m=a/2;let side=a%2;let base=m*UNITS*STRIDE;let p=base+side*STRIDE;let r=a*4;
         if goals[r+3]!=meta[m*META+1] {goals[r+2]=0.0f32;goals[r+3]=meta[m*META+1];}
@@ -24,7 +31,8 @@ fn translate(state:&[f32],commands:&[f32],legacy:&[f32],obs:&[f32],refs:&[f32],m
         let mut target=refs[a*observe::TARGETS+legacy[a*6+3]as usize];
         let mut x=state[p+UNIT_X]+(legacy[a*6+4]-64.0f32)*16.0f32;let mut y=state[p+UNIT_Y]+(legacy[a*6+5]-64.0f32)*16.0f32;
         for i in 0..4 {out[r+i]=0.0f32;}let mut kind=1usize.runtime();let mut unsupported=false;
-        if action==1 || action==2 {goals[r]=x;goals[r+1]=y;goals[r+2]=1.0f32;}else if action!=0 {goals[r+2]=0.0f32;}
+        let mut aiming=intent[a*3]>0.0f32 && (action==1 || action==2);if aiming {x=intent[a*3+1];y=intent[a*3+2];}
+        if action==1 || action==2 {goals[r]=x;goals[r+1]=y;goals[r+2]=if aiming{2.0f32}else{1.0f32};}else if action!=0 {goals[r+2]=0.0f32;}
         if action==0 {
             counters[r+1]+=1.0f32;action=state[p+ORDER]as usize;target=state[p+TARGET];x=state[p+DEST_X];y=state[p+DEST_Y];
             if action==3 && target>=0.0f32 && target<UNITS as f32 && state[base+target as usize*STRIDE+GENERATION]!=state[p+TARGET_GENERATION] {target=-1.0f32;}
@@ -44,11 +52,11 @@ fn translate(state:&[f32],commands:&[f32],legacy:&[f32],obs:&[f32],refs:&[f32],m
             }
         }
         if action==1 || action==2 {
-            if goals[r+2]>0.0f32 {x=goals[r];y=goals[r+1];}
+            if goals[r+2]>0.0f32 {x=goals[r];y=goals[r+1];aiming=goals[r+2]==2.0f32;}
             let original_dx=x-state[p+UNIT_X];let original_dy=y-state[p+UNIT_Y];
-            let point=path_lookahead(state,refs,a,geometry,navigation,tree_map,trees,alive,m*tree_count,state[p+UNIT_X],state[p+UNIT_Y],x,y);
+            let point=if aiming {(x,y)}else{path_lookahead(state,refs,a,geometry,navigation,tree_map,trees,alive,m*tree_count,state[p+UNIT_X],state[p+UNIT_Y],x,y)};
             let dx=point.0-state[p+UNIT_X];let dy=point.1-state[p+UNIT_Y];
-            if original_dx*original_dx+original_dy*original_dy>75.0f32*75.0f32 && dx*dx+dy*dy>1.0f32 {
+            if (aiming || original_dx*original_dx+original_dy*original_dy>75.0f32*75.0f32) && dx*dx+dy*dy>1.0f32 {
                 kind=0;let raw=(dy.atan2(dx)/0.1745329252f32+0.5f32).floor()as i32;
                 out[r+1]=((raw+36)%36)as f32;
             }
@@ -129,7 +137,7 @@ fn body_ray(state:&[f32],refs:&[f32],a:usize,ox:f32,oy:f32,x:f32,y:f32)->bool {
         if u!=side && state[p+ACTIVE]>0.0f32 && state[p+UNIT_HEALTH]>0.0f32 {
             let mut known=state[p+KIND]==1.0f32;
             if !known {for i in 0..2+observe::CREEPS {if refs[a*observe::TARGETS+i]==u as f32{known=true;}}}
-            if known {let radius=24.0f32+crate::physics::hull(state[p+KIND]);let sx=state[p+UNIT_X]-ox;let sy=state[p+UNIT_Y]-oy;
+            if known {let radius=24.0f32+crate::physics::hull(state[p+KIND])+22.627417f32;let sx=state[p+UNIT_X]-ox;let sy=state[p+UNIT_Y]-oy;
                 let f=((sx*dx+sy*dy)/length2).clamp(0.0f32,1.0f32);let ex=sx-dx*f;let ey=sy-dy*f;
                 if ex*ex+ey*ey<radius*radius && ex*ex+ey*ey<sx*sx+sy*sy {clear=false;}
             }
@@ -158,11 +166,18 @@ fn path_lookahead(state:&[f32],refs:&[f32],a:usize,geometry:&[f32],nav:&[u32],tr
 #[cfg(test)]
 pub fn test_waypoint(w:&World,x:f32,y:f32)->Vec<f32> {
     let obs=w.observe(observe::initial_previous(w.matches*2,&w.device));let out=primitive(Tensor::<1>::zeros([2],&w.device));
-    waypoint_probe::launch(&w.state.client,CubeCount::Static(1,1,1),CubeDim::new_1d(1),argument(&w.state),argument(&obs.refs),argument(w.movement_geometry.as_ref().unwrap_or(&w.geometry)),argument(&w.navigation),argument(&w.tree_map),argument(&w.trees),argument(&w.tree_alive),argument(&out),x,y);
+    waypoint_probe::launch(&w.state.client,CubeCount::Static(1,1,1),CubeDim::new_1d(1),argument(&w.state),argument(&obs.refs),argument(w.movement_geometry.as_ref().unwrap_or(&w.geometry)),argument(w.teacher_navigation.as_ref().unwrap_or(&w.navigation)),argument(&w.tree_map),argument(&w.trees),argument(&w.tree_alive),argument(&out),x,y);
     tensor::<1>(out).into_data().try_to_vec::<f32>().unwrap()
 }
 #[cfg(test)]
 #[cube(launch)]
 fn waypoint_probe(state:&[f32],refs:&[f32],geometry:&[f32],nav:&[u32],tree_map:&[f32],trees:&[f32],alive:&[f32],out:&mut [f32],x:f32,y:f32){
     let point=path_lookahead(state,refs,0,geometry,nav,tree_map,trees,alive,0,state[UNIT_X],state[UNIT_Y],x,y);out[0]=point.0;out[1]=point.1;
+}
+
+#[cube(launch)]
+fn reconcile(labels:&[f32],executed:&[f32],goals:&mut [f32],actors:usize){
+    let a=ABSOLUTE_POS;if a<actors {let mut same=true;for i in 0..4 {if labels[a*4+i]!=executed[a*4+i] {same=false;}}
+        if !same {goals[a*4+2]=0.0f32;}
+    }
 }
