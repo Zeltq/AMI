@@ -14,3 +14,14 @@ def test_death_event_is_counted_before_next_periodic_snapshot(tmp_path):
     result=summarize(tmp_path)
     assert result['sides']['2']['deaths']==1
     assert result['sides']['3']['deaths']==0
+
+
+def test_mid_time_uses_exact_handoff_before_rounded_metric(tmp_path):
+    metric=dict(team=2,time=-64,tick=2178,x=-1300,y=-1300,alive=True,lh=0,deny=0,deaths=0)
+    handoff=dict(team=2,time=-64.566666,tick=2161,handoffs=1)
+    ack=dict(team=2,accepted=True,observed_tick=2154,tick=2161)
+    (tmp_path/'dota.log').write_text('\n'.join(['SF_CHIO_METRIC|'+json.dumps(metric),
+        'SF_CHIO_HANDOFF|'+json.dumps(handoff),'SF_CHIO_NAV_ACK|'+json.dumps(ack)]))
+    side=summarize(tmp_path)['sides']['2']
+    assert side['mid_time']==handoff['time']
+    assert side['navigation']['orders']==side['navigation']['accepted']==side['navigation']['delay7']==1

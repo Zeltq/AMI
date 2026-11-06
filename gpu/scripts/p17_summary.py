@@ -9,7 +9,7 @@ from pathlib import Path
 def summarize(run):
     tagged={}
     for line in (run/'dota.log').read_text(errors='replace').splitlines():
-        for tag in ('SF_CHIO_ACK','SF_PLAY_EVENT','SF_CHIO_METRIC','SF_P17_AUDIT_FRAME','SF_P17_AUDIT_CASE'):
+        for tag in ('SF_CHIO_ACK','SF_PLAY_EVENT','SF_CHIO_METRIC','SF_CHIO_HANDOFF','SF_CHIO_NAV_ACK','SF_P17_AUDIT_FRAME','SF_P17_AUDIT_CASE'):
             if tag+'|' in line:tagged.setdefault(tag,[]).append(json.loads(line.split(tag+'|',1)[1]))
     acks=tagged.get('SF_CHIO_ACK',[]);events=tagged.get('SF_PLAY_EVENT',[]);frames=tagged.get('SF_P17_AUDIT_FRAME',[])
     accepted=[a for a in acks if a['accepted']]
@@ -27,9 +27,13 @@ def summarize(run):
             hits=sum(e['kind']=='hurt' and e.get('team')==team and e.get('ability')==name and e.get('target')=='npc_dota_hero_nevermore' for e in events)
             spells[name]=dict(casts=casts,hero_hits=hits)
         last=metrics[-1]
+        handoffs=[r for r in tagged.get('SF_CHIO_HANDOFF',[]) if r['team']==team]
+        nav_acks=[r for r in tagged.get('SF_CHIO_NAV_ACK',[]) if r['team']==team]
         deaths=max(last['deaths'],sum(e['kind']=='death' and e.get('team')==team for e in events))
         result['sides'][str(team)]=dict(lh=last['lh'],deny=last['deny'],deaths=deaths,end_time=last['time'],
-            mid_time=min(arrived) if arrived else None,spells=spells)
+            mid_time=handoffs[0]['time'] if handoffs else min(arrived) if arrived else None,spells=spells,
+            navigation=dict(handoffs=handoffs,accepted=sum(r['accepted'] for r in nav_acks),orders=len(nav_acks),
+                            delay7=sum(r['accepted'] and r['tick']-r['observed_tick']==7 for r in nav_acks)))
     if frames:
         moving=[r for r in frames if r['case']==0 and 9<=r['case_tick']<170];angles=[]
         for x,y in zip(moving,moving[1:]):
