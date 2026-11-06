@@ -1,0 +1,40 @@
+{
+  "observation_profile": "chio-v1",
+  "engine": "C:/AMI/runs/p16/environment-script-navigation/engine.json",
+  "decision_ticks": 6,
+  "offset_ticks": 6,
+  "gamma": 0.997,
+  "gae_lambda": 0.95,
+  "reward_mode": "lastorder-fb-v1",
+  "zero_sum": true,
+  "dataset": "C:\\AMI\\runs\\p16\\sampling-dagger-2-256",
+  "epochs": 3,
+  "batch_sequences": 32,
+  "learning_rate": 0.0001,
+  "gradient_norm": 1.0,
+  "seed": 20261103,
+  "device": "cuda",
+  "mode": "imitation",
+  "replay_datasets": [
+    "C:\\AMI\\runs\\p16\\teacher-1024",
+    "C:\\AMI\\runs\\p16\\nav-dagger-1-256"
+  ],
+  "initialize": "C:\\AMI\\runs\\p16\\sampling-dagger-1-il\\checkpoint.pt",
+  "updates": 5000,
+  "exclude_premid": true,
+  "class_weights": [
+    1,
+    1,
+    4,
+    4,
+    1.0,
+    4,
+    4.0,
+    2.93,
+    4.0,
+    1,
+    1,
+    1,
+    1
+  ]
+}
