@@ -244,6 +244,20 @@ def choose_best():
             f"Против обоих учителей суммарно: W {winner['wins']}/{n}, смерти {winner['deaths']:g}/{n}, LH+deny {winner['farm']:g}/{n}, мид {winner['mid']}/{n}, койлы {winner['hits']:g}/{winner['casts']:g}. Это эвристика выбора, не доказательство переноса в Dota.")
     result=dict(label=winner['label'],weights=winner['weights'],reason=reason,candidates=candidates);save(RUN/'best.json',result);save(REPORT/'best.json',result)
 
+def navigation_gate():
+    """User revision: diagnose first; decide only after completed DAgger-1 evaluation."""
+    summary=read(REPORT/'eval-dagger-1-v10.json');arrival=summary['controllers']['CHiO']['mid_arrivals']
+    while True:
+        review=read(RUN/'direction-review.json',{})
+        if review.get('classification')=='distribution-shift':
+            decision=dict(mid_arrivals=arrival,required_majority=65,action='continue-policy' if arrival['numerator']>arrival['denominator']/2 else 'scripted-navigation-restart',reason='User conditional instruction after DAgger 1',utc=utc())
+            save(RUN/'navigation-decision.json',decision);save(REPORT/'navigation-decision.json',decision);publish('decide navigation after DAgger 1')
+            if decision['action']=='continue-policy':return
+            while not (RUN/'navigation-recovery-ready.json').exists():
+                state('navigation-recovery-required',decision=decision);time.sleep(10)
+            raise RuntimeError('Navigation recovery is ready; hand off to the revised pipeline before further training')
+        state('direction-diagnosis-pending',mid_arrivals=arrival,review=review);time.sleep(10)
+
 def main():
     guard=(RUN/'controller.lock').open('a+b');guard.seek(0);guard.write(b'1');guard.flush();guard.seek(0);msvcrt.locking(guard.fileno(),msvcrt.LK_NBLCK,1)
     try:
@@ -258,6 +272,7 @@ def main():
             cfg=read(REPORT/f'configs/dagger-{i}-train.json');cfg.update(dataset=data['folder'],replay_datasets=[teacher['folder']],initialize=str(Path(previous['folder'])/'checkpoint.pt'))
             previous=supervised(f'dagger-{i}-il',cfg);wait(f'dagger-{i}-256-audit',REPORT/f'dagger-{i}-256-audit.json')
             parity(f'parity-dagger-{i}',data['folder'],previous['folder']);evaluate_group(f'dagger-{i}',Path(previous['folder'])/'weights')
+            if i==1:navigation_gate()
         cfg=read(REPORT/'configs/critic.json');cfg['initial_weights']=str(Path(previous['folder'])/'weights');critic=native_training('critic',cfg)
         old=read(Path(previous['folder'])/'weights/manifest.json');new=read(Path(critic['folder'])/'final-weights/manifest.json');keys=[k for k in old['tensors'] if not k.startswith('value_')]
         equal=sum(old['tensors'][k]['sha256']==new['tensors'][k]['sha256'] for k in keys);assert equal==len(keys)==45

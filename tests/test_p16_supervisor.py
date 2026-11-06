@@ -5,6 +5,18 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'gpu/scripts'))
 import p16_run as runner
 
 class P16Supervisor(unittest.TestCase):
+    def test_navigation_gate_requires_a_strict_majority(self):
+        for count,action in [(65,'continue-policy'),(64,'scripted-navigation-restart')]:
+            writes=[]
+            def read(path,default=None):
+                if Path(path).name=='eval-dagger-1-v10.json':return {'controllers':{'CHiO':{'mid_arrivals':{'numerator':count,'denominator':128}}}}
+                return {'classification':'distribution-shift'}
+            with patch.object(runner,'read',side_effect=read),patch.object(runner,'save',side_effect=lambda p,v:writes.append(v)),patch.object(runner,'publish'),patch.object(runner,'state',side_effect=RuntimeError('gate reached')):
+                if count==65:runner.navigation_gate()
+                else:
+                    with self.assertRaisesRegex(RuntimeError,'gate reached'):runner.navigation_gate()
+            self.assertEqual(writes[0]['action'],action)
+
     def test_windows_paths_for_wsl(self):
         self.assertEqual(runner.linux('C:/AMI/runs/p16/test'),'/mnt/c/AMI/runs/p16/test')
         self.assertEqual(runner.linux(Path('C:/AMI-wt/P16')),'/mnt/c/AMI-wt/P16')
