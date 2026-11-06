@@ -74,3 +74,12 @@ def test_report_coverage_counts_distinct_teacher_opponents(tmp_path):
         supervisor.refresh_report({'ppo':item})
     text=report.read_text(encoding='utf-8')
     assert '|2/2|' in text and '|4/2|' not in text and 'Оценки v9/v10' in text
+
+
+def test_restart_finishes_recorded_series_before_new_checkpoint(tmp_path):
+    old=('self-play-checkpoint-000097',tmp_path/'old','old-hash')
+    newer=('self-play-checkpoint-000113',tmp_path/'new','new-hash')
+    with patch.object(supervisor,'dagger_name',return_value='sampling-dagger-2'):
+        assert supervisor.choose_candidate([newer,old],{old[0]:dict(games=[{}])})==old
+        mandatory=('sampling-dagger-2',tmp_path/'dagger','dagger-hash')
+        assert supervisor.choose_candidate([newer,old,mandatory],{old[0]:dict(games=[{}])})==mandatory

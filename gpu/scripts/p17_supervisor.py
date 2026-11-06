@@ -69,6 +69,12 @@ def simulator_reports(weights):
     return result
 
 
+def choose_candidate(pending,series):
+    mandatory=next((r for r in pending if r[0]==dagger_name()),None)
+    unfinished=next((r for r in pending if r[0] in series and len(series[r[0]].get('games',[]))<8),None)
+    return mandatory or unfinished or max(pending,key=lambda r:(r[1]/'manifest.json').stat().st_mtime)
+
+
 def publish(message):
     paths=['reports/P17.md','reports/P17']
     subprocess.run(['git','add',*paths],cwd=ROOT,check=True)
@@ -119,13 +125,20 @@ def run():
             except RuntimeError as e:
                 state('paused-for-p16',reason=str(e));time.sleep(30);continue
             available=candidates();pending=[]
+            # A newer P16 checkpoint must not orphan a partly completed series on restart.
+            for name,item in series.items():
+                if len(item.get('games',[]))>=8 or any(n==name for n,_ in available):continue
+                weights=Path(item['source'])
+                if not weights.resolve().is_relative_to(P16.resolve()):raise ValueError('Resume source escapes runs/p16')
+                if fingerprint(weights)!=item['fingerprint']:raise RuntimeError('Resume source checkpoint changed')
+                available.append((name,weights))
             for name,weights in available:
                 sha=fingerprint(weights)
                 checked=[series.get(name,{})] if name==dagger_name() else series.values()
                 if any(v.get('fingerprint')==sha and len(v.get('games',[]))>=8 for v in checked):continue
                 pending.append((name,weights,sha))
             if pending:
-                chosen=next((r for r in pending if r[0]==dagger_name()),None) or max(pending,key=lambda r:(r[1]/'manifest.json').stat().st_mtime)
+                chosen=choose_candidate(pending,series)
                 name,weights,sha=chosen
                 item=series.setdefault(name,dict(source=str(weights),fingerprint=sha,games=[],action_selection='sampling',dota_base_navigation='script',
                     p16_navigation_mode=read(P16/'navigation-mode.json',{})))
