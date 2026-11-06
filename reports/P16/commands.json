@@ -327,7 +327,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\controller-scripted-navigation\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller-scripted-navigation\\stderr.log"
     ],
-    "elapsed_minutes": 1.5037370266664463,
+    "elapsed_minutes": 2.6731781933340244,
     "child_pid": 26976,
     "exit_code": null,
     "job": "controller-scripted-navigation"
@@ -777,6 +777,48 @@
   },
   {
     "stage": "complete",
+    "pid": 28484,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe collect-teacher C:\\AMI-wt\\P16\\reports\\P16\\configs\\nav-collect-smoke.json C:\\AMI\\runs\\p16\\nav-collect-smoke",
+    "argv": [
+      "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe",
+      "collect-teacher",
+      "C:\\AMI-wt\\P16\\reports\\P16\\configs\\nav-collect-smoke.json",
+      "C:\\AMI\\runs\\p16\\nav-collect-smoke"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\nav-collect-smoke\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\nav-collect-smoke\\stderr.log"
+    ],
+    "elapsed_minutes": 0.3415609083332432,
+    "child_pid": 30184,
+    "exit_code": 0,
+    "job": "nav-collect-smoke"
+  },
+  {
+    "stage": "complete",
+    "pid": 32492,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:/Python314/python.exe gpu/scripts/p15_dataset_audit.py C:\\AMI\\runs\\p16\\nav-collect-smoke C:\\AMI-wt\\P16\\reports\\P16\\nav-collect-smoke-audit.json",
+    "argv": [
+      "C:/Python314/python.exe",
+      "gpu/scripts/p15_dataset_audit.py",
+      "C:\\AMI\\runs\\p16\\nav-collect-smoke",
+      "C:\\AMI-wt\\P16\\reports\\P16\\nav-collect-smoke-audit.json"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\nav-collect-smoke-audit\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\nav-collect-smoke-audit\\stderr.log"
+    ],
+    "elapsed_minutes": 0.08391825166763738,
+    "child_pid": 36944,
+    "exit_code": 0,
+    "job": "nav-collect-smoke-audit"
+  },
+  {
+    "stage": "complete",
     "pid": 34404,
     "cwd": "C:\\AMI-wt\\P16",
     "command": "C:/Python314/python.exe -m unittest discover -s tests -v",
@@ -825,6 +867,27 @@
     "child_pid": 30244,
     "exit_code": 0,
     "job": "nav-full-rust"
+  },
+  {
+    "stage": "complete",
+    "pid": 28204,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe train-ggd C:\\AMI-wt\\P16\\reports\\P16\\configs\\nav-ppo-mask-smoke.json C:\\AMI\\runs\\p16\\nav-ppo-mask-smoke",
+    "argv": [
+      "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe",
+      "train-ggd",
+      "C:\\AMI-wt\\P16\\reports\\P16\\configs\\nav-ppo-mask-smoke.json",
+      "C:\\AMI\\runs\\p16\\nav-ppo-mask-smoke"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\nav-ppo-mask-smoke\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\nav-ppo-mask-smoke\\stderr.log"
+    ],
+    "elapsed_minutes": 0.4246338416667034,
+    "child_pid": 23492,
+    "exit_code": 0,
+    "job": "nav-ppo-mask-smoke"
   },
   {
     "stage": "complete",

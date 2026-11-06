@@ -284,5 +284,111 @@
     },
     "folder": "C:\\AMI\\runs\\p16\\jobs",
     "finished_utc": "2026-11-06T05:19:50.176794+00:00"
+  },
+  "nav-runtime-validation": {
+    "result": {
+      "collect": {
+        "blocks": 3,
+        "family": "CHiO",
+        "games_recorded": 0,
+        "games_requested": 8,
+        "native_completed": 0,
+        "partial": true,
+        "valid_decisions": 4112,
+        "wall_seconds": 16.7862972
+      },
+      "audit": {
+        "frames": 4112,
+        "valid_labels": 4112,
+        "cast_frames": 0,
+        "valid_cast_labels": 0,
+        "finite_signals": 4112,
+        "blocks": 3,
+        "reward_frames": 4112,
+        "reward_max_error": 0.0,
+        "passed": true
+      },
+      "ppo": {
+        "activation_delay_blocks": [
+          0,
+          0
+        ],
+        "anchor_sha256": "c4c7428255d7ac773a81d8104e88869e066fd13c740e9cfad8ab43f4c069238a",
+        "blocks": 1,
+        "checkpoint": "C:\\AMI\\runs\\p16\\nav-ppo-mask-smoke\\checkpoint-000001",
+        "completed_episodes": 0,
+        "component_names": [
+          "experience",
+          "gold_received",
+          "mana",
+          "health",
+          "last_hits",
+          "denies",
+          "kills",
+          "deaths",
+          "own_t1",
+          "flask",
+          "mango",
+          "tango",
+          "flask_break",
+          "outcome"
+        ],
+        "critic_only": false,
+        "enemy_components_are_subtracted": true,
+        "ev_history": [],
+        "family": "CHiO",
+        "gae_lambda": 0.949999988079071,
+        "gamma": 0.996999979019165,
+        "mixed_pool": null,
+        "opponent_pool": [],
+        "optimizer_steps": 1,
+        "phase_counts": [
+          2.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "reward_components": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "training_seconds": 20.1296461,
+        "wall_seconds": 20.3010553,
+        "zero_sum": true
+      },
+      "expected_trainable_learner_decisions": {
+        "numerator": 2,
+        "denominator": 256
+      },
+      "reason": "Only Radiant learner decisions126/127 are after scripted handoff in first128-step block; Dire handoff is128."
+    },
+    "folder": "C:\\AMI\\runs\\p16",
+    "finished_utc": "2026-11-06T05:21:03.891941+00:00"
   }
 }
