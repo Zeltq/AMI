@@ -69,7 +69,7 @@ def write_console_command(pid,text):
         capture_output=True,text=True,timeout=10,creationflags=subprocess.CREATE_NO_WINDOW)
     if result.returncode: raise OSError(result.stderr.strip())
 
-def launch(log,cwd,pid_file,command):
+def launch(log,cwd,pid_file,command,below_normal=False):
     k=kernel();job=k.CreateJobObjectW(None,None)
     if not job: raise C.WinError(C.get_last_error())
     limits=Limits();limits.basic.flags=0x2000 # JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE
@@ -78,7 +78,8 @@ def launch(log,cwd,pid_file,command):
         if not k.SetInformationJobObject(job,9,C.byref(limits),C.sizeof(limits)):
             raise C.WinError(C.get_last_error())
         with Path(log).open('wb') as output:
-            process=subprocess.Popen(command,cwd=cwd,stdout=output,stderr=subprocess.STDOUT)
+            process=subprocess.Popen(command,cwd=cwd,stdout=output,stderr=subprocess.STDOUT,
+                creationflags=subprocess.BELOW_NORMAL_PRIORITY_CLASS if below_normal else 0)
             child=k.OpenProcess(0x100|0x1,False,process.pid) # SET_QUOTA | TERMINATE
             if not child: raise C.WinError(C.get_last_error())
             try:
@@ -96,11 +97,12 @@ def main():
     writer=sub.add_parser('write');writer.add_argument('pid',type=int);writer.add_argument('text')
     runner=sub.add_parser('launch');runner.add_argument('--log',required=True)
     runner.add_argument('--cwd',required=True);runner.add_argument('--pid-file',required=True)
+    runner.add_argument('--below-normal',action='store_true')
     runner.add_argument('command',nargs=argparse.REMAINDER)
     args=parser.parse_args()
     if args.mode=='write': send_native(args.pid,args.text)
     else:
         command=args.command[1:] if args.command and args.command[0]=='--' else args.command
-        raise SystemExit(launch(args.log,args.cwd,args.pid_file,command))
+        raise SystemExit(launch(args.log,args.cwd,args.pid_file,command,args.below_normal))
 
 if __name__=='__main__':main()

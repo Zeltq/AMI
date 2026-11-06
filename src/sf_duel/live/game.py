@@ -18,7 +18,7 @@ def duel_clients(log):
     return result
 
 class Game:
-    def __init__(self,run,match='probe',timescale=1.,hz=15,game=DEFAULT_GAME,game_mode=21,game_port=27155,diagnostic_bot_level=None,bot_root=None,recording=None,collect_teacher=False,content_root=None,engine_threads=None,worldstate_ports=None,worldstate_frames=2,worldstate_threaded=True,developer_mode=False,hero_seed=None,console_debug=False):
+    def __init__(self,run,match='probe',timescale=1.,hz=15,game=DEFAULT_GAME,game_mode=21,game_port=27155,diagnostic_bot_level=None,bot_root=None,recording=None,collect_teacher=False,content_root=None,engine_threads=None,worldstate_ports=None,worldstate_frames=2,worldstate_threaded=True,developer_mode=False,hero_seed=None,console_debug=False,below_normal=False):
         self.run=Path(run);self.match=match;self.timescale=timescale;self.hz=hz
         self.game=Path(game);self.process=None;self.pid=None;self.installed=False
         self.game_mode=game_mode;self.game_port=game_port
@@ -30,6 +30,7 @@ class Game:
         self.developer_mode=developer_mode
         self.hero_seed=hero_seed
         self.console_debug=console_debug
+        self.below_normal=below_normal
         self.worldstate_ports=worldstate_ports
         if worldstate_frames not in (1,2):raise ValueError('Native observation period must be 1 or 2 ticks')
         self.worldstate_frames=worldstate_frames
@@ -99,8 +100,8 @@ class Game:
             startup=subprocess.STARTUPINFO();startup.dwFlags|=subprocess.STARTF_USESHOWWINDOW
             startup.wShowWindow=subprocess.SW_HIDE
             self.process=subprocess.Popen([sys.executable,str(Path(__file__).with_name('console.py')),'launch',
-                '--log',str(self.log),'--cwd',str(exe.parent),'--pid-file',str(pid_file),'--',*args],
-                creationflags=subprocess.CREATE_NEW_CONSOLE|subprocess.CREATE_NEW_PROCESS_GROUP,
+                '--log',str(self.log),'--cwd',str(exe.parent),'--pid-file',str(pid_file),*(['--below-normal'] if self.below_normal else []),'--',*args],
+                creationflags=subprocess.CREATE_NEW_CONSOLE|subprocess.CREATE_NEW_PROCESS_GROUP|(subprocess.BELOW_NORMAL_PRIORITY_CLASS if self.below_normal else 0),
                 startupinfo=startup)
             deadline=time.monotonic()+20
             while not pid_file.exists():
