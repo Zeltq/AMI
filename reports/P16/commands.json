@@ -276,8 +276,27 @@
     "job": "capacity-refine"
   },
   {
-    "stage": "running",
+    "stage": "failed",
     "pid": 29428,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:/Python314/python.exe gpu/scripts/p16_run.py",
+    "argv": [
+      "C:/Python314/python.exe",
+      "gpu/scripts/p16_run.py"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\controller\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\controller\\stderr.log"
+    ],
+    "elapsed_minutes": 104.37851130500009,
+    "child_pid": 36428,
+    "exit_code": 4294967295,
+    "job": "controller"
+  },
+  {
+    "stage": "running",
+    "pid": 31820,
     "cwd": "C:\\AMI-wt\\P16",
     "command": "C:/Python314/python.exe gpu/scripts/p16_run.py",
     "argv": [
@@ -286,13 +305,13 @@
     ],
     "background_work_remaining": true,
     "artifacts": [
-      "C:\\AMI\\runs\\p16\\jobs\\controller\\stdout.log",
-      "C:\\AMI\\runs\\p16\\jobs\\controller\\stderr.log"
+      "C:\\AMI\\runs\\p16\\jobs\\controller-navigation-review\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\controller-navigation-review\\stderr.log"
     ],
-    "elapsed_minutes": 81.16400614833304,
-    "child_pid": 36428,
+    "elapsed_minutes": 12.613815165000657,
+    "child_pid": 17056,
     "exit_code": null,
-    "job": "controller"
+    "job": "controller-navigation-review"
   },
   {
     "stage": "complete",
@@ -314,6 +333,191 @@
     "child_pid": 17576,
     "exit_code": 0,
     "job": "dagger-1-256"
+  },
+  {
+    "stage": "complete",
+    "pid": 35328,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:/Python314/python.exe gpu/scripts/p15_dataset_audit.py C:\\AMI\\runs\\p16\\dagger-1-256 C:\\AMI-wt\\P16\\reports\\P16\\dagger-1-256-audit.json",
+    "argv": [
+      "C:/Python314/python.exe",
+      "gpu/scripts/p15_dataset_audit.py",
+      "C:\\AMI\\runs\\p16\\dagger-1-256",
+      "C:\\AMI-wt\\P16\\reports\\P16\\dagger-1-256-audit.json"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\dagger-1-256-audit\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\dagger-1-256-audit\\stderr.log"
+    ],
+    "elapsed_minutes": 2.1713572566669126,
+    "child_pid": 8240,
+    "exit_code": 0,
+    "job": "dagger-1-256-audit"
+  },
+  {
+    "stage": "complete",
+    "pid": 36644,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "wsl -d Ubuntu -- bash /mnt/c/AMI-wt/P16/scripts/wsl_python.sh /mnt/c/AMI-wt/P16/gpu/scripts/train_chio.py /mnt/c/AMI-wt/P16/reports/P16/configs/dagger-1-il.json /mnt/c/AMI/runs/p16/dagger-1-il",
+    "argv": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "bash",
+      "/mnt/c/AMI-wt/P16/scripts/wsl_python.sh",
+      "/mnt/c/AMI-wt/P16/gpu/scripts/train_chio.py",
+      "/mnt/c/AMI-wt/P16/reports/P16/configs/dagger-1-il.json",
+      "/mnt/c/AMI/runs/p16/dagger-1-il"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\dagger-1-il\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\dagger-1-il\\stderr.log"
+    ],
+    "elapsed_minutes": 35.659126423334236,
+    "child_pid": 11332,
+    "exit_code": 0,
+    "job": "dagger-1-il"
+  },
+  {
+    "stage": "complete",
+    "pid": 23980,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "wsl -d Ubuntu -- bash /mnt/c/AMI-wt/P16/scripts/wsl_python.sh /mnt/c/AMI-wt/P16/gpu/scripts/p16_direction_audit.py --teacher /mnt/c/AMI/runs/p16/teacher-1024 --dagger /mnt/c/AMI/runs/p16/dagger-1-256 --weights /mnt/c/AMI/runs/p16/imitation/checkpoint.pt --output /mnt/c/AMI/runs/p16/direction-audit-clock",
+    "argv": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "bash",
+      "/mnt/c/AMI-wt/P16/scripts/wsl_python.sh",
+      "/mnt/c/AMI-wt/P16/gpu/scripts/p16_direction_audit.py",
+      "--teacher",
+      "/mnt/c/AMI/runs/p16/teacher-1024",
+      "--dagger",
+      "/mnt/c/AMI/runs/p16/dagger-1-256",
+      "--weights",
+      "/mnt/c/AMI/runs/p16/imitation/checkpoint.pt",
+      "--output",
+      "/mnt/c/AMI/runs/p16/direction-audit-clock"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\direction-audit-clock\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\direction-audit-clock\\stderr.log"
+    ],
+    "elapsed_minutes": 1.8392812566657084,
+    "child_pid": 17900,
+    "exit_code": 0,
+    "job": "direction-audit-clock"
+  },
+  {
+    "stage": "complete",
+    "pid": 35548,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "wsl -d Ubuntu -- bash /mnt/c/AMI-wt/P16/scripts/wsl_python.sh /mnt/c/AMI-wt/P16/gpu/scripts/p16_direction_audit.py --teacher /mnt/c/AMI/runs/p16/teacher-1024 --dagger /mnt/c/AMI/runs/p16/dagger-1-256 --weights /mnt/c/AMI/runs/p16/imitation/checkpoint.pt --output /mnt/c/AMI/runs/p16/direction-audit",
+    "argv": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "bash",
+      "/mnt/c/AMI-wt/P16/scripts/wsl_python.sh",
+      "/mnt/c/AMI-wt/P16/gpu/scripts/p16_direction_audit.py",
+      "--teacher",
+      "/mnt/c/AMI/runs/p16/teacher-1024",
+      "--dagger",
+      "/mnt/c/AMI/runs/p16/dagger-1-256",
+      "--weights",
+      "/mnt/c/AMI/runs/p16/imitation/checkpoint.pt",
+      "--output",
+      "/mnt/c/AMI/runs/p16/direction-audit"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\direction-audit-cpu\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\direction-audit-cpu\\stderr.log"
+    ],
+    "elapsed_minutes": 1.5872558199994578,
+    "child_pid": 35808,
+    "exit_code": 0,
+    "job": "direction-audit-cpu"
+  },
+  {
+    "stage": "complete",
+    "pid": 22812,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p16/target p16_all_direction_bins -- --test-threads=1",
+    "argv": [
+      "cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "gpu/Cargo.toml",
+      "--target-dir",
+      "C:/AMI/runs/p16/target",
+      "p16_all_direction_bins",
+      "--",
+      "--test-threads=1"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\direction-bins-test\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\direction-bins-test\\stderr.log"
+    ],
+    "elapsed_minutes": 1.5890537866662877,
+    "child_pid": 32780,
+    "exit_code": 0,
+    "job": "direction-bins-test"
+  },
+  {
+    "stage": "complete",
+    "pid": 34060,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p16/target",
+    "argv": [
+      "cargo",
+      "build",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "gpu/Cargo.toml",
+      "--target-dir",
+      "C:/AMI/runs/p16/target"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\direction-diagnostic-build\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\direction-diagnostic-build\\stderr.log"
+    ],
+    "elapsed_minutes": 1.923868346666374,
+    "child_pid": 35880,
+    "exit_code": 0,
+    "job": "direction-diagnostic-build"
+  },
+  {
+    "stage": "running",
+    "pid": 28832,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:/AMI/runs/p16/direction-diagnostic.exe evaluate-chio reports/P16/configs/direction-trajectories.json C:/AMI/runs/p16/direction-trajectories",
+    "argv": [
+      "C:/AMI/runs/p16/direction-diagnostic.exe",
+      "evaluate-chio",
+      "reports/P16/configs/direction-trajectories.json",
+      "C:/AMI/runs/p16/direction-trajectories"
+    ],
+    "background_work_remaining": true,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\direction-trajectories\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\direction-trajectories\\stderr.log"
+    ],
+    "elapsed_minutes": 0.26007856166688725,
+    "child_pid": 18280,
+    "exit_code": null,
+    "job": "direction-trajectories"
   },
   {
     "stage": "complete",

@@ -155,5 +155,21 @@
     },
     "folder": "C:\\AMI\\runs\\p16\\dagger-1-256",
     "finished_utc": "2026-11-06T04:05:06.270144+00:00"
+  },
+  "dagger-1-il": {
+    "result": {
+      "passed": true,
+      "mode": "imitation",
+      "updates": 5000,
+      "finite_updates": 5000,
+      "validation_loss": 0.4901189245428877,
+      "validation_frames": 720578,
+      "wall_seconds": 2126.136038602,
+      "checkpoint": "/mnt/c/AMI/runs/p16/dagger-1-il/checkpoint.pt",
+      "weights": "/mnt/c/AMI/runs/p16/dagger-1-il/weights",
+      "parameters": 1074274
+    },
+    "folder": "C:\\AMI\\runs\\p16\\dagger-1-il",
+    "finished_utc": "2026-11-06T04:40:56.406443+00:00"
   }
 }
