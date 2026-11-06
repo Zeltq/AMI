@@ -83,13 +83,15 @@ def publish(message):
 def refresh_report(series,done=False):
     path=ROOT/'reports/P17.md';text=path.read_text(encoding='utf-8')
     begin='<!-- P17_SERIES_BEGIN -->';end='<!-- P17_SERIES_END -->'
-    lines=[begin,'| Модель P16 | Матчи | W/D/L | LH / deny / смерти | Мид | Отчёты симулятора |','|---|---:|---|---|---:|---:|']
+    lines=[begin,'| Модель P16 | Матчи | W/D/L | LH / deny / смерти | Мид | Оценки v9/v10 |','|---|---:|---|---|---:|---:|']
     for name,item in series.items():
         games=item.get('games',[]);n=len(games)
         wins=sum(g['winner']==g['model_team'] for g in games);draws=sum(g['winner']==0 for g in games)
         sides=[g['summary']['sides'][str(g['model_team'])] for g in games]
         lh=sum(s['lh'] for s in sides);deny=sum(s['deny'] for s in sides);deaths=sum(s['deaths'] for s in sides);mid=sum(s['mid_time'] is not None for s in sides)
-        lines.append(f"|{name}|{n}/8|{wins}/{n};{draws}/{n};{n-wins-draws}/{n}|{lh}/{n};{deny}/{n};{deaths}/{n}|{mid}/{n}|{len(item.get('simulator',[]))}/2|")
+        opponents={r.get('evaluation',{}).get('opponent') for r in item.get('simulator',[]) if r.get('directly_comparable')}
+        coverage=len(opponents & {'v9','v10'})
+        lines.append(f"|{name}|{n}/8|{wins}/{n};{draws}/{n};{n-wins-draws}/{n}|{lh}/{n};{deny}/{n};{deaths}/{n}|{mid}/{n}|{coverage}/2|")
     if len(lines)>18:lines=lines[:3]+lines[-15:] # Full history remains in JSON.
     lines+=[end]
     replacement='\n'.join(lines)

@@ -64,3 +64,13 @@ def test_report_count_refreshes_after_first_match(tmp_path):
     text=report.read_text(encoding='utf-8')
     assert 'nav-dagger-2 1/8' in text and 'nav-dagger-2 0/8' not in text
     assert text.count('<!-- P17_SERIES_BEGIN -->')==1
+
+
+def test_report_coverage_counts_distinct_teacher_opponents(tmp_path):
+    (tmp_path/'reports/P17').mkdir(parents=True)
+    report=tmp_path/'reports/P17.md';report.write_text('## Приоритет P16\nBLOCKED P17: pending\n',encoding='utf-8')
+    item=dict(games=[],simulator=[dict(evaluation=dict(opponent=o),directly_comparable=True) for o in ['v9','v9','v10','previous']])
+    with patch.object(supervisor,'ROOT',tmp_path),patch.object(supervisor,'dagger_name',return_value='nav-dagger-2'):
+        supervisor.refresh_report({'ppo':item})
+    text=report.read_text(encoding='utf-8')
+    assert '|2/2|' in text and '|4/2|' not in text and 'Оценки v9/v10' in text

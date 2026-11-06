@@ -17,6 +17,28 @@ def test_speed_uses_actual_block_delta_and_elapsed_seconds():
     assert guard.speed(['CHiO block=10 wall_seconds=100','CHiO block=12 wall_seconds=150'])==dict(blocks=2,seconds=50.,rate=.04)
 
 
+def test_training_clock_excludes_desynchronization():
+    point=guard.training_point(dict(block=4,wall_seconds=1863.2670117,training_seconds=184.3399828))
+    assert point['clock']=='training_seconds' and point['seconds']==184.3399828
+    assert guard.training_point(dict(block=0,wall_seconds=1500,training_seconds=0)) is None
+    assert guard.training_point(dict(step=100,wall_seconds=10))['rate']==10
+
+
+def test_baseline_migration_preserves_original_sample(tmp_path):
+    history=tmp_path/'history.jsonl';original=dict(units=4,seconds=1863.2670117,rate=4/1863.2670117)
+    history.write_text(json.dumps(dict(training=dict(artifact='self-play',native=dict(block=4,wall_seconds=1863.2670117,training_seconds=184.3399828))))+'\n')
+    migrated=guard.migrate_baseline('self-play',original,'training_seconds',history)
+    assert migrated['units']==4 and migrated['seconds']==184.3399828
+    assert guard.migrate_baseline('other',original,'training_seconds',history) is None
+
+
+def test_warmup_cannot_hide_training_slowdown():
+    before=guard.training_point(dict(block=4,wall_seconds=1800,training_seconds=100))
+    after=guard.training_point(dict(block=8,wall_seconds=2000,training_seconds=300))
+    assert after['rate']<before['rate']*.9
+    assert 8/2000>4/1800  # The old clock would incorrectly report improvement.
+
+
 def test_new_training_stage_baseline_pauses_after_ten_percent_drop(tmp_path):
     run=tmp_path/'p17';p16=tmp_path/'p16';work=tmp_path/'work'
     for p in (run/'bridge-001',p16/'jobs/teacher-1024',p16/'imitation',work/'reports'):p.mkdir(parents=True)

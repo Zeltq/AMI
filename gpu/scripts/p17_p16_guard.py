@@ -30,6 +30,32 @@ def speed(lines):
     return dict(blocks=n,seconds=d,rate=n/d)
 
 
+def training_point(native):
+    units=native.get('step',native.get('block',0))
+    clock='training_seconds' if 'block' in native and native.get('training_seconds',0)>0 else 'wall_seconds'
+    seconds=native.get(clock,0)
+    if not units or not seconds:return None
+    return dict(units=units,seconds=seconds,rate=units/seconds,clock=clock)
+
+
+def migrate_baseline(key,reference,clock,history):
+    """Keep the original no-Dota sample, changing only its recorded clock."""
+    if not reference or reference.get('clock')==clock:return reference
+    if history.exists():
+        with history.open(encoding='utf-8') as rows:
+            for line in rows:
+                row=json.loads(line).get('training') or {}
+                if row.get('artifact')!=key:continue
+                native=row.get('native',{})
+                if native.get('step',native.get('block',0))!=reference['units']:continue
+                old_clock=reference.get('clock','wall_seconds')
+                if native.get(old_clock)!=reference['seconds']:continue
+                point=training_point(native)
+                if point and point['clock']==clock:return point
+    # Never compare rates measured on different clocks or invent a baseline.
+    return None
+
+
 def check(force=False):
     now=datetime.datetime.now(datetime.timezone.utc);path=RUN/'p16-monitor.json'
     previous=json.loads(path.read_text(encoding='utf-8-sig')) if path.exists() else {}
@@ -52,14 +78,17 @@ def check(force=False):
         status_path=artifact/'status.json'
         if artifact.resolve().is_relative_to(P16.resolve()) and status_path.exists():
             native=json.loads(status_path.read_text(encoding='utf-8-sig'))
-            units=native.get('step',native.get('block',0));seconds=native.get('wall_seconds',native.get('training_seconds',0))
-            if units and seconds:
-                key=str(artifact);training=dict(artifact=key,units=units,seconds=seconds,rate=units/seconds,native=native)
+            point=training_point(native)
+            if point:
+                key=str(artifact);training=dict(artifact=key,**point,native=native)
                 pilot_path=Path(__file__).resolve().parents[2]/'runs/pilot-status.json'
                 pilot=json.loads(pilot_path.read_text(encoding='utf-8-sig')).get('P17',{}) if pilot_path.exists() else {}
                 running_dota=alive(pilot.get('dota_pid')) and pilot.get('background_work_remaining')
-                if key not in training_baselines and not running_dota:training_baselines[key]=dict(units=units,seconds=seconds,rate=units/seconds)
-                reference=training_baselines.get(key);training['baseline']=reference
+                reference=migrate_baseline(key,training_baselines.get(key),point['clock'],RUN/'p16-monitor.jsonl')
+                if reference is None and not running_dota:reference=point.copy()
+                if reference is not None:training_baselines[key]=reference
+                else:training_baselines.pop(key,None)
+                training['baseline']=reference
                 if reference and alive(state.get('pid')) and training['rate']<reference['rate']*.9:pause=True
     report=Path('C:/AMI-wt/P16/reports/P16.md').read_text(encoding='utf-8')
     row=dict(utc=now.isoformat(),baseline=base,current=current,comparable_stage=active,pause=pause,
