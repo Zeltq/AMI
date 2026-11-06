@@ -146,7 +146,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
             if let Some(enemy)=&opponent {let encoded=enemy.encode(&b);(oh,oc)=enemy.memory.step(encoded.fused,oh,oc);chosen=enemy.heads(&masks,oh.clone(),encoded.keys,None,&enemy_sampler).actions;}
             if let Some(p)=&mut mixed{chosen=p.actions(&frame.observation,chosen);}
             let reference=if !warming&&!cfg.critic_only&&(cfg.kl_start>0.||cfg.kl_end>0.) {let encoded=anchor.encode(&b);(ah,ac)=anchor.memory.step(encoded.fused,ah,ac);anchor.heads(&masks,ah.clone(),encoded.keys,Some(heads.actions.clone()),&sampler).logp}else{Tensor::<1>::zeros([n],&d)};
-            chosen=chosen.mask_where(rows.clone().unsqueeze_dim::<2>(1),heads.actions.clone());let valid=frame.valid.clone()*rows.clone().float();
+            chosen=chosen.mask_where(rows.clone().unsqueeze_dim::<2>(1),heads.actions.clone());let valid=frame.policy_valid.clone()*rows.clone().float();
             let transition=runtime.advance(&frame,chosen,&rng,600.);let seconds=tensor::<2>(transition.before.clone()).slice([0..n,0..1]).reshape([n]);postgame.push(seconds.clone().greater_equal_elem(0.).float());phase=phase+crate::ggd_arenas::phase_counts(seconds,valid.clone());
             parts=parts+(transition.reward.components*valid.clone().unsqueeze_dim::<2>(1)).sum_dim(0).reshape([28]);
             if !warming {let done=transition.done.max_pair(1.0f32-frame.valid);let signals=Tensor::cat(vec![heads.actions.float(),Tensor::zeros([n,2],&d),heads.logp.unsqueeze_dim::<2>(1),heads.value.unsqueeze_dim::<2>(1),
@@ -157,7 +157,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
             let frame=runtime.observe();let (b,_)=co::decode(&frame.observation,crate::observe::CREEPS,crate::observe::TREES,crate::observe::PROJECTILES);
             // At the 128-decision boundary the next policy state starts at zero.
             let encoded=actor.encode(&b);let (next,_)=actor.memory.step(encoded.fused,Tensor::zeros([n,256],&d),Tensor::zeros([n,256],&d));
-            let bootstrap=actor.value(next)*frame.valid*rows.float();block+=1;let update=optimize(&mut policy,&mut optimizer,&experience,bootstrap,&cfg,block,coefficient(&cfg,training_seconds),Tensor::stack(postgame,1))?;
+            let bootstrap=actor.value(next)*frame.policy_valid*rows.float();block+=1;let update=optimize(&mut policy,&mut optimizer,&experience,bootstrap,&cfg,block,coefficient(&cfg,training_seconds),Tensor::stack(postgame,1))?;
             if let Some(ev)=update["ev_post0"].as_f64(){ev_history.push(ev);}training_seconds+=block_started.elapsed().as_secs_f64();
             optimizer_steps+=update["optimizer_steps"].as_u64().unwrap();let pv=phase.into_data().try_to_vec::<f32>()?;let cv=parts.into_data().try_to_vec::<f32>()?;
             for i in 0..4{phase_total[i]+=pv[i];}for i in 0..28{component_total[i]+=cv[i];}

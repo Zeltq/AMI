@@ -90,6 +90,6 @@ fn run_impl(cfg:Config,root:&Path,diagnostic_teacher_purchases:bool)->Result<ser
     }}
     let complete=runtime.teacher.values().chunks_exact(crate::scripted_teacher::AUDIT_FIELDS).all(|v|v[0]>0.);
     let result=serde_json::json!({"family":"CHiO","diagnostic_teacher_purchases":diagnostic_teacher_purchases,"matches":cfg.matches,"seed":cfg.seed,"complete":complete,"steps":steps,"wall_seconds":started.elapsed().as_secs_f64(),
-        "decision_ticks":6,"offset_ticks":6,"reward_mode":"lastorder-fb-v1","zero_sum":cfg.zero_sum,"per_match":games});
+        "scripted_base_to_mid":runtime.world.engine.chio_script_navigation,"decision_ticks":6,"offset_ticks":6,"reward_mode":"lastorder-fb-v1","zero_sum":cfg.zero_sum,"per_match":games});
     crate::artifacts::atomic_json(&root.join("report.json"),&result)?;Ok(result)
 }

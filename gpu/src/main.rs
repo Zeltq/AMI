@@ -42,6 +42,7 @@ mod chio_teacher;
 #[allow(dead_code)]
 mod chio_metrics;
 mod chio_collect;
+mod chio_navigation;
 mod chio_runtime;
 mod chio_pool;
 mod chio_train;

@@ -9,6 +9,7 @@ from sf_duel.chio_reward import read_record,SNAP
 from ggd_dataset import read_block,decode
 from train_ggd import recurrent,local_path,split
 from p15_model_fixture import export_weights
+from chio_mid_phase import MidPhase
 
 
 def save(path,value):
@@ -41,7 +42,7 @@ def validate_dataset(manifest,cfg,mode,smoke):
     if mode=='critic' and manifest['completed_matches']!=manifest['config']['games']:raise ValueError('Critic targets require complete terminal episodes')
 
 
-def minibatches(sources,stage,batch,seed,targets):
+def minibatches(sources,stage,batch,seed,targets,phases=None):
     rng=random.Random(seed);files=[(i,e) for i,(_,m) in enumerate(sources) for e in m['files']];rng.shuffle(files)
     for source,entry in files:
         ids=[j for j,a in enumerate(entry['actors']) if split(a)==stage]
@@ -52,19 +53,22 @@ def minibatches(sources,stage,batch,seed,targets):
         for begin in range(0,len(ids),batch):
             chosen=ids[begin:begin+batch];b=decode(header,obs[chosen],signals[chosen])
             target=None if targets is None else np.stack([targets[source][(block,header['actors'][j])] for j in chosen]).reshape(-1)
-            yield b,signals[chosen,:,10].copy(),len(chosen),target
+            resets=signals[chosen,:,10].copy()
+            if phases is not None:resets,_,_=phases[source].apply(entry,[header['actors'][j] for j in chosen],b,signals[chosen])
+            yield b,resets,len(chosen),target
 
 
 def run(config,output,max_updates=None,initialize=None,updates=None,resume=None,**unused):
     if unused.get('zero_previous') or unused.get('check_resume'):raise ValueError('Legacy ablation/resume-inspection flags are not CHiO modes')
     resume=resume or json.loads(Path(config).read_text()).get('resume')
-    cfg=json.loads(Path(config).read_text());allowed={'dataset','replay_datasets','observation_profile','engine','decision_ticks','offset_ticks','gamma','gae_lambda','reward_mode','zero_sum','mode','epochs','updates','batch_sequences','learning_rate','gradient_norm','seed','device','initialize','resume','checkpoint_updates'}
+    cfg=json.loads(Path(config).read_text());allowed={'dataset','replay_datasets','observation_profile','engine','decision_ticks','offset_ticks','gamma','gae_lambda','reward_mode','zero_sum','mode','epochs','updates','batch_sequences','learning_rate','gradient_norm','seed','device','initialize','resume','checkpoint_updates','exclude_premid'}
     if set(cfg)-allowed:raise ValueError('Unknown CHiO training keys: '+str(set(cfg)-allowed))
     for key,expected in dict(observation_profile='chio-v1',decision_ticks=6,offset_ticks=6,gamma=.997,gae_lambda=.95,reward_mode='lastorder-fb-v1').items():
         if cfg.get(key)!=expected:raise ValueError('CHiO training contract: '+key)
     if not isinstance(cfg.get('zero_sum'),bool):raise ValueError('Explicit zero_sum required')
     engine=json.loads(local_path(cfg['engine']).read_text())
     if not engine.get('chio_direct') or engine['decision_ticks']!=6 or engine['offset_ticks']!=6:raise ValueError('CHiO environment required')
+    if cfg.get('exclude_premid',False)!=bool(engine.get('chio_script_navigation',False)):raise ValueError('Navigation environment and loss phase must agree')
     mode=cfg.get('mode','imitation')
     if mode not in ('imitation','critic'):raise ValueError('Unsupported CHiO supervised mode')
     sources=[]
@@ -72,6 +76,7 @@ def run(config,output,max_updates=None,initialize=None,updates=None,resume=None,
         root=local_path(path);manifest=json.loads((root/'dataset.json').read_text())
         validate_dataset(manifest,cfg,mode,max_updates is not None)
         sources.append((root,manifest))
+    phases=[MidPhase(m) for _,m in sources] if cfg.get('exclude_premid',False) else None
     for stage in ('train','validation'):
         if not any(any(split(a)==stage for a in e['actors']) for _,m in sources for e in m['files']):raise ValueError('Separate train/validation matches required')
     device=cfg.get('device','cuda')
@@ -95,10 +100,10 @@ def run(config,output,max_updates=None,initialize=None,updates=None,resume=None,
     out=Path(output);out.mkdir(parents=True,exist_ok=True)
     if (out/'config.json').exists() and not resume:raise FileExistsError('Fresh output required')
     provenance={**cfg,'device_actual':str(device),'torch':torch.__version__,'datasets':[{'path':str(root),'sha256':hashlib.sha256((root/'dataset.json').read_bytes()).hexdigest()} for root,_ in sources],
-                'source_sha256':{str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in [Path(__file__),ROOT/'src/sf_duel/chio_model.py',ROOT/'gpu/scripts/ggd_dataset.py']}}
+                'source_sha256':{str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in [Path(__file__),ROOT/'src/sf_duel/chio_model.py',ROOT/'gpu/scripts/ggd_dataset.py',ROOT/'gpu/scripts/chio_mid_phase.py']}}
     if resume:
         previous=checkpoint['config']
-        for key in ('observation_profile','gamma','gae_lambda','zero_sum','mode','dataset','replay_datasets','batch_sequences','learning_rate','seed'):
+        for key in ('observation_profile','gamma','gae_lambda','zero_sum','mode','dataset','replay_datasets','batch_sequences','learning_rate','seed','exclude_premid'):
             if previous.get(key)!=provenance.get(key):raise ValueError('Resume configuration changed: '+key)
     else:save(out/'config.json',provenance)
     started=time.monotonic();steps=checkpoint['optimizer_steps'] if resume else 0;history=checkpoint['history'] if resume else []
@@ -136,7 +141,7 @@ def run(config,output,max_updates=None,initialize=None,updates=None,resume=None,
     while epoch<epochs or (budget is not None and steps<budget):
         epoch+=1;model.train();epoch_steps=0
         skipped=0
-        for batch_index,(b,resets,n,target) in enumerate(minibatches(sources,'train',batch,seed+epoch,targets)):
+        for batch_index,(b,resets,n,target) in enumerate(minibatches(sources,'train',batch,seed+epoch,targets,phases)):
             if epoch==start_epoch and batch_index<=resume_batch:skipped+=1;continue
             if budget is not None and steps>=budget:break
             optimizer.zero_grad(set_to_none=True);loss,count=compute(b,resets,n,target)
@@ -151,12 +156,13 @@ def run(config,output,max_updates=None,initialize=None,updates=None,resume=None,
         if budget is not None and steps>=budget:break
     model.eval();validation_sum=0.;validation_frames=0
     with torch.no_grad():
-        for b,resets,n,target in minibatches(sources,'validation',batch,seed,targets):
+        for b,resets,n,target in minibatches(sources,'validation',batch,seed,targets,phases):
             loss,count=compute(b,resets,n,target)
             if loss is not None:validation_sum+=float(loss)*count;validation_frames+=count
     if not validation_frames:raise ValueError('Empty validation split')
     if mode=='imitation' and any(not torch.equal(initial_value[k],v.cpu()) for k,v in model.state_dict().items() if k in initial_value):raise AssertionError('Imitation changed unused value head')
     export_weights(model.cpu(),out/'weights')
+    metadata=json.loads((out/'weights/manifest.json').read_text());metadata['scripted_base_to_mid']=bool(cfg.get('exclude_premid',False));save(out/'weights/manifest.json',metadata)
     result=dict(passed=True,mode=mode,updates=steps,finite_updates=len(history),validation_loss=validation_sum/validation_frames,validation_frames=validation_frames,
                 wall_seconds=elapsed+time.monotonic()-started,checkpoint=str(out/'checkpoint.pt'),weights=str(out/'weights'),parameters=sum(p.numel() for p in model.parameters()))
     save(out/'history.json',history);save(out/'result.json',result);print(json.dumps(result),flush=True);return result

@@ -5,7 +5,8 @@ use crate::{world::*,observe::{self,Observed},chio_observe as co,chio_actions as
     scripted_teacher::Teacher,teacher_v10::{Controller,Version},sampling::Sampler};
 
 pub struct Frame {
-    pub base:Observed,pub observation:Observed,pub masks:ca::Masks,pub labels:Tensor<2,Int>,pub valid:Tensor<1>,
+    pub base:Observed,pub observation:Observed,pub masks:ca::Masks,pub labels:Tensor<2,Int>,pub valid:Tensor<1>,pub policy_valid:Tensor<1>,
+    navigation_phase:Option<crate::chio_navigation::Phase>,
     raw:Tensor<2,Int>,teacher_before:(CubeTensor,CubeTensor),teacher_labels:Tensor<2,Int>,
     routed:Option<((CubeTensor,CubeTensor),Tensor<2,Int>,Tensor<2,Int>)>,
 }
@@ -14,7 +15,7 @@ pub struct Runtime {
     pub world:World,pub diagnostic_teacher_purchases:bool,pub teacher:Teacher,pub metrics:crate::ggd_metrics::Metrics,pub extra:crate::chio_metrics::Metrics,
     controller:Controller,translator:crate::chio_teacher::Translator,economy:crate::chio_economy::Economy,
     history:co::Observer,combat:crate::combat_observe::CombatObserver,enemy:crate::enemy_observe::Observer,
-    v9:Option<(Teacher,crate::chio_teacher::Translator)>,v9_rows:Option<Tensor<2,Bool>>,
+    navigation:Option<crate::chio_navigation::Navigation>,v9:Option<(Teacher,crate::chio_teacher::Translator)>,v9_rows:Option<Tensor<2,Bool>>,
     previous:Tensor<2,Int>,legacy_previous:Tensor<2>,legacy_right:bool,swap:bool,zero_sum:bool,
 }
 impl Runtime {
@@ -23,7 +24,7 @@ impl Runtime {
         let teacher=Teacher::new(&w);let metrics=crate::ggd_metrics::Metrics::new(&w);metrics.sample(&w,&teacher);
         let result=Self{controller:Controller::new(&w,left,right,swap),translator:crate::chio_teacher::Translator::new(&w),economy:crate::chio_economy::Economy::new(&w),
             history:co::Observer::new(&w),combat:crate::combat_observe::CombatObserver::new(&w),enemy:crate::enemy_observe::Observer::new(&w),
-            v9:None,v9_rows:None,previous:co::initial_previous(w.matches*2,&w.device),legacy_previous:observe::initial_previous(w.matches*2,&w.device),extra:crate::chio_metrics::Metrics::new(&w),
+            navigation:w.engine.chio_script_navigation.then(||crate::chio_navigation::Navigation::new(&w)),v9:None,v9_rows:None,previous:co::initial_previous(w.matches*2,&w.device),legacy_previous:observe::initial_previous(w.matches*2,&w.device),extra:crate::chio_metrics::Metrics::new(&w),
             world:w,diagnostic_teacher_purchases:false,teacher,metrics,legacy_right,swap,zero_sum};Ok(result)
     }
     /// Opponent routing only; each v9 uses the unchanged teacher and CHiO translator.
@@ -41,11 +42,14 @@ impl Runtime {
             let labels=translator.labels(w,&base,&masks,raw.clone());(before,raw,labels)});
         let labels=if let Some((_,_,v9))=&routed {labels.mask_where(self.v9_rows.as_ref().unwrap().clone(),v9.clone())}else{labels};
         let v4=self.enemy.extend(w,crate::timing_observe::extend(w,self.combat.enrich(w,&base),&self.teacher,true,false));
-        let mut observation=self.history.extend(w,&base,v4,self.previous.clone(),&masks);observation.packed=observation.packed.cast(DType::F16);
-        Frame{base,observation,masks,labels,valid,raw,teacher_before,teacher_labels,routed}
+        let navigation_phase=self.navigation.as_ref().map(|nav|nav.observe(w));let mut previous=self.previous.clone();let mut policy_valid=valid.clone();
+        if let Some(phase)=&navigation_phase {previous=previous.mask_where(phase.reset.clone().greater_elem(0.).unsqueeze_dim(1),co::initial_previous(w.matches*2,&w.device));policy_valid=policy_valid*phase.ready.clone();}
+        let mut observation=self.history.extend(w,&base,v4,previous,&masks);if let Some(phase)=&navigation_phase{observation.reset=observation.reset.max_pair(phase.reset.clone());}observation.packed=observation.packed.cast(DType::F16);
+        Frame{base,observation,masks,labels,valid,policy_valid,navigation_phase,raw,teacher_before,teacher_labels,routed}
     }
     pub fn advance(&mut self,frame:&Frame,chosen:Tensor<2,Int>,rng:&Sampler,deadline:f32)->Transition {
-        let w=&self.world;let buys=if self.diagnostic_teacher_purchases {frame.raw.clone().slice([0..w.matches*2,1..2]).float().squeeze_dim(1)}else{self.economy.choose(w,&frame.base)};let mut executed=ca::enqueue(w,&frame.base,&frame.masks,chosen.clone(),buys.clone());
+        let w=&self.world;let chosen=if let Some(phase)=&frame.navigation_phase {chosen.mask_where(phase.ready.clone().equal_elem(0.).unsqueeze_dim(1),co::initial_previous(w.matches*2,&w.device))}else{chosen};let buys=if self.diagnostic_teacher_purchases {frame.raw.clone().slice([0..w.matches*2,1..2]).float().squeeze_dim(1)}else{self.economy.choose(w,&frame.base)};let mut executed=ca::enqueue(w,&frame.base,&frame.masks,chosen.clone(),buys.clone());
+        if let (Some(nav),Some(phase))=(&self.navigation,&frame.navigation_phase){executed=nav.enqueue(w,phase.ready.clone(),executed);}
         if self.legacy_right {executed=ca::original_v9_right(w,&frame.base,frame.raw.clone(),buys,executed,self.swap);}
         self.translator.reconcile(w,frame.teacher_labels.clone(),chosen.clone());
         if let (Some((t,translator)),Some((before,raw,labels)))=(&self.v9,&frame.routed) {

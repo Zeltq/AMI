@@ -1,0 +1,109 @@
+{
+  "script-navigation-tests-002": {
+    "stage": "complete",
+    "pid": 35900,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p16/target p16_navigation_ -- --nocapture --test-threads=1",
+    "argv": [
+      "cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "gpu/Cargo.toml",
+      "--target-dir",
+      "C:/AMI/runs/p16/target",
+      "p16_navigation_",
+      "--",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\script-navigation-tests-002\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\script-navigation-tests-002\\stderr.log"
+    ],
+    "elapsed_minutes": 1.6726848683319986,
+    "child_pid": 37332,
+    "exit_code": 0,
+    "tail": [
+      "",
+      "running 2 tests",
+      "test chio_navigation::tests::p16_navigation_brings_both_teams_to_the_original_mid_region ... scripted navigation arrival decisions: [Some(126), Some(128), Some(126), Some(128)]",
+      "ok",
+      "test chio_navigation::tests::p16_navigation_masks_loss_uses_legacy_move_and_resets_once_on_handoff ... ok",
+      "",
+      "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 141 filtered out; finished in 10.53s",
+      ""
+    ]
+  },
+  "nav-full-rust": {
+    "stage": "complete",
+    "pid": 20012,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p16/target -- --test-threads=1",
+    "argv": [
+      "cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "gpu/Cargo.toml",
+      "--target-dir",
+      "C:/AMI/runs/p16/target",
+      "--",
+      "--test-threads=1"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\nav-full-rust\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\nav-full-rust\\stderr.log"
+    ],
+    "elapsed_minutes": 6.6012889550009275,
+    "child_pid": 30244,
+    "exit_code": 0,
+    "tail": [
+      "test gpu_tests::tower_armor_changes_physical_damage_and_observed_regen_with_presence ... ok",
+      "test gpu_tests::tower_aura_uses_the_strongest_tier_and_expires_each_linger_independently ... ok",
+      "test gpu_tests::tower_protection_is_authoritative_in_physics_and_known_only_after_sight ... ok",
+      "test potential_reward::tests::p09b_native_snapshot_coefficients_and_terminal_zero_potential ... ok",
+      "test potential_reward::tests::p09b_potential_terminal_and_discount ... ok",
+      "",
+      "test result: ok. 143 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 304.71s",
+      ""
+    ]
+  },
+  "nav-full-python": {
+    "stage": "complete",
+    "pid": 34404,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:/Python314/python.exe -m unittest discover -s tests -v",
+    "argv": [
+      "C:/Python314/python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-v"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\nav-full-python\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\nav-full-python\\stderr.log"
+    ],
+    "elapsed_minutes": 0.2508601383325489,
+    "child_pid": 35256,
+    "exit_code": 0,
+    "tail": [
+      "test_three_attackers_predict_the_own_landing_health (test_teacher_v9_lua.TeacherV9LuaTests.test_three_attackers_predict_the_own_landing_health) ... ok",
+      "test_bad_column_count_is_rejected (test_telemetry.TelemetryTests.test_bad_column_count_is_rejected) ... ok",
+      "test_columns_preserve_every_model_input_and_target (test_telemetry.TelemetryTests.test_columns_preserve_every_model_input_and_target) ... ok",
+      "",
+      "----------------------------------------------------------------------",
+      "Ran 266 tests in 9.585s",
+      "",
+      "OK"
+    ]
+  }
+}

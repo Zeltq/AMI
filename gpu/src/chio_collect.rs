@@ -19,6 +19,7 @@ pub fn collect(cfg:CollectConfig,root:&Path,dagger:Option<DaggerConfig>)->Result
     let lock=std::fs::OpenOptions::new().create(true).truncate(false).write(true).open(root.join("dataset.lock"))?;lock.try_lock()?;
     crate::artifacts::atomic_json(&root.join("config.json"),&cfg)?;
     let engine=crate::artifacts::freeze_environment(Path::new(&cfg.engine),root,false)?;
+    let scripted_base_to_mid=serde_json::from_slice::<serde_json::Value>(&std::fs::read(&engine)?)?["chio_script_navigation"].as_bool().unwrap_or(false);
     let d=device();let zero_sum=cfg.zero_sum.unwrap_or(true);let started=Instant::now();let mut writer=DemoWriter::new(root);
     if let Some(dagger)=&dagger {writer.source=format!("dagger-round-{}",dagger.round);crate::artifacts::atomic_json(&root.join("dagger.json"),dagger)?;}
     let policy=dagger.as_ref().map(|x|crate::chio_bridge::import(Path::new(&x.weights),&d).map(|p|p.valid())).transpose()?;
@@ -34,7 +35,7 @@ pub fn collect(cfg:CollectConfig,root:&Path,dagger:Option<DaggerConfig>)->Result
         let mut runtime=crate::chio_runtime::Runtime::new(w,cfg.teacher_version,cfg.teacher_version,false,false,zero_sum)?;
         for step in 0..limit {
             if step%128==0 && step>0 {exp.signals=primitive(Tensor::<3>::zeros([n,HORIZON,SIGNALS],&d));}
-            let frame=runtime.observe();let obs=&frame.observation;let valid=frame.valid.clone();let labels=frame.labels.clone();
+            let frame=runtime.observe();let obs=&frame.observation;let valid=frame.policy_valid.clone();let labels=frame.labels.clone().mask_where(valid.clone().equal_elem(0.).unsqueeze_dim(1),co::initial_previous(n,&d));
             let mut chosen=labels.clone();let mut extra=Tensor::<2>::zeros([n,3],&d);
             if let (Some(policy),Some(dagger))=(&policy,&dagger) {
                 let keep:Tensor<2>=1.0f32-obs.reset.clone().unsqueeze_dim::<2>(1);h=h*keep.clone();c=c*keep;
@@ -66,7 +67,7 @@ pub fn collect(cfg:CollectConfig,root:&Path,dagger:Option<DaggerConfig>)->Result
     }
     let files=writer.finish()?;let frames=files.iter().map(|e|e.valid_frames).sum::<usize>();let completed=games.iter().filter(|g|g["native_terminal"]==true).count();
     let dataset=serde_json::json!({"family":"CHiO","observation_profile":"chio-v1","teacher_sha256":cfg.teacher_version.sha256(),"source_sha256":crate::runtime::bytes_sha256(include_bytes!("chio_observe.rs")),
-        "config":cfg,"partial":partial,"completed_matches":completed,"elapsed_seconds":started.elapsed().as_secs_f64(),"files":files,"game_metrics":games,
+        "config":cfg,"scripted_base_to_mid":scripted_base_to_mid,"partial":partial,"completed_matches":completed,"elapsed_seconds":started.elapsed().as_secs_f64(),"files":files,"game_metrics":games,
         "decision_ticks":6,"offset_ticks":6,"reward_mode":"lastorder-fb-v1","zero_sum":zero_sum,"gamma":reward::GAMMA,"gae_lambda":reward::LAMBDA,"reward_record_format":"chio-reward-v2"});
     crate::artifacts::atomic_json(&root.join("dataset.json"),&dataset)?;crate::artifacts::atomic_json(&root.join("game-metrics.json"),&games)?;
     let result=serde_json::json!({"family":"CHiO","games_requested":cfg.games,"games_recorded":games.len(),"native_completed":completed,"valid_decisions":frames,"blocks":block,"partial":partial,"wall_seconds":started.elapsed().as_secs_f64()});

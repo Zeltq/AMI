@@ -94,6 +94,7 @@ pub struct Engine {
     #[serde(default)]pub uphill_miss:bool,
     /// CHiO: directional movement (native MOVE_TO_DIRECTION), six-tick clock.
     #[serde(default)]pub chio_direct:bool,
+    #[serde(default)]pub chio_script_navigation:bool,
     #[serde(default)]pub chio_ground:String,
     #[serde(default)]pub chio_teacher_navigation:String,
 }
