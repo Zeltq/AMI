@@ -1,0 +1,412 @@
+{
+  "frames": 555778,
+  "actions": [
+    {
+      "action": "MOVE",
+      "label_share": {
+        "numerator": 107986,
+        "denominator": 555778
+      },
+      "recall": {
+        "numerator": 94223,
+        "denominator": 107986
+      },
+      "precision": {
+        "numerator": 94223,
+        "denominator": 111338
+      }
+    },
+    {
+      "action": "STOP",
+      "label_share": {
+        "numerator": 362918,
+        "denominator": 555778
+      },
+      "recall": {
+        "numerator": 348888,
+        "denominator": 362918
+      },
+      "precision": {
+        "numerator": 348888,
+        "denominator": 376125
+      }
+    },
+    {
+      "action": "ATTACK_ENEMY_CREEP",
+      "label_share": {
+        "numerator": 27767,
+        "denominator": 555778
+      },
+      "recall": {
+        "numerator": 20580,
+        "denominator": 27767
+      },
+      "precision": {
+        "numerator": 20580,
+        "denominator": 21624
+      }
+    },
+    {
+      "action": "DENY",
+      "label_share": {
+        "numerator": 24501,
+        "denominator": 555778
+      },
+      "recall": {
+        "numerator": 18104,
+        "denominator": 24501
+      },
+      "precision": {
+        "numerator": 18104,
+        "denominator": 18844
+      }
+    },
+    {
+      "action": "ATTACK_HERO",
+      "label_share": {
+        "numerator": 15638,
+        "denominator": 555778
+      },
+      "recall": {
+        "numerator": 14170,
+        "denominator": 15638
+      },
+      "precision": {
+        "numerator": 14170,
+        "denominator": 15173
+      }
+    },
+    {
+      "action": "ATTACK_TOWER",
+      "label_share": {
+        "numerator": 0,
+        "denominator": 555778
+      },
+      "recall": {
+        "numerator": 0,
+        "denominator": 0
+      },
+      "precision": {
+        "numerator": 0,
+        "denominator": 0
+      }
+    },
+    {
+      "action": "RAZE_NEAR",
+      "label_share": {
+        "numerator": 731,
+        "denominator": 555778
+      },
+      "recall": {
+        "numerator": 581,
+        "denominator": 731
+      },
+      "precision": {
+        "numerator": 581,
+        "denominator": 593
+      }
+    },
+    {
+      "action": "RAZE_MID",
+      "label_share": {
+        "numerator": 8748,
+        "denominator": 555778
+      },
+      "recall": {
+        "numerator": 6974,
+        "denominator": 8748
+      },
+      "precision": {
+        "numerator": 6974,
+        "denominator": 7070
+      }
+    },
+    {
+      "action": "RAZE_FAR",
+      "label_share": {
+        "numerator": 5533,
+        "denominator": 555778
+      },
+      "recall": {
+        "numerator": 4412,
+        "denominator": 5533
+      },
+      "precision": {
+        "numerator": 4412,
+        "denominator": 4452
+      }
+    },
+    {
+      "action": "REQUIEM",
+      "label_share": {
+        "numerator": 0,
+        "denominator": 555778
+      },
+      "recall": {
+        "numerator": 0,
+        "denominator": 0
+      },
+      "precision": {
+        "numerator": 0,
+        "denominator": 0
+      }
+    },
+    {
+      "action": "USE_FLASK",
+      "label_share": {
+        "numerator": 1936,
+        "denominator": 555778
+      },
+      "recall": {
+        "numerator": 454,
+        "denominator": 1936
+      },
+      "precision": {
+        "numerator": 454,
+        "denominator": 559
+      }
+    },
+    {
+      "action": "USE_MANGO",
+      "label_share": {
+        "numerator": 0,
+        "denominator": 555778
+      },
+      "recall": {
+        "numerator": 0,
+        "denominator": 0
+      },
+      "precision": {
+        "numerator": 0,
+        "denominator": 0
+      }
+    },
+    {
+      "action": "EAT_TREE",
+      "label_share": {
+        "numerator": 20,
+        "denominator": 555778
+      },
+      "recall": {
+        "numerator": 0,
+        "denominator": 20
+      },
+      "precision": {
+        "numerator": 0,
+        "denominator": 0
+      }
+    }
+  ],
+  "label_equals_previous_type": {
+    "numerator": 495188,
+    "denominator": 555778
+  },
+  "previous_known": {
+    "numerator": 555778,
+    "denominator": 555778
+  },
+  "confusion_label_rows_prediction_columns": [
+    [
+      94223,
+      12756,
+      265,
+      200,
+      494,
+      0,
+      0,
+      0,
+      0,
+      0,
+      48,
+      0,
+      0
+    ],
+    [
+      12585,
+      348888,
+      616,
+      370,
+      273,
+      0,
+      12,
+      95,
+      40,
+      0,
+      39,
+      0,
+      0
+    ],
+    [
+      1047,
+      5979,
+      20580,
+      111,
+      42,
+      0,
+      0,
+      0,
+      0,
+      0,
+      8,
+      0,
+      0
+    ],
+    [
+      982,
+      5221,
+      80,
+      18104,
+      112,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0
+    ],
+    [
+      1126,
+      313,
+      13,
+      15,
+      14170,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      36,
+      107,
+      3,
+      1,
+      3,
+      0,
+      581,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      379,
+      1336,
+      11,
+      13,
+      33,
+      0,
+      0,
+      6974,
+      0,
+      0,
+      2,
+      0,
+      0
+    ],
+    [
+      635,
+      437,
+      13,
+      8,
+      22,
+      0,
+      0,
+      1,
+      4412,
+      0,
+      5,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      314,
+      1087,
+      35,
+      22,
+      24,
+      0,
+      0,
+      0,
+      0,
+      0,
+      454,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      11,
+      1,
+      8,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  ],
+  "dataset": "/mnt/c/AMI/runs/p16/teacher-1024",
+  "checkpoint": "/mnt/c/AMI/runs/p16/nav-imitation/checkpoint.pt",
+  "split": "validation via train_ggd.split",
+  "phase": "post-mid with identical MidPhase mask/handoff/reset as training",
+  "previous_comparison": "Action type (13 classes); previous direction and target are not zeroed.",
+  "zero_denominator": "Undefined precision/recall when denominator is zero; retained as 0/0.",
+  "wall_seconds": 231.48927364999997
+}

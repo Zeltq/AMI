@@ -314,6 +314,27 @@
     "job": "controller-navigation-review"
   },
   {
+    "stage": "running",
+    "pid": 36872,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:/Python314/python.exe -X utf8 gpu/scripts/p16_run.py",
+    "argv": [
+      "C:/Python314/python.exe",
+      "-X",
+      "utf8",
+      "gpu/scripts/p16_run.py"
+    ],
+    "background_work_remaining": true,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\controller-sampling-weighted\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\controller-sampling-weighted\\stderr.log"
+    ],
+    "elapsed_minutes": 4.17677214666619,
+    "child_pid": 34048,
+    "exit_code": null,
+    "job": "controller-sampling-weighted"
+  },
+  {
     "stage": "failed",
     "pid": 18452,
     "cwd": "C:\\AMI-wt\\P16",
@@ -1056,6 +1077,33 @@
     "child_pid": 27304,
     "exit_code": 0,
     "job": "nav-imitation"
+  },
+  {
+    "stage": "complete",
+    "pid": 34976,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "wsl -d Ubuntu -- bash /mnt/c/AMI-wt/P16/scripts/wsl_python.sh /mnt/c/AMI-wt/P16/gpu/scripts/p16_action_audit.py /mnt/c/AMI/runs/p16/teacher-1024 /mnt/c/AMI/runs/p16/nav-imitation/checkpoint.pt /mnt/c/AMI/runs/p16/nav-imitation-postmid-audit",
+    "argv": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "bash",
+      "/mnt/c/AMI-wt/P16/scripts/wsl_python.sh",
+      "/mnt/c/AMI-wt/P16/gpu/scripts/p16_action_audit.py",
+      "/mnt/c/AMI/runs/p16/teacher-1024",
+      "/mnt/c/AMI/runs/p16/nav-imitation/checkpoint.pt",
+      "/mnt/c/AMI/runs/p16/nav-imitation-postmid-audit"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\nav-imitation-postmid-audit\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\nav-imitation-postmid-audit\\stderr.log"
+    ],
+    "elapsed_minutes": 4.010019626668266,
+    "child_pid": 2912,
+    "exit_code": 0,
+    "job": "nav-imitation-postmid-audit"
   },
   {
     "stage": "complete",
