@@ -205,7 +205,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\controller\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller\\stderr.log"
     ],
-    "elapsed_minutes": 4.593411743332399,
+    "elapsed_minutes": 8.935993263333026,
     "child_pid": 36428,
     "exit_code": null,
     "job": "controller"
@@ -261,6 +261,33 @@
     "child_pid": 27912,
     "exit_code": 0,
     "job": "full-python"
+  },
+  {
+    "stage": "running",
+    "pid": 29144,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p16/target -- --test-threads=1",
+    "argv": [
+      "cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "gpu/Cargo.toml",
+      "--target-dir",
+      "C:/AMI/runs/p16/target",
+      "--",
+      "--test-threads=1"
+    ],
+    "background_work_remaining": true,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\full-rust\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\full-rust\\stderr.log"
+    ],
+    "elapsed_minutes": 0.5859741983333758,
+    "child_pid": 31684,
+    "exit_code": null,
+    "job": "full-rust"
   },
   {
     "stage": "complete",
@@ -361,7 +388,7 @@
     "job": "release-p16"
   },
   {
-    "stage": "running",
+    "stage": "complete",
     "pid": 37208,
     "cwd": "C:\\AMI-wt\\P16",
     "command": "C:/AMI/runs/p16/p15-base.exe collect-teacher reports/P16/configs/collect-1024.json C:/AMI/runs/p16/teacher-1024",
@@ -371,14 +398,14 @@
       "reports/P16/configs/collect-1024.json",
       "C:/AMI/runs/p16/teacher-1024"
     ],
-    "background_work_remaining": true,
+    "background_work_remaining": false,
     "artifacts": [
       "C:\\AMI\\runs\\p16\\jobs\\teacher-1024\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\teacher-1024\\stderr.log"
     ],
-    "elapsed_minutes": 37.4194068533349,
+    "elapsed_minutes": 41.76194860166676,
     "child_pid": 33880,
-    "exit_code": null,
+    "exit_code": 0,
     "job": "teacher-1024"
   },
   {
