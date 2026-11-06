@@ -4,6 +4,7 @@ import ctypes
 import gzip
 import json
 import os
+import re
 from pathlib import Path
 import sys
 import time
@@ -28,22 +29,52 @@ def save(path,value):
     replace_text(path,json.dumps(value,ensure_ascii=False,indent=2),timeout=.25)
 
 
+def rotated_console_log(log,text):
+    """Follow only the engine's explicit match-log announcement, never stale glob hits."""
+    if not re.fullmatch(r'console(?:\.\d+)?\.log',log.name):return log
+    suffixes=re.findall(r"Tearing off console log, will continue using suffix '(\.\d+)'",text)
+    return log.with_name('console'+suffixes[-1]+'.log') if suffixes else log
+
+
+def current_console_log(log):
+    # A policy may start after the lobby has already rotated console.log.
+    if not re.fullmatch(r'console(?:\.\d+)?\.log',log.name):return log
+    for _ in range(8):
+        if not log.exists():break
+        with log.open('rb') as f:
+            f.seek(max(0,log.stat().st_size-65536));text=f.read().decode('utf-8',errors='replace')
+        next_log=rotated_console_log(log,text)
+        if next_log==log:break
+        log=next_log
+    return log
+
+
 def serve(model_path,log,bots,output,team,stop,ready,audit=False,navigation_probe=False,seed=20261103):
+    requested_log=log;last_log_probe=time.monotonic()
+    log=current_console_log(log)
     initial_offset=log.stat().st_size if log.exists() else 0
     model,_=load_bundle(model_path);session=Session(model);observer=Observer()
     torch.manual_seed(seed)
     output.mkdir(parents=True,exist_ok=True)
-    stats=dict(pid=os.getpid(),device='cpu',model=str(model_path),action_selection='sampling',seed=seed,requests=0,errors=[],resets=0,acks=0,accepted=0)
+    stats=dict(pid=os.getpid(),device='cpu',model=str(model_path),log=str(log),action_selection='sampling',seed=seed,requests=0,errors=[],resets=0,acks=0,accepted=0)
     offset=initial_offset;tail='';parts={};queue=[];previous=None;last_deaths=0;last_tick=None;last_save=0;audit_case=None
     save(output/'status.json',stats);ready.write_text(str(os.getpid()))
     with gzip.open(output/'observations.jsonl.gz','wt',encoding='utf-8') as trace, (output/'decisions.jsonl').open('w') as decisions:
         while not stop.exists():
+            if time.monotonic()-last_log_probe>.5:
+                # On the next lobby the engine may announce its suffix in console.log again.
+                candidate=current_console_log(requested_log);last_log_probe=time.monotonic()
+                if candidate!=log:
+                    log=candidate;stats['log']=str(log)
+                    offset=0;tail='';parts={};queue=[];previous=None;last_deaths=0;last_tick=None
+                    observer=Observer();session=Session(model)
             if not log.exists():time.sleep(.02);continue
             if log.stat().st_size<offset:
                 offset=0;tail='';parts={};queue=[];previous=None;last_deaths=0;last_tick=None
                 observer=Observer();session=Session(model)
             with log.open(errors='replace') as f:f.seek(offset);data=tail+f.read();offset=f.tell()
             lines=data.split('\n');tail=lines.pop()
+            next_log=rotated_console_log(log,'\n'.join(lines))
             for line in lines:
                 if audit and 'SF_P17_AUDIT_CASE|' in line:audit_case=json.loads(line.split('SF_P17_AUDIT_CASE|',1)[1])
                 if 'SF_CHIO_ACK|' in line:
@@ -100,6 +131,10 @@ def serve(model_path,log,bots,output,team,stop,ready,audit=False,navigation_prob
                         executor_version=stats['executor_version']))+'\n');decisions.flush()
                 except Exception as e:
                     stats['errors'].append(dict(tick=tick,error=repr(e)));save(output/'status.json',stats);raise
+            if next_log!=log:
+                log=next_log;stats['log']=str(log)
+                offset=0;tail='';parts={};queue=[];previous=None;last_deaths=0;last_tick=None
+                observer=Observer();session=Session(model)
             if time.monotonic()-last_save>2:save(output/'status.json',stats);last_save=time.monotonic()
             time.sleep(.005)
     stats['stage']='complete';save(output/'status.json',stats)

@@ -59,6 +59,10 @@ python scripts/play_vs_chio.py --model "C:/AMI/runs/p17/models/sampling-dagger-2
 
    Для новой сессии используйте новое имя output. Процесс использует BelowNormal,
    один CPU-поток PyTorch, GPU не используется. Старые строки console.log пропускаются.
+   Dota при входе в лобби меняет журнал на `console.MATCH_ID.log`; policy автоматически
+   следует объявленному движком имени. Текущий путь виден в поле `log` файла status.json.
+   Если бот дошёл до мида и стоит, сначала проверьте рост `requests` и `accepted`;
+   `requests: 0` означает отсутствие входящих наблюдений, а не выбор STOP моделью.
 3. Запустите Dota, создайте закрытое лобби с сервером **Local Host**,
    включите читы и выберите **Local Dev Script** для ботов. Выберите Shadow Fiend
    за Radiant. Дождитесь появления своего героя и противоположного SF.
