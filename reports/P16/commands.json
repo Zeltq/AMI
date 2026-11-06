@@ -392,7 +392,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\controller-user-stop120\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller-user-stop120\\stderr.log"
     ],
-    "elapsed_minutes": 0.8356459666664402,
+    "elapsed_minutes": 3.0912555433324695,
     "child_pid": 17608,
     "exit_code": null,
     "job": "controller-user-stop120"
@@ -1019,6 +1019,32 @@
     "child_pid": 35320,
     "exit_code": 0,
     "job": "evaluation-cadence-check"
+  },
+  {
+    "stage": "complete",
+    "pid": 32560,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:/Python314/python.exe -X utf8 -m unittest discover -s tests -v",
+    "argv": [
+      "C:/Python314/python.exe",
+      "-X",
+      "utf8",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-v"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\final-python-verification\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\final-python-verification\\stderr.log"
+    ],
+    "elapsed_minutes": 0.2512198766654668,
+    "child_pid": 24616,
+    "exit_code": 0,
+    "job": "final-python-verification"
   },
   {
     "stage": "complete",
@@ -2156,7 +2182,7 @@
     "job": "script-navigation-tests-002"
   },
   {
-    "stage": "running",
+    "stage": "complete",
     "pid": 36144,
     "cwd": "C:\\AMI-wt\\P16",
     "command": "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe train-ggd C:\\AMI-wt\\P16\\reports\\P16\\configs\\self-play.json C:\\AMI\\runs\\p16\\self-play",
@@ -2166,14 +2192,14 @@
       "C:\\AMI-wt\\P16\\reports\\P16\\configs\\self-play.json",
       "C:\\AMI\\runs\\p16\\self-play"
     ],
-    "background_work_remaining": true,
+    "background_work_remaining": false,
     "artifacts": [
       "C:\\AMI\\runs\\p16\\jobs\\self-play\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\self-play\\stderr.log"
     ],
-    "elapsed_minutes": 147.26335553833243,
+    "elapsed_minutes": 149.43532379833243,
     "child_pid": 31424,
-    "exit_code": null,
+    "exit_code": 0,
     "job": "self-play"
   },
   {
