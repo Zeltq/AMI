@@ -1,0 +1,26 @@
+{
+  "stage": "complete",
+  "background_work_remaining": false,
+  "night_training_started": false,
+  "new_experiments_authorized": false,
+  "user_waived_thresholds": {
+    "farm_minimum": 0.9,
+    "death_maximum": 1.2
+  },
+  "final_tests": {
+    "rust": {
+      "passed": 136,
+      "total": 136
+    },
+    "python": {
+      "passed": 260,
+      "total": 260
+    }
+  },
+  "unfinished_experiments": [],
+  "stopped_at_user_request": [],
+  "latest_teacher_collection": "C:/AMI/runs/p15/collect-008-aim",
+  "latest_imitation_weights": "C:/AMI/runs/p15/imitation-aim-smoke/weights",
+  "commands": "reports/P15/commands.json",
+  "next_action": "Await next user prompt; do not launch night training."
+}

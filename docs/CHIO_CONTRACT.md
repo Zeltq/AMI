@@ -1,7 +1,7 @@
 # Контракт CHiO (`chio-v1`)
 
-Статус: спецификация P15; реализация и проверки отмечаются в `reports/P15.md`.
-Наличие этого документа не означает готовность ночного обучения.
+Статус: P15 завершена по решению пользователя 06.11.2026; точка восстановления и проверки — в `reports/P15.md`.
+Пороги фарма 90% и смертей 120% сняты пользователем. Ночное обучение не запускалось; для его запуска нужен следующий промпт.
 Источники: требования P15 и [LastOrder-Dota2](https://github.com/bilibili/LastOrder-Dota2):
 `agents/dota_agent.py`, `model/action_mask.py`, `model/utils.py`,
 `gym_env/feature_processors/features_v0/features.py`, `gym_env/feature_processors/enums.py`.
@@ -193,7 +193,7 @@ cast_skill, game_tick, terminal, outcome, reason. Начальный и след
 7. Каждый reward-компонент, знаки, 360с, zero-sum on/off, причины terminal, Flask;
    offline/online совпадают.
 8. По 200 матчей: исходный v10×v10/005, CHiO v10×v10, CHiO v10×v9;
-   seed20261103, farm ≥90% исходного, смерти ≤120%; максимум две итерации исправлений.
+   seed20261103; исходные пороги farm ≥90% и смертей ≤120% сняты пользователем при завершении P15.
 9. collect-teacher 8 матчей, imitation 50 конечных шагов, 100% меток под маской;
    готовые проверенные конфиги всех ночных этапов.
 
@@ -287,3 +287,53 @@ IsBlocked=0 на 327680/327680 отсчётах; в 3/3 местах остан�
 На диагонали текущая физика проходит на 20.33 единицы дальше Dota. По последнему указанию
 пользователя физика после этого уточнения не менялась. Сырые траектории и схема:
 reports/P15/tree-shape.json, tree-shape.svg, tree-diagonal-traces/. Это явное ограничение переноса.
+
+
+## Принятые ограничения точки восстановления
+
+- Учитель v10 через CHiO: фарм 14111/18032 = 78.3% исходного; смерти 143/113 = 126.5%.
+  Пользователь принял эти показатели для обучения базовым действиям: выход на мид 400/400,
+  атаки крипов и койлы работают. Снятие порогов не означает достижения прежних 90%/120%.
+- Локальная карта 17×17 **не реализована**. Остаётся 8×8 с шагом 256: узкие препятствия
+  и корпуса зданий базы в ней не представлены достаточно точно; деревья имеют отдельные координаты.
+- Физика дерева остаётся кругом радиуса 88. Осевой/диагональный опыт согласуется с квадратом ±64,
+  расширенным на корпус SF 24; после этого измерения физика не изменялась по указанию пользователя.
+- Атлас путей используется только переводчиком учителя. Модель и исполнитель MOVE_DIRECT его не используют.
+- Пользовательский Local Host и серверный мост приказа 28 в нём ещё не проверены.
+  Выгрузки GridNav выполнены на выделенных серверах с отдельным разрешением пользователя.
+- Диагностики завершены: исходный v10 с шагом 6 и прежними покупками/ходьбой дал 8102/18032 фарма;
+  CHiO с прежними покупками дал 13711/18032. Замена закупок сама по себе не восстановила показатель.
+  Mango учитель не нажимает; это факт покрытия демонстраций, а не доказанная единственная причина потери фарма.
+
+## Ночные команды — подготовлены, не запускались
+
+Рабочий каталог: `C:/AMI-wt/P15`. Исполняемый файл после сборки:
+`C:/AMI/runs/p15/target/release/sf-duel-gpu.exe`. Артефакты: `C:/AMI/runs/p15/night/`.
+Все параметры содержатся в `reports/P15/configs/`: окружение CHiO, decision_ticks=6,
+offset_ticks=6 (исполнение +7), reset128, lastorder-fb-v1, gamma=0.997, lambda=0.95, zero_sum=true.
+Сбор: 1024 матча, parallel_matches=32, v10/v10, seed20261103, предел 600 игровых секунд.
+IL: 5 эпох, 8 последовательностей ×128, AdamW lr=1e-4, weight_decay=1e-5, clip_norm=1, seed20261103.
+DAgger: 256 матчей, beta=0.5, затем 5000 обновлений с replay исходного набора.
+Критик: 2000 обновлений Monte Carlo return по полным записям; меняется только value head.
+PPO и self-play: по 240 минут, 16 арен, 4 последовательности, 2 эпохи на блок,
+lr=1e-5, clip=0.2, entropy=0.005, clip_norm=0.5, stop_kl=0.02; рассинхронизация включена.
+Self-play использует замороженные CHiO-снимки; новые снимки каждые 20 блоков, checkpoint каждые 10.
+Инициализация IL/DAgger и переход к PPO/self-play создают новый Adam; это не точный resume состояния арен.
+`resume_checkpoint` Burn восстанавливает веса/Adam, но начинает свежие арены.
+
+```powershell
+C:/AMI/runs/p15/target/release/sf-duel-gpu.exe collect-teacher reports/P15/configs/collect-1024.json C:/AMI/runs/p15/night/teacher-1024
+C:/AMI/runs/p15/target/release/sf-duel-gpu.exe train-il reports/P15/configs/imitation.json C:/AMI/runs/p15/night/imitation
+C:/AMI/runs/p15/target/release/sf-duel-gpu.exe collect-dagger reports/P15/configs/dagger-collect.json C:/AMI/runs/p15/night/dagger-256
+C:/AMI/runs/p15/target/release/sf-duel-gpu.exe train-il reports/P15/configs/dagger-train.json C:/AMI/runs/p15/night/dagger-il
+C:/AMI/runs/p15/target/release/sf-duel-gpu.exe train-il reports/P15/configs/critic.json C:/AMI/runs/p15/night/critic
+C:/AMI/runs/p15/target/release/sf-duel-gpu.exe train-ggd reports/P15/configs/ppo-v10.json C:/AMI/runs/p15/night/ppo
+C:/AMI/runs/p15/target/release/sf-duel-gpu.exe train-ggd reports/P15/configs/self-play.json C:/AMI/runs/p15/night/self-play
+```
+
+Команды перечислены для последовательного запуска только после нового указания пользователя.
+Для фонового запуска используется `gpu/scripts/p15_job.py <уникальное-имя> -- <команда>`
+через Start-Process с WindowStyle Hidden; состояние — `C:/AMI/runs/pilot-status.json`.
+Перед выходом агента с работающей задачей нужен heartbeat 10 минут по AGENTS.md.
+Полный ночной цикл и отдельный CLI CHiO-модель против CHiO-модели не запускались;
+PPO/self-play, DAgger-сбор, IL и критик проверены короткими запусками, перечисленными в отчёте.

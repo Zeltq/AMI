@@ -117,5 +117,93 @@
       "?   \tsfduel/replaycheck\t[no test files]"
     ],
     "stderr_tail": []
+  },
+  "recovery-rust-full": {
+    "stage": "complete",
+    "pid": 22568,
+    "cwd": "C:\\AMI-wt\\P15",
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p15/target -- --test-threads=1",
+    "argv": [
+      "cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "gpu/Cargo.toml",
+      "--target-dir",
+      "C:/AMI/runs/p15/target",
+      "--",
+      "--test-threads=1"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p15\\jobs\\recovery-rust-full\\stdout.log",
+      "C:\\AMI\\runs\\p15\\jobs\\recovery-rust-full\\stderr.log"
+    ],
+    "elapsed_minutes": 5.17917237499884,
+    "child_pid": 35444,
+    "exit_code": 0,
+    "passed_tests": 136,
+    "total_tests": 136,
+    "stdout_tail": [
+      "test potential_reward::tests::p09b_native_snapshot_coefficients_and_terminal_zero_potential ... ok",
+      "test potential_reward::tests::p09b_potential_terminal_and_discount ... ok",
+      "",
+      "test result: ok. 136 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 221.36s",
+      ""
+    ],
+    "stderr_tail": [
+      "   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default",
+      "",
+      "warning: `sf-duel-gpu` (bin \"sf-duel-gpu\" test) generated 1 warning",
+      "    Finished `release` profile [optimized + debuginfo] target(s) in 1m 23s",
+      "     Running unittests src\\main.rs (C:/AMI/runs/p15/target\\release\\deps\\sf_duel_gpu-d3f4e3baa53334c1.exe)"
+    ],
+    "environment": {
+      "SF_DUEL_DATA_ROOT": "C:/AMI"
+    }
+  },
+  "recovery-python-full": {
+    "stage": "complete",
+    "pid": 35704,
+    "cwd": "C:\\AMI-wt\\P15",
+    "command": "C:/Python314/python.exe -m unittest discover -s tests -v",
+    "argv": [
+      "C:/Python314/python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-v"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p15\\jobs\\recovery-python-full\\stdout.log",
+      "C:\\AMI\\runs\\p15\\jobs\\recovery-python-full\\stderr.log"
+    ],
+    "elapsed_minutes": 0.2509337683324702,
+    "child_pid": 34352,
+    "exit_code": 0,
+    "passed_tests": 260,
+    "total_tests": 260,
+    "stdout_tail": [
+      "SF_V9_STATUS|{}",
+      "SF_V9_ACK|{}",
+      "SF_V9_HUMAN_READY|2|0",
+      "SF_V9_STATUS|{}",
+      "SF_V9_ACK|{}"
+    ],
+    "stderr_tail": [
+      "",
+      "----------------------------------------------------------------------",
+      "Ran 260 tests in 8.310s",
+      "",
+      "OK"
+    ],
+    "environment": {
+      "PYTHONPATH": "C:/AMI-wt/P15/src;C:/AMI-wt/P15/scripts;C:/AMI-wt/P15/tests;C:/AMI-wt/P15/gpu/scripts;C:/AMI/tools/lua_test_runtime",
+      "PYTHONDONTWRITEBYTECODE": "1"
+    }
   }
 }
