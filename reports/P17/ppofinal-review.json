@@ -1,0 +1,435 @@
+{
+  "model": "ppo-final",
+  "fingerprint": "9965445e27bc7c9966a0609e45ec60571110d7ed2ca3d8d75c63de8bfddfcca8",
+  "games": 8,
+  "wins": 1,
+  "draws": 0,
+  "lh": 133,
+  "deny": 41,
+  "deaths": 1,
+  "acks": 23044,
+  "issued": 23584,
+  "delay7": 23044,
+  "stuck": 4,
+  "windows": 367,
+  "requests": 24613,
+  "write_retries": 0,
+  "handoffs": 16,
+  "mid_seconds": 207.06665802001896,
+  "spells": {
+    "nevermore_shadowraze1": {
+      "casts": 4,
+      "hits": 0
+    },
+    "nevermore_shadowraze2": {
+      "casts": 33,
+      "hits": 18
+    },
+    "nevermore_shadowraze3": {
+      "casts": 68,
+      "hits": 35
+    },
+    "nevermore_requiem": {
+      "casts": 0,
+      "hits": 0
+    },
+    "item_flask": {
+      "casts": 8,
+      "hits": 0
+    },
+    "item_enchanted_mango": {
+      "casts": 0,
+      "hits": 0
+    },
+    "item_tango": {
+      "casts": 0,
+      "hits": 0
+    }
+  },
+  "per_game": [
+    {
+      "seed": 20261103,
+      "model_team": 2,
+      "winner": 3,
+      "reason": "timeout",
+      "terminal": null,
+      "mid_seconds": 25.433334350585994,
+      "sides": {
+        "2": {
+          "x": 88.482498168945,
+          "y": -291.29284667969,
+          "hp": 783,
+          "lh": 12,
+          "tick": 22116,
+          "deaths": 0,
+          "alive": true,
+          "tower_alive": true,
+          "deny": 6,
+          "team": 2,
+          "time": 600
+        },
+        "3": {
+          "time": 600,
+          "x": 739.31079101563,
+          "y": 866.33312988281,
+          "hp": 381,
+          "lh": 38,
+          "tick": 22116,
+          "deaths": 0,
+          "alive": true,
+          "tower_alive": true,
+          "deny": 34,
+          "team": 3
+        }
+      },
+      "run": "C:\\AMI\\runs\\p17\\matches\\ppo-final\\match-000-attempt-1"
+    },
+    {
+      "seed": 20261104,
+      "model_team": 3,
+      "winner": 3,
+      "reason": "death",
+      "terminal": {
+        "kind": "death",
+        "killer": "npc_dota_hero_nevermore",
+        "team": 2,
+        "time": 548.83337402344,
+        "killer_team": 3
+      },
+      "mid_seconds": 26.233329772949,
+      "sides": {
+        "2": {
+          "alive": false,
+          "tower_alive": true,
+          "deny": 21,
+          "team": 2,
+          "time": 548.83337402344,
+          "x": -1369.2491455078,
+          "y": -1074.6479492188,
+          "hp": 0,
+          "lh": 24,
+          "tick": 20556,
+          "deaths": 1
+        },
+        "3": {
+          "x": -790.42877197266,
+          "y": -650.63543701172,
+          "hp": 934,
+          "lh": 23,
+          "tick": 20556,
+          "deaths": 0,
+          "alive": true,
+          "tower_alive": true,
+          "deny": 2,
+          "team": 3,
+          "time": 548
+        }
+      },
+      "run": "C:\\AMI\\runs\\p17\\matches\\ppo-final\\match-001-attempt-1"
+    },
+    {
+      "seed": 20261105,
+      "model_team": 2,
+      "winner": 3,
+      "reason": "timeout",
+      "terminal": null,
+      "mid_seconds": 25.633331298827997,
+      "sides": {
+        "2": {
+          "deny": 2,
+          "team": 2,
+          "time": 600,
+          "x": -165.8413848877,
+          "y": -870.99249267578,
+          "hp": 934,
+          "lh": 15,
+          "tick": 22116,
+          "deaths": 0,
+          "alive": true,
+          "tower_alive": true
+        },
+        "3": {
+          "lh": 37,
+          "tick": 22116,
+          "deaths": 0,
+          "alive": true,
+          "tower_alive": true,
+          "deny": 26,
+          "team": 3,
+          "time": 600,
+          "x": 743.02600097656,
+          "y": 861.375,
+          "hp": 381
+        }
+      },
+      "run": "C:\\AMI\\runs\\p17\\matches\\ppo-final\\match-002-attempt-1"
+    },
+    {
+      "seed": 20261106,
+      "model_team": 3,
+      "winner": 2,
+      "reason": "timeout",
+      "terminal": null,
+      "mid_seconds": 26.233329772949,
+      "sides": {
+        "2": {
+          "deny": 23,
+          "team": 2,
+          "time": 600,
+          "x": -1770.6401367188,
+          "y": -1625.8155517578,
+          "hp": 276,
+          "lh": 33,
+          "tick": 22116,
+          "deaths": 0,
+          "alive": true,
+          "tower_alive": true
+        },
+        "3": {
+          "team": 3,
+          "time": 600,
+          "x": -871.39294433594,
+          "y": -556.64764404297,
+          "hp": 934,
+          "lh": 25,
+          "deny": 8,
+          "deaths": 0,
+          "alive": true,
+          "tower_alive": true,
+          "tick": 22116
+        }
+      },
+      "run": "C:\\AMI\\runs\\p17\\matches\\ppo-final\\match-003-attempt-1"
+    },
+    {
+      "seed": 20261107,
+      "model_team": 2,
+      "winner": 3,
+      "reason": "death",
+      "terminal": {
+        "killer_team": 3,
+        "killer": "npc_dota_badguys_tower1_mid",
+        "team": 2,
+        "kind": "death",
+        "time": 53.533325195313
+      },
+      "mid_seconds": 25.433334350585994,
+      "sides": {
+        "2": {
+          "team": 2,
+          "time": 53.533325195313,
+          "x": -119.94116210938,
+          "y": 120.92333984375,
+          "hp": 0,
+          "lh": 0,
+          "tick": 5706,
+          "deaths": 1,
+          "alive": false,
+          "tower_alive": true,
+          "deny": 0
+        },
+        "3": {
+          "tower_alive": true,
+          "y": 879.94348144531,
+          "deaths": 0,
+          "team": 3,
+          "time": 53,
+          "x": 740.01763916016,
+          "hp": 119,
+          "lh": 2,
+          "deny": 2,
+          "tick": 5706,
+          "alive": true
+        }
+      },
+      "run": "C:\\AMI\\runs\\p17\\matches\\ppo-final\\match-004-attempt-1"
+    },
+    {
+      "seed": 20261108,
+      "model_team": 3,
+      "winner": 2,
+      "reason": "timeout",
+      "terminal": null,
+      "mid_seconds": 26.433334350586,
+      "sides": {
+        "2": {
+          "team": 2,
+          "time": 600,
+          "x": -1768.9649658203,
+          "y": -1630.4631347656,
+          "hp": 273,
+          "lh": 36,
+          "tick": 22116,
+          "deaths": 0,
+          "alive": true,
+          "tower_alive": true,
+          "deny": 35
+        },
+        "3": {
+          "time": 600,
+          "x": -435.74713134766,
+          "y": -516.47802734375,
+          "hp": 934,
+          "lh": 24,
+          "tick": 22116,
+          "deaths": 0,
+          "alive": true,
+          "tower_alive": true,
+          "deny": 9,
+          "team": 3
+        }
+      },
+      "run": "C:\\AMI\\runs\\p17\\matches\\ppo-final\\match-005-attempt-1"
+    },
+    {
+      "seed": 20261109,
+      "model_team": 2,
+      "winner": 3,
+      "reason": "timeout",
+      "terminal": null,
+      "mid_seconds": 25.433334350585994,
+      "sides": {
+        "2": {
+          "alive": true,
+          "tower_alive": true,
+          "deny": 1,
+          "team": 2,
+          "time": 600,
+          "x": -2262.8273925781,
+          "y": -2068.7307128906,
+          "hp": 802,
+          "lh": 6,
+          "tick": 22116,
+          "deaths": 0
+        },
+        "3": {
+          "y": -261.39733886719,
+          "hp": 978,
+          "lh": 55,
+          "tick": 22116,
+          "deaths": 0,
+          "alive": true,
+          "tower_alive": true,
+          "deny": 39,
+          "team": 3,
+          "time": 600,
+          "x": -522.20819091797
+        }
+      },
+      "run": "C:\\AMI\\runs\\p17\\matches\\ppo-final\\match-006-attempt-1"
+    },
+    {
+      "seed": 20261110,
+      "model_team": 3,
+      "winner": 2,
+      "reason": "timeout",
+      "terminal": null,
+      "mid_seconds": 26.233329772949,
+      "sides": {
+        "2": {
+          "alive": true,
+          "tower_alive": true,
+          "deny": 30,
+          "team": 2,
+          "time": 600,
+          "x": -1768.6932373047,
+          "y": -1631.365234375,
+          "hp": 256,
+          "lh": 32,
+          "tick": 22116,
+          "deaths": 0
+        },
+        "3": {
+          "alive": true,
+          "tower_alive": true,
+          "deny": 13,
+          "team": 3,
+          "time": 600,
+          "x": -703.62982177734,
+          "y": -557.63122558594,
+          "hp": 934,
+          "lh": 28,
+          "tick": 22116,
+          "deaths": 0
+        }
+      },
+      "run": "C:\\AMI\\runs\\p17\\matches\\ppo-final\\match-007-attempt-1"
+    }
+  ],
+  "outcome_reasons": {
+    "loss:timeout": 6,
+    "win:death": 1,
+    "loss:death": 1
+  },
+  "simulator_v9": {
+    "actors": 128,
+    "lh": {
+      "numerator": 1408.0,
+      "denominator": 128
+    },
+    "deny": {
+      "numerator": 584.0,
+      "denominator": 128
+    },
+    "deaths": {
+      "numerator": 28.0,
+      "denominator": 128
+    },
+    "outcomes": {
+      "loss": 50,
+      "win": 75,
+      "draw": 3
+    },
+    "outcome_reasons": {
+      "loss:death": 28,
+      "win:death": 61,
+      "loss:LH600": 22,
+      "win:T1": 9,
+      "win:LH600": 5,
+      "draw:LH600": 3
+    },
+    "raze_hero_hit_rates": {
+      "near": {
+        "numerator": 11.0,
+        "denominator": 81.0
+      },
+      "mid": {
+        "numerator": 328.0,
+        "denominator": 514.0
+      },
+      "far": {
+        "numerator": 527.0,
+        "denominator": 876.0
+      }
+    },
+    "mid_arrivals": {
+      "numerator": 128,
+      "denominator": 128
+    },
+    "mid_arrival_elapsed_seconds": {
+      "numerator": 3251.1995849609375,
+      "denominator": 128
+    },
+    "stuck_fraction": {
+      "numerator": 9467.0,
+      "denominator": 291453.0
+    }
+  },
+  "simulator_source": {
+    "sampling": true,
+    "scripted_base_to_mid": true,
+    "label": "ppo-120m",
+    "opponent": "v9",
+    "weights": "C:\\AMI\\runs\\p16\\ppo\\final-weights",
+    "opponent_weights": null,
+    "complete": true,
+    "summary": "reports/P16/eval-ppo-120m-v9-sampling.json",
+    "folder": "C:\\AMI\\runs\\p16\\eval-ppo-120m-v9-sampling",
+    "finished_utc": "2026-11-06T12:19:17.368841+00:00",
+    "seconds": 593.8094671
+  },
+  "limitations": [
+    "Uncorrected executor/economy version; see CHIO_DOTA_TRANSFER.md",
+    "Dota stuck MOVE windows and simulator frames have different denominators."
+  ]
+}
