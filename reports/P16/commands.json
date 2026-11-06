@@ -295,8 +295,27 @@
     "job": "controller"
   },
   {
-    "stage": "running",
+    "stage": "failed",
     "pid": 31820,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:/Python314/python.exe gpu/scripts/p16_run.py",
+    "argv": [
+      "C:/Python314/python.exe",
+      "gpu/scripts/p16_run.py"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\controller-navigation-review\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\controller-navigation-review\\stderr.log"
+    ],
+    "elapsed_minutes": 50.12408774833311,
+    "child_pid": 17056,
+    "exit_code": 4294967295,
+    "job": "controller-navigation-review"
+  },
+  {
+    "stage": "running",
+    "pid": 18452,
     "cwd": "C:\\AMI-wt\\P16",
     "command": "C:/Python314/python.exe gpu/scripts/p16_run.py",
     "argv": [
@@ -305,13 +324,13 @@
     ],
     "background_work_remaining": true,
     "artifacts": [
-      "C:\\AMI\\runs\\p16\\jobs\\controller-navigation-review\\stdout.log",
-      "C:\\AMI\\runs\\p16\\jobs\\controller-navigation-review\\stderr.log"
+      "C:\\AMI\\runs\\p16\\jobs\\controller-scripted-navigation\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\controller-scripted-navigation\\stderr.log"
     ],
-    "elapsed_minutes": 27.89885989166602,
-    "child_pid": 17056,
+    "elapsed_minutes": 1.5037370266664463,
+    "child_pid": 26976,
     "exit_code": null,
-    "job": "controller-navigation-review"
+    "job": "controller-scripted-navigation"
   },
   {
     "stage": "complete",
@@ -709,6 +728,130 @@
     "job": "imitation"
   },
   {
+    "stage": "failed",
+    "pid": 18080,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "wsl -d Ubuntu -- bash /mnt/c/AMI-wt/P16/scripts/wsl_python.sh /mnt/c/AMI-wt/P16/gpu/scripts/p16_mid_mask_check.py",
+    "argv": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "bash",
+      "/mnt/c/AMI-wt/P16/scripts/wsl_python.sh",
+      "/mnt/c/AMI-wt/P16/gpu/scripts/p16_mid_mask_check.py"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\mid-mask-gradient-check\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\mid-mask-gradient-check\\stderr.log"
+    ],
+    "elapsed_minutes": 0.1681131716662397,
+    "child_pid": 36164,
+    "exit_code": 1,
+    "job": "mid-mask-gradient-check"
+  },
+  {
+    "stage": "complete",
+    "pid": 36928,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "wsl -d Ubuntu -- bash /mnt/c/AMI-wt/P16/scripts/wsl_python.sh /mnt/c/AMI-wt/P16/gpu/scripts/p16_mid_mask_check.py",
+    "argv": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "bash",
+      "/mnt/c/AMI-wt/P16/scripts/wsl_python.sh",
+      "/mnt/c/AMI-wt/P16/gpu/scripts/p16_mid_mask_check.py"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\mid-mask-gradient-check-002\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\mid-mask-gradient-check-002\\stderr.log"
+    ],
+    "elapsed_minutes": 0.16739618666664077,
+    "child_pid": 9368,
+    "exit_code": 0,
+    "job": "mid-mask-gradient-check-002"
+  },
+  {
+    "stage": "complete",
+    "pid": 34404,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:/Python314/python.exe -m unittest discover -s tests -v",
+    "argv": [
+      "C:/Python314/python.exe",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-v"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\nav-full-python\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\nav-full-python\\stderr.log"
+    ],
+    "elapsed_minutes": 0.2508601383325489,
+    "child_pid": 35256,
+    "exit_code": 0,
+    "job": "nav-full-python"
+  },
+  {
+    "stage": "complete",
+    "pid": 20012,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p16/target -- --test-threads=1",
+    "argv": [
+      "cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "gpu/Cargo.toml",
+      "--target-dir",
+      "C:/AMI/runs/p16/target",
+      "--",
+      "--test-threads=1"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\nav-full-rust\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\nav-full-rust\\stderr.log"
+    ],
+    "elapsed_minutes": 6.6012889550009275,
+    "child_pid": 30244,
+    "exit_code": 0,
+    "job": "nav-full-rust"
+  },
+  {
+    "stage": "complete",
+    "pid": 13104,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:\\AMI\\runs\\p16\\target",
+    "argv": [
+      "cargo",
+      "build",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "gpu/Cargo.toml",
+      "--target-dir",
+      "C:\\AMI\\runs\\p16\\target"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\nav-release-final\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\nav-release-final\\stderr.log"
+    ],
+    "elapsed_minutes": 1.4217315316665917,
+    "child_pid": 22996,
+    "exit_code": 0,
+    "job": "nav-release-final"
+  },
+  {
     "stage": "complete",
     "pid": 11904,
     "cwd": "C:\\AMI-wt\\P16",
@@ -957,6 +1100,35 @@
     "child_pid": 31732,
     "exit_code": 101,
     "job": "script-navigation-tests"
+  },
+  {
+    "stage": "complete",
+    "pid": 35900,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p16/target p16_navigation_ -- --nocapture --test-threads=1",
+    "argv": [
+      "cargo",
+      "test",
+      "--release",
+      "--locked",
+      "--manifest-path",
+      "gpu/Cargo.toml",
+      "--target-dir",
+      "C:/AMI/runs/p16/target",
+      "p16_navigation_",
+      "--",
+      "--nocapture",
+      "--test-threads=1"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\script-navigation-tests-002\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\script-navigation-tests-002\\stderr.log"
+    ],
+    "elapsed_minutes": 1.6726848683319986,
+    "child_pid": 37332,
+    "exit_code": 0,
+    "job": "script-navigation-tests-002"
   },
   {
     "stage": "complete",
