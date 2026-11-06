@@ -125,11 +125,11 @@ def parity(name,dataset,training):
     assert r['passed'] and r['steps']==128
     save(REPORT/(name+'.json'),r);done(name,r,folder)
 def evaluation(label,weights,opponent,previous=None,foreground=True):
-    name='eval-'+label+'-'+opponent
+    name='eval-'+label+'-'+opponent+'-sampling'
     with LOCK:
-        existing=[e for e in read(RUN/'evaluations.json',[]) if e['label']==label and e['opponent']==opponent and e.get('complete')]
+        existing=[e for e in read(RUN/'evaluations.json',[]) if e['label']==label and e['opponent']==opponent and e.get('complete') and e.get('sampling',False)]
     if existing:return existing[0]
-    cfg=dict(engine=current_engine(),matches=128,seconds=600,seed=20261103,left='v10',right='v9' if opponent=='v9' else 'v10',swap=True,weights=str(weights),sampling=False,zero_sum=True)
+    cfg=dict(engine=current_engine(),matches=128,seconds=600,seed=20261103,left='v10',right='v9' if opponent=='v9' else 'v10',swap=True,weights=str(weights),sampling=True,zero_sum=True)
     if previous:cfg['opponent_weights']=str(previous)
     for attempt in range(1,4):
         job=name if attempt==1 else name+f'-retry-{attempt}';folder=RUN/job;cp=config(job,cfg)
@@ -143,14 +143,14 @@ def evaluation(label,weights,opponent,previous=None,foreground=True):
     d['duration_elapsed_seconds']={'numerator':sum(g['game_seconds']+read(Path(cfg['engine']))['pre_game_seconds'] for g in r['per_match']),'denominator':128}
     for c in d['controllers'].values():
         c['counter_denominator']=c['actors'];c['raze_denominator_note']='Hits on enemy hero / all completed casts of this spell; no inferred model intent.'
-    save(summary,d);row=dict(scripted_base_to_mid=bool(r.get('scripted_base_to_mid',False)),label=label,opponent=opponent,weights=str(weights),opponent_weights=str(previous) if previous else None,complete=True,summary=str(summary.relative_to(ROOT)).replace('\\','/'),folder=str(folder),finished_utc=utc(),seconds=r['wall_seconds'])
+    save(summary,d);row=dict(sampling=True,scripted_base_to_mid=bool(r.get('scripted_base_to_mid',False)),label=label,opponent=opponent,weights=str(weights),opponent_weights=str(previous) if previous else None,complete=True,summary=str(summary.relative_to(ROOT)).replace('\\','/'),folder=str(folder),finished_utc=utc(),seconds=r['wall_seconds'])
     with LOCK:
         rows=read(RUN/'evaluations.json',[]);rows.append(row);save(RUN/'evaluations.json',rows)
     publish('evaluate '+label+' against '+opponent);return row
 
 def evaluate_group(label,weights,previous=None,foreground=True):
     with LOCK:
-        existing={e['opponent'] for e in read(RUN/'evaluations.json',[]) if e['label']==label and e.get('complete')}
+        existing={e['opponent'] for e in read(RUN/'evaluations.json',[]) if e['label']==label and e.get('complete') and e.get('sampling',False)}
     needed={'v10','v9'}|({'previous'} if previous else set())
     if needed<=existing:return
     evaluation(label,weights,'v10',foreground=foreground);evaluation(label,weights,'v9',foreground=foreground)
@@ -185,7 +185,7 @@ def parallel_probe(weights):
     known=read(RUN/'parallel-evaluation.json')
     if known:return known['allowed']
     cfg=read(REPORT/'configs/ppo-v10.json');cfg.update(engine=current_engine(),initial_weights=str(weights),desynchronize=False,max_blocks=6 if read(RUN/'navigation-mode.json',{}).get('active') else 1,minutes=10,checkpoint_minutes=0);cp=config('parallel-ppo-smoke',cfg)
-    e=dict(engine=current_engine(),matches=128,seconds=60 if read(RUN/'navigation-mode.json',{}).get('active') else 1,seed=20261103,weights=str(weights),opponent_weights=str(weights),sampling=False,zero_sum=True);ep=config('parallel-eval-smoke',e)
+    e=dict(engine=current_engine(),matches=128,seconds=60 if read(RUN/'navigation-mode.json',{}).get('active') else 1,seed=20261103,weights=str(weights),opponent_weights=str(weights),sampling=True,zero_sum=True);ep=config('parallel-eval-smoke',e)
     launch('parallel-ppo-smoke',[EXE,'train-ggd',cp,RUN/'parallel-ppo-smoke']);launch('parallel-eval-smoke',[EXE,'evaluate-chio',ep,RUN/'parallel-eval-smoke'])
     results={}
     for name in ['parallel-ppo-smoke','parallel-eval-smoke']:
@@ -230,7 +230,7 @@ def choose_best(eligible_labels=None):
     entries=read(RUN/'evaluations.json',[]);labels=sorted({e['label'] for e in entries});candidates=[]
     for label in labels:
         if eligible_labels is not None and label not in eligible_labels:continue
-        selected=[e for e in entries if bool(e.get('scripted_base_to_mid',False))==bool(read(RUN/'navigation-mode.json',{}).get('active')) and e['label']==label and e['opponent'] in ('v10','v9') and e.get('complete')]
+        selected=[e for e in entries if bool(e.get('scripted_base_to_mid',False))==bool(read(RUN/'navigation-mode.json',{}).get('active')) and e.get('sampling',False) and e['label']==label and e['opponent'] in ('v10','v9') and e.get('complete')]
         if len(selected)!=2:continue
         cs=[read(ROOT/e['summary'])['controllers']['CHiO'] for e in selected];n=sum(c['actors'] for c in cs)
         wins=sum(c['outcomes'].get('win',0) for c in cs);draws=sum(c['outcomes'].get('draw',0) for c in cs);deaths=sum(c['deaths']['numerator'] for c in cs)
@@ -242,8 +242,8 @@ def choose_best(eligible_labels=None):
     weights=[3,2,2,2,1,1,1]
     for c in candidates:c['rank_score']=sum(w*sum(other['metrics'][i]<c['metrics'][i] for other in candidates)/max(1,len(candidates)-1) for i,w in enumerate(weights))/sum(weights)
     winner=max(candidates,key=lambda c:c['rank_score']);n=winner['actors']
-    reason=(f"предварительный сбалансированный выбор по рангам побед, выживаемости, фарма, выхода/времени на мид, койлов и смертей от башни (веса3/2/2/2/1/1/1; без порога). "
-            f"Против обоих учителей суммарно: W {winner['wins']}/{n}, смерти {winner['deaths']:g}/{n}, LH+deny {winner['farm']:g}/{n}, мид {winner['mid']}/{n}, койлы {winner['hits']:g}/{winner['casts']:g}. Это эвристика выбора, не доказательство переноса в Dota.")
+    reason=(f"РїСЂРµРґРІР°СЂРёС‚РµР»СЊРЅС‹Р№ СЃР±Р°Р»Р°РЅСЃРёСЂРѕРІР°РЅРЅС‹Р№ РІС‹Р±РѕСЂ РїРѕ СЂР°РЅРіР°Рј РїРѕР±РµРґ, РІС‹Р¶РёРІР°РµРјРѕСЃС‚Рё, С„Р°СЂРјР°, РІС‹С…РѕРґР°/РІСЂРµРјРµРЅРё РЅР° РјРёРґ, РєРѕР№Р»РѕРІ Рё СЃРјРµСЂС‚РµР№ РѕС‚ Р±Р°С€РЅРё (РІРµСЃР°3/2/2/2/1/1/1; Р±РµР· РїРѕСЂРѕРіР°). "
+            f"РџСЂРѕС‚РёРІ РѕР±РѕРёС… СѓС‡РёС‚РµР»РµР№ СЃСѓРјРјР°СЂРЅРѕ: W {winner['wins']}/{n}, СЃРјРµСЂС‚Рё {winner['deaths']:g}/{n}, LH+deny {winner['farm']:g}/{n}, РјРёРґ {winner['mid']}/{n}, РєРѕР№Р»С‹ {winner['hits']:g}/{winner['casts']:g}. Р­С‚Рѕ СЌРІСЂРёСЃС‚РёРєР° РІС‹Р±РѕСЂР°, РЅРµ РґРѕРєР°Р·Р°С‚РµР»СЊСЃС‚РІРѕ РїРµСЂРµРЅРѕСЃР° РІ Dota.")
     result=dict(label=winner['label'],weights=winner['weights'],reason=reason,candidates=candidates);save(RUN/'best.json',result);save(REPORT/'best.json',result);return result
 
 def navigation_gate():
