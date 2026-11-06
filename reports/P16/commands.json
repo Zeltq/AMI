@@ -310,7 +310,7 @@
       "C:\\AMI\\runs\\p16\\jobs\\controller-live-status-repair\\stdout.log",
       "C:\\AMI\\runs\\p16\\jobs\\controller-live-status-repair\\stderr.log"
     ],
-    "elapsed_minutes": 2.172124531667214,
+    "elapsed_minutes": 2.506256621666641,
     "child_pid": 21636,
     "exit_code": null,
     "job": "controller-live-status-repair"
@@ -1372,6 +1372,55 @@
     "child_pid": 28996,
     "exit_code": 0,
     "job": "parity-nav-imitation-fixture"
+  },
+  {
+    "stage": "complete",
+    "pid": 31068,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe check-chio-parity C:\\AMI\\runs\\p16\\parity-nav-imitation-w\\weights C:\\AMI\\runs\\p16\\parity-nav-imitation-w\\fixture C:\\AMI\\runs\\p16\\parity-nav-imitation-w\\result.json",
+    "argv": [
+      "C:\\AMI\\runs\\p16\\target\\release\\sf-duel-gpu.exe",
+      "check-chio-parity",
+      "C:\\AMI\\runs\\p16\\parity-nav-imitation-w\\weights",
+      "C:\\AMI\\runs\\p16\\parity-nav-imitation-w\\fixture",
+      "C:\\AMI\\runs\\p16\\parity-nav-imitation-w\\result.json"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\parity-nav-imitation-w\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\parity-nav-imitation-w\\stderr.log"
+    ],
+    "elapsed_minutes": 0.09095374166499823,
+    "child_pid": 37268,
+    "exit_code": 0,
+    "job": "parity-nav-imitation-w"
+  },
+  {
+    "stage": "complete",
+    "pid": 27652,
+    "cwd": "C:\\AMI-wt\\P16",
+    "command": "wsl -d Ubuntu -- bash /mnt/c/AMI-wt/P16/scripts/wsl_python.sh /mnt/c/AMI-wt/P16/gpu/scripts/p16_parity_fixture.py /mnt/c/AMI/runs/p16/teacher-1024 /mnt/c/AMI/runs/p16/nav-imitation-w/checkpoint.pt /mnt/c/AMI/runs/p16/parity-nav-imitation-w",
+    "argv": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--",
+      "bash",
+      "/mnt/c/AMI-wt/P16/scripts/wsl_python.sh",
+      "/mnt/c/AMI-wt/P16/gpu/scripts/p16_parity_fixture.py",
+      "/mnt/c/AMI/runs/p16/teacher-1024",
+      "/mnt/c/AMI/runs/p16/nav-imitation-w/checkpoint.pt",
+      "/mnt/c/AMI/runs/p16/parity-nav-imitation-w"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p16\\jobs\\parity-nav-imitation-w-fixture\\stdout.log",
+      "C:\\AMI\\runs\\p16\\jobs\\parity-nav-imitation-w-fixture\\stderr.log"
+    ],
+    "elapsed_minutes": 0.16758316000147414,
+    "child_pid": 20140,
+    "exit_code": 0,
+    "job": "parity-nav-imitation-w-fixture"
   },
   {
     "stage": "complete",

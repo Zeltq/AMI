@@ -1,0 +1,36 @@
+{
+  "fixture_life_resets": 1,
+  "hidden_max_error": 3.5315752029418945e-06,
+  "logits": {
+    "action": {
+      "max_absolute_error": 3.5762786865234375e-06,
+      "steps": 128,
+      "tolerance": 0.0001
+    },
+    "ally_target": {
+      "max_absolute_error": 2.86102294921875e-06,
+      "steps": 128,
+      "tolerance": 0.0001
+    },
+    "direction": {
+      "max_absolute_error": 2.86102294921875e-06,
+      "steps": 128,
+      "tolerance": 0.0001
+    },
+    "enemy_target": {
+      "max_absolute_error": 2.86102294921875e-06,
+      "steps": 128,
+      "tolerance": 0.0001
+    }
+  },
+  "logp_max_error": 1.9073486328125e-06,
+  "observation_storage": "FP16 to FP32",
+  "passed": true,
+  "recurrent_reset": 128,
+  "roundtrip": {
+    "equal": 49,
+    "total": 49
+  },
+  "steps": 128,
+  "value_max_error": 2.3096799850463867e-07
+}
