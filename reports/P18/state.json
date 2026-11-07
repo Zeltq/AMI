@@ -1,36 +1,11 @@
 {
-  "stage": "self-play",
-  "controller_pid": 26712,
-  "updated_utc": "2026-11-07T02:38:22.686838+00:00",
+  "stage": "finishing-selected-evaluation",
+  "controller_pid": 26324,
+  "updated_utc": "2026-11-07T02:42:26.030639+00:00",
   "background_work_remaining": true,
-  "pid": 33612,
-  "command": "C:\\AMI\\runs\\p18\\target\\release\\sf-duel-gpu.exe train-ggd C:\\AMI-wt\\P18\\reports\\P18\\configs\\self-play.json C:\\AMI\\runs\\p18\\self-play",
-  "native": {
-    "anchor_sha256": "a28f8d0b13607cf7b496813e2aee0b0e739a3eeca636f447532c5b3a26f3e027",
-    "block": 453,
-    "completed_episodes": 8176,
-    "optimizer_steps": 10872,
-    "pid": 33612,
-    "stage": "training-chio",
-    "training_seconds": 23611.834856199996,
-    "wall_seconds": 25377.6960809,
-    "warmup_block": 26,
-    "warmup_blocks": 26,
-    "metrics": {
-      "loss": 0.05005255591822788,
-      "value_loss": 0.09652023754703502,
-      "entropy": 0.17262784081200758,
-      "old_policy_kl": 0.000985092049177183,
-      "anchor_kl": 0.0953899510204792,
-      "gradient_norm": 1.4979890659451485,
-      "ev_post0": 0.7013360857963562
-    },
-    "phase_counts": [
-      5237.0,
-      10815.0,
-      3840.0,
-      921.0
-    ]
-  },
-  "artifacts": "C:\\AMI\\runs\\p18\\self-play"
+  "training_stopped": true,
+  "pid": 26664,
+  "artifacts": "C:\\AMI\\runs\\p18",
+  "selected_checkpoint": "C:\\AMI\\runs\\p18\\saved\\self-play-360m",
+  "command": "Complete already running Self-Play 360m evaluation; no further training authorized"
 }
