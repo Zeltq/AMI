@@ -1,0 +1,895 @@
+{
+  "source": "C:\\AMI\\runs\\p18\\eval-self-play-360m-v9-sampling\\report.json",
+  "complete": true,
+  "matches": {
+    "numerator": 128,
+    "denominator": 128
+  },
+  "seed": 20261103,
+  "duration_game_seconds": {
+    "numerator": 12222.967288970947,
+    "denominator": 128
+  },
+  "wall_minutes": 4.663630041666667,
+  "controllers": {
+    "CHiO": {
+      "actors": 128,
+      "lh": {
+        "numerator": 273.0,
+        "denominator": 128
+      },
+      "deny": {
+        "numerator": 109.0,
+        "denominator": 128
+      },
+      "deaths": {
+        "numerator": 8.0,
+        "denominator": 128
+      },
+      "hero_attacks_released": {
+        "numerator": 2422.0,
+        "denominator": 128
+      },
+      "attack_hero_commands": {
+        "numerator": 16658.0,
+        "denominator": 128
+      },
+      "raze_hero_hits": {
+        "numerator": 499.0,
+        "denominator": 128
+      },
+      "cancelled_casts": {
+        "numerator": 8.0,
+        "denominator": 128
+      },
+      "gold_received": {
+        "numerator": 70631.45881652832,
+        "denominator": 128
+      },
+      "gold_spent": {
+        "numerator": 35125.0,
+        "denominator": 128
+      },
+      "lh_deny_per_spawned_creep": {
+        "numerator": 382.0,
+        "denominator": 3726.0
+      },
+      "mid_arrivals": {
+        "numerator": 128,
+        "denominator": 128
+      },
+      "mid_arrival_elapsed_seconds": {
+        "numerator": 3251.1995849609375,
+        "denominator": 128
+      },
+      "stuck_fraction": {
+        "numerator": 2639.0,
+        "denominator": 118794.0
+      },
+      "stuck_before_mid": {
+        "numerator": 0.0,
+        "denominator": 16128.0
+      },
+      "stuck_after_mid": {
+        "numerator": 2639.0,
+        "denominator": 102666.0
+      },
+      "purchases": {
+        "boots": 6.0,
+        "bracer": 0.0,
+        "clarity": 0.0,
+        "flask": 52.0,
+        "mango": 237.0,
+        "tango": 128.0,
+        "tp": 0.0,
+        "wraith_band": 0.0
+      },
+      "consumable_uses": {
+        "flask": 32.0,
+        "mango": 0.0,
+        "tango": 1.0
+      },
+      "reward_components": {
+        "enemy_deaths": 0.0,
+        "enemy_denies": -58.460004568099976,
+        "enemy_experience": -115.41441051661968,
+        "enemy_flask": 34.68000066280365,
+        "enemy_flask_break": 11.930274039506912,
+        "enemy_gold_received": -222.56043422222137,
+        "enemy_health": 247.33605551719666,
+        "enemy_kills": 0.0,
+        "enemy_last_hits": 45.09599848091602,
+        "enemy_mana": 0.0,
+        "enemy_mango": 0.0,
+        "enemy_outcome": 0.0,
+        "enemy_own_t1": 15.406759560108185,
+        "enemy_tango": 0.0,
+        "own_deaths": -17.600000381469727,
+        "own_denies": 10.820000350475311,
+        "own_experience": 159.563609033823,
+        "own_flask": -9.480000376701355,
+        "own_flask_break": -0.593541294336319,
+        "own_gold_received": 421.6636683642864,
+        "own_health": -67.33186599612236,
+        "own_kills": 83.29999858140945,
+        "own_last_hits": -32.61599890142679,
+        "own_mana": -53.65221098065376,
+        "own_mango": 0.0,
+        "own_outcome": 0.0,
+        "own_own_t1": -1.0824977159500122,
+        "own_tango": -0.10000000149011612
+      },
+      "spell_completions": [
+        12.0,
+        271.0,
+        346.0,
+        0.0
+      ],
+      "raze_hero_hit_rates": {
+        "near": {
+          "numerator": 1.0,
+          "denominator": 12.0
+        },
+        "mid": {
+          "numerator": 179.0,
+          "denominator": 271.0
+        },
+        "far": {
+          "numerator": 319.0,
+          "denominator": 346.0
+        }
+      },
+      "raze_denominator_note": "Hits on enemy hero / all completed casts of this spell; no inferred model intent.",
+      "outcomes": {
+        "win": 120,
+        "loss": 8
+      },
+      "outcome_reasons": {
+        "win:death": 119,
+        "loss:death": 8,
+        "win:T1": 1
+      },
+      "death_causes": {
+        "hero_attack": 0.0,
+        "raze": 0.0,
+        "creeps": 3.0,
+        "tower": 5.0,
+        "requiem": 0.0
+      },
+      "counter_denominator": 128
+    },
+    "teacher-v9-chio": {
+      "actors": 128,
+      "lh": {
+        "numerator": 377.0,
+        "denominator": 128
+      },
+      "deny": {
+        "numerator": 585.0,
+        "denominator": 128
+      },
+      "deaths": {
+        "numerator": 119.0,
+        "denominator": 128
+      },
+      "hero_attacks_released": {
+        "numerator": 0.0,
+        "denominator": 128
+      },
+      "attack_hero_commands": {
+        "numerator": 0.0,
+        "denominator": 128
+      },
+      "raze_hero_hits": {
+        "numerator": 0.0,
+        "denominator": 128
+      },
+      "cancelled_casts": {
+        "numerator": 0.0,
+        "denominator": 128
+      },
+      "gold_received": {
+        "numerator": 37191.29847717285,
+        "denominator": 128
+      },
+      "gold_spent": {
+        "numerator": 39520.0,
+        "denominator": 128
+      },
+      "lh_deny_per_spawned_creep": {
+        "numerator": 962.0,
+        "denominator": 3726.0
+      },
+      "mid_arrivals": {
+        "numerator": 128,
+        "denominator": 128
+      },
+      "mid_arrival_elapsed_seconds": {
+        "numerator": 3251.1995849609375,
+        "denominator": 128
+      },
+      "stuck_fraction": {
+        "numerator": 0.0,
+        "denominator": 118794.0
+      },
+      "stuck_before_mid": {
+        "numerator": 0.0,
+        "denominator": 16128.0
+      },
+      "stuck_after_mid": {
+        "numerator": 0.0,
+        "denominator": 102666.0
+      },
+      "purchases": {
+        "boots": 10.0,
+        "bracer": 0.0,
+        "clarity": 0.0,
+        "flask": 230.0,
+        "mango": 0.0,
+        "tango": 128.0,
+        "tp": 0.0,
+        "wraith_band": 0.0
+      },
+      "consumable_uses": {
+        "flask": 116.0,
+        "mango": 0.0,
+        "tango": 0.0
+      },
+      "reward_components": {
+        "enemy_deaths": 0.0,
+        "enemy_denies": -10.820000350475311,
+        "enemy_experience": -159.563609033823,
+        "enemy_flask": 9.480000376701355,
+        "enemy_flask_break": 0.593541294336319,
+        "enemy_gold_received": -421.6636683642864,
+        "enemy_health": 67.33186599612236,
+        "enemy_kills": 0.0,
+        "enemy_last_hits": 32.61599890142679,
+        "enemy_mana": 53.65221098065376,
+        "enemy_mango": 0.0,
+        "enemy_outcome": 0.0,
+        "enemy_own_t1": 1.0824977159500122,
+        "enemy_tango": 0.10000000149011612,
+        "own_deaths": -261.8000056743622,
+        "own_denies": 58.460004568099976,
+        "own_experience": 115.41441051661968,
+        "own_flask": -34.68000066280365,
+        "own_flask_break": -11.930274039506912,
+        "own_gold_received": 222.56043422222137,
+        "own_health": -247.33605551719666,
+        "own_kills": 0.0,
+        "own_last_hits": -45.09599848091602,
+        "own_mana": 0.0,
+        "own_mango": 0.0,
+        "own_outcome": 0.0,
+        "own_own_t1": -15.406759560108185,
+        "own_tango": 0.0
+      },
+      "spell_completions": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "raze_hero_hit_rates": {
+        "near": {
+          "numerator": 0.0,
+          "denominator": 0.0
+        },
+        "mid": {
+          "numerator": 0.0,
+          "denominator": 0.0
+        },
+        "far": {
+          "numerator": 0.0,
+          "denominator": 0.0
+        }
+      },
+      "raze_denominator_note": "Hits on enemy hero / all completed casts of this spell; no inferred model intent.",
+      "outcomes": {
+        "loss": 120,
+        "win": 8
+      },
+      "outcome_reasons": {
+        "loss:death": 119,
+        "win:death": 8,
+        "loss:T1": 1
+      },
+      "death_causes": {
+        "hero_attack": 104.0,
+        "raze": 15.0,
+        "creeps": 0.0,
+        "tower": 0.0,
+        "requiem": 0.0
+      },
+      "counter_denominator": 128
+    },
+    "CHiO:radiant": {
+      "actors": 64,
+      "lh": {
+        "numerator": 132.0,
+        "denominator": 64
+      },
+      "deny": {
+        "numerator": 64.0,
+        "denominator": 64
+      },
+      "deaths": {
+        "numerator": 5.0,
+        "denominator": 64
+      },
+      "hero_attacks_released": {
+        "numerator": 1260.0,
+        "denominator": 64
+      },
+      "attack_hero_commands": {
+        "numerator": 9134.0,
+        "denominator": 64
+      },
+      "raze_hero_hits": {
+        "numerator": 260.0,
+        "denominator": 64
+      },
+      "cancelled_casts": {
+        "numerator": 5.0,
+        "denominator": 64
+      },
+      "gold_received": {
+        "numerator": 35826.993423461914,
+        "denominator": 64
+      },
+      "gold_spent": {
+        "numerator": 18575.0,
+        "denominator": 64
+      },
+      "lh_deny_per_spawned_creep": {
+        "numerator": 196.0,
+        "denominator": 2042.0
+      },
+      "mid_arrivals": {
+        "numerator": 64,
+        "denominator": 64
+      },
+      "mid_arrival_elapsed_seconds": {
+        "numerator": 1612.7998046875,
+        "denominator": 64
+      },
+      "stuck_fraction": {
+        "numerator": 1312.0,
+        "denominator": 63154.0
+      },
+      "stuck_before_mid": {
+        "numerator": 0.0,
+        "denominator": 8000.0
+      },
+      "stuck_after_mid": {
+        "numerator": 1312.0,
+        "denominator": 55154.0
+      },
+      "purchases": {
+        "boots": 2.0,
+        "bracer": 0.0,
+        "clarity": 0.0,
+        "flask": 33.0,
+        "mango": 131.0,
+        "tango": 64.0,
+        "tp": 0.0,
+        "wraith_band": 0.0
+      },
+      "consumable_uses": {
+        "flask": 19.0,
+        "mango": 0.0,
+        "tango": 1.0
+      },
+      "reward_components": {
+        "enemy_deaths": 0.0,
+        "enemy_denies": -33.000002570450306,
+        "enemy_experience": -69.51060618460178,
+        "enemy_flask": 20.70000058412552,
+        "enemy_flask_break": 7.764987200498581,
+        "enemy_gold_received": -125.46398368477821,
+        "enemy_health": 122.51838916540146,
+        "enemy_kills": 0.0,
+        "enemy_last_hits": 25.43999908864498,
+        "enemy_mana": 0.0,
+        "enemy_mango": 0.0,
+        "enemy_outcome": 0.0,
+        "enemy_own_t1": 9.91472738981247,
+        "enemy_tango": 0.0,
+        "own_deaths": -11.000000238418579,
+        "own_denies": 6.3600001856684685,
+        "own_experience": 89.74000504612923,
+        "own_flask": -5.70000022649765,
+        "own_flask_break": -0.593541294336319,
+        "own_gold_received": 214.88892090320587,
+        "own_health": -46.05906468629837,
+        "own_kills": 40.59999930858612,
+        "own_last_hits": -15.839999362826347,
+        "own_mana": -26.715864777565002,
+        "own_mango": 0.0,
+        "own_outcome": 0.0,
+        "own_own_t1": -0.9038196802139282,
+        "own_tango": -0.10000000149011612
+      },
+      "spell_completions": [
+        7.0,
+        134.0,
+        187.0,
+        0.0
+      ],
+      "raze_hero_hit_rates": {
+        "near": {
+          "numerator": 0.0,
+          "denominator": 7.0
+        },
+        "mid": {
+          "numerator": 94.0,
+          "denominator": 134.0
+        },
+        "far": {
+          "numerator": 166.0,
+          "denominator": 187.0
+        }
+      },
+      "raze_denominator_note": "Hits on enemy hero / all completed casts of this spell; no inferred model intent.",
+      "outcomes": {
+        "win": 59,
+        "loss": 5
+      },
+      "outcome_reasons": {
+        "win:death": 58,
+        "loss:death": 5,
+        "win:T1": 1
+      },
+      "death_causes": {
+        "hero_attack": 0.0,
+        "raze": 0.0,
+        "creeps": 3.0,
+        "tower": 2.0,
+        "requiem": 0.0
+      },
+      "counter_denominator": 64
+    },
+    "CHiO:dire": {
+      "actors": 64,
+      "lh": {
+        "numerator": 141.0,
+        "denominator": 64
+      },
+      "deny": {
+        "numerator": 45.0,
+        "denominator": 64
+      },
+      "deaths": {
+        "numerator": 3.0,
+        "denominator": 64
+      },
+      "hero_attacks_released": {
+        "numerator": 1162.0,
+        "denominator": 64
+      },
+      "attack_hero_commands": {
+        "numerator": 7524.0,
+        "denominator": 64
+      },
+      "raze_hero_hits": {
+        "numerator": 239.0,
+        "denominator": 64
+      },
+      "cancelled_casts": {
+        "numerator": 3.0,
+        "denominator": 64
+      },
+      "gold_received": {
+        "numerator": 34804.465393066406,
+        "denominator": 64
+      },
+      "gold_spent": {
+        "numerator": 16550.0,
+        "denominator": 64
+      },
+      "lh_deny_per_spawned_creep": {
+        "numerator": 186.0,
+        "denominator": 1684.0
+      },
+      "mid_arrivals": {
+        "numerator": 64,
+        "denominator": 64
+      },
+      "mid_arrival_elapsed_seconds": {
+        "numerator": 1638.3997802734375,
+        "denominator": 64
+      },
+      "stuck_fraction": {
+        "numerator": 1327.0,
+        "denominator": 55640.0
+      },
+      "stuck_before_mid": {
+        "numerator": 0.0,
+        "denominator": 8128.0
+      },
+      "stuck_after_mid": {
+        "numerator": 1327.0,
+        "denominator": 47512.0
+      },
+      "purchases": {
+        "boots": 4.0,
+        "bracer": 0.0,
+        "clarity": 0.0,
+        "flask": 19.0,
+        "mango": 106.0,
+        "tango": 64.0,
+        "tp": 0.0,
+        "wraith_band": 0.0
+      },
+      "consumable_uses": {
+        "flask": 13.0,
+        "mango": 0.0,
+        "tango": 0.0
+      },
+      "reward_components": {
+        "enemy_deaths": 0.0,
+        "enemy_denies": -25.46000199764967,
+        "enemy_experience": -45.9038043320179,
+        "enemy_flask": 13.980000078678131,
+        "enemy_flask_break": 4.165286839008331,
+        "enemy_gold_received": -97.09645053744316,
+        "enemy_health": 124.8176663517952,
+        "enemy_kills": 0.0,
+        "enemy_last_hits": 19.655999392271042,
+        "enemy_mana": 0.0,
+        "enemy_mango": 0.0,
+        "enemy_outcome": 0.0,
+        "enemy_own_t1": 5.492032170295715,
+        "enemy_tango": 0.0,
+        "own_deaths": -6.6000001430511475,
+        "own_denies": 4.460000164806843,
+        "own_experience": 69.82360398769379,
+        "own_flask": -3.780000150203705,
+        "own_flask_break": 0.0,
+        "own_gold_received": 206.77474746108055,
+        "own_health": -21.27280130982399,
+        "own_kills": 42.699999272823334,
+        "own_last_hits": -16.775999538600445,
+        "own_mana": -26.93634620308876,
+        "own_mango": 0.0,
+        "own_outcome": 0.0,
+        "own_own_t1": -0.17867803573608398,
+        "own_tango": 0.0
+      },
+      "spell_completions": [
+        5.0,
+        137.0,
+        159.0,
+        0.0
+      ],
+      "raze_hero_hit_rates": {
+        "near": {
+          "numerator": 1.0,
+          "denominator": 5.0
+        },
+        "mid": {
+          "numerator": 85.0,
+          "denominator": 137.0
+        },
+        "far": {
+          "numerator": 153.0,
+          "denominator": 159.0
+        }
+      },
+      "raze_denominator_note": "Hits on enemy hero / all completed casts of this spell; no inferred model intent.",
+      "outcomes": {
+        "win": 61,
+        "loss": 3
+      },
+      "outcome_reasons": {
+        "win:death": 61,
+        "loss:death": 3
+      },
+      "death_causes": {
+        "hero_attack": 0.0,
+        "raze": 0.0,
+        "creeps": 0.0,
+        "tower": 3.0,
+        "requiem": 0.0
+      },
+      "counter_denominator": 64
+    },
+    "teacher-v9-chio:radiant": {
+      "actors": 64,
+      "lh": {
+        "numerator": 165.0,
+        "denominator": 64
+      },
+      "deny": {
+        "numerator": 255.0,
+        "denominator": 64
+      },
+      "deaths": {
+        "numerator": 61.0,
+        "denominator": 64
+      },
+      "hero_attacks_released": {
+        "numerator": 0.0,
+        "denominator": 64
+      },
+      "attack_hero_commands": {
+        "numerator": 0.0,
+        "denominator": 64
+      },
+      "raze_hero_hits": {
+        "numerator": 0.0,
+        "denominator": 64
+      },
+      "cancelled_casts": {
+        "numerator": 0.0,
+        "denominator": 64
+      },
+      "gold_received": {
+        "numerator": 16268.398681640625,
+        "denominator": 64
+      },
+      "gold_spent": {
+        "numerator": 19260.0,
+        "denominator": 64
+      },
+      "lh_deny_per_spawned_creep": {
+        "numerator": 420.0,
+        "denominator": 1684.0
+      },
+      "mid_arrivals": {
+        "numerator": 64,
+        "denominator": 64
+      },
+      "mid_arrival_elapsed_seconds": {
+        "numerator": 1612.7998046875,
+        "denominator": 64
+      },
+      "stuck_fraction": {
+        "numerator": 0.0,
+        "denominator": 55640.0
+      },
+      "stuck_before_mid": {
+        "numerator": 0.0,
+        "denominator": 8000.0
+      },
+      "stuck_after_mid": {
+        "numerator": 0.0,
+        "denominator": 47640.0
+      },
+      "purchases": {
+        "boots": 7.0,
+        "bracer": 0.0,
+        "clarity": 0.0,
+        "flask": 100.0,
+        "mango": 0.0,
+        "tango": 64.0,
+        "tp": 0.0,
+        "wraith_band": 0.0
+      },
+      "consumable_uses": {
+        "flask": 47.0,
+        "mango": 0.0,
+        "tango": 0.0
+      },
+      "reward_components": {
+        "enemy_deaths": 0.0,
+        "enemy_denies": -4.460000164806843,
+        "enemy_experience": -69.82360398769379,
+        "enemy_flask": 3.780000150203705,
+        "enemy_flask_break": 0.0,
+        "enemy_gold_received": -206.77474746108055,
+        "enemy_health": 21.27280130982399,
+        "enemy_kills": 0.0,
+        "enemy_last_hits": 16.775999538600445,
+        "enemy_mana": 26.93634620308876,
+        "enemy_mango": 0.0,
+        "enemy_outcome": 0.0,
+        "enemy_own_t1": 0.17867803573608398,
+        "enemy_tango": 0.0,
+        "own_deaths": -134.20000290870667,
+        "own_denies": 25.46000199764967,
+        "own_experience": 45.9038043320179,
+        "own_flask": -13.980000078678131,
+        "own_flask_break": -4.165286839008331,
+        "own_gold_received": 97.09645053744316,
+        "own_health": -124.8176663517952,
+        "own_kills": 0.0,
+        "own_last_hits": -19.655999392271042,
+        "own_mana": 0.0,
+        "own_mango": 0.0,
+        "own_outcome": 0.0,
+        "own_own_t1": -5.492032170295715,
+        "own_tango": 0.0
+      },
+      "spell_completions": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "raze_hero_hit_rates": {
+        "near": {
+          "numerator": 0.0,
+          "denominator": 0.0
+        },
+        "mid": {
+          "numerator": 0.0,
+          "denominator": 0.0
+        },
+        "far": {
+          "numerator": 0.0,
+          "denominator": 0.0
+        }
+      },
+      "raze_denominator_note": "Hits on enemy hero / all completed casts of this spell; no inferred model intent.",
+      "outcomes": {
+        "loss": 61,
+        "win": 3
+      },
+      "outcome_reasons": {
+        "loss:death": 61,
+        "win:death": 3
+      },
+      "death_causes": {
+        "hero_attack": 55.0,
+        "raze": 6.0,
+        "creeps": 0.0,
+        "tower": 0.0,
+        "requiem": 0.0
+      },
+      "counter_denominator": 64
+    },
+    "teacher-v9-chio:dire": {
+      "actors": 64,
+      "lh": {
+        "numerator": 212.0,
+        "denominator": 64
+      },
+      "deny": {
+        "numerator": 330.0,
+        "denominator": 64
+      },
+      "deaths": {
+        "numerator": 58.0,
+        "denominator": 64
+      },
+      "hero_attacks_released": {
+        "numerator": 0.0,
+        "denominator": 64
+      },
+      "attack_hero_commands": {
+        "numerator": 0.0,
+        "denominator": 64
+      },
+      "raze_hero_hits": {
+        "numerator": 0.0,
+        "denominator": 64
+      },
+      "cancelled_casts": {
+        "numerator": 0.0,
+        "denominator": 64
+      },
+      "gold_received": {
+        "numerator": 20922.899795532227,
+        "denominator": 64
+      },
+      "gold_spent": {
+        "numerator": 20260.0,
+        "denominator": 64
+      },
+      "lh_deny_per_spawned_creep": {
+        "numerator": 542.0,
+        "denominator": 2042.0
+      },
+      "mid_arrivals": {
+        "numerator": 64,
+        "denominator": 64
+      },
+      "mid_arrival_elapsed_seconds": {
+        "numerator": 1638.3997802734375,
+        "denominator": 64
+      },
+      "stuck_fraction": {
+        "numerator": 0.0,
+        "denominator": 63154.0
+      },
+      "stuck_before_mid": {
+        "numerator": 0.0,
+        "denominator": 8128.0
+      },
+      "stuck_after_mid": {
+        "numerator": 0.0,
+        "denominator": 55026.0
+      },
+      "purchases": {
+        "boots": 3.0,
+        "bracer": 0.0,
+        "clarity": 0.0,
+        "flask": 130.0,
+        "mango": 0.0,
+        "tango": 64.0,
+        "tp": 0.0,
+        "wraith_band": 0.0
+      },
+      "consumable_uses": {
+        "flask": 69.0,
+        "mango": 0.0,
+        "tango": 0.0
+      },
+      "reward_components": {
+        "enemy_deaths": 0.0,
+        "enemy_denies": -6.3600001856684685,
+        "enemy_experience": -89.74000504612923,
+        "enemy_flask": 5.70000022649765,
+        "enemy_flask_break": 0.593541294336319,
+        "enemy_gold_received": -214.88892090320587,
+        "enemy_health": 46.05906468629837,
+        "enemy_kills": 0.0,
+        "enemy_last_hits": 15.839999362826347,
+        "enemy_mana": 26.715864777565002,
+        "enemy_mango": 0.0,
+        "enemy_outcome": 0.0,
+        "enemy_own_t1": 0.9038196802139282,
+        "enemy_tango": 0.10000000149011612,
+        "own_deaths": -127.60000276565552,
+        "own_denies": 33.000002570450306,
+        "own_experience": 69.51060618460178,
+        "own_flask": -20.70000058412552,
+        "own_flask_break": -7.764987200498581,
+        "own_gold_received": 125.46398368477821,
+        "own_health": -122.51838916540146,
+        "own_kills": 0.0,
+        "own_last_hits": -25.43999908864498,
+        "own_mana": 0.0,
+        "own_mango": 0.0,
+        "own_outcome": 0.0,
+        "own_own_t1": -9.91472738981247,
+        "own_tango": 0.0
+      },
+      "spell_completions": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "raze_hero_hit_rates": {
+        "near": {
+          "numerator": 0.0,
+          "denominator": 0.0
+        },
+        "mid": {
+          "numerator": 0.0,
+          "denominator": 0.0
+        },
+        "far": {
+          "numerator": 0.0,
+          "denominator": 0.0
+        }
+      },
+      "raze_denominator_note": "Hits on enemy hero / all completed casts of this spell; no inferred model intent.",
+      "outcomes": {
+        "loss": 59,
+        "win": 5
+      },
+      "outcome_reasons": {
+        "loss:death": 58,
+        "win:death": 5,
+        "loss:T1": 1
+      },
+      "death_causes": {
+        "hero_attack": 49.0,
+        "raze": 9.0,
+        "creeps": 0.0,
+        "tower": 0.0,
+        "requiem": 0.0
+      },
+      "counter_denominator": 64
+    }
+  },
+  "spawn_denominator": "each distinct match counted once per group",
+  "duration_elapsed_seconds": {
+    "numerator": 23747.233955637614,
+    "denominator": 128
+  }
+}
