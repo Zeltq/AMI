@@ -1,11 +1,13 @@
 {
-  "stage": "finishing-selected-evaluation",
-  "controller_pid": 26324,
-  "updated_utc": "2026-11-07T02:42:26.030639+00:00",
-  "background_work_remaining": true,
-  "training_stopped": true,
-  "pid": 26664,
-  "artifacts": "C:\\AMI\\runs\\p18",
+  "stage": "stopped-by-user",
+  "controller_pid": 29020,
+  "updated_utc": "2026-11-07T02:45:33.197531+00:00",
+  "background_work_remaining": false,
+  "training_exit_code": 0,
   "selected_checkpoint": "C:\\AMI\\runs\\p18\\saved\\self-play-360m",
-  "command": "Complete already running Self-Play 360m evaluation; no further training authorized"
+  "selected_weights": "C:\\AMI\\runs\\p18\\saved\\self-play-360m\\weights",
+  "completed_evaluations": 6,
+  "finished_utc": "2026-11-07T02:45:33.197516+00:00",
+  "artifacts": "C:\\AMI\\runs\\p18",
+  "command": "Stopped by user; no further training authorized"
 }
