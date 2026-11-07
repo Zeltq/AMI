@@ -15,7 +15,7 @@ HUMAN_MODEL=Path('C:/AMI/runs/p17/models/sampling-dagger-2.pt')
 HUMAN_SOURCE=Path('C:/AMI/runs/p16/sampling-dagger-2-il/weights')
 
 
-def prepare(dest,human_team):
+def prepare(dest,human_team,model=HUMAN_MODEL,source=HUMAN_SOURCE):
     dedicated_bundle(dest,5-human_team)
     # Reuse the tested human-aware hero selector. Its temporary native bundle is
     # only a source artifact and is never installed into the user's game.
@@ -28,7 +28,7 @@ def prepare(dest,human_team):
     from sf_duel.live.bridge import literal
     (dest/'settings.lua').write_text('return '+literal(settings)+'\n')
     (dest/'policy-config.json').write_text(json.dumps(dict(
-        model=str(HUMAN_MODEL),source=str(HUMAN_SOURCE),executor_version=EXECUTOR_VERSION,
+        model=str(model),source=str(source),executor_version=EXECUTOR_VERSION,
         device='cpu',action_selection='sampling',seed=20261103,model_team=5-human_team),indent=2))
     (dest/'chio_play_setup.lua').write_text("local ok,err=pcall(function()\nrequire('bots/play_model_lobby').run("+str(human_team)+")\nrequire('bots/p17_setup')\nend)\nif not ok then print('SF_P17_ERROR|'..tostring(err)) end\n")
     return dest
@@ -53,11 +53,13 @@ def main():
     p=argparse.ArgumentParser(description=__doc__);g=p.add_mutually_exclusive_group()
     g.add_argument('--install',action='store_true');g.add_argument('--restore',action='store_true')
     p.add_argument('--bots',type=Path,default=DEFAULT_BOTS);p.add_argument('--artifacts',type=Path,default=Path('C:/AMI/runs/p17/human'))
-    p.add_argument('--human-team',type=int,choices=(2,3),default=2);a=p.parse_args()
+    p.add_argument('--human-team',type=int,choices=(2,3),default=2)
+    p.add_argument('--model',type=Path,default=HUMAN_MODEL,help='CPU policy path recorded in the prepared bundle')
+    p.add_argument('--source',type=Path,default=HUMAN_SOURCE,help='Original weights path recorded for provenance');a=p.parse_args()
     if a.restore:no_dota();result=restore(a.artifacts)
     else:
         a.artifacts.mkdir(parents=True,exist_ok=True)
-        prepared=prepare(a.artifacts/('prepared-'+datetime.now().strftime('%Y%m%d-%H%M%S-%f')),a.human_team)
+        prepared=prepare(a.artifacts/('prepared-'+datetime.now().strftime('%Y%m%d-%H%M%S-%f')),a.human_team,a.model,a.source)
         result=dict(prepared=str(prepared),installed=False)
         if a.install:no_dota();result=install(a.bots,prepared,a.artifacts,a.human_team)
     print(json.dumps(result,indent=2))

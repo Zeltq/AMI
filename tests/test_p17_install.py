@@ -10,6 +10,16 @@ installer=importlib.util.module_from_spec(spec);spec.loader.exec_module(installe
 
 
 class Installation(unittest.TestCase):
+    def test_prepare_records_explicit_model_without_installing(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);model=root/'new-model.pt';source=root/'original-weights'
+            prepared=installer.prepare(root/'prepared',3,model,source)
+            policy=json.loads((prepared/'policy-config.json').read_text())
+            self.assertEqual(Path(policy['model']),model)
+            self.assertEqual(Path(policy['source']),source)
+            self.assertEqual(policy['model_team'],2)
+            self.assertEqual(policy['executor_version'],'p17-v2')
+
     def test_prepare_install_restore_preserves_user_bytes(self):
         with tempfile.TemporaryDirectory() as folder:
             root=Path(folder);target=root/'user-bots';target.mkdir();(target/'mine.lua').write_bytes(b'-- user\r\n')

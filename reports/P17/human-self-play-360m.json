@@ -1,0 +1,27 @@
+{
+  "label": "P18 Self-Play 360m",
+  "source_checkpoint": "C:\\AMI\\runs\\p18\\self-play\\checkpoint-000436",
+  "source_weights": "C:\\AMI\\runs\\p18\\saved\\self-play-360m\\weights",
+  "training_seconds": 21625.951558099998,
+  "export": {
+    "equal": 49,
+    "total": 49,
+    "source": "C:\\AMI\\runs\\p18\\saved\\self-play-360m\\weights",
+    "output": "C:\\AMI\\runs\\p17\\models\\p18-self-play-360m.pt",
+    "device": "cpu",
+    "sha256": "e7bfac3e7775147ec0c2713ee888b61bd1506eba6f07706710e50530bbc8281d"
+  },
+  "prepared": "C:\\AMI\\runs\\p17\\human-p18-360m\\prepared-20261107-054716-039811",
+  "installed": false,
+  "policy_config": {
+    "model": "C:\\AMI\\runs\\p17\\models\\p18-self-play-360m.pt",
+    "source": "C:\\AMI\\runs\\p18\\saved\\self-play-360m\\weights",
+    "executor_version": "p17-v2",
+    "device": "cpu",
+    "action_selection": "sampling",
+    "seed": 20261103,
+    "model_team": 3
+  },
+  "tests": "5 passed: test_p17_install.py + test_p17_log_rotation.py",
+  "dota_match_tested": false
+}
