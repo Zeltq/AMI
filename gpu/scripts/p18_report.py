@@ -47,8 +47,11 @@ def refresh():
             candidates.append(dict(label=label,weights=es[0]['weights'],ratios=dict(wins=[wins,n],deaths=[deaths,n],farm=[farm,minutes],hits=[hits,casts]),metrics=[wins/n,-deaths/n,farm/minutes,hits/max(1,casts)]))
         for c in candidates:c['score']=sum(sum(o['metrics'][i]<v for o in candidates) for i,v in enumerate(c['metrics']))
         best=max(candidates,key=lambda c:c['score']);save(REPORT/'best.json',dict(best=best,candidates=candidates));lines+=['',f"Лучшая по сумме рангов побед, выживания, фарма/мин и точности койлов без порога: **{best['label']}**. Все соперники учитываются в победах/смертях/койлах; фарм сравнивается против v10/v9. [Все кандидаты и дроби](P18/best.json)."]
+    if state.get('stage')=='stopped-by-user':
+        chosen=read(RUN/'selected-checkpoint.json');stop=read(RUN/'user-stop.json')
+        lines+=['',f"Обучение остановлено по явному запросу пользователя {stop['utc']}; исходное 12-часовое расписание отменено. Heartbeat на паузе.",f"Выбран пользователем **Self-Play 360m**, блок {chosen['block']}, время {chosen['training_seconds']:.3f}/60 мин. Полная копия: `{chosen['saved_checkpoint']}`; веса: `{chosen['weights']}`.",f"Целостность: {chosen['verified_files']}/{chosen['verified_files']} файлов и {chosen['verified_tensors']}/{chosen['verified_tensors']} тензоров проверены по SHA256. Сохранены модель, Adam, конфиг и состояние; [манифест](P18/selected-checkpoint.json)."]
     lines+=['','Ограничения: арены при resume запускаются заново; веса, Adam, якорь, пул и время восстанавливаются. Перенос в Dota не проверяется.']
-    lines+=['DONE P18' if state.get('stage')=='complete' else 'BLOCKED P18: выполнение продолжается; итог ещё не готов']
+    lines+=['DONE P18' if state.get('stage') in ('complete','stopped-by-user') else 'BLOCKED P18: выполнение продолжается; итог ещё не готов']
     assert len(lines)<=150,len(lines)
     (ROOT/'reports/P18.md').write_text('\n'.join(lines)+'\n',encoding='utf-8')
 if __name__=='__main__':refresh()

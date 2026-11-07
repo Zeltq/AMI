@@ -36,7 +36,7 @@ def alive(pid):
 
 def state(stage,**fields):
     with LOCK:
-        value=dict(stage=stage,controller_pid=os.getpid(),updated_utc=utc(),background_work_remaining=stage!='complete',**fields);save(RUN/'state.json',value)
+        value=dict(stage=stage,controller_pid=os.getpid(),updated_utc=utc(),background_work_remaining=stage not in ('complete','stopped-by-user'),**fields);save(RUN/'state.json',value)
         p=Path('C:/AMI/runs/pilot-status.json');shared=read(p,{});shared['P18']=value;save(p,shared)
 def incident(stage,reason,**fields):
     with LOCK:
@@ -173,6 +173,8 @@ def native_training(name,cfg,parallel=False):
 
 REFERENCES={'p16-dagger':'C:/AMI/runs/p16/sampling-dagger-2-il/weights','p16-ppo':'C:/AMI/runs/p16/ppo/final-weights','p16-self-play':'C:/AMI/runs/p16/self-play/final-weights'}
 def main():
+    if (RUN/'user-stop.json').exists():
+        print('P18 stopped by user; explicit authorization required to resume.');return
     guard=(RUN/'controller.lock').open('a+b');guard.seek(0);guard.write(b'1');guard.flush();guard.seek(0);msvcrt.locking(guard.fileno(),msvcrt.LK_NBLCK,1)
     try:
         plan=read(RUN/'plan.json')
