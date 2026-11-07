@@ -259,6 +259,26 @@
     "child_pid": 2912,
     "exit_code": 0
   },
+  "eval-self-play-240m-v10-sampling": {
+    "stage": "complete",
+    "pid": 27548,
+    "cwd": "C:\\AMI-wt\\P18",
+    "command": "C:\\AMI\\runs\\p18\\target\\release\\sf-duel-gpu.exe evaluate-chio C:\\AMI-wt\\P18\\reports\\P18\\configs\\eval-self-play-240m-v10-sampling.json C:\\AMI\\runs\\p18\\eval-self-play-240m-v10-sampling",
+    "argv": [
+      "C:\\AMI\\runs\\p18\\target\\release\\sf-duel-gpu.exe",
+      "evaluate-chio",
+      "C:\\AMI-wt\\P18\\reports\\P18\\configs\\eval-self-play-240m-v10-sampling.json",
+      "C:\\AMI\\runs\\p18\\eval-self-play-240m-v10-sampling"
+    ],
+    "background_work_remaining": false,
+    "artifacts": [
+      "C:\\AMI\\runs\\p18\\jobs\\eval-self-play-240m-v10-sampling\\stdout.log",
+      "C:\\AMI\\runs\\p18\\jobs\\eval-self-play-240m-v10-sampling\\stderr.log"
+    ],
+    "elapsed_minutes": 7.600816289999057,
+    "child_pid": 11008,
+    "exit_code": 0
+  },
   "ppo": {
     "stage": "complete",
     "pid": 34144,
@@ -295,7 +315,7 @@
       "C:\\AMI\\runs\\p18\\jobs\\self-play\\stdout.log",
       "C:\\AMI\\runs\\p18\\jobs\\self-play\\stderr.log"
     ],
-    "elapsed_minutes": 191.932537684999,
+    "elapsed_minutes": 277.29289740666667,
     "child_pid": 33612,
     "exit_code": null
   }
