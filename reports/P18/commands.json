@@ -1260,7 +1260,7 @@
     "exit_code": 0
   },
   "self-play-continuation": {
-    "stage": "running",
+    "stage": "complete",
     "pid": 20196,
     "cwd": "C:\\AMI-wt\\P18",
     "command": "C:\\AMI\\runs\\p18\\target\\release\\sf-duel-gpu.exe train-ggd C:\\AMI-wt\\P18\\reports\\P18\\configs\\self-play-continuation.json C:\\AMI\\runs\\p18\\self-play-continuation",
@@ -1270,13 +1270,13 @@
       "C:\\AMI-wt\\P18\\reports\\P18\\configs\\self-play-continuation.json",
       "C:\\AMI\\runs\\p18\\self-play-continuation"
     ],
-    "background_work_remaining": true,
+    "background_work_remaining": false,
     "artifacts": [
       "C:\\AMI\\runs\\p18\\jobs\\self-play-continuation\\stdout.log",
       "C:\\AMI\\runs\\p18\\jobs\\self-play-continuation\\stderr.log"
     ],
-    "elapsed_minutes": 566.3760119716666,
+    "elapsed_minutes": 601.2076340233332,
     "child_pid": 6964,
-    "exit_code": null
+    "exit_code": 0
   }
 }
