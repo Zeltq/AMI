@@ -1,35 +1,35 @@
 {
   "stage": "self-play-continuation",
   "controller_pid": 9336,
-  "updated_utc": "2026-11-08T12:03:42.814172+00:00",
+  "updated_utc": "2026-11-08T13:23:50.476498+00:00",
   "background_work_remaining": true,
   "pid": 6964,
   "command": "C:\\AMI\\runs\\p18\\target\\release\\sf-duel-gpu.exe train-ggd C:\\AMI-wt\\P18\\reports\\P18\\configs\\self-play-continuation.json C:\\AMI\\runs\\p18\\self-play-continuation",
   "native": {
     "anchor_sha256": "4d78d6373f3d812766940c88bd9ca142115058975c15414653734d31c620e501",
-    "block": 272,
-    "completed_episodes": 3907,
-    "optimizer_steps": 6528,
+    "block": 326,
+    "completed_episodes": 4645,
+    "optimizer_steps": 7824,
     "pid": 6964,
     "stage": "training-chio",
-    "training_seconds": 24413.763427600003,
-    "wall_seconds": 26992.3793687,
+    "training_seconds": 29301.8824188,
+    "wall_seconds": 31883.6993833,
     "warmup_block": 26,
     "warmup_blocks": 26,
     "metrics": {
-      "loss": 0.027511803549714386,
-      "value_loss": 0.05734177570169171,
-      "entropy": 0.19245395809412003,
-      "old_policy_kl": 0.0012246269587497711,
-      "anchor_kl": 0.04644564290841421,
-      "gradient_norm": 1.1025334224104881,
-      "ev_post0": 0.6040143966674805
+      "loss": 0.030777312427138288,
+      "value_loss": 0.061534811121722065,
+      "entropy": 0.18302829501529536,
+      "old_policy_kl": 0.0015461621840131556,
+      "anchor_kl": 0.050260061553368963,
+      "gradient_norm": 1.0627234944452841,
+      "ev_post0": 0.7182555198669434
     },
     "phase_counts": [
-      4774.0,
-      11717.0,
-      4024.0,
-      1617.0
+      4351.0,
+      10153.0,
+      4302.0,
+      2401.0
     ]
   },
   "artifacts": "C:\\AMI\\runs\\p18\\self-play-continuation"
