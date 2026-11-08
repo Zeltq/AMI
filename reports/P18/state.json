@@ -1,8 +1,21 @@
 {
   "stage": "self-play-continuation",
   "controller_pid": 9336,
-  "updated_utc": "2026-11-08T04:32:19.725674+00:00",
+  "updated_utc": "2026-11-08T04:38:53.471765+00:00",
   "background_work_remaining": true,
-  "deadline_utc": "2026-11-08T14:32:19.723427+00:00",
-  "source": "C:\\AMI\\runs\\p18\\saved\\self-play-360m"
+  "pid": 6964,
+  "command": "C:\\AMI\\runs\\p18\\target\\release\\sf-duel-gpu.exe train-ggd C:\\AMI-wt\\P18\\reports\\P18\\configs\\self-play-continuation.json C:\\AMI\\runs\\p18\\self-play-continuation",
+  "native": {
+    "anchor_sha256": "4d78d6373f3d812766940c88bd9ca142115058975c15414653734d31c620e501",
+    "block": 0,
+    "completed_episodes": 0,
+    "optimizer_steps": 0,
+    "pid": 6964,
+    "stage": "desynchronizing",
+    "training_seconds": 0.0,
+    "wall_seconds": 377.4438178,
+    "warmup_block": 3,
+    "warmup_blocks": 26
+  },
+  "artifacts": "C:\\AMI\\runs\\p18\\self-play-continuation"
 }
