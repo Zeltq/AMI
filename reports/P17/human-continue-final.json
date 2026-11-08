@@ -1,0 +1,31 @@
+{
+  "label": "P18 continue-final",
+  "source_checkpoint": "C:\\AMI\\runs\\p18\\self-play-continuation\\checkpoint-000362",
+  "source_weights": "C:\\AMI\\runs\\p18\\saved\\continuation-best-final\\weights",
+  "block": 362,
+  "additional_training_seconds": 33474.036003199995,
+  "export": {
+    "equal": 49,
+    "total": 49,
+    "source": "C:\\AMI\\runs\\p18\\saved\\continuation-best-final\\weights",
+    "output": "C:\\AMI\\runs\\p17\\models\\p18-continue-final.pt",
+    "device": "cpu",
+    "sha256": "c1456bd28d32b235d3fa89298cb9d9ff80696580ac14d09fd94cec95fbf64951"
+  },
+  "prepared": "C:\\AMI\\runs\\p17\\human-p18-final\\prepared-20261108-182349-579387",
+  "installed_by_this_task": false,
+  "reuse_installed_executor": "p17-v2",
+  "existing_install_artifacts": "C:\\AMI\\runs\\p17\\human-p18-360m",
+  "static_installed_files_matched": 19,
+  "policy_config": {
+    "model": "C:\\AMI\\runs\\p17\\models\\p18-continue-final.pt",
+    "source": "C:\\AMI\\runs\\p18\\saved\\continuation-best-final\\weights",
+    "executor_version": "p17-v2",
+    "device": "cpu",
+    "action_selection": "sampling",
+    "seed": 20261103,
+    "model_team": 3
+  },
+  "dota_match_tested": false,
+  "prior_model": "P18 Self-Play 360m"
+}
