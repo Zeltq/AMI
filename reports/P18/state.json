@@ -1,18 +1,18 @@
 {
-  "stage": "eval-continue-final-p16-ppo-sampling",
+  "stage": "eval-continue-final-p16-self-play-sampling",
   "controller_pid": 9336,
-  "updated_utc": "2026-11-08T14:56:33.043421+00:00",
+  "updated_utc": "2026-11-08T15:01:57.968785+00:00",
   "background_work_remaining": true,
-  "pid": 26672,
-  "command": "C:\\AMI\\runs\\p18\\target\\release\\sf-duel-gpu.exe evaluate-chio C:\\AMI-wt\\P18\\reports\\P18\\configs\\eval-continue-final-p16-ppo-sampling.json C:\\AMI\\runs\\p18\\eval-continue-final-p16-ppo-sampling",
+  "pid": 20676,
+  "command": "C:\\AMI\\runs\\p18\\target\\release\\sf-duel-gpu.exe evaluate-chio C:\\AMI-wt\\P18\\reports\\P18\\configs\\eval-continue-final-p16-self-play-sampling.json C:\\AMI\\runs\\p18\\eval-continue-final-p16-self-play-sampling",
   "native": {
-    "finished": 127,
-    "game_seconds": 81.13333892822266,
+    "finished": 128,
+    "game_seconds": 122.33334350585938,
     "matches": 128,
-    "pid": 26672,
+    "pid": 20676,
     "stage": "evaluating-chio",
-    "steps": 2816,
-    "wall_seconds": 274.5127753
+    "steps": 3453,
+    "wall_seconds": 306.4820472
   },
-  "artifacts": "C:\\AMI\\runs\\p18\\eval-continue-final-p16-ppo-sampling"
+  "artifacts": "C:\\AMI\\runs\\p18\\eval-continue-final-p16-self-play-sampling"
 }
