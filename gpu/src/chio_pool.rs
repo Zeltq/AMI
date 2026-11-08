@@ -7,19 +7,28 @@ use crate::{chio_model::Policy,chio_observe as co,observe::Observed,sampling::Sa
 pub struct Assignment {pub kind:String,pub model:Option<usize>}
 fn next(rng:&mut u32)->u32 {*rng^=*rng<<13;*rng^=*rng>>17;*rng^=*rng<<5;*rng}
 pub fn choose(rng:&mut u32,count:usize)->Assignment {
-    assert!(count>=2);
-    let (kind,model)=match next(rng)%100 {0..=44=>("latest",Some(count-1)),45..=79=>("older",Some(next(rng)as usize%(count-1))),80..=89=>("v10",None),_=>("v9",None)};
+    choose_with_weights(rng,count,[45,35,10,10])
+}
+pub fn choose_with_weights(rng:&mut u32,count:usize,weights:[u32;4])->Assignment {
+    assert!(count>=2);assert_eq!(weights.iter().sum::<u32>(),100);
+    let draw=next(rng)%100;
+    let (kind,model)=if draw<weights[0]{("latest",Some(count-1))}else if draw<weights[0]+weights[1]{("older",Some(next(rng)as usize%(count-1)))}else if draw<weights[0]+weights[1]+weights[2]{("v10",None)}else{("v9",None)};
     Assignment{kind:kind.into(),model}
 }
+
 struct Group {model:usize,ids:Tensor<1,Int>,h:Tensor<2>,c:Tensor<2>,sampler:Sampler}
-pub struct Pool {pub paths:Vec<String>,pub assignments:Vec<Assignment>,pub draws:[usize;4],models:Vec<Policy>,rng:u32,groups:Vec<Group>}
+pub struct Pool {pub paths:Vec<String>,pub assignments:Vec<Assignment>,pub draws:[usize;4],models:Vec<Policy>,rng:u32,weights:[u32;4],groups:Vec<Group>}
 impl Pool {
     pub fn new(w:&World,paths:Vec<String>,seed:u32)->Result<Self>{
-        let mut p=Self{paths:vec![],assignments:vec![],draws:[0;4],models:vec![],rng:seed|1,groups:vec![]};
+        Self::with_weights(w,paths,seed,[45,35,10,10])
+    }
+    pub fn with_weights(w:&World,paths:Vec<String>,seed:u32,weights:[u32;4])->Result<Self>{
+        ensure!(weights.iter().map(|x|*x as u64).sum::<u64>()==100,"pool percentages must sum to 100");
+        let mut p=Self{paths:vec![],assignments:vec![],draws:[0;4],models:vec![],rng:seed|1,weights,groups:vec![]};
         for path in paths{p.add(&path,&w.device)?;}ensure!(p.paths.len()>=2,"mixed CHiO pool requires two distinct snapshots");
         for _ in 0..w.matches {let a=p.draw();p.assignments.push(a);}Ok(p)
     }
-    fn draw(&mut self)->Assignment{let a=choose(&mut self.rng,self.paths.len());let i=match a.kind.as_str(){"latest"=>0,"older"=>1,"v10"=>2,_=>3};self.draws[i]+=1;a}
+    fn draw(&mut self)->Assignment{let a=choose_with_weights(&mut self.rng,self.paths.len(),self.weights);let i=match a.kind.as_str(){"latest"=>0,"older"=>1,"v10"=>2,_=>3};self.draws[i]+=1;a}
     pub fn add(&mut self,path:&str,d:&burn::tensor::Device)->Result<()> {
         if !self.paths.iter().any(|x|x==path){self.models.push(crate::chio_bridge::import(std::path::Path::new(path),d)?.valid());self.paths.push(path.into());}Ok(())
     }
@@ -42,10 +51,15 @@ impl Pool {
             actions=actions.select_assign(0,g.ids.clone(),predicted,IndexingUpdateOp::Assign);
         }actions
     }
-    pub fn evidence(&self)->serde_json::Value{serde_json::json!({"paths":self.paths,"assignments":self.assignments,"draws":self.draws,"rng":self.rng})}
+    pub fn evidence(&self)->serde_json::Value{serde_json::json!({"weights":self.weights,"paths":self.paths,"assignments":self.assignments,"draws":self.draws,"rng":self.rng})}
 }
 #[cfg(test)]mod tests{
     use super::*;
+    #[test]fn p18_continuation_pool_excludes_v9_and_preserves_older(){
+        let mut rng=20261103;let mut counts=[0;4];let mut older=std::collections::HashSet::new();
+        for _ in 0..100000{let a=choose_with_weights(&mut rng,12,[45,45,10,0]);let i=match a.kind.as_str(){"latest"=>{assert_eq!(a.model,Some(11));0},"older"=>{let m=a.model.unwrap();assert!(m<11);older.insert(m);1},"v10"=>2,_=>3};counts[i]+=1;}
+        assert_eq!(counts[3],0);assert_eq!(older.len(),11);for (n,p) in counts.iter().zip([0.45,0.45,0.10,0.0]){assert!((*n as f64/100000.-p).abs()<0.01);}
+    }
     #[test]fn p16_pool_distribution_and_old_exclusion(){let mut rng=20261103;let mut counts=[0;4];for _ in 0..100000 {let a=choose(&mut rng,7);let i=match a.kind.as_str(){"latest"=>{assert_eq!(a.model,Some(6));0},"older"=>{assert!(a.model.unwrap()<6);1},"v10"=>2,_=>3};counts[i]+=1;}for (n,p) in counts.iter().zip([0.45,0.35,0.10,0.10]){assert!((*n as f64/100000.-p).abs()<0.01);}}
     #[test]fn p16_routed_v9_matches_pure_chio_v9_across_reset(){
         use crate::{chio_runtime::Runtime,teacher_v10::Version,runtime::device};

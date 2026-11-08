@@ -1,0 +1,36 @@
+{
+  "python_tests": {
+    "passed": 276,
+    "total": 276,
+    "log": "C:/AMI/runs/p18/continuation-full-python.log"
+  },
+  "pool_tests": {
+    "passed": 3,
+    "total": 3,
+    "log": "C:/AMI/runs/p18/continuation-pool-tests.log"
+  },
+  "changed_config_fields": [
+    "initial_weights",
+    "minutes",
+    "opponent_pool",
+    "schedule_minutes",
+    "bootstrap_checkpoint",
+    "pool_weights"
+  ],
+  "rust_full": {
+    "passed": 145,
+    "total": 145,
+    "seconds": 308.07,
+    "command": "cargo test --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p18/target -- --test-threads=1",
+    "log": "C:/AMI/runs/p18/continuation-full-rust.log"
+  },
+  "release_build": {
+    "exit_code": 0,
+    "command": "cargo build --release --locked --manifest-path gpu/Cargo.toml --target-dir C:/AMI/runs/p18/target",
+    "log": "C:/AMI/runs/p18/continuation-build.log"
+  },
+  "recovery_tests": {
+    "passed": 3,
+    "total": 3
+  }
+}

@@ -395,3 +395,7 @@ nav-dagger-1-256 из шага0. Старое остановленное nav-dag
 
 v2 differs from v1 only in kills +0.7, deaths -2.2 and outcome 0.
 All other components, decay after 360 seconds, zero-sum exceptions, gamma 0.997 and lambda 0.95 are unchanged. v1 remains supported. Match termination and evaluation winners are unchanged. Reward records carry reward_mode; missing mode means v1.
+
+### P18 continuation opponent pool
+
+`pool_weights` specifies integer percentages `[latest, older, v10, v9]` summing to 100. The backward-compatible default is `[45,35,10,10]`; the P18 continuation uses `[45,45,10,0]`. Assignment remains fixed for the whole match. Native resume requires unchanged percentages; a new stage may change them and bootstrap model/Adam with a new anchor and clock.

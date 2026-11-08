@@ -17,13 +17,13 @@ pub struct Config {
     pub resume_checkpoint:Option<String>,pub teacher_version:Version,
     pub critic_learning_rate:f64,pub separate_critic_lr:bool,pub critic_only:bool,pub warmup_min_blocks:usize,pub warmup_blocks:usize,
     pub kl_start:f32,pub kl_end:f32,pub schedule_minutes:f64,pub checkpoint_minutes:f64,pub snapshot_minutes:f64,
-    pub mixed_pool:bool,pub bootstrap_checkpoint:Option<String>,pub evaluation_minutes:f64,
+    pub pool_weights:[u32;4],pub mixed_pool:bool,pub bootstrap_checkpoint:Option<String>,pub evaluation_minutes:f64,
 }
 impl Default for Config {fn default()->Self{Self{observation_profile:"chio-v1".into(),engine:String::new(),initial_weights:String::new(),reward_mode:"lastorder-fb-v1".into(),
     decision_ticks:6,offset_ticks:6,gamma:0.997,gae_lambda:0.95,zero_sum:true,matches:16,seed:20261103,minutes:480.,max_blocks:0,batch_sequences:4,epochs:2,
     learning_rate:1e-5,entropy:0.005,clip:0.2,gradient_norm:0.5,stop_kl:0.02,sampling:true,desynchronize:true,self_play:false,opponent_pool:vec![],snapshot_blocks:20,checkpoint_blocks:10,
     resume_checkpoint:None,teacher_version:Version::V10,critic_learning_rate:3e-4,separate_critic_lr:false,critic_only:false,warmup_min_blocks:20,warmup_blocks:60,
-    kl_start:0.,kl_end:0.,schedule_minutes:240.,checkpoint_minutes:0.,snapshot_minutes:0.,mixed_pool:false,bootstrap_checkpoint:None,evaluation_minutes:120.}}}
+    kl_start:0.,kl_end:0.,schedule_minutes:240.,checkpoint_minutes:0.,snapshot_minutes:0.,pool_weights:[45,35,10,10],mixed_pool:false,bootstrap_checkpoint:None,evaluation_minutes:120.}}}
 fn scalar(x:Tensor<1>)->f32{x.without_autodiff().into_scalar::<f32>()}
 fn weighted(x:Tensor<1>,mask:Tensor<1>)->Tensor<1>{(x*mask.clone()).sum()/mask.sum().clamp_min(1.)}
 fn coefficient(cfg:&Config,seconds:f64)->f32 {cfg.kl_start+(cfg.kl_end-cfg.kl_start)*(seconds/(cfg.schedule_minutes*60.)).clamp(0.,1.)as f32}
@@ -106,6 +106,7 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
     ensure!(cfg.sampling,"CHiO training requires sampling");
     ensure!(cfg.matches>0 && cfg.matches<=1024 && cfg.batch_sequences>0 && cfg.epochs>0 && cfg.minutes>0. && cfg.learning_rate>0. && cfg.gradient_norm>0. && cfg.clip>0. && cfg.clip<1. && cfg.checkpoint_blocks>0 && cfg.snapshot_blocks>0,"invalid CHiO PPO dimensions");
     ensure!(cfg.self_play||cfg.opponent_pool.is_empty(),"opponent_pool requires self_play");ensure!(cfg.teacher_version==Version::V10,"CHiO PPO teacher must be v10");crate::teacher_v10::check_pin()?;
+    ensure!(cfg.pool_weights.iter().map(|x|*x as u64).sum::<u64>()==100,"pool percentages must sum to 100");
     ensure!(!cfg.mixed_pool||cfg.self_play,"mixed_pool requires self_play");ensure!(cfg.schedule_minutes>0.&&cfg.critic_learning_rate>0.&&cfg.warmup_min_blocks<=cfg.warmup_blocks,"invalid CHiO P16 schedule");
     std::fs::create_dir_all(root)?;let lock=std::fs::OpenOptions::new().create(true).truncate(false).write(true).open(root.join("run.lock"))?;lock.try_lock()?;ensure!(!root.join("config.json").exists(),"fresh training directory required");crate::artifacts::atomic_json(&root.join("config.json"),&cfg)?;
     let frozen=crate::artifacts::freeze_environment(Path::new(&cfg.engine),root,false)?;let d=device();let world=World::load(&frozen,cfg.matches,&d)?;let n=cfg.matches*2;
@@ -116,14 +117,14 @@ pub fn run(cfg:Config,root:&Path)->Result<serde_json::Value>{
     if let Some(path)=&cfg.bootstrap_checkpoint {let path=Path::new(path);policy=policy.try_load_record(burn::store::ModuleRecord::load(path.join("model.bpk"))?)?;optimizer=optimizer.load(path.join("optimizer.bpk"))?;}
     if let Some(path)=&cfg.resume_checkpoint {
         let path=Path::new(path);let previous:Config=serde_json::from_slice(&std::fs::read(path.join("config.json"))?)?;
-        ensure!(previous.zero_sum==cfg.zero_sum && previous.reward_mode==cfg.reward_mode && previous.gamma==cfg.gamma,"resume reward mismatch");
+        ensure!(previous.pool_weights==cfg.pool_weights && previous.zero_sum==cfg.zero_sum && previous.reward_mode==cfg.reward_mode && previous.gamma==cfg.gamma,"resume reward mismatch");
         policy=policy.try_load_record(burn::store::ModuleRecord::load(path.join("model.bpk"))?)?;optimizer=optimizer.load(path.join("optimizer.bpk"))?;
         saved=serde_json::from_slice(&std::fs::read(path.join("state.json"))?)?;
         ensure!(saved["anchor_sha256"].as_str()==Some(anchor_sha.as_str())&&previous.initial_weights==cfg.initial_weights&&previous.schedule_minutes==cfg.schedule_minutes&&previous.kl_start==cfg.kl_start&&previous.kl_end==cfg.kl_end,"resume must preserve stage anchor and schedule");
     }
     let rng=Sampler::new(cfg.matches,cfg.seed,&d);let sampler=Sampler::new(n,cfg.seed.wrapping_add(1),&d);let enemy_sampler=Sampler::new(n,cfg.seed.wrapping_add(2),&d);
     let mut pool:Vec<String>=saved.get("pool").and_then(|x|x.get("paths")).map(|x|serde_json::from_value(x.clone())).transpose()?.unwrap_or_else(||cfg.opponent_pool.clone());if cfg.self_play && pool.is_empty(){pool.push(cfg.initial_weights.clone());}
-    let mut mixed=if cfg.mixed_pool{Some(crate::chio_pool::Pool::new(&runtime.world,pool.clone(),cfg.seed.wrapping_add(saved["block"].as_u64().unwrap_or(0)as u32))?)}else{None};
+    let mut mixed=if cfg.mixed_pool{Some(crate::chio_pool::Pool::with_weights(&runtime.world,pool.clone(),cfg.seed.wrapping_add(saved["block"].as_u64().unwrap_or(0)as u32),cfg.pool_weights)?)}else{None};
     let mut opponent=if cfg.self_play&&!cfg.mixed_pool{Some(crate::chio_bridge::import(Path::new(&pool[0]),&d)?.valid())}else{None};
     let mut sides:Vec<_>=(0..cfg.matches).map(|m|m%2).collect();let experience=Experience::with_width(n,co::WIDTH,32,&d);
     let max_delay=((runtime.world.engine.pre_game_seconds+600.)*5./128.).floor()as usize;

@@ -1,13 +1,8 @@
 {
-  "stage": "stopped-by-user",
-  "controller_pid": 29020,
-  "updated_utc": "2026-11-07T02:45:33.197531+00:00",
-  "background_work_remaining": false,
-  "training_exit_code": 0,
-  "selected_checkpoint": "C:\\AMI\\runs\\p18\\saved\\self-play-360m",
-  "selected_weights": "C:\\AMI\\runs\\p18\\saved\\self-play-360m\\weights",
-  "completed_evaluations": 6,
-  "finished_utc": "2026-11-07T02:45:33.197516+00:00",
+  "stage": "continuation-verification",
+  "controller_pid": 21528,
+  "updated_utc": "2026-11-08T04:28:06.021298+00:00",
+  "background_work_remaining": true,
   "artifacts": "C:\\AMI\\runs\\p18",
-  "command": "Stopped by user; no further training authorized"
+  "command": "cargo test full suite and cargo build; continuation training not started"
 }
