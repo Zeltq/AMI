@@ -13,9 +13,14 @@ local function trace(bot,st,row)
  print('SF_CHIO_ECONOMY|'..json.encode(row))
 end
 function M.Think(bot,st)
- -- Wraith Band belongs to mode setup; infrastructure must not buy another.
+ -- Buy the starting Band through the shared shop path before other purchases.
  st.permanent=agent.owned(bot,'item_bracer')>0 and 2 or (agent.owned(bot,'item_boots')>0 and 1 or 0)
- st.start_bought=true;agent.infrastructure(bot,st)
+ local starting=not st.start_bought;local before=bot:GetGold()
+ agent.infrastructure(bot,st)
+ if starting and bot:GetGold()<before then
+  trace(bot,st,{kind='start_purchase',item='item_wraith_band',gold_before=before,cost=before-bot:GetGold(),success=agent.owned(bot,'item_wraith_band')>0})
+ end
+ if not st.start_bought then return end
  if not bot:IsAlive() then return end
  local tango=agent.owned(bot,'item_tango')
  if tango>0 then st.chio_tango=true end

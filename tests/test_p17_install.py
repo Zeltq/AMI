@@ -18,7 +18,7 @@ class Installation(unittest.TestCase):
             self.assertEqual(Path(policy['model']),model)
             self.assertEqual(Path(policy['source']),source)
             self.assertEqual(policy['model_team'],2)
-            self.assertEqual(policy['executor_version'],'p17-v2')
+            self.assertEqual(policy['executor_version'],'p17-v3')
 
     def test_prepare_install_restore_preserves_user_bytes(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -29,7 +29,7 @@ class Installation(unittest.TestCase):
             self.assertEqual(LuaRuntime().execute((prepared/'settings.lua').read_text()).human_team,2)
             self.assertIn('chio_executor',(prepared/'bot_generic.lua').read_text())
             policy=json.loads((prepared/'policy-config.json').read_text())
-            self.assertEqual(policy['executor_version'],'p17-v2')
+            self.assertEqual(policy['executor_version'],'p17-v3')
             self.assertEqual(Path(policy['source']),Path('C:/AMI/runs/p16/sampling-dagger-2-il/weights'))
             self.assertEqual(Path(policy['model']),Path('C:/AMI/runs/p17/models/sampling-dagger-2.pt'))
             self.assertEqual((policy['device'],policy['action_selection'],policy['model_team']),('cpu','sampling',3))

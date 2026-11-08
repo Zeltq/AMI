@@ -22,7 +22,7 @@ bot={IsAlive=function()return true end,GetHealth=function()return 500 end,GetMax
  GetMana=function()return 500 end,GetMaxMana=function()return 500 end,GetLevel=function()return 1 end,
  GetGold=function()return gold end,GetModifierByName=function()return -1 end,GetPlayerID=function()return 0 end,
  GetItemInSlot=function()return nil end,GetCurrentMovementSpeed=function()return 305 end}
-state={}
+state={start_bought=true}
 ''')
     e=lua.execute((ROOT/'bots/chio_economy.lua').read_text())
     e.Think(lua.globals().bot,lua.globals().state)

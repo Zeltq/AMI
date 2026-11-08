@@ -1,9 +1,10 @@
-# Игра против CHiO (P17)
+# Игра против CHiO (P17, экономика P19)
 
 Исполнитель работает на CPU. Графическую Dota запускает только пользователь.
-Текущая версия исполнителя — `p17-v2`: исправлены покупки Boots/Bracer при stock0
-и повтор завершённого одноразового приказа атаки. Подготовьте свежий комплект командой ниже;
-в status.json и decisions.jsonl проверяйте `executor_version: p17-v2`.
+Текущая версия исполнителя — `p17-v3` (P19): Wraith Band покупается ботом за 505 золота
+перед Tango; сервер больше не выдаёт бесплатные предметы. Исправления Boots/Bracer и атак v2 сохранены.
+Подготовьте свежий комплект командой ниже;
+в status.json и decisions.jsonl проверяйте `executor_version: p17-v3`.
 Старые результаты матчей v1 сохраняются отдельно и не описывают силу этого исполнителя.
 На выделенном сервере проверены13/13 действий, задержка7тиков и отмена каста.
 **Local Host с человеком ещё не проверен:** графический клиент в P17 не запускался.
@@ -13,23 +14,23 @@
 
 ## Подготовка и установка
 
-Рабочая папка — `C:/AMI-wt/P17`. Нужен Windows Python с torch и numpy.
+Рабочая папка — `C:/AMI-wt/P19`. Нужен Windows Python с torch и numpy.
 Установщик уже подготовлен, но в пользовательскую папку ботов **не выполнялся**.
-Без аргументов он только создаёт комплект в `C:/AMI/runs/p17/human/prepared-*`:
+Команда без `--install` только создаёт комплект в `C:/AMI/runs/p19/human/prepared-*`:
 
 ```powershell
-cd C:/AMI-wt/P17
-python scripts/install_chio_bot.py --human-team 2
+cd C:/AMI-wt/P19
+python scripts/install_chio_bot.py --human-team 2 --artifacts C:/AMI/runs/p19/human
 ```
 
 Перед установкой закройте Dota. Человек будет Radiant, бот — Dire:
 
 ```powershell
-python scripts/install_chio_bot.py --install --human-team 2
+python scripts/install_chio_bot.py --install --human-team 2 --artifacts C:/AMI/runs/p19/human
 ```
 
 Установка делает полную резервную копию текущих файлов, проверяет SHA256,
-сохраняет `C:/AMI/runs/p17/human/installation.json` до замены содержимого.
+сохраняет `C:/AMI/runs/p19/human/installation.json` до замены содержимого.
 Сам каталог или junction `game/dota/scripts/vscripts/bots` сохраняется.
 Для человека Dire используйте `--human-team 3`, а у policy server ниже `--team 2`.
 Повторная установка требует предварительного восстановления.
@@ -41,7 +42,7 @@ python scripts/install_chio_bot.py --install --human-team 2
 через `--seed` (по умолчанию20261103) и записывается в status.json и decisions.jsonl.
 В автоматической серии seed увеличивается на1 для каждого следующего матча.
 
-Для игры человека закреплены **sampling-dagger-2 + исполнитель p17-v2**.
+Для игры человека закреплены **sampling-dagger-2 + исполнитель p17-v3**.
 Источник: `C:/AMI/runs/p16/sampling-dagger-2-il/weights` (только чтение).
 Проверенная CPU-копия: `C:/AMI/runs/p17/models/sampling-dagger-2.pt`.
 Каждый подготовленный комплект содержит `policy-config.json` с этими путями,
@@ -53,8 +54,8 @@ python scripts/install_chio_bot.py --install --human-team 2
 2. Запустите CPU policy server в PowerShell, указав **существующий** путь весов:
 
 ```powershell
-cd C:/AMI-wt/P17
-python scripts/play_vs_chio.py --model "C:/AMI/runs/p17/models/sampling-dagger-2.pt" --seed 20261103 --team 3 --log "C:/Program Files (x86)/Steam/steamapps/common/dota 2 beta/game/dota/console.log" --bots "C:/Program Files (x86)/Steam/steamapps/common/dota 2 beta/game/dota/scripts/vscripts/bots" --output "C:/AMI/runs/p17/human/session-001"
+cd C:/AMI-wt/P19
+python scripts/play_vs_chio.py --model "C:/AMI/runs/p17/models/sampling-dagger-2.pt" --seed 20261103 --team 3 --log "C:/Program Files (x86)/Steam/steamapps/common/dota 2 beta/game/dota/console.log" --bots "C:/Program Files (x86)/Steam/steamapps/common/dota 2 beta/game/dota/scripts/vscripts/bots" --output "C:/AMI/runs/p19/human/session-001"
 ```
 
    Для новой сессии используйте новое имя output. Процесс использует BelowNormal,
@@ -64,7 +65,8 @@ python scripts/play_vs_chio.py --model "C:/AMI/runs/p17/models/sampling-dagger-2
    Если бот дошёл до мида и стоит, сначала проверьте рост `requests` и `accepted`;
    `requests: 0` означает отсутствие входящих наблюдений, а не выбор STOP моделью.
 3. Запустите Dota, создайте закрытое лобби с сервером **Local Host**,
-   включите читы и выберите **Local Dev Script** для ботов. Выберите Shadow Fiend
+   выберите **1v1 Solo Mid**, включите читы и выберите **Local Dev Script** для ботов.
+   Для воспроизведения dedicated-настроек используйте сложность **Hard**. Выберите Shadow Fiend
    за Radiant. Дождитесь появления своего героя и противоположного SF.
 4. В игровой консоли выполните две команды:
 
@@ -73,8 +75,10 @@ sv_cheats 1
 script_reload_code bots/chio_play_setup
 ```
 
-   Скрипт проверит состав, уберёт лишних ботов, выдаст Wraith Band обоим SF и
-   загрузит мост28 с телеметрией. Проверяйте `SF_P17_BRIDGE_READY` и `SF_PLAY_EVENTS_READY`
+   Скрипт проверит состав, уберёт лишних ботов и загрузит мост28 с телеметрией.
+   Предметы и золото человека не меняются. Бот покупает Wraith Band обычным способом;
+   при старте с 600 после Band остаётся 95, после Tango — 5 золота.
+   Проверяйте `SF_P17_BRIDGE_READY` и `SF_PLAY_EVENTS_READY`
    в console.log, рост requests/accepted в `session-001/status.json`.
    При `Cheat command ... ignored` мост не загрузился. Если команды недоступны в
    Local Host даже при разрешённых читах, этот вариант игры ещё невозможен:
@@ -101,14 +105,25 @@ LSTM сбрасывается, previous=STOP; периодические reset12
 Остановите policy server через Ctrl+C, закройте Dota. Восстановление одной командой:
 
 ```powershell
-cd C:/AMI-wt/P17
-python scripts/install_chio_bot.py --restore
+cd C:/AMI-wt/P19
+python scripts/install_chio_bot.py --restore --artifacts C:/AMI/runs/p19/human
 ```
 
 Проверяется исходная резервная копия и восстановленные байты. Содержимое после игры
 также сохраняется отдельной копией перед восстановлением. Настройки запуска Steam
 `-console -condebug` при необходимости удаляет пользователь.
 
-Выделенные ночные проверки используют один и тот же уже разрешённый EXE
-`C:/AMI/runs/p17/bridge-001/runtime/game/bin/win64/dota2.exe` с bind127.0.0.1.
+Выделенные проверки P19 используют один и тот же разрешённый EXE
+`C:/AMI/runs/p19/baseline-chio-v9-r2/runtime/game/bin/win64/dota2.exe` с bind127.0.0.1.
 Установка для человека не создаёт новый EXE и не меняет firewall.
+
+## Проверка экономики своего лобби
+
+1. Режим **1v1 Solo Mid**, `host_timescale 1`, исходное золото 600; не применяйте команды выдачи золота/предметов.
+2. Боты **Local Dev Script**, сложность **Hard**; отключите другие скрипты бонусов/экономики.
+3. Подготовьте комплект из ветки P19 и проверьте `executor_version: p17-v3`. После `chio_play_setup`
+   инвентарь человека должен остаться прежним; Wraith Band стоит 505, Boots — 500, Bracer — 505.
+
+P19 измеряет установленную Dota build6972; P16 откалиброван на6969. В dedicated пассивное золото
+90/60с, в симуляторе100/60с; это расхождение симулятора ещё требует исправления между прогонами.
+Подробности и ограничения: [P19](../reports/P19.md). Local Host с человеком автоматически не проверялся.

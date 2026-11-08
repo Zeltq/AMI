@@ -7,7 +7,7 @@ local nav=navigation and navigation.new(true) or {}
 settings.chio=true;settings.observation_profile='ggd-v4'
 local spells={'nevermore_shadowraze1','nevermore_shadowraze2','nevermore_shadowraze3','nevermore_requiem'}
 local items={'item_flask','item_enchanted_mango','item_tango'}
-local st={skill_index=1,permanent=0,seq=0,start_bought=true};local last=-1;local sequence=0;local commands={};local casting=nil
+local st={skill_index=1,permanent=0,seq=0};local last=-1;local sequence=0;local commands={};local casting=nil
 local M={}
 local function execute(bot,d)
  if d.action==0 then return nil,'server_bridge' end

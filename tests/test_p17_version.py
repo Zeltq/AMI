@@ -12,7 +12,7 @@ from sf_duel.chio_version import EXECUTOR_VERSION
 def test_bundle_records_v2_for_both_lua_controllers(tmp_path):
     dest=tmp_path/'bots';bundle(dest,2)
     settings=LuaRuntime().execute((dest/'p17_settings.lua').read_text())
-    assert settings.executor_version==EXECUTOR_VERSION=='p17-v2'
+    assert settings.executor_version==EXECUTOR_VERSION=='p17-v3'
     assert 'SF_CHIO_EXECUTOR_VERSION' in (dest/'bot_generic.lua').read_text()
 
 
@@ -24,10 +24,10 @@ def test_v1_results_not_replayed_or_mixed_into_v2(tmp_path):
             'self-play-checkpoint-old':dict(source=str(old),fingerprint=supervisor.fingerprint(old),games=[{}]*2)}
     with patch.object(supervisor,'P16',tmp_path),patch.object(supervisor,'dagger_name',return_value='sampling-dagger-2'),patch.object(supervisor,'candidates',return_value=[('sampling-dagger-2',done),('self-play-checkpoint-new',new)]):
         pending=supervisor.pending_candidates(series)
-        assert [p[0] for p in pending]==['self-play-checkpoint-new-p17-v2']
+        assert [p[0] for p in pending]==['self-play-checkpoint-new-p17-v3']
         assert len(series['self-play-checkpoint-old']['games'])==2
         assert supervisor.dagger_count(series)==8
-        current='self-play-checkpoint-current-p17-v2'
+        current='self-play-checkpoint-current-p17-v3'
         series[current]=dict(source=str(old),fingerprint=supervisor.fingerprint(old),games=[{}],executor_version=EXECUTOR_VERSION)
         pending=supervisor.pending_candidates(series)
         assert supervisor.choose_candidate(pending,series)[0]==current
