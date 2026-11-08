@@ -388,5 +388,18 @@
     "folder": "C:\\AMI\\runs\\p18\\eval-self-play-240m-p18-360m-sampling",
     "finished_utc": "2026-11-08T05:14:13.331244+00:00",
     "seconds": 458.9215744
+  },
+  {
+    "sampling": true,
+    "scripted_base_to_mid": true,
+    "label": "self-play-360m",
+    "opponent": "p18-ppo",
+    "weights": "C:\\AMI\\runs\\p18\\self-play\\checkpoint-000436\\weights",
+    "opponent_weights": "C:\\AMI\\runs\\p18\\ppo\\final-weights",
+    "complete": true,
+    "summary": "reports/P18/eval-self-play-360m-p18-ppo-sampling.json",
+    "folder": "C:\\AMI\\runs\\p18\\eval-self-play-360m-p18-ppo-sampling",
+    "finished_utc": "2026-11-08T05:21:17.348431+00:00",
+    "seconds": 411.7086281
   }
 ]
